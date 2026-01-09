@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Parent - EduTogoConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Variables de couleurs - Drapeau togolais */
+        :root {
+            --jaune-principal: #FFD700;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
+            --gris-clair: #F5F5F5;
+        }
+
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gris-moyen);
+            text-decoration: none;
+            margin-top: 15px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--jaune-principal);
+        }
+
+        /* Contenu principal */
+        .registration-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 992px) {
+            .registration-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Section formulaire */
+        .form-section {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .form-title {
+            color: var(--gris-fonce);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--vert-principal);
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .required {
+            color: var(--rouge-principal);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            background-color: var(--blanc-principal);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--vert-principal);
+            box-shadow: 0 0 0 3px rgba(0,166,81,0.1);
+        }
+
+        .form-text {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+            margin-top: 5px;
+        }
+
+        .form-error {
+            color: var(--rouge-principal);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Section enfants */
+        .children-section {
+            background-color: rgba(0,166,81,0.05);
+            border: 2px solid rgba(0,166,81,0.2);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .children-section-title {
+            color: var(--vert-principal);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Tableau des enfants */
+        .children-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background-color: var(--blanc-principal);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .children-table th,
+        .children-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .children-table th {
+            background-color: rgba(0,166,81,0.1);
+            color: var(--gris-fonce);
+            font-weight: 600;
+        }
+
+        .children-table tr:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .remove-child {
+            background-color: rgba(239,51,64,0.1);
+            color: var(--rouge-principal);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .remove-child:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+        }
+
+        .add-child-btn {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .add-child-btn:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+        }
+
+        /* Modal pour ajouter un enfant */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            color: var(--gris-fonce);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-moyen);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* Checkbox d'acceptation */
+        .acceptance-group {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: rgba(0,166,81,0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0,166,81,0.2);
+        }
+
+        .acceptance-checkbox {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .acceptance-label {
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        /* Boutons */
+        .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.3);
+        }
+
+        .btn-primary:disabled {
+            background-color: var(--gris-moyen);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+            margin-right: 15px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gris-fonce);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        /* Section charte */
+        .charte-section {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .charte-title {
+            color: var(--gris-fonce);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .charte-content {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: var(--gris-clair);
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .charte-section h3 {
+            color: var(--gris-fonce);
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .charte-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .charte-section li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background-color: rgba(0,166,81,0.1);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 3px solid var(--vert-principal);
+        }
+
+        .warning {
+            background-color: rgba(255,215,0,0.1);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 3px solid var(--jaune-principal);
+        }
+
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .payment-table th,
+        .payment-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .payment-table th {
+            background-color: rgba(0,166,81,0.1);
+            color: var(--gris-fonce);
+            font-weight: 600;
+        }
+
+        .payment-table tr:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        /* Modal pour rechercher un enfant */
+        .student-search-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .student-search-modal .modal {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .student-search-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-tab {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--gris-clair);
+            background-color: var(--blanc-principal);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .search-tab.active {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+        }
+
+        .search-results {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--gris-clair);
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .search-result-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--gris-clair);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-result-item:hover {
+            background-color: rgba(0,166,81,0.05);
+        }
+
+        .search-result-item.selected {
+            background-color: rgba(0,166,81,0.1);
+            border-left: 3px solid var(--vert-principal);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: var(--gris-moyen);
+        }
+
+        .student-not-found {
+            background-color: rgba(239,51,64,0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 3px solid var(--rouge-principal);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-section, .charte-section {
+                padding: 25px;
+            }
+            
+            .children-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .search-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">ET</div>
+                <div class="logo-text">Edu<span>Togo</span>Connect</div>
+            </a>
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Retour à l'accueil
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="registration-container">
+            <!-- Formulaire d'inscription Parent -->
+            <section class="form-section">
+                <h1 class="form-title">Inscription Parent/Tuteur</h1>
+                
+                <form id="parentRegistrationForm">
+                    <!-- Informations personnelles du parent -->
+                    <div class="form-group">
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px;">Informations personnelles</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentFullName" class="form-label">Nom complet <span class="required">*</span></label>
+                        <input type="text" id="parentFullName" class="form-control" required>
+                        <div class="form-error" id="parentFullNameError">Veuillez entrer votre nom complet</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentEmail" class="form-label">Adresse email <span class="required">*</span></label>
+                        <input type="email" id="parentEmail" class="form-control" required>
+                        <div class="form-text">Utilisez une adresse email que vous consultez régulièrement</div>
+                        <div class="form-error" id="parentEmailError">Veuillez entrer une adresse email valide</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentPhone" class="form-label">Téléphone principal <span class="required">*</span></label>
+                        <input type="tel" id="parentPhone" class="form-control" required pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
+                        <div class="form-text">Format: +228 XX XX XX XX</div>
+                        <div class="form-error" id="parentPhoneError">Veuillez entrer un numéro valide au format +228 XX XX XX XX</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentAddress" class="form-label">Adresse (Ville, Quartier) <span class="required">*</span></label>
+                        <input type="text" id="parentAddress" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentProfession" class="form-label">Profession</label>
+                        <input type="text" id="parentProfession" class="form-control" placeholder="Ex: Fonctionnaire, Commerçant, Enseignant...">
+                    </div>
+
+                    <!-- Informations de connexion -->
+                    <div class="form-group">
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px;">Informations de connexion</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentPassword" class="form-label">Mot de passe <span class="required">*</span></label>
+                        <input type="password" id="parentPassword" class="form-control" required>
+                        <div class="form-text">Minimum 8 caractères avec majuscule, minuscule et chiffre</div>
+                        <div class="form-error" id="parentPasswordError">Le mot de passe doit contenir au moins 8 caractères</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentConfirmPassword" class="form-label">Confirmer le mot de passe <span class="required">*</span></label>
+                        <input type="password" id="parentConfirmPassword" class="form-control" required>
+                        <div class="form-error" id="parentConfirmPasswordError">Les mots de passe ne correspondent pas</div>
+                    </div>
+
+                    <!-- Informations sur les enfants -->
+                    <div class="children-section">
+                        <div class="children-section-title">
+                            <i class="fas fa-child"></i>
+                            <span>Informations sur vos enfants</span>
+                        </div>
+                        
+                        <p class="form-text">Ajoutez les enfants pour lesquels vous souhaitez organiser des cours de soutien.</p>
+                        <p class="form-text" style="color: var(--vert-principal); font-weight: 600;">
+                            <i class="fas fa-info-circle"></i> Vous devez ajouter uniquement des enfants déjà inscrits sur la plateforme.
+                        </p>
+                        
+                        <!-- Tableau des enfants -->
+                        <table class="children-table">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Niveau</th>
+                                    <th>Matières</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="childrenTableBody">
+                                <!-- Les lignes seront ajoutées dynamiquement -->
+                            </tbody>
+                        </table>
+                        
+                        <button type="button" class="add-child-btn" id="addChildBtn">
+                            <i class="fas fa-plus-circle"></i>
+                            Ajouter un enfant
+                        </button>
+                    </div>
+
+                    <!-- Préférences de notification -->
+                    <div class="form-group">
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px;">Préférences de notification</h3>
+                        
+                        <div style="margin-top: 10px;">
+                            <input type="checkbox" id="notifNewCourses" class="acceptance-checkbox" checked>
+                            <label for="notifNewCourses" class="acceptance-label" style="font-weight: normal;">
+                                Notifications sur les nouveaux cours disponibles
+                            </label>
+                        </div>
+                        
+                        <div style="margin-top: 10px;">
+                            <input type="checkbox" id="notifProgress" class="acceptance-checkbox" checked>
+                            <label for="notifProgress" class="acceptance-label" style="font-weight: normal;">
+                                Rapports de progression hebdomadaires
+                            </label>
+                        </div>
+                        
+                        <div style="margin-top: 10px;">
+                            <input type="checkbox" id="notifPayments" class="acceptance-checkbox" checked>
+                            <label for="notifPayments" class="acceptance-label" style="font-weight: normal;">
+                                Alertes de paiement et factures
+                            </label>
+                        </div>
+                        
+                        <div style="margin-top: 10px;">
+                            <input type="checkbox" id="notifMessages" class="acceptance-checkbox" checked>
+                            <label for="notifMessages" class="acceptance-label" style="font-weight: normal;">
+                                Messages des enseignants
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Méthode de paiement préférée -->
+                    <div class="form-group">
+                        <label for="paymentMethod" class="form-label">Méthode de paiement préférée</label>
+                        <select id="paymentMethod" class="form-control">
+                            <option value="">Sélectionnez</option>
+                            <option value="mobile_money">Mobile Money (Togocom, Moov)</option>
+                            <option value="bank_transfer">Virement bancaire</option>
+                            <option value="card">Carte bancaire</option>
+                        </select>
+                    </div>
+
+                    <!-- Budget mensuel global -->
+                    <div class="form-group">
+                        <label for="totalBudget" class="form-label">Budget mensuel global estimé (FCFA)</label>
+                        <select id="totalBudget" class="form-control">
+                            <option value="">Sélectionnez</option>
+                            <option value="10000-30000">10.000 - 30.000 FCFA</option>
+                            <option value="30000-50000">30.000 - 50.000 FCFA</option>
+                            <option value="50000-80000">50.000 - 80.000 FCFA</option>
+                            <option value="80000+">Plus de 80.000 FCFA</option>
+                        </select>
+                        <div class="form-text">Ce budget nous aide à vous proposer des forfaits adaptés</div>
+                    </div>
+
+                    <!-- Comment avez-vous connu EduTogoConnect -->
+                    <div class="form-group">
+                        <label for="discoverySource" class="form-label">Comment avez-vous connu EduTogoConnect ?</label>
+                        <select id="discoverySource" class="form-control">
+                            <option value="">Sélectionnez</option>
+                            <option value="recommandation">Recommandation d'un ami/proche</option>
+                            <option value="reseaux_sociaux">Réseaux sociaux (Facebook, WhatsApp...)</option>
+                            <option value="recherche">Recherche internet</option>
+                            <option value="publicite">Publicité</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="parentResetBtn">Effacer</button>
+                        <button type="submit" class="btn btn-primary" id="parentSubmitBtn" disabled>S'inscrire</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Charte contractuelle du Parent -->
+            <section class="charte-section">
+                <h1 class="charte-title">Charte du Parent/Tuteur EduTogoConnect</h1>
+                
+                <div class="charte-content">
+                    <h3>Article 1 - Rôle et Responsabilités du Parent</h3>
+                    <p>En créant un compte parent sur EduTogoConnect, vous vous engagez à :</p>
+                    <ul>
+                        <li>Fournir des informations exactes et à jour sur vous et vos enfants</li>
+                        <li>Superviser les activités en ligne de vos enfants mineurs</li>
+                        <li>Assurer le suivi de la progression académique de vos enfants</li>
+                        <li>Respecter les engagements financiers pris pour les cours</li>
+                        <li>Communiquer de manière respectueuse avec les enseignants</li>
+                    </ul>
+
+                    <h3>Article 2 - Gestion des Comptes Enfants</h3>
+                    <p>En tant que parent/tuteur, vous avez accès à :</p>
+                    <ul>
+                        <li>La création et gestion des comptes de vos enfants</li>
+                        <li>Le suivi en temps réel de leur progression académique</li>
+                        <li>L'historique complet des paiements effectués</li>
+                        <li>Les communications avec les enseignants</li>
+                        <li>Les rapports d'évaluation et de présence</li>
+                    </ul>
+
+                    <h3>Article 3 - Système de Paiement et Facturation</h3>
+                    <div class="highlight">
+                        <strong>RÈGLE FONDAMENTALE :</strong> Le paiement doit être effectué <strong>AVANT</strong> le début du cours, après confirmation de l'enseignant.
+                    </div>
+                    
+                    <p><strong>Modes de paiement acceptés :</strong></p>
+                    <table class="payment-table">
+                        <thead>
+                            <tr>
+                                <th>Méthode</th>
+                                <th>Délai de validation</th>
+                                <th>Frais</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mobile Money (Togocom, Moov)</td>
+                                <td>Instantané</td>
+                                <td>1% (min 100 FCFA)</td>
+                            </tr>
+                            <tr>
+                                <td>Virement bancaire</td>
+                                <td>24-48 heures</td>
+                                <td>500 FCFA</td>
+                            </tr>
+                            <tr>
+                                <td>Carte bancaire</td>
+                                <td>Instantané</td>
+                                <td>2%</td>
+                            </tr>
+                            <tr>
+                                <td>Forfait mensuel</td>
+                                <td>À l'avance</td>
+                                <td>Gratuit</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="warning">
+                        <strong>IMPORTANT :</strong> Aucun remboursement n'est possible après le début du cours, sauf cas exceptionnel validé par l'administration.
+                    </div>
+
+                    <h3>Article 4 - Tarification et Forfaits Familiaux</h3>
+                    <p>Avantages pour les familles :</p>
+                    <ul>
+                        <li>10% de réduction pour le deuxième enfant inscrit</li>
+                        <li>15% de réduction pour le troisième enfant et plus</li>
+                        <li>Forfaits mensuels adaptés à vos besoins</li>
+                        <li>Suivi global de tous vos enfants sur un seul tableau de bord</li>
+                        <li>Facturation unique pour tous les cours</li>
+                    </ul>
+
+                    <h3>Article 5 - Annulation et Report de Cours</h3>
+                    <p><strong>Règles d'annulation :</strong></p>
+                    <ul>
+                        <li>Annulation gratuite jusqu'à 24h avant le cours</li>
+                        <li>Annulation entre 24h et 2h avant : 50% du cours facturé</li>
+                        <li>Annulation moins de 2h avant : 100% du cours facturé</li>
+                        <li>En cas d'absence non justifiée : 100% du cours facturé</li>
+                    </ul>
+
+                    <p><strong>Pour reporter un cours :</strong></p>
+                    <ul>
+                        <li>Contactez l'enseignant au moins 6h à l'avance</li>
+                        <li>Proposez une nouvelle date dans les 7 jours</li>
+                        <li>Maximum 2 reports par enfant et par mois</li>
+                    </ul>
+
+                    <h3>Article 6 - Évaluation des Enseignants</h3>
+                    <p>Après chaque cours, vous pouvez évaluer l'enseignant :</p>
+                    <ul>
+                        <li>Note de 1 à 5 étoiles</li>
+                        <li>Commentaire détaillé (optionnel)</li>
+                        <li>Les évaluations sont anonymes pour l'enseignant</li>
+                        <li>Possibilité de demander un changement d'enseignant</li>
+                    </ul>
+
+                    <h3>Article 7 - Suivi et Progression des Enfants</h3>
+                    <p>Chaque parent bénéficie d'un suivi détaillé :</p>
+                    <ul>
+                        <li>Tableau de bord avec progression par matière et par enfant</li>
+                        <li>Rapports hebdomadaires envoyés par email</li>
+                        <li>Entretiens réguliers avec les enseignants</li>
+                        <li>Alertes en cas de baisse de performance</li>
+                        <li>Certificats de fin de cours au format PDF</li>
+                    </ul>
+
+                    <h3>Article 8 - Sécurité et Confidentialité des Enfants</h3>
+                    <p>La plateforme garantit :</p>
+                    <ul>
+                        <li>La protection des données personnelles des enfants</li>
+                        <li>La modération des échanges entre élèves et enseignants</li>
+                        <li>La possibilité de surveiller les messages de vos enfants</li>
+                        <li>Un environnement d'apprentissage sécurisé</li>
+                        <li>Protection contre les contenus inappropriés</li>
+                    </ul>
+
+                    <h3>Article 9 - Communication avec les Enseignants</h3>
+                    <p>En tant que parent, vous pouvez :</p>
+                    <ul>
+                        <li>Communiquer directement avec les enseignants</li>
+                        <li>Participer aux réunions de suivi (optionnel)</li>
+                        <li>Recevoir des feedbacks réguliers</li>
+                        <li>Proposer des ajustements pédagogiques</li>
+                        <li>Signaler tout problème ou préoccupation</li>
+                    </ul>
+
+                    <h3>Article 10 - Protection des Enfants Mineurs</h3>
+                    <div class="highlight">
+                        <h4>Engagements spécifiques pour les enfants mineurs :</h4>
+                        <ul>
+                            <li>Le parent/tuteur assume la responsabilité légale de toutes les actions</li>
+                            <li>Le parent autorise expressément la participation aux cours</li>
+                            <li>Le parent peut limiter ou contrôler les communications de l'enfant</li>
+                            <li>Le parent reçoit toutes les notifications de paiement et facturation</li>
+                            <li>Le parent a un droit de veto sur le choix des enseignants</li>
+                        </ul>
+                    </div>
+
+                    <h3>Article 11 - Gestion Financière</h3>
+                    <p>Fonctionnalités dédiées aux parents :</p>
+                    <ul>
+                        <li>Historique complet de toutes les transactions</li>
+                        <li>Alertes de paiement automatiques</li>
+                        <li>Factures détaillées téléchargeables</li>
+                        <li>Suivi du budget par enfant</li>
+                        <li>Option de paiement automatique</li>
+                    </ul>
+
+                    <h3>Article 12 - Résiliation du Compte Parent</h3>
+                    <p>Le compte parent peut être résilié :</p>
+                    <ul>
+                        <li>À la demande du parent</li>
+                        <li>En cas de non-respect répété de la charte</li>
+                        <li>Pour fraude ou tentative de fraude</li>
+                        <li>Pour comportement inapproprié envers un enseignant</li>
+                        <li>En cas d'impayés répétés</li>
+                    </ul>
+
+                    <div class="warning">
+                        <h4>Rappel Important sur les Paiements</h4>
+                        <p><strong>NE JAMAIS EFFECTUER DE PAIEMENT DIRECT À L'ENSEIGNANT</strong></p>
+                        <p>Tous les paiements doivent passer par la plateforme EduTogoConnect pour :</p>
+                        <ul>
+                            <li>La protection juridique en cas de litige</li>
+                            <li>La garantie du service</li>
+                            <li>La facturation officielle</li>
+                            <li>Le suivi de toutes les transactions</li>
+                        </ul>
+                    </div>
+
+                    <h3>Article 13 - Support et Assistance</h3>
+                    <p>En cas de problème :</p>
+                    <ul>
+                        <li>Support parents : parents@edutogoconnect.tg</li>
+                        <li>Service facturation : facturation@edutogoconnect.tg</li>
+                        <li>Assistance pédagogique : pedagogie@edutogoconnect.tg</li>
+                        <li>Urgences : +228 XX XX XX XX (7j/7, 8h-20h)</li>
+                        <li>WhatsApp : +228 XX XX XX XX</li>
+                    </ul>
+
+                    <h3>Article 14 - Données Personnelles</h3>
+                    <p>Vos données sont protégées :</p>
+                    <ul>
+                        <li>Confidentialité garantie par la loi togolaise sur la protection des données</li>
+                        <li>Données non partagées avec des tiers sans consentement</li>
+                        <li>Droit d'accès, de rectification et de suppression</li>
+                        <li>Cryptage des données sensibles</li>
+                        <li>Politique de confidentialité détaillée disponible</li>
+                    </ul>
+                </div>
+
+                <!-- Acceptation de la charte -->
+                <div class="acceptance-group">
+                    <input type="checkbox" id="acceptParentCharte" class="acceptance-checkbox" required>
+                    <label for="acceptParentCharte" class="acceptance-label">
+                        J'ai lu et j'accepte intégralement la charte du parent/tuteur EduTogoConnect
+                    </label>
+                    <p class="form-text" style="margin-top: 10px;">
+                        En cochant cette case, vous acceptez les conditions contractuelles, 
+                        les règles de paiement, et vous engagez à respecter les règles de conduite.
+                    </p>
+                    <p class="form-text">
+                        <strong>Vous reconnaissez être le parent/tuteur légal</strong> des enfants que vous inscrirez sur la plateforme.
+                    </p>
+                </div>
+
+                <!-- Contact support -->
+                <div style="text-align: center; margin-top: 30px; padding: 20px; background-color: rgba(0,166,81,0.05); border-radius: 8px;">
+                    <h4 style="color: var(--gris-fonce); margin-bottom: 10px;">Questions sur la charte ?</h4>
+                    <p>Contactez notre service dédié aux parents :</p>
+                    <p><i class="fas fa-envelope"></i> parents@edutogoconnect.tg</p>
+                    <p><i class="fas fa-phone"></i> +228 XX XX XX XX</p>
+                    <p><i class="fas fa-clock"></i> Lundi - Vendredi: 8h-18h, Samedi: 9h-13h</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal pour rechercher un enfant existant -->
+    <div class="student-search-modal" id="studentSearchModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Rechercher un enfant existant</h2>
+                <button class="modal-close" id="closeStudentSearchModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="student-search-container">
+                    <p class="form-text">Recherchez un enfant déjà inscrit sur la plateforme pour l'ajouter à votre compte.</p>
+                    
+                    <div class="search-tabs">
+                        <button class="search-tab active" data-search-type="name">Par nom</button>
+                        <button class="search-tab" data-search-type="email">Par email</button>
+                        <button class="search-tab" data-search-type="phone">Par téléphone</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="studentSearchInput" class="form-control" placeholder="Commencez à taper pour rechercher...">
+                        <div class="form-text" id="searchHint">Entrez le nom complet de l'enfant</div>
+                    </div>
+                    
+                    <div class="search-results" id="searchResults">
+                        <div class="no-results">
+                            <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 10px; color: var(--gris-moyen);"></i>
+                            <p>Entrez des informations pour rechercher un enfant</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Message lorsque l'enfant n'est pas trouvé -->
+                    <div class="student-not-found" id="studentNotFound" style="display: none;">
+                        <h4 style="color: var(--rouge-principal); margin-bottom: 10px;">
+                            <i class="fas fa-exclamation-triangle"></i> Enfant non trouvé
+                        </h4>
+                        <p>L'enfant que vous recherchez n'est pas encore inscrit sur la plateforme.</p>
+                        <p><strong>Que faire ?</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Demandez à votre enfant de s'inscrire d'abord comme élève sur la plateforme</li>
+                            <li>Vérifiez les informations que vous avez saisies</li>
+                            <li>Une fois l'inscription de l'enfant terminée, vous pourrez l'ajouter ici</li>
+                        </ul>
+                        <button type="button" class="btn btn-primary" id="continueWithoutChildBtn" style="margin-top: 15px;">
+                            Continuer sans ajouter cet enfant
+                        </button>
+                    </div>
+                    
+                    <div class="form-actions" id="searchActions">
+                        <button type="button" class="btn btn-secondary" id="cancelSearchBtn">Annuler</button>
+                        <button type="button" class="btn btn-primary" id="confirmAddChildBtn" disabled>Ajouter l'enfant</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données des enfants (simulation - remplacé par recherche d'enfants existants)
+        let childrenData = [];
+        
+        // Éléments du formulaire
+        const parentRegistrationForm = document.getElementById('parentRegistrationForm');
+        const parentSubmitBtn = document.getElementById('parentSubmitBtn');
+        const acceptParentCharte = document.getElementById('acceptParentCharte');
+        const parentResetBtn = document.getElementById('parentResetBtn');
+        const addChildBtn = document.getElementById('addChildBtn');
+        const childrenTableBody = document.getElementById('childrenTableBody');
+        
+        // Modal recherche d'élèves
+        const studentSearchModal = document.getElementById('studentSearchModal');
+        const closeStudentSearchModalBtn = document.getElementById('closeStudentSearchModalBtn');
+        const cancelSearchBtn = document.getElementById('cancelSearchBtn');
+        const studentSearchInput = document.getElementById('studentSearchInput');
+        const searchResults = document.getElementById('searchResults');
+        const searchTabs = document.querySelectorAll('.search-tab');
+        const searchHint = document.getElementById('searchHint');
+        const confirmAddChildBtn = document.getElementById('confirmAddChildBtn');
+        const studentNotFound = document.getElementById('studentNotFound');
+        const continueWithoutChildBtn = document.getElementById('continueWithoutChildBtn');
+        
+        // Variables pour la recherche
+        let currentSearchType = 'name';
+        let selectedStudent = null;
+        let searchTimeout = null;
+        
+        // ============ SIMULATION DE DONNÉES D'ÉLÈVES EXISTANTS ============
+        // Dans la réalité, ces données seraient récupérées depuis une base de données
+        const existingStudents = [
+            { id: 1, name: "Koffi Mensah", email: "koffi.mensah@example.com", phone: "+228 90 12 34 56", level: "5ème", subjects: ["Mathématiques", "Sciences Physiques"] },
+            { id: 2, name: "Afi Adjo", email: "afi.adjo@example.com", phone: "+228 91 23 45 67", level: "4ème", subjects: ["Français", "Anglais"] },
+            { id: 3, name: "Komlan Agbeko", email: "komlan.agbeko@example.com", phone: "+228 92 34 56 78", level: "3ème", subjects: ["Mathématiques", "SVT", "Histoire-Géo"] },
+            { id: 4, name: "Mawussi Yawa", email: "mawussi.yawa@example.com", phone: "+228 93 45 67 89", level: "6ème", subjects: ["Français", "Anglais"] },
+            { id: 5, name: "Kodjo Akakpo", email: "kodjo.akakpo@example.com", phone: "+228 94 56 78 90", level: "5ème", subjects: ["Mathématiques", "Sciences Physiques", "SVT"] }
+        ];
+        
+        // ============ GESTION DE LA RECHERCHE D'ENFANTS ============
+        function openStudentSearchModal() {
+            studentSearchModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            resetSearch();
+        }
+        
+        function closeStudentSearchModal() {
+            studentSearchModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            resetSearch();
+        }
+        
+        function resetSearch() {
+            studentSearchInput.value = '';
+            searchResults.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 10px; color: var(--gris-moyen);"></i>
+                    <p>Entrez des informations pour rechercher un enfant</p>
+                </div>
+            `;
+            studentNotFound.style.display = 'none';
+            selectedStudent = null;
+            confirmAddChildBtn.disabled = true;
+        }
+        
+        // Changer le type de recherche
+        searchTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                searchTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentSearchType = tab.dataset.searchType;
+                
+                // Mettre à jour le placeholder et l'indice
+                switch(currentSearchType) {
+                    case 'name':
+                        studentSearchInput.placeholder = "Entrez le nom complet de l'enfant";
+                        searchHint.textContent = "Entrez le nom complet de l'enfant";
+                        break;
+                    case 'email':
+                        studentSearchInput.placeholder = "Entrez l'adresse email de l'enfant";
+                        searchHint.textContent = "Entrez l'adresse email de l'enfant";
+                        break;
+                    case 'phone':
+                        studentSearchInput.placeholder = "Entrez le numéro de téléphone de l'enfant";
+                        searchHint.textContent = "Entrez le numéro de téléphone de l'enfant";
+                        break;
+                }
+                
+                resetSearch();
+            });
+        });
+        
+        // Recherche d'élèves
+        studentSearchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(performSearch, 500);
+        });
+        
+        function performSearch() {
+            const searchTerm = studentSearchInput.value.trim().toLowerCase();
+            
+            if (searchTerm.length < 2) {
+                resetSearch();
+                return;
+            }
+            
+            // Filtrer les élèves existants
+            let filteredStudents = [];
+            
+            switch(currentSearchType) {
+                case 'name':
+                    filteredStudents = existingStudents.filter(student => 
+                        student.name.toLowerCase().includes(searchTerm)
+                    );
+                    break;
+                case 'email':
+                    filteredStudents = existingStudents.filter(student => 
+                        student.email.toLowerCase().includes(searchTerm)
+                    );
+                    break;
+                case 'phone':
+                    // Nettoyer le numéro de téléphone pour la recherche
+                    const cleanPhone = searchTerm.replace(/\s+/g, '');
+                    filteredStudents = existingStudents.filter(student => 
+                        student.phone.replace(/\s+/g, '').includes(cleanPhone)
+                    );
+                    break;
+            }
+            
+            displaySearchResults(filteredStudents);
+        }
+        
+        function displaySearchResults(students) {
+            if (students.length === 0) {
+                // Afficher le message d'enfant non trouvé
+                searchResults.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-user-times" style="font-size: 2rem; margin-bottom: 10px; color: var(--gris-moyen);"></i>
+                        <p>Aucun enfant trouvé avec ces informations</p>
+                    </div>
+                `;
+                studentNotFound.style.display = 'block';
+                selectedStudent = null;
+                confirmAddChildBtn.disabled = true;
+                return;
+            }
+            
+            // Cacher le message d'enfant non trouvé
+            studentNotFound.style.display = 'none';
+            
+            // Afficher les résultats
+            searchResults.innerHTML = '';
+            
+            students.forEach(student => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'search-result-item';
+                resultItem.dataset.studentId = student.id;
+                
+                // Vérifier si l'élève est déjà ajouté
+                const isAlreadyAdded = childrenData.some(child => child.existingId === student.id);
+                
+                resultItem.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h4 style="color: var(--gris-fonce); margin-bottom: 5px;">${student.name}</h4>
+                            <p style="font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 5px;">
+                                <i class="fas fa-graduation-cap"></i> ${student.level}
+                            </p>
+                            <p style="font-size: 0.85rem; color: var(--gris-moyen); margin-bottom: 5px;">
+                                <i class="fas fa-book"></i> ${student.subjects.join(', ')}
+                            </p>
+                            <p style="font-size: 0.85rem; color: var(--gris-moyen);">
+                                <i class="fas fa-phone"></i> ${student.phone}
+                            </p>
+                        </div>
+                        ${isAlreadyAdded ? 
+                            '<span style="color: var(--vert-principal); font-weight: 600;"><i class="fas fa-check-circle"></i> Déjà ajouté</span>' : 
+                            '<span style="color: var(--gris-moyen);"><i class="fas fa-plus-circle"></i> Ajouter</span>'
+                        }
+                    </div>
+                `;
+                
+                // Ne permettre la sélection que si l'enfant n'est pas déjà ajouté
+                if (!isAlreadyAdded) {
+                    resultItem.addEventListener('click', () => {
+                        // Désélectionner tous les autres éléments
+                        document.querySelectorAll('.search-result-item').forEach(item => {
+                            item.classList.remove('selected');
+                        });
+                        
+                        // Sélectionner cet élément
+                        resultItem.classList.add('selected');
+                        selectedStudent = student;
+                        confirmAddChildBtn.disabled = false;
+                    });
+                }
+                
+                searchResults.appendChild(resultItem);
+            });
+            
+            // Si aucun enfant n'est sélectionnable (tous déjà ajoutés)
+            const allAlreadyAdded = students.every(student => 
+                childrenData.some(child => child.existingId === student.id)
+            );
+            
+            if (allAlreadyAdded) {
+                const message = document.createElement('div');
+                message.className = 'no-results';
+                message.innerHTML = `
+                    <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 10px; color: var(--vert-principal);"></i>
+                    <p>Tous ces enfants sont déjà ajoutés à votre compte</p>
+                `;
+                searchResults.innerHTML = '';
+                searchResults.appendChild(message);
+                confirmAddChildBtn.disabled = true;
+            }
+        }
+        
+        // Ajouter l'enfant sélectionné
+        confirmAddChildBtn.addEventListener('click', () => {
+            if (!selectedStudent) return;
+            
+            // Vérifier si l'enfant est déjà ajouté
+            const isAlreadyAdded = childrenData.some(child => child.existingId === selectedStudent.id);
+            
+            if (!isAlreadyAdded) {
+                // Ajouter l'enfant aux données
+                const childId = Date.now(); // ID unique basé sur le timestamp
+                childrenData.push({
+                    id: childId,
+                    existingId: selectedStudent.id,
+                    name: selectedStudent.name,
+                    level: selectedStudent.level,
+                    subjects: selectedStudent.subjects,
+                    email: selectedStudent.email,
+                    phone: selectedStudent.phone,
+                    isExistingStudent: true
+                });
+                
+                // Mettre à jour le tableau
+                updateChildrenTable();
+                
+                // Mettre à jour la validation du formulaire principal
+                validateParentForm();
+            }
+            
+            closeStudentSearchModal();
+        });
+        
+        // Continuer sans ajouter d'enfant
+        continueWithoutChildBtn.addEventListener('click', () => {
+            closeStudentSearchModal();
+        });
+        
+        // ============ GESTION DES ENFANTS ============
+        // Ouvrir le modal pour rechercher un enfant
+        addChildBtn.addEventListener('click', openStudentSearchModal);
+        
+        // Fermer le modal de recherche
+        closeStudentSearchModalBtn.addEventListener('click', closeStudentSearchModal);
+        cancelSearchBtn.addEventListener('click', closeStudentSearchModal);
+        
+        // Fermer le modal en cliquant à l'extérieur
+        studentSearchModal.addEventListener('click', (e) => {
+            if (e.target === studentSearchModal) {
+                closeStudentSearchModal();
+            }
+        });
+        
+        function removeChild(childId) {
+            childrenData = childrenData.filter(child => child.id !== childId);
+            updateChildrenTable();
+            validateParentForm();
+        }
+        
+        function updateChildrenTable() {
+            childrenTableBody.innerHTML = '';
+            
+            if (childrenData.length === 0) {
+                childrenTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: var(--gris-moyen); padding: 30px;">
+                            <i class="fas fa-child" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                            <p>Aucun enfant ajouté</p>
+                            <p class="form-text">Cliquez sur "Ajouter un enfant" pour commencer</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            childrenData.forEach((child, index) => {
+                const row = document.createElement('tr');
+                
+                // Formater les matières pour l'affichage
+                const subjectsText = child.subjects.length > 2 
+                    ? `${child.subjects.slice(0, 2).join(', ')}...`
+                    : child.subjects.join(', ');
+                
+                // Icône pour indiquer que c'est un enfant existant
+                const existingIcon = child.isExistingStudent ? 
+                    '<i class="fas fa-check-circle" title="Enfant déjà inscrit sur la plateforme" style="color: var(--vert-principal); margin-right: 5px;"></i>' : 
+                    '<i class="fas fa-exclamation-triangle" title="Nouvel enfant à inscrire" style="color: var(--jaune-principal); margin-right: 5px;"></i>';
+                
+                row.innerHTML = `
+                    <td>${existingIcon}<strong>${child.name}</strong></td>
+                    <td>${getLevelLabel(child.level)}</td>
+                    <td>${subjectsText}</td>
+                    <td>
+                        <button type="button" class="remove-child" onclick="removeChild(${child.id})">
+                            <i class="fas fa-times"></i> Supprimer
+                        </button>
+                    </td>
+                `;
+                
+                childrenTableBody.appendChild(row);
+            });
+        }
+        
+        function getLevelLabel(level) {
+            const levels = {
+                '6ème': '6ème',
+                '5ème': '5ème',
+                '4ème': '4ème',
+                '3ème': '3ème',
+                'autre': 'Autre niveau'
+            };
+            return levels[level] || level;
+        }
+        
+        // ============ VALIDATION DU FORMULAIRE PARENT ============
+        function validateParentForm() {
+            let isValid = true;
+            
+            // Validation des champs requis du parent
+            const requiredFields = parentRegistrationForm.querySelectorAll('[required]');
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    const errorElement = document.getElementById(field.id + 'Error');
+                    if (errorElement) {
+                        errorElement.style.display = 'block';
+                    }
+                } else {
+                    const errorElement = document.getElementById(field.id + 'Error');
+                    if (errorElement) {
+                        errorElement.style.display = 'none';
+                    }
+                }
+            });
+
+            // Validation de l'email
+            const email = document.getElementById('parentEmail');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                document.getElementById('parentEmailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('parentEmailError').style.display = 'none';
+            }
+
+            // Validation du téléphone
+            const phone = document.getElementById('parentPhone');
+            const phoneRegex = /^\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}$/;
+            if (!phoneRegex.test(phone.value)) {
+                document.getElementById('parentPhoneError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('parentPhoneError').style.display = 'none';
+            }
+
+            // Validation du mot de passe
+            const password = document.getElementById('parentPassword');
+            const confirmPassword = document.getElementById('parentConfirmPassword');
+            
+            if (password.value.length < 8) {
+                document.getElementById('parentPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('parentPasswordError').style.display = 'none';
+            }
+            
+            if (password.value !== confirmPassword.value) {
+                document.getElementById('parentConfirmPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('parentConfirmPasswordError').style.display = 'none';
+            }
+
+            // Vérifier qu'au moins un enfant est ajouté
+            if (childrenData.length === 0) {
+                isValid = false;
+                document.querySelector('.children-section').style.borderColor = 'var(--rouge-principal)';
+                document.querySelector('.children-section').style.backgroundColor = 'rgba(239,51,64,0.05)';
+            } else {
+                document.querySelector('.children-section').style.borderColor = 'rgba(0,166,81,0.2)';
+                document.querySelector('.children-section').style.backgroundColor = 'rgba(0,166,81,0.05)';
+            }
+
+            // Activer/désactiver bouton submit
+            parentSubmitBtn.disabled = !(isValid && acceptParentCharte.checked);
+            
+            return isValid;
+        }
+
+        // Écouteurs d'événements pour validation en temps réel
+        const parentInputs = parentRegistrationForm.querySelectorAll('input, select, textarea');
+        parentInputs.forEach(input => {
+            input.addEventListener('input', validateParentForm);
+            input.addEventListener('blur', validateParentForm);
+        });
+
+        // Écouteur pour l'acceptation de la charte
+        acceptParentCharte.addEventListener('change', validateParentForm);
+
+        // ============ RESET DU FORMULAIRE ============
+        parentResetBtn.addEventListener('click', () => {
+            if (confirm('Voulez-vous vraiment effacer tous les champs du formulaire ?')) {
+                parentRegistrationForm.reset();
+                childrenData = [];
+                updateChildrenTable();
+                parentSubmitBtn.disabled = true;
+                acceptParentCharte.checked = false;
+                
+                // Masquer toutes les erreurs
+                document.querySelectorAll('.form-error').forEach(error => {
+                    error.style.display = 'none';
+                });
+                
+                // Réinitialiser la validation
+                validateParentForm();
+            }
+        });
+
+        // ============ SOUMISSION DU FORMULAIRE ============
+        parentRegistrationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Validation finale
+            if (!validateParentForm()) {
+                alert('Veuillez corriger les erreurs dans le formulaire.');
+                return;
+            }
+            
+            // Vérifier l'acceptation de la charte
+            if (!acceptParentCharte.checked) {
+                alert('Vous devez accepter la charte du parent pour vous inscrire.');
+                return;
+            }
+            
+            // Vérifier qu'au moins un enfant est ajouté
+            if (childrenData.length === 0) {
+                alert('Veuillez ajouter au moins un enfant.');
+                return;
+            }
+            
+            // Vérifier que tous les enfants sont des élèves existants
+            const nonExistingChildren = childrenData.filter(child => !child.isExistingStudent);
+            if (nonExistingChildren.length > 0) {
+                alert('Tous les enfants doivent être déjà inscrits sur la plateforme. Veuillez demander à vos enfants de s\'inscrire d\'abord comme élèves.');
+                return;
+            }
+            
+            // Préparer les données pour l'envoi
+            const parentData = {
+                fullName: document.getElementById('parentFullName').value,
+                email: document.getElementById('parentEmail').value,
+                phone: document.getElementById('parentPhone').value,
+                address: document.getElementById('parentAddress').value,
+                profession: document.getElementById('parentProfession').value,
+                notificationPreferences: {
+                    newCourses: document.getElementById('notifNewCourses').checked,
+                    progress: document.getElementById('notifProgress').checked,
+                    payments: document.getElementById('notifPayments').checked,
+                    messages: document.getElementById('notifMessages').checked
+                },
+                paymentMethod: document.getElementById('paymentMethod').value,
+                budget: document.getElementById('totalBudget').value,
+                discoverySource: document.getElementById('discoverySource').value,
+                children: childrenData.map(child => ({
+                    existingId: child.existingId,
+                    name: child.name
+                }))
+            };
+            
+            // Simuler l'envoi (à remplacer par AJAX dans la version PHP)
+            console.log('Données parent à envoyer:', parentData);
+            alert('Inscription réussie ! Un email de confirmation vous a été envoyé.');
+            
+            // Réinitialiser le formulaire
+            parentRegistrationForm.reset();
+            childrenData = [];
+            updateChildrenTable();
+            parentSubmitBtn.disabled = true;
+            acceptParentCharte.checked = false;
+            
+            // Masquer toutes les erreurs
+            document.querySelectorAll('.form-error').forEach(error => {
+                error.style.display = 'none';
+            });
+            
+            // Redirection vers la page de connexion (à adapter)
+            // window.location.href = 'parent_login.php?success=1';
+        });
+
+        // Initialisation
+        updateChildrenTable();
+        parentSubmitBtn.disabled = true;
+    </script>
+</body>
+</html>

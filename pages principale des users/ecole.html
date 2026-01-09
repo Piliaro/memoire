@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord École - EduTogoConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de couleurs */
+        :root {
+            --jaune-principal: #FFD700;
+            --jaune-fonce: #FFC107;
+            --gris-clair: #F5F5F5;
+            --gris-moyen: #E0E0E0;
+            --gris-fonce: #757575;
+            --gris-texte: #424242;
+            --vert-success: #4CAF50;
+            --rouge-alerte: #F44336;
+            --blanc: #FFFFFF;
+            --noir: #212121;
+            --bleu-info: #2196F3;
+            --violet-premium: #9C27B0;
+            --bleu-ecole: #1976D2;
+            --vert-institut: #388E3C;
+        }
+
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-texte);
+            line-height: 1.6;
+        }
+
+        /* Header Principal */
+        .main-header {
+            background-color: var(--blanc);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--noir);
+        }
+
+        .logo-icon {
+            background-color: var(--jaune-principal);
+            color: var(--noir);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--vert-success);
+        }
+
+        .school-quick-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .school-avatar-small {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--bleu-ecole);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--blanc);
+            border: 2px solid var(--blanc);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .school-name {
+            font-weight: 600;
+            color: var(--noir);
+            font-size: 1.1rem;
+        }
+
+        .school-type {
+            font-size: 0.8rem;
+            color: var(--gris-fonce);
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 3px 10px;
+            background-color: var(--vert-success);
+            color: var(--blanc);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Barre de navigation horizontale */
+        .horizontal-nav {
+            background-color: var(--bleu-ecole);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .horizontal-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: var(--blanc);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-bottom-color: var(--blanc);
+        }
+
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.3);
+            border-bottom-color: var(--jaune-principal);
+            font-weight: 600;
+        }
+
+        .nav-item i {
+            font-size: 1rem;
+        }
+
+        .nav-badge {
+            background-color: var(--rouge-alerte);
+            color: var(--blanc);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        /* Actions header */
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Bouton notification */
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--gris-texte);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .notification-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--rouge-alerte);
+            color: var(--blanc);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Menu déroulant profil */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--blanc);
+            min-width: 250px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1001;
+            margin-top: 10px;
+        }
+
+        .profile-menu.active {
+            display: block;
+        }
+
+        .profile-menu-header {
+            padding: 20px;
+            background-color: rgba(25,118,210,0.1);
+            text-align: center;
+            border-bottom: 1px solid var(--gris-moyen);
+        }
+
+        .profile-menu-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--bleu-ecole);
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--blanc);
+            font-weight: bold;
+        }
+
+        .profile-menu-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-menu-email {
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .profile-menu-list {
+            list-style: none;
+        }
+
+        .profile-menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-moyen);
+            transition: background-color 0.3s;
+        }
+
+        .profile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-menu-item:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gris-texte);
+            text-decoration: none;
+        }
+
+        .profile-menu-link i {
+            width: 20px;
+            color: var(--gris-fonce);
+        }
+
+        .profile-menu-link.logout {
+            color: var(--rouge-alerte);
+        }
+
+        .profile-menu-link.logout i {
+            color: var(--rouge-alerte);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--bleu-ecole);
+            color: var(--blanc);
+            border: 2px solid var(--bleu-ecole);
+        }
+
+        .btn-primary:hover {
+            background-color: #0d47a1;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(25,118,210,0.2);
+        }
+
+        .btn-success {
+            background-color: var(--vert-success);
+            color: var(--blanc);
+            border: 2px solid var(--vert-success);
+        }
+
+        .btn-success:hover {
+            background-color: #2e7d32;
+            transform: translateY(-2px);
+        }
+
+        .btn-logout {
+            background-color: rgba(244,67,54,0.1);
+            color: var(--rouge-alerte);
+            border: 2px solid var(--rouge-alerte);
+        }
+
+        .btn-logout:hover {
+            background-color: var(--rouge-alerte);
+            color: var(--blanc);
+        }
+
+        /* Contenu principal */
+        .main-content {
+            padding: 30px 0;
+        }
+
+        /* Header du tableau de bord */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--gris-moyen);
+        }
+
+        .header-title h1 {
+            color: var(--noir);
+            font-size: 1.8rem;
+        }
+
+        .header-title p {
+            color: var(--gris-fonce);
+            margin-top: 5px;
+        }
+
+        /* Statistiques */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--blanc);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s;
+            border-left: 5px solid var(--bleu-ecole);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card:nth-child(2) {
+            border-left-color: var(--vert-success);
+        }
+
+        .stat-card:nth-child(3) {
+            border-left-color: var(--jaune-fonce);
+        }
+
+        .stat-card:nth-child(4) {
+            border-left-color: var(--violet-premium);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.blue {
+            background-color: rgba(25,118,210,0.1);
+            color: var(--bleu-ecole);
+        }
+
+        .stat-icon.green {
+            background-color: rgba(76,175,80,0.1);
+            color: var(--vert-success);
+        }
+
+        .stat-icon.yellow {
+            background-color: rgba(255,193,7,0.1);
+            color: var(--jaune-fonce);
+        }
+
+        .stat-icon.purple {
+            background-color: rgba(156,39,176,0.1);
+            color: var(--violet-premium);
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            color: var(--noir);
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        /* Section enseignant */
+        .section {
+            background-color: var(--blanc);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--noir);
+            font-size: 1.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--gris-fonce);
+            margin-top: 5px;
+        }
+
+        /* Filtres */
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background-color: var(--gris-clair);
+            border: 2px solid var(--gris-moyen);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active {
+            background-color: var(--bleu-ecole);
+            color: var(--blanc);
+            border-color: var(--bleu-ecole);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background-color: var(--gris-moyen);
+        }
+
+        /* Grille des enseignants */
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .teacher-card {
+            background-color: var(--gris-clair);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--gris-moyen);
+            transition: all 0.3s;
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--bleu-ecole);
+        }
+
+        .teacher-header {
+            padding: 20px;
+            background-color: var(--blanc);
+            border-bottom: 1px solid var(--gris-moyen);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .teacher-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--bleu-ecole);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--blanc);
+            font-size: 1.5rem;
+        }
+
+        .teacher-info h3 {
+            font-size: 1.2rem;
+            color: var(--noir);
+            margin-bottom: 5px;
+        }
+
+        .teacher-subject {
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .teacher-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: rgba(76,175,80,0.1);
+            color: var(--vert-success);
+        }
+
+        .status-pending {
+            background-color: rgba(255,193,7,0.1);
+            color: var(--jaune-fonce);
+        }
+
+        .status-inactive {
+            background-color: rgba(244,67,54,0.1);
+            color: var(--rouge-alerte);
+        }
+
+        .teacher-content {
+            padding: 20px;
+        }
+
+        .teacher-details {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .teacher-details li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gris-texte);
+        }
+
+        .teacher-details li i {
+            width: 20px;
+            color: var(--bleu-ecole);
+        }
+
+        .teacher-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background-color: rgba(0,0,0,0.03);
+            border-top: 1px solid var(--gris-moyen);
+            font-size: 0.85rem;
+            color: var(--gris-fonce);
+        }
+
+        .teacher-actions {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .btn-teacher {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-edit {
+            background-color: var(--gris-moyen);
+            color: var(--gris-texte);
+        }
+
+        .btn-edit:hover {
+            background-color: var(--gris-fonce);
+            color: var(--blanc);
+        }
+
+        .btn-manage {
+            background-color: var(--bleu-ecole);
+            color: var(--blanc);
+        }
+
+        .btn-manage:hover {
+            background-color: #0d47a1;
+        }
+
+        /* Tableau des enseignants */
+        .teachers-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--blanc);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            margin-top: 30px;
+        }
+
+        .teachers-table th {
+            background-color: rgba(25,118,210,0.1);
+            padding: 15px;
+            text-align: left;
+            color: var(--noir);
+            font-weight: 600;
+            border-bottom: 2px solid var(--bleu-ecole);
+        }
+
+        .teachers-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--gris-moyen);
+        }
+
+        .teachers-table tr:hover {
+            background-color: rgba(25,118,210,0.05);
+        }
+
+        /* Modal ajout enseignant */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: var(--blanc);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--gris-moyen);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bleu-ecole);
+            color: var(--blanc);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--blanc);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--jaune-principal);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-texte);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gris-moyen);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            background-color: var(--blanc);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--bleu-ecole);
+            box-shadow: 0 0 0 3px rgba(25,118,210,0.1);
+        }
+
+        .form-text {
+            font-size: 0.85rem;
+            color: var(--gris-fonce);
+            margin-top: 5px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Menu mobile toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--noir);
+            cursor: pointer;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background-color: var(--bleu-ecole);
+            z-index: 1000;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--blanc);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        .mobile-nav-badge {
+            margin-left: auto;
+            background-color: var(--rouge-alerte);
+            color: var(--blanc);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .teachers-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .horizontal-menu {
+                gap: 2px;
+            }
+            
+            .nav-item {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .horizontal-nav {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .mobile-nav.active {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .teachers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .modal-header {
+                padding: 20px;
+            }
+            
+            .teacher-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                 <!-- Informations rapides école -->
+                <div class="school-quick-info">
+                    <div class="school-avatar-small">CM</div>
+                    <div>
+                        <div class="school-name">Collège Moderne de Lomé</div>
+                        <div class="school-type">Établissement Public</div>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <!-- Bouton notifications -->
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <!-- Menu déroulant profil -->
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div class="school-avatar-small">CM</div>
+                            <div>
+                                <div class="school-name">Collège Moderne</div>
+                                <div style="font-size: 0.8rem; color: var(--gris-fonce);">Administrateur</div>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="profile-menu" id="profileMenu">
+                            <div class="profile-menu-header">
+                                <div class="profile-menu-avatar">CM</div>
+                                <div class="profile-menu-name">Collège Moderne de Lomé</div>
+                                <div class="profile-menu-email">admin@college-moderne.tg</div>
+                            </div>
+                            
+                            <ul class="profile-menu-list">
+                                <li class="profile-menu-item">
+                                    <a href="school_profile.html" class="profile-menu-link">
+                                        <i class="fas fa-school"></i>
+                                        <span>Profil de l'école</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="school_settings.html" class="profile-menu-link">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Paramètres</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="billing.html" class="profile-menu-link">
+                                        <i class="fas fa-credit-card"></i>
+                                        <span>Facturation</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="login.html" class="profile-menu-link logout">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Déconnexion</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de Navigation Horizontale -->
+    <nav class="horizontal-nav">
+        <div class="container">
+            <div class="nav-container">
+                <!-- Menu de navigation horizontal -->
+                <div class="horizontal-menu">
+                    <a href="school_dashboard.html" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="school_teachers.html" class="nav-item">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Nos enseignants</span>
+                        <span class="nav-badge">2</span>
+                    </a>
+                    <a href="school_courses.html" class="nav-item">
+                        <i class="fas fa-book"></i>
+                        <span>Nos cours</span>
+                    </a>
+                    <a href="school_students.html" class="nav-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Nos élèves</span>
+                        <span class="nav-badge">15</span>
+                    </a>
+                    <a href="school_messages.html" class="nav-item">
+                        <i class="fas fa-comments"></i>
+                        <span>Messages</span>
+                        <span class="nav-badge">5</span>
+                    </a>
+                    <a href="school_finances.html" class="nav-item">
+                        <i class="fas fa-wallet"></i>
+                        <span>Finance</span>
+                    </a>
+                    <a href="school_contact.html" class="nav-item">
+                        <i class="fas fa-address-book"></i>
+                        <span>Contact</span>
+                    </a>
+                    <a href="school_calendar.html" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Calendrier</span>
+                    </a>
+                    <a href="school_contracts.html" class="nav-item">
+                        <i class="fas fa-file-contract"></i>
+                        <span>Contrats</span>
+                    </a>
+                </div>
+
+                <button class="btn btn-success" id="addTeacherBtn">
+                    <i class="fas fa-user-plus"></i> Ajouter un enseignant
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-menu">
+            <a href="school_dashboard.html" class="mobile-nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="school_teachers.html" class="mobile-nav-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Nos enseignants</span>
+                <span class="mobile-nav-badge">2</span>
+            </a>
+            <a href="school_courses.html" class="mobile-nav-item">
+                <i class="fas fa-book"></i>
+                <span>Nos cours</span>
+            </a>
+            <a href="school_students.html" class="mobile-nav-item">
+                <i class="fas fa-user-graduate"></i>
+                <span>Nos élèves</span>
+                <span class="mobile-nav-badge">15</span>
+            </a>
+            <a href="school_messages.html" class="mobile-nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+                <span class="mobile-nav-badge">5</span>
+            </a>
+            <a href="school_finances.html" class="mobile-nav-item">
+                <i class="fas fa-wallet"></i>
+                <span>Finance</span>
+            </a>
+            <a href="school_contact.html" class="mobile-nav-item">
+                <i class="fas fa-address-book"></i>
+                <span>Contact</span>
+            </a>
+            <a href="school_calendar.html" class="mobile-nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Calendrier</span>
+            </a>
+            <a href="school_contracts.html" class="mobile-nav-item">
+                <i class="fas fa-file-contract"></i>
+                <span>Contrats</span>
+            </a>
+            <button class="btn btn-success" style="margin-top: 15px; width: 100%;" id="addTeacherBtnMobile">
+                <i class="fas fa-user-plus"></i> Ajouter un enseignant
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Header du tableau de bord -->
+            <header class="dashboard-header">
+                <div class="header-title">
+                    <h1>Tableau de Bord École</h1>
+                    <p>Gérez vos enseignants, élèves et activités</p>
+                </div>
+                <button class="btn btn-primary" id="quickReportBtn">
+                    <i class="fas fa-chart-line"></i> Rapport rapide
+                </button>
+            </header>
+
+            <!-- Statistiques -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>8</h3>
+                        <p>Enseignants actifs</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>156</h3>
+                        <p>Élèves inscrits</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon yellow">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>24</h3>
+                        <p>Cours disponibles</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>450.000 FCFA</h3>
+                        <p>Revenus ce mois</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section enseignants -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Nos enseignants</h2>
+                        <p class="section-subtitle">Gérez votre équipe pédagogique</p>
+                    </div>
+                    <div class="filters">
+                        <button class="filter-btn active" data-filter="all">Tous</button>
+                        <button class="filter-btn" data-filter="active">Actifs</button>
+                        <button class="filter-btn" data-filter="pending">En attente</button>
+                        <button class="filter-btn" data-filter="inactive">Inactifs</button>
+                    </div>
+                </div>
+
+                <!-- Grille des enseignants -->
+                <div class="teachers-grid" id="teachersGrid">
+                    <!-- Enseignant 1 -->
+                    <div class="teacher-card" data-status="active">
+                        <div class="teacher-header">
+                            <div class="teacher-avatar">JD</div>
+                            <div class="teacher-info">
+                                <h3>Jean Dupont</h3>
+                                <div class="teacher-subject">Mathématiques • Physique</div>
+                                <span class="teacher-status status-active">Actif</span>
+                            </div>
+                        </div>
+                        
+                        <div class="teacher-content">
+                            <ul class="teacher-details">
+                                <li>
+                                    <i class="fas fa-envelope"></i>
+                                    jean.dupont@college-moderne.tg
+                                </li>
+                                <li>
+                                    <i class="fas fa-phone"></i>
+                                    +228 XX XX XX XX
+                                </li>
+                                <li>
+                                    <i class="fas fa-graduation-cap"></i>
+                                    Master en Mathématiques
+                                </li>
+                                <li>
+                                    <i class="fas fa-clock"></i>
+                                    Expérience: 8 ans
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="teacher-stats">
+                            <span><i class="fas fa-users"></i> 25 élèves</span>
+                            <span><i class="fas fa-star"></i> 4.8/5</span>
+                            <span><i class="fas fa-book"></i> 3 cours</span>
+                        </div>
+                        
+                        <div class="teacher-actions">
+                            <button class="btn-teacher btn-edit" onclick="editTeacher(1)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn-teacher btn-manage" onclick="manageTeacher(1)">
+                                <i class="fas fa-cog"></i> Gérer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Enseignant 2 -->
+                    <div class="teacher-card" data-status="active">
+                        <div class="teacher-header">
+                            <div class="teacher-avatar">MA</div>
+                            <div class="teacher-info">
+                                <h3>Marie Akakpo</h3>
+                                <div class="teacher-subject">Français • Anglais</div>
+                                <span class="teacher-status status-active">Actif</span>
+                            </div>
+                        </div>
+                        
+                        <div class="teacher-content">
+                            <ul class="teacher-details">
+                                <li>
+                                    <i class="fas fa-envelope"></i>
+                                    marie.akakpo@college-moderne.tg
+                                </li>
+                                <li>
+                                    <i class="fas fa-phone"></i>
+                                    +228 XX XX XX XX
+                                </li>
+                                <li>
+                                    <i class="fas fa-graduation-cap"></i>
+                                    Licence en Lettres Modernes
+                                </li>
+                                <li>
+                                    <i class="fas fa-clock"></i>
+                                    Expérience: 5 ans
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="teacher-stats">
+                            <span><i class="fas fa-users"></i> 18 élèves</span>
+                            <span><i class="fas fa-star"></i> 4.9/5</span>
+                            <span><i class="fas fa-book"></i> 2 cours</span>
+                        </div>
+                        
+                        <div class="teacher-actions">
+                            <button class="btn-teacher btn-edit" onclick="editTeacher(2)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn-teacher btn-manage" onclick="manageTeacher(2)">
+                                <i class="fas fa-cog"></i> Gérer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Enseignant 3 -->
+                    <div class="teacher-card" data-status="pending">
+                        <div class="teacher-header">
+                            <div class="teacher-avatar">KA</div>
+                            <div class="teacher-info">
+                                <h3>Koffi Agbessi</h3>
+                                <div class="teacher-subject">SVT • Chimie</div>
+                                <span class="teacher-status status-pending">En attente</span>
+                            </div>
+                        </div>
+                        
+                        <div class="teacher-content">
+                            <ul class="teacher-details">
+                                <li>
+                                    <i class="fas fa-envelope"></i>
+                                    koffi.agbessi@college-moderne.tg
+                                </li>
+                                <li>
+                                    <i class="fas fa-phone"></i>
+                                    +228 XX XX XX XX
+                                </li>
+                                <li>
+                                    <i class="fas fa-graduation-cap"></i>
+                                    Doctorat en Biologie
+                                </li>
+                                <li>
+                                    <i class="fas fa-clock"></i>
+                                    Expérience: 12 ans
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="teacher-stats">
+                            <span><i class="fas fa-users"></i> 0 élève</span>
+                            <span><i class="fas fa-star"></i> -/5</span>
+                            <span><i class="fas fa-book"></i> 1 cours</span>
+                        </div>
+                        
+                        <div class="teacher-actions">
+                            <button class="btn-teacher btn-edit" onclick="editTeacher(3)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn-teacher btn-manage" onclick="manageTeacher(3)">
+                                <i class="fas fa-cog"></i> Gérer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Enseignant 4 -->
+                    <div class="teacher-card" data-status="active">
+                        <div class="teacher-header">
+                            <div class="teacher-avatar">AD</div>
+                            <div class="teacher-info">
+                                <h3>Amélie Diallo</h3>
+                                <div class="teacher-subject">Histoire • Géographie</div>
+                                <span class="teacher-status status-active">Actif</span>
+                            </div>
+                        </div>
+                        
+                        <div class="teacher-content">
+                            <ul class="teacher-details">
+                                <li>
+                                    <i class="fas fa-envelope"></i>
+                                    amelie.diallo@college-moderne.tg
+                                </li>
+                                <li>
+                                    <i class="fas fa-phone"></i>
+                                    +228 XX XX XX XX
+                                </li>
+                                <li>
+                                    <i class="fas fa-graduation-cap"></i>
+                                    Master en Histoire
+                                </li>
+                                <li>
+                                    <i class="fas fa-clock"></i>
+                                    Expérience: 6 ans
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="teacher-stats">
+                            <span><i class="fas fa-users"></i> 15 élèves</span>
+                            <span><i class="fas fa-star"></i> 4.7/5</span>
+                            <span><i class="fas fa-book"></i> 2 cours</span>
+                        </div>
+                        
+                        <div class="teacher-actions">
+                            <button class="btn-teacher btn-edit" onclick="editTeacher(4)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn-teacher btn-manage" onclick="manageTeacher(4)">
+                                <i class="fas fa-cog"></i> Gérer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Carte pour ajouter un nouvel enseignant -->
+                    <div class="teacher-card" style="border-style: dashed; border-color: var(--gris-fonce); background: transparent; cursor: pointer;" id="addNewTeacherCard">
+                        <div class="teacher-header" style="background: transparent; text-align: center; padding: 40px 20px;">
+                            <i class="fas fa-user-plus" style="font-size: 3rem; color: var(--gris-fonce); margin-bottom: 15px;"></i>
+                            <div class="teacher-info">
+                                <h3 style="color: var(--gris-fonce);">Ajouter un enseignant</h3>
+                                <div class="teacher-subtitle" style="color: var(--gris-fonce);">Cliquez pour ajouter un nouvel enseignant</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tableau récapitulatif -->
+            <div class="section">
+                <h2 class="section-title">Tous les enseignants</h2>
+                <table class="teachers-table">
+                    <thead>
+                        <tr>
+                            <th>Enseignant</th>
+                            <th>Matières</th>
+                            <th>Contact</th>
+                            <th>Élèves</th>
+                            <th>Note</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>Jean Dupont</strong>
+                                <div style="font-size: 0.85rem; color: var(--gris-fonce);">Master Mathématiques</div>
+                            </td>
+                            <td>Maths, Physique</td>
+                            <td>jean.dupont@college-moderne.tg</td>
+                            <td>25 élèves</td>
+                            <td><strong>4.8/5</strong></td>
+                            <td><span class="teacher-status status-active">Actif</span></td>
+                            <td>
+                                <button class="btn-teacher btn-edit" style="padding: 5px 10px; font-size: 0.85rem;" onclick="editTeacher(1)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-teacher btn-manage" style="padding: 5px 10px; font-size: 0.85rem;" onclick="manageTeacher(1)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Marie Akakpo</strong>
+                                <div style="font-size: 0.85rem; color: var(--gris-fonce);">Licence Lettres Modernes</div>
+                            </td>
+                            <td>Français, Anglais</td>
+                            <td>marie.akakpo@college-moderne.tg</td>
+                            <td>18 élèves</td>
+                            <td><strong>4.9/5</strong></td>
+                            <td><span class="teacher-status status-active">Actif</span></td>
+                            <td>
+                                <button class="btn-teacher btn-edit" style="padding: 5px 10px; font-size: 0.85rem;" onclick="editTeacher(2)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-teacher btn-manage" style="padding: 5px 10px; font-size: 0.85rem;" onclick="manageTeacher(2)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Koffi Agbessi</strong>
+                                <div style="font-size: 0.85rem; color: var(--gris-fonce);">Doctorat Biologie</div>
+                            </td>
+                            <td>SVT, Chimie</td>
+                            <td>koffi.agbessi@college-moderne.tg</td>
+                            <td>0 élève</td>
+                            <td><strong>-/5</strong></td>
+                            <td><span class="teacher-status status-pending">En attente</span></td>
+                            <td>
+                                <button class="btn-teacher btn-edit" style="padding: 5px 10px; font-size: 0.85rem;" onclick="editTeacher(3)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-teacher btn-manage" style="padding: 5px 10px; font-size: 0.85rem;" onclick="manageTeacher(3)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Amélie Diallo</strong>
+                                <div style="font-size: 0.85rem; color: var(--gris-fonce);">Master Histoire</div>
+                            </td>
+                            <td>Histoire, Géographie</td>
+                            <td>amelie.diallo@college-moderne.tg</td>
+                            <td>15 élèves</td>
+                            <td><strong>4.7/5</strong></td>
+                            <td><span class="teacher-status status-active">Actif</span></td>
+                            <td>
+                                <button class="btn-teacher btn-edit" style="padding: 5px 10px; font-size: 0.85rem;" onclick="editTeacher(4)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-teacher btn-manage" style="padding: 5px 10px; font-size: 0.85rem;" onclick="manageTeacher(4)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>David Mensah</strong>
+                                <div style="font-size: 0.85rem; color: var(--gris-fonce);">Licence Éducation Civique</div>
+                            </td>
+                            <td>Éducation Civique</td>
+                            <td>david.mensah@college-moderne.tg</td>
+                            <td>12 élèves</td>
+                            <td><strong>4.5/5</strong></td>
+                            <td><span class="teacher-status status-inactive">Inactif</span></td>
+                            <td>
+                                <button class="btn-teacher btn-edit" style="padding: 5px 10px; font-size: 0.85rem;" onclick="editTeacher(5)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-teacher btn-manage" style="padding: 5px 10px; font-size: 0.85rem;" onclick="manageTeacher(5)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section cours récents -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Cours récemment ajoutés</h2>
+                    <a href="school_courses.html" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Ajouter un cours
+                    </a>
+                </div>
+                
+                <div class="teachers-grid">
+                    <div class="teacher-card" style="cursor: default;">
+                        <div class="teacher-header">
+                            <div class="teacher-avatar" style="background-color: var(--vert-success);">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="teacher-info">
+                                <h3>Mathématiques 3ème</h3>
+                                <div class="teacher-subject">Préparation BEPC</div>
+                                <span class="teacher-status status-active">Disponible</span>
+                            </div>
+                        </div>
+                        
+                        <div class="teacher-content">
+                            <ul class="teacher-details">
+                                <li>
+                                    <i class="fas fa-user-graduate"></i>
+                                    Enseignant: Jean Dupont
+                                </li>
+                                <li>
+                                    <i class="fas fa-users"></i>
+                                    15 élèves inscrits
+                                </li>
+                                <li>
+                                    <i class="fas fa-clock"></i>
+                                    2h/semaine
+                                </li>
+                                <li>
+                                    <i class="fas fa-coins"></i>
+                                    5.000 FCFA/mois
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="teacher-card" style="cursor: default;">
+                        <div class="teacher-header">
+                            <div class="teacher-avatar" style="background-color: var(--bleu-info);">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <div class="teacher-info">
+                                <h3>Français 4ème</h3>
+                                <div class="teacher-subject">Grammaire & Orthographe</div>
+                                <span class="teacher-status status-active">Disponible</span>
+                            </div>
+                        </div>
+                        
+                        <div class="teacher-content">
+                            <ul class="teacher-details">
+                                <li>
+                                    <i class="fas fa-user-graduate"></i>
+                                    Enseignante: Marie Akakpo
+                                </li>
+                                <li>
+                                    <i class="fas fa-users"></i>
+                                    12 élèves inscrits
+                                </li>
+                                <li>
+                                    <i class="fas fa-clock"></i>
+                                    1h30/semaine
+                                </li>
+                                <li>
+                                    <i class="fas fa-coins"></i>
+                                    3.500 FCFA/mois
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal ajout enseignant -->
+    <div class="modal-overlay" id="addTeacherModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Ajouter un enseignant</h2>
+                <button class="modal-close" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addTeacherForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Nom *</label>
+                            <input type="text" class="form-control" id="teacherLastName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Prénom *</label>
+                            <input type="text" class="form-control" id="teacherFirstName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="teacherEmail" required>
+                            <div class="form-text">L'enseignant recevra les informations de connexion à cette adresse</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Téléphone *</label>
+                            <input type="tel" class="form-control" id="teacherPhone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Spécialités (matières) *</label>
+                        <select class="form-control" id="teacherSubjects" multiple required style="height: 120px;">
+                            <option value="math">Mathématiques</option>
+                            <option value="french">Français</option>
+                            <option value="english">Anglais</option>
+                            <option value="history">Histoire-Géographie</option>
+                            <option value="physics">Sciences Physiques</option>
+                            <option value="svt">SVT</option>
+                            <option value="civic">Éducation Civique</option>
+                            <option value="technology">Technologie</option>
+                            <option value="arts">Arts Plastiques</option>
+                            <option value="music">Éducation Musicale</option>
+                        </select>
+                        <div class="form-text">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs matières</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Niveau d'étude *</label>
+                            <select class="form-control" id="teacherDegree" required>
+                                <option value="">Sélectionner</option>
+                                <option value="bac">Baccalauréat</option>
+                                <option value="licence">Licence</option>
+                                <option value="master">Master</option>
+                                <option value="doctorat">Doctorat</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Diplôme obtenu *</label>
+                            <input type="text" class="form-control" id="teacherDiploma" required placeholder="Ex: Master en Mathématiques">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Années d'expérience *</label>
+                            <input type="number" class="form-control" id="teacherExperience" min="0" max="50" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Date d'embauche *</label>
+                            <input type="date" class="form-control" id="teacherHireDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Type de contrat *</label>
+                        <select class="form-control" id="teacherContract" required>
+                            <option value="">Sélectionner</option>
+                            <option value="cdi">CDI</option>
+                            <option value="cdd">CDD</option>
+                            <option value="temps_partiel">Temps partiel</option>
+                            <option value="vacataire">Vacataire</option>
+                            <option value="stagiaire">Stagiaire</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Salaire mensuel (FCFA)</label>
+                        <input type="number" class="form-control" id="teacherSalary" min="0" step="1000">
+                        <div class="form-text">Optionnel - pour le suivi interne seulement</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Statut *</label>
+                        <select class="form-control" id="teacherStatus" required>
+                            <option value="active">Actif</option>
+                            <option value="pending">En attente</option>
+                            <option value="inactive">Inactif</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Notes additionnelles</label>
+                        <textarea class="form-control" id="teacherNotes" rows="3" placeholder="Informations complémentaires..."></textarea>
+                    </div>
+
+                    <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" id="cancelTeacherBtn">Annuler</button>
+                        <button type="submit" class="btn btn-success">Ajouter l'enseignant</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal notifications -->
+    <div class="modal-overlay" id="notificationModal">
+        <div class="modal" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Notifications</h2>
+                <button class="modal-close" id="closeNotificationModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; padding: 40px 20px;">
+                    <i class="fas fa-bell" style="font-size: 3rem; color: var(--bleu-ecole); margin-bottom: 20px;"></i>
+                    <h3 style="margin-bottom: 10px;">Aucune notification</h3>
+                    <p style="color: var(--gris-fonce);">Vous n'avez aucune notification pour le moment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données simulées pour l'école
+        const schoolData = {
+            name: "Collège Moderne de Lomé",
+            email: "admin@college-moderne.tg",
+            type: "Établissement Public",
+            totalTeachers: 8,
+            totalStudents: 156,
+            totalCourses: 24,
+            monthlyRevenue: "450.000 FCFA",
+            teachers: [
+                {
+                    id: 1,
+                    firstName: "Jean",
+                    lastName: "Dupont",
+                    email: "jean.dupont@college-moderne.tg",
+                    phone: "+228 XX XX XX XX",
+                    subjects: ["Mathématiques", "Physique"],
+                    degree: "Master",
+                    diploma: "Master en Mathématiques",
+                    experience: 8,
+                    status: "active",
+                    students: 25,
+                    rating: 4.8,
+                    courses: 3,
+                    contract: "CDI",
+                    hireDate: "2016-03-15"
+                },
+                {
+                    id: 2,
+                    firstName: "Marie",
+                    lastName: "Akakpo",
+                    email: "marie.akakpo@college-moderne.tg",
+                    phone: "+228 XX XX XX XX",
+                    subjects: ["Français", "Anglais"],
+                    degree: "Licence",
+                    diploma: "Licence en Lettres Modernes",
+                    experience: 5,
+                    status: "active",
+                    students: 18,
+                    rating: 4.9,
+                    courses: 2,
+                    contract: "CDI",
+                    hireDate: "2019-09-01"
+                }
+            ]
+        };
+
+        // Gestion du modal
+        const addTeacherBtn = document.getElementById('addTeacherBtn');
+        const addTeacherBtnMobile = document.getElementById('addTeacherBtnMobile');
+        const addNewTeacherCard = document.getElementById('addNewTeacherCard');
+        const addTeacherModal = document.getElementById('addTeacherModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const cancelTeacherBtn = document.getElementById('cancelTeacherBtn');
+        const addTeacherForm = document.getElementById('addTeacherForm');
+        
+        // Gestion menu mobile
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        
+        // Filtres des enseignants
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const teacherCards = document.querySelectorAll('.teacher-card[data-status]');
+        
+        // Gestion notifications
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationModal = document.getElementById('notificationModal');
+        const closeNotificationModalBtn = document.getElementById('closeNotificationModalBtn');
+        
+        // Gestion profil
+        const profileBtn = document.getElementById('profileBtn');
+        const profileMenu = document.getElementById('profileMenu');
+
+        // Ouvrir modal ajout enseignant
+        addTeacherBtn.addEventListener('click', openAddTeacherModal);
+        addTeacherBtnMobile.addEventListener('click', openAddTeacherModal);
+        addNewTeacherCard.addEventListener('click', openAddTeacherModal);
+
+        function openAddTeacherModal() {
+            addTeacherModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            // Fermer menu mobile si ouvert
+            mobileNav.classList.remove('active');
+        }
+
+        // Fermer modal ajout enseignant
+        closeModalBtn.addEventListener('click', closeAddTeacherModal);
+        cancelTeacherBtn.addEventListener('click', closeAddTeacherModal);
+        addTeacherModal.addEventListener('click', (e) => {
+            if (e.target === addTeacherModal) {
+                closeAddTeacherModal();
+            }
+        });
+
+        function closeAddTeacherModal() {
+            addTeacherModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Ouvrir modal notifications
+        notificationBtn.addEventListener('click', openNotificationModal);
+
+        function openNotificationModal() {
+            notificationModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Fermer modal notifications
+        closeNotificationModalBtn.addEventListener('click', closeNotificationModal);
+        notificationModal.addEventListener('click', (e) => {
+            if (e.target === notificationModal) {
+                closeNotificationModal();
+            }
+        });
+
+        function closeNotificationModal() {
+            notificationModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Gestion menu mobile
+        mobileNavToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+        });
+
+        // Fermer menu mobile en cliquant à l'extérieur
+        document.addEventListener('click', (e) => {
+            if (!mobileNav.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+                mobileNav.classList.remove('active');
+            }
+        });
+
+        // Gestion menu déroulant profil
+        profileBtn.addEventListener('click', () => {
+            profileMenu.classList.toggle('active');
+        });
+
+        // Fermer le menu déroulant en cliquant à l'extérieur
+        document.addEventListener('click', (e) => {
+            if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.remove('active');
+            }
+        });
+
+        // Filtrage des enseignants
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Retirer active de tous les boutons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                
+                // Ajouter active au bouton cliqué
+                btn.classList.add('active');
+                
+                // Filtrer les cartes
+                const filter = btn.dataset.filter;
+                
+                teacherCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.status === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Gestion du formulaire
+        addTeacherForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validation
+            const requiredFields = [
+                'teacherLastName',
+                'teacherFirstName',
+                'teacherEmail',
+                'teacherPhone',
+                'teacherSubjects',
+                'teacherDegree',
+                'teacherDiploma',
+                'teacherExperience',
+                'teacherHireDate',
+                'teacherContract',
+                'teacherStatus'
+            ];
+            
+            let isValid = true;
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value || (field.tagName === 'SELECT' && field.selectedOptions.length === 0)) {
+                    isValid = false;
+                    field.style.borderColor = 'var(--rouge-alerte)';
+                } else {
+                    field.style.borderColor = '';
+                }
+            });
+            
+            if (!isValid) {
+                alert('Veuillez remplir tous les champs obligatoires (*)');
+                return;
+            }
+            
+            // Récupérer les données du formulaire
+            const formData = {
+                lastName: document.getElementById('teacherLastName').value,
+                firstName: document.getElementById('teacherFirstName').value,
+                email: document.getElementById('teacherEmail').value,
+                phone: document.getElementById('teacherPhone').value,
+                subjects: Array.from(document.getElementById('teacherSubjects').selectedOptions).map(opt => opt.value),
+                degree: document.getElementById('teacherDegree').value,
+                diploma: document.getElementById('teacherDiploma').value,
+                experience: document.getElementById('teacherExperience').value,
+                hireDate: document.getElementById('teacherHireDate').value,
+                contract: document.getElementById('teacherContract').value,
+                salary: document.getElementById('teacherSalary').value || 0,
+                status: document.getElementById('teacherStatus').value,
+                notes: document.getElementById('teacherNotes').value
+            };
+            
+            // Afficher un message de succès
+            alert(`Enseignant ${formData.firstName} ${formData.lastName} ajouté avec succès !`);
+            
+            // Simuler l'ajout de l'enseignant
+            console.log('Nouvel enseignant ajouté:', formData);
+            
+            // Fermer le modal
+            closeAddTeacherModal();
+            
+            // Réinitialiser le formulaire
+            this.reset();
+        });
+
+        // Fonctions de gestion
+        function editTeacher(teacherId) {
+            alert('Modification de l\'enseignant #' + teacherId);
+            // Dans une vraie application, charger les données et ouvrir un modal d'édition
+            const teacher = schoolData.teachers.find(t => t.id === teacherId);
+            if (teacher) {
+                console.log('Édition de l\'enseignant:', teacher);
+            }
+        }
+
+        function manageTeacher(teacherId) {
+            alert('Gestion de l\'enseignant #' + teacherId);
+            // Dans une vraie application, rediriger vers la page de gestion
+            const teacher = schoolData.teachers.find(t => t.id === teacherId);
+            if (teacher) {
+                console.log('Gestion de l\'enseignant:', teacher);
+            }
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mettre à jour les statistiques avec les données simulées
+            const statElements = document.querySelectorAll('.stat-info h3');
+            if (statElements.length >= 4) {
+                statElements[0].innerText = schoolData.totalTeachers;
+                statElements[1].innerText = schoolData.totalStudents;
+                statElements[2].innerText = schoolData.totalCourses;
+                statElements[3].innerText = schoolData.monthlyRevenue;
+            }
+            
+            // Initialiser les notifications
+            const unreadCount = 3;
+            const badge = document.querySelector('.notification-badge');
+            if (badge) {
+                badge.textContent = unreadCount;
+            }
+            
+            const mobileBadge = document.querySelector('.mobile-nav-badge');
+            if (mobileBadge) {
+                mobileBadge.textContent = unreadCount;
+            }
+            
+            // Gestion responsive
+            function checkWindowSize() {
+                if (window.innerWidth <= 992) {
+                    document.querySelector('.menu-toggle').style.display = 'block';
+                } else {
+                    document.querySelector('.menu-toggle').style.display = 'none';
+                    mobileNav.classList.remove('active');
+                }
+            }
+            
+            window.addEventListener('resize', checkWindowSize);
+            checkWindowSize();
+            
+            // Initialiser la date d'embauche à aujourd'hui
+            const today = new Date().toISOString().split('T')[0];
+            const hireDateInput = document.getElementById('teacherHireDate');
+            if (hireDateInput) {
+                hireDateInput.value = today;
+                hireDateInput.min = '2000-01-01';
+                hireDateInput.max = today;
+            }
+            
+            // Bouton rapport rapide
+            const quickReportBtn = document.getElementById('quickReportBtn');
+            if (quickReportBtn) {
+                quickReportBtn.addEventListener('click', function() {
+                    alert('Génération du rapport rapide...');
+                    // Simulation de génération de rapport
+                    const reportData = {
+                        school: schoolData.name,
+                        date: new Date().toLocaleDateString(),
+                        teachers: schoolData.totalTeachers,
+                        students: schoolData.totalStudents,
+                        courses: schoolData.totalCourses,
+                        revenue: schoolData.monthlyRevenue
+                    };
+                    console.log('Rapport rapide:', reportData);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

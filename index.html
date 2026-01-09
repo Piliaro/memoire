@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTogoConnect - Plateforme Éducative Togolaise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Variables de couleurs */
+        :root {
+            --jaune-principal: #FFD700;
+            --jaune-fonce: #FFC107;
+            --gris-clair: #F5F5F5;
+            --gris-moyen: #E0E0E0;
+            --gris-fonce: #757575;
+            --gris-texte: #424242;
+            --vert-success: #4CAF50;
+            --rouge-alerte: #F44336;
+            --bleu-info: #2196F3;
+            --blanc: #FFFFFF;
+            --noir: #212121;
+        }
+
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-texte);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header et Navigation */
+        header {
+            background-color: var(--blanc);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            background-color: var(--jaune-principal);
+            color: var(--noir);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--noir);
+        }
+
+        .logo-text span {
+            color: var(--vert-success);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gris-texte);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--jaune-fonce);
+        }
+
+        .nav-links a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border: 2px solid var(--gris-moyen);
+            color: var(--gris-texte);
+        }
+
+        .btn-login:hover {
+            background-color: var(--gris-clair);
+            border-color: var(--gris-fonce);
+        }
+
+        .btn-signup {
+            background-color: var(--jaune-principal);
+            color: var(--noir);
+        }
+
+        .btn-signup:hover {
+            background-color: var(--jaune-fonce);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-success {
+            background-color: var(--vert-success);
+            color: var(--blanc);
+        }
+
+        .btn-success:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .btn-alert {
+            background-color: var(--rouge-alerte);
+            color: var(--blanc);
+        }
+
+        .btn-alert:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background-color: var(--bleu-info);
+            color: var(--blanc);
+        }
+
+        .btn-info:hover {
+            background-color: #0b7dda;
+            transform: translateY(-2px);
+        }
+
+        /* Section Hero */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(76,175,80,0.05) 100%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--noir);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--vert-success);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--gris-fonce);
+        }
+
+        .search-box {
+            max-width: 700px;
+            margin: 40px auto 0;
+            background-color: var(--blanc);
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 20px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-btn {
+            background-color: var(--jaune-principal);
+            color: var(--noir);
+            border: none;
+            border-radius: 50px;
+            padding: 0 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--jaune-fonce);
+        }
+
+        /* Section Titres */
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--noir);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--gris-fonce);
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        /* Section Fonctionnalités */
+        .features {
+            padding: 80px 0;
+            background-color: var(--blanc);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background-color: var(--gris-clair);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .icon-yellow {
+            background-color: rgba(255,215,0,0.15);
+            color: var(--jaune-fonce);
+        }
+
+        .icon-green {
+            background-color: rgba(76,175,80,0.15);
+            color: var(--vert-success);
+        }
+
+        .icon-red {
+            background-color: rgba(244,67,54,0.15);
+            color: var(--rouge-alerte);
+        }
+
+        .icon-blue {
+            background-color: rgba(33,150,243,0.15);
+            color: var(--bleu-info);
+        }
+
+        .icon-gray {
+            background-color: rgba(117,117,117,0.15);
+            color: var(--gris-fonce);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--noir);
+        }
+
+        /* Section Témoignages */
+        .testimonials {
+            padding: 80px 0;
+            background-color: var(--gris-clair);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--blanc);
+            border-radius: 15px;
+            padding: 30px;
+            min-width: 100%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            margin: 0 10px;
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--gris-moyen);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+        }
+
+        .author-info h4 {
+            color: var(--noir);
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--gris-moyen);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .slider-dot.active {
+            background-color: var(--jaune-principal);
+        }
+
+        /* Section Meilleurs Cours */
+        .top-courses {
+            padding: 80px 0;
+            background-color: var(--blanc);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .course-card {
+            background-color: var(--gris-clair);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .course-header {
+            background-color: var(--jaune-principal);
+            padding: 20px;
+            text-align: center;
+            color: var(--noir);
+            font-weight: 700;
+        }
+
+        .course-content {
+            padding: 20px;
+        }
+
+        .course-content h4 {
+            color: var(--noir);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--gris-fonce);
+        }
+
+        .course-rating {
+            color: var(--jaune-fonce);
+        }
+
+        /* Section Meilleurs Enseignants */
+        .top-teachers {
+            padding: 80px 0;
+            background-color: var(--gris-clair);
+        }
+
+        .teachers-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 30px;
+            padding: 20px 0;
+            margin-top: 40px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--jaune-principal) var(--gris-clair);
+        }
+
+        .teachers-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .teachers-slider::-webkit-scrollbar-track {
+            background: var(--gris-clair);
+            border-radius: 10px;
+        }
+
+        .teachers-slider::-webkit-scrollbar-thumb {
+            background-color: var(--jaune-principal);
+            border-radius: 10px;
+        }
+
+        .teacher-card {
+            min-width: 280px;
+            background-color: var(--blanc);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .teacher-header {
+            background-color: var(--vert-success);
+            padding: 20px;
+            text-align: center;
+            color: var(--blanc);
+        }
+
+        .teacher-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--gris-clair);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--gris-fonce);
+        }
+
+        .teacher-content {
+            padding: 20px;
+        }
+
+        .teacher-info {
+            margin-bottom: 15px;
+        }
+
+        .teacher-info h4 {
+            color: var(--noir);
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+
+        .teacher-info p {
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .teacher-rating {
+            color: var(--jaune-fonce);
+            margin-bottom: 15px;
+        }
+
+        /* Section Partenaires */
+        .partners {
+            padding: 80px 0;
+            background-color: var(--blanc);
+        }
+
+        .partners-slider {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            margin-top: 50px;
+            height: 120px;
+            position: relative;
+        }
+
+        .partner-track {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            animation: scroll 30s linear infinite;
+        }
+
+        .partner-logo {
+            width: 150px;
+            height: 80px;
+            background-color: var(--gris-clair);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--gris-fonce);
+            font-size: 1.2rem;
+        }
+
+        /* Section Mission */
+        .mission {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(76,175,80,0.1) 100%);
+        }
+
+        .mission-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-top: 50px;
+        }
+
+        .mission-image {
+            flex: 1;
+            height: 400px;
+            background-color: var(--gris-clair);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: var(--jaune-fonce);
+        }
+
+        .mission-text {
+            flex: 1;
+        }
+
+        .mission-text h3 {
+            font-size: 1.8rem;
+            color: var(--noir);
+            margin-bottom: 20px;
+        }
+
+        .mission-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Section Écoles */
+        .schools {
+            padding: 80px 0;
+            background-color: var(--gris-clair);
+        }
+
+        .schools-slider {
+            display: flex;
+            overflow: hidden;
+            margin-top: 50px;
+            height: 150px;
+            position: relative;
+        }
+
+        .school-track {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            animation: scroll 25s linear infinite;
+        }
+
+        .school-card {
+            min-width: 200px;
+            height: 120px;
+            background-color: var(--blanc);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .school-icon {
+            font-size: 2rem;
+            color: var(--vert-success);
+            margin-bottom: 10px;
+        }
+
+        /* Section Niveaux */
+        .levels {
+            padding: 80px 0;
+            background-color: var(--gris-clair);
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .level-card {
+            background-color: var(--blanc);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .level-card:hover {
+            border-color: var(--jaune-principal);
+            transform: translateY(-5px);
+        }
+
+        .level-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--jaune-fonce);
+            margin-bottom: 10px;
+        }
+
+        .level-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--noir);
+        }
+
+        /* Section Inscription */
+        .signup-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(76,175,80,0.1) 100%);
+            text-align: center;
+        }
+
+        .user-types {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .user-card {
+            background-color: var(--blanc);
+            border-radius: 15px;
+            padding: 40px 30px;
+            width: 260px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .user-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .user-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .student-icon {
+            color: var(--vert-success);
+        }
+
+        .teacher-icon {
+            color: var(--jaune-fonce);
+        }
+
+        .user-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--noir);
+        }
+
+        .user-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .user-card ul li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .user-card ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--vert-success);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--noir);
+            color: var(--gris-moyen);
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gris-moyen);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--noir);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Animation pour défilement */
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-150px * 6 - 60px * 6));
+            }
+        }
+
+        /* Responsive */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--noir);
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .auth-buttons {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: flex;
+                flex-direction: column;
+                background-color: var(--blanc);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 999;
+            }
+            
+            .mobile-menu.active {
+                display: flex;
+            }
+            
+            .mobile-auth {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 20px;
+            }
+            
+            .mission-content {
+                flex-direction: column;
+            }
+            
+            .mission-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 15px;
+            }
+            
+            .search-input, .search-btn {
+                border-radius: 15px;
+                width: 100%;
+            }
+            
+            .user-types {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </div>
+
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <ul class="nav-links" id="navLinks">
+                    <!--<li><a href="#fonctionnalites">Fonctionnalités</a></li>-->
+                   <!--<li><a href="#mission">Notre Mission</a></li>-->
+                    <li><a href="#cours">Cours</a></li>
+                    <li><a href="#niveaux">Niveaux</a></li>
+                    <li><a href="#enseignants">Enseignants</a></li>
+                    <li><a href="#ecoles">Ecoles</a></li>
+                    <li><a href="#partenaires">Partenaires</a></li>
+                    <!--<li><a href="pages principale des users/enseignant.html">FAQ</a></li>-->
+                    <li><a href="pages principale des users/eleve.html">Témoignages</a></li>
+                    <!--<li><a href="pages principale des users/ecole.html">ecole</a></li>-->
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+
+                <div class="auth-buttons">
+                    <a href="login.php" class="btn btn-login">Connexion</a>
+                    <a href="#inscription" class="btn btn-signup">S'inscrire</a>
+                </div>
+            </nav>
+
+            <!-- Menu mobile -->
+            <!--
+            <div class="mobile-menu" id="mobileMenu">
+                <ul class="nav-links">
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                    <li><a href="#mission">Notre Mission</a></li>
+                    <li><a href="#niveaux">Niveaux</a></li>
+                    <li><a href="#cours">Meilleurs Cours</a></li>
+                    <li><a href="#enseignants">Nos enseignants</a></li>
+                    <li><a href="#ecoles">Nos écoles</a></li>
+                    <li><a href="#partenaires">Nos partenaires</a></li>
+                    <li><a href="#temoignages">Témoignages</a></li>
+                    <li><a href="#inscription">S'inscrire</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="mobile-auth">
+                    <a href="login.php" class="btn btn-login">Connexion</a>
+                    <a href="#inscription" class="btn btn-signup">Inscription</a>
+                </div>
+            </div>-->
+
+        </div>
+    </header>
+
+    <!-- Section Hero -->
+    <section class="hero" id="accueil">
+        <div class="container">
+            <h1>La plateforme éducative qui <span>connecte</span> les élèves et enseignants du Togo</h1>
+            <p>Trouvez les meilleurs enseignants pour les matières du collège (6ème à 3ème) avec notre système de
+                recommandation intelligent. Apprenez à votre rythme avec un suivi personnalisé.</p>
+
+            <div class="search-box">
+                <input type="text" class="search-input"
+                    placeholder="Rechercher un enseignant, une matière, un niveau...">
+                <button class="search-btn">Rechercher</button>
+            </div>
+
+            <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="#inscription" class="btn btn-success">Je suis Élève</a>
+                <a href="#inscription" class="btn btn-alert">Je suis Enseignant</a>
+                <a href="#inscription" class="btn btn-success">Je suis Parent d'eleve</a>
+                <a href="#inscription" class="btn btn-alert">Je suis une ecole/institut</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Fonctionnalités -->
+    <section class="features" id="fonctionnalites">
+        <div class="container">
+            <h2 class="section-title">Fonctionnalités Principales</h2>
+            <p class="section-subtitle">Découvrez les outils qui font d'EduTogoConnect la plateforme éducative la plus
+                complète pour le collège au Togo</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon icon-yellow">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Enseignants Vérifiés</h3>
+                    <p>Tous nos enseignants sont soigneusement sélectionnés et leurs compétences vérifiées par notre
+                        équipe.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-green">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Visio-conférence Intégrée</h3>
+                    <p>Suivez vos cours en ligne directement depuis la plateforme sans logiciel externe.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-red">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Certificats de Fin de Cours</h3>
+                    <p>Téléchargez un certificat PDF à la fin de chaque cours pour valider vos compétences.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-yellow">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Système de Notation</h3>
+                    <p>Notez vos enseignants et consultez les avis pour faire le meilleur choix.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-green">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Suivi de Progression</h3>
+                    <p>Visualisez vos progrès dans chaque matière avec des tableaux de bord détaillés.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-red">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Messagerie Instantanée</h3>
+                    <p>Échangez directement avec vos enseignants via notre messagerie sécurisée.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Notre Mission -->
+    <section class="mission" id="mission">
+        <div class="container">
+            <h2 class="section-title">Notre Mission</h2>
+            <p class="section-subtitle">Nous croyons en une éducation accessible et de qualité pour tous les élèves du Togo</p>
+            
+            <div class="mission-content">
+                <div class="mission-image">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="mission-text">
+                    <h3>Transformer l'éducation au Togo</h3>
+                    <p>Notre mission est de créer une plateforme éducative innovante qui connecte les élèves du collège avec les meilleurs enseignants du pays. Nous voulons briser les barrières géographiques et économiques qui limitent l'accès à une éducation de qualité.</p>
+                    <p>EduTogoConnect a été fondé avec la conviction que chaque élève mérite un accompagnement personnalisé, quel que soit son lieu de résidence ou son milieu social. Notre plateforme utilise la technologie pour rapprocher les élèves des enseignants compétents, créant ainsi un écosystème éducatif dynamique et inclusif.</p>
+                    <p>Nous nous engageons à soutenir le système éducatif togolais en fournissant des outils modernes et efficaces pour améliorer les résultats scolaires et préparer les jeunes à relever les défis de demain.</p>
+                    <a href="#inscription" class="btn btn-info">Rejoindre notre mission</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Témoignages -->
+    <section class="testimonials" id="temoignages">
+        <div class="container">
+            <h2 class="section-title">Témoignages des élèves satisfaits</h2>
+            <p class="section-subtitle">Découvrez ce que disent les élèves et parents qui utilisent notre plateforme</p>
+            
+            <div class="testimonials-slider" id="testimonialsSlider">
+                <!-- Les témoignages seront ajoutés dynamiquement via JavaScript -->
+            </div>
+            
+            <div class="slider-controls" id="testimonialControls">
+                <!-- Les points de contrôle seront ajoutés dynamiquement via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Meilleurs Cours -->
+    <section class="top-courses" id="cours">
+        <div class="container">
+            <h2 class="section-title">Meilleurs Cours par Niveau</h2>
+            <p class="section-subtitle">Découvrez les 6 cours les plus populaires pour chaque niveau du collège</p>
+            
+            <div class="courses-grid">
+                <!-- Les cours seront ajoutés dynamiquement via JavaScript -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="#" class="btn btn-info">Voir tous les cours</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Meilleurs Enseignants -->
+    <section class="top-teachers" id="enseignants">
+        <div class="container">
+            <h2 class="section-title">Nos meilleurs enseignants</h2>
+            <p class="section-subtitle">Découvrez les enseignants les mieux notés par nos élèves</p>
+            
+            <div class="teachers-slider" id="teachersSlider">
+                <!-- Les enseignants seront ajoutés dynamiquement via JavaScript -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#" class="btn btn-info">Voir tous les enseignants</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Écoles -->
+    <section class="schools" id="ecoles">
+        <div class="container">
+            <h2 class="section-title">Nos écoles et institutions partenaires</h2>
+            <p class="section-subtitle">EduTogoConnect collabore avec les meilleures écoles du Togo</p>
+            
+            <div class="schools-slider">
+                <div class="school-track" id="schoolTrack">
+                    <!-- Les écoles seront ajoutées dynamiquement via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Partenaires -->
+    <section class="partners" id="partenaires">
+        <div class="container">
+            <h2 class="section-title">Nos partenaires et sponsors</h2>
+            <p class="section-subtitle">Ils nous font confiance et nous soutiennent pour transformer l'éducation au Togo</p>
+            
+            <div class="partners-slider">
+                <div class="partner-track" id="partnerTrack">
+                    <!-- Les partenaires seront ajoutés dynamiquement via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Niveaux -->
+    <section class="levels" id="niveaux">
+        <div class="container">
+            <h2 class="section-title">Niveaux Scolaires Couverts</h2>
+            <p class="section-subtitle">Nous couvrons toutes les classes du collège selon le système éducatif togolais
+            </p>
+
+            <div class="levels-grid">
+                <div class="level-card">
+                    <div class="level-number">6ème</div>
+                    <h3>Première année du collège</h3>
+                    <p>Toutes les matières du programme togolais avec une approche adaptée aux nouveaux collégiens.</p>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-number">5ème</div>
+                    <h3>Deuxième année du collège</h3>
+                    <p>Approfondissement des connaissances avec un suivi personnalisé pour chaque élève.</p>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-number">4ème</div>
+                    <h3>Troisième année du collège</h3>
+                    <p>Préparation progressive au Brevet avec des enseignants spécialisés.</p>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-number">3ème</div>
+                    <h3>Dernière année du collège</h3>
+                    <p>Préparation intensive au BEPC avec des cours ciblés et des exercices types.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Inscription -->
+    <section class="signup-section" id="inscription">
+        <div class="container">
+            <h2 class="section-title">Rejoignez notre communauté éducative</h2>
+            <p class="section-subtitle">Choisissez votre profil et inscrivez-vous gratuitement pour commencer</p>
+
+            <div class="user-types">
+                <div class="user-card">
+                    <div class="user-icon student-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Élève</h3>
+                    <p>Je cherche un enseignant pour m'aider dans mes études</p>
+                    <ul>
+                        <li>Trouvez des enseignants vérifiés</li>
+                        <li>Suivez votre progression</li>
+                        <li>Obtenez des certificats</li>
+                        <li>Notez vos enseignants</li>
+                    </ul>
+                    <a href="inscription/eleve.html" class="btn btn-success" style="margin-top: 20px;">S'inscrire comme
+                        Élève</a>
+                </div>
+
+                <div class="user-card">
+                    <div class="user-icon teacher-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Enseignant</h3>
+                    <p>Je propose mes services pour accompagner des élèves</p>
+                    <ul>
+                        <li>Créez vos cours personnalisés</li>
+                        <li>Gérez vos élèves facilement</li>
+                        <li>Obtenez un profil certifié</li>
+                        <li>Générez des revenus</li>
+                    </ul>
+                    <a href="inscription/enseignant.html" class="btn btn-alert" style="margin-top: 20px;">S'inscrire
+                        comme Enseignant</a>
+                </div>
+
+                <div class="user-card">
+                    <div class="user-icon student-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Parent d'Élève</h3>
+                    <p>Je cherche un enseignant pour m'aider dans mes études</p>
+                    <ul>
+                        <li>Trouvez des enseignants vérifiés</li>
+                        <li>Suivez votre progression</li>
+                        <li>Obtenez des certificats</li>
+                        <li>Notez vos enseignants</li>
+                    </ul>
+                    <a href="inscription/parent.html" class="btn btn-success" style="margin-top: 20px;">S'inscrire comme
+                        Parent d'Élève</a>
+                </div>
+
+                <div class="user-card">
+                    <div class="user-icon teacher-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Ecole & institution</h3>
+                    <p>Je propose mes services pour accompagner des élèves</p>
+                    <ul>
+                        <li>Créez vos cours personnalisés</li>
+                        <li>Gérez vos élèves facilement</li>
+                        <li>Obtenez un profil certifié</li>
+                        <li>Générez des revenus</li>
+                    </ul>
+                    <a href="inscription/ecole.html" class="btn btn-alert" style="margin-top: 20px;">S'inscrire
+                        comme Ecole</a>
+                </div>     
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 20px;">
+                        <div class="logo-icon">ET</div>
+                        <div class="logo-text" style="color: var(--blanc);">Edu<span>Togo</span>Connect</div>
+                    </div>
+                    <p>La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs
+                        enseignants.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                        <li><a href="#mission">Notre Mission</a></li>
+                        <li><a href="#niveaux">Niveaux</a></li>
+                        <li><a href="#cours">Meilleurs Cours</a></li>
+                        <li><a href="#enseignants">Nos Enseignants</a></li>
+                        <li><a href="#ecoles">Nos Écoles</a></li>
+                        <li><a href="#partenaires">Nos Partenaires</a></li>
+                        <li><a href="#temoignages">Témoignages</a></li>
+                        <li><a href="faq.php">FAQ</a></li>
+                        <li><a href="blog.php">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Pour les enseignants</h3>
+                    <ul class="footer-links">
+                        <li><a href="teacher-guide.php">Guide des enseignants</a></li>
+                        <li><a href="verification.php">Processus de vérification</a></li>
+                        <li><a href="premium.php">Formule Premium</a></li>
+                        <li><a href="pricing.php">Tarifs et commissions</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.php"
+                        style="color: var(--jaune-principal);">Politique de confidentialité</a> | <a href="terms.php"
+                        style="color: var(--jaune-principal);">Conditions d'utilisation</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile toggle
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Fermer le menu mobile en cliquant sur un lien
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', function () {
+                document.getElementById('mobileMenu').classList.remove('active');
+            });
+        });
+
+        // Animation simple au défilement
+        window.addEventListener('scroll', function () {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Données pour les témoignages
+        const testimonials = [
+            {
+                id: 1,
+                content: "Grâce à EduTogoConnect, j'ai pu améliorer ma moyenne en mathématiques de 3 points en seulement 3 mois. Mon enseignant était très patient et compétent.",
+                author: "Koffi Agbessi",
+                role: "Élève de 4ème",
+                avatar: "KA"
+            },
+            {
+                id: 2,
+                content: "En tant que parent, je cherchais une solution pour aider ma fille en anglais. La plateforme m'a permis de trouver un enseignant parfait en quelques clics. Je recommande vivement!",
+                author: "Aïcha Mensah",
+                role: "Parent d'élève",
+                avatar: "AM"
+            },
+            {
+                id: 3,
+                content: "Les cours sur EduTogoConnect m'ont beaucoup aidé à préparer mon BEPC. Les enseignants sont disponibles et les cours sont bien structurés. Merci pour cette plateforme!",
+                author: "David Akakpo",
+                role: "Élève de 3ème",
+                avatar: "DA"
+            },
+            {
+                id: 4,
+                content: "Je suis enseignante depuis 5 ans et cette plateforme m'a permis de trouver plus d'élèves et d'organiser mon travail efficacement. L'interface est intuitive et les outils sont complets.",
+                author: "Mariam Diallo",
+                role: "Enseignante de Français",
+                avatar: "MD"
+            },
+            {
+                id: 5,
+                content: "Après avoir essayé plusieurs plateformes, EduTogoConnect est de loin la plus adaptée au contexte togolais. Mon fils a repris confiance en lui et ses résultats se sont nettement améliorés.",
+                author: "Komlan Adjo",
+                role: "Parent d'élève",
+                avatar: "KA"
+            }
+        ];
+
+        // Données pour les cours
+        const courses = [
+            { id: 1, title: "Mathématiques - Niveau 6ème", level: "6ème", teacher: "M. Koffi", rating: 4.9, students: 124 },
+            { id: 2, title: "Français - Grammaire et Conjugaison", level: "5ème", teacher: "Mme Aïcha", rating: 4.8, students: 98 },
+            { id: 3, title: "Sciences Physiques - Électricité", level: "4ème", teacher: "M. Komla", rating: 4.7, students: 87 },
+            { id: 4, title: "Histoire-Géographie - Le Togo", level: "3ème", teacher: "M. Kodjo", rating: 4.9, students: 112 },
+            { id: 5, title: "Anglais - Conversation", level: "5ème", teacher: "Mme Sarah", rating: 4.6, students: 76 },
+            { id: 6, title: "Mathématiques - Algèbre", level: "3ème", teacher: "M. Yao", rating: 4.8, students: 105 },
+            { id: 7, title: "SVT - Le Corps Humain", level: "6ème", teacher: "Mme Fatou", rating: 4.7, students: 82 },
+            { id: 8, title: "Philosophie - Introduction", level: "3ème", teacher: "M. Mensah", rating: 4.9, students: 67 }
+        ];
+
+        // Données pour les enseignants
+        const teachers = [
+            { id: 1, name: "Koffi Mensah", subject: "Mathématiques", rating: 4.9, students: 245, experience: "8 ans", avatar: "KM" },
+            { id: 2, name: "Aïcha Diallo", subject: "Français", rating: 4.8, students: 198, experience: "6 ans", avatar: "AD" },
+            { id: 3, name: "Komla Agbessi", subject: "Sciences Physiques", rating: 4.9, students: 176, experience: "10 ans", avatar: "KA" },
+            { id: 4, name: "Sarah Johnson", subject: "Anglais", rating: 4.7, students: 154, experience: "5 ans", avatar: "SJ" },
+            { id: 5, name: "Kodjo Adjo", subject: "Histoire-Géographie", rating: 4.8, students: 132, experience: "7 ans", avatar: "KA" },
+            { id: 6, name: "Fatou Ndiaye", subject: "SVT", rating: 4.6, students: 121, experience: "4 ans", avatar: "FN" },
+            { id: 7, name: "Yao Akakpo", subject: "Philosophie", rating: 4.9, students: 98, experience: "9 ans", avatar: "YA" },
+            { id: 8, name: "Mariam Konaté", subject: "Espagnol", rating: 4.5, students: 87, experience: "3 ans", avatar: "MK" }
+        ];
+
+        // Données pour les écoles
+        const schools = [
+            { id: 1, name: "Lycée de Tokoin", city: "Lomé" },
+            { id: 2, name: "Collège Protestant", city: "Kpalimé" },
+            { id: 3, name: "Lycée Scientifique", city: "Lomé" },
+            { id: 4, name: "Collège Moderne", city: "Sokodé" },
+            { id: 5, name: "École Internationale", city: "Lomé" },
+            { id: 6, name: "Lycée du Zio", city: "Tsévié" },
+            { id: 7, name: "Collège Sacré-Cœur", city: "Atakpamé" },
+            { id: 8, name: "Lycée de Kara", city: "Kara" },
+            { id: 9, name: "Collège d'Enseignement Général", city: "Dapaong" },
+            { id: 10, name: "Lycée Technique", city: "Lomé" }
+        ];
+
+        // Données pour les partenaires
+        const partners = [
+            { id: 1, name: "Ministère Éducation" },
+            { id: 2, name: "Banque Togolaise" },
+            { id: 3, name: "Orange Togo" },
+            { id: 4, name: "Canal+" },
+            { id: 5, name: "Togocom" },
+            { id: 6, name: "UNICEF" },
+            { id: 7, name: "Ambassade France" },
+            { id: 8, name: "Coopération Allemande" },
+            { id: 9, name: "FAO" },
+            { id: 10, name: "UNESCO" }
+        ];
+
+        // Initialiser les témoignages
+        function initTestimonials() {
+            const slider = document.getElementById('testimonialsSlider');
+            const controls = document.getElementById('testimonialControls');
+            
+            testimonials.forEach((testimonial, index) => {
+                // Créer la carte de témoignage
+                const testimonialCard = document.createElement('div');
+                testimonialCard.className = 'testimonial-card';
+                testimonialCard.innerHTML = `
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left" style="color: var(--jaune-principal); margin-right: 10px;"></i>
+                        ${testimonial.content}
+                        <i class="fas fa-quote-right" style="color: var(--jaune-principal); margin-left: 10px;"></i>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">${testimonial.avatar}</div>
+                        <div class="author-info">
+                            <h4>${testimonial.author}</h4>
+                            <p>${testimonial.role}</p>
+                        </div>
+                    </div>
+                `;
+                
+                slider.appendChild(testimonialCard);
+                
+                // Créer le point de contrôle
+                const dot = document.createElement('div');
+                dot.className = `slider-dot ${index === 0 ? 'active' : ''}`;
+                dot.dataset.index = index;
+                controls.appendChild(dot);
+                
+                // Ajouter l'événement de clic
+                dot.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    goToTestimonial(index);
+                });
+            });
+        }
+
+        // Initialiser les cours
+        function initCourses() {
+            const coursesGrid = document.querySelector('.courses-grid');
+            
+            courses.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+                courseCard.innerHTML = `
+                    <div class="course-header">${course.level}</div>
+                    <div class="course-content">
+                        <h4>${course.title}</h4>
+                        <p>Enseignant: ${course.teacher}</p>
+                        <div class="course-meta">
+                            <div class="course-rating">
+                                ${'★'.repeat(Math.floor(course.rating))}${course.rating % 1 !== 0 ? '½' : ''} ${course.rating}
+                            </div>
+                            <div>${course.students} élèves</div>
+                        </div>
+                    </div>
+                `;
+                
+                coursesGrid.appendChild(courseCard);
+            });
+        }
+
+        // Initialiser les enseignants
+        function initTeachers() {
+            const teachersSlider = document.getElementById('teachersSlider');
+            
+            teachers.forEach(teacher => {
+                const teacherCard = document.createElement('div');
+                teacherCard.className = 'teacher-card';
+                teacherCard.innerHTML = `
+                    <div class="teacher-header">
+                        <div class="teacher-avatar">${teacher.avatar}</div>
+                        <h3>${teacher.name}</h3>
+                    </div>
+                    <div class="teacher-content">
+                        <div class="teacher-info">
+                            <h4>${teacher.name}</h4>
+                            <p><strong>Matière:</strong> ${teacher.subject}</p>
+                            <p><strong>Expérience:</strong> ${teacher.experience}</p>
+                        </div>
+                        <div class="teacher-rating">
+                            ${'★'.repeat(Math.floor(teacher.rating))}${teacher.rating % 1 !== 0 ? '½' : ''} ${teacher.rating}
+                        </div>
+                        <p><strong>${teacher.students} élèves</strong> formés</p>
+                        <button class="btn btn-success" style="width: 100%; margin-top: 15px;">Voir le profil</button>
+                    </div>
+                `;
+                
+                teachersSlider.appendChild(teacherCard);
+            });
+        }
+
+        // Initialiser les écoles
+        function initSchools() {
+            const schoolTrack = document.getElementById('schoolTrack');
+            
+            // Dupliquer les écoles pour créer un effet de défilement continu
+            const allSchools = [...schools, ...schools];
+            
+            allSchools.forEach(school => {
+                const schoolCard = document.createElement('div');
+                schoolCard.className = 'school-card';
+                schoolCard.innerHTML = `
+                    <div class="school-icon">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <h4>${school.name}</h4>
+                    <p>${school.city}</p>
+                `;
+                
+                schoolTrack.appendChild(schoolCard);
+            });
+        }
+
+        // Initialiser les partenaires
+        function initPartners() {
+            const partnerTrack = document.getElementById('partnerTrack');
+            
+            // Dupliquer les partenaires pour créer un effet de défilement continu
+            const allPartners = [...partners, ...partners];
+            
+            allPartners.forEach(partner => {
+                const partnerLogo = document.createElement('div');
+                partnerLogo.className = 'partner-logo';
+                partnerLogo.textContent = partner.name;
+                
+                partnerTrack.appendChild(partnerLogo);
+            });
+        }
+
+        // Fonction pour naviguer vers un témoignage spécifique
+        function goToTestimonial(index) {
+            const slider = document.getElementById('testimonialsSlider');
+            const dots = document.querySelectorAll('.slider-dot');
+            
+            // Mettre à jour la position du slider
+            slider.style.transform = `translateX(-${index * 100}%)`;
+            
+            // Mettre à jour les points actifs
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Variables pour le carrousel de témoignages
+        let currentTestimonial = 0;
+        const testimonialInterval = 5000; // 5 secondes
+
+        // Fonction pour faire défiler automatiquement les témoignages
+        function autoScrollTestimonials() {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            goToTestimonial(currentTestimonial);
+        }
+
+        // Initialiser toutes les sections
+        document.addEventListener('DOMContentLoaded', function() {
+            initTestimonials();
+            initCourses();
+            initTeachers();
+            initSchools();
+            initPartners();
+            
+            // Démarrer le défilement automatique des témoignages
+            setInterval(autoScrollTestimonials, testimonialInterval);
+            
+            // Ajouter un effet de défilement doux pour les ancres
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
