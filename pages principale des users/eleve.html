@@ -34,6 +34,190 @@
             line-height: 1.6;
         }
 
+        /* Flèche retour en haut - Version améliorée */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--blanc-principal);
+            overflow: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(239, 51, 64, 0.4);
+        }
+
+        .back-to-top:active {
+            transform: translateY(-4px) scale(0.98);
+            transition: transform 0.1s;
+        }
+
+        /* Effet de brillance au survol */
+        .back-to-top::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: left 0.7s ease;
+        }
+
+        .back-to-top:hover::before {
+            left: 100%;
+        }
+
+        /* Effet de vibration légère pour attirer l'attention */
+        @keyframes attention-pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .back-to-top.attention {
+            animation: attention-pulse 2s infinite;
+        }
+
+        /* Animation de pulsation pour la première apparition */
+        @keyframes first-appearance {
+            0% {
+                transform: translateY(20px) scale(0.5);
+                opacity: 0;
+            }
+            70% {
+                transform: translateY(0) scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .back-to-top.first-appear {
+            animation: first-appearance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Animation de pulsation */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 166, 81, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 166, 81, 0);
+            }
+        }
+
+        .back-to-top.pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Indicateur de progrès (optionnel) */
+        .scroll-progress {
+            position: fixed;
+            bottom: 100px;
+            right: 45px;
+            width: 40px;
+            height: 40px;
+            z-index: 9998;
+            display: none;
+        }
+
+        .scroll-progress.visible {
+            display: block;
+        }
+
+        .scroll-progress-circle {
+            fill: none;
+            stroke: var(--vert-principal);
+            stroke-width: 3;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .scroll-progress-text {
+            font-size: 0.6rem;
+            font-weight: bold;
+            fill: var(--gris-fonce);
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        /* Styles pour mobile */
+        @media (max-width: 768px) {
+            .back-to-top {
+                width: 55px;
+                height: 55px;
+                bottom: 25px;
+                right: 25px;
+                font-size: 1.6rem;
+            }
+            
+            .scroll-progress {
+                bottom: 90px;
+                right: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 1.4rem;
+                border-width: 2px;
+            }
+            
+            .scroll-progress {
+                bottom: 80px;
+                right: 35px;
+                width: 35px;
+                height: 35px;
+            }
+            
+            .scroll-progress-text {
+                font-size: 0.5rem;
+            }
+        }
+
         /* Header Principal */
         .main-header {
             background-color: var(--blanc-principal);
@@ -1755,11 +1939,25 @@
     </style>
 </head>
 <body>
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut (Esc)">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Indicateur de progression du scroll (optionnel) -->
+    <div class="scroll-progress" id="scrollProgress">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="18" stroke="#e6e6e6" stroke-width="3" fill="none"/>
+            <circle class="scroll-progress-circle" cx="20" cy="20" r="18" stroke-dasharray="113.097" stroke-dashoffset="113.097"/>
+            <text class="scroll-progress-text" x="20" y="20">0%</text>
+        </svg>
+    </div>
+
     <!-- Header Principal -->
     <header class="main-header">
         <div class="container">
             <nav class="navbar">
-                <a href="index.html" class="logo">
+                <a href="../index.html" class="logo">
                     <div class="logo-icon">ET</div>
                     <div class="logo-text">Edu<span>Togo</span>Connect</div>
                 </a>
@@ -1935,12 +2133,12 @@
                         <i class="fas fa-home"></i>
                         <span>Tableau de bord</span>
                     </a>
-                    <a href="student_courses.html" class="nav-item">
+                    <a href="../eleve/cours.html" class="nav-item">
                         <i class="fas fa-book-open"></i>
                         <span>Mes cours</span>
                         <span class="nav-badge">4</span>
                     </a>
-                    <a href="student_teachers.html" class="nav-item">
+                    <a href="../eleve/enseignant.html" class="nav-item">
                         <i class="fas fa-chalkboard-teacher"></i>
                         <span>Mes enseignants</span>
                     </a>
@@ -2851,6 +3049,146 @@
     </div>
 
     <script>
+        // Élément flèche retour en haut
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const scrollProgress = document.getElementById('scrollProgress');
+        let hasAppeared = false;
+        let scrollTimeout;
+
+        // Fonction pour gérer la visibilité de la flèche
+        function toggleBackToTopButton() {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollPercentage = (scrollPosition / (documentHeight - windowHeight)) * 100;
+            
+            // Afficher la flèche après 300px de défilement
+            if (scrollPosition > 300) {
+                backToTopBtn.classList.add('visible');
+                if (scrollProgress) {
+                    scrollProgress.classList.add('visible');
+                }
+                
+                // Animation d'apparition seulement la première fois
+                if (!hasAppeared) {
+                    backToTopBtn.classList.add('first-appear');
+                    hasAppeared = true;
+                    
+                    // Retirer la classe après l'animation
+                    setTimeout(() => {
+                        backToTopBtn.classList.remove('first-appear');
+                        // Animation d'attention pendant 5 secondes
+                        backToTopBtn.classList.add('attention');
+                        setTimeout(() => {
+                            backToTopBtn.classList.remove('attention');
+                        }, 5000);
+                    }, 800);
+                }
+                
+                // Mettre à jour la progression du scroll
+                updateScrollProgress(scrollPercentage);
+                
+                // Effet de pulsation occasionnel quand on est très bas
+                if (scrollPosition > documentHeight * 0.7) {
+                    backToTopBtn.classList.add('pulse');
+                } else {
+                    backToTopBtn.classList.remove('pulse');
+                }
+            } else {
+                backToTopBtn.classList.remove('visible', 'pulse', 'attention');
+                if (scrollProgress) {
+                    scrollProgress.classList.remove('visible');
+                }
+            }
+        }
+
+        // Fonction pour mettre à jour l'indicateur de progression
+        function updateScrollProgress(percentage) {
+            if (!scrollProgress) return;
+            
+            const progressCircle = scrollProgress.querySelector('.scroll-progress-circle');
+            const progressText = scrollProgress.querySelector('.scroll-progress-text');
+            
+            if (progressCircle && progressText) {
+                const circumference = 2 * Math.PI * 18; // Rayon du cercle
+                const offset = circumference - (percentage / 100) * circumference;
+                
+                progressCircle.style.strokeDashoffset = offset;
+                progressText.textContent = `${Math.round(percentage)}%`;
+                
+                // Changer la couleur en fonction de la progression
+                if (percentage > 70) {
+                    progressCircle.style.stroke = 'var(--rouge-principal)';
+                } else if (percentage > 40) {
+                    progressCircle.style.stroke = 'var(--jaune-principal)';
+                } else {
+                    progressCircle.style.stroke = 'var(--vert-principal)';
+                }
+            }
+        }
+
+        // Fonction pour remonter en haut de la page avec effet smooth
+        function scrollToTop() {
+            // Effet visuel de clic
+            backToTopBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                backToTopBtn.style.transform = '';
+            }, 150);
+            
+            // Animation de défilement
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Retirer les animations pendant le défilement
+            backToTopBtn.classList.remove('attention', 'pulse');
+            
+            // Désactiver le bouton pendant le défilement
+            backToTopBtn.style.pointerEvents = 'none';
+            setTimeout(() => {
+                backToTopBtn.style.pointerEvents = 'auto';
+            }, 1000);
+        }
+
+        // Fonction pour vérifier si on est déjà en haut
+        function checkIfAtTop() {
+            if (window.scrollY === 0) {
+                backToTopBtn.classList.remove('visible', 'pulse', 'attention');
+                if (scrollProgress) {
+                    scrollProgress.classList.remove('visible');
+                }
+                hasAppeared = false;
+            }
+        }
+
+        // Ajouter les événements
+        window.addEventListener('scroll', () => {
+            toggleBackToTopButton();
+            
+            // Délai pour vérifier si on est en haut (après défilement)
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(checkIfAtTop, 100);
+        });
+
+        backToTopBtn.addEventListener('click', scrollToTop);
+
+        // Touche "Escape" pour remonter en haut
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && window.scrollY > 300) {
+                scrollToTop();
+            }
+        });
+
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vérifier la position initiale
+            setTimeout(toggleBackToTopButton, 100);
+            
+            // Ajouter un message tooltip au survol
+            backToTopBtn.title = "Retour en haut (Esc)";
+        });
+
         // Données simulées pour l'élève
         const studentData = {
             fullName: "Koffi Agbessi",
