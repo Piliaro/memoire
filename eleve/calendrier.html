@@ -1,0 +1,2467 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier de Cours - EduTogoConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de couleurs - Drapeau togolais */
+        :root {
+            --jaune-principal: #FFD700;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
+            --gris-clair: #F5F5F5;
+            --orange-cours: #FF9800;
+            --cyan-suggestion: #00BCD4;
+            --violet-premium: #9C27B0;
+            --rouge-passe: #F44336;
+            --vert-suisse: #4CAF50;
+            --bleu-prochain: #2196F3;
+            --violet-important: #9C27B0;
+        }
+
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+            line-height: 1.6;
+        }
+
+        /* Flèche retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-5px);
+        }
+
+        /* Header Principal */
+        .main-header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+
+        /* Barre de navigation horizontale */
+        .horizontal-nav {
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .horizontal-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-bottom-color: var(--blanc-principal);
+        }
+
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.3);
+            border-bottom-color: var(--jaune-principal);
+            font-weight: 600;
+        }
+
+        /* Boutons */
+        .btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-primary:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.2);
+        }
+
+        .btn-success {
+            background-color: var(--vert-suisse);
+            color: var(--blanc-principal);
+        }
+
+        .btn-warning {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+        }
+
+        .btn-danger {
+            background-color: var(--rouge-passe);
+            color: var(--blanc-principal);
+        }
+
+        .btn-info {
+            background-color: var(--bleu-prochain);
+            color: var(--blanc-principal);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--vert-principal);
+            border: 2px solid var(--vert-principal);
+        }
+
+        /* Contenu principal */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .main-content {
+            padding: 30px 0;
+        }
+
+        /* Header du calendrier */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .header-title h1 {
+            color: var(--gris-fonce);
+            font-size: 1.8rem;
+        }
+
+        .header-title p {
+            color: var(--gris-moyen);
+            margin-top: 5px;
+        }
+
+        /* Barre de contrôle du calendrier */
+        .calendar-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .calendar-view-toggle {
+            display: flex;
+            background-color: var(--gris-clair);
+            border-radius: 8px;
+            padding: 5px;
+        }
+
+        .view-btn {
+            padding: 8px 16px;
+            border: none;
+            background: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .view-btn.active {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .current-date-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .calendar-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Calendrier Grid - Vue Semaine */
+        .calendar-week-view {
+            display: none;
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .week-view.active {
+            display: block;
+        }
+
+        .week-header {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+            background-color: rgba(0,166,81,0.1);
+            border-bottom: 2px solid var(--vert-principal);
+        }
+
+        .time-column-header {
+            padding: 15px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            text-align: center;
+            border-right: 1px solid var(--gris-clair);
+        }
+
+        .day-header {
+            padding: 15px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            text-align: center;
+            border-right: 1px solid var(--gris-clair);
+        }
+
+        .day-header:last-child {
+            border-right: none;
+        }
+
+        .today-header {
+            background-color: var(--bleu-prochain);
+            color: var(--blanc-principal);
+        }
+
+        .week-grid {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .time-slot {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+            min-height: 60px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .time-label {
+            padding: 10px;
+            font-weight: 500;
+            color: var(--gris-moyen);
+            text-align: center;
+            border-right: 1px solid var(--gris-clair);
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .day-cell {
+            position: relative;
+            border-right: 1px solid var(--gris-clair);
+        }
+
+        .day-cell:last-child {
+            border-right: none;
+        }
+
+        .today-cell {
+            background-color: rgba(33,150,243,0.05);
+        }
+
+        .course-slot {
+            position: absolute;
+            left: 2px;
+            right: 2px;
+            border-radius: 6px;
+            padding: 8px;
+            color: var(--blanc-principal);
+            font-size: 0.85rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .course-slot:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        .course-slot.past {
+            background-color: var(--rouge-passe);
+            opacity: 0.8;
+        }
+
+        .course-slot.current {
+            background-color: var(--bleu-prochain);
+            border-left: 4px solid var(--jaune-principal);
+        }
+
+        .course-slot.upcoming {
+            background-color: var(--vert-principal);
+        }
+
+        .course-slot.important {
+            background-color: var(--violet-important);
+            border-left: 4px solid var(--jaune-principal);
+        }
+
+        .course-slot-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-slot-time {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        .course-slot-teacher {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Calendrier Grid - Vue Mois */
+        .calendar-month-view {
+            display: none;
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .month-view.active {
+            display: block;
+        }
+
+        .month-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background-color: rgba(0,166,81,0.1);
+            border-bottom: 2px solid var(--vert-principal);
+        }
+
+        .month-day-header {
+            padding: 15px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            text-align: center;
+            border-right: 1px solid var(--gris-clair);
+        }
+
+        .month-day-header:last-child {
+            border-right: none;
+        }
+
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(6, 120px);
+        }
+
+        .month-day {
+            position: relative;
+            border-right: 1px solid var(--gris-clair);
+            border-bottom: 1px solid var(--gris-clair);
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .month-day:nth-child(7n) {
+            border-right: none;
+        }
+
+        .month-day:nth-child(n+36) {
+            border-bottom: none;
+        }
+
+        .month-day.empty {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .month-day.today {
+            background-color: rgba(33,150,243,0.1);
+            border: 2px solid var(--bleu-prochain);
+        }
+
+        .day-number {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .today-badge {
+            background-color: var(--bleu-prochain);
+            color: var(--blanc-principal);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .day-courses {
+            max-height: 85px;
+            overflow-y: auto;
+        }
+
+        .mini-course {
+            font-size: 0.75rem;
+            padding: 4px 6px;
+            margin-bottom: 4px;
+            border-radius: 4px;
+            color: var(--blanc-principal);
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mini-course.past {
+            background-color: var(--rouge-passe);
+        }
+
+        .mini-course.current {
+            background-color: var(--bleu-prochain);
+        }
+
+        .mini-course.upcoming {
+            background-color: var(--vert-principal);
+        }
+
+        /* Liste des cours du jour */
+        .today-courses-section {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: var(--gris-fonce);
+            font-size: 1.5rem;
+        }
+
+        .today-date {
+            color: var(--gris-moyen);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .today-summary {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .summary-card {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            color: var(--gris-moyen);
+        }
+
+        .courses-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .course-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--blanc-principal);
+            border-radius: 10px;
+            border: 2px solid var(--gris-clair);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .course-item:hover {
+            border-color: var(--vert-principal);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .course-item.past {
+            border-left: 5px solid var(--rouge-passe);
+        }
+
+        .course-item.current {
+            border-left: 5px solid var(--bleu-prochain);
+        }
+
+        .course-item.upcoming {
+            border-left: 5px solid var(--vert-principal);
+        }
+
+        .course-time {
+            min-width: 120px;
+            text-align: center;
+            padding-right: 20px;
+            border-right: 1px solid var(--gris-clair);
+        }
+
+        .time-start {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gris-fonce);
+        }
+
+        .time-duration {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        .course-details {
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .course-subject {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .course-teacher {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .course-location {
+            color: var(--gris-moyen);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .course-status {
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-past {
+            background-color: rgba(244,67,54,0.1);
+            color: var(--rouge-passe);
+        }
+
+        .status-current {
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prochain);
+        }
+
+        .status-upcoming {
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Section prochains cours */
+        .upcoming-courses-section {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .upcoming-courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .upcoming-course-card {
+            background-color: var(--blanc-principal);
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid var(--gris-clair);
+            transition: all 0.3s;
+        }
+
+        .upcoming-course-card:hover {
+            border-color: var(--vert-principal);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .upcoming-course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .upcoming-course-date {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            font-size: 1.1rem;
+        }
+
+        .upcoming-course-time {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .upcoming-course-subject {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .upcoming-course-teacher {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .upcoming-course-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Modal d'attendance et notation */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            color: var(--gris-fonce);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-moyen);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--vert-principal);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .star {
+            font-size: 2rem;
+            color: var(--gris-clair);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star.active {
+            color: var(--jaune-principal);
+        }
+
+        .rating-value {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-left: 10px;
+        }
+
+        .attendance-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .attendance-option {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .attendance-option:hover {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.05);
+        }
+
+        .attendance-option.selected {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            border-color: var(--vert-principal);
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid var(--gris-clair);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Section statistiques d'assiduité */
+        .attendance-stats-section {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--vert-principal);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gris-moyen);
+        }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--gris-fonce);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: var(--gris-clair);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 5px;
+        }
+
+        /* Menu mobile */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            z-index: 1000;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .upcoming-courses-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .horizontal-nav {
+                display: none;
+            }
+            
+            .mobile-nav-toggle {
+                display: block;
+            }
+            
+            .calendar-controls {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            .course-item {
+                flex-wrap: wrap;
+            }
+            
+            .course-time, .course-status {
+                min-width: 100%;
+                margin-bottom: 15px;
+                border-right: none;
+                border-bottom: 1px solid var(--gris-clair);
+                padding-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .week-header, .time-slot {
+                grid-template-columns: 60px repeat(7, 1fr);
+            }
+            
+            .time-column-header, .day-header {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .time-label {
+                padding: 5px;
+                font-size: 0.8rem;
+            }
+            
+            .course-slot {
+                font-size: 0.7rem;
+                padding: 4px;
+            }
+            
+            .month-grid {
+                grid-template-rows: repeat(6, 100px);
+            }
+            
+            .upcoming-courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .today-summary {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .calendar-controls {
+                padding: 15px;
+            }
+            
+            .current-date-display {
+                min-width: auto;
+                font-size: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .attendance-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-actions">
+                    <!-- Menu déroulant profil -->
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div class="student-avatar-small">KA</div>
+                            <div>
+                                <div class="student-name">Koffi Agbessi</div>
+                                <span class="badge-status">Élève - 3ème</span>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de Navigation Horizontale -->
+    <nav class="horizontal-nav">
+        <div class="container">
+            <div class="nav-container">
+                <div class="horizontal-menu">
+                    <a href="student_dashboard.html" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="student_courses.html" class="nav-item">
+                        <i class="fas fa-book-open"></i>
+                        <span>Mes cours</span>
+                    </a>
+                    <a href="student_teachers.html" class="nav-item">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Mes enseignants</span>
+                    </a>
+                    <a href="student_schedule.html" class="nav-item active">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Calendrier</span>
+                    </a>
+                    <a href="student_messages.html" class="nav-item">
+                        <i class="fas fa-comments"></i>
+                        <span>Messages</span>
+                    </a>
+                    <a href="student_progress.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Progrès</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-menu">
+            <a href="student_dashboard.html" class="mobile-nav-item">
+                <i class="fas fa-home"></i>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="student_courses.html" class="mobile-nav-item">
+                <i class="fas fa-book-open"></i>
+                <span>Mes cours</span>
+            </a>
+            <a href="student_teachers.html" class="mobile-nav-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Mes enseignants</span>
+            </a>
+            <a href="student_schedule.html" class="mobile-nav-item active">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Calendrier</span>
+            </a>
+            <a href="student_messages.html" class="mobile-nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+            </a>
+            <a href="student_progress.html" class="mobile-nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Progrès</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Header du calendrier -->
+            <header class="calendar-header">
+                <div class="header-title">
+                    <h1>Calendrier de Cours</h1>
+                    <p>Visualisez et gérez votre emploi du temps de cours</p>
+                </div>
+                <button class="btn btn-primary" id="printScheduleBtn">
+                    <i class="fas fa-print"></i>
+                    <span>Imprimer l'emploi du temps</span>
+                </button>
+            </header>
+
+            <!-- Contrôles du calendrier -->
+            <div class="calendar-controls">
+                <div class="calendar-nav">
+                    <button class="btn" id="prevWeekBtn">
+                        <i class="fas fa-chevron-left"></i>
+                        <span>Semaine précédente</span>
+                    </button>
+                    
+                    <div class="calendar-view-toggle">
+                        <button class="view-btn active" data-view="week">
+                            <i class="fas fa-calendar-week"></i>
+                            <span>Semaine</span>
+                        </button>
+                        <button class="view-btn" data-view="month">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Mois</span>
+                        </button>
+                        <button class="view-btn" data-view="day">
+                            <i class="fas fa-calendar-day"></i>
+                            <span>Jour</span>
+                        </button>
+                    </div>
+                    
+                    <button class="btn" id="nextWeekBtn">
+                        <span>Semaine suivante</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="current-date-display" id="currentDateDisplay">
+                    Semaine du 6 au 12 novembre 2023
+                </div>
+                
+                <div class="calendar-actions">
+                    <button class="btn btn-outline" id="todayBtn">
+                        <i class="fas fa-calendar-day"></i>
+                        <span>Aujourd'hui</span>
+                    </button>
+                    <button class="btn btn-primary" id="addCourseBtn">
+                        <i class="fas fa-plus"></i>
+                        <span>Ajouter un cours</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Vue Semaine -->
+            <div class="calendar-week-view active" id="weekView">
+                <div class="week-header" id="weekHeader">
+                    <!-- Généré dynamiquement -->
+                </div>
+                <div class="week-grid" id="weekGrid">
+                    <!-- Généré dynamiquement -->
+                </div>
+            </div>
+
+            <!-- Vue Mois -->
+            <div class="calendar-month-view" id="monthView">
+                <div class="month-header" id="monthHeader">
+                    <!-- Généré dynamiquement -->
+                </div>
+                <div class="month-grid" id="monthGrid">
+                    <!-- Généré dynamiquement -->
+                </div>
+            </div>
+
+            <!-- Cours du jour -->
+            <section class="today-courses-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Cours d'aujourd'hui</h2>
+                        <div class="today-date" id="todayDate">Lundi 6 novembre 2023</div>
+                    </div>
+                    <div class="today-badge">
+                        <span id="todayCoursesCount">3 cours</span>
+                    </div>
+                </div>
+
+                <div class="today-summary">
+                    <div class="summary-card">
+                        <div class="summary-value" id="passedCount">1</div>
+                        <div class="summary-label">Cours passés</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-value" id="currentCount">1</div>
+                        <div class="summary-label">En cours</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-value" id="upcomingCount">1</div>
+                        <div class="summary-label">À venir</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-value" id="totalHours">4h30</div>
+                        <div class="summary-label">Total heures</div>
+                    </div>
+                </div>
+
+                <div class="courses-list" id="todayCoursesList">
+                    <!-- Généré dynamiquement -->
+                </div>
+            </section>
+
+            <!-- Prochains cours -->
+            <section class="upcoming-courses-section">
+                <div class="section-header">
+                    <h2 class="section-title">Prochains cours cette semaine</h2>
+                    <button class="btn btn-outline" id="viewAllCoursesBtn">
+                        <span>Voir tous les cours</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="upcoming-courses-grid" id="upcomingCoursesGrid">
+                    <!-- Généré dynamiquement -->
+                </div>
+            </section>
+
+            <!-- Statistiques d'assiduité -->
+            <section class="attendance-stats-section">
+                <div class="section-header">
+                    <h2 class="section-title">Statistiques d'assiduité</h2>
+                    <div class="today-date">Ce mois (novembre 2023)</div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-value">85%</div>
+                        <div class="stat-label">Taux de présence</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-value">42h</div>
+                        <div class="stat-label">Heures suivies</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-value">16.2/20</div>
+                        <div class="stat-label">Note moyenne</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Jours consécutifs</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Taux de présence par matière</span>
+                        <span id="attendanceRate">85%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal pour marquer présence et notation -->
+    <div class="modal-overlay" id="attendanceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Marquer présence et noter le cours</h2>
+                <button class="modal-close" id="closeAttendanceModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Cours</label>
+                    <div class="form-control" style="background-color: rgba(0,0,0,0.03);" id="modalCourseTitle">
+                        Mathématiques - Préparation BEPC
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Enseignant</label>
+                    <div class="form-control" style="background-color: rgba(0,0,0,0.03);" id="modalCourseTeacher">
+                        Jean Dupont
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Date et heure</label>
+                    <div class="form-control" style="background-color: rgba(0,0,0,0.03);" id="modalCourseDateTime">
+                        Lundi 6 novembre, 15:00 - 17:00
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Présence</label>
+                    <div class="attendance-options">
+                        <div class="attendance-option selected" data-attendance="present">
+                            <i class="fas fa-check-circle"></i>
+                            <div>Présent</div>
+                        </div>
+                        <div class="attendance-option" data-attendance="late">
+                            <i class="fas fa-clock"></i>
+                            <div>En retard</div>
+                        </div>
+                        <div class="attendance-option" data-attendance="absent">
+                            <i class="fas fa-times-circle"></i>
+                            <div>Absent</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Note de satisfaction (optionnel)</label>
+                    <div class="rating-stars" id="ratingStars">
+                        <i class="fas fa-star star" data-rating="1"></i>
+                        <i class="fas fa-star star" data-rating="2"></i>
+                        <i class="fas fa-star star" data-rating="3"></i>
+                        <i class="fas fa-star star" data-rating="4"></i>
+                        <i class="fas fa-star star" data-rating="5"></i>
+                        <span class="rating-value" id="ratingValue">0/5</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Commentaire (optionnel)</label>
+                    <textarea class="form-control" id="courseComment" rows="3" placeholder="Comment s'est déroulé le cours ? Des points à améliorer ?"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelAttendanceBtn">Annuler</button>
+                <button class="btn btn-success" id="saveAttendanceBtn">
+                    <i class="fas fa-save"></i>
+                    <span>Enregistrer présence et note</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données simulées des cours
+        const scheduleData = {
+            currentWeek: new Date(2023, 10, 6), // 6 novembre 2023
+            courses: [
+                {
+                    id: 1,
+                    subject: "Mathématiques",
+                    title: "Préparation intensive BEPC",
+                    teacher: "Jean Dupont",
+                    teacherInitials: "JD",
+                    dayOfWeek: 1, // Lundi (0=Dimanche, 1=Lundi...)
+                    startTime: "15:00",
+                    endTime: "17:00",
+                    duration: 2,
+                    location: "Salle virtuelle 3",
+                    color: "#2196F3",
+                    status: "current", // past, current, upcoming
+                    isImportant: true,
+                    attendance: null, // null, "present", "late", "absent"
+                    rating: null,
+                    comment: null,
+                    date: "2023-11-06"
+                },
+                {
+                    id: 2,
+                    subject: "Français",
+                    title: "Grammaire et orthographe",
+                    teacher: "Marie Dubois",
+                    teacherInitials: "MD",
+                    dayOfWeek: 1,
+                    startTime: "09:00",
+                    endTime: "10:30",
+                    duration: 1.5,
+                    location: "En ligne",
+                    color: "#00A651",
+                    status: "past",
+                    isImportant: false,
+                    attendance: "present",
+                    rating: 4,
+                    comment: "Cours très instructif",
+                    date: "2023-11-06"
+                },
+                {
+                    id: 3,
+                    subject: "Anglais",
+                    title: "Conversation avancée",
+                    teacher: "John Smith",
+                    teacherInitials: "JS",
+                    dayOfWeek: 1,
+                    startTime: "18:00",
+                    endTime: "19:00",
+                    duration: 1,
+                    location: "Salle virtuelle 1",
+                    color: "#9C27B0",
+                    status: "upcoming",
+                    isImportant: false,
+                    attendance: null,
+                    rating: null,
+                    comment: null,
+                    date: "2023-11-06"
+                },
+                {
+                    id: 4,
+                    subject: "Sciences Physiques",
+                    title: "Électricité et magnétisme",
+                    teacher: "Dr. Lawson",
+                    teacherInitials: "DL",
+                    dayOfWeek: 2,
+                    startTime: "14:00",
+                    endTime: "16:00",
+                    duration: 2,
+                    location: "Laboratoire B",
+                    color: "#FF9800",
+                    status: "upcoming",
+                    isImportant: true,
+                    attendance: null,
+                    rating: null,
+                    comment: null,
+                    date: "2023-11-07"
+                },
+                {
+                    id: 5,
+                    subject: "Histoire-Géographie",
+                    title: "Le Togo colonial",
+                    teacher: "Prof. Mensah",
+                    teacherInitials: "PM",
+                    dayOfWeek: 3,
+                    startTime: "10:00",
+                    endTime: "11:30",
+                    duration: 1.5,
+                    location: "Salle 204",
+                    color: "#795548",
+                    status: "upcoming",
+                    isImportant: false,
+                    attendance: null,
+                    rating: null,
+                    comment: null,
+                    date: "2023-11-08"
+                },
+                {
+                    id: 6,
+                    subject: "SVT",
+                    title: "Génétique et hérédité",
+                    teacher: "Dr. Akakpo",
+                    teacherInitials: "DA",
+                    dayOfWeek: 4,
+                    startTime: "16:00",
+                    endTime: "17:30",
+                    duration: 1.5,
+                    location: "Laboratoire A",
+                    color: "#4CAF50",
+                    status: "upcoming",
+                    isImportant: false,
+                    attendance: null,
+                    rating: null,
+                    comment: null,
+                    date: "2023-11-09"
+                },
+                {
+                    id: 7,
+                    subject: "Mathématiques",
+                    title: "Révision géométrie",
+                    teacher: "Jean Dupont",
+                    teacherInitials: "JD",
+                    dayOfWeek: 5,
+                    startTime: "15:00",
+                    endTime: "17:00",
+                    duration: 2,
+                    location: "Salle virtuelle 3",
+                    color: "#2196F3",
+                    status: "upcoming",
+                    isImportant: true,
+                    attendance: null,
+                    rating: null,
+                    comment: null,
+                    date: "2023-11-10"
+                }
+            ],
+            
+            // Statistiques
+            attendanceStats: {
+                monthlyRate: 85,
+                totalHours: 42,
+                averageGrade: 16.2,
+                consecutiveDays: 12,
+                bySubject: {
+                    "Mathématiques": 90,
+                    "Français": 85,
+                    "Anglais": 80,
+                    "Sciences": 88
+                }
+            }
+        };
+
+        // Éléments DOM
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const weekView = document.getElementById('weekView');
+        const monthView = document.getElementById('monthView');
+        const viewBtns = document.querySelectorAll('.view-btn');
+        const prevWeekBtn = document.getElementById('prevWeekBtn');
+        const nextWeekBtn = document.getElementById('nextWeekBtn');
+        const todayBtn = document.getElementById('todayBtn');
+        const currentDateDisplay = document.getElementById('currentDateDisplay');
+        const todayDate = document.getElementById('todayDate');
+        const todayCoursesCount = document.getElementById('todayCoursesCount');
+        const passedCount = document.getElementById('passedCount');
+        const currentCount = document.getElementById('currentCount');
+        const upcomingCount = document.getElementById('upcomingCount');
+        const totalHours = document.getElementById('totalHours');
+        const todayCoursesList = document.getElementById('todayCoursesList');
+        const upcomingCoursesGrid = document.getElementById('upcomingCoursesGrid');
+        const attendanceModal = document.getElementById('attendanceModal');
+        const closeAttendanceModalBtn = document.getElementById('closeAttendanceModalBtn');
+        const cancelAttendanceBtn = document.getElementById('cancelAttendanceBtn');
+        const saveAttendanceBtn = document.getElementById('saveAttendanceBtn');
+        const ratingStars = document.querySelectorAll('.star');
+        const ratingValue = document.getElementById('ratingValue');
+        const attendanceOptions = document.querySelectorAll('.attendance-option');
+        const printScheduleBtn = document.getElementById('printScheduleBtn');
+        const addCourseBtn = document.getElementById('addCourseBtn');
+        const viewAllCoursesBtn = document.getElementById('viewAllCoursesBtn');
+
+        // Variables globales
+        let currentView = 'week';
+        let selectedCourseForAttendance = null;
+        let currentRating = 0;
+        let selectedAttendance = 'present';
+
+        // Noms des jours en français
+        const daysOfWeek = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+        const daysShort = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+        const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+        // Fonction pour formater la date
+        function formatDate(date) {
+            return `${daysOfWeek[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        function formatShortDate(date) {
+            return `${daysShort[date.getDay()]} ${date.getDate()}`;
+        }
+
+        // Fonction pour obtenir le début de la semaine (Lundi)
+        function getWeekStart(date) {
+            const day = date.getDay();
+            const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Ajuster pour commencer le lundi
+            return new Date(date.setDate(diff));
+        }
+
+        // Fonction pour générer la semaine à partir d'une date
+        function generateWeekDates(startDate) {
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                dates.push(date);
+            }
+            return dates;
+        }
+
+        // Fonction pour générer l'en-tête de la semaine
+        function generateWeekHeader(dates) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            let headerHTML = '<div class="time-column-header">Heure</div>';
+            
+            dates.forEach((date, index) => {
+                const isToday = date.toDateString() === today.toDateString();
+                const dayClass = isToday ? 'day-header today-header' : 'day-header';
+                headerHTML += `
+                    <div class="${dayClass}" data-day="${index}">
+                        <div>${daysShort[date.getDay()]}</div>
+                        <div>${date.getDate()}</div>
+                    </div>
+                `;
+            });
+            
+            return headerHTML;
+        }
+
+        // Fonction pour générer la grille de la semaine
+        function generateWeekGrid(dates) {
+            const today = new Date();
+            const nowHours = today.getHours();
+            const nowMinutes = today.getMinutes();
+            const currentTime = nowHours * 60 + nowMinutes;
+            
+            let gridHTML = '';
+            
+            // Créer des créneaux horaires de 8h à 20h
+            for (let hour = 8; hour <= 20; hour++) {
+                for (let minute = 0; minute < 60; minute += 30) {
+                    if (hour === 20 && minute === 30) break;
+                    
+                    const timeLabel = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    const timeValue = hour * 60 + minute;
+                    
+                    gridHTML += `<div class="time-slot">`;
+                    gridHTML += `<div class="time-label">${timeLabel}</div>`;
+                    
+                    // Ajouter les cellules pour chaque jour
+                    for (let day = 0; day < 7; day++) {
+                        const date = dates[day];
+                        const isToday = date.toDateString() === today.toDateString();
+                        const dayClass = isToday ? 'day-cell today-cell' : 'day-cell';
+                        
+                        gridHTML += `<div class="${dayClass}" data-day="${day}" data-time="${timeValue}">`;
+                        
+                        // Trouver les cours pour ce jour et cette heure
+                        const coursesAtThisTime = scheduleData.courses.filter(course => {
+                            const courseDate = new Date(course.date);
+                            return courseDate.getDate() === date.getDate() &&
+                                   courseDate.getMonth() === date.getMonth() &&
+                                   courseDate.getFullYear() === date.getFullYear() &&
+                                   isCourseAtTime(course, timeValue);
+                        });
+                        
+                        // Ajouter les cours
+                        coursesAtThisTime.forEach(course => {
+                            const durationInMinutes = course.duration * 60;
+                            const startMinutes = timeStringToMinutes(course.startTime);
+                            const top = 0;
+                            const height = (durationInMinutes / 30) * 30;
+                            
+                            // Déterminer le statut du cours
+                            let statusClass = '';
+                            if (course.status === 'past') statusClass = 'past';
+                            else if (course.status === 'current') statusClass = 'current';
+                            else if (course.status === 'upcoming') statusClass = 'upcoming';
+                            
+                            if (course.isImportant) statusClass += ' important';
+                            
+                            gridHTML += `
+                                <div class="course-slot ${statusClass}" 
+                                     style="top: ${top}px; height: ${height}px; background-color: ${course.color};"
+                                     data-course-id="${course.id}"
+                                     onclick="openAttendanceModal(${course.id})">
+                                    <div class="course-slot-title">
+                                        <span>${course.subject}</span>
+                                        ${course.isImportant ? '<i class="fas fa-star" style="color: var(--jaune-principal);"></i>' : ''}
+                                    </div>
+                                    <div class="course-slot-time">${course.startTime} - ${course.endTime}</div>
+                                    <div class="course-slot-teacher">${course.teacher}</div>
+                                </div>
+                            `;
+                        });
+                        
+                        gridHTML += `</div>`;
+                    }
+                    
+                    gridHTML += `</div>`;
+                }
+            }
+            
+            return gridHTML;
+        }
+
+        // Fonction pour vérifier si un cours est à cette heure
+        function isCourseAtTime(course, timeValue) {
+            const startMinutes = timeStringToMinutes(course.startTime);
+            const endMinutes = startMinutes + (course.duration * 60);
+            
+            // Vérifier si le créneau horaire fait partie du cours
+            return timeValue >= startMinutes && timeValue < endMinutes && (timeValue - startMinutes) % 30 === 0;
+        }
+
+        // Fonction pour convertir une chaîne de temps en minutes
+        function timeStringToMinutes(timeString) {
+            const [hours, minutes] = timeString.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        // Fonction pour générer la vue mois
+        function generateMonthView(date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            
+            // Premier jour du mois
+            const firstDay = new Date(year, month, 1);
+            // Dernier jour du mois
+            const lastDay = new Date(year, month + 1, 0);
+            
+            // Jour de la semaine du premier jour (0=Dimanche, 1=Lundi...)
+            const firstDayOfWeek = firstDay.getDay();
+            // Nombre de jours dans le mois
+            const daysInMonth = lastDay.getDate();
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            // Générer l'en-tête
+            const monthHeader = document.getElementById('monthHeader');
+            monthHeader.innerHTML = daysShort.map(day => 
+                `<div class="month-day-header">${day}</div>`
+            ).join('');
+            
+            // Générer la grille
+            const monthGrid = document.getElementById('monthGrid');
+            let gridHTML = '';
+            
+            // Jours vides avant le premier jour du mois
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                gridHTML += `<div class="month-day empty"></div>`;
+            }
+            
+            // Jours du mois
+            for (let day = 1; day <= daysInMonth; day++) {
+                const currentDate = new Date(year, month, day);
+                const isToday = currentDate.toDateString() === today.toDateString();
+                const dayClass = isToday ? 'month-day today' : 'month-day';
+                
+                // Trouver les cours de ce jour
+                const dayCourses = scheduleData.courses.filter(course => {
+                    const courseDate = new Date(course.date);
+                    return courseDate.getDate() === day &&
+                           courseDate.getMonth() === month &&
+                           courseDate.getFullYear() === year;
+                });
+                
+                gridHTML += `<div class="${dayClass}">`;
+                gridHTML += `<div class="day-number">`;
+                gridHTML += `<span>${day}</span>`;
+                if (isToday) {
+                    gridHTML += `<span class="today-badge">Aujourd'hui</span>`;
+                }
+                gridHTML += `</div>`;
+                
+                if (dayCourses.length > 0) {
+                    gridHTML += `<div class="day-courses">`;
+                    dayCourses.forEach(course => {
+                        let statusClass = '';
+                        if (course.status === 'past') statusClass = 'past';
+                        else if (course.status === 'current') statusClass = 'current';
+                        else if (course.status === 'upcoming') statusClass = 'upcoming';
+                        
+                        gridHTML += `
+                            <div class="mini-course ${statusClass}" 
+                                 style="background-color: ${course.color};"
+                                 data-course-id="${course.id}"
+                                 onclick="openAttendanceModal(${course.id})">
+                                ${course.startTime} - ${course.subject}
+                            </div>
+                        `;
+                    });
+                    gridHTML += `</div>`;
+                }
+                
+                gridHTML += `</div>`;
+            }
+            
+            // Compléter avec des jours vides pour arriver à 42 cases (6 lignes)
+            const totalCells = 42; // 6 lignes × 7 jours
+            const filledCells = firstDayOfWeek + daysInMonth;
+            for (let i = filledCells; i < totalCells; i++) {
+                gridHTML += `<div class="month-day empty"></div>`;
+            }
+            
+            monthGrid.innerHTML = gridHTML;
+            
+            // Mettre à jour l'affichage de la date
+            currentDateDisplay.textContent = `${months[month]} ${year}`;
+        }
+
+        // Fonction pour mettre à jour les cours du jour
+        function updateTodayCourses() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            // Formater la date d'aujourd'hui
+            todayDate.textContent = formatDate(today);
+            
+            // Filtrer les cours d'aujourd'hui
+            const todayCourses = scheduleData.courses.filter(course => {
+                const courseDate = new Date(course.date);
+                courseDate.setHours(0, 0, 0, 0);
+                return courseDate.getTime() === today.getTime();
+            });
+            
+            // Mettre à jour les compteurs
+            todayCoursesCount.textContent = `${todayCourses.length} cours`;
+            
+            const passed = todayCourses.filter(c => c.status === 'past').length;
+            const current = todayCourses.filter(c => c.status === 'current').length;
+            const upcoming = todayCourses.filter(c => c.status === 'upcoming').length;
+            
+            passedCount.textContent = passed;
+            currentCount.textContent = current;
+            upcomingCount.textContent = upcoming;
+            
+            // Calculer le total des heures
+            const totalHoursToday = todayCourses.reduce((sum, course) => sum + course.duration, 0);
+            const hours = Math.floor(totalHoursToday);
+            const minutes = Math.round((totalHoursToday - hours) * 60);
+            totalHours.textContent = `${hours}h${minutes > 0 ? minutes : ''}`;
+            
+            // Générer la liste des cours
+            let coursesHTML = '';
+            
+            if (todayCourses.length === 0) {
+                coursesHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--gris-moyen);">
+                        <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;">Aucun cours aujourd'hui</h3>
+                        <p>Profitez de cette journée pour réviser ou vous reposer !</p>
+                    </div>
+                `;
+            } else {
+                // Trier les cours par heure de début
+                todayCourses.sort((a, b) => timeStringToMinutes(a.startTime) - timeStringToMinutes(b.startTime));
+                
+                todayCourses.forEach(course => {
+                    let statusClass = '';
+                    let statusText = '';
+                    
+                    if (course.status === 'past') {
+                        statusClass = 'past';
+                        statusText = 'Terminé';
+                    } else if (course.status === 'current') {
+                        statusClass = 'current';
+                        statusText = 'En cours';
+                    } else if (course.status === 'upcoming') {
+                        statusClass = 'upcoming';
+                        statusText = 'À venir';
+                    }
+                    
+                    // Vérifier si la présence a déjà été marquée
+                    let attendanceBadge = '';
+                    if (course.attendance === 'present') {
+                        attendanceBadge = '<span class="status-badge" style="background-color: rgba(76,175,80,0.1); color: #4CAF50; margin-left: 10px;">✓ Présent</span>';
+                    } else if (course.attendance === 'late') {
+                        attendanceBadge = '<span class="status-badge" style="background-color: rgba(255,152,0,0.1); color: #FF9800; margin-left: 10px;">⌛ En retard</span>';
+                    } else if (course.attendance === 'absent') {
+                        attendanceBadge = '<span class="status-badge" style="background-color: rgba(244,67,54,0.1); color: #F44336; margin-left: 10px;">✗ Absent</span>';
+                    }
+                    
+                    coursesHTML += `
+                        <div class="course-item ${statusClass}">
+                            <div class="course-time">
+                                <div class="time-start">${course.startTime}</div>
+                                <div class="time-duration">${course.duration}h</div>
+                            </div>
+                            <div class="course-details">
+                                <div class="course-subject">${course.subject} ${course.isImportant ? '<i class="fas fa-star" style="color: var(--jaune-principal); margin-left: 5px;"></i>' : ''}</div>
+                                <div class="course-teacher">${course.teacher}</div>
+                                <div class="course-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>${course.location}</span>
+                                </div>
+                            </div>
+                            <div class="course-status">
+                                <span class="status-badge status-${statusClass}">${statusText}</span>
+                                ${attendanceBadge}
+                            </div>
+                            <div class="course-actions">
+                                ${course.status === 'past' && !course.attendance ? `
+                                    <button class="btn btn-success" onclick="openAttendanceModal(${course.id})">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Marquer présence</span>
+                                    </button>
+                                ` : ''}
+                                ${course.status === 'past' && course.attendance ? `
+                                    <button class="btn btn-outline" onclick="openAttendanceModal(${course.id})">
+                                        <i class="fas fa-edit"></i>
+                                        <span>Modifier</span>
+                                    </button>
+                                ` : ''}
+                                ${course.status === 'current' ? `
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-video"></i>
+                                        <span>Rejoindre</span>
+                                    </button>
+                                ` : ''}
+                                ${course.status === 'upcoming' ? `
+                                    <button class="btn btn-outline">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>Détails</span>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            todayCoursesList.innerHTML = coursesHTML;
+        }
+
+        // Fonction pour mettre à jour les prochains cours
+        function updateUpcomingCourses() {
+            // Trier les cours par date et heure
+            const upcomingCourses = [...scheduleData.courses]
+                .filter(course => course.status !== 'past')
+                .sort((a, b) => {
+                    const dateA = new Date(a.date + 'T' + a.startTime);
+                    const dateB = new Date(b.date + 'T' + b.startTime);
+                    return dateA - dateB;
+                })
+                .slice(0, 6); // Prendre les 6 prochains cours
+            
+            let upcomingHTML = '';
+            
+            if (upcomingCourses.length === 0) {
+                upcomingHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--gris-moyen); grid-column: 1 / -1;">
+                        <i class="fas fa-calendar-check" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;">Aucun cours à venir</h3>
+                        <p>Tous vos cours sont terminés pour cette période.</p>
+                    </div>
+                `;
+            } else {
+                upcomingCourses.forEach(course => {
+                    const courseDate = new Date(course.date);
+                    const dayName = daysOfWeek[courseDate.getDay()];
+                    const dateStr = `${dayName} ${courseDate.getDate()} ${months[courseDate.getMonth()]}`;
+                    
+                    upcomingHTML += `
+                        <div class="upcoming-course-card">
+                            <div class="upcoming-course-header">
+                                <div>
+                                    <div class="upcoming-course-date">${dateStr}</div>
+                                    <div class="upcoming-course-time">${course.startTime} - ${course.endTime}</div>
+                                </div>
+                                ${course.isImportant ? '<i class="fas fa-star" style="color: var(--jaune-principal); font-size: 1.2rem;"></i>' : ''}
+                            </div>
+                            <div class="upcoming-course-subject">${course.subject}</div>
+                            <div class="upcoming-course-teacher">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span>${course.teacher}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <i class="fas fa-map-marker-alt" style="color: var(--gris-moyen);"></i>
+                                <span style="color: var(--gris-moyen); font-size: 0.9rem;">${course.location}</span>
+                            </div>
+                            <div class="upcoming-course-actions">
+                                ${course.status === 'current' ? `
+                                    <button class="btn btn-primary" style="flex: 1;">
+                                        <i class="fas fa-video"></i>
+                                        <span>Rejoindre</span>
+                                    </button>
+                                ` : `
+                                    <button class="btn btn-outline" style="flex: 1;">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>Détails</span>
+                                    </button>
+                                `}
+                                <button class="btn btn-outline" onclick="openAttendanceModal(${course.id})">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>Présence</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            upcomingCoursesGrid.innerHTML = upcomingHTML;
+        }
+
+        // Fonction pour ouvrir le modal de présence
+        function openAttendanceModal(courseId) {
+            const course = scheduleData.courses.find(c => c.id === courseId);
+            if (!course) return;
+            
+            selectedCourseForAttendance = course;
+            
+            // Remplir les informations du cours
+            document.getElementById('modalCourseTitle').textContent = `${course.subject} - ${course.title}`;
+            document.getElementById('modalCourseTeacher').textContent = course.teacher;
+            
+            const courseDate = new Date(course.date);
+            const dateStr = `${daysOfWeek[courseDate.getDay()]} ${courseDate.getDate()} ${months[courseDate.getMonth()]}`;
+            document.getElementById('modalCourseDateTime').textContent = `${dateStr}, ${course.startTime} - ${course.endTime}`;
+            
+            // Réinitialiser la sélection de présence
+            attendanceOptions.forEach(option => {
+                option.classList.remove('selected');
+                if (option.dataset.attendance === (course.attendance || 'present')) {
+                    option.classList.add('selected');
+                    selectedAttendance = option.dataset.attendance;
+                }
+            });
+            
+            // Réinitialiser la notation
+            currentRating = course.rating || 0;
+            updateRatingStars();
+            
+            // Remplir le commentaire
+            document.getElementById('courseComment').value = course.comment || '';
+            
+            // Afficher le modal
+            attendanceModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Fonction pour mettre à jour les étoiles de notation
+        function updateRatingStars() {
+            ratingStars.forEach(star => {
+                const rating = parseInt(star.dataset.rating);
+                if (rating <= currentRating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+            ratingValue.textContent = `${currentRating}/5`;
+        }
+
+        // Fonction pour enregistrer la présence et la note
+        function saveAttendance() {
+            if (!selectedCourseForAttendance) return;
+            
+            // Mettre à jour le cours
+            selectedCourseForAttendance.attendance = selectedAttendance;
+            selectedCourseForAttendance.rating = currentRating;
+            selectedCourseForAttendance.comment = document.getElementById('courseComment').value;
+            
+            // Mettre à jour le statut du cours
+            const now = new Date();
+            const courseEndTime = new Date(selectedCourseForAttendance.date + 'T' + selectedCourseForAttendance.endTime);
+            
+            if (now > courseEndTime) {
+                selectedCourseForAttendance.status = 'past';
+            }
+            
+            // Mettre à jour l'affichage
+            updateTodayCourses();
+            updateUpcomingCourses();
+            updateWeekView();
+            
+            // Fermer le modal
+            closeAttendanceModal();
+            
+            // Afficher une notification
+            alert('Présence et note enregistrées avec succès !');
+        }
+
+        // Fonction pour fermer le modal de présence
+        function closeAttendanceModal() {
+            attendanceModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            selectedCourseForAttendance = null;
+            currentRating = 0;
+            selectedAttendance = 'present';
+        }
+
+        // Fonction pour mettre à jour la vue semaine
+        function updateWeekView() {
+            const weekStart = getWeekStart(scheduleData.currentWeek);
+            const weekDates = generateWeekDates(weekStart);
+            
+            // Mettre à jour l'affichage de la date
+            const startStr = `${weekDates[0].getDate()} ${months[weekDates[0].getMonth()].substring(0, 3)}`;
+            const endStr = `${weekDates[6].getDate()} ${months[weekDates[6].getMonth()]} ${weekDates[6].getFullYear()}`;
+            currentDateDisplay.textContent = `Semaine du ${startStr} au ${endStr}`;
+            
+            // Générer l'en-tête et la grille
+            document.getElementById('weekHeader').innerHTML = generateWeekHeader(weekDates);
+            document.getElementById('weekGrid').innerHTML = generateWeekGrid(weekDates);
+        }
+
+        // Fonction pour changer la vue
+        function changeView(view) {
+            currentView = view;
+            
+            // Mettre à jour les boutons
+            viewBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.view === view) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Afficher la vue sélectionnée
+            weekView.classList.remove('active');
+            monthView.classList.remove('active');
+            
+            if (view === 'week') {
+                weekView.classList.add('active');
+                updateWeekView();
+            } else if (view === 'month') {
+                monthView.classList.add('active');
+                generateMonthView(scheduleData.currentWeek);
+            } else if (view === 'day') {
+                // Pour la vue jour, on pourrait rediriger vers une autre page
+                // ou générer une vue jour détaillée
+                alert('Vue jour - En développement');
+            }
+        }
+
+        // Fonction pour imprimer l'emploi du temps
+        function printSchedule() {
+            // Ouvrir une nouvelle fenêtre avec l'emploi du temps imprimable
+            const printWindow = window.open('', '_blank');
+            const today = new Date();
+            
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="fr">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Emploi du temps - EduTogoConnect</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { color: #333; border-bottom: 2px solid #00A651; padding-bottom: 10px; }
+                        .schedule-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        .schedule-table th, .schedule-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+                        .schedule-table th { background-color: #f5f5f5; font-weight: bold; }
+                        .past { background-color: #ffebee; }
+                        .current { background-color: #e3f2fd; }
+                        .upcoming { background-color: #e8f5e8; }
+                        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+                        .logo { font-size: 24px; font-weight: bold; color: #00A651; }
+                        .print-date { color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <div class="logo">EduTogoConnect</div>
+                        <div class="print-date">Généré le ${formatDate(today)}</div>
+                    </div>
+                    <h1>Emploi du temps de Koffi Agbessi</h1>
+                    <p><strong>Niveau:</strong> 3ème</p>
+                    <p><strong>Période:</strong> ${currentDateDisplay.textContent}</p>
+                    
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Matière</th>
+                                <th>Enseignant</th>
+                                <th>Lieu</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${scheduleData.courses.map(course => {
+                                const courseDate = new Date(course.date);
+                                let statusClass = '';
+                                let statusText = '';
+                                
+                                if (course.status === 'past') {
+                                    statusClass = 'past';
+                                    statusText = 'Terminé';
+                                } else if (course.status === 'current') {
+                                    statusClass = 'current';
+                                    statusText = 'En cours';
+                                } else if (course.status === 'upcoming') {
+                                    statusClass = 'upcoming';
+                                    statusText = 'À venir';
+                                }
+                                
+                                return `
+                                    <tr class="${statusClass}">
+                                        <td>${formatShortDate(courseDate)}</td>
+                                        <td>${course.startTime} - ${course.endTime}</td>
+                                        <td>${course.subject}</td>
+                                        <td>${course.teacher}</td>
+                                        <td>${course.location}</td>
+                                        <td>${statusText}</td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                    
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <p><strong>Taux de présence:</strong> ${scheduleData.attendanceStats.monthlyRate}%</p>
+                        <p><strong>Heures suivies ce mois:</strong> ${scheduleData.attendanceStats.totalHours}h</p>
+                        <p><strong>Note moyenne:</strong> ${scheduleData.attendanceStats.averageGrade}/20</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Événements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser les vues
+            updateTodayCourses();
+            updateUpcomingCourses();
+            updateWeekView();
+            
+            // Gestion de la flèche retour en haut
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Gestion du menu mobile
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+            });
+            
+            // Fermer le menu mobile en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!mobileNav.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+                    mobileNav.classList.remove('active');
+                }
+            });
+            
+            // Navigation du calendrier
+            prevWeekBtn.addEventListener('click', () => {
+                scheduleData.currentWeek.setDate(scheduleData.currentWeek.getDate() - 7);
+                if (currentView === 'week') {
+                    updateWeekView();
+                } else if (currentView === 'month') {
+                    generateMonthView(scheduleData.currentWeek);
+                }
+                updateTodayCourses();
+                updateUpcomingCourses();
+            });
+            
+            nextWeekBtn.addEventListener('click', () => {
+                scheduleData.currentWeek.setDate(scheduleData.currentWeek.getDate() + 7);
+                if (currentView === 'week') {
+                    updateWeekView();
+                } else if (currentView === 'month') {
+                    generateMonthView(scheduleData.currentWeek);
+                }
+                updateTodayCourses();
+                updateUpcomingCourses();
+            });
+            
+            todayBtn.addEventListener('click', () => {
+                scheduleData.currentWeek = new Date();
+                if (currentView === 'week') {
+                    updateWeekView();
+                } else if (currentView === 'month') {
+                    generateMonthView(scheduleData.currentWeek);
+                }
+                updateTodayCourses();
+                updateUpcomingCourses();
+            });
+            
+            // Changement de vue
+            viewBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    changeView(btn.dataset.view);
+                });
+            });
+            
+            // Modal de présence
+            closeAttendanceModalBtn.addEventListener('click', closeAttendanceModal);
+            cancelAttendanceBtn.addEventListener('click', closeAttendanceModal);
+            saveAttendanceBtn.addEventListener('click', saveAttendance);
+            
+            // Sélection de présence
+            attendanceOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    attendanceOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedAttendance = option.dataset.attendance;
+                });
+            });
+            
+            // Notation avec étoiles
+            ratingStars.forEach(star => {
+                star.addEventListener('click', () => {
+                    currentRating = parseInt(star.dataset.rating);
+                    updateRatingStars();
+                });
+                
+                star.addEventListener('mouseover', () => {
+                    const hoverRating = parseInt(star.dataset.rating);
+                    ratingStars.forEach(s => {
+                        const sRating = parseInt(s.dataset.rating);
+                        if (sRating <= hoverRating) {
+                            s.style.color = '#FFD700';
+                        } else {
+                            s.style.color = '#e6e6e6';
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseout', () => {
+                    updateRatingStars();
+                });
+            });
+            
+            // Fermer le modal en cliquant à l'extérieur
+            attendanceModal.addEventListener('click', (e) => {
+                if (e.target === attendanceModal) {
+                    closeAttendanceModal();
+                }
+            });
+            
+            // Bouton d'impression
+            printScheduleBtn.addEventListener('click', printSchedule);
+            
+            // Bouton ajouter un cours
+            addCourseBtn.addEventListener('click', () => {
+                alert('Fonctionnalité d\'ajout de cours - En développement');
+            });
+            
+            // Bouton voir tous les cours
+            viewAllCoursesBtn.addEventListener('click', () => {
+                window.location.href = 'student_courses.html';
+            });
+        });
+
+        // Exposer les fonctions nécessaires globalement
+        window.openAttendanceModal = openAttendanceModal;
+    </script>
+</body>
+</html>

@@ -199,10 +199,6 @@
             transform: translateY(-5px);
         }
 
-        .stat-card.verified {
-            border-color: var(--vert-principal);
-        }
-
         .stat-card.experienced {
             border-color: var(--jaune-principal);
         }
@@ -220,11 +216,6 @@
             justify-content: center;
             margin-bottom: 15px;
             font-size: 1.5rem;
-        }
-
-        .stat-card.verified .stat-icon {
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
         }
 
         .stat-card.experienced .stat-icon {
@@ -441,15 +432,15 @@
             min-width: 200px;
         }
 
-        /* Teachers Grid Layout */
+        /* Teachers Grid Layout - MODIFIÉ pour 5 colonnes */
         .teachers-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
             margin-bottom: 40px;
         }
 
-        /* Teacher Card */
+        /* Teacher Card - HAUTEUR RÉDUITE */
         .teacher-card {
             background-color: var(--blanc-principal);
             border-radius: 12px;
@@ -457,6 +448,9 @@
             border: 2px solid var(--gris-clair);
             transition: all 0.3s;
             position: relative;
+            height: 470px; /* Hauteur réduite */
+            display: flex;
+            flex-direction: column;
         }
 
         .teacher-card:hover {
@@ -465,70 +459,33 @@
             border-color: var(--bleu-prof);
         }
 
-        .teacher-card.premium {
-            border: 2px solid var(--jaune-principal);
-        }
-
         .teacher-header {
-            padding: 25px;
+            padding: 20px; /* Padding réduit */
             background-color: var(--blanc-principal);
             border-bottom: 1px solid var(--gris-clair);
             position: relative;
             text-align: center;
-        }
-
-        .teacher-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .badge-verified {
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
-            border: 1px solid var(--vert-principal);
-        }
-
-        .badge-new {
-            background-color: rgba(33,150,243,0.1);
-            color: var(--bleu-prof);
-            border: 1px solid var(--bleu-prof);
-        }
-
-        .badge-premium {
-            background-color: rgba(255,215,0,0.1);
-            color: var(--jaune-principal);
-            border: 1px solid var(--jaune-principal);
-        }
-
-        .badge-experienced {
-            background-color: rgba(156,39,176,0.1);
-            color: var(--violet-premium);
-            border: 1px solid var(--violet-premium);
+            flex-shrink: 0;
         }
 
         .teacher-avatar {
-            width: 120px;
-            height: 120px;
+            width: 80px; /* Taille réduite */
+            height: 80px; /* Taille réduite */
             border-radius: 50%;
-            margin: 0 auto 20px;
+            margin: 0 auto 15px; /* Marge réduite */
             background: linear-gradient(45deg, var(--vert-principal), var(--bleu-prof));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: var(--blanc-principal);
-            font-size: 2.5rem;
-            border: 5px solid var(--blanc-principal);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 1.8rem; /* Taille de police réduite */
+            border: 3px solid var(--blanc-principal); /* Bordure réduite */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1); /* Ombre réduite */
         }
 
         .teacher-name {
-            font-size: 1.5rem;
+            font-size: 1.2rem; /* Taille réduite */
             color: var(--gris-fonce);
             font-weight: 600;
             margin-bottom: 5px;
@@ -536,9 +493,9 @@
 
         .teacher-title {
             color: var(--bleu-prof);
-            font-size: 1rem;
+            font-size: 0.9rem; /* Taille réduite */
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .teacher-rating {
@@ -546,37 +503,41 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
-            margin-bottom: 15px;
+            margin-bottom: 10px; /* Marge réduite */
             color: var(--jaune-principal);
             font-weight: 600;
+            font-size: 0.9rem; /* Taille réduite */
         }
 
         .teacher-meta {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px; /* Espace réduit */
             color: var(--gris-moyen);
-            font-size: 0.9rem;
+            font-size: 0.8rem; /* Taille réduite */
             margin-bottom: 10px;
         }
 
         .teacher-content {
-            padding: 25px;
+            padding: 15px; /* Padding réduit */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .teacher-subjects {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 6px; /* Espace réduit */
+            margin-bottom: 15px; /* Marge réduite */
         }
 
         .subject-tag {
-            padding: 5px 12px;
+            padding: 3px 8px; /* Padding réduit */
             background-color: rgba(33,150,243,0.1);
             color: var(--bleu-prof);
-            border-radius: 20px;
-            font-size: 0.85rem;
+            border-radius: 15px;
+            font-size: 0.75rem; /* Taille réduite */
             font-weight: 500;
         }
 
@@ -602,55 +563,32 @@
 
         .teacher-description {
             color: var(--gris-moyen);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
+            font-size: 0.85rem; /* Taille réduite */
+            line-height: 1.5; /* Hauteur de ligne réduite */
+            margin-bottom: 15px; /* Marge réduite */
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }
-
-        .teacher-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            padding: 15px;
-            background-color: rgba(0,0,0,0.02);
-            border-radius: 8px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number-small {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--gris-fonce);
-            margin-bottom: 5px;
-        }
-
-        .stat-label-small {
-            font-size: 0.85rem;
-            color: var(--gris-moyen);
+            flex-grow: 1;
         }
 
         .teacher-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px; /* Espace réduit */
+            margin-top: auto;
         }
 
         .btn-teacher {
             flex: 1;
-            padding: 14px;
+            padding: 10px; /* Padding réduit */
             text-align: center;
-            border-radius: 8px;
+            border-radius: 6px; /* Rayon réduit */
             font-weight: 600;
             cursor: pointer;
             border: none;
             transition: all 0.3s;
-            font-size: 0.95rem;
+            font-size: 0.85rem; /* Taille réduite */
         }
 
         .btn-profile {
@@ -670,16 +608,6 @@
 
         .btn-contact:hover {
             background-color: #0d8bf2;
-            transform: translateY(-2px);
-        }
-
-        .btn-courses {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-courses:hover {
-            background-color: #008c45;
             transform: translateY(-2px);
         }
 
@@ -811,13 +739,23 @@
         }
 
         /* Responsive */
+        @media (max-width: 1400px) {
+            .teachers-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
         @media (max-width: 1200px) {
             .teachers-grid {
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
         @media (max-width: 992px) {
+            .teachers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
             .nav-links {
                 display: none;
             }
@@ -885,6 +823,11 @@
             .teacher-actions {
                 flex-direction: column;
             }
+            
+            .teacher-card {
+                height: auto;
+                min-height: 400px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -924,16 +867,6 @@
             .stat-card {
                 min-width: 100%;
             }
-            
-            .teacher-stats {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
-            }
-            
-            .stat-item {
-                min-width: 100px;
-            }
         }
     </style>
 </head>
@@ -970,33 +903,6 @@
         <div class="container">
             <h1 class="page-title">Nos Enseignants Qualifiés</h1>
             <p class="page-subtitle">Découvrez notre équipe d'enseignants expérimentés et passionnés, sélectionnés pour leur expertise et leur pédagogie adaptée aux élèves togolais.</p>
-            
-            <!-- Statistiques enseignants -->
-            <div class="teachers-stats">
-                <div class="stat-card verified">
-                    <div class="stat-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-number">85+</div>
-                    <div class="stat-label">Enseignants vérifiés</div>
-                </div>
-                
-                <div class="stat-card experienced">
-                    <div class="stat-icon">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                    </div>
-                    <div class="stat-number">5 ans</div>
-                    <div class="stat-label">Expérience moyenne</div>
-                </div>
-                
-                <div class="stat-card online">
-                    <div class="stat-icon">
-                        <i class="fas fa-laptop-house"></i>
-                    </div>
-                    <div class="stat-number">92%</div>
-                    <div class="stat-label">Disponibles en ligne</div>
-                </div>
-            </div>
 
             <!-- Conteneur pour la barre de recherche et les options de tri -->
             <div class="search-sort-container">
@@ -1082,7 +988,6 @@
                                 <label class="filter-label">Statut</label>
                                 <select class="filter-select" id="searchStatus">
                                     <option value="all">Tous</option>
-                                    <option value="verified">Vérifié uniquement</option>
                                     <option value="premium">Premium uniquement</option>
                                     <option value="available">Disponible maintenant</option>
                                 </select>
@@ -1188,7 +1093,7 @@
     </footer>
 
     <script>
-        // Données des enseignants
+        // Données des enseignants (simplifiées)
         const teachersData = [
             {
                 id: 1,
@@ -1198,12 +1103,6 @@
                 levels: ["6ème", "5ème", "4ème", "3ème"],
                 description: "Professeur de mathématiques avec 10 ans d'expérience dans l'enseignement au collège. Spécialiste de la pédagogie différenciée.",
                 rating: 4.9,
-                experience: 10,
-                coursesCount: 8,
-                studentsCount: 325,
-                isVerified: true,
-                isPremium: true,
-                isNew: false,
                 isAvailable: true,
                 teachingType: ["individuel", "groupe"],
                 avatarInitials: "KA"
@@ -1216,12 +1115,6 @@
                 levels: ["6ème", "5ème", "3ème"],
                 description: "Enseignante de français passionnée par la littérature africaine. Méthodes innovantes pour l'apprentissage de la grammaire.",
                 rating: 4.7,
-                experience: 7,
-                coursesCount: 6,
-                studentsCount: 245,
-                isVerified: true,
-                isPremium: false,
-                isNew: true,
                 isAvailable: true,
                 teachingType: ["individuel", "en-ligne"],
                 avatarInitials: "AM"
@@ -1234,12 +1127,6 @@
                 levels: ["6ème", "5ème", "4ème", "3ème"],
                 description: "Professeur natif anglophone avec une certification TEFL. Spécialisé dans l'enseignement aux débutants.",
                 rating: 4.9,
-                experience: 5,
-                coursesCount: 5,
-                studentsCount: 198,
-                isVerified: true,
-                isPremium: true,
-                isNew: false,
                 isAvailable: true,
                 teachingType: ["individuel", "groupe", "en-ligne"],
                 avatarInitials: "JS"
@@ -1252,12 +1139,6 @@
                 levels: ["5ème", "4ème", "3ème"],
                 description: "Docteur en sciences physiques avec une passion pour l'enseignement. Approche expérimentale et pratique.",
                 rating: 4.8,
-                experience: 12,
-                coursesCount: 7,
-                studentsCount: 287,
-                isVerified: true,
-                isPremium: true,
-                isNew: false,
                 isAvailable: true,
                 teachingType: ["individuel", "groupe"],
                 avatarInitials: "KL"
@@ -1270,12 +1151,6 @@
                 levels: ["5ème", "3ème"],
                 description: "Spécialiste en sciences de la vie et de la terre. Utilisation de supports visuels et d'expériences pratiques.",
                 rating: 4.6,
-                experience: 6,
-                coursesCount: 4,
-                studentsCount: 176,
-                isVerified: true,
-                isPremium: false,
-                isNew: false,
                 isAvailable: true,
                 teachingType: ["individuel", "en-ligne"],
                 avatarInitials: "FD"
@@ -1288,12 +1163,6 @@
                 levels: ["5ème", "4ème", "3ème"],
                 description: "Historien spécialiste de l'Afrique. Méthodes d'enseignement basées sur l'analyse de documents.",
                 rating: 4.9,
-                experience: 15,
-                coursesCount: 5,
-                studentsCount: 212,
-                isVerified: true,
-                isPremium: false,
-                isNew: true,
                 isAvailable: true,
                 teachingType: ["groupe", "en-ligne"],
                 avatarInitials: "KA"
@@ -1306,12 +1175,6 @@
                 levels: ["4ème", "3ème"],
                 description: "Ingénieur de formation, passionné par l'enseignement des sciences. Approche concrète et appliquée.",
                 rating: 4.7,
-                experience: 8,
-                coursesCount: 6,
-                studentsCount: 234,
-                isVerified: true,
-                isPremium: true,
-                isNew: false,
                 isAvailable: true,
                 teachingType: ["individuel", "groupe"],
                 avatarInitials: "YA"
@@ -1324,12 +1187,6 @@
                 levels: ["4ème", "3ème"],
                 description: "Spécialiste de la préparation au BEPC en français. Méthodologie rigoureuse pour la rédaction et l'analyse.",
                 rating: 4.8,
-                experience: 9,
-                coursesCount: 5,
-                studentsCount: 189,
-                isVerified: true,
-                isPremium: false,
-                isNew: false,
                 isAvailable: true,
                 teachingType: ["individuel", "groupe", "en-ligne"],
                 avatarInitials: "MK"
@@ -1342,12 +1199,6 @@
                 levels: ["4ème", "3ème"],
                 description: "Professeure d'anglais certifiée avec expérience internationale. Focus sur la conversation et la prononciation.",
                 rating: 4.6,
-                experience: 6,
-                coursesCount: 4,
-                studentsCount: 167,
-                isVerified: true,
-                isPremium: false,
-                isNew: true,
                 isAvailable: true,
                 teachingType: ["individuel", "en-ligne"],
                 avatarInitials: "SJ"
@@ -1360,12 +1211,6 @@
                 levels: ["3ème"],
                 description: "Spécialiste de la préparation intensive au BEPC en mathématiques. Résultats exceptionnels avec ses élèves.",
                 rating: 4.9,
-                experience: 11,
-                coursesCount: 3,
-                studentsCount: 145,
-                isVerified: true,
-                isPremium: true,
-                isNew: false,
                 isAvailable: true,
                 teachingType: ["individuel", "groupe"],
                 avatarInitials: "JD"
@@ -1378,12 +1223,6 @@
                 levels: ["3ème"],
                 description: "Philosophe et pédagogue, spécialiste de l'initiation à la philosophie pour les collégiens.",
                 rating: 4.8,
-                experience: 13,
-                coursesCount: 2,
-                studentsCount: 98,
-                isVerified: true,
-                isPremium: false,
-                isNew: false,
                 isAvailable: true,
                 teachingType: ["individuel", "groupe"],
                 avatarInitials: "MY"
@@ -1396,12 +1235,6 @@
                 levels: ["3ème"],
                 description: "Professeur agrégé de sciences, expert en préparation aux examens. Méthodes de révision efficaces.",
                 rating: 4.7,
-                experience: 14,
-                coursesCount: 6,
-                studentsCount: 256,
-                isVerified: true,
-                isPremium: true,
-                isNew: false,
                 isAvailable: true,
                 teachingType: ["groupe", "en-ligne"],
                 avatarInitials: "LK"
@@ -1432,7 +1265,7 @@
 
         // Variables d'état
         let currentPage = 1;
-        const teachersPerPage = 9;
+        const teachersPerPage = 10;
         let filteredTeachers = [...teachersData];
 
         // Initialisation
@@ -1471,23 +1304,13 @@
             setupPagination();
         }
 
-        // Créer une carte d'enseignant
+        // Créer une carte d'enseignant (SIMPLIFIÉE)
         function createTeacherCard(teacher) {
             const card = document.createElement('div');
             card.className = `teacher-card ${teacher.isPremium ? 'premium' : ''}`;
             
-            // Déterminer le badge
+            // Déterminer le badge (SUPPRIMÉ: badge-verified)
             let badgeHTML = '';
-            if (teacher.isVerified) {
-                badgeHTML = '<div class="teacher-badge badge-verified">VÉRIFIÉ</div>';
-            }
-            if (teacher.isNew) {
-                badgeHTML = '<div class="teacher-badge badge-new">NOUVEAU</div>';
-            } else if (teacher.isPremium && !teacher.isVerified) {
-                badgeHTML = '<div class="teacher-badge badge-premium">PREMIUM</div>';
-            } else if (teacher.experience >= 10) {
-                badgeHTML = '<div class="teacher-badge badge-experienced">EXPÉRIMENTÉ</div>';
-            }
             
             // Étoiles de notation
             const stars = Math.floor(teacher.rating);
@@ -1521,7 +1344,6 @@
                     </div>
                     <div class="teacher-meta">
                         <div><i class="fas fa-graduation-cap"></i> ${levelsText}</div>
-                        <div><i class="fas fa-briefcase"></i> ${teacher.experience} ans</div>
                     </div>
                 </div>
                 <div class="teacher-content">
@@ -1530,30 +1352,12 @@
                     </div>
                     <p class="teacher-description">${teacher.description}</p>
                     
-                    <div class="teacher-stats">
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.coursesCount}</div>
-                            <div class="stat-label-small">Cours</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.studentsCount}</div>
-                            <div class="stat-label-small">Élèves</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.experience}</div>
-                            <div class="stat-label-small">Ans d'exp.</div>
-                        </div>
-                    </div>
-                    
                     <div class="teacher-actions">
                         <button class="btn-teacher btn-profile" onclick="viewTeacherProfile(${teacher.id})">
                             <i class="fas fa-user-circle"></i> Profil
                         </button>
-                        <button class="btn-teacher btn-courses" onclick="viewTeacherCourses(${teacher.id})">
-                            <i class="fas fa-book-open"></i> Cours
-                        </button>
                         <button class="btn-teacher btn-contact" onclick="contactTeacher(${teacher.id})">
-                            <i class="fas fa-envelope"></i> Contacter
+                            <i class="fab fa-facebook-messenger"></i> Contacter
                         </button>
                     </div>
                 </div>
@@ -1624,9 +1428,11 @@
                     return false;
                 }
                 
-                // Filtre par expérience
-                if (selectedExperience > 0 && teacher.experience < selectedExperience) {
-                    return false;
+                // Filtre par expérience (conservé pour la compatibilité des filtres)
+                if (selectedExperience > 0) {
+                    // Simuler une expérience basée sur l'ID pour le filtrage
+                    const simulatedExperience = teacher.id % 15;
+                    if (simulatedExperience < selectedExperience) return false;
                 }
                 
                 // Filtre par note
@@ -1636,7 +1442,6 @@
                 
                 // Filtre par statut
                 if (selectedStatus !== 'all') {
-                    if (selectedStatus === 'verified' && !teacher.isVerified) return false;
                     if (selectedStatus === 'premium' && !teacher.isPremium) return false;
                     if (selectedStatus === 'available' && !teacher.isAvailable) return false;
                 }
@@ -1663,17 +1468,20 @@
                     filteredTeachers.sort((a, b) => b.rating - a.rating);
                     break;
                 case 'experience':
-                    filteredTeachers.sort((a, b) => b.experience - a.experience);
+                    // Simuler l'expérience basée sur l'ID pour le tri
+                    filteredTeachers.sort((a, b) => (b.id % 15) - (a.id % 15));
                     break;
                 case 'newest':
                     // Pour l'exemple, on considère que les enseignants avec isNew sont les plus récents
                     filteredTeachers.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
                     break;
                 case 'courses':
-                    filteredTeachers.sort((a, b) => b.coursesCount - a.coursesCount);
+                    // Simuler le nombre de cours basé sur l'ID pour le tri
+                    filteredTeachers.sort((a, b) => ((b.id * 2) % 10) - ((a.id * 2) % 10));
                     break;
                 case 'students':
-                    filteredTeachers.sort((a, b) => b.studentsCount - a.studentsCount);
+                    // Simuler le nombre d'élèves basé sur l'ID pour le tri
+                    filteredTeachers.sort((a, b) => ((b.id * 20) % 300) - ((a.id * 20) % 300));
                     break;
             }
         }
@@ -1811,26 +1619,18 @@
         window.viewTeacherProfile = function(teacherId) {
             const teacher = teachersData.find(t => t.id === teacherId);
             if (teacher) {
-                alert(`Profil de ${teacher.name}\n\nSpécialité: ${teacher.title}\nNote: ${teacher.rating}/5\nExpérience: ${teacher.experience} ans\n\nCliquez pour voir le profil complet...`);
+                alert(`Profil de ${teacher.name}\n\nSpécialité: ${teacher.title}\nNote: ${teacher.rating}/5\n\nCliquez pour voir le profil complet...`);
                 // Dans une application réelle, rediriger vers la page de profil de l'enseignant
                 // window.location.href = `teacher_profile.html?id=${teacherId}`;
-            }
-        };
-
-        window.viewTeacherCourses = function(teacherId) {
-            const teacher = teachersData.find(t => t.id === teacherId);
-            if (teacher) {
-                alert(`Redirection vers les cours de ${teacher.name}...`);
-                // Dans une application réelle, rediriger vers les cours de cet enseignant
-                // window.location.href = `courses.html?teacher=${teacherId}`;
             }
         };
 
         window.contactTeacher = function(teacherId) {
             const teacher = teachersData.find(t => t.id === teacherId);
             if (teacher) {
-                alert(`Formulaire de contact pour ${teacher.name}\n\nVous allez pouvoir envoyer un message à cet enseignant.`);
-                // Dans une application réelle, ouvrir un formulaire de contact ou une messagerie
+                alert(`Ouvrir Messenger pour contacter ${teacher.name}...`);
+                // Dans une application réelle, ouvrir Messenger ou un système de messagerie
+                // window.open(`https://m.me/${teacher.messengerId}`, '_blank');
             }
         };
     </script>

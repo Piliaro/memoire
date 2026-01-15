@@ -645,14 +645,14 @@
             background-color: var(--gris-clair);
         }
 
-        /* Teachers Grid */
+        /* Teachers Grid - 4 colonnes pour toutes les sections */
         .teachers-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
 
-        /* Teacher Card */
+        /* Teacher Card - Hauteur réduite */
         .teacher-card {
             background-color: var(--blanc-principal);
             border-radius: 12px;
@@ -660,6 +660,9 @@
             border: 2px solid var(--gris-clair);
             transition: all 0.3s;
             position: relative;
+            height: 520px; /* Hauteur réduite */
+            display: flex;
+            flex-direction: column;
         }
 
         .teacher-card:hover {
@@ -668,64 +671,33 @@
             border-color: var(--bleu-prof);
         }
 
-        .teacher-card.premium {
-            border: 2px solid var(--jaune-principal);
-        }
-
         .teacher-header {
-            padding: 25px;
+            padding: 20px;
             background-color: var(--blanc-principal);
             border-bottom: 1px solid var(--gris-clair);
             position: relative;
             text-align: center;
-        }
-
-        .teacher-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .badge-current {
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
-            border: 1px solid var(--vert-principal);
-        }
-
-        .badge-favorite {
-            background-color: rgba(239,51,64,0.1);
-            color: var(--rouge-principal);
-            border: 1px solid var(--rouge-principal);
-        }
-
-        .badge-premium {
-            background-color: rgba(255,215,0,0.1);
-            color: var(--jaune-principal);
-            border: 1px solid var(--jaune-principal);
+            flex-shrink: 0;
         }
 
         .teacher-avatar {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            margin: 0 auto 20px;
+            margin: 0 auto 15px;
             background: linear-gradient(45deg, var(--vert-principal), var(--bleu-prof));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: var(--blanc-principal);
-            font-size: 2rem;
-            border: 4px solid var(--blanc-principal);
+            font-size: 1.8rem;
+            border: 3px solid var(--blanc-principal);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .teacher-name {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--gris-fonce);
             font-weight: 600;
             margin-bottom: 5px;
@@ -733,46 +705,32 @@
 
         .teacher-title {
             color: var(--bleu-prof);
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .teacher-rating {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            margin-bottom: 15px;
-            color: var(--jaune-principal);
-        }
-
-        .teacher-meta {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            color: var(--gris-moyen);
             font-size: 0.9rem;
+            font-weight: 600;
             margin-bottom: 10px;
         }
 
         .teacher-content {
             padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .teacher-subjects {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 6px;
+            margin-bottom: 15px;
         }
 
         .subject-tag {
-            padding: 5px 12px;
+            padding: 4px 10px;
             background-color: rgba(33,150,243,0.1);
             color: var(--bleu-prof);
-            border-radius: 20px;
-            font-size: 0.85rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
             font-weight: 500;
         }
 
@@ -798,20 +756,20 @@
 
         .teacher-description {
             color: var(--gris-moyen);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            display: -webkit-box;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            flex: 1;
         }
 
         .teacher-stats {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 15px;
+            padding: 12px;
             background-color: rgba(0,0,0,0.02);
             border-radius: 8px;
         }
@@ -821,32 +779,37 @@
         }
 
         .stat-number-small {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--gris-fonce);
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .stat-label-small {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--gris-moyen);
         }
 
         .teacher-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            margin-top: auto;
         }
 
         .btn-teacher {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
             border: none;
             transition: all 0.3s;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
 
         .btn-profile {
@@ -895,6 +858,233 @@
             padding: 30px;
             margin-bottom: 40px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 20px 30px;
+            background: linear-gradient(90deg, var(--vert-principal), var(--bleu-prof));
+            color: var(--blanc-principal);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--blanc-principal);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .close-modal:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .calendar-container {
+            margin-bottom: 30px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-month {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav-btn {
+            background-color: var(--gris-clair);
+            border: none;
+            border-radius: 6px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-fonce);
+            transition: all 0.3s;
+        }
+
+        .calendar-nav-btn:hover {
+            background-color: var(--bleu-prof);
+            color: var(--blanc-principal);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            padding: 10px;
+            font-weight: 600;
+            color: var(--gris-moyen);
+            background-color: rgba(0,0,0,0.03);
+            border-radius: 6px;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 15px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            min-height: 80px;
+            border: 1px solid var(--gris-clair);
+        }
+
+        .calendar-day:hover {
+            background-color: rgba(0,166,81,0.05);
+            border-color: var(--vert-principal);
+        }
+
+        .calendar-day.today {
+            background-color: rgba(33,150,243,0.1);
+            border-color: var(--bleu-prof);
+        }
+
+        .calendar-day.has-session {
+            background-color: rgba(0,166,81,0.08);
+        }
+
+        .calendar-day-number {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .calendar-session {
+            font-size: 0.75rem;
+            padding: 3px 6px;
+            border-radius: 4px;
+            margin-top: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .calendar-session.online {
+            background-color: rgba(33,150,243,0.2);
+            color: var(--bleu-prof);
+        }
+
+        .calendar-session.presentiel {
+            background-color: rgba(0,166,81,0.2);
+            color: var(--vert-principal);
+        }
+
+        .sessions-list {
+            margin-top: 30px;
+        }
+
+        .sessions-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--gris-fonce);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gris-clair);
+        }
+
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--gris-clair);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .session-info h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: var(--gris-fonce);
+        }
+
+        .session-info p {
+            font-size: 0.9rem;
+            color: var(--gris-moyen);
+        }
+
+        .session-type {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .session-type.online {
+            background-color: rgba(33,150,243,0.2);
+            color: var(--bleu-prof);
+        }
+
+        .session-type.presentiel {
+            background-color: rgba(0,166,81,0.2);
+            color: var(--vert-principal);
         }
 
         /* Menu mobile */
@@ -959,7 +1149,7 @@
         /* Responsive */
         @media (max-width: 1200px) {
             .teachers-grid {
-                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -976,6 +1166,10 @@
                 order: 3;
                 max-width: 100%;
                 margin-top: 15px;
+            }
+            
+            .teachers-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -997,6 +1191,11 @@
             .teacher-actions {
                 flex-direction: column;
             }
+            
+            .teacher-card {
+                height: auto;
+                min-height: 520px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1016,6 +1215,19 @@
             .teachers-filter-btn {
                 text-align: center;
             }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .calendar-grid {
+                gap: 5px;
+            }
+            
+            .calendar-day {
+                min-height: 60px;
+                padding: 10px 5px;
+            }
         }
     </style>
 </head>
@@ -1023,6 +1235,41 @@
     <!-- Flèche retour en haut -->
     <div class="back-to-top" id="backToTopBtn" title="Retour en haut (Esc)">
         <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Modal pour le calendrier -->
+    <div class="modal" id="calendarModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Calendrier des séances - <span id="modalTeacherName"></span></div>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-month" id="currentMonth">Décembre 2024</div>
+                        <div class="calendar-nav">
+                            <button class="calendar-nav-btn" id="prevMonth">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="calendar-nav-btn" id="nextMonth">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Les jours seront générés dynamiquement -->
+                    </div>
+                </div>
+                
+                <div class="sessions-list">
+                    <h3 class="sessions-title">Séances à venir</h3>
+                    <div id="upcomingSessions">
+                        <!-- Les séances seront générées dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Header Principal -->
@@ -1139,17 +1386,9 @@
                         <span>Messages</span>
                         <span class="nav-badge">2</span>
                     </a>
-                    <a href="student_history.html" class="nav-item">
-                        <i class="fas fa-history"></i>
-                        <span>Historique</span>
-                    </a>
-                    <a href="student_favorites.html" class="nav-item">
-                        <i class="fas fa-heart"></i>
-                        <span>Favoris</span>
-                    </a>
                     <a href="student_finance.html" class="nav-item">
-                        <i class="fas fa-money-bill"></i>
-                        <span>Finances</span>
+                        <i class="fas fa-chart-line"></i>
+                        <span>Rapport</span>
                     </a>
                 </div>
             </div>
@@ -1185,14 +1424,6 @@
                 <span>Messages</span>
                 <span class="mobile-nav-badge">2</span>
             </a>
-            <a href="student_history.html" class="mobile-nav-item">
-                <i class="fas fa-history"></i>
-                <span>Historique</span>
-            </a>
-            <a href="student_favorites.html" class="mobile-nav-item">
-                <i class="fas fa-heart"></i>
-                <span>Favoris</span>
-            </a>
             <a href="#" class="mobile-nav-item" id="notificationNavBtnMobile">
                 <i class="fas fa-bell"></i>
                 <span>Notifications</span>
@@ -1214,54 +1445,7 @@
                     <h1>Mes Enseignants</h1>
                     <p>Gérez et contactez vos enseignants actuels et précédents</p>
                 </div>
-                <button class="btn btn-primary" id="findTeacherBtn">
-                    <i class="fas fa-search"></i>
-                    <span>Trouver un nouvel enseignant</span>
-                </button>
             </header>
-
-            <!-- Statistiques enseignants -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon blue">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>4</h3>
-                        <p>Enseignants actuels</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon green">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>8</h3>
-                        <p>Enseignants précédents</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon yellow">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>3</h3>
-                        <p>Enseignants favoris</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon orange">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>12</h3>
-                        <p>Messages non lus</p>
-                    </div>
-                </div>
-            </div>
 
             <!-- Mes enseignants actuels -->
             <section class="teachers-section">
@@ -1270,10 +1454,6 @@
                         <h2 class="section-title">Mes enseignants actuels</h2>
                         <p class="section-subtitle">Enseignants avec qui vous avez des cours en cours</p>
                     </div>
-                    <a href="#" class="view-more-btn" id="viewAllCurrentTeachers">
-                        <span>Voir tous les détails</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
                 </div>
 
                 <!-- Filtres enseignants -->
@@ -1299,10 +1479,6 @@
                         <h2 class="section-title">Enseignants précédents</h2>
                         <p class="section-subtitle">Enseignants avec qui vous avez déjà travaillé</p>
                     </div>
-                    <a href="#" class="view-more-btn" id="viewAllPreviousTeachers">
-                        <span>Voir l'historique complet</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
                 </div>
 
                 <!-- Grille des enseignants précédents -->
@@ -1311,22 +1487,18 @@
                 </div>
             </section>
 
-            <!-- Enseignants favoris -->
+            <!-- Enseignants populaire -->
             <section class="favorite-teachers-section">
                 <div class="section-header">
                     <div>
-                        <h2 class="section-title">Enseignants favoris</h2>
-                        <p class="section-subtitle">Enseignants que vous avez marqués comme favoris</p>
+                        <h2 class="section-title">Enseignants populaire pour votre niveau</h2>
+                        <p class="section-subtitle">Enseignants recommandes vous</p>
                     </div>
-                    <a href="student_favorites.html" class="view-more-btn">
-                        <span>Voir tous les favoris</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
                 </div>
 
-                <!-- Grille des enseignants favoris -->
+                <!-- Grille des enseignants populaire -->
                 <div class="teachers-grid" id="favoriteTeachersGrid">
-                    <!-- Les enseignants favoris seront ajoutés dynamiquement -->
+                    <!-- Les enseignants populaire seront ajoutés dynamiquement -->
                 </div>
             </section>
         </div>
@@ -1341,21 +1513,13 @@
                     name: "Jean Dupont",
                     title: "Professeur de Mathématiques",
                     subjects: ["math", "physics"],
-                    description: "Professeur de mathématiques avec 10 ans d'expérience. Spécialiste de la pédagogie différenciée. Actuellement mon enseignant en mathématiques pour la préparation BEPC.",
-                    rating: 4.9,
-                    experience: 10,
-                    coursesCount: 2,
-                    studentsCount: 325,
-                    isCurrent: true,
-                    isFavorite: true,
-                    isPremium: true,
+                    description: "Professeur de mathématiques avec 10 ans d'expérience. Spécialiste de la pédagogie différenciée.",
                     isOnline: true,
-                    teachingType: "individuel",
+                    isFavorite: true,
                     avatarInitials: "JD",
                     courseName: "Mathématiques - 3ème",
                     lastSession: "Hier, 15h-17h",
-                    nextSession: "Mercredi 15h-17h",
-                    messagesUnread: 3
+                    nextSession: "Mercredi 15h-17h"
                 },
                 {
                     id: 2,
@@ -1363,20 +1527,12 @@
                     title: "Professeure de Français",
                     subjects: ["french"],
                     description: "Enseignante de français passionnée par la littérature africaine. Méthodes innovantes pour l'apprentissage de la grammaire et de l'orthographe.",
-                    rating: 4.7,
-                    experience: 7,
-                    coursesCount: 1,
-                    studentsCount: 245,
-                    isCurrent: true,
-                    isFavorite: false,
-                    isPremium: false,
                     isOnline: true,
-                    teachingType: "individuel",
+                    isFavorite: false,
                     avatarInitials: "MD",
                     courseName: "Français - 4ème",
                     lastSession: "Lundi 14h-15h30",
-                    nextSession: "Vendredi 14h-15h30",
-                    messagesUnread: 1
+                    nextSession: "Vendredi 14h-15h30"
                 },
                 {
                     id: 3,
@@ -1384,20 +1540,12 @@
                     title: "Professeur d'Anglais",
                     subjects: ["english"],
                     description: "Professeur natif anglophone avec certification TEFL. Spécialisé dans l'enseignement aux débutants. Cours interactifs et dynamiques.",
-                    rating: 4.9,
-                    experience: 5,
-                    coursesCount: 1,
-                    studentsCount: 198,
-                    isCurrent: true,
-                    isFavorite: true,
-                    isPremium: true,
                     isOnline: true,
-                    teachingType: "en-ligne",
+                    isFavorite: true,
                     avatarInitials: "JS",
                     courseName: "Anglais Conversation",
                     lastSession: "Mardi 16h-17h",
-                    nextSession: "Jeudi 16h-17h",
-                    messagesUnread: 0
+                    nextSession: "Jeudi 16h-17h"
                 },
                 {
                     id: 4,
@@ -1405,20 +1553,12 @@
                     title: "Docteur en Sciences",
                     subjects: ["physics", "svt"],
                     description: "Docteur en sciences physiques avec une passion pour l'enseignement. Approche expérimentale et pratique. Excellente pédagogie.",
-                    rating: 4.8,
-                    experience: 12,
-                    coursesCount: 1,
-                    studentsCount: 287,
-                    isCurrent: true,
-                    isFavorite: false,
-                    isPremium: true,
                     isOnline: false,
-                    teachingType: "groupe",
+                    isFavorite: false,
                     avatarInitials: "KL",
                     courseName: "Physique-Chimie 3ème",
                     lastSession: "Mercredi 10h-12h",
-                    nextSession: "Samedi 10h-12h",
-                    messagesUnread: 2
+                    nextSession: "Samedi 10h-12h"
                 }
             ],
             
@@ -1429,20 +1569,12 @@
                     title: "Professeure de SVT",
                     subjects: ["svt"],
                     description: "Spécialiste en sciences de la vie et de la terre. Utilisation de supports visuels et d'expériences pratiques. Très pédagogue.",
-                    rating: 4.6,
-                    experience: 6,
-                    coursesCount: 1,
-                    studentsCount: 176,
-                    isCurrent: false,
-                    isFavorite: true,
-                    isPremium: false,
                     isOnline: true,
-                    teachingType: "individuel",
+                    isFavorite: true,
                     avatarInitials: "FD",
                     courseName: "SVT - 5ème",
                     period: "Sept 2022 - Juin 2023",
-                    status: "Terminé",
-                    finalGrade: "16/20"
+                    status: "Terminé"
                 },
                 {
                     id: 6,
@@ -1450,20 +1582,12 @@
                     title: "Professeur d'Histoire-Géographie",
                     subjects: ["history"],
                     description: "Historien spécialiste de l'Afrique. Méthodes d'enseignement basées sur l'analyse de documents. Très intéressant.",
-                    rating: 4.9,
-                    experience: 15,
-                    coursesCount: 1,
-                    studentsCount: 212,
-                    isCurrent: false,
-                    isFavorite: false,
-                    isPremium: false,
                     isOnline: false,
-                    teachingType: "groupe",
+                    isFavorite: false,
                     avatarInitials: "KA",
                     courseName: "Histoire-Géo - 4ème",
                     period: "Janv 2023 - Avr 2023",
-                    status: "Terminé",
-                    finalGrade: "15/20"
+                    status: "Terminé"
                 },
                 {
                     id: 7,
@@ -1471,75 +1595,82 @@
                     title: "Professeur de Physique-Chimie",
                     subjects: ["physics"],
                     description: "Ingénieur de formation, passionné par l'enseignement des sciences. Approche concrète et appliquée.",
-                    rating: 4.7,
-                    experience: 8,
-                    coursesCount: 1,
-                    studentsCount: 234,
-                    isCurrent: false,
-                    isFavorite: false,
-                    isPremium: true,
                     isOnline: true,
-                    teachingType: "individuel",
+                    isFavorite: false,
                     avatarInitials: "YA",
                     courseName: "Physique - 4ème",
                     period: "Oct 2022 - Fév 2023",
-                    status: "Terminé",
-                    finalGrade: "17/20"
+                    status: "Terminé"
+                },
+                {
+                    id: 8,
+                    name: "Sophie Martin",
+                    title: "Professeure de Philosophie",
+                    subjects: ["philo"],
+                    description: "Approche pédagogique exceptionnelle pour rendre la philosophie accessible. Mes élèves adorent ses cours.",
+                    isOnline: false,
+                    isFavorite: true,
+                    avatarInitials: "SM",
+                    courseName: "Philosophie - Terminale",
+                    period: "Mars 2023 - Juin 2023",
+                    status: "Terminé"
                 }
             ],
             
             favorites: [
                 {
-                    id: 1,
-                    name: "Jean Dupont",
-                    title: "Professeur de Mathématiques",
-                    subjects: ["math", "physics"],
-                    description: "Professeur exceptionnel. Grâce à lui, mes notes en maths sont passées de 10 à 16/20. Je le recommande vivement!",
-                    rating: 4.9,
-                    experience: 10,
-                    coursesCount: 2,
-                    studentsCount: 325,
-                    isCurrent: true,
-                    isFavorite: true,
-                    isPremium: true,
-                    isOnline: true,
-                    teachingType: "individuel",
-                    avatarInitials: "JD"
+                    id: 9,
+                    name: "Thomas Koffi",
+                    title: "Professeur d'Économie",
+                    subjects: ["economics"],
+                    description: "Expert en économie avec une approche pratique. Utilise des exemples concrets de l'économie togolaise.",
+                    avatarInitials: "TK"
                 },
                 {
-                    id: 3,
-                    name: "John Smith",
-                    title: "Professeur d'Anglais",
-                    subjects: ["english"],
-                    description: "Le meilleur professeur d'anglais que j'ai eu. Grâce à lui, je peux maintenant tenir une conversation en anglais.",
-                    rating: 4.9,
-                    experience: 5,
-                    coursesCount: 1,
-                    studentsCount: 198,
-                    isCurrent: true,
-                    isFavorite: true,
-                    isPremium: true,
-                    isOnline: true,
-                    teachingType: "en-ligne",
-                    avatarInitials: "JS"
+                    id: 10,
+                    name: "Amina Sarr",
+                    title: "Professeure de Littérature",
+                    subjects: ["french"],
+                    description: "Spécialiste de la littérature africaine francophone. Rend la littérature vivante et passionnante.",
+                    avatarInitials: "AS"
                 },
                 {
-                    id: 5,
-                    name: "Fatou Diallo",
-                    title: "Professeure de SVT",
-                    subjects: ["svt"],
-                    description: "Professeure très patiente et pédagogue. Elle rend les sciences passionnantes avec ses expériences pratiques.",
-                    rating: 4.6,
-                    experience: 6,
-                    coursesCount: 1,
-                    studentsCount: 176,
-                    isCurrent: false,
-                    isFavorite: true,
-                    isPremium: false,
-                    isOnline: true,
-                    teachingType: "individuel",
-                    avatarInitials: "FD"
+                    id: 11,
+                    name: "Samuel Agbo",
+                    title: "Professeur de Géographie",
+                    subjects: ["geography"],
+                    description: "Spécialiste en géographie humaine et physique. Approche interactive avec cartes et données actuelles.",
+                    avatarInitials: "SA"
+                },
+                {
+                    id: 12,
+                    name: "Lucie Mensah",
+                    title: "Professeure de Chimie",
+                    subjects: ["chemistry"],
+                    description: "Chimiste passionnée par les expériences pratiques. Rend la chimie accessible et intéressante pour tous les niveaux.",
+                    avatarInitials: "LM"
                 }
+            ]
+        };
+
+        // Données de séances pour le calendrier
+        const sessionsData = {
+            1: [ // Jean Dupont
+                { date: '2024-12-10', time: '15:00-17:00', type: 'presentiel', subject: 'Mathématiques' },
+                { date: '2024-12-12', time: '15:00-17:00', type: 'online', subject: 'Physique' },
+                { date: '2024-12-17', time: '15:00-17:00', type: 'presentiel', subject: 'Mathématiques' },
+                { date: '2024-12-19', time: '15:00-17:00', type: 'online', subject: 'Physique' }
+            ],
+            2: [ // Marie Dubois
+                { date: '2024-12-11', time: '14:00-15:30', type: 'online', subject: 'Français' },
+                { date: '2024-12-13', time: '14:00-15:30', type: 'presentiel', subject: 'Français' }
+            ],
+            3: [ // John Smith
+                { date: '2024-12-10', time: '16:00-17:00', type: 'online', subject: 'Anglais' },
+                { date: '2024-12-12', time: '16:00-17:00', type: 'online', subject: 'Anglais' }
+            ],
+            4: [ // Komla Lawson
+                { date: '2024-12-14', time: '10:00-12:00', type: 'presentiel', subject: 'Physique-Chimie' }
             ]
         };
 
@@ -1551,20 +1682,32 @@
         const teacherFilterBtns = document.querySelectorAll('.teachers-filter-btn');
         const mainSearchInput = document.getElementById('mainSearchInput');
         const searchBtn = document.getElementById('searchBtn');
-        const findTeacherBtn = document.getElementById('findTeacherBtn');
         const mobileNavToggle = document.getElementById('mobileNavToggle');
         const mobileNav = document.getElementById('mobileNav');
         const profileBtn = document.getElementById('profileBtn');
         const profileMenu = document.getElementById('profileMenu');
+        const calendarModal = document.getElementById('calendarModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTeacherName = document.getElementById('modalTeacherName');
+        const calendarGrid = document.getElementById('calendarGrid');
+        const currentMonth = document.getElementById('currentMonth');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        const upcomingSessions = document.getElementById('upcomingSessions');
 
         // Variables d'état
         let currentFilter = 'all';
+        let currentTeacherId = null;
+        let currentDate = new Date();
+        let currentMonthIndex = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', () => {
             renderTeachers();
             setupEventListeners();
             initBackToTop();
+            initCalendar();
             
             // Gestion responsive
             checkWindowSize();
@@ -1619,8 +1762,7 @@
         function renderPreviousTeachers() {
             previousTeachersGrid.innerHTML = '';
             
-            // Limiter à 3 enseignants pour la section précédente
-            const teachersToShow = teachersData.previous.slice(0, 3);
+            const teachersToShow = teachersData.previous;
             
             if (teachersToShow.length === 0) {
                 previousTeachersGrid.innerHTML = `
@@ -1668,31 +1810,10 @@
         // Créer une carte d'enseignant
         function createTeacherCard(teacher, type) {
             const card = document.createElement('div');
-            card.className = `teacher-card ${teacher.isPremium ? 'premium' : ''}`;
+            card.className = `teacher-card`;
             card.dataset.id = teacher.id;
             card.dataset.subjects = teacher.subjects.join(',');
             card.dataset.online = teacher.isOnline;
-            
-            // Déterminer le badge
-            let badgeHTML = '';
-            if (type === 'current') {
-                badgeHTML = '<div class="teacher-badge badge-current">ACTUEL</div>';
-            } else if (teacher.isFavorite) {
-                badgeHTML = '<div class="teacher-badge badge-favorite">FAVORI</div>';
-            } else if (teacher.isPremium) {
-                badgeHTML = '<div class="teacher-badge badge-premium">PREMIUM</div>';
-            }
-            
-            // Étoiles de notation
-            const stars = Math.floor(teacher.rating);
-            const hasHalfStar = teacher.rating % 1 >= 0.5;
-            let starsHTML = '';
-            for (let i = 0; i < stars; i++) {
-                starsHTML += '<i class="fas fa-star"></i>';
-            }
-            if (hasHalfStar) {
-                starsHTML += '<i class="fas fa-star-half-alt"></i>';
-            }
             
             // Matières
             const subjectsHTML = teacher.subjects.map(subject => {
@@ -1703,90 +1824,30 @@
             
             // Contenu spécifique selon le type
             let specificContent = '';
-            let specificStats = '';
             
             if (type === 'current') {
                 specificContent = `
-                    <div style="background-color: rgba(0,166,81,0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 0.9rem; color: var(--gris-moyen);">Cours actuel:</span>
-                            <span style="font-weight: 600; color: var(--vert-principal);">${teacher.courseName}</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 0.9rem; color: var(--gris-moyen);">Dernière séance:</span>
-                            <span style="font-weight: 600;">${teacher.lastSession}</span>
+                    <div style="background-color: rgba(0,166,81,0.05); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span style="font-size: 0.85rem; color: var(--gris-moyen);">Cours actuel:</span>
+                            <span style="font-weight: 600; color: var(--vert-principal); font-size: 0.85rem;">${teacher.courseName}</span>
                         </div>
                         <div style="display: flex; justify-content: space-between;">
-                            <span style="font-size: 0.9rem; color: var(--gris-moyen);">Prochaine séance:</span>
-                            <span style="font-weight: 600; color: var(--bleu-prof);">${teacher.nextSession}</span>
-                        </div>
-                    </div>
-                `;
-                
-                specificStats = `
-                    <div class="teacher-stats">
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.coursesCount}</div>
-                            <div class="stat-label-small">Cours</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.experience}</div>
-                            <div class="stat-label-small">Ans d'exp.</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.messagesUnread}</div>
-                            <div class="stat-label-small">Messages</div>
+                            <span style="font-size: 0.85rem; color: var(--gris-moyen);">Prochaine séance:</span>
+                            <span style="font-weight: 600; color: var(--bleu-prof); font-size: 0.85rem;">${teacher.nextSession}</span>
                         </div>
                     </div>
                 `;
             } else if (type === 'previous') {
                 specificContent = `
-                    <div style="background-color: rgba(239,51,64,0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 0.9rem; color: var(--gris-moyen);">Cours:</span>
-                            <span style="font-weight: 600; color: var(--rouge-principal);">${teacher.courseName}</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 0.9rem; color: var(--gris-moyen);">Période:</span>
-                            <span style="font-weight: 600;">${teacher.period}</span>
+                    <div style="background-color: rgba(239,51,64,0.05); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span style="font-size: 0.85rem; color: var(--gris-moyen);">Cours:</span>
+                            <span style="font-weight: 600; color: var(--rouge-principal); font-size: 0.85rem;">${teacher.courseName}</span>
                         </div>
                         <div style="display: flex; justify-content: space-between;">
-                            <span style="font-size: 0.9rem; color: var(--gris-moyen);">Note finale:</span>
-                            <span style="font-weight: 600; color: var(--vert-principal);">${teacher.finalGrade}</span>
-                        </div>
-                    </div>
-                `;
-                
-                specificStats = `
-                    <div class="teacher-stats">
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.coursesCount}</div>
-                            <div class="stat-label-small">Cours</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.experience}</div>
-                            <div class="stat-label-small">Ans d'exp.</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.rating}</div>
-                            <div class="stat-label-small">Note</div>
-                        </div>
-                    </div>
-                `;
-            } else if (type === 'favorite') {
-                specificStats = `
-                    <div class="teacher-stats">
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.coursesCount}</div>
-                            <div class="stat-label-small">Cours</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.experience}</div>
-                            <div class="stat-label-small">Ans d'exp.</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number-small">${teacher.rating}</div>
-                            <div class="stat-label-small">Note</div>
+                            <span style="font-size: 0.85rem; color: var(--gris-moyen);">Période:</span>
+                            <span style="font-weight: 600; font-size: 0.85rem;">${teacher.period}</span>
                         </div>
                     </div>
                 `;
@@ -1801,24 +1862,35 @@
                             <i class="fas fa-user-circle"></i> Profil
                         </button>
                         <button class="btn-teacher btn-contact" onclick="contactTeacher(${teacher.id})">
-                            <i class="fas fa-envelope"></i> Contacter
+                            <i class="fas fa-comment-dots"></i> Chat
                         </button>
-                        <button class="btn-teacher btn-schedule" onclick="viewSchedule(${teacher.id})">
+                        <button class="btn-teacher btn-schedule" onclick="showCalendar(${teacher.id}, '${teacher.name}')">
                             <i class="fas fa-calendar"></i> Planning
                         </button>
                     </div>
                 `;
-            } else {
+            } else if (type === 'previous') {
                 actionsHTML = `
                     <div class="teacher-actions">
                         <button class="btn-teacher btn-profile" onclick="viewTeacherProfile(${teacher.id})">
                             <i class="fas fa-user-circle"></i> Profil
                         </button>
                         <button class="btn-teacher btn-contact" onclick="contactTeacher(${teacher.id})">
-                            <i class="fas fa-envelope"></i> Contacter
+                            <i class="fas fa-comment-dots"></i> Chat
                         </button>
                         <button class="btn-teacher btn-schedule" onclick="rehireTeacher(${teacher.id})">
                             <i class="fas fa-redo"></i> Réengager
+                        </button>
+                    </div>
+                `;
+            } else if (type === 'favorite') {
+                actionsHTML = `
+                    <div class="teacher-actions">
+                        <button class="btn-teacher btn-profile" onclick="viewTeacherProfile(${teacher.id})">
+                            <i class="fas fa-user-circle"></i> Profil
+                        </button>
+                        <button class="btn-teacher btn-contact" onclick="contactTeacher(${teacher.id})">
+                            <i class="fas fa-comment-dots"></i> Chat
                         </button>
                     </div>
                 `;
@@ -1826,17 +1898,9 @@
             
             card.innerHTML = `
                 <div class="teacher-header">
-                    ${badgeHTML}
                     <div class="teacher-avatar">${teacher.avatarInitials}</div>
                     <h2 class="teacher-name">${teacher.name}</h2>
                     <p class="teacher-title">${teacher.title}</p>
-                    <div class="teacher-rating">
-                        ${starsHTML} ${teacher.rating}/5
-                    </div>
-                    <div class="teacher-meta">
-                        <div><i class="fas fa-graduation-cap"></i> ${teacher.teachingType === 'en-ligne' ? 'En ligne' : 'Présentiel'}</div>
-                        <div><i class="fas ${teacher.isOnline ? 'fa-wifi text-success' : 'fa-user-clock'}"></i> ${teacher.isOnline ? 'En ligne' : 'Hors ligne'}</div>
-                    </div>
                 </div>
                 <div class="teacher-content">
                     <div class="teacher-subjects">
@@ -1846,8 +1910,6 @@
                     ${specificContent}
                     
                     <p class="teacher-description">${teacher.description}</p>
-                    
-                    ${specificStats}
                     
                     ${actionsHTML}
                 </div>
@@ -1865,7 +1927,10 @@
                 'physics': 'Physique',
                 'svt': 'SVT',
                 'history': 'Histoire',
-                'philo': 'Philosophie'
+                'philo': 'Philosophie',
+                'economics': 'Économie',
+                'geography': 'Géographie',
+                'chemistry': 'Chimie'
             };
             return subjects[subject] || subject;
         }
@@ -1875,8 +1940,182 @@
             if (subject === 'math') return 'math';
             if (subject === 'french') return 'french';
             if (subject === 'english') return 'english';
-            if (subject === 'physics' || subject === 'svt') return 'science';
+            if (subject === 'physics' || subject === 'svt' || subject === 'economics' || subject === 'chemistry') return 'science';
+            if (subject === 'geography') return 'science';
             return '';
+        }
+
+        // Initialiser le calendrier
+        function initCalendar() {
+            const monthNames = [
+                'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+            ];
+            
+            function renderCalendar() {
+                currentMonth.textContent = `${monthNames[currentMonthIndex]} ${currentYear}`;
+                calendarGrid.innerHTML = '';
+                
+                // En-têtes des jours
+                const dayHeaders = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+                dayHeaders.forEach(day => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = 'calendar-day-header';
+                    dayHeader.textContent = day;
+                    calendarGrid.appendChild(dayHeader);
+                });
+                
+                // Premier jour du mois
+                const firstDay = new Date(currentYear, currentMonthIndex, 1);
+                // Dernier jour du mois
+                const lastDay = new Date(currentYear, currentMonthIndex + 1, 0);
+                // Jour de la semaine du premier jour (0 = dimanche, 1 = lundi, etc.)
+                let firstDayOfWeek = firstDay.getDay();
+                firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+                
+                // Jours du mois précédent
+                const prevMonthLastDay = new Date(currentYear, currentMonthIndex, 0).getDate();
+                for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+                    const day = document.createElement('div');
+                    day.className = 'calendar-day';
+                    day.innerHTML = `<div class="calendar-day-number" style="opacity: 0.3">${prevMonthLastDay - i}</div>`;
+                    calendarGrid.appendChild(day);
+                }
+                
+                // Jours du mois courant
+                const today = new Date();
+                const sessions = sessionsData[currentTeacherId] || [];
+                
+                for (let i = 1; i <= lastDay.getDate(); i++) {
+                    const day = document.createElement('div');
+                    const dateStr = `${currentYear}-${String(currentMonthIndex + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                    
+                    const isToday = today.getDate() === i && today.getMonth() === currentMonthIndex && today.getFullYear() === currentYear;
+                    const daySessions = sessions.filter(session => session.date === dateStr);
+                    
+                    day.className = 'calendar-day';
+                    if (isToday) day.classList.add('today');
+                    if (daySessions.length > 0) day.classList.add('has-session');
+                    
+                    let sessionsHTML = '';
+                    daySessions.forEach(session => {
+                        sessionsHTML += `
+                            <div class="calendar-session ${session.type}">
+                                <i class="fas ${session.type === 'online' ? 'fa-video' : 'fa-user'}"></i>
+                                ${session.time}
+                            </div>
+                        `;
+                    });
+                    
+                    day.innerHTML = `
+                        <div class="calendar-day-number">${i}</div>
+                        ${sessionsHTML}
+                    `;
+                    
+                    calendarGrid.appendChild(day);
+                }
+                
+                // Jours du mois suivant
+                const totalCells = 42; // 6 semaines * 7 jours
+                const cellsUsed = firstDayOfWeek + lastDay.getDate();
+                for (let i = 1; i <= totalCells - cellsUsed; i++) {
+                    const day = document.createElement('div');
+                    day.className = 'calendar-day';
+                    day.innerHTML = `<div class="calendar-day-number" style="opacity: 0.3">${i}</div>`;
+                    calendarGrid.appendChild(day);
+                }
+                
+                // Rendre les séances à venir
+                renderUpcomingSessions();
+            }
+            
+            function renderUpcomingSessions() {
+                upcomingSessions.innerHTML = '';
+                const sessions = sessionsData[currentTeacherId] || [];
+                const today = new Date().toISOString().split('T')[0];
+                
+                const upcoming = sessions
+                    .filter(session => session.date >= today)
+                    .sort((a, b) => a.date.localeCompare(b.date))
+                    .slice(0, 5);
+                
+                if (upcoming.length === 0) {
+                    upcomingSessions.innerHTML = `
+                        <div style="text-align: center; padding: 20px; color: var(--gris-moyen);">
+                            <i class="fas fa-calendar-times" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                            <p>Aucune séance programmée pour cet enseignant</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                upcoming.forEach(session => {
+                    const date = new Date(session.date);
+                    const formattedDate = date.toLocaleDateString('fr-FR', { 
+                        weekday: 'long', 
+                        day: 'numeric', 
+                        month: 'long' 
+                    });
+                    
+                    const sessionItem = document.createElement('div');
+                    sessionItem.className = 'session-item';
+                    sessionItem.innerHTML = `
+                        <div class="session-info">
+                            <h4>${session.subject}</h4>
+                            <p>${formattedDate} - ${session.time}</p>
+                        </div>
+                        <div class="session-type ${session.type}">
+                            ${session.type === 'online' ? 'En ligne' : 'Présentiel'}
+                        </div>
+                    `;
+                    upcomingSessions.appendChild(sessionItem);
+                });
+            }
+            
+            // Navigation du calendrier
+            prevMonthBtn.addEventListener('click', () => {
+                currentMonthIndex--;
+                if (currentMonthIndex < 0) {
+                    currentMonthIndex = 11;
+                    currentYear--;
+                }
+                renderCalendar();
+            });
+            
+            nextMonthBtn.addEventListener('click', () => {
+                currentMonthIndex++;
+                if (currentMonthIndex > 11) {
+                    currentMonthIndex = 0;
+                    currentYear++;
+                }
+                renderCalendar();
+            });
+            
+            // Fermer la modal
+            closeModal.addEventListener('click', () => {
+                calendarModal.classList.remove('active');
+            });
+            
+            // Fermer en cliquant à l'extérieur
+            calendarModal.addEventListener('click', (e) => {
+                if (e.target === calendarModal) {
+                    calendarModal.classList.remove('active');
+                }
+            });
+            
+            // Fonction pour montrer le calendrier
+            window.showCalendar = function(teacherId, teacherName) {
+                currentTeacherId = teacherId;
+                modalTeacherName.textContent = teacherName;
+                
+                // Réinitialiser au mois et année actuels
+                currentDate = new Date();
+                currentMonthIndex = currentDate.getMonth();
+                currentYear = currentDate.getFullYear();
+                
+                renderCalendar();
+                calendarModal.classList.add('active');
+            };
         }
 
         // Configuration des événements
@@ -1898,9 +2137,6 @@
                     searchTeachers();
                 }
             });
-
-            // Trouver un enseignant
-            findTeacherBtn.addEventListener('click', findTeacher);
 
             // Menu mobile
             mobileNavToggle.addEventListener('click', () => {
@@ -1924,19 +2160,6 @@
                 if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
                     profileMenu.classList.remove('active');
                 }
-            });
-
-            // Boutons de navigation
-            document.getElementById('viewAllCurrentTeachers').addEventListener('click', (e) => {
-                e.preventDefault();
-                alert('Redirection vers la liste complète des enseignants actuels...');
-                // window.location.href = 'student_current_teachers.html';
-            });
-
-            document.getElementById('viewAllPreviousTeachers').addEventListener('click', (e) => {
-                e.preventDefault();
-                alert('Redirection vers l\'historique complet des enseignants...');
-                // window.location.href = 'student_teacher_history.html';
             });
         }
 
@@ -2031,11 +2254,6 @@
         window.contactTeacher = function(teacherId) {
             alert(`Ouvrir la messagerie avec l'enseignant #${teacherId}`);
             // window.location.href = `messages.html?teacher=${teacherId}`;
-        };
-
-        window.viewSchedule = function(teacherId) {
-            alert(`Voir le planning de l'enseignant #${teacherId}`);
-            // window.location.href = `teacher_schedule.html?id=${teacherId}`;
         };
 
         window.rehireTeacher = function(teacherId) {
