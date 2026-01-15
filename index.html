@@ -1140,7 +1140,7 @@
             border: 2px solid var(--gris-clair);
             transition: all 0.3s;
             position: relative;
-            height: 470px;
+            height: 420px; /* RÉDUIT DE 470px à 420px */
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
@@ -1254,16 +1254,9 @@
             color: #4CAF50;
         }
 
+        /* MODIFICATION SUPPRIMÉE: La description des enseignants a été supprimée */
         .teacher-description-horizontal {
-            color: var(--gris-moyen);
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin-bottom: 15px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            flex-grow: 1;
+            display: none; /* La description a été supprimée */
         }
 
         .teacher-actions-horizontal {
@@ -1793,7 +1786,7 @@
             .teacher-card-horizontal {
                 min-width: 220px;
                 max-width: 220px;
-                height: 440px;
+                height: 390px; /* Ajusté pour la version mobile */
             }
         }
 
@@ -1814,7 +1807,7 @@
             .teacher-card-horizontal {
                 min-width: 280px;
                 max-width: 280px;
-                height: 470px;
+                height: 420px;
             }
         }
 
@@ -3302,6 +3295,7 @@
             // Niveaux enseignés
             const levelsText = teacher.levels.length === 4 ? 'Tout le collège' : teacher.levels.join(', ');
             
+            // MODIFICATION: La description a été supprimée du HTML
             card.innerHTML = `
                 <div class="teacher-header-horizontal">
                     <div class="teacher-avatar-horizontal">${teacher.avatarInitials}</div>
@@ -3318,7 +3312,7 @@
                     <div class="teacher-subjects-horizontal">
                         ${subjectsHTML}
                     </div>
-                    <p class="teacher-description-horizontal">${teacher.description}</p>
+                    <!-- MODIFICATION: La description a été supprimée -->
                     
                     <div class="teacher-actions-horizontal">
                         <button class="btn-teacher-horizontal btn-profile-horizontal" onclick="viewTeacherProfile(${teacher.id})">

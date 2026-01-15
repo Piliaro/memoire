@@ -642,16 +642,7 @@
             padding: 25px;
         }
 
-        .school-description {
-            color: var(--gris-moyen);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+        /* Suppression de .school-description */
 
         .school-stats {
             display: flex;
@@ -741,9 +732,7 @@
             justify-content: space-between;
         }
 
-        .schools-grid.list-view .school-description {
-            -webkit-line-clamp: 2;
-        }
+        /* Suppression de .schools-grid.list-view .school-description */
 
         /* Pagination */
         .pagination {
@@ -1686,13 +1675,12 @@
     </div>
 
     <script>
-        // Données des écoles simplifiées
+        // Données des écoles simplifiées (sans description)
         const schoolsData = [
             {
                 id: 1,
                 name: "Lycée de Tokoin",
                 location: "Lomé, Tokoin",
-                description: "Lycée public d'excellence avec plus de 40 ans d'existence. Partenaire d'EduTogoConnect depuis 2020.",
                 rating: 4.8,
                 partnershipYear: 2020,
                 logoInitials: "LT",
@@ -1702,7 +1690,6 @@
                 id: 2,
                 name: "Collège Protestant",
                 location: "Lomé, Centre-ville",
-                description: "École confessionnelle réputée pour son excellence académique et ses valeurs morales.",
                 rating: 4.9,
                 partnershipYear: 2019,
                 logoInitials: "CP",
@@ -1712,7 +1699,6 @@
                 id: 3,
                 name: "École Internationale",
                 location: "Lomé, Bè",
-                description: "École internationale offrant un programme bilingue français-anglais reconnu mondialement.",
                 rating: 4.7,
                 partnershipYear: 2022,
                 logoInitials: "EI",
@@ -1722,7 +1708,6 @@
                 id: 4,
                 name: "Collège de Kara",
                 location: "Kara, Centre",
-                description: "Principal établissement secondaire de la région de la Kara, formant les élites du Nord-Togo.",
                 rating: 4.6,
                 partnershipYear: 2021,
                 logoInitials: "CK",
@@ -1732,7 +1717,6 @@
                 id: 5,
                 name: "Lycée de Sokodé",
                 location: "Sokodé",
-                description: "Établissement historique formant les élèves de la région centrale depuis 1975.",
                 rating: 4.5,
                 partnershipYear: 2020,
                 logoInitials: "LS",
@@ -1742,7 +1726,6 @@
                 id: 6,
                 name: "Collège Saint-Augustin",
                 location: "Atakpamé",
-                description: "École catholique réputée pour sa discipline et ses excellents résultats au BEPC.",
                 rating: 4.8,
                 partnershipYear: 2018,
                 logoInitials: "SA",
@@ -1752,7 +1735,6 @@
                 id: 7,
                 name: "École Privée Les Lauréats",
                 location: "Lomé, Agoè",
-                description: "École privée d'excellence avec un taux de réussite de 98% au BEPC ces 5 dernières années.",
                 rating: 4.9,
                 partnershipYear: 2019,
                 logoInitials: "EL",
@@ -1762,7 +1744,6 @@
                 id: 8,
                 name: "Lycée de Dapaong",
                 location: "Dapaong",
-                description: "Principal lycée de la région des Savanes, formant les futurs cadres du Nord-Togo.",
                 rating: 4.4,
                 partnershipYear: 2022,
                 logoInitials: "LD",
@@ -1772,7 +1753,6 @@
                 id: 9,
                 name: "Collège Moderne de Tsévié",
                 location: "Tsévié",
-                description: "École privée moderne avec des installations de pointe et une pédagogie innovante.",
                 rating: 4.7,
                 partnershipYear: 2021,
                 logoInitials: "CM",
@@ -1782,7 +1762,6 @@
                 id: 10,
                 name: "École Primaire Excellence",
                 location: "Kara, Quartier administratif",
-                description: "École primaire d'excellence préparant les jeunes élèves pour une entrée réussie au collège.",
                 rating: 4.8,
                 partnershipYear: 2020,
                 logoInitials: "EP",
@@ -1792,7 +1771,6 @@
                 id: 11,
                 name: "Lycée Technique",
                 location: "Kpalimé",
-                description: "Lycée technique spécialisé dans les formations professionnelles et technologiques.",
                 rating: 4.6,
                 partnershipYear: 2021,
                 logoInitials: "LT",
@@ -1802,7 +1780,6 @@
                 id: 12,
                 name: "Complexe Scolaire Intégral",
                 location: "Lomé, Nyékonakpoè",
-                description: "Complexe scolaire complet de la maternelle au lycée avec une approche éducative holistique.",
                 rating: 4.9,
                 partnershipYear: 2023,
                 logoInitials: "CS",
@@ -1899,13 +1876,10 @@
             setupPagination();
         }
 
-        // Créer une carte d'école
+        // Créer une carte d'école (sans description)
         function createSchoolCard(school) {
             const card = document.createElement('div');
             card.className = `school-card ${school.isFeatured ? 'featured' : ''}`;
-            
-            // Déterminer le badge
-            let badgeHTML = '';
             
             // Étoiles de notation
             const stars = Math.floor(school.rating);
@@ -1937,8 +1911,6 @@
                     </div>
                 </div>
                 <div class="school-content">
-                    <p class="school-description">${school.description}</p>
-                    
                     <div class="school-actions">
                         <button class="btn-school btn-details" onclick="viewSchoolDetails(${school.id})">
                             <i class="fas fa-info-circle"></i> Détails
@@ -1960,8 +1932,7 @@
             filteredSchools = schoolsData.filter(school => {
                 // Filtre de recherche
                 if (searchTerm && !school.name.toLowerCase().includes(searchTerm) && 
-                    !school.location.toLowerCase().includes(searchTerm) &&
-                    !school.description.toLowerCase().includes(searchTerm)) {
+                    !school.location.toLowerCase().includes(searchTerm)) {
                     return false;
                 }
                 
@@ -2328,9 +2299,8 @@
         window.viewSchoolDetails = function(schoolId) {
             const school = schoolsData.find(s => s.id === schoolId);
             if (school) {
-                alert(`Détails de ${school.name}\n\nLocalisation: ${school.location}\nNote: ${school.rating}/5\nPartenaire depuis: ${school.partnershipYear}\n\nDescription: ${school.description}`);
-                // Dans une application réelle, rediriger vers la page de détails de l'école
-                // window.location.href = `school_details.html?id=${schoolId}`;
+                // Rediriger vers la page de profil de l'école
+                window.location.href = `school_profile.html?id=${schoolId}`;
             }
         };
     </script>
