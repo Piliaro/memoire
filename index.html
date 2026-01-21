@@ -20,6 +20,7 @@
             --cyan-suggestion: #00BCD4;
             --violet-premium: #9C27B0;
             --bleu-prof: #2196F3;
+            --violet-autres: #7B1FA2;
             
             --jaune-fonce: #FFC107;
             --vert-success: #4CAF50;
@@ -418,6 +419,74 @@
             margin-bottom: 5px;
         }
 
+        /* NOUVEAU MODAL: Achat de ressources */
+        #purchaseModal .modal-header {
+            background: linear-gradient(135deg, var(--violet-premium) 0%, var(--violet-autres) 100%);
+        }
+
+        .resource-preview {
+            background-color: rgba(123, 31, 162, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid var(--violet-autres);
+        }
+
+        .resource-preview h4 {
+            color: var(--gris-fonce);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .resource-preview ul {
+            padding-left: 20px;
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .resource-preview li {
+            margin-bottom: 5px;
+        }
+
+        .purchase-options {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .purchase-option {
+            flex: 1;
+            border: 2px solid var(--gris-clair);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .purchase-option:hover {
+            border-color: var(--violet-autres);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(123, 31, 162, 0.1);
+        }
+
+        .purchase-option.selected {
+            border-color: var(--violet-autres);
+            background-color: rgba(123, 31, 162, 0.05);
+        }
+
+        .purchase-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gris-fonce);
+            margin: 10px 0;
+        }
+
+        .purchase-period {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
         .modal-actions {
             display: flex;
             gap: 10px;
@@ -452,6 +521,16 @@
 
         .modal-btn-primary:hover {
             background-color: #008c45;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn-purple {
+            background-color: var(--violet-autres);
+            color: var(--blanc-principal);
+        }
+
+        .modal-btn-purple:hover {
+            background-color: #6a1b9a;
             transform: translateY(-2px);
         }
 
@@ -608,6 +687,16 @@
 
         .btn-info:hover {
             background-color: #0b7dda;
+            transform: translateY(-2px);
+        }
+
+        .btn-purple {
+            background-color: var(--violet-autres);
+            color: var(--blanc-principal);
+        }
+
+        .btn-purple:hover {
+            background-color: #6a1b9a;
             transform: translateY(-2px);
         }
 
@@ -857,6 +946,24 @@
             color: var(--vert-principal);
         }
 
+        /* Section Autres Cours */
+        .autres-courses-section {
+            background: linear-gradient(135deg, rgba(123, 31, 162, 0.05) 0%, rgba(156, 39, 176, 0.05) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            border: 2px solid rgba(123, 31, 162, 0.1);
+        }
+
+        .autres-courses-title {
+            color: var(--violet-autres);
+            border-bottom: 2px solid var(--violet-autres);
+        }
+
+        .autres-courses-title i {
+            color: var(--violet-autres);
+        }
+
         /* Cours Grid Layout 5 colonnes */
         .courses-grid {
             display: grid;
@@ -873,7 +980,7 @@
             border: 1px solid var(--gris-clair);
             transition: all 0.3s;
             position: relative;
-            height: 350px;
+            height: 320px;
             display: flex;
             flex-direction: column;
         }
@@ -923,6 +1030,25 @@
             background-color: rgba(33,150,243,0.15);
             color: #2196F3;
             border: 1px solid #2196F3;
+        }
+
+        .badge-achat {
+            background-color: rgba(156, 39, 176, 0.15);
+            color: var(--violet-premium);
+            border: 1px solid var(--violet-premium);
+        }
+
+        /* Niveau d'étude pour les ressources */
+        .resource-level {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: rgba(123, 31, 162, 0.1);
+            color: var(--violet-autres);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            width: fit-content;
         }
 
         .course-level {
@@ -1011,6 +1137,16 @@
             align-items: center;
         }
 
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gris-moyen);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            align-items: center;
+            margin-top: auto;
+        }
+
         .course-rating {
             color: var(--jaune-principal);
             font-weight: 600;
@@ -1049,6 +1185,11 @@
         }
 
         .course-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .resource-actions {
             display: flex;
             gap: 8px;
         }
@@ -1093,6 +1234,26 @@
         .btn-premium:hover {
             background-color: #e6c200;
             transform: translateY(-2px);
+        }
+
+        .btn-achat {
+            background-color: var(--violet-autres);
+            color: var(--blanc-principal);
+        }
+
+        .btn-achat:hover {
+            background-color: #6a1b9a;
+            transform: translateY(-2px);
+        }
+
+        .btn-preview {
+            background-color: var(--gris-clair);
+            color: var(--gris-moyen);
+        }
+
+        .btn-preview:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
         }
 
         /* Section Meilleurs Enseignants - MODIFIÉ: défilement horizontal */
@@ -1749,6 +1910,10 @@
                 min-width: 250px;
                 max-width: 250px;
             }
+
+            .autres-courses-section {
+                padding: 20px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1788,6 +1953,14 @@
                 max-width: 220px;
                 height: 390px; /* Ajusté pour la version mobile */
             }
+
+            .purchase-options {
+                flex-direction: column;
+            }
+
+            .autres-courses-section {
+                padding: 15px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -1796,6 +1969,11 @@
             }
             
             .course-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .resource-actions {
                 flex-direction: column;
                 gap: 8px;
             }
@@ -1831,6 +2009,14 @@
             }
             
             .price-amount {
+                font-size: 1.2rem;
+            }
+
+            .purchase-option {
+                padding: 10px;
+            }
+
+            .purchase-price {
                 font-size: 1.2rem;
             }
         }
@@ -1928,6 +2114,56 @@
         </div>
     </div>
 
+    <!-- NOUVEAU MODAL: Achat de ressources -->
+    <div class="modal-overlay" id="purchaseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="purchaseTitle">Acheter une ressource</h3>
+                <p id="purchaseSubtitle"></p>
+                <button class="close-modal" id="closePurchaseModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="purchaseStep1">
+                    <div class="resource-preview">
+                        <h4 id="resourceTitle"></h4>
+                        <p id="resourceDescription"></p>
+                        <p><strong>Type:</strong> <span id="resourceType"></span></p>
+                        <p><strong>Format:</strong> <span id="resourceFormat"></span></p>
+                        <p><strong>Niveau:</strong> <span id="resourceLevel"></span></p>
+                        <p><strong>Contenu:</strong></p>
+                        <ul id="resourceContent"></ul>
+                    </div>
+
+                    <div class="purchase-options">
+                        <div class="purchase-option" data-price="gratuit">
+                            <h4>Gratuit</h4>
+                            <div class="purchase-price price-free">0 FCFA</div>
+                            <div class="purchase-period">Accès immédiat</div>
+                            <p>Version limitée</p>
+                        </div>
+                        <div class="purchase-option" data-price="standard">
+                            <h4>Standard</h4>
+                            <div class="purchase-price" id="standardPrice"></div>
+                            <div class="purchase-period">Accès complet</div>
+                            <p>Téléchargement PDF</p>
+                        </div>
+                        <div class="purchase-option" data-price="premium">
+                            <h4>Premium</h4>
+                            <div class="purchase-price" id="premiumPrice"></div>
+                            <div class="purchase-period">Accès complet + bonus</div>
+                            <p>PDF + corrigés détaillés</p>
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="modal-btn modal-btn-secondary" id="cancelPurchaseBtn">Annuler</button>
+                        <button class="modal-btn modal-btn-purple" id="confirmPurchaseBtn" disabled>Acheter maintenant</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="container">
@@ -1943,6 +2179,7 @@
 
                 <ul class="nav-links" id="navLinks">
                     <li><a href="#cours">Cours</a></li>
+                    <li><a href="#ressources">Ressources</a></li>
                     <li><a href="#niveaux">Niveaux</a></li>
                     <li><a href="#enseignants">Enseignants</a></li>
                     <li><a href="#ecoles">Ecoles</a></li>
@@ -1961,6 +2198,7 @@
             <div class="mobile-menu" id="mobileMenu">
                 <ul class="nav-links">
                     <li><a href="#cours">Cours</a></li>
+                    <li><a href="#ressources">Ressources</a></li>
                     <li><a href="#niveaux">Niveaux</a></li>
                     <li><a href="#enseignants">Enseignants</a></li>
                     <li><a href="#ecoles">Ecoles</a></li>
@@ -2083,7 +2321,7 @@
     <section class="top-courses" id="cours">
         <div class="container">
             <h2 class="section-title">Meilleurs Cours par Niveau</h2>
-            <p class="section-subtitle">Découvrez les cours les plus populaires pour chaque niveau du collège</p>
+            <p class="section-subtitle">Découvrez les cours les plus populaires pour chaque niveau du collège et les ressources pour vos revision et preparation aux devoirs et examens</p>
             
             <!-- Section Sciences -->
             <div class="courses-grid" id="sciencesGrid">
@@ -2094,8 +2332,18 @@
                 <!-- Les cours de littérature seront ajoutés dynamiquement -->
             </div>
             
+            <!-- MODIFICATION: Section Autres Cours modifiée pour ressembler au fichier fourni -->
+            <section class="autres-courses-section" id="autres-cours">
+                <h2 class="courses-section-title autres-courses-title">
+                    <i class="fas fa-book"></i> Autres Cours - Ressources pédagogiques
+                </h2>
+                <div class="courses-grid" id="autresCoursGrid">
+                    <!-- Les ressources pédagogiques seront ajoutées dynamiquement -->
+                </div>
+            </section>
+            
             <div style="text-align: center; margin-top: 50px;">
-                <a href="cours.html" class="btn btn-info">Voir tous les cours</a>
+                <a href="cours.html" class="btn btn-purple">Voir tous les cours</a>
             </div>
         </div>
     </section>
@@ -2294,6 +2542,7 @@
                         <li><a href="#mission">Notre Mission</a></li>
                         <li><a href="#niveaux">Niveaux</a></li>
                         <li><a href="#cours">Meilleurs Cours</a></li>
+                        <li><a href="#ressources">Ressources</a></li>
                         <li><a href="#enseignants">Nos Enseignants</a></li>
                         <li><a href="#ecoles">Nos Écoles</a></li>
                         <li><a href="#partenaires">Nos Partenaires</a></li>
@@ -2518,6 +2767,135 @@
                 isPremium: false,
                 category: "litterature"
             },
+        ];
+
+        // MODIFICATION: Données pour les ressources pédagogiques avec informations d'enseignants
+        const resourcesData = [
+            {
+                id: 101,
+                title: "Fiches de révision BEPC - Mathématiques",
+                type: "fiche_revision",
+                subject: "math",
+                level: "3ème",
+                description: "Fiches complètes de révision pour le BEPC en mathématiques",
+                format: "PDF",
+                pages: 45,
+                price: 1500,
+                premiumPrice: 2500,
+                rating: 4.8,
+                downloads: 287,
+                content: [
+                    "Algèbre: Calcul littéral, équations",
+                    "Géométrie: Théorèmes, calculs d'aires",
+                    "Statistiques et probabilités",
+                    "Exercices types BEPC corrigés"
+                ],
+                teacher: "Prof. Jean Dupont",
+                teacherInitials: "JD",
+                profession: "Enseignant au Lycée Français",
+                location: "Lomé",
+                category: "autres"
+            },
+            {
+                id: 102,
+                title: "Annales BEPC corrigées - 2020-2023",
+                type: "epreuve_examen",
+                subject: "toutes",
+                level: "3ème",
+                description: "Sujets officiels des dernières sessions avec corrigés détaillés",
+                format: "PDF + Vidéo",
+                pages: 120,
+                price: 3000,
+                premiumPrice: 4500,
+                rating: 4.9,
+                downloads: 412,
+                content: [
+                    "Sujets complets de toutes les matières",
+                    "Corrigés détaillés pas à pas",
+                    "Conseils de méthodologie",
+                    "Grilles d'évaluation officielles"
+                ],
+                teacher: "M. Koffi Agbessi",
+                teacherInitials: "KA",
+                profession: "Enseignant au Collège Protestant",
+                location: "Lomé",
+                category: "autres"
+            },
+            {
+                id: 103,
+                title: "Résumés de cours - Français 4ème",
+                type: "cours_resume",
+                subject: "french",
+                level: "4ème",
+                description: "Synthèse complète du programme de français 4ème",
+                format: "PDF",
+                pages: 35,
+                price: 1200,
+                premiumPrice: 2000,
+                rating: 4.6,
+                downloads: 156,
+                content: [
+                    "Grammaire et conjugaison",
+                    "Figures de style et analyse littéraire",
+                    "Méthodologie de la rédaction",
+                    "Liste d'œuvres au programme"
+                ],
+                teacher: "Mme Aïcha Mensah",
+                teacherInitials: "AM",
+                profession: "Professeure de Français",
+                location: "Lomé",
+                category: "autres"
+            },
+            {
+                id: 104,
+                title: "Exercices corrigés - Sciences Physiques 5ème",
+                type: "exercice_corrige",
+                subject: "physics",
+                level: "5ème",
+                description: "Banque d'exercices avec corrections détaillées",
+                format: "PDF",
+                pages: 60,
+                price: 1800,
+                premiumPrice: 2800,
+                rating: 4.7,
+                downloads: 198,
+                content: [
+                    "Électricité: Circuits, loi d'Ohm",
+                    "Mécanique: Forces, mouvement",
+                    "Chimie: Atomes, molécules",
+                    "Optique: Lumière, miroirs"
+                ],
+                teacher: "Dr. Yao Akakpo",
+                teacherInitials: "YA",
+                profession: "Professeur de Physique",
+                location: "Kara",
+                category: "autres"
+            },
+            {
+                id: 105,
+                title: "Devoirs surveillés - SVT 4ème",
+                type: "devoir",
+                subject: "svt",
+                level: "4ème",
+                description: "Série de devoirs type contrôle avec barème",
+                format: "PDF",
+                pages: 40,
+                price: 1000,
+                premiumPrice: 1800,
+                rating: 4.5,
+                downloads: 134,
+                content: [
+                    "6 devoirs complets",
+                    "Barème de correction",
+                    "Fiches de révision associées",
+                    "Conseils pour réussir"
+                ],
+                teacher: "Mme Fatou Diallo",
+                teacherInitials: "FD",
+                profession: "Biologiste",
+                location: "Sokodé",
+                category: "autres"
+            }
         ];
 
         // MODIFICATION: Données des enseignants (simplifiées) depuis enseignant.html
@@ -2757,6 +3135,17 @@
         let selectedAction = null;
         let currentStep = 1;
 
+        // MODIFICATION: Éléments du modal d'achat
+        const purchaseModal = document.getElementById('purchaseModal');
+        const closePurchaseModal = document.getElementById('closePurchaseModal');
+        const cancelPurchaseBtn = document.getElementById('cancelPurchaseBtn');
+        const confirmPurchaseBtn = document.getElementById('confirmPurchaseBtn');
+        const purchaseOptions = document.querySelectorAll('.purchase-option');
+
+        // Variables d'état pour l'achat
+        let selectedResource = null;
+        let selectedPriceOption = null;
+
         // MODIFICATION: Fonction pour ouvrir la modal d'inscription depuis les boutons des cours
         window.openEnrollModal = function(courseId) {
             const course = coursesData.find(c => c.id === courseId);
@@ -2894,6 +3283,37 @@
             });
         }
 
+        // MODIFICATION: Configuration du modal d'achat
+        function setupPurchaseModal() {
+            // Fermer le modal
+            closePurchaseModal.addEventListener('click', closePurchaseModalFunc);
+            cancelPurchaseBtn.addEventListener('click', closePurchaseModalFunc);
+            
+            // Fermer le modal en cliquant à l'extérieur
+            purchaseModal.addEventListener('click', (e) => {
+                if (e.target === purchaseModal) {
+                    closePurchaseModalFunc();
+                }
+            });
+            
+            // Sélection d'option d'achat
+            purchaseOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    purchaseOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedPriceOption = option.dataset.price;
+                    updatePurchaseButton();
+                });
+            });
+            
+            // Bouton de confirmation d'achat
+            confirmPurchaseBtn.addEventListener('click', () => {
+                if (selectedResource && selectedPriceOption) {
+                    processPurchase();
+                }
+            });
+        }
+
         // MODIFICATION: Fermer la modal
         function closeAuthModal() {
             authModal.classList.remove('active');
@@ -2954,6 +3374,73 @@
             continueBtn.className = continueBtn.disabled ? 
                 'modal-btn modal-btn-disabled' : 
                 'modal-btn modal-btn-primary';
+        }
+
+        // MODIFICATION: Fermer le modal d'achat
+        function closePurchaseModalFunc() {
+            purchaseModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            selectedResource = null;
+            selectedPriceOption = null;
+        }
+
+        // MODIFICATION: Mettre à jour le bouton d'achat
+        function updatePurchaseButton() {
+            if (!selectedPriceOption) {
+                confirmPurchaseBtn.disabled = true;
+                confirmPurchaseBtn.textContent = 'Sélectionnez une option';
+                confirmPurchaseBtn.className = 'modal-btn modal-btn-disabled';
+                return;
+            }
+            
+            confirmPurchaseBtn.disabled = false;
+            
+            if (selectedPriceOption === 'gratuit') {
+                confirmPurchaseBtn.textContent = 'Télécharger gratuitement';
+            } else {
+                confirmPurchaseBtn.textContent = 'Procéder au paiement';
+            }
+            
+            confirmPurchaseBtn.className = 'modal-btn modal-btn-purple';
+        }
+
+        // MODIFICATION: Traiter l'achat
+        function processPurchase() {
+            if (!selectedResource || !selectedPriceOption) return;
+            
+            let price = 0;
+            let optionName = '';
+            
+            switch (selectedPriceOption) {
+                case 'gratuit':
+                    price = 0;
+                    optionName = 'Gratuit';
+                    break;
+                case 'standard':
+                    price = selectedResource.price;
+                    optionName = 'Standard';
+                    break;
+                case 'premium':
+                    price = selectedResource.premiumPrice;
+                    optionName = 'Premium';
+                    break;
+            }
+            
+            // Simuler l'achat
+            alert(`Achat en cours...\n\nRessource: ${selectedResource.title}\nOption: ${optionName}\nPrix: ${price === 0 ? 'Gratuit' : price.toLocaleString() + ' FCFA'}\n\nVous allez être redirigé vers le paiement.`);
+            
+            // Fermer le modal après un délai
+            setTimeout(() => {
+                closePurchaseModalFunc();
+                
+                // Redirection vers la page de paiement (simulée)
+                if (price > 0) {
+                    console.log(`Redirection vers le paiement pour la ressource ${selectedResource.id}, option ${selectedPriceOption}`);
+                } else {
+                    // Pour les ressources gratuites, téléchargement direct
+                    alert('Téléchargement en cours...');
+                }
+            }, 1000);
         }
 
         // Élément flèche retour en haut
@@ -3155,6 +3642,26 @@
             }
         }
 
+        // MODIFICATION: Fonction pour initialiser les ressources pédagogiques
+        function initResources() {
+            const autresCoursGrid = document.getElementById('autresCoursGrid');
+            
+            // Afficher les ressources pédagogiques
+            if (resourcesData.length === 0) {
+                autresCoursGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 20px; color: var(--gris-moyen);">
+                        <i class="fas fa-book" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>Aucune ressource pédagogique disponible.</p>
+                    </div>
+                `;
+            } else {
+                resourcesData.forEach(resource => {
+                    const resourceCard = createResourceCard(resource);
+                    autresCoursGrid.appendChild(resourceCard);
+                });
+            }
+        }
+
         // Fonction pour créer une carte de cours compacte
         function createCourseCard(course) {
             const card = document.createElement('div');
@@ -3241,6 +3748,144 @@
             
             return card;
         }
+
+        // MODIFICATION: Fonction pour créer une carte de ressource
+        function createResourceCard(resource) {
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            
+            // Formater le prix
+            let priceHTML = '';
+            if (resource.price === 0) {
+                priceHTML = `
+                    <div class="price-amount price-free">Gratuit</div>
+                `;
+            } else {
+                priceHTML = `
+                    <div class="price-amount">${resource.price.toLocaleString()} FCFA</div>
+                `;
+            }
+            
+            // Étoiles de notation
+            const stars = Math.floor(resource.rating);
+            const hasHalfStar = resource.rating % 1 >= 0.5;
+            let starsHTML = '';
+            for (let i = 0; i < stars; i++) {
+                starsHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            card.innerHTML = `
+                <div class="course-header">
+                    <div class="resource-level">${resource.level}</div>
+                    <h3 class="course-title">${resource.title}</h3>
+                    <p class="course-subject">${getSubjectName(resource.subject)}</p>
+                    
+                    <!-- Section enseignant -->
+                    <div class="course-teacher">
+                        <div class="teacher-avatar">${resource.teacherInitials}</div>
+                        <div class="teacher-info">
+                            <h4>${resource.teacher}</h4>
+                            <p>${resource.profession}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Localisation -->
+                    <div class="course-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${resource.location}</span>
+                    </div>
+                    
+                    <div class="resource-meta">
+                        <div class="course-rating">
+                            ${starsHTML} ${resource.rating}/5
+                        </div>
+                    </div>
+                    
+                    <div class="course-price">
+                        ${priceHTML}
+                    </div>
+                    
+                    <div class="resource-actions">
+                        <button class="btn-course btn-preview" onclick="previewResource(${resource.id})">
+                            <i class="fas fa-eye"></i> Aperçu
+                        </button>
+                        <button class="btn-course btn-achat" onclick="openPurchaseModal(${resource.id})">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // MODIFICATION: Obtenir le nom du type de ressource
+        function getResourceTypeName(type) {
+            const types = {
+                'fiche_revision': 'Fiche de révision',
+                'epreuve_examen': 'Épreuve d\'examen',
+                'cours_resume': 'Cours résumé',
+                'exercice_corrige': 'Exercice corrigé',
+                'devoir': 'Devoir',
+                'kit_revision': 'Kit de révision',
+                'methode': 'Méthodologie',
+                'cahier_activites': 'Cahier d\'activités',
+                'pack_revision': 'Pack révision',
+                'formulaire': 'Formulaire'
+            };
+            return types[type] || type;
+        }
+
+        // MODIFICATION: Aperçu d'une ressource
+        window.previewResource = function(resourceId) {
+            const resource = resourcesData.find(r => r.id === resourceId);
+            if (resource) {
+                openPurchaseModal(resourceId);
+            }
+        };
+
+        // MODIFICATION: Ouvrir le modal d'achat
+        window.openPurchaseModal = function(resourceId) {
+            selectedResource = resourcesData.find(r => r.id === resourceId);
+            
+            if (selectedResource) {
+                // Mettre à jour les informations du modal
+                document.getElementById('purchaseTitle').textContent = selectedResource.title;
+                document.getElementById('purchaseSubtitle').textContent = selectedResource.description;
+                document.getElementById('resourceTitle').textContent = selectedResource.title;
+                document.getElementById('resourceDescription').textContent = selectedResource.description;
+                document.getElementById('resourceType').textContent = getResourceTypeName(selectedResource.type);
+                document.getElementById('resourceFormat').textContent = selectedResource.format;
+                document.getElementById('resourceLevel').textContent = selectedResource.level;
+                
+                // Mettre à jour la liste de contenu
+                const contentList = document.getElementById('resourceContent');
+                contentList.innerHTML = '';
+                selectedResource.content.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    contentList.appendChild(li);
+                });
+                
+                // Mettre à jour les prix
+                document.getElementById('standardPrice').textContent = 
+                    selectedResource.price === 0 ? 'Gratuit' : selectedResource.price.toLocaleString() + ' FCFA';
+                document.getElementById('premiumPrice').textContent = 
+                    selectedResource.premiumPrice === 0 ? 'Gratuit' : selectedResource.premiumPrice.toLocaleString() + ' FCFA';
+                
+                // Réinitialiser les sélections
+                selectedPriceOption = null;
+                purchaseOptions.forEach(opt => opt.classList.remove('selected'));
+                updatePurchaseButton();
+                
+                // Ouvrir le modal
+                purchaseModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        };
 
         // MODIFICATION: Fonction pour initialiser les enseignants avec défilement horizontal
         function initTeachers() {
@@ -3437,7 +4082,8 @@
                 'physics': 'Sciences Physiques',
                 'svt': 'SVT',
                 'history': 'Histoire-Géo',
-                'philo': 'Philosophie'
+                'philo': 'Philosophie',
+                'toutes': 'Toutes matières'
             };
             return subjects[subject] || subject;
         }
@@ -3500,12 +4146,14 @@
 
         // Initialiser toutes les sections
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialiser la modal
+            // Initialiser les modals
             setupModalEvents();
+            setupPurchaseModal();
             
             // Initialiser les autres composants
             initTestimonials();
             initCourses();
+            initResources();  // <-- MODIFICATION: Initialiser les ressources
             initTeachers();
             initSchools();
             initPartners();

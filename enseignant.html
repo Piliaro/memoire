@@ -175,71 +175,6 @@
             max-width: 800px;
         }
 
-        /* Statistiques enseignants */
-        .teachers-stats {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .stat-card {
-            background-color: var(--blanc-principal);
-            border-radius: 12px;
-            padding: 25px;
-            flex: 1;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            border-color: var(--bleu-prof);
-            transform: translateY(-5px);
-        }
-
-        .stat-card.experienced {
-            border-color: var(--jaune-principal);
-        }
-
-        .stat-card.online {
-            border-color: var(--bleu-prof);
-        }
-
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        .stat-card.experienced .stat-icon {
-            background-color: rgba(255,215,0,0.1);
-            color: var(--jaune-principal);
-        }
-
-        .stat-card.online .stat-icon {
-            background-color: rgba(33,150,243,0.1);
-            color: var(--bleu-prof);
-        }
-
-        .stat-number {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: var(--gris-fonce);
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            color: var(--gris-moyen);
-        }
-
         /* Conteneur pour la barre de recherche et les options de tri */
         .search-sort-container {
             display: flex;
@@ -440,7 +375,7 @@
             margin-bottom: 40px;
         }
 
-        /* Teacher Card - HAUTEUR RÉDUITE */
+        /* Teacher Card - HAUTEUR RÉDUITE SANS DESCRIPTION */
         .teacher-card {
             background-color: var(--blanc-principal);
             border-radius: 12px;
@@ -448,7 +383,7 @@
             border: 2px solid var(--gris-clair);
             transition: all 0.3s;
             position: relative;
-            height: 470px; /* Hauteur réduite */
+            height: 410px; /* Hauteur réduite sans description */
             display: flex;
             flex-direction: column;
         }
@@ -460,7 +395,7 @@
         }
 
         .teacher-header {
-            padding: 20px; /* Padding réduit */
+            padding: 20px;
             background-color: var(--blanc-principal);
             border-bottom: 1px solid var(--gris-clair);
             position: relative;
@@ -469,23 +404,23 @@
         }
 
         .teacher-avatar {
-            width: 80px; /* Taille réduite */
-            height: 80px; /* Taille réduite */
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            margin: 0 auto 15px; /* Marge réduite */
+            margin: 0 auto 15px;
             background: linear-gradient(45deg, var(--vert-principal), var(--bleu-prof));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: var(--blanc-principal);
-            font-size: 1.8rem; /* Taille de police réduite */
-            border: 3px solid var(--blanc-principal); /* Bordure réduite */
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1); /* Ombre réduite */
+            font-size: 1.8rem;
+            border: 3px solid var(--blanc-principal);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
 
         .teacher-name {
-            font-size: 1.2rem; /* Taille réduite */
+            font-size: 1.2rem;
             color: var(--gris-fonce);
             font-weight: 600;
             margin-bottom: 5px;
@@ -493,7 +428,7 @@
 
         .teacher-title {
             color: var(--bleu-prof);
-            font-size: 0.9rem; /* Taille réduite */
+            font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 8px;
         }
@@ -503,23 +438,23 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
-            margin-bottom: 10px; /* Marge réduite */
+            margin-bottom: 10px;
             color: var(--jaune-principal);
             font-weight: 600;
-            font-size: 0.9rem; /* Taille réduite */
+            font-size: 0.9rem;
         }
 
         .teacher-meta {
             display: flex;
             justify-content: center;
-            gap: 15px; /* Espace réduit */
+            gap: 15px;
             color: var(--gris-moyen);
-            font-size: 0.8rem; /* Taille réduite */
+            font-size: 0.8rem;
             margin-bottom: 10px;
         }
 
         .teacher-content {
-            padding: 15px; /* Padding réduit */
+            padding: 15px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -528,16 +463,16 @@
         .teacher-subjects {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px; /* Espace réduit */
-            margin-bottom: 15px; /* Marge réduite */
+            gap: 6px;
+            margin-bottom: 20px; /* Marge augmentée pour compenser l'absence de description */
         }
 
         .subject-tag {
-            padding: 3px 8px; /* Padding réduit */
+            padding: 3px 8px;
             background-color: rgba(33,150,243,0.1);
             color: var(--bleu-prof);
             border-radius: 15px;
-            font-size: 0.75rem; /* Taille réduite */
+            font-size: 0.75rem;
             font-weight: 500;
         }
 
@@ -561,34 +496,22 @@
             color: #4CAF50;
         }
 
-        .teacher-description {
-            color: var(--gris-moyen);
-            font-size: 0.85rem; /* Taille réduite */
-            line-height: 1.5; /* Hauteur de ligne réduite */
-            margin-bottom: 15px; /* Marge réduite */
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            flex-grow: 1;
-        }
-
         .teacher-actions {
             display: flex;
-            gap: 8px; /* Espace réduit */
-            margin-top: auto;
+            gap: 8px;
+            margin-top: auto; /* Pousse les boutons vers le bas */
         }
 
         .btn-teacher {
             flex: 1;
-            padding: 10px; /* Padding réduit */
+            padding: 10px;
             text-align: center;
-            border-radius: 6px; /* Rayon réduit */
+            border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
             border: none;
             transition: all 0.3s;
-            font-size: 0.85rem; /* Taille réduite */
+            font-size: 0.85rem;
         }
 
         .btn-profile {
@@ -826,7 +749,7 @@
             
             .teacher-card {
                 height: auto;
-                min-height: 400px;
+                min-height: 350px;
             }
         }
 
@@ -1304,13 +1227,10 @@
             setupPagination();
         }
 
-        // Créer une carte d'enseignant (SIMPLIFIÉE)
+        // Créer une carte d'enseignant (SANS DESCRIPTION)
         function createTeacherCard(teacher) {
             const card = document.createElement('div');
             card.className = `teacher-card ${teacher.isPremium ? 'premium' : ''}`;
-            
-            // Déterminer le badge (SUPPRIMÉ: badge-verified)
-            let badgeHTML = '';
             
             // Étoiles de notation
             const stars = Math.floor(teacher.rating);
@@ -1333,9 +1253,9 @@
             // Niveaux enseignés
             const levelsText = teacher.levels.length === 4 ? 'Tout le collège' : teacher.levels.join(', ');
             
+            // Carte SANS description
             card.innerHTML = `
                 <div class="teacher-header">
-                    ${badgeHTML}
                     <div class="teacher-avatar">${teacher.avatarInitials}</div>
                     <h2 class="teacher-name">${teacher.name}</h2>
                     <p class="teacher-title">${teacher.title}</p>
@@ -1350,8 +1270,6 @@
                     <div class="teacher-subjects">
                         ${subjectsHTML}
                     </div>
-                    <p class="teacher-description">${teacher.description}</p>
-                    
                     <div class="teacher-actions">
                         <button class="btn-teacher btn-profile" onclick="viewTeacherProfile(${teacher.id})">
                             <i class="fas fa-user-circle"></i> Profil
@@ -1428,7 +1346,7 @@
                     return false;
                 }
                 
-                // Filtre par expérience (conservé pour la compatibilité des filtres)
+                // Filtre par expérience
                 if (selectedExperience > 0) {
                     // Simuler une expérience basée sur l'ID pour le filtrage
                     const simulatedExperience = teacher.id % 15;

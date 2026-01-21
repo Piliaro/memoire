@@ -18,6 +18,11 @@
             --orange-cours: #FF9800;
             --cyan-suggestion: #00BCD4;
             --violet-premium: #9C27B0;
+            --bleu-prof: #2196F3;
+            --orange-ecole: #FF9800;
+            --badge-premium-bg: rgba(255,215,0,0.15);
+            --badge-standard-bg: rgba(0,166,81,0.15);
+            --badge-gratuit-bg: rgba(33,150,243,0.15);
         }
 
         /* Reset et styles généraux */
@@ -87,6 +92,318 @@
             color: var(--vert-principal);
         }
 
+        /* Barre de recherche */
+        .search-bar-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--blanc-principal);
+            border-radius: 30px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+
+        .search-filters-btn {
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-left: 1px solid var(--gris-clair);
+            margin-left: 10px;
+        }
+
+        .search-btn {
+            background-color: var(--jaune-principal);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-fonce);
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            transform: scale(1.05);
+        }
+
+        /* Panneau de filtres */
+        .search-filters-panel {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 10px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .search-filters-panel.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .filters-title {
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .close-filters {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: var(--blanc-principal);
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--jaune-principal);
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gris-clair);
+        }
+
+        /* Bouton notification */
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .notification-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Menu déroulant profil */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--blanc-principal);
+            min-width: 250px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1001;
+            margin-top: 10px;
+        }
+
+        .profile-menu.active {
+            display: block;
+        }
+
+        .profile-menu-header {
+            padding: 20px;
+            background-color: var(--gris-clair);
+            text-align: center;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .profile-menu-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--blanc-principal);
+            font-weight: bold;
+        }
+
+        .profile-menu-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-menu-email {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .profile-menu-list {
+            list-style: none;
+        }
+
+        .profile-menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            transition: background-color 0.3s;
+        }
+
+        .profile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-menu-item:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gris-fonce);
+            text-decoration: none;
+        }
+
+        .profile-menu-link i {
+            width: 20px;
+            color: var(--gris-moyen);
+        }
+
+        .profile-menu-link.logout {
+            color: var(--rouge-principal);
+        }
+
+        .profile-menu-link.logout i {
+            color: var(--rouge-principal);
+        }
+
+        /* Menu mobile toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+        }
+
         /* Barre de navigation horizontale */
         .horizontal-nav {
             background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
@@ -148,26 +465,82 @@
             margin-left: 5px;
         }
 
+        /* Menu Mobile */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            z-index: 1000;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        .mobile-nav-badge {
+            margin-left: auto;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+
         /* Header de la page */
         .page-header {
-            padding: 30px 0 20px;
-            background: linear-gradient(135deg, rgba(0,166,81,0.1) 0%, rgba(255,215,0,0.05) 100%);
-            margin-bottom: 40px;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .page-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .page-title {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             color: var(--gris-fonce);
-            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 15px;
         }
 
         .page-subtitle {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--gris-moyen);
             max-width: 800px;
+            margin-top: 5px;
         }
 
         /* Statistiques de contrats */
@@ -175,7 +548,8 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin-bottom: 40px;
+            margin-top: 40px;
+            margin-bottom: 0;
         }
 
         .stat-card {
@@ -414,12 +788,20 @@
             margin-bottom: 15px;
         }
 
+        /* Métadonnées du contrat avec matière et niveau */
         .contract-meta {
             display: flex;
             justify-content: space-between;
             color: var(--gris-moyen);
             font-size: 0.9rem;
             margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .contract-meta > div {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
         /* Barre de progression de contrat */
@@ -558,13 +940,14 @@
 
         /* Actions du contrat */
         .contract-actions {
-            padding: 25px;
+            padding: 15px 25px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            justify-content: flex-start;
         }
 
         .btn {
-            padding: 12px 20px;
+            padding: 8px 15px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
@@ -574,7 +957,10 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
+            min-width: 100px;
+            text-align: center;
+            justify-content: center;
         }
 
         .btn-primary {
@@ -726,6 +1112,90 @@
             color: var(--gris-moyen);
         }
 
+        /* Footer */
+        .main-footer {
+            background-color: var(--gris-fonce);
+            color: var(--gris-clair);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gris-clair);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: var(--gris-clair);
+        }
+
         /* Modal de paiement */
         .modal-overlay {
             display: none;
@@ -799,6 +1269,10 @@
             
             .step {
                 flex: 0 0 calc(50% - 20px);
+            }
+            
+            .menu-toggle {
+                display: block;
             }
         }
 
@@ -894,16 +1368,162 @@
                     <div class="logo-text">Edu<span>Togo</span>Connect</div>
                 </a>
 
-                <div class="header-actions">
-                    <!-- Bouton info élève -->
-                    <a href="student_dashboard.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--blanc-principal);">KA</div>
-                        <div>
-                            <div style="font-weight: 600; color: var(--gris-fonce);">Koffi Agbessi</div>
-                            <div style="font-size: 0.85rem; color: var(--gris-moyen);">Élève - 3ème</div>
+                <!-- Barre de recherche -->
+                <div class="search-bar-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="mainSearchInput" placeholder="Rechercher des enseignants, écoles, matières...">
+                        <button class="search-filters-btn" id="searchFiltersBtn">
+                            <i class="fas fa-filter"></i>
+                            <span>Filtres</span>
+                        </button>
+                        <button class="search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Panneau de filtres -->
+                    <div class="search-filters-panel" id="searchFiltersPanel">
+                        <div class="filters-header">
+                            <h3 class="filters-title">Filtres de recherche avancés</h3>
+                            <button class="close-filters" id="closeFiltersBtn">&times;</button>
                         </div>
-                        <i class="fas fa-chevron-right"></i>
-                    </a>
+                        
+                        <div class="filters-grid">
+                            <div class="filter-group">
+                                <label class="filter-label">Type de recherche</label>
+                                <select class="filter-select" id="searchType">
+                                    <option value="all">Tout (enseignants, écoles, matières)</option>
+                                    <option value="teachers">Enseignants uniquement</option>
+                                    <option value="schools">Écoles & Institutions</option>
+                                    <option value="subjects">Par matière</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Niveau scolaire</label>
+                                <select class="filter-select" id="searchLevel">
+                                    <option value="all">Tous les niveaux</option>
+                                    <option value="6eme">6ème</option>
+                                    <option value="5eme">5ème</option>
+                                    <option value="4eme">4ème</option>
+                                    <option value="3eme">3ème</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Matière</label>
+                                <select class="filter-select" id="searchSubject">
+                                    <option value="all">Toutes les matières</option>
+                                    <option value="math">Mathématiques</option>
+                                    <option value="french">Français</option>
+                                    <option value="english">Anglais</option>
+                                    <option value="history">Histoire-Géographie</option>
+                                    <option value="physics">Sciences Physiques</option>
+                                    <option value="svt">SVT</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Tarif maximum (FCFA/heure)</label>
+                                <select class="filter-select" id="searchPrice">
+                                    <option value="all">Tous les tarifs</option>
+                                    <option value="free">Gratuit uniquement</option>
+                                    <option value="1000">≤ 1.000 FCFA</option>
+                                    <option value="2500">≤ 2.500 FCFA</option>
+                                    <option value="5000">≤ 5.000 FCFA</option>
+                                    <option value="10000">≤ 10.000 FCFA</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Note minimum</label>
+                                <select class="filter-select" id="searchRating">
+                                    <option value="0">Toutes les notes</option>
+                                    <option value="3">3 étoiles et plus</option>
+                                    <option value="4">4 étoiles et plus</option>
+                                    <option value="4.5">4.5 étoiles et plus</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Ville</label>
+                                <select class="filter-select" id="searchCity">
+                                    <option value="all">Toutes les villes</option>
+                                    <option value="lome">Lomé</option>
+                                    <option value="kara">Kara</option>
+                                    <option value="sokode">Sokodé</option>
+                                    <option value="palime">Palimé</option>
+                                    <option value="dapaong">Dapaong</option>
+                                    <option value="online">En ligne uniquement</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button class="btn btn-secondary" id="resetFiltersBtn">Réinitialiser</button>
+                            <button class="btn btn-primary" id="applyFiltersBtn">Appliquer les filtres</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
+                    <!-- Bouton notifications -->
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <!-- Menu déroulant profil -->
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div class="student-avatar-small" style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--blanc-principal);">KA</div>
+                            <div>
+                                <div style="font-weight: 600; color: var(--gris-fonce);">Koffi Agbessi</div>
+                                <span style="display: inline-block; padding: 3px 10px; background-color: var(--vert-principal); color: var(--blanc-principal); border-radius: 20px; font-size: 0.75rem; font-weight: 600;">Élève - 3ème</span>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="profile-menu" id="profileMenu">
+                            <div class="profile-menu-header">
+                                <div class="profile-menu-avatar">KA</div>
+                                <div class="profile-menu-name">Koffi Agbessi</div>
+                                <div class="profile-menu-email">koffi.agbessi@edutogoconnect.tg</div>
+                            </div>
+                            
+                            <ul class="profile-menu-list">
+                                <li class="profile-menu-item">
+                                    <a href="student_profile.html" class="profile-menu-link">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>Mon profil</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="student_settings.html" class="profile-menu-link">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Paramètres</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="student_progress.html" class="profile-menu-link">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>Mes progrès</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="login.html" class="profile-menu-link logout">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Déconnexion</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -942,23 +1562,71 @@
                         <span class="nav-badge">2</span>
                     </a>
                     <a href="student_history.html" class="nav-item">
-                        <i class="fas fa-history"></i>
-                        <span>Historique</span>
+                        <i class="fas fa-chart-line"></i>
+                        <span>Rapport</span>
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
+    <!-- Menu Mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-menu">
+            <a href="student_dashboard.html" class="mobile-nav-item">
+                <i class="fas fa-home"></i>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="../eleve/cours.html" class="mobile-nav-item">
+                <i class="fas fa-book-open"></i>
+                <span>Mes cours</span>
+                <span class="mobile-nav-badge">4</span>
+            </a>
+            <a href="../eleve/enseignant.html" class="mobile-nav-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Mes enseignants</span>
+            </a>
+            <a href="student_contracts.html" class="mobile-nav-item active">
+                <i class="fas fa-file-contract"></i>
+                <span>Mes contrats</span>
+            </a>
+            <a href="student_schedule.html" class="mobile-nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Emploi du temps</span>
+            </a>
+            <a href="student_messages.html" class="mobile-nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+                <span class="mobile-nav-badge">2</span>
+            </a>
+            <a href="#" class="mobile-nav-item" id="notificationNavBtnMobile">
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+                <span class="mobile-nav-badge">3</span>
+            </a>
+            <a href="student_settings.html" class="mobile-nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Paramètres</span>
+            </a>
+        </div>
+    </div>
+
     <!-- Header de la page -->
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">
-                <i class="fas fa-file-contract" style="color: var(--vert-principal);"></i>
-                Mes Contrats
-            </h1>
-            <p class="page-subtitle">Suivez la progression de vos inscriptions aux cours et gérez vos contrats en cours avec vos enseignants.</p>
+            <div>
+                <h1 class="page-title">
+                    <i class="fas fa-file-contract" style="color: var(--vert-principal);"></i>
+                    Mes Contrats
+                </h1>
+                <p class="page-subtitle">Suivez la progression de vos inscriptions aux cours et gérez vos contrats en cours avec vos enseignants.</p>
+            </div>
+        </div>
+    </section>
 
+    <!-- Section des contrats en cours -->
+    <section class="current-contracts-section">
+        <div class="container">
             <!-- Statistiques de contrats -->
             <div class="contract-stats">
                 <div class="stat-card">
@@ -1001,12 +1669,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Section des contrats en cours -->
-    <section class="current-contracts-section">
-        <div class="container">
+            
             <div class="section-header">
                 <div>
                     <h2 class="section-title">Contrats en cours de validation</h2>
@@ -1052,9 +1715,12 @@
                             </div>
                         </div>
                         <h3 class="contract-title">Mathématiques - Préparation BEPC</h3>
-                        <p class="contract-subject">Niveau: 3ème • 20 séances • Cours en groupe</p>
+                        <p class="contract-subject">Niveau: 3ème</p>
                         <div class="contract-meta">
-                            <span><i class="fas fa-calendar"></i> Inscrit le: 05/11/2023</span>
+                            <div>
+                                <span><i class="fas fa-graduation-cap"></i> Niveau: 3ème</span>
+                                <span><i class="fas fa-book"></i> Matière: Mathématiques</span>
+                            </div>
                             <span><i class="fas fa-money-bill"></i> 5.000 FCFA/h</span>
                         </div>
                     </div>
@@ -1112,8 +1778,11 @@
 
                     <!-- Actions du contrat -->
                     <div class="contract-actions">
+                        <button class="btn btn-warning" onclick="contactTeacher(1)">
+                            <i class="fab fa-facebook-messenger"></i> Contacter
+                        </button>
                         <button class="btn btn-secondary" onclick="viewContractDetails(1)">
-                            <i class="fas fa-eye"></i> Voir détails
+                            <i class="fas fa-eye"></i> Détails
                         </button>
                         <button class="btn btn-danger" onclick="cancelContract(1)">
                             <i class="fas fa-times"></i> Annuler
@@ -1133,9 +1802,12 @@
                             </div>
                         </div>
                         <h3 class="contract-title">Français - Grammaire avancée</h3>
-                        <p class="contract-subject">Niveau: 4ème • 15 séances • Cours individuel</p>
+                        <p class="contract-subject">Niveau: 4ème</p>
                         <div class="contract-meta">
-                            <span><i class="fas fa-calendar"></i> Inscrit le: 01/11/2023</span>
+                            <div>
+                                <span><i class="fas fa-graduation-cap"></i> Niveau: 4ème</span>
+                                <span><i class="fas fa-book"></i> Matière: Français</span>
+                            </div>
                             <span><i class="fas fa-money-bill"></i> 2.500 FCFA/h</span>
                         </div>
                     </div>
@@ -1194,10 +1866,13 @@
                     <!-- Actions du contrat -->
                     <div class="contract-actions">
                         <button class="btn btn-primary" onclick="openPaymentModal(2)">
-                            <i class="fas fa-credit-card"></i> Effectuer le paiement
+                            <i class="fas fa-credit-card"></i> Payer
+                        </button>
+                        <button class="btn btn-warning" onclick="contactTeacher(2)">
+                            <i class="fab fa-facebook-messenger"></i> Contacter
                         </button>
                         <button class="btn btn-secondary" onclick="viewContractDetails(2)">
-                            <i class="fas fa-eye"></i> Voir détails
+                            <i class="fas fa-eye"></i> Détails
                         </button>
                     </div>
                 </div>
@@ -1214,9 +1889,12 @@
                             </div>
                         </div>
                         <h3 class="contract-title">Physique-Chimie - Niveau 3ème</h3>
-                        <p class="contract-subject">Niveau: 3ème • 25 séances • Cours en groupe</p>
+                        <p class="contract-subject">Niveau: 3ème</p>
                         <div class="contract-meta">
-                            <span><i class="fas fa-calendar"></i> Début: 15/10/2023</span>
+                            <div>
+                                <span><i class="fas fa-graduation-cap"></i> Niveau: 3ème</span>
+                                <span><i class="fas fa-book"></i> Matière: Sciences Physiques</span>
+                            </div>
                             <span><i class="fas fa-money-bill"></i> 3.800 FCFA/h</span>
                         </div>
                     </div>
@@ -1275,13 +1953,13 @@
                     <!-- Actions du contrat -->
                     <div class="contract-actions">
                         <button class="btn btn-primary" onclick="continueCourse(3)">
-                            <i class="fas fa-play-circle"></i> Continuer le cours
-                        </button>
-                        <button class="btn btn-secondary" onclick="viewContractDetails(3)">
-                            <i class="fas fa-eye"></i> Voir contrat
+                            <i class="fas fa-play-circle"></i> Continuer
                         </button>
                         <button class="btn btn-warning" onclick="contactTeacher(3)">
-                            <i class="fas fa-envelope"></i> Contacter
+                            <i class="fab fa-facebook-messenger"></i> Contacter
+                        </button>
+                        <button class="btn btn-secondary" onclick="viewContractDetails(3)">
+                            <i class="fas fa-eye"></i> Détails
                         </button>
                     </div>
                 </div>
@@ -1298,9 +1976,12 @@
                             </div>
                         </div>
                         <h3 class="contract-title">Anglais - Conversation avancée</h3>
-                        <p class="contract-subject">Niveau: 3ème • 12 séances • Cours individuel</p>
+                        <p class="contract-subject">Niveau: 3ème</p>
                         <div class="contract-meta">
-                            <span><i class="fas fa-calendar"></i> Inscrit le: 25/10/2023</span>
+                            <div>
+                                <span><i class="fas fa-graduation-cap"></i> Niveau: 3ème</span>
+                                <span><i class="fas fa-book"></i> Matière: Anglais</span>
+                            </div>
                             <span><i class="fas fa-money-bill"></i> 2.900 FCFA/h</span>
                         </div>
                     </div>
@@ -1358,11 +2039,11 @@
 
                     <!-- Actions du contrat -->
                     <div class="contract-actions">
-                        <button class="btn btn-primary" onclick="findAlternativeCourse(4)">
-                            <i class="fas fa-search"></i> Trouver alternative
+                        <button class="btn btn-warning" onclick="contactTeacher(4)">
+                            <i class="fab fa-facebook-messenger"></i> Contacter
                         </button>
                         <button class="btn btn-secondary" onclick="viewContractDetails(4)">
-                            <i class="fas fa-eye"></i> Voir détails
+                            <i class="fas fa-eye"></i> Détails
                         </button>
                     </div>
                 </div>
@@ -1403,6 +2084,65 @@
         </div>
     </section>
 
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                        <div class="logo-icon">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
+                    </a>
+                    <p style="color: var(--gris-clair);">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="../eleve/cours.html">Tous les cours</a></li>
+                        <li><a href="../eleve/enseignant.html">Nos enseignants</a></li>
+                        <li><a href="../eleve/all_schools.html">Écoles partenaires</a></li>
+                        <li><a href="../Authentification/auth.html">Connexion</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Catégories</h3>
+                    <ul class="footer-links">
+                        <li><a href="../eleve/cours.html?subject=math">Mathématiques</a></li>
+                        <li><a href="../eleve/cours.html?subject=french">Français</a></li>
+                        <li><a href="../eleve/cours.html?subject=english">Anglais</a></li>
+                        <li><a href="../eleve/cours.html?subject=science">Sciences</a></li>
+                        <li><a href="../eleve/cours.html?level=3eme">Préparation BEPC</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.html"
+                        style="color: var(--jaune-principal);">Politique de confidentialité</a> | <a href="terms.html"
+                        style="color: var(--jaune-principal);">Conditions d'utilisation</a></p>
+            </div>
+        </div>
+    </footer>
+
     <!-- Modal de paiement -->
     <div class="modal-overlay" id="paymentModal">
         <div class="modal">
@@ -1429,6 +2169,22 @@
                 <div id="contractDetailsContent">
                     <!-- Les détails du contrat seront injectés dynamiquement -->
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour les notifications -->
+    <div class="modal-overlay" id="notificationModal">
+        <div class="modal" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Notifications</h2>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn btn-secondary" id="markAllReadBtn" style="padding: 5px 10px; font-size: 0.8rem;">Tout marquer comme lu</button>
+                    <button class="modal-close" id="closeNotificationModalBtn">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body" id="notificationList">
+                <!-- Les notifications seront ajoutées dynamiquement -->
             </div>
         </div>
     </div>
@@ -1480,7 +2236,7 @@
                     title: "Physique-Chimie - Niveau 3ème",
                     teacher: "Dr. Lawson",
                     teacherInitials: "DL",
-                    subject: "Sciences",
+                    subject: "Sciences Physiques",
                     level: "3ème",
                     type: "Cours en groupe",
                     sessions: 25,
@@ -1543,6 +2299,7 @@
                     teacher: "Prof. Mensah",
                     teacherInitials: "PM",
                     course: "Histoire-Géographie 4ème",
+                    subject: "Histoire-Géographie",
                     startDate: "01/07/2023",
                     endDate: "30/08/2023",
                     amount: "30.000 FCFA",
@@ -1553,6 +2310,7 @@
                     teacher: "Dr. Yao",
                     teacherInitials: "DY",
                     course: "Sciences Physiques 3ème",
+                    subject: "Sciences Physiques",
                     startDate: "10/05/2023",
                     endDate: "10/07/2023",
                     amount: "75.000 FCFA",
@@ -1563,6 +2321,7 @@
                     teacher: "Mme. Diallo",
                     teacherInitials: "MD",
                     course: "Éducation Civique 4ème",
+                    subject: "Éducation Civique",
                     startDate: "15/01/2023",
                     endDate: "28/02/2023",
                     amount: "18.000 FCFA",
@@ -1573,6 +2332,7 @@
                     teacher: "Prof. Adjo",
                     teacherInitials: "PA",
                     course: "Mathématiques 5ème",
+                    subject: "Mathématiques",
                     startDate: "01/03/2023",
                     endDate: "30/04/2023",
                     amount: "22.500 FCFA",
@@ -1594,6 +2354,24 @@
         const contractDetailsContent = document.getElementById('contractDetailsContent');
         const historyTableBody = document.getElementById('historyTableBody');
         const exportHistoryBtn = document.getElementById('exportHistoryBtn');
+        
+        // Éléments header
+        const searchFiltersBtn = document.getElementById('searchFiltersBtn');
+        const searchFiltersPanel = document.getElementById('searchFiltersPanel');
+        const closeFiltersBtn = document.getElementById('closeFiltersBtn');
+        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+        const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const mainSearchInput = document.getElementById('mainSearchInput');
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationModal = document.getElementById('notificationModal');
+        const closeNotificationModalBtn = document.getElementById('closeNotificationModalBtn');
+        const markAllReadBtn = document.getElementById('markAllReadBtn');
+        const notificationNavBtnMobile = document.getElementById('notificationNavBtnMobile');
+        const profileBtn = document.getElementById('profileBtn');
+        const profileMenu = document.getElementById('profileMenu');
 
         // Variables globales
         let selectedPaymentMethod = null;
@@ -1603,6 +2381,9 @@
             initContractHistory();
             setupEventListeners();
             filterContracts('all');
+            
+            // Configurer les événements header
+            setupHeaderEvents();
         });
 
         // Initialiser l'historique des contrats
@@ -1630,7 +2411,10 @@
                         <div class="teacher-avatar-small">${contract.teacherInitials}</div>
                         <span>${contract.teacher}</span>
                     </td>
-                    <td><strong>${contract.course}</strong></td>
+                    <td>
+                        <strong>${contract.course}</strong><br>
+                        <small>${contract.subject}</small>
+                    </td>
                     <td>${contract.startDate}</td>
                     <td>${contract.endDate}</td>
                     <td><strong>${contract.amount}</strong></td>
@@ -1644,6 +2428,202 @@
                 
                 historyTableBody.appendChild(row);
             });
+        }
+
+        // Configurer les événements header
+        function setupHeaderEvents() {
+            // Ouvrir/fermer les filtres de recherche
+            searchFiltersBtn.addEventListener('click', () => {
+                searchFiltersPanel.classList.toggle('active');
+            });
+
+            closeFiltersBtn.addEventListener('click', () => {
+                searchFiltersPanel.classList.remove('active');
+            });
+
+            // Fermer les filtres en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!searchFiltersPanel.contains(e.target) && 
+                    !searchFiltersBtn.contains(e.target) && 
+                    searchFiltersPanel.classList.contains('active')) {
+                    searchFiltersPanel.classList.remove('active');
+                }
+            });
+
+            // Réinitialiser les filtres
+            resetFiltersBtn.addEventListener('click', () => {
+                document.getElementById('searchType').value = 'all';
+                document.getElementById('searchLevel').value = 'all';
+                document.getElementById('searchSubject').value = 'all';
+                document.getElementById('searchPrice').value = 'all';
+                document.getElementById('searchRating').value = '0';
+                document.getElementById('searchCity').value = 'all';
+                mainSearchInput.value = '';
+            });
+
+            // Appliquer les filtres et lancer la recherche
+            applyFiltersBtn.addEventListener('click', performSearch);
+            searchBtn.addEventListener('click', performSearch);
+
+            mainSearchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Gestion menu mobile
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+            });
+
+            // Fermer menu mobile en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!mobileNav.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+                    mobileNav.classList.remove('active');
+                }
+            });
+
+            // Gestion menu déroulant profil
+            profileBtn.addEventListener('click', () => {
+                profileMenu.classList.toggle('active');
+            });
+
+            // Fermer le menu déroulant en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                    profileMenu.classList.remove('active');
+                }
+            });
+
+            // Gestion des notifications
+            notificationBtn.addEventListener('click', openNotificationModal);
+            notificationNavBtnMobile.addEventListener('click', () => {
+                openNotificationModal();
+                mobileNav.classList.remove('active');
+            });
+
+            closeNotificationModalBtn.addEventListener('click', closeNotificationModal);
+            notificationModal.addEventListener('click', (e) => {
+                if (e.target === notificationModal) {
+                    closeNotificationModal();
+                }
+            });
+
+            // Marquer toutes les notifications comme lues
+            markAllReadBtn.addEventListener('click', () => {
+                initNotifications();
+            });
+        }
+
+        function performSearch() {
+            const searchType = document.getElementById('searchType').value;
+            const searchLevel = document.getElementById('searchLevel').value;
+            const searchSubject = document.getElementById('searchSubject').value;
+            const searchPrice = document.getElementById('searchPrice').value;
+            const searchRating = document.getElementById('searchRating').value;
+            const searchCity = document.getElementById('searchCity').value;
+            const searchQuery = mainSearchInput.value.trim();
+            
+            searchFiltersPanel.classList.remove('active');
+            showSearchResults({
+                query: searchQuery,
+                type: searchType,
+                level: searchLevel,
+                subject: searchSubject,
+                price: searchPrice,
+                rating: searchRating,
+                city: searchCity
+            });
+        }
+
+        function showSearchResults(filters) {
+            alert(`Recherche avec les filtres:\n
+                Type: ${filters.type}\n
+                Niveau: ${filters.level}\n
+                Matière: ${filters.subject}\n
+                Prix: ${filters.price}\n
+                Note: ${filters.rating}\n
+                Ville: ${filters.city}\n
+                Recherche: "${filters.query}"`);
+        }
+
+        function initNotifications() {
+            const notifications = [
+                {
+                    id: 1,
+                    type: "info",
+                    title: "Rappel de cours",
+                    message: "Cours de Mathématiques avec M. Dupont demain à 15h",
+                    time: "Il y a 2 heures",
+                    read: false
+                },
+                {
+                    id: 2,
+                    type: "success",
+                    title: "Devoir noté",
+                    message: "Votre devoir de Français a été noté: 16/20",
+                    time: "Il y a 1 jour",
+                    read: false
+                },
+                {
+                    id: 3,
+                    type: "warning",
+                    title: "Nouveau message",
+                    message: "Mme. Dubois vous a envoyé un message",
+                    time: "Il y a 2 jours",
+                    read: true
+                }
+            ];
+
+            const notificationList = document.getElementById('notificationList');
+            notificationList.innerHTML = '';
+            
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.style.padding = '15px';
+                notificationItem.style.borderBottom = '1px solid var(--gris-clair)';
+                notificationItem.style.display = 'flex';
+                notificationItem.style.alignItems = 'flex-start';
+                notificationItem.style.gap = '15px';
+                notificationItem.style.backgroundColor = notification.read ? 'transparent' : 'rgba(0,166,81,0.05)';
+                
+                let icon = '';
+                switch(notification.type) {
+                    case 'success':
+                        icon = 'check-circle';
+                        break;
+                    case 'warning':
+                        icon = 'exclamation-triangle';
+                        break;
+                    case 'info':
+                        icon = 'info-circle';
+                        break;
+                }
+                
+                notificationItem.innerHTML = `
+                    <div style="color: var(--${notification.type === 'success' ? 'vert-principal' : notification.type === 'warning' ? 'jaune-principal' : 'rouge-principal'}); font-size: 1.2rem;">
+                        <i class="fas fa-${icon}"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0 0 5px 0; color: var(--gris-fonce);">${notification.title}</h4>
+                        <p style="margin: 0 0 5px 0; color: var(--gris-moyen); font-size: 0.9rem;">${notification.message}</p>
+                        <div style="font-size: 0.8rem; color: var(--gris-moyen);">${notification.time}</div>
+                    </div>
+                `;
+                
+                notificationList.appendChild(notificationItem);
+            });
+        }
+
+        function openNotificationModal() {
+            notificationModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            initNotifications();
+        }
+
+        function closeNotificationModal() {
+            notificationModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         // Configurer les événements
@@ -1716,8 +2696,8 @@
                         
                         <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
                             <p style="margin: 0; color: var(--gris-moyen);">
-                                <strong>Détails du contrat:</strong> 
-                                ${contract.level} • ${contract.sessions} séances • ${contract.type}
+                                <strong>Matière:</strong> ${contract.subject}<br>
+                                <strong>Niveau:</strong> ${contract.level}
                             </p>
                         </div>
                     </div>
@@ -2417,10 +3397,6 @@ Ce reçu fait foi de paiement.
             alert(`Contacter l'enseignant du contrat #${contractId}`);
         }
 
-        function findAlternativeCourse(contractId) {
-            alert(`Rechercher une alternative pour le contrat #${contractId}`);
-        }
-
         function viewContractHistory(contractId) {
             const contract = contractsData.contractHistory.find(c => c.id === contractId);
             if (contract) {
@@ -2477,6 +3453,19 @@ Ce reçu fait foi de paiement.
 
             alert("Historique exporté avec succès !");
         }
+        
+        // Gestion responsive
+        function checkWindowSize() {
+            if (window.innerWidth <= 992) {
+                document.querySelector('.menu-toggle').style.display = 'block';
+            } else {
+                document.querySelector('.menu-toggle').style.display = 'none';
+                mobileNav.classList.remove('active');
+            }
+        }
+        
+        window.addEventListener('resize', checkWindowSize);
+        checkWindowSize();
     </script>
 </body>
 </html>

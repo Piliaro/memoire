@@ -91,52 +91,27 @@
             color: var(--vert-principal);
         }
 
-        /* Bouton retour */
-        .back-btn {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            color: var(--gris-fonce);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .back-btn:hover {
-            background-color: var(--gris-clair);
-        }
-
-        /* Actions header */
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
         /* Barre de recherche */
         .search-bar-container {
             position: relative;
             width: 100%;
-            max-width: 300px;
+            max-width: 500px;
         }
 
         .search-bar {
             display: flex;
             align-items: center;
-            background-color: var(--gris-clair);
+            background-color: var(--blanc-principal);
             border-radius: 30px;
             padding: 8px 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             border: 2px solid transparent;
             transition: all 0.3s;
         }
 
         .search-bar:focus-within {
             border-color: var(--jaune-principal);
-            background-color: var(--blanc-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
         }
 
         .search-bar input {
@@ -148,11 +123,164 @@
             background: transparent;
         }
 
-        .search-btn {
+        .search-filters-btn {
             background: none;
             border: none;
             color: var(--gris-moyen);
             cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-left: 1px solid var(--gris-clair);
+            margin-left: 10px;
+        }
+
+        .search-btn {
+            background-color: var(--jaune-principal);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-fonce);
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            transform: scale(1.05);
+        }
+
+        /* Panneau de filtres */
+        .search-filters-panel {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 10px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .search-filters-panel.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .filters-title {
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .close-filters {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: var(--blanc-principal);
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--jaune-principal);
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gris-clair);
+        }
+
+        /* Bouton notification */
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .notification-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
         /* Menu déroulant profil */
@@ -265,6 +393,53 @@
             color: var(--rouge-principal);
         }
 
+        /* Barre de navigation horizontale */
+        .horizontal-nav {
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        /* Navigation horizontale */
+        .horizontal-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-bottom-color: var(--blanc-principal);
+        }
+
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.3);
+            border-bottom-color: var(--jaune-principal);
+            font-weight: 600;
+        }
+
         .btn {
             padding: 8px 20px;
             border-radius: 8px;
@@ -290,10 +465,185 @@
             box-shadow: 0 5px 15px rgba(0,166,81,0.2);
         }
 
+        .btn-success {
+            background-color: var(--vert-suisse);
+            color: var(--blanc-principal);
+        }
+
+        .btn-warning {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+        }
+
+        .btn-danger {
+            background-color: var(--rouge-passe);
+            color: var(--blanc-principal);
+        }
+
+        .btn-info {
+            background-color: var(--bleu-prochain);
+            color: var(--blanc-principal);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--vert-principal);
+            border: 2px solid var(--vert-principal);
+        }
+
+        /* Menu mobile toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+        }
+
+        /* Flèche retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-5px);
+        }
+
+        /* Bouton retour */
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        /* Actions header */
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Barre de recherche spécifique messages */
+        .search-bar-container-messages {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .search-bar-messages {
+            display: flex;
+            align-items: center;
+            background-color: var(--gris-clair);
+            border-radius: 30px;
+            padding: 8px 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .search-bar-messages:focus-within {
+            border-color: var(--jaune-principal);
+            background-color: var(--blanc-principal);
+        }
+
+        .search-bar-messages input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+
+        .search-btn-messages {
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+        }
+
+        /* Menu mobile */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            z-index: 1000;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
         /* Contenu principal - Messagerie */
         .messaging-container {
             display: flex;
-            height: calc(100vh - 80px);
+            height: calc(100vh - 140px); /* Ajusté pour la barre de navigation horizontale */
             padding: 20px 0;
         }
 
@@ -877,12 +1227,106 @@
             color: var(--gris-moyen);
         }
 
+        /* Styles pour le pied de page (mis à jour selon le tableau de bord) */
+        .main-footer {
+            background-color: var(--gris-fonce);
+            color: var(--gris-clair);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gris-clair);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: var(--gris-clair);
+        }
+
+        .copyright a {
+            color: var(--jaune-principal);
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .messaging-container {
                 flex-direction: column;
                 height: auto;
-                min-height: calc(100vh - 80px);
+                min-height: calc(100vh - 140px);
             }
             
             .conversations-sidebar {
@@ -894,6 +1338,22 @@
             
             .chat-container {
                 min-height: 500px;
+            }
+
+            .horizontal-nav {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+
+            .search-bar-container {
+                max-width: 300px;
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -917,9 +1377,20 @@
             .message-input-wrapper {
                 gap: 10px;
             }
+
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .search-bar-container {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+                margin-top: 10px;
+            }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 576px) {
             .conversations-header {
                 padding: 15px;
             }
@@ -944,6 +1415,11 @@
             
             .modal {
                 width: 95%;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
         }
 
@@ -986,6 +1462,11 @@
     </style>
 </head>
 <body>
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
     <!-- Header Principal -->
     <header class="main-header">
         <div class="container">
@@ -995,18 +1476,123 @@
                     <div class="logo-text">Edu<span>Togo</span>Connect</div>
                 </a>
 
-                <button class="back-btn" onclick="window.history.back()" title="Retour">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
+                <!-- Barre de recherche -->
+                <div class="search-bar-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="mainSearchInput" placeholder="Rechercher des enseignants, écoles, matières...">
+                        <button class="search-filters-btn" id="searchFiltersBtn">
+                            <i class="fas fa-filter"></i>
+                            <span>Filtres</span>
+                        </button>
+                        <button class="search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Panneau de filtres -->
+                    <div class="search-filters-panel" id="searchFiltersPanel">
+                        <div class="filters-header">
+                            <h3 class="filters-title">Filtres de recherche avancés</h3>
+                            <button class="close-filters" id="closeFiltersBtn">&times;</button>
+                        </div>
+                        
+                        <div class="filters-grid">
+                            <div class="filter-group">
+                                <label class="filter-label">Type de recherche</label>
+                                <select class="filter-select" id="searchType">
+                                    <option value="all">Tout (enseignants, écoles, matières)</option>
+                                    <option value="teachers">Enseignants uniquement</option>
+                                    <option value="schools">Écoles & Institutions</option>
+                                    <option value="subjects">Par matière</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Niveau scolaire</label>
+                                <select class="filter-select" id="searchLevel">
+                                    <option value="all">Tous les niveaux</option>
+                                    <option value="6eme">6ème</option>
+                                    <option value="5eme">5ème</option>
+                                    <option value="4eme">4ème</option>
+                                    <option value="3eme">3ème</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Matière</label>
+                                <select class="filter-select" id="searchSubject">
+                                    <option value="all">Toutes les matières</option>
+                                    <option value="math">Mathématiques</option>
+                                    <option value="french">Français</option>
+                                    <option value="english">Anglais</option>
+                                    <option value="history">Histoire-Géographie</option>
+                                    <option value="physics">Sciences Physiques</option>
+                                    <option value="svt">SVT</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Tarif maximum (FCFA/heure)</label>
+                                <select class="filter-select" id="searchPrice">
+                                    <option value="all">Tous les tarifs</option>
+                                    <option value="free">Gratuit uniquement</option>
+                                    <option value="1000">≤ 1.000 FCFA</option>
+                                    <option value="2500">≤ 2.500 FCFA</option>
+                                    <option value="5000">≤ 5.000 FCFA</option>
+                                    <option value="10000">≤ 10.000 FCFA</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Note minimum</label>
+                                <select class="filter-select" id="searchRating">
+                                    <option value="0">Toutes les notes</option>
+                                    <option value="3">3 étoiles et plus</option>
+                                    <option value="4">4 étoiles et plus</option>
+                                    <option value="4.5">4.5 étoiles et plus</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Ville</label>
+                                <select class="filter-select" id="searchCity">
+                                    <option value="all">Toutes les villes</option>
+                                    <option value="lome">Lomé</option>
+                                    <option value="kara">Kara</option>
+                                    <option value="sokode">Sokodé</option>
+                                    <option value="palime">Palimé</option>
+                                    <option value="dapaong">Dapaong</option>
+                                    <option value="online">En ligne uniquement</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button class="btn btn-secondary" id="resetFiltersBtn">Réinitialiser</button>
+                            <button class="btn btn-primary" id="applyFiltersBtn">Appliquer les filtres</button>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="header-actions">
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
+                    <!-- Bouton notifications -->
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
                     <!-- Menu déroulant profil -->
                     <div class="profile-dropdown">
                         <button class="profile-btn" id="profileBtn">
-                            <div class="student-avatar-small" style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--blanc-principal);">KA</div>
+                            <div class="student-avatar-small" style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--blanc-principal);">KA</div>
                             <div>
-                                <div class="student-name">Koffi Agbessi</div>
-                                <span style="font-size: 0.75rem; color: var(--gris-moyen);">Élève - 3ème</span>
+                                <div style="font-weight: 600; color: var(--gris-fonce);">Koffi Agbessi</div>
+                                <span style="display: inline-block; padding: 3px 10px; background-color: var(--vert-principal); color: var(--blanc-principal); border-radius: 20px; font-size: 0.75rem; font-weight: 600;">Élève - 3ème</span>
                             </div>
                             <i class="fas fa-chevron-down"></i>
                         </button>
@@ -1050,6 +1636,77 @@
             </nav>
         </div>
     </header>
+
+    <!-- Barre de Navigation Horizontale -->
+    <nav class="horizontal-nav">
+        <div class="container">
+            <div class="nav-container">
+                 <!-- Menu de navigation horizontal -->
+                <div class="horizontal-menu">
+                    <a href="../mainpageuser/eleve.html" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="../eleve/cours.html" class="nav-item">
+                        <i class="fas fa-book-open"></i>
+                        <span>Mes cours</span>
+                        <span class="nav-badge">4</span>
+                    </a>
+                    <a href="../eleve/enseignant.html" class="nav-item">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Mes enseignants</span>
+                    </a>
+                    <a href="../eleve/contrat.html" class="nav-item">
+                        <i class="fas fa-file-contract"></i>
+                        <span>Mes contrats</span>
+                    </a>
+                    <a href="../eleve/calendrier.html" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Emploi du temps</span>
+                    </a>
+                    <a href="../eleve/messagerie.html" class="nav-item active">
+                        <i class="fas fa-comments"></i>
+                        <span>Messages</span>
+                        <span class="nav-badge">2</span>
+                    </a>
+                    <a href="student_finance.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Rapport</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-menu">
+            <a href="student_dashboard.html" class="mobile-nav-item">
+                <i class="fas fa-home"></i>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="student_courses.html" class="mobile-nav-item">
+                <i class="fas fa-book-open"></i>
+                <span>Mes cours</span>
+            </a>
+            <a href="student_teachers.html" class="mobile-nav-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Mes enseignants</span>
+            </a>
+            <a href="student_schedule.html" class="mobile-nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Calendrier</span>
+            </a>
+            <a href="student_messages.html" class="mobile-nav-item active">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+            </a>
+            <a href="student_progress.html" class="mobile-nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Progrès</span>
+            </a>
+        </div>
+    </div>
 
     <!-- Contenu principal - Messagerie -->
     <main class="container">
@@ -1147,6 +1804,65 @@
             </section>
         </div>
     </main>
+
+    <!-- Pied de page (mis à jour selon le tableau de bord) -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                        <div class="logo-icon">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
+                    </a>
+                    <p style="color: var(--gris-clair);">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="../mainpageuser/eleve.html">Tableau de bord</a></li>
+                        <li><a href="../eleve/cours.html">Tous les cours</a></li>
+                        <li><a href="../eleve/enseignant.html">Nos enseignants</a></li>
+                        <li><a href="../Authentification/auth.html">Connexion</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Catégories</h3>
+                    <ul class="footer-links">
+                        <li><a href="../eleve/cours.html?subject=math">Mathématiques</a></li>
+                        <li><a href="../eleve/cours.html?subject=french">Français</a></li>
+                        <li><a href="../eleve/cours.html?subject=english">Anglais</a></li>
+                        <li><a href="../eleve/cours.html?subject=science">Sciences</a></li>
+                        <li><a href="../eleve/cours.html?level=3eme">Préparation BEPC</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.html"
+                        style="color: var(--jaune-principal);">Politique de confidentialité</a> | <a href="terms.html"
+                        style="color: var(--jaune-principal);">Conditions d'utilisation</a></p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Modal Nouveau Message -->
     <div class="modal-overlay" id="newMessageModal">
@@ -1535,6 +2251,16 @@
         const emojiBtn = document.getElementById('emojiBtn');
         const profileBtn = document.getElementById('profileBtn');
         const profileMenu = document.getElementById('profileMenu');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const searchFiltersBtn = document.getElementById('searchFiltersBtn');
+        const searchFiltersPanel = document.getElementById('searchFiltersPanel');
+        const closeFiltersBtn = document.getElementById('closeFiltersBtn');
+        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+        const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const mainSearchInput = document.getElementById('mainSearchInput');
 
         // Variables d'état
         let currentConversationId = null;
@@ -2368,12 +3094,119 @@
                 }
             });
             
+            // Configuration des événements du header
+            setupHeaderEvents();
+            
+            // Gestion de la flèche retour en haut
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
             // Demander la permission pour les notifications
             if (Notification.permission === "default") {
                 setTimeout(() => {
                     Notification.requestPermission();
                 }, 2000);
             }
+        }
+
+        // Configuration des événements du header
+        function setupHeaderEvents() {
+            // Ouvrir/fermer les filtres de recherche
+            searchFiltersBtn.addEventListener('click', () => {
+                searchFiltersPanel.classList.toggle('active');
+            });
+
+            closeFiltersBtn.addEventListener('click', () => {
+                searchFiltersPanel.classList.remove('active');
+            });
+
+            // Fermer les filtres en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!searchFiltersPanel.contains(e.target) && 
+                    !searchFiltersBtn.contains(e.target) && 
+                    searchFiltersPanel.classList.contains('active')) {
+                    searchFiltersPanel.classList.remove('active');
+                }
+            });
+
+            // Réinitialiser les filtres
+            resetFiltersBtn.addEventListener('click', () => {
+                document.getElementById('searchType').value = 'all';
+                document.getElementById('searchLevel').value = 'all';
+                document.getElementById('searchSubject').value = 'all';
+                document.getElementById('searchPrice').value = 'all';
+                document.getElementById('searchRating').value = '0';
+                document.getElementById('searchCity').value = 'all';
+                mainSearchInput.value = '';
+            });
+
+            // Appliquer les filtres et lancer la recherche
+            applyFiltersBtn.addEventListener('click', performSearch);
+            searchBtn.addEventListener('click', performSearch);
+
+            mainSearchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Gestion menu mobile
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+            });
+
+            // Fermer menu mobile en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!mobileNav.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+                    mobileNav.classList.remove('active');
+                }
+            });
+
+            // Gestion des notifications
+            notificationBtn.addEventListener('click', () => {
+                alert('Notifications - Cette fonctionnalité sera implémentée prochainement');
+            });
+        }
+
+        function performSearch() {
+            const searchType = document.getElementById('searchType').value;
+            const searchLevel = document.getElementById('searchLevel').value;
+            const searchSubject = document.getElementById('searchSubject').value;
+            const searchPrice = document.getElementById('searchPrice').value;
+            const searchRating = document.getElementById('searchRating').value;
+            const searchCity = document.getElementById('searchCity').value;
+            const searchQuery = mainSearchInput.value.trim();
+            
+            searchFiltersPanel.classList.remove('active');
+            showSearchResults({
+                query: searchQuery,
+                type: searchType,
+                level: searchLevel,
+                subject: searchSubject,
+                price: searchPrice,
+                rating: searchRating,
+                city: searchCity
+            });
+        }
+
+        function showSearchResults(filters) {
+            alert(`Recherche avec les filtres:\n
+                Type: ${filters.type}\n
+                Niveau: ${filters.level}\n
+                Matière: ${filters.subject}\n
+                Prix: ${filters.price}\n
+                Note: ${filters.rating}\n
+                Ville: ${filters.city}\n
+                Recherche: "${filters.query}"`);
         }
 
         // Fonctions utilitaires
@@ -2436,6 +3269,10 @@
 
         // Initialiser l'application au chargement
         document.addEventListener('DOMContentLoaded', initApp);
+
+        // Exposer les fonctions globales nécessaires
+        window.clearConversation = clearConversation;
+        window.togglePinConversation = togglePinConversation;
     </script>
 </body>
 </html>

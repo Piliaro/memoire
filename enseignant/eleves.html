@@ -1,0 +1,3380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Élèves - EduTogoConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Variables de couleurs - Drapeau togolais */
+        :root {
+            --jaune-principal: #FFD700;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
+            --gris-clair: #F5F5F5;
+            --orange-cours: #FF9800;
+            --cyan-suggestion: #00BCD4;
+            --violet-premium: #9C27B0;
+            --bleu-prof: #2196F3;
+            --orange-ecole: #FF9800;
+            --badge-premium-bg: rgba(255,215,0,0.15);
+            --badge-standard-bg: rgba(0,166,81,0.15);
+            --badge-gratuit-bg: rgba(33,150,243,0.15);
+        }
+
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+            line-height: 1.6;
+        }
+
+        /* Flèche retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--blanc-principal);
+            overflow: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(239, 51, 64, 0.4);
+        }
+
+        /* Indicateur de progression du scroll */
+        .scroll-progress {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s ease;
+        }
+
+        .scroll-progress.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .scroll-progress-circle {
+            fill: none;
+            stroke: var(--vert-principal);
+            stroke-width: 3;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 0.3s ease;
+        }
+
+        .scroll-progress-text {
+            fill: var(--gris-fonce);
+            font-size: 10px;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+
+        /* Header Principal */
+        .main-header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+
+        /* Barre de recherche */
+        .search-bar-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--blanc-principal);
+            border-radius: 30px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+
+        .search-filters-btn {
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-left: 1px solid var(--gris-clair);
+            margin-left: 10px;
+        }
+
+        .search-btn {
+            background-color: var(--jaune-principal);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-fonce);
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            transform: scale(1.05);
+        }
+
+        /* Panneau de filtres */
+        .search-filters-panel {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 10px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .search-filters-panel.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .filters-title {
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .close-filters {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: var(--blanc-principal);
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--jaune-principal);
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gris-clair);
+        }
+
+        /* Barre de navigation horizontale */
+        .horizontal-nav {
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .teacher-quick-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .teacher-avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--blanc-principal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--vert-principal);
+            border: 2px solid var(--blanc-principal);
+        }
+
+        .teacher-name {
+            font-weight: 600;
+            color: var(--blanc-principal);
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 3px 10px;
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Navigation horizontale */
+        .horizontal-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-bottom-color: var(--blanc-principal);
+        }
+
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.3);
+            border-bottom-color: var(--jaune-principal);
+            font-weight: 600;
+        }
+
+        .nav-item i {
+            font-size: 1rem;
+        }
+
+        .nav-badge {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        /* Actions header */
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        /* Bouton notification */
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .notification-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Menu déroulant profil */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--blanc-principal);
+            min-width: 250px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1001;
+            margin-top: 10px;
+        }
+
+        .profile-menu.active {
+            display: block;
+        }
+
+        .profile-menu-header {
+            padding: 20px;
+            background-color: var(--gris-clair);
+            text-align: center;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .profile-menu-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--blanc-principal);
+            font-weight: bold;
+        }
+
+        .profile-menu-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-menu-email {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .profile-menu-list {
+            list-style: none;
+        }
+
+        .profile-menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            transition: background-color 0.3s;
+        }
+
+        .profile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-menu-item:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gris-fonce);
+            text-decoration: none;
+        }
+
+        .profile-menu-link i {
+            width: 20px;
+            color: var(--gris-moyen);
+        }
+
+        .profile-menu-link.logout {
+            color: var(--rouge-principal);
+        }
+
+        .profile-menu-link.logout i {
+            color: var(--rouge-principal);
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-primary:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gris-fonce);
+            color: var(--blanc-principal);
+        }
+
+        .btn-success {
+            background-color: #4CAF50;
+            color: var(--blanc-principal);
+        }
+
+        .btn-success:hover {
+            background-color: #388E3C;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background-color: #FF9800;
+            color: var(--blanc-principal);
+        }
+
+        .btn-warning:hover {
+            background-color: #F57C00;
+            transform: translateY(-2px);
+        }
+
+        /* Contenu principal */
+        .main-content {
+            padding: 20px 0 30px;
+        }
+
+        /* Header de la page avec TOUT sur la même ligne */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--gris-clair);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Conteneur pour titre + description + bouton + stats */
+        .header-content-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 20px;
+        }
+
+        /* Titre et description */
+        .header-text {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .header-text h1 {
+            color: var(--gris-fonce);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .header-text p {
+            color: var(--gris-moyen);
+        }
+
+        /* Statistiques en ligne */
+        .services-stats-inline {
+            display: flex;
+            gap: 15px;
+            flex: 2;
+            justify-content: center;
+            min-width: 300px;
+        }
+
+        .stat-card-inline {
+            background-color: var(--blanc-principal);
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s;
+            min-width: 150px;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .stat-card-inline:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-icon-inline {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .stat-icon-inline.blue {
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prof);
+        }
+
+        .stat-icon-inline.green {
+            background-color: rgba(76,175,80,0.1);
+            color: #4CAF50;
+        }
+
+        .stat-icon-inline.yellow {
+            background-color: rgba(255,215,0,0.1);
+            color: var(--jaune-principal);
+        }
+
+        .stat-icon-inline.red {
+            background-color: rgba(239,51,64,0.1);
+            color: var(--rouge-principal);
+        }
+
+        .stat-icon-inline.purple {
+            background-color: rgba(156,39,176,0.1);
+            color: var(--violet-premium);
+        }
+
+        .stat-info-inline h3 {
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            margin-bottom: 2px;
+        }
+
+        .stat-info-inline p {
+            color: var(--gris-moyen);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        /* Bouton création service */
+        .header-action-button {
+            flex: 0 0 auto;
+        }
+
+        /* Section principale des élèves */
+        .students-section {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--gris-fonce);
+            font-size: 1.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--gris-moyen);
+            margin-top: 5px;
+        }
+
+        /* Filtres et actions */
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background-color: var(--blanc-principal);
+            border: 2px solid var(--gris-clair);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(90deg, var(--vert-principal), var(--jaune-principal));
+            border-color: transparent;
+            color: var(--blanc-principal);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background-color: var(--gris-clair);
+        }
+
+        /* Tableau des élèves */
+        .students-table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--blanc-principal);
+            min-width: 800px;
+        }
+
+        .students-table th {
+            background-color: rgba(255,215,0,0.1);
+            padding: 15px;
+            text-align: left;
+            color: var(--gris-fonce);
+            font-weight: 600;
+            border-bottom: 2px solid var(--jaune-principal);
+        }
+
+        .students-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .students-table tr:hover {
+            background-color: rgba(255,215,0,0.05);
+        }
+
+        /* Carte élève */
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .student-details h4 {
+            font-size: 1rem;
+            margin-bottom: 3px;
+            color: var(--gris-fonce);
+        }
+
+        .student-details p {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: rgba(76,175,80,0.15);
+            color: #4CAF50;
+        }
+
+        .status-inactive {
+            background-color: rgba(158,158,158,0.15);
+            color: #757575;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prof);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Actions tableau */
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-table-action {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-table-view {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+        }
+
+        .btn-table-view:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-table-edit {
+            background-color: var(--bleu-prof);
+            color: var(--blanc-principal);
+        }
+
+        .btn-table-edit:hover {
+            background-color: #0d8bf2;
+        }
+
+        .btn-table-message {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-table-message:hover {
+            background-color: #008c45;
+        }
+
+        .btn-table-delete {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-table-delete:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Vue grille des élèves - MODIFIÉ POUR 4 COLONNES */
+        .students-grid-section {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            display: block; /* Afficher par défaut (modifié) */
+        }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 colonnes */
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .student-card {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--gris-clair);
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 420px; /* Hauteur ajustée */
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--vert-principal);
+        }
+
+        .student-header {
+            padding: 25px 25px 15px 25px;
+            background-color: var(--blanc-principal);
+            border-bottom: 1px solid var(--gris-clair);
+            position: relative;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* Badge niveau en haut à gauche */
+        .level-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--bleu-prof);
+            color: var(--blanc-principal);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        /* Badge en haut à droite */
+        .session-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .student-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 10px auto 15px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-weight: bold;
+            font-size: 1.8rem;
+            border: 4px solid var(--blanc-principal);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .student-name {
+            font-size: 1.2rem;
+            color: var(--gris-fonce);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        /* Rating stars - Ajouté pour ressembler aux cartes enseignants */
+        .student-rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 8px;
+            color: var(--jaune-principal);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Matière sous les étoiles */
+        .student-subject {
+            font-size: 0.9rem;
+            color: var(--bleu-prof);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .student-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Séances passées et prochaines */
+        .session-info {
+            background-color: rgba(0,0,0,0.02);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .session-item {
+            margin-bottom: 10px;
+        }
+
+        .session-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .session-label {
+            font-size: 0.8rem;
+            color: var(--gris-moyen);
+            margin-bottom: 3px;
+        }
+
+        .session-value {
+            font-size: 0.9rem;
+            color: var(--gris-fonce);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .session-value i {
+            color: var(--vert-principal);
+            font-size: 0.8rem;
+        }
+
+        .student-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--gris-moyen);
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            font-size: 0.85rem;
+            color: var(--gris-fonce);
+            font-weight: 500;
+        }
+
+        .student-footer {
+            padding: 20px;
+            background-color: var(--gris-clair);
+            border-top: 1px solid var(--gris-moyen);
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-student-action {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-student-action.btn-details {
+            background-color: var(--gris-clair);
+            color: var(--gris-moyen);
+        }
+
+        .btn-student-action.btn-details:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-student-action.btn-contact {
+            background-color: #0084FF; /* Couleur Facebook Messenger */
+            color: var(--blanc-principal);
+        }
+
+        .btn-student-action.btn-contact:hover {
+            background-color: #0073e6;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: var(--gris-fonce);
+            color: var(--gris-clair);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gris-clair);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: var(--gris-clair);
+        }
+
+        /* Menu mobile toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+        }
+
+        /* Menu Mobile */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            z-index: 1000;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        .mobile-nav-badge {
+            margin-left: auto;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+
+        /* Modal Notifications */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--gris-clair);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--rouge-principal);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* Modal Notifications */
+        .notification-modal {
+            max-width: 500px;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .notification-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .mark-all-read {
+            background: none;
+            border: none;
+            color: var(--bleu-prof);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .notification-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .notification-item:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .notification-item.unread {
+            background-color: rgba(33,150,243,0.05);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .notification-icon.success {
+            background-color: rgba(76,175,80,0.1);
+            color: var(--vert-principal);
+        }
+
+        .notification-icon.warning {
+            background-color: rgba(255,193,7,0.1);
+            color: var(--jaune-principal);
+        }
+
+        .notification-icon.info {
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prof);
+        }
+
+        .notification-icon.alert {
+            background-color: rgba(244,67,54,0.1);
+            color: var(--rouge-principal);
+        }
+
+        .notification-text h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: var(--gris-fonce);
+        }
+
+        .notification-text p {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+            margin-bottom: 5px;
+        }
+
+        .notification-time {
+            font-size: 0.75rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Responsive pour la nouvelle disposition */
+        @media (max-width: 1200px) {
+            .horizontal-menu {
+                gap: 2px;
+            }
+            
+            .nav-item {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .services-stats-inline {
+                min-width: 250px;
+            }
+            
+            .stat-card-inline {
+                min-width: 130px;
+                padding: 12px 15px;
+            }
+            
+            /* Grille responsive */
+            .students-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 colonnes sur écran moyen */
+            }
+        }
+
+        @media (max-width: 992px) {
+            .horizontal-nav {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .mobile-nav {
+                display: none;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+                z-index: 1000;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .mobile-nav.active {
+                display: block;
+            }
+            
+            .mobile-menu {
+                display: flex;
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .mobile-nav-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 15px;
+                color: var(--blanc-principal);
+                text-decoration: none;
+                border-bottom: 1px solid rgba(255,255,255,0.2);
+            }
+            
+            .mobile-nav-item:last-child {
+                border-bottom: none;
+            }
+            
+            .mobile-nav-item.active {
+                background-color: rgba(255,255,255,0.2);
+                font-weight: 600;
+            }
+            
+            .mobile-nav-badge {
+                margin-left: auto;
+                background-color: var(--rouge-principal);
+                color: var(--blanc-principal);
+                padding: 2px 8px;
+                border-radius: 10px;
+                font-size: 0.75rem;
+            }
+            
+            .search-bar-container {
+                order: 3;
+                max-width: 100%;
+                margin-top: 15px;
+            }
+            
+            .header-content-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-text {
+                width: 100%;
+            }
+            
+            .services-stats-inline {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .stat-card-inline {
+                min-width: 150px;
+                max-width: none;
+            }
+            
+            .header-action-button {
+                width: 100%;
+            }
+            
+            .header-action-button button {
+                width: 100%;
+            }
+            
+            /* Grille responsive */
+            .students-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur tablette */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .teacher-quick-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 5px;
+            }
+            
+            .main-content {
+                padding: 20px 0 30px;
+            }
+            
+            .actions-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .students-table th, 
+            .students-table td {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .table-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .btn-table-action {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .services-stats-inline {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .stat-card-inline {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .header-action-button {
+                width: 100%;
+            }
+            
+            .header-action-button button {
+                width: 100%;
+            }
+            
+            /* Grille responsive */
+            .students-grid {
+                grid-template-columns: 1fr; /* 1 colonne sur mobile */
+            }
+            
+            .student-card {
+                height: auto;
+                min-height: 420px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .students-section {
+                padding: 20px;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .modal-header {
+                padding: 20px;
+            }
+            
+            .filters {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .stat-card-inline {
+                padding: 10px 15px;
+            }
+            
+            .stat-info-inline p {
+                font-size: 0.8rem;
+            }
+            
+            .student-footer {
+                flex-direction: column;
+            }
+            
+            .btn-student-action {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut (Esc)">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Indicateur de progression du scroll -->
+    <div class="scroll-progress" id="scrollProgress">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="18" stroke="#e6e6e6" stroke-width="3" fill="none"/>
+            <circle class="scroll-progress-circle" cx="20" cy="20" r="18" stroke-dasharray="113.097" stroke-dashoffset="113.097"/>
+            <text class="scroll-progress-text" x="20" y="20">0%</text>
+        </svg>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <!-- Barre de recherche -->
+                <div class="search-bar-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="mainSearchInput" placeholder="Rechercher un élève...">
+                        <button class="search-filters-btn" id="searchFiltersBtn">
+                            <i class="fas fa-filter"></i>
+                            <span>Filtres</span>
+                        </button>
+                        <button class="search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Panneau de filtres -->
+                    <div class="search-filters-panel" id="searchFiltersPanel">
+                        <div class="filters-header">
+                            <h3 class="filters-title">Filtres de recherche avancés</h3>
+                            <button class="close-filters" id="closeFiltersBtn">&times;</button>
+                        </div>
+                        
+                        <div class="filters-grid">
+                            <div class="filter-group">
+                                <label class="filter-label">Statut</label>
+                                <select class="filter-select" id="searchStatus">
+                                    <option value="all">Tous les statuts</option>
+                                    <option value="active">Actif</option>
+                                    <option value="inactive">Inactif</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Niveau scolaire</label>
+                                <select class="filter-select" id="searchLevel">
+                                    <option value="all">Tous les niveaux</option>
+                                    <option value="6eme">6ème</option>
+                                    <option value="5eme">5ème</option>
+                                    <option value="4eme">4ème</option>
+                                    <option value="3eme">3ème</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Cours suivis</label>
+                                <select class="filter-select" id="searchCourse">
+                                    <option value="all">Tous les cours</option>
+                                    <option value="math">Mathématiques</option>
+                                    <option value="french">Français</option>
+                                    <option value="english">Anglais</option>
+                                    <option value="physics">Sciences Physiques</option>
+                                    <option value="svt">SVT</option>
+                                    <option value="history">Histoire-Géographie</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Type de service</label>
+                                <select class="filter-select" id="searchServiceType">
+                                    <option value="all">Tous les types</option>
+                                    <option value="gratuit">Gratuit</option>
+                                    <option value="standard">Standard</option>
+                                    <option value="premium">Premium</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Trier par</label>
+                                <select class="filter-select" id="searchSort">
+                                    <option value="recent">Plus récent</option>
+                                    <option value="name">Nom A-Z</option>
+                                    <option value="level">Niveau</option>
+                                    <option value="active">Plus actif</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Date d'inscription</label>
+                                <select class="filter-select" id="searchDate">
+                                    <option value="all">Toutes les dates</option>
+                                    <option value="today">Aujourd'hui</option>
+                                    <option value="week">Cette semaine</option>
+                                    <option value="month">Ce mois</option>
+                                    <option value="year">Cette année</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button class="btn btn-secondary" id="resetFiltersBtn">Réinitialiser</button>
+                            <button class="btn btn-primary" id="applyFiltersBtn">Appliquer les filtres</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-actions">
+                    <!-- Bouton notifications -->
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <!-- Menu déroulant profil -->
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div class="teacher-avatar-small">JD</div>
+                            <div>
+                                <div class="teacher-name">Jean Dupont</div>
+                                <div style="font-size: 0.8rem; color: var(--gris-moyen);">Enseignant</div>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="profile-menu" id="profileMenu">
+                            <div class="profile-menu-header">
+                                <div class="profile-menu-avatar">JD</div>
+                                <div class="profile-menu-name">Jean Dupont</div>
+                                <div class="profile-menu-email">jean.dupont@edutogoconnect.tg</div>
+                            </div>
+                            
+                            <ul class="profile-menu-list">
+                                <li class="profile-menu-item">
+                                    <a href="teacher_profile.html" class="profile-menu-link">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>Mon profil</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="teacher_settings.html" class="profile-menu-link">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Paramètres</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="edit_profile.html" class="profile-menu-link">
+                                        <i class="fas fa-edit"></i>
+                                        <span>Modifier mon profil</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="../Authentification/auth.html" class="profile-menu-link logout">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Déconnexion</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de Navigation Horizontale -->
+    <nav class="horizontal-nav">
+        <div class="container">
+            <div class="nav-container">
+                <!-- Menu de navigation horizontal -->
+                <div class="horizontal-menu">
+                    <a href="teacher_dashboard.html" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="teacher_services.html" class="nav-item">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Mes services</span>
+                    </a>
+                    <a href="teacher_students.html" class="nav-item active">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Mes élèves</span>
+                        <span class="nav-badge">15</span>
+                    </a>
+                    <a href="teacher_contracts.html" class="nav-item">
+                        <i class="fas fa-file-contract"></i>
+                        <span>Mes contrats</span>
+                    </a>
+                    <a href="teacher_schedule.html" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Calendrier</span>
+                    </a>
+                    <a href="teacher_messages.html" class="nav-item">
+                        <i class="fas fa-comments"></i>
+                        <span>Messages</span>
+                        <span class="nav-badge">3</span>
+                    </a>
+                    <a href="teacher_finances.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Rapport</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-menu">
+            <a href="teacher_dashboard.html" class="mobile-nav-item">
+                <i class="fas fa-home"></i>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="teacher_services.html" class="mobile-nav-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Mes services</span>
+            </a>
+            <a href="teacher_students.html" class="mobile-nav-item active">
+                <i class="fas fa-user-graduate"></i>
+                <span>Mes élèves</span>
+                <span class="mobile-nav-badge">15</span>
+            </a>
+            <a href="teacher_contracts.html" class="mobile-nav-item">
+                <i class="fas fa-file-contract"></i>
+                <span>Mes contrats</span>
+            </a>
+            <a href="teacher_schedule.html" class="mobile-nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Calendrier</span>
+            </a>
+            <a href="teacher_messages.html" class="mobile-nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+                <span class="mobile-nav-badge">3</span>
+            </a>
+            <a href="teacher_finances.html" class="mobile-nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Rapport</span>
+            </a>
+            <a href="#" class="mobile-nav-item" id="notificationNavBtnMobile">
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+                <span class="mobile-nav-badge">3</span>
+            </a>
+            <a href="teacher_settings.html" class="mobile-nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Paramètres</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Section principale des élèves -->
+            <section class="students-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Tous mes élèves</h2>
+                        <p class="section-subtitle">Consultez et gérez l'ensemble de vos élèves inscrits</p>
+                    </div>
+                    
+                    <button class="btn btn-secondary" id="toggleViewBtn">
+                        <i class="fas fa-list"></i> Vue tableau
+                    </button>
+                </div>
+
+                <!-- Barre d'actions et filtres - MODIFIÉ -->
+                <div class="actions-bar">
+                    <div class="filters">
+                        <button class="filter-btn active" data-filter="all">
+                            <i class="fas fa-th"></i>
+                            <span>Tous</span>
+                        </button>
+                        <button class="filter-btn" data-filter="6eme">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>6ème</span>
+                        </button>
+                        <button class="filter-btn" data-filter="5eme">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>5ème</span>
+                        </button>
+                        <button class="filter-btn" data-filter="4eme">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>4ème</span>
+                        </button>
+                        <button class="filter-btn" data-filter="3eme">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>3ème</span>
+                        </button>
+                    </div>
+                    
+                    <div class="view-options">
+                        <button class="btn btn-success" id="sendMessageBtn">
+                            <i class="fab fa-facebook-messenger"></i> Envoyer un message
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Vue grille des élèves - AFFICHÉE EN PREMIER (modifié) -->
+                <div class="students-grid-section" id="gridView">
+                    <div class="students-grid" id="studentsGrid">
+                        <!-- Carte élève 1 -->
+                        <div class="student-card" data-level="3eme">
+                            <div class="level-tag">3ème</div>
+                            <div class="session-badge">12 séances</div>
+                            <div class="student-header">
+                                <div class="student-avatar-large">KA</div>
+                                <div class="student-name">Koffi Agbessi</div>
+                                <div class="student-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i> 4.8/5
+                                </div>
+                                <div class="student-subject">Mathématiques</div>
+                            </div>
+                            <div class="student-body">
+                                <div class="session-info">
+                                    <div class="session-item">
+                                        <div class="session-label">Séance passée:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-clock"></i> Mardi 16h-17h
+                                        </div>
+                                    </div>
+                                    <div class="session-item">
+                                        <div class="session-label">Prochaine séance:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-calendar-alt"></i> Jeudi 16h-17h
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="student-info-grid">
+                                    <div class="info-item">
+                                        <span class="info-label">Inscription</span>
+                                        <span class="info-value">15/03/2024</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Note</span>
+                                        <span class="info-value">4.8/5</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Type</span>
+                                        <span class="info-value">Premium</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Progression</span>
+                                        <span class="info-value">85%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="student-footer">
+                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(1)">
+                                    <i class="fas fa-eye"></i> Détails
+                                </button>
+                                <button class="btn-student-action btn-contact" onclick="messageStudent(1)">
+                                    <i class="fab fa-facebook-messenger"></i> Contacter
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Carte élève 2 -->
+                        <div class="student-card" data-level="4eme">
+                            <div class="level-tag">4ème</div>
+                            <div class="session-badge">8 séances</div>
+                            <div class="student-header">
+                                <div class="student-avatar-large">AM</div>
+                                <div class="student-name">Aïcha Mensah</div>
+                                <div class="student-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i> 5.0/5
+                                </div>
+                                <div class="student-subject">Français</div>
+                            </div>
+                            <div class="student-body">
+                                <div class="session-info">
+                                    <div class="session-item">
+                                        <div class="session-label">Séance passée:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-clock"></i> Lundi 14h-15h30
+                                        </div>
+                                    </div>
+                                    <div class="session-item">
+                                        <div class="session-label">Prochaine séance:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-calendar-alt"></i> Vendredi 14h-15h30
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="student-info-grid">
+                                    <div class="info-item">
+                                        <span class="info-label">Inscription</span>
+                                        <span class="info-value">10/02/2024</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Note</span>
+                                        <span class="info-value">4.7/5</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Type</span>
+                                        <span class="info-value">Standard</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Progression</span>
+                                        <span class="info-value">65%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="student-footer">
+                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(2)">
+                                    <i class="fas fa-eye"></i> Détails
+                                </button>
+                                <button class="btn-student-action btn-contact" onclick="messageStudent(2)">
+                                    <i class="fab fa-facebook-messenger"></i> Contacter
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Carte élève 3 -->
+                        <div class="student-card" data-level="6eme">
+                            <div class="level-tag">6ème</div>
+                            <div class="session-badge">4 séances</div>
+                            <div class="student-header">
+                                <div class="student-avatar-large">KA</div>
+                                <div class="student-name">Komlan Adjobo</div>
+                                <div class="student-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i> 4.5/5
+                                </div>
+                                <div class="student-subject">Anglais</div>
+                            </div>
+                            <div class="student-body">
+                                <div class="session-info">
+                                    <div class="session-item">
+                                        <div class="session-label">Séance passée:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-clock"></i> Mardi 16h-17h
+                                        </div>
+                                    </div>
+                                    <div class="session-item">
+                                        <div class="session-label">Prochaine séance:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-calendar-alt"></i> Jeudi 16h-17h
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="student-info-grid">
+                                    <div class="info-item">
+                                        <span class="info-label">Inscription</span>
+                                        <span class="info-value">05/01/2024</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Note</span>
+                                        <span class="info-value">4.5/5</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Type</span>
+                                        <span class="info-value">Gratuit</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Progression</span>
+                                        <span class="info-value">40%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="student-footer">
+                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(3)">
+                                    <i class="fas fa-eye"></i> Détails
+                                </button>
+                                <button class="btn-student-action btn-contact" onclick="messageStudent(3)">
+                                    <i class="fab fa-facebook-messenger"></i> Contacter
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Carte élève 4 -->
+                        <div class="student-card" data-level="3eme">
+                            <div class="level-tag">3ème</div>
+                            <div class="session-badge">6 séances</div>
+                            <div class="student-header">
+                                <div class="student-avatar-large">BD</div>
+                                <div class="student-name">Binta Diallo</div>
+                                <div class="student-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i> 4.6/5
+                                </div>
+                                <div class="student-subject">Sciences Physiques</div>
+                            </div>
+                            <div class="student-body">
+                                <div class="session-info">
+                                    <div class="session-item">
+                                        <div class="session-label">Séance passée:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-clock"></i> Mercredi 10h-12h
+                                        </div>
+                                    </div>
+                                    <div class="session-item">
+                                        <div class="session-label">Prochaine séance:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-calendar-alt"></i> Samedi 10h-12h
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="student-info-grid">
+                                    <div class="info-item">
+                                        <span class="info-label">Inscription</span>
+                                        <span class="info-value">20/02/2024</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Note</span>
+                                        <span class="info-value">4.6/5</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Type</span>
+                                        <span class="info-value">Standard</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Progression</span>
+                                        <span class="info-value">60%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="student-footer">
+                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(4)">
+                                    <i class="fas fa-eye"></i> Détails
+                                </button>
+                                <button class="btn-student-action btn-contact" onclick="messageStudent(4)">
+                                    <i class="fab fa-facebook-messenger"></i> Contacter
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Carte élève 5 -->
+                        <div class="student-card" data-level="5eme">
+                            <div class="level-tag">5ème</div>
+                            <div class="session-badge">0 séance</div>
+                            <div class="student-header">
+                                <div class="student-avatar-large">SA</div>
+                                <div class="student-name">Sena Akakpo</div>
+                                <div class="student-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i> 4.7/5
+                                </div>
+                                <div class="student-subject">SVT</div>
+                            </div>
+                            <div class="student-body">
+                                <div class="session-info">
+                                    <div class="session-item">
+                                        <div class="session-label">Séance passée:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-clock"></i> Aucune
+                                        </div>
+                                    </div>
+                                    <div class="session-item">
+                                        <div class="session-label">Prochaine séance:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-calendar-alt"></i> À programmer
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="student-info-grid">
+                                    <div class="info-item">
+                                        <span class="info-label">Inscription</span>
+                                        <span class="info-value">01/04/2024</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Note</span>
+                                        <span class="info-value">4.7/5</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Type</span>
+                                        <span class="info-value">Premium</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Progression</span>
+                                        <span class="info-value">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="student-footer">
+                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(5)">
+                                    <i class="fas fa-eye"></i> Détails
+                                </button>
+                                <button class="btn-student-action btn-contact" onclick="messageStudent(5)">
+                                    <i class="fab fa-facebook-messenger"></i> Contacter
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Carte élève 6 -->
+                        <div class="student-card" data-level="5eme">
+                            <div class="level-tag">5ème</div>
+                            <div class="session-badge">10 séances</div>
+                            <div class="student-header">
+                                <div class="student-avatar-large">TD</div>
+                                <div class="student-name">Tchéou Djibril</div>
+                                <div class="student-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i> 4.8/5
+                                </div>
+                                <div class="student-subject">Technologie</div>
+                            </div>
+                            <div class="student-body">
+                                <div class="session-info">
+                                    <div class="session-item">
+                                        <div class="session-label">Séance passée:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-clock"></i> Mercredi 10h-12h
+                                        </div>
+                                    </div>
+                                    <div class="session-item">
+                                        <div class="session-label">Prochaine séance:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-calendar-alt"></i> Samedi 10h-12h
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="student-info-grid">
+                                    <div class="info-item">
+                                        <span class="info-label">Inscription</span>
+                                        <span class="info-value">15/12/2023</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Note</span>
+                                        <span class="info-value">4.8/5</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Type</span>
+                                        <span class="info-value">Standard</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Progression</span>
+                                        <span class="info-value">100%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="student-footer">
+                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(6)">
+                                    <i class="fas fa-eye"></i> Détails
+                                </button>
+                                <button class="btn-student-action btn-contact" onclick="reactivateStudent(6)">
+                                    <i class="fas fa-redo"></i> Réactiver
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Carte élève 7 -->
+                        <div class="student-card" data-level="4eme">
+                            <div class="level-tag">4ème</div>
+                            <div class="session-badge">5 séances</div>
+                            <div class="student-header">
+                                <div class="student-avatar-large">KM</div>
+                                <div class="student-name">Kossi Mensah</div>
+                                <div class="student-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i> 4.6/5
+                                </div>
+                                <div class="student-subject">Histoire-Géographie</div>
+                            </div>
+                            <div class="student-body">
+                                <div class="session-info">
+                                    <div class="session-item">
+                                        <div class="session-label">Séance passée:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-clock"></i> Lundi 14h-15h30
+                                        </div>
+                                    </div>
+                                    <div class="session-item">
+                                        <div class="session-label">Prochaine séance:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-calendar-alt"></i> Vendredi 14h-15h30
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="student-info-grid">
+                                    <div class="info-item">
+                                        <span class="info-label">Inscription</span>
+                                        <span class="info-value">10/03/2024</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Note</span>
+                                        <span class="info-value">4.6/5</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Type</span>
+                                        <span class="info-value">Standard</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Progression</span>
+                                        <span class="info-value">50%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="student-footer">
+                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(7)">
+                                    <i class="fas fa-eye"></i> Détails
+                                </button>
+                                <button class="btn-student-action btn-contact" onclick="messageStudent(7)">
+                                    <i class="fab fa-facebook-messenger"></i> Contacter
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Carte élève 8 -->
+                        <div class="student-card" data-level="3eme">
+                            <div class="level-tag">3ème</div>
+                            <div class="session-badge">7 séances</div>
+                            <div class="student-header">
+                                <div class="student-avatar-large">AD</div>
+                                <div class="student-name">Awa Dossou</div>
+                                <div class="student-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i> 5.0/5
+                                </div>
+                                <div class="student-subject">Français</div>
+                            </div>
+                            <div class="student-body">
+                                <div class="session-info">
+                                    <div class="session-item">
+                                        <div class="session-label">Séance passée:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-clock"></i> Mardi 16h-17h
+                                        </div>
+                                    </div>
+                                    <div class="session-item">
+                                        <div class="session-label">Prochaine séance:</div>
+                                        <div class="session-value">
+                                            <i class="fas fa-calendar-alt"></i> Jeudi 16h-17h
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="student-info-grid">
+                                    <div class="info-item">
+                                        <span class="info-label">Inscription</span>
+                                        <span class="info-value">22/02/2024</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Note</span>
+                                        <span class="info-value">5.0/5</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Type</span>
+                                        <span class="info-value">Premium</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Progression</span>
+                                        <span class="info-value">70%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="student-footer">
+                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(8)">
+                                    <i class="fas fa-eye"></i> Détails
+                                </button>
+                                <button class="btn-student-action btn-contact" onclick="messageStudent(8)">
+                                    <i class="fab fa-facebook-messenger"></i> Contacter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tableau des élèves - CACHÉ PAR DÉFAUT (modifié) -->
+                <div class="students-table-container" id="tableView" style="display: none;">
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+                                <th>Élève</th>
+                                <th>Niveau</th>
+                                <th>Cours suivis</th>
+                                <th>Date d'inscription</th>
+                                <th>Séances</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar">KA</div>
+                                        <div class="student-details">
+                                            <h4>Koffi Agbessi</h4>
+                                            <p>koffi.agbessi@email.tg</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="level-badge">3ème</span></td>
+                                <td>
+                                    <div style="display: flex; flex-direction: column; gap: 3px;">
+                                        <span style="font-size: 0.85rem;">Mathématiques</span>
+                                        <span style="font-size: 0.85rem; color: var(--gris-moyen);">Premium</span>
+                                    </div>
+                                </td>
+                                <td>15/03/2024</td>
+                                <td>12 séances</td>
+                                <td><span class="status-badge status-active">Actif</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(1)">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </button>
+                                        <button class="btn-table-action btn-table-message" onclick="messageStudent(1)">
+                                            <i class="fab fa-facebook-messenger"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar">AM</div>
+                                        <div class="student-details">
+                                            <h4>Aïcha Mensah</h4>
+                                            <p>aicha.mensah@email.tg</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="level-badge">4ème</span></td>
+                                <td>
+                                    <div style="display: flex; flex-direction: column; gap: 3px;">
+                                        <span style="font-size: 0.85rem;">Français</span>
+                                        <span style="font-size: 0.85rem; color: var(--gris-moyen);">Standard</span>
+                                    </div>
+                                </td>
+                                <td>10/02/2024</td>
+                                <td>8 séances</td>
+                                <td><span class="status-badge status-active">Actif</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(2)">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </button>
+                                        <button class="btn-table-action btn-table-message" onclick="messageStudent(2)">
+                                            <i class="fab fa-facebook-messenger"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar">KA</div>
+                                        <div class="student-details">
+                                            <h4>Komlan Adjobo</h4>
+                                            <p>komlan.adjobo@email.tg</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="level-badge">6ème</span></td>
+                                <td>
+                                    <div style="display: flex; flex-direction: column; gap: 3px;">
+                                        <span style="font-size: 0.85rem;">Anglais</span>
+                                        <span style="font-size: 0.85rem; color: var(--gris-moyen);">Gratuit</span>
+                                    </div>
+                                </td>
+                                <td>05/01/2024</td>
+                                <td>4 séances</td>
+                                <td><span class="status-badge status-active">Actif</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(3)">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </button>
+                                        <button class="btn-table-action btn-table-message" onclick="messageStudent(3)">
+                                            <i class="fab fa-facebook-messenger"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar">BD</div>
+                                        <div class="student-details">
+                                            <h4>Binta Diallo</h4>
+                                            <p>binta.diallo@email.tg</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="level-badge">3ème</span></td>
+                                <td>
+                                    <div style="display: flex; flex-direction: column; gap: 3px;">
+                                        <span style="font-size: 0.85rem;">Sciences Physiques</span>
+                                        <span style="font-size: 0.85rem; color: var(--gris-moyen);">Standard</span>
+                                    </div>
+                                </td>
+                                <td>20/02/2024</td>
+                                <td>6 séances</td>
+                                <td><span class="status-badge status-active">Actif</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(4)">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </button>
+                                        <button class="btn-table-action btn-table-message" onclick="messageStudent(4)">
+                                            <i class="fab fa-facebook-messenger"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar">SA</div>
+                                        <div class="student-details">
+                                            <h4>Sena Akakpo</h4>
+                                            <p>sena.akakpo@email.tg</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="level-badge">5ème</span></td>
+                                <td>
+                                    <div style="display: flex; flex-direction: column; gap: 3px;">
+                                        <span style="font-size: 0.85rem;">SVT</span>
+                                        <span style="font-size: 0.85rem; color: var(--gris-moyen);">Premium</span>
+                                    </div>
+                                </td>
+                                <td>01/04/2024</td>
+                                <td>0 séance</td>
+                                <td><span class="status-badge status-inactive">Inactif</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(5)">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </button>
+                                        <button class="btn-table-action btn-table-message" onclick="messageStudent(5)">
+                                            <i class="fab fa-facebook-messenger"></i>
+                                        </button>
+                                        <button class="btn-table-action btn-table-delete" onclick="deleteStudent(5)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                        <div class="logo-icon">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
+                    </a>
+                    <p style="color: var(--gris-clair);">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="../eleve/cours.html">Tous les cours</a></li>
+                        <li><a href="../eleve/enseignant.html">Nos enseignants</a></li>
+                        <li><a href="../eleve/all_schools.html">Écoles partenaires</a></li>
+                        <li><a href="../Authentification/auth.html">Connexion</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Catégories</h3>
+                    <ul class="footer-links">
+                        <li><a href="../eleve/cours.html?subject=math">Mathématiques</a></li>
+                        <li><a href="../eleve/cours.html?subject=french">Français</a></li>
+                        <li><a href="../eleve/cours.html?subject=english">Anglais</a></li>
+                        <li><a href="../eleve/cours.html?subject=science">Sciences</a></li>
+                        <li><a href="../eleve/cours.html?level=3eme">Préparation BEPC</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.html"
+                        style="color: var(--jaune-principal);">Politique de confidentialité</a> | <a href="terms.html"
+                        style="color: var(--jaune-principal);">Conditions d'utilisation</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Notifications -->
+    <div class="modal-overlay" id="notificationModal">
+        <div class="modal notification-modal">
+            <div class="modal-header notification-header">
+                <h2 class="notification-title">Notifications</h2>
+                <div class="notification-actions">
+                    <button class="mark-all-read" id="markAllReadBtn">Tout marquer comme lu</button>
+                    <button class="modal-close" id="closeNotificationModalBtn">&times;</button>
+                </div>
+            </div>
+            <div class="notification-list" id="notificationList">
+                <!-- Les notifications seront ajoutées dynamiquement -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données simulées pour les élèves
+        const teacherStudents = {
+            totalStudents: 15,
+            activeStudents: 8,
+            inactiveStudents: 2,
+            archivedStudents: 1,
+            avgRating: 4.7,
+            students: [
+                {
+                    id: 1,
+                    firstName: "Koffi",
+                    lastName: "Agbessi",
+                    email: "koffi.agbessi@email.tg",
+                    level: "3ème",
+                    course: "Mathématiques",
+                    serviceType: "premium",
+                    registrationDate: "15/03/2024",
+                    sessionsCompleted: 12,
+                    status: "active",
+                    rating: 4.8,
+                    progress: 85,
+                    notes: "Élève très motivé, excellente progression en mathématiques. Particulièrement doué en géométrie."
+                },
+                {
+                    id: 2,
+                    firstName: "Aïcha",
+                    lastName: "Mensah",
+                    email: "aicha.mensah@email.tg",
+                    level: "4ème",
+                    course: "Français",
+                    serviceType: "standard",
+                    registrationDate: "10/02/2024",
+                    sessionsCompleted: 8,
+                    status: "active",
+                    rating: 4.7,
+                    progress: 65,
+                    notes: "Bonnes compétences en orthographe, besoin de renforcer la grammaire."
+                },
+                {
+                    id: 3,
+                    firstName: "Komlan",
+                    lastName: "Adjobo",
+                    email: "komlan.adjobo@email.tg",
+                    level: "6ème",
+                    course: "Anglais",
+                    serviceType: "gratuit",
+                    registrationDate: "05/01/2024",
+                    sessionsCompleted: 4,
+                    status: "active",
+                    rating: 4.5,
+                    progress: 40,
+                    notes: "Débutant motivé, bon accent, besoin de travailler le vocabulaire."
+                },
+                {
+                    id: 4,
+                    firstName: "Binta",
+                    lastName: "Diallo",
+                    email: "binta.diallo@email.tg",
+                    level: "3ème",
+                    course: "Sciences Physiques",
+                    serviceType: "standard",
+                    registrationDate: "20/02/2024",
+                    sessionsCompleted: 6,
+                    status: "active",
+                    rating: 4.6,
+                    progress: 60,
+                    notes: "Très bonne en expériences pratiques, besoin de théorie."
+                },
+                {
+                    id: 5,
+                    firstName: "Sena",
+                    lastName: "Akakpo",
+                    email: "sena.akakpo@email.tg",
+                    level: "5ème",
+                    course: "SVT",
+                    serviceType: "premium",
+                    registrationDate: "01/04/2024",
+                    sessionsCompleted: 0,
+                    status: "inactive",
+                    rating: 4.7,
+                    progress: 0,
+                    notes: "Nouvel élève, pas encore commencé les séances."
+                },
+                {
+                    id: 6,
+                    firstName: "Tchéou",
+                    lastName: "Djibril",
+                    email: "tcheou.djibril@email.tg",
+                    level: "5ème",
+                    course: "Technologie",
+                    serviceType: "standard",
+                    registrationDate: "15/12/2023",
+                    sessionsCompleted: 10,
+                    status: "archived",
+                    rating: 4.8,
+                    progress: 100,
+                    notes: "Ancien élève, cours terminé avec succès."
+                }
+            ]
+        };
+
+        // Données simulées pour les notifications
+        const notifications = [
+            {
+                id: 1,
+                type: "info",
+                title: "Nouveau message",
+                message: "Koffi Agbessi vous a envoyé un message",
+                time: "Il y a 15 minutes",
+                read: false
+            },
+            {
+                id: 2,
+                type: "success",
+                title: "Séance terminée",
+                message: "La séance de Français avec Aïcha Mensah a été marquée comme terminée",
+                time: "Il y a 2 heures",
+                read: true
+            },
+            {
+                id: 3,
+                type: "warning",
+                title: "Rappel de séance",
+                message: "Séance de Mathématiques avec Koffi Agbessi demain à 15h",
+                time: "Il y a 1 jour",
+                read: false
+            }
+        ];
+
+        // Gestion menu mobile
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        
+        // Filtres des élèves - MODIFIÉ
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        
+        // Gestion notifications
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationModal = document.getElementById('notificationModal');
+        const closeNotificationModalBtn = document.getElementById('closeNotificationModalBtn');
+        const markAllReadBtn = document.getElementById('markAllReadBtn');
+        const notificationNavBtnMobile = document.getElementById('notificationNavBtnMobile');
+        
+        // Gestion profil
+        const profileBtn = document.getElementById('profileBtn');
+        const profileMenu = document.getElementById('profileMenu');
+
+        // Gestion barre de recherche
+        const searchFiltersBtn = document.getElementById('searchFiltersBtn');
+        const searchFiltersPanel = document.getElementById('searchFiltersPanel');
+        const closeFiltersBtn = document.getElementById('closeFiltersBtn');
+        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+        const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const mainSearchInput = document.getElementById('mainSearchInput');
+
+        // Flèche retour en haut
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const scrollProgress = document.getElementById('scrollProgress');
+        const scrollProgressCircle = document.querySelector('.scroll-progress-circle');
+        const scrollProgressText = document.querySelector('.scroll-progress-text');
+
+        // Vue tableau/grille - MODIFIÉ POUR AFFICHER LA GRILLE EN PREMIER
+        const toggleViewBtn = document.getElementById('toggleViewBtn');
+        const tableView = document.getElementById('tableView');
+        const gridView = document.getElementById('gridView');
+        let isGridView = true; // Changé à true pour afficher la grille en premier
+
+        // Boutons d'action
+        const exportStudentsBtn = document.getElementById('exportStudentsBtn');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+
+        // Fonction pour voir les détails d'un élève
+        function viewStudentDetails(studentId) {
+            const student = teacherStudents.students.find(s => s.id === studentId);
+            if (student) {
+                alert(`Détails de l'élève #${studentId}\n\n` +
+                      `Nom: ${student.firstName} ${student.lastName}\n` +
+                      `Email: ${student.email}\n` +
+                      `Niveau: ${student.level}\n` +
+                      `Cours: ${student.course} (${student.serviceType})\n` +
+                      `Date d'inscription: ${student.registrationDate}\n` +
+                      `Séances complétées: ${student.sessionsCompleted}\n` +
+                      `Statut: ${student.status === 'active' ? 'Actif' : student.status === 'inactive' ? 'Inactif' : 'Archivé'}\n` +
+                      `Note: ${student.rating}/5\n` +
+                      `Progression: ${student.progress}%\n\n` +
+                      `Notes:\n${student.notes}`);
+            }
+        }
+
+        // Fonction pour envoyer un message à un élève
+        function messageStudent(studentId) {
+            const student = teacherStudents.students.find(s => s.id === studentId);
+            if (student) {
+                alert(`Envoi d'un message à ${student.firstName} ${student.lastName}\n\n` +
+                      `Vous allez être redirigé vers la messagerie.`);
+                // Redirection vers la messagerie
+                // window.location.href = `teacher_messages.html?student=${studentId}`;
+            }
+        }
+
+        // Fonction pour supprimer un élève
+        function deleteStudent(studentId) {
+            event.stopPropagation();
+            if (confirm("Êtes-vous sûr de vouloir supprimer cet élève ? Cette action est irréversible.")) {
+                alert(`Élève #${studentId} supprimé avec succès`);
+                // Code pour supprimer l'élève
+                // window.location.reload(); // Recharger la page après suppression
+            }
+        }
+
+        // Fonction pour réactiver un élève
+        function reactivateStudent(studentId) {
+            event.stopPropagation();
+            const student = teacherStudents.students.find(s => s.id === studentId);
+            if (student) {
+                if (confirm(`Voulez-vous réactiver l'élève "${student.firstName} ${student.lastName}" ?`)) {
+                    alert(`Élève #${studentId} réactivé avec succès`);
+                    // Code pour réactiver l'élève
+                    // window.location.reload(); // Recharger la page après réactivation
+                }
+            }
+        }
+
+        // Ouvrir modal notifications
+        notificationBtn.addEventListener('click', openNotificationModal);
+        if (notificationNavBtnMobile) {
+            notificationNavBtnMobile.addEventListener('click', () => {
+                openNotificationModal();
+                if (mobileNav) mobileNav.classList.remove('active');
+            });
+        }
+
+        function openNotificationModal() {
+            notificationModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            initNotifications();
+        }
+
+        // Fermer modal notifications
+        closeNotificationModalBtn.addEventListener('click', closeNotificationModal);
+        notificationModal.addEventListener('click', (e) => {
+            if (e.target === notificationModal) {
+                closeNotificationModal();
+            }
+        });
+
+        function closeNotificationModal() {
+            notificationModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Gestion menu mobile
+        if (mobileNavToggle) {
+            mobileNavToggle.addEventListener('click', () => {
+                if (mobileNav) mobileNav.classList.toggle('active');
+            });
+        }
+
+        // Fermer menu mobile en cliquant à l'extérieur
+        document.addEventListener('click', (e) => {
+            if (mobileNav && !mobileNav.contains(e.target) && mobileNavToggle && !mobileNavToggle.contains(e.target)) {
+                mobileNav.classList.remove('active');
+            }
+        });
+
+        // Gestion menu déroulant profil
+        profileBtn.addEventListener('click', () => {
+            profileMenu.classList.toggle('active');
+        });
+
+        // Fermer le menu déroulant en cliquant à l'extérieur
+        document.addEventListener('click', (e) => {
+            if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.remove('active');
+            }
+        });
+
+        // Filtrage des élèves - MODIFIÉ POUR FILTRER PAR NIVEAU
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Retirer active de tous les boutons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                
+                // Ajouter active au bouton cliqué
+                btn.classList.add('active');
+                
+                // Filtrer les élèves par niveau
+                const filter = btn.dataset.filter;
+                console.log(`Filtre appliqué: ${filter}`);
+                
+                // Filtrer les cartes d'élèves par niveau
+                filterStudentCardsByLevel(filter);
+            });
+        });
+
+        // Fonction pour filtrer les cartes d'élèves par niveau
+        function filterStudentCardsByLevel(filter) {
+            const studentCards = document.querySelectorAll('.student-card');
+            
+            studentCards.forEach(card => {
+                const level = card.getAttribute('data-level');
+                
+                if (filter === 'all' || level === filter) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialiser les notifications
+        function initNotifications() {
+            const notificationList = document.getElementById('notificationList');
+            notificationList.innerHTML = '';
+            
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                notificationItem.innerHTML = `
+                    <div class="notification-content">
+                        <div class="notification-icon ${notification.type}">
+                            <i class="fas fa-${getNotificationIcon(notification.type)}"></i>
+                        </div>
+                        <div class="notification-text">
+                            <h4>${notification.title}</h4>
+                            <p>${notification.message}</p>
+                            <div class="notification-time">${notification.time}</div>
+                        </div>
+                    </div>
+                `;
+                
+                notificationItem.addEventListener('click', () => {
+                    // Marquer comme lu
+                    notification.read = true;
+                    updateNotificationBadge();
+                    initNotifications();
+                });
+                
+                notificationList.appendChild(notificationItem);
+            });
+        }
+
+        function getNotificationIcon(type) {
+            switch(type) {
+                case 'success': return 'check-circle';
+                case 'warning': return 'exclamation-triangle';
+                case 'info': return 'info-circle';
+                case 'alert': return 'bell';
+                default: return 'bell';
+            }
+        }
+
+        // Marquer toutes les notifications comme lues
+        markAllReadBtn.addEventListener('click', () => {
+            notifications.forEach(notification => {
+                notification.read = true;
+            });
+            updateNotificationBadge();
+            initNotifications();
+        });
+
+        // Mettre à jour le badge de notification
+        function updateNotificationBadge() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const badge = document.querySelector('.notification-badge');
+            if (badge) {
+                badge.textContent = unreadCount;
+                if (unreadCount === 0) {
+                    badge.style.display = 'none';
+                } else {
+                    badge.style.display = 'flex';
+                }
+            }
+            
+            // Mettre à jour le badge du menu mobile
+            const mobileBadge = document.querySelector('.mobile-nav-badge');
+            if (mobileBadge) {
+                mobileBadge.textContent = unreadCount;
+                if (unreadCount === 0) {
+                    mobileBadge.style.display = 'none';
+                } else {
+                    mobileBadge.style.display = 'inline-block';
+                }
+            }
+        }
+
+        // Gestion barre de recherche
+        searchFiltersBtn.addEventListener('click', () => {
+            searchFiltersPanel.classList.toggle('active');
+        });
+
+        closeFiltersBtn.addEventListener('click', () => {
+            searchFiltersPanel.classList.remove('active');
+        });
+
+        // Fermer les filtres en cliquant à l'extérieur
+        document.addEventListener('click', (e) => {
+            if (!searchFiltersPanel.contains(e.target) && 
+                !searchFiltersBtn.contains(e.target) && 
+                searchFiltersPanel.classList.contains('active')) {
+                searchFiltersPanel.classList.remove('active');
+            }
+        });
+
+        // Réinitialiser les filtres
+        resetFiltersBtn.addEventListener('click', () => {
+            document.getElementById('searchStatus').value = 'all';
+            document.getElementById('searchLevel').value = 'all';
+            document.getElementById('searchCourse').value = 'all';
+            document.getElementById('searchServiceType').value = 'all';
+            document.getElementById('searchSort').value = 'recent';
+            document.getElementById('searchDate').value = 'all';
+            mainSearchInput.value = '';
+        });
+
+        // Appliquer les filtres et lancer la recherche
+        applyFiltersBtn.addEventListener('click', performSearch);
+        searchBtn.addEventListener('click', performSearch);
+
+        mainSearchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        function performSearch() {
+            const searchStatus = document.getElementById('searchStatus').value;
+            const searchLevel = document.getElementById('searchLevel').value;
+            const searchCourse = document.getElementById('searchCourse').value;
+            const searchServiceType = document.getElementById('searchServiceType').value;
+            const searchSort = document.getElementById('searchSort').value;
+            const searchDate = document.getElementById('searchDate').value;
+            const searchQuery = mainSearchInput.value.trim();
+            
+            searchFiltersPanel.classList.remove('active');
+            showSearchResults({
+                query: searchQuery,
+                status: searchStatus,
+                level: searchLevel,
+                course: searchCourse,
+                serviceType: searchServiceType,
+                sort: searchSort,
+                date: searchDate
+            });
+        }
+
+        function showSearchResults(filters) {
+            alert(`Recherche d'élèves avec les filtres:\n
+                Statut: ${filters.status}\n
+                Niveau: ${filters.level}\n
+                Cours: ${filters.course}\n
+                Type de service: ${filters.serviceType}\n
+                Trier par: ${filters.sort}\n
+                Date: ${filters.date}\n
+                Recherche: "${filters.query}"`);
+        }
+
+        // Gestion de la flèche retour en haut
+        function toggleBackToTopButton() {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            // Calcul du pourcentage de défilement
+            const scrollPercent = (scrollPosition / (documentHeight - windowHeight)) * 100;
+            
+            // Mettre à jour l'indicateur de progression
+            const circleLength = 113.097; // 2 * π * r (r=18)
+            const offset = circleLength - (scrollPercent / 100) * circleLength;
+            scrollProgressCircle.style.strokeDashoffset = offset;
+            scrollProgressText.textContent = Math.round(scrollPercent) + '%';
+            
+            // Afficher/masquer les boutons
+            if (scrollPosition > 300) {
+                backToTopBtn.classList.add('visible');
+                scrollProgress.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+                scrollProgress.classList.remove('visible');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Gestion de la touche Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                scrollToTop();
+            }
+        });
+
+        // Gestion de la vue grille/tableau - MODIFIÉ POUR AFFICHER LA GRILLE EN PREMIER
+        toggleViewBtn.addEventListener('click', () => {
+            isGridView = !isGridView;
+            
+            if (isGridView) {
+                tableView.style.display = 'none';
+                gridView.style.display = 'block';
+                toggleViewBtn.innerHTML = '<i class="fas fa-list"></i> Vue tableau';
+            } else {
+                tableView.style.display = 'block';
+                gridView.style.display = 'none';
+                toggleViewBtn.innerHTML = '<i class="fas fa-th-large"></i> Vue grille';
+            }
+        });
+
+        // Exportation des élèves
+        exportStudentsBtn.addEventListener('click', () => {
+            alert("Exportation des données élèves en cours...\n\nFormat CSV généré avec succès.");
+            // Code pour exporter les données
+        });
+
+        // Envoi de message groupé
+        sendMessageBtn.addEventListener('click', () => {
+            alert("Envoi d'un message groupé à tous les élèves actifs\n\nVous allez être redirigé vers la messagerie.");
+            // Redirection vers la messagerie
+            // window.location.href = "teacher_messages.html?group=true";
+        });
+
+        // Initialisation des données
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mettre à jour les statistiques
+            const statElements = document.querySelectorAll('.stat-info-inline h3');
+            if (statElements.length >= 3) {
+                statElements[0].innerText = teacherStudents.totalStudents;
+                statElements[1].innerText = teacherStudents.activeStudents;
+                statElements[2].innerText = teacherStudents.avgRating + '/5';
+            }
+            
+            // Initialiser les notifications
+            initNotifications();
+            updateNotificationBadge();
+            
+            // Événements pour la flèche retour en haut
+            window.addEventListener('scroll', toggleBackToTopButton);
+            backToTopBtn.addEventListener('click', scrollToTop);
+            
+            // Initialiser la visibilité des boutons
+            toggleBackToTopButton();
+            
+            // Gestion responsive
+            function checkWindowSize() {
+                if (window.innerWidth <= 992) {
+                    if (document.querySelector('.menu-toggle')) {
+                        document.querySelector('.menu-toggle').style.display = 'block';
+                    }
+                } else {
+                    if (document.querySelector('.menu-toggle')) {
+                        document.querySelector('.menu-toggle').style.display = 'none';
+                    }
+                    if (mobileNav) mobileNav.classList.remove('active');
+                }
+            }
+            
+            window.addEventListener('resize', checkWindowSize);
+            checkWindowSize();
+            
+            // Empêcher la propagation sur tous les boutons d'actions
+            document.querySelectorAll('.table-actions button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            });
+            
+            document.querySelectorAll('.student-footer button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            });
+            
+            // Ajuster la grille en fonction de la taille de l'écran
+            function adjustGrid() {
+                const studentsGrid = document.querySelector('.students-grid');
+                if (window.innerWidth >= 1200) {
+                    studentsGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                } else if (window.innerWidth >= 992) {
+                    studentsGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                } else if (window.innerWidth >= 768) {
+                    studentsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+                } else {
+                    studentsGrid.style.gridTemplateColumns = '1fr';
+                }
+            }
+            
+            window.addEventListener('resize', adjustGrid);
+            adjustGrid();
+        });
+    </script>
+</body>
+</html>

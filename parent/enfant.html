@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Enfants - EduTogoConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Variables de couleurs - Drapeau togolais */
+        :root {
+            --jaune-principal: #FFD700; /* Jaune du drapeau */
+            --rouge-principal: #EF3340; /* Rouge du drapeau */
+            --vert-principal: #00A651; /* Vert du drapeau */
+            --blanc-principal: #FFFFFF; /* Blanc du drapeau */
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
+            --gris-clair: #F5F5F5;
+            --orange-cours: #FF9800;
+            --cyan-suggestion: #00BCD4;
+            --violet-premium: #9C27B0;
+            --badge-premium-bg: rgba(255,215,0,0.15);
+            --badge-standard-bg: rgba(0,166,81,0.15);
+            --badge-gratuit-bg: rgba(33,150,243,0.15);
+            --bleu-prof: #2196F3;
+            --violet-autres: #7B1FA2;
+            --vert-badge: #4CAF50;
+            --jaune-badge: #FFC107;
+            --rouge-badge: #F44336;
+            --bleu-clair: #E3F2FD;
+        }
+
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Principal */
+        .main-header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+
+        /* Barre de navigation horizontale */
+        .horizontal-nav {
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .parent-quick-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .parent-avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--blanc-principal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--violet-premium);
+            border: 2px solid var(--blanc-principal);
+        }
+
+        .parent-name {
+            font-weight: 600;
+            color: var(--blanc-principal);
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 3px 10px;
+            background-color: var(--violet-premium);
+            color: var(--blanc-principal);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Navigation horizontale */
+        .horizontal-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-bottom-color: var(--blanc-principal);
+        }
+
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.3);
+            border-bottom-color: var(--jaune-principal);
+            font-weight: 600;
+        }
+
+        .nav-item i {
+            font-size: 1rem;
+        }
+
+        .nav-badge {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        /* Barre de recherche */
+        .search-bar-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--blanc-principal);
+            border-radius: 30px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+
+        .search-btn {
+            background-color: var(--jaune-principal);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-fonce);
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            transform: scale(1.05);
+        }
+
+        /* Menu déroulant profil */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--blanc-principal);
+            min-width: 250px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1001;
+            margin-top: 10px;
+        }
+
+        .profile-menu.active {
+            display: block;
+        }
+
+        .profile-menu-header {
+            padding: 20px;
+            background-color: var(--gris-clair);
+            text-align: center;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .profile-menu-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--violet-premium), var(--rouge-principal));
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--blanc-principal);
+            font-weight: bold;
+        }
+
+        .profile-menu-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-menu-email {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .profile-menu-list {
+            list-style: none;
+        }
+
+        .profile-menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            transition: background-color 0.3s;
+        }
+
+        .profile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-menu-item:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gris-fonce);
+            text-decoration: none;
+        }
+
+        .profile-menu-link i {
+            width: 20px;
+            color: var(--gris-moyen);
+        }
+
+        .profile-menu-link.logout {
+            color: var(--rouge-principal);
+        }
+
+        .profile-menu-link.logout i {
+            color: var(--rouge-principal);
+        }
+
+        /* Boutons généraux */
+        .btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-primary:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gris-fonce);
+            color: var(--blanc-principal);
+        }
+
+        .btn-success {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-success:hover {
+            background-color: #008c45;
+        }
+
+        .btn-warning {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+        }
+
+        .btn-warning:hover {
+            background-color: #e6c200;
+        }
+
+        .btn-danger {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .btn-info {
+            background-color: var(--bleu-prof);
+            color: var(--blanc-principal);
+        }
+
+        .btn-info:hover {
+            background-color: #0b7dda;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--vert-principal);
+            border: 2px solid var(--vert-principal);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-violet {
+            background-color: var(--violet-premium);
+            color: var(--blanc-principal);
+        }
+
+        .btn-violet:hover {
+            background-color: #7b1fa2;
+        }
+
+        .btn-logout {
+            background-color: rgba(239,51,64,0.1);
+            color: var(--rouge-principal);
+            border: 2px solid var(--rouge-principal);
+        }
+
+        .btn-logout:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Contenu principal */
+        .main-content {
+            padding: 30px 0;
+            flex: 1;
+        }
+
+        /* Header de la page */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .page-title h1 {
+            color: var(--gris-fonce);
+            font-size: 1.8rem;
+        }
+
+        .page-title p {
+            color: var(--gris-moyen);
+            margin-top: 5px;
+        }
+
+        /* Section principale des enfants */
+        .children-section {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--gris-fonce);
+            font-size: 1.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--gris-moyen);
+            margin-top: 5px;
+        }
+
+        /* Badges de présence en ligne/hors ligne */
+        .online-status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--vert-badge);
+            color: var(--blanc-principal);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .offline-status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        /* Vue tableau des enfants */
+        .children-table-view {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: none;
+        }
+
+        .children-table-view th {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 3px solid var(--jaune-principal);
+        }
+
+        .children-table-view td {
+            padding: 15px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .children-table-view tr:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .avatar-cell {
+            width: 60px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--vert-badge);
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--jaune-badge);
+        }
+
+        .status-inactive {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--rouge-badge);
+        }
+
+        /* Grille des enfants */
+        .children-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .child-card {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--gris-clair);
+            transition: all 0.3s;
+            position: relative;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .child-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--vert-principal);
+        }
+
+        .child-header {
+            padding: 2px 2px 1px 2px;
+            background-color: var(--vert-principal);
+            border-bottom: 1px solid var(--gris-clair);
+            position: relative;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .child-level-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .child-avatar-large {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin: 5px auto 10px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-weight: bold;
+            font-size: 1.5rem;
+            border: 4px solid var(--blanc-principal);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .child-name {
+            font-size: 1.1rem;
+            color: var(--blanc-principal);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .child-body {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .child-info {
+            margin-bottom: 15px;
+            flex: 1;
+        }
+
+        .child-info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .child-info-label {
+            color: var(--gris-moyen);
+        }
+
+        .child-info-value {
+            color: var(--gris-fonce);
+            font-weight: 500;
+        }
+
+        /* SUPPRIMÉ: Section progression globale et dernière connexion */
+
+        .child-footer {
+            padding: 12px;
+            background-color: var(--gris-clair);
+            border-top: 1px solid var(--gris-moyen);
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-child-action {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-child-action.btn-details {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-child-action.btn-details:hover {
+            background-color: var(--gris-fonce);
+            color: var(--blanc-principal);
+        }
+
+        .btn-child-action.btn-contact {
+            background-color: var(--cyan-suggestion);
+            color: var(--blanc-principal);
+        }
+
+        .btn-child-action.btn-contact:hover {
+            background-color: #00a1c2;
+            transform: translateY(-2px);
+        }
+
+        /* Section historique des inscriptions */
+        .history-section {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .history-timeline {
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-date {
+            min-width: 100px;
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+        }
+
+        .timeline-description {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        /* Menu mobile */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            z-index: 1000;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 90%;
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            color: var(--gris-fonce);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-moyen);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--vert-principal);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        /* Bouton notification */
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .notification-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .children-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .horizontal-nav {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .search-bar-container {
+                order: 3;
+                max-width: 100%;
+                margin-top: 15px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .children-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .children-grid, .stats-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .child-footer {
+                flex-direction: column;
+            }
+            
+            .btn-child-action {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .children-section, .history-section {
+                padding: 20px;
+            }
+            
+            .child-card {
+                height: auto;
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <!-- Barre de recherche -->
+                <div class="search-bar-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="mainSearchInput" placeholder="Rechercher un enfant, un cours...">
+                        <button class="search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-actions">
+                    <div class="parent-quick-info">
+                        <span class="badge-status">3 enfants inscrits</span>
+                    </div>
+                    
+                    <!-- Bouton notifications -->
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">2</span>
+                    </button>
+                    
+                    <!-- Menu déroulant profil -->
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div class="parent-avatar-small">MA</div>
+                            <div>
+                                <div class="parent-name">M. Adjo</div>
+                                <span class="badge-status">Parent</span>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="profile-menu" id="profileMenu">
+                            <div class="profile-menu-header">
+                                <div class="profile-menu-avatar">MA</div>
+                                <div class="profile-menu-name">M. Adjo</div>
+                                <div class="profile-menu-email">parent.adjo@edutogoconnect.tg</div>
+                            </div>
+                            
+                            <ul class="profile-menu-list">
+                                <li class="profile-menu-item">
+                                    <a href="parent_profile.html" class="profile-menu-link">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>Mon profil</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="parent_settings.html" class="profile-menu-link">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Paramètres</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="parent_finance.html" class="profile-menu-link">
+                                        <i class="fas fa-money-bill"></i>
+                                        <span>Gestion financière</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="login.html" class="profile-menu-link logout">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Déconnexion</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de Navigation Horizontale -->
+    <nav class="horizontal-nav">
+        <div class="container">
+            <div class="nav-container">
+                <!-- Menu de navigation horizontal -->
+                <div class="horizontal-menu">
+                    <a href="parent_dashboard.html" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="parent_children.html" class="nav-item active">
+                        <i class="fas fa-child"></i>
+                        <span>Mes enfants</span>
+                    </a>
+                    <a href="parent_courses.html" class="nav-item">
+                        <i class="fas fa-book-open"></i>
+                        <span>Cours</span>
+                        <span class="nav-badge">6</span>
+                    </a>
+                    <a href="parent_teachers.html" class="nav-item">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Enseignants</span>
+                    </a>
+                    <a href="parent_contracts.html" class="nav-item">
+                        <i class="fas fa-file-contract"></i>
+                        <span>Contrats</span>
+                    </a>
+                    <a href="parent_schedule.html" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Programmation</span>
+                    </a>
+                    <a href="parent_messages.html" class="nav-item">
+                        <i class="fas fa-comments"></i>
+                        <span>Messagerie</span>
+                        <span class="nav-badge">3</span>
+                    </a>
+                    <a href="parent_finance.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Rapport</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Mobile (caché par défaut) -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-menu">
+            <a href="parent_dashboard.html" class="mobile-nav-item">
+                <i class="fas fa-home"></i>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="parent_children.html" class="mobile-nav-item active">
+                <i class="fas fa-child"></i>
+                <span>Mes enfants</span>
+            </a>
+            <a href="parent_courses.html" class="mobile-nav-item">
+                <i class="fas fa-book-open"></i>
+                <span>Cours</span>
+                <span class="nav-badge">6</span>
+            </a>
+            <a href="parent_progress.html" class="mobile-nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Progression</span>
+            </a>
+            <a href="parent_contracts.html" class="mobile-nav-item">
+                <i class="fas fa-file-contract"></i>
+                <span>Contrats</span>
+            </a>
+            <a href="parent_schedule.html" class="mobile-nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Programmation</span>
+            </a>
+            <a href="parent_finance.html" class="mobile-nav-item">
+                <i class="fas fa-money-bill"></i>
+                        <span>Finances</span>
+                    </a>
+                    <a href="parent_messages.html" class="mobile-nav-item">
+                        <i class="fas fa-comments"></i>
+                        <span>Messagerie</span>
+                        <span class="nav-badge">3</span>
+                    </a>
+                    <a href="#" class="mobile-nav-item" id="notificationNavBtnMobile">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                        <span class="nav-badge">2</span>
+                    </a>
+                    <a href="parent_settings.html" class="mobile-nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Paramètres</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <main class="main-content">
+                <div class="container">
+                    <!-- Header de la page -->
+                    <header class="page-header">
+                        <div class="page-title">
+                            <h1>Mes Enfants</h1>
+                            <p>Gérez les informations, les cours et le suivi de vos enfants</p>
+                        </div>
+                        <button class="btn btn-violet" id="addChildBtn">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Ajouter un enfant</span>
+                        </button>
+                    </header>
+
+                    <!-- Section principale des enfants -->
+                    <section class="children-section">
+                        <div class="section-header">
+                            <div>
+                                <h2 class="section-title">Tous mes enfants</h2>
+                                <p class="section-subtitle">Consultez et gérez l'ensemble de vos enfants inscrits</p>
+                            </div>
+                            
+                            <button class="btn btn-secondary" id="toggleViewBtn">
+                                <i class="fas fa-list"></i> Vue tableau
+                            </button>
+                        </div>
+
+                        <!-- Tableau des enfants (caché par défaut) -->
+                        <table class="children-table-view" id="childrenTableView">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Niveau</th>
+                                    <th>Cours suivis</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; color: var(--blanc-principal); font-weight: bold; font-size: 1rem;">KA</div>
+                                            <div>Koffi Agbessi</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge status-active">3ème</span></td>
+                                    <td>5 cours</td>
+                                    <td><span class="status-badge status-active">En ligne</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline" onclick="viewChildDetails(1)">Détails</button>
+                                        <button class="btn btn-sm btn-info" onclick="contactChild(1)">Contacter</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; color: var(--blanc-principal); font-weight: bold; font-size: 1rem;">AA</div>
+                                            <div>Afi Adjo</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge status-active">5ème</span></td>
+                                    <td>3 cours</td>
+                                    <td><span class="status-badge status-inactive">Hors ligne</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline" onclick="viewChildDetails(2)">Détails</button>
+                                        <button class="btn btn-sm btn-info" onclick="contactChild(2)">Contacter</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; color: var(--blanc-principal); font-weight: bold; font-size: 1rem;">KM</div>
+                                            <div>Komla Mensah</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge status-active">4ème</span></td>
+                                    <td>2 cours</td>
+                                    <td><span class="status-badge status-active">En ligne</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline" onclick="viewChildDetails(3)">Détails</button>
+                                        <button class="btn btn-sm btn-info" onclick="contactChild(3)">Contacter</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Grille des enfants (affichée par défaut) -->
+                        <div class="children-grid" id="childrenGrid">
+                            <!-- Enfant 1 -->
+                            <div class="child-card" data-status="online" data-level="3eme">
+                                <div class="child-header">
+                                    <div class="child-level-badge">3ème</div>
+                                    <div class="child-avatar-large">KA</div>
+                                    <div class="child-name">Koffi Agbessi</div>
+                                    <!-- Badge de présence en ligne -->
+                                    <span class="online-status-badge">En ligne</span>
+                                </div>
+                                <div class="child-body">
+                                    <div class="child-info">
+                                        <div class="child-info-item">
+                                            <span class="child-info-label">Cours suivis:</span>
+                                            <span class="child-info-value">5 cours</span>
+                                        </div>
+                                        <div class="child-info-item">
+                                            <span class="child-info-label">Matières:</span>
+                                            <span class="child-info-value">Maths, Français</span>
+                                        </div>
+                                        <div class="child-info-item">
+                                            <span class="child-info-label">École:</span>
+                                            <span class="child-info-value">Lycée Français</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="child-footer">
+                                    <button class="btn-child-action btn-details" onclick="viewChildDetails(1)">
+                                        <i class="fas fa-eye"></i> Détails
+                                    </button>
+                                    <button class="btn-child-action btn-contact" onclick="contactChild(1)">
+                                        <i class="fas fa-comment"></i> Contacter
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Enfant 2 -->
+                            <div class="child-card" data-status="offline" data-level="5eme">
+                                <div class="child-header">
+                                    <div class="child-level-badge">5ème</div>
+                                    <div class="child-avatar-large">AA</div>
+                                    <div class="child-name">Afi Adjo</div>
+                                    <!-- Badge de présence hors ligne -->
+                                    <span class="offline-status-badge">Hors ligne</span>
+                                </div>
+                                <div class="child-body">
+                                    <div class="child-info">
+                                        <div class="child-info-item">
+                                            <span class="child-info-label">Cours suivis:</span>
+                                            <span class="child-info-value">3 cours</span>
+                                        </div>
+                                        <div class="child-info-item">
+                                            <span class="child-info-label">Matières:</span>
+                                            <span class="child-info-value">SVT, Anglais</span>
+                                        </div>
+                                        <div class="child-info-item">
+                                            <span class="child-info-label">École:</span>
+                                            <span class="child-info-value">Collège Protestant</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="child-footer">
+                                    <button class="btn-child-action btn-details" onclick="viewChildDetails(2)">
+                                        <i class="fas fa-eye"></i> Détails
+                                    </button>
+                                    <button class="btn-child-action btn-contact" onclick="contactChild(2)">
+                                        <i class="fas fa-comment"></i> Contacter
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Enfant 3 -->
+                            <div class="child-card" data-status="online" data-level="4eme">
+                                <div class="child-header">
+                                    <div class="child-level-badge">4ème</div>
+                                    <div class="child-avatar-large">KM</div>
+                                    <div class="child-name">Komla Mensah</div>
+                                    <!-- Badge de présence en ligne -->
+                                    <span class="online-status-badge">En ligne</span>
+                                </div>
+                                <div class="child-body">
+                                    <div class="child-info">
+                                        <div class="child-info-item">
+                                            <span class="child-info-label">Cours suivis:</span>
+                                            <span class="child-info-value">2 cours</span>
+                                        </div>
+                                        <div class="child-info-item">
+                                            <span class="child-info-label">Matières:</span>
+                                            <span class="child-info-value">Physique, Histoire</span>
+                                        </div>
+                                        <div class="child-info-item">
+                                            <span class="child-info-label">École:</span>
+                                            <span class="child-info-value">Collège Moderne</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="child-footer">
+                                    <button class="btn-child-action btn-details" onclick="viewChildDetails(3)">
+                                        <i class="fas fa-eye"></i> Détails
+                                    </button>
+                                    <button class="btn-child-action btn-contact" onclick="contactChild(3)">
+                                        <i class="fas fa-comment"></i> Contacter
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Carte pour ajouter un nouvel enfant -->
+                            <div class="child-card" style="border-style: dashed; border-color: var(--violet-premium); background: transparent; text-align: center; height: 280px;">
+                                <div class="child-header" style="background: transparent; padding: 40px 20px;">
+                                    <i class="fas fa-plus-circle" style="font-size: 3rem; color: var(--violet-premium); margin-bottom: 15px;"></i>
+                                    <div class="child-name" style="color: var(--violet-premium);">Ajouter un enfant</div>
+                                </div>
+                                <div class="child-footer" style="justify-content: center; background: transparent;">
+                                    <button class="btn-child-action btn-courses" id="addNewChildBtn" style="background-color: var(--violet-premium);">
+                                        <i class="fas fa-plus"></i> Ajouter un enfant
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section historique des inscriptions -->
+                    <section class="history-section">
+                        <div class="section-header">
+                            <div>
+                                <h2 class="section-title">Historique des inscriptions</h2>
+                                <p class="section-subtitle">Suivi des inscriptions et des modifications apportées à vos enfants</p>
+                            </div>
+                        </div>
+
+                        <div class="history-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">15 Oct. 2024</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">Nouveau cours ajouté</div>
+                                    <div class="timeline-description">Cours de Mathématiques avancées ajouté pour Koffi Agbessi</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">10 Oct. 2024</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">Inscription confirmée</div>
+                                    <div class="timeline-description">Komla Mensah a été ajouté à vos enfants</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">05 Oct. 2024</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">Bulletin trimestriel</div>
+                                    <div class="timeline-description">Bulletin du 1er trimestre disponible pour Afi Adjo</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+
+            <!-- Pied de page (MODIFIÉ selon la demande) -->
+            <footer style="background-color: #212121; color: #666666; padding: 60px 0 30px;">
+                <div class="container">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                        <div>
+                            <a href="index.html" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: #FFFFFF; text-decoration: none;">
+                                <div style="background: linear-gradient(45deg, #00A651 25%, #FFD700 25%, #FFD700 50%, #EF3340 50%, #EF3340 75%, #FFFFFF 75%); color: #333333; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px;">ET</div>
+                                <div style="font-size: 24px; font-weight: 700;">Edu<span style="color: #00A651;">Togo</span>Connect</div>
+                            </a>
+                            <p style="color: #666666; line-height: 1.6; margin-bottom: 20px;">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
+                            <div style="display: flex; gap: 15px;">
+                                <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #FFFFFF; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#FFD700'; this.style.color='#212121'; this.style.transform='translateY(-3px)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; this.style.transform='translateY(0)'">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #FFFFFF; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#FFD700'; this.style.color='#212121'; this.style.transform='translateY(-3px)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; this.style.transform='translateY(0)'">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #FFFFFF; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#FFD700'; this.style.color='#212121'; this.style.transform='translateY(-3px)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; this.style.transform='translateY(0)'">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #FFFFFF; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#FFD700'; this.style.color='#212121'; this.style.transform='translateY(-3px)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; this.style.transform='translateY(0)'">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 style="color: #FFFFFF; font-size: 1.3rem; margin-bottom: 20px; position: relative; padding-bottom: 10px;">Liens rapides</h3>
+                            <ul style="list-style: none;">
+                                <li style="margin-bottom: 12px;"><a href="#accueil" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Accueil</a></li>
+                                <li style="margin-bottom: 12px;"><a href="#fonctionnalites" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Fonctionnalités</a></li>
+                                <li style="margin-bottom: 12px;"><a href="#mission" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Notre Mission</a></li>
+                                <li style="margin-bottom: 12px;"><a href="#niveaux" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Niveaux</a></li>
+                                <li style="margin-bottom: 12px;"><a href="#cours" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Meilleurs Cours</a></li>
+                                <li style="margin-bottom: 12px;"><a href="#ressources" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Ressources</a></li>
+                                <li style="margin-bottom: 12px;"><a href="#enseignants" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Nos Enseignants</a></li>
+                                <li style="margin-bottom: 12px;"><a href="#ecoles" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Nos Écoles</a></li>
+                                <li style="margin-bottom: 12px;"><a href="#partenaires" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Nos Partenaires</a></li>
+                                <li style="margin-bottom: 12px;"><a href="#temoignages" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Témoignages</a></li>
+                                <li style="margin-bottom: 12px;"><a href="faq.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">FAQ</a></li>
+                                <li style="margin-bottom: 12px;"><a href="blog.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Blog</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 style="color: #FFFFFF; font-size: 1.3rem; margin-bottom: 20px; position: relative; padding-bottom: 10px;">Pour les enseignants</h3>
+                            <ul style="list-style: none;">
+                                <li style="margin-bottom: 12px;"><a href="teacher-guide.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Guide des enseignants</a></li>
+                                <li style="margin-bottom: 12px;"><a href="verification.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Processus de vérification</a></li>
+                                <li style="margin-bottom: 12px;"><a href="premium.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Formule Premium</a></li>
+                                <li style="margin-bottom: 12px;"><a href="pricing.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Tarifs et commissions</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 style="color: #FFFFFF; font-size: 1.3rem; margin-bottom: 20px; position: relative; padding-bottom: 10px;">Contact</h3>
+                            <ul style="list-style: none;">
+                                <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #666666;"><i class="fas fa-map-marker-alt"></i> Lomé, Togo</li>
+                                <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #666666;"><i class="fas fa-phone"></i> +228 XX XX XX XX</li>
+                                <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #666666;"><i class="fas fa-envelope"></i> contact@edutogoconnect.tg</li>
+                                <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #666666;"><i class="fas fa-clock"></i> Lundi - Vendredi: 8h-18h</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: #666666;">
+                        <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.php" style="color: #FFD700; text-decoration: none;">Politique de confidentialité</a> | <a href="terms.php" style="color: #FFD700; text-decoration: none;">Conditions d'utilisation</a></p>
+                    </div>
+                </div>
+            </footer>
+
+            <!-- Modal Ajouter un enfant -->
+            <div class="modal-overlay" id="addChildModal">
+                <div class="modal" style="max-width: 600px;">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Ajouter un enfant</h2>
+                        <button class="modal-close" id="closeAddChildModalBtn">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="form-label">Rechercher un élève déjà inscrit</label>
+                            <div class="search-bar" style="margin-bottom: 10px;">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="studentSearchInput" placeholder="Tapez le nom ou l'email de l'élève...">
+                                <button class="search-btn" id="studentSearchBtn" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <p style="font-size: 0.9rem; color: var(--gris-moyen); margin-top: 5px;">
+                                Vous ne pouvez ajouter que des élèves déjà inscrits sur la plateforme.
+                            </p>
+                        </div>
+                        
+                        <div id="studentSearchResults" class="student-search-results" style="max-height: 300px; overflow-y: auto; border: 2px solid var(--gris-clair); border-radius: 8px;">
+                            <!-- Les résultats de recherche seront affichés ici -->
+                            <div class="no-results-message" id="initialSearchMessage" style="padding: 30px; text-align: center; color: var(--gris-moyen);">
+                                <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                                <p>Recherchez un élève par son nom ou son adresse email</p>
+                            </div>
+                        </div>
+                        
+                        <div id="noStudentFoundMessage" style="display: none; padding: 30px; text-align: center; color: var(--gris-moyen);">
+                            <i class="fas fa-user-slash" style="font-size: 2rem; margin-bottom: 15px; color: var(--rouge-principal);"></i>
+                            <h3 style="color: var(--rouge-principal); margin-bottom: 10px;">Aucun élève trouvé</h3>
+                            <p style="margin-bottom: 20px;">Cet élève n'est pas encore inscrit sur la plateforme.</p>
+                            <p style="font-size: 0.9rem; color: var(--gris-moyen);">
+                                <strong>Note importante:</strong> Seul l'enfant peut créer son compte élève. 
+                                Demandez à votre enfant de s'inscrire sur la plateforme, puis vous pourrez l'ajouter ici.
+                            </p>
+                            <button class="btn-enroll-child" onclick="showEnrollmentInstructions()" style="background-color: var(--rouge-principal); color: var(--blanc-principal); border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 8px; margin-top: 20px; width: 100%; justify-content: center;">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Comment mon enfant peut-il s'inscrire?</span>
+                            </button>
+                        </div>
+                        
+                        <div id="enrollmentInstructions" style="display: none; margin-top: 20px; padding: 20px; background-color: var(--gris-clair); border-radius: 10px;">
+                            <h3 style="color: var(--vert-principal); margin-bottom: 15px;">Instructions d'inscription pour votre enfant</h3>
+                            <ol style="margin-left: 20px; margin-bottom: 20px;">
+                                <li>Demandez à votre enfant de se rendre sur <strong>EduTogoConnect.tg</strong></li>
+                                <li>Cliquer sur "S'inscrire" en tant qu'<strong>Élève</strong></li>
+                                <li>Remplir le formulaire d'inscription avec ses informations</li>
+                                <li>Confirmer son adresse email</li>
+                                <li>Une fois son compte activé, vous pourrez le rechercher ici et l'ajouter</li>
+                            </ol>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn btn-secondary" onclick="hideEnrollmentInstructions()">Fermer</button>
+                                <a href="student_signup.html" class="btn btn-primary" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Lien d'inscription élève</span>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="cancelAddChildBtn">Annuler</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Détails d'un enfant -->
+            <div class="modal-overlay" id="childDetailsModal">
+                <div class="modal" style="max-width: 700px;">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="childDetailsTitle">Détails de l'enfant</h2>
+                        <button class="modal-close" id="closeChildDetailsModalBtn">&times;</button>
+                    </div>
+                    <div class="modal-body" id="childDetailsContent">
+                        <!-- Contenu chargé dynamiquement -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Notifications -->
+            <div class="modal-overlay" id="notificationModal">
+                <div class="modal" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Notifications</h2>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <button class="btn btn-secondary" id="markAllReadBtn" style="padding: 5px 10px; font-size: 0.8rem;">Tout marquer comme lu</button>
+                            <button class="modal-close" id="closeNotificationModalBtn">&times;</button>
+                        </div>
+                    </div>
+                    <div class="modal-body" id="notificationList">
+                        <!-- Les notifications seront ajoutées dynamiquement -->
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Données simulées pour la page "Mes Enfants"
+                const childrenData = {
+                    parent: {
+                        fullName: "M. Adjo",
+                        email: "parent.adjo@edutogoconnect.tg",
+                        status: "Parent",
+                        childrenCount: 3
+                    },
+                    
+                    // Enfants actuels
+                    children: [
+                        {
+                            id: 1,
+                            name: "Koffi Agbessi",
+                            initials: "KA",
+                            level: "3ème",
+                            school: "Lycée Français de Lomé",
+                            birthDate: "15/08/2010",
+                            email: "koffi.agbessi@edutogoconnect.tg",
+                            phone: "+228 90 12 34 56",
+                            address: "Lomé, Togo",
+                            status: "online",
+                            registrationDate: "01/09/2024",
+                            courses: 5,
+                            teachers: 3,
+                            lastActivity: "Aujourd'hui, 14:30",
+                            lastLogin: "Aujourd'hui, 14:30",
+                            notes: "Excellent en mathématiques, besoin de soutien en français."
+                        },
+                        {
+                            id: 2,
+                            name: "Afi Adjo",
+                            initials: "AA",
+                            level: "5ème",
+                            school: "Collège Protestant de Lomé",
+                            birthDate: "22/03/2012",
+                            email: "afi.adjo@edutogoconnect.tg",
+                            phone: "+228 91 23 45 67",
+                            address: "Lomé, Togo",
+                            status: "offline",
+                            registrationDate: "10/09/2024",
+                            courses: 3,
+                            teachers: 2,
+                            lastActivity: "Hier, 16:45",
+                            lastLogin: "Hier, 16:45",
+                            notes: "Très bonne en sciences, participe activement aux cours."
+                        },
+                        {
+                            id: 3,
+                            name: "Komla Mensah",
+                            initials: "KM",
+                            level: "4ème",
+                            school: "Collège Moderne de Lomé",
+                            birthDate: "05/11/2011",
+                            email: "komla.mensah@edutogoconnect.tg",
+                            phone: "+228 92 34 56 78",
+                            address: "Lomé, Togo",
+                            status: "online",
+                            registrationDate: "15/09/2024",
+                            courses: 2,
+                            teachers: 1,
+                            lastActivity: "Il y a 2 jours, 10:15",
+                            lastLogin: "Il y a 2 jours, 10:15",
+                            notes: "Excellents résultats en littérature, travailleur et assidu."
+                        }
+                    ],
+                    
+                    // Notifications
+                    notifications: [
+                        {
+                            id: 1,
+                            type: "info",
+                            title: "Nouveau bulletin disponible",
+                            message: "Le bulletin de Koffi pour le 1er trimestre est disponible",
+                            time: "Il y a 2 heures",
+                            read: false
+                        },
+                        {
+                            id: 2,
+                            type: "warning",
+                            title: "Réunion parents-professeurs",
+                            message: "Rappel: Réunion le 25 octobre à 16h pour Afi",
+                            time: "Il y a 1 jour",
+                            read: false
+                        }
+                    ]
+                };
+
+                // Éléments DOM
+                const mobileNavToggle = document.getElementById('mobileNavToggle');
+                const mobileNav = document.getElementById('mobileNav');
+                const notificationBtn = document.getElementById('notificationBtn');
+                const notificationModal = document.getElementById('notificationModal');
+                const closeNotificationModalBtn = document.getElementById('closeNotificationModalBtn');
+                const markAllReadBtn = document.getElementById('markAllReadBtn');
+                const notificationNavBtnMobile = document.getElementById('notificationNavBtnMobile');
+                const profileBtn = document.getElementById('profileBtn');
+                const profileMenu = document.getElementById('profileMenu');
+                
+                // Éléments spécifiques à la page
+                const addChildBtn = document.getElementById('addChildBtn');
+                const addNewChildBtn = document.getElementById('addNewChildBtn');
+                const addChildModal = document.getElementById('addChildModal');
+                const closeAddChildModalBtn = document.getElementById('closeAddChildModalBtn');
+                const cancelAddChildBtn = document.getElementById('cancelAddChildBtn');
+                
+                const toggleViewBtn = document.getElementById('toggleViewBtn');
+                const childrenGrid = document.getElementById('childrenGrid');
+                const childrenTableView = document.getElementById('childrenTableView');
+                
+                const childDetailsModal = document.getElementById('childDetailsModal');
+                const closeChildDetailsModalBtn = document.getElementById('closeChildDetailsModalBtn');
+                const childDetailsContent = document.getElementById('childDetailsContent');
+                const childDetailsTitle = document.getElementById('childDetailsTitle');
+                
+                // Variables d'état
+                let isTableView = false;
+                let selectedChildId = null;
+
+                // Initialisation
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Initialiser les notifications
+                    initNotifications();
+                    updateNotificationBadge();
+                    
+                    // Gestion responsive
+                    function checkWindowSize() {
+                        if (window.innerWidth <= 992) {
+                            document.querySelector('.menu-toggle').style.display = 'block';
+                        } else {
+                            document.querySelector('.menu-toggle').style.display = 'none';
+                            mobileNav.classList.remove('active');
+                        }
+                    }
+                    
+                    window.addEventListener('resize', checkWindowSize);
+                    checkWindowSize();
+                });
+
+                // Basculer entre vue grille et tableau
+                toggleViewBtn.addEventListener('click', toggleChildrenView);
+
+                function toggleChildrenView() {
+                    isTableView = !isTableView;
+                    
+                    if (isTableView) {
+                        toggleViewBtn.innerHTML = '<i class="fas fa-th-large"></i> Vue grille';
+                        childrenGrid.style.display = 'none';
+                        childrenTableView.style.display = 'table';
+                    } else {
+                        toggleViewBtn.innerHTML = '<i class="fas fa-list"></i> Vue tableau';
+                        childrenGrid.style.display = 'grid';
+                        childrenTableView.style.display = 'none';
+                    }
+                }
+
+                // Fonctions pour les boutons d'action
+                function viewChildDetails(childId) {
+                    const child = childrenData.children.find(c => c.id === childId);
+                    if (!child) return;
+                    
+                    selectedChildId = childId;
+                    
+                    childDetailsTitle.textContent = `Détails de ${child.name}`;
+                    
+                    childDetailsContent.innerHTML = `
+                        <div style="display: flex; gap: 20px; margin-bottom: 30px;">
+                            <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; color: var(--blanc-principal); font-weight: bold; font-size: 2rem;">
+                                ${child.initials}
+                            </div>
+                            <div style="flex: 1;">
+                                <h3 style="margin-bottom: 10px; color: var(--gris-fonce);">${child.name}</h3>
+                                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                                    <span style="background-color: rgba(0, 166, 81, 0.1); color: var(--vert-principal); padding: 4px 12px; border-radius: 15px; font-size: 0.9rem; font-weight: 600;">${child.level}</span>
+                                    <span style="background-color: ${child.status === 'online' ? 'rgba(76, 175, 80, 0.1)' : 'rgba(102, 102, 102, 0.1)'}; color: ${child.status === 'online' ? 'var(--vert-badge)' : 'var(--gris-moyen)'}; padding: 4px 12px; border-radius: 15px; font-size: 0.9rem; font-weight: 600;">
+                                        ${child.status === 'online' ? 'En ligne' : 'Hors ligne'}
+                                    </span>
+                                </div>
+                                <div style="color: var(--gris-moyen);">
+                                    <div><i class="fas fa-envelope"></i> ${child.email}</div>
+                                    <div><i class="fas fa-phone"></i> ${child.phone}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
+                            <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 8px;">
+                                <div style="font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 5px;">École</div>
+                                <div style="font-weight: 600;">${child.school}</div>
+                            </div>
+                            <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 8px;">
+                                <div style="font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 5px;">Date de naissance</div>
+                                <div style="font-weight: 600;">${child.birthDate}</div>
+                            </div>
+                            <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 8px;">
+                                <div style="font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 5px;">Cours suivis</div>
+                                <div style="font-weight: 600;">${child.courses} cours</div>
+                            </div>
+                            <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 8px;">
+                                <div style="font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 5px;">Date d'inscription</div>
+                                <div style="font-weight: 600;">${child.registrationDate}</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="margin-bottom: 15px; color: var(--gris-fonce);">Notes</h4>
+                            <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 8px;">
+                                ${child.notes}
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 30px;">
+                            <button class="btn btn-secondary" id="editChildBtn">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn btn-primary" onclick="contactChild(${child.id})">
+                                <i class="fas fa-comment"></i> Contacter
+                            </button>
+                        </div>
+                    `;
+                    
+                    // Ajouter l'événement pour le bouton Modifier
+                    document.getElementById('editChildBtn').addEventListener('click', () => {
+                        alert('Fonctionnalité de modification à implémenter');
+                    });
+                    
+                    childDetailsModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function contactChild(childId) {
+                    const child = childrenData.children.find(c => c.id === childId);
+                    if (child) {
+                        alert(`Ouverture de la messagerie avec ${child.name}`);
+                        // Dans une vraie application: window.location.href = `parent_messages.html?child=${childId}`;
+                    }
+                }
+
+                // Gestion du modal Détails de l'enfant
+                function closeChildDetailsModal() {
+                    childDetailsModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    selectedChildId = null;
+                }
+
+                closeChildDetailsModalBtn.addEventListener('click', closeChildDetailsModal);
+                childDetailsModal.addEventListener('click', (e) => {
+                    if (e.target === childDetailsModal) {
+                        closeChildDetailsModal();
+                    }
+                });
+
+                // Gestion des notifications
+                function openNotificationModal() {
+                    notificationModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    initNotifications();
+                }
+
+                function closeNotificationModal() {
+                    notificationModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+
+                function initNotifications() {
+                    const notificationList = document.getElementById('notificationList');
+                    notificationList.innerHTML = '';
+                    
+                    childrenData.notifications.forEach(notification => {
+                        const notificationItem = document.createElement('div');
+                        notificationItem.style.padding = '15px';
+                        notificationItem.style.borderBottom = '1px solid var(--gris-clair)';
+                        notificationItem.style.display = 'flex';
+                        notificationItem.style.alignItems = 'flex-start';
+                        notificationItem.style.gap = '15px';
+                        notificationItem.style.backgroundColor = notification.read ? 'transparent' : 'rgba(0,166,81,0.05)';
+                        
+                        let iconClass = '';
+                        let icon = '';
+                        switch(notification.type) {
+                            case 'success':
+                                iconClass = 'success';
+                                icon = 'check-circle';
+                                break;
+                            case 'warning':
+                                iconClass = 'warning';
+                                icon = 'exclamation-triangle';
+                                break;
+                            case 'info':
+                                iconClass = 'info';
+                                icon = 'info-circle';
+                                break;
+                        }
+                        
+                        notificationItem.innerHTML = `
+                            <div style="color: var(--${iconClass === 'success' ? 'vert-principal' : iconClass === 'warning' ? 'jaune-principal' : 'rouge-principal'}); font-size: 1.2rem;">
+                                <i class="fas fa-${icon}"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <h4 style="margin: 0 0 5px 0; color: var(--gris-fonce);">${notification.title}</h4>
+                                <p style="margin: 0 0 5px 0; color: var(--gris-moyen); font-size: 0.9rem;">${notification.message}</p>
+                                <div style="font-size: 0.8rem; color: var(--gris-moyen);">${notification.time}</div>
+                            </div>
+                        `;
+                        
+                        notificationItem.addEventListener('click', () => {
+                            notification.read = true;
+                            updateNotificationBadge();
+                            initNotifications();
+                        });
+                        
+                        notificationList.appendChild(notificationItem);
+                    });
+                    
+                    if (childrenData.notifications.length === 0) {
+                        const emptyMsg = document.createElement('div');
+                        emptyMsg.style.padding = '30px';
+                        emptyMsg.style.textAlign = 'center';
+                        emptyMsg.style.color = 'var(--gris-moyen)';
+                        emptyMsg.innerHTML = `
+                            <i class="fas fa-bell-slash" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                            <p>Aucune notification</p>
+                        `;
+                        notificationList.appendChild(emptyMsg);
+                    }
+                }
+
+                function updateNotificationBadge() {
+                    const unreadCount = childrenData.notifications.filter(n => !n.read).length;
+                    const badge = document.querySelector('.notification-badge');
+                    if (badge) {
+                        badge.textContent = unreadCount;
+                        if (unreadCount === 0) {
+                            badge.style.display = 'none';
+                        } else {
+                            badge.style.display = 'flex';
+                        }
+                    }
+                }
+
+                // Marquer toutes les notifications comme lues
+                markAllReadBtn.addEventListener('click', () => {
+                    childrenData.notifications.forEach(notification => {
+                        notification.read = true;
+                    });
+                    updateNotificationBadge();
+                    initNotifications();
+                });
+
+                // Événements pour les notifications
+                notificationBtn.addEventListener('click', openNotificationModal);
+                notificationNavBtnMobile.addEventListener('click', () => {
+                    openNotificationModal();
+                    mobileNav.classList.remove('active');
+                });
+
+                closeNotificationModalBtn.addEventListener('click', closeNotificationModal);
+                notificationModal.addEventListener('click', (e) => {
+                    if (e.target === notificationModal) {
+                        closeNotificationModal();
+                    }
+                });
+
+                // Gestion menu mobile
+                mobileNavToggle.addEventListener('click', () => {
+                    mobileNav.classList.toggle('active');
+                });
+
+                // Fermer menu mobile en cliquant à l'extérieur
+                document.addEventListener('click', (e) => {
+                    if (!mobileNav.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+                        mobileNav.classList.remove('active');
+                    }
+                });
+
+                // Gestion menu déroulant profil
+                profileBtn.addEventListener('click', () => {
+                    profileMenu.classList.toggle('active');
+                });
+
+                // Fermer le menu déroulant en cliquant à l'extérieur
+                document.addEventListener('click', (e) => {
+                    if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                        profileMenu.classList.remove('active');
+                    }
+                });
+            </script>
+        </body>
+        </html>
