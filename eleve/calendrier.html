@@ -548,7 +548,7 @@
             align-items: center;
             padding: 20px 0;
             margin-bottom: 20px;
-            border-bottom: 1px solid var(--gris-clair);
+            border-bottom: 1px solid var(--rouge-passe);
         }
 
         .header-title h1 {
@@ -561,22 +561,27 @@
             margin-top: 5px;
         }
 
-        /* Barre de contrôle du calendrier */
+        /* Barre de contrôle du calendrier - SUR LA MÊME LIGNE */
         .calendar-controls {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px;
+            padding: 15px 20px;
             background-color: var(--blanc-principal);
             border-radius: 12px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
             margin-bottom: 25px;
+            flex-wrap: nowrap;
+            gap: 15px;
+            overflow-x: auto;
+            white-space: nowrap;
         }
 
         .calendar-nav {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
+            flex-shrink: 0;
         }
 
         .calendar-view-toggle {
@@ -594,6 +599,7 @@
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s;
+            white-space: nowrap;
         }
 
         .view-btn.active {
@@ -604,17 +610,165 @@
         .current-date-display {
             font-size: 1.2rem;
             font-weight: 600;
-            color: var(--gris-fonce);
-            min-width: 200px;
+            color: var(--rouge-principal);
+            min-width: 220px;
             text-align: center;
+            flex-shrink: 0;
         }
 
         .calendar-actions {
             display: flex;
             gap: 10px;
+            flex-shrink: 0;
         }
 
-        /* Calendrier Grid - Vue Semaine */
+        /* CALENDRIER AMÉLIORÉ - Style enseignant intégré */
+        .teacher-calendar-view {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .teacher-calendar-view.active {
+            display: block;
+        }
+
+        .teacher-week-header {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+            background-color: rgba(0,166,81,0.1);
+            border-bottom: 2px solid var(--vert-principal);
+        }
+
+        .teacher-time-column-header {
+            padding: 15px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            text-align: center;
+            border-right: 1px solid var(--gris-clair);
+        }
+
+        .teacher-day-header {
+            padding: 15px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            text-align: center;
+            border-right: 1px solid var(--gris-clair);
+        }
+
+        .teacher-day-header:last-child {
+            border-right: none;
+        }
+
+        .teacher-today-header {
+            background-color: var(--bleu-prochain);
+            color: var(--blanc-principal);
+        }
+
+        .teacher-week-grid {
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .teacher-time-slot {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+            min-height: 60px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .teacher-time-label {
+            padding: 10px;
+            font-weight: 500;
+            color: var(--gris-moyen);
+            text-align: center;
+            border-right: 1px solid var(--gris-clair);
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .teacher-day-cell {
+            position: relative;
+            border-right: 1px solid var(--gris-clair);
+        }
+
+        .teacher-day-cell:last-child {
+            border-right: none;
+        }
+
+        .teacher-today-cell {
+            background-color: rgba(33,150,243,0.05);
+        }
+
+        /* Style des cours dans le calendrier amélioré */
+        .teacher-course-slot {
+            position: absolute;
+            left: 2px;
+            right: 2px;
+            border-radius: 6px;
+            padding: 8px;
+            color: var(--blanc-principal);
+            font-size: 0.85rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+
+        .teacher-course-slot:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        .teacher-course-slot.online {
+            background-color: var(--bleu-prochain);
+            border-left: 4px solid var(--cyan-suggestion);
+        }
+
+        .teacher-course-slot.in-person {
+            background-color: var(--vert-principal);
+            border-left: 4px solid var(--jaune-principal);
+        }
+
+        .teacher-course-slot.important {
+            background-color: var(--violet-important);
+            border-left: 4px solid var(--jaune-principal);
+        }
+
+        .teacher-course-slot.past {
+            opacity: 0.7;
+            background-color: var(--rouge-passe);
+        }
+
+        .teacher-course-slot-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .teacher-course-slot-time {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        .teacher-course-slot-teacher {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Calendrier Grid - Vue Semaine (original) */
         .calendar-week-view {
             display: none;
             background-color: var(--blanc-principal);
@@ -1555,6 +1709,19 @@
             .upcoming-courses-grid {
                 grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             }
+            
+            .teacher-week-header, .teacher-time-slot {
+                grid-template-columns: 60px repeat(7, 1fr);
+            }
+            
+            .calendar-controls {
+                padding: 12px 15px;
+            }
+            
+            .current-date-display {
+                font-size: 1.1rem;
+                min-width: 200px;
+            }
         }
 
         @media (max-width: 992px) {
@@ -1567,9 +1734,29 @@
             }
             
             .calendar-controls {
-                flex-direction: column;
-                gap: 15px;
-                align-items: stretch;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .calendar-nav {
+                order: 1;
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+            
+            .current-date-display {
+                order: 2;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            .calendar-actions {
+                order: 3;
+                width: 100%;
+                justify-content: center;
             }
             
             .course-item {
@@ -1586,6 +1773,22 @@
             
             .menu-toggle {
                 display: block;
+            }
+            
+            .teacher-week-header, .teacher-time-slot {
+                grid-template-columns: 50px repeat(7, 1fr);
+            }
+            
+            .btn span:not(.fa) {
+                display: none;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+            }
+            
+            .view-btn span {
+                display: none;
             }
         }
 
@@ -1621,6 +1824,31 @@
                 flex-direction: column;
                 gap: 10px;
             }
+            
+            .teacher-time-column-header, .teacher-day-header {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .teacher-time-label {
+                padding: 5px;
+                font-size: 0.8rem;
+            }
+            
+            .teacher-course-slot {
+                font-size: 0.7rem;
+                padding: 4px;
+            }
+            
+            .calendar-controls {
+                padding: 10px;
+                gap: 8px;
+            }
+            
+            .current-date-display {
+                font-size: 1rem;
+                min-width: 180px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1629,12 +1857,13 @@
             }
             
             .calendar-controls {
-                padding: 15px;
+                padding: 8px;
+                gap: 5px;
             }
             
             .current-date-display {
                 min-width: auto;
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
             
             .stats-grid {
@@ -1643,6 +1872,19 @@
             
             .attendance-options {
                 flex-direction: column;
+            }
+            
+            .teacher-week-header, .teacher-time-slot {
+                grid-template-columns: 40px repeat(7, 1fr);
+            }
+            
+            .btn {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .view-btn {
+                padding: 6px 10px;
             }
         }
     </style>
@@ -1909,7 +2151,7 @@
                 </button>
             </header>
 
-            <!-- Contrôles du calendrier -->
+            <!-- Contrôles du calendrier amélioré - SUR LA MÊME LIGNE -->
             <div class="calendar-controls">
                 <div class="calendar-nav">
                     <button class="btn" id="prevWeekBtn">
@@ -1918,17 +2160,17 @@
                     </button>
                     
                     <div class="calendar-view-toggle">
-                        <button class="view-btn active" data-view="week">
+                        <button class="view-btn active" data-view="teacherWeek">
+                            <i class="fas fa-calendar-week"></i>
+                            <span>Calendrier</span>
+                        </button>
+                        <button class="view-btn" data-view="week">
                             <i class="fas fa-calendar-week"></i>
                             <span>Semaine</span>
                         </button>
                         <button class="view-btn" data-view="month">
                             <i class="fas fa-calendar-alt"></i>
                             <span>Mois</span>
-                        </button>
-                        <button class="view-btn" data-view="day">
-                            <i class="fas fa-calendar-day"></i>
-                            <span>Jour</span>
                         </button>
                     </div>
                     
@@ -1951,11 +2193,25 @@
                         <i class="fas fa-share-alt"></i>
                         <span>Partager</span>
                     </button>
+                    <button class="btn btn-success" id="exportScheduleBtn">
+                        <i class="fas fa-download"></i>
+                        <span>Exporter</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Vue Semaine -->
-            <div class="calendar-week-view active" id="weekView">
+            <!-- NOUVEAU: Vue Semaine améliorée (style enseignant) -->
+            <div class="teacher-calendar-view active" id="teacherWeekView">
+                <div class="teacher-week-header" id="teacherWeekHeader">
+                    <!-- Généré dynamiquement -->
+                </div>
+                <div class="teacher-week-grid" id="teacherWeekGrid">
+                    <!-- Généré dynamiquement -->
+                </div>
+            </div>
+
+            <!-- Vue Semaine originale -->
+            <div class="calendar-week-view" id="weekView">
                 <div class="week-header" id="weekHeader">
                     <!-- Généré dynamiquement -->
                 </div>
@@ -2249,12 +2505,14 @@
                     duration: 2,
                     location: "Salle virtuelle 3",
                     color: "#2196F3",
+                    type: "online", // online, in-person
                     status: "current", // past, current, upcoming
                     isImportant: true,
                     attendance: null, // null, "present", "late", "absent"
                     rating: null,
                     comment: null,
-                    date: "2023-11-06"
+                    date: "2023-11-06",
+                    link: "https://meet.google.com/xyz-abc-def"
                 },
                 {
                     id: 2,
@@ -2268,12 +2526,14 @@
                     duration: 1.5,
                     location: "En ligne",
                     color: "#00A651",
+                    type: "online",
                     status: "past",
                     isImportant: false,
                     attendance: "present",
                     rating: 4,
                     comment: "Cours très instructif",
-                    date: "2023-11-06"
+                    date: "2023-11-06",
+                    link: "https://zoom.us/j/123456789"
                 },
                 {
                     id: 3,
@@ -2287,12 +2547,14 @@
                     duration: 1,
                     location: "Salle virtuelle 1",
                     color: "#9C27B0",
+                    type: "in-person",
                     status: "upcoming",
                     isImportant: false,
                     attendance: null,
                     rating: null,
                     comment: null,
-                    date: "2023-11-06"
+                    date: "2023-11-06",
+                    link: "Salle 204, École Saint Joseph"
                 },
                 {
                     id: 4,
@@ -2306,12 +2568,14 @@
                     duration: 2,
                     location: "Laboratoire B",
                     color: "#FF9800",
+                    type: "in-person",
                     status: "upcoming",
                     isImportant: true,
                     attendance: null,
                     rating: null,
                     comment: null,
-                    date: "2023-11-07"
+                    date: "2023-11-07",
+                    link: "Laboratoire B, École des Sciences"
                 },
                 {
                     id: 5,
@@ -2325,12 +2589,14 @@
                     duration: 1.5,
                     location: "Salle 204",
                     color: "#795548",
+                    type: "online",
                     status: "upcoming",
                     isImportant: false,
                     attendance: null,
                     rating: null,
                     comment: null,
-                    date: "2023-11-08"
+                    date: "2023-11-08",
+                    link: "https://meet.google.com/hist-togo"
                 },
                 {
                     id: 6,
@@ -2344,12 +2610,14 @@
                     duration: 1.5,
                     location: "Laboratoire A",
                     color: "#4CAF50",
+                    type: "in-person",
                     status: "upcoming",
                     isImportant: false,
                     attendance: null,
                     rating: null,
                     comment: null,
-                    date: "2023-11-09"
+                    date: "2023-11-09",
+                    link: "Laboratoire A, Campus Université"
                 },
                 {
                     id: 7,
@@ -2363,12 +2631,35 @@
                     duration: 2,
                     location: "Salle virtuelle 3",
                     color: "#2196F3",
+                    type: "online",
                     status: "upcoming",
                     isImportant: true,
                     attendance: null,
                     rating: null,
                     comment: null,
-                    date: "2023-11-10"
+                    date: "2023-11-10",
+                    link: "https://meet.google.com/geo-math"
+                },
+                {
+                    id: 8,
+                    subject: "Philosophie",
+                    title: "Introduction à la logique",
+                    teacher: "Dr. Koffi",
+                    teacherInitials: "DK",
+                    dayOfWeek: 2,
+                    startTime: "10:00",
+                    endTime: "12:00",
+                    duration: 2,
+                    location: "Salle 105",
+                    color: "#607D8B",
+                    type: "in-person",
+                    status: "upcoming",
+                    isImportant: false,
+                    attendance: null,
+                    rating: null,
+                    comment: null,
+                    date: "2023-11-07",
+                    link: "Salle 105, Faculté des Lettres"
                 }
             ],
             
@@ -2391,6 +2682,7 @@
         const backToTopBtn = document.getElementById('backToTopBtn');
         const mobileNavToggle = document.getElementById('mobileNavToggle');
         const mobileNav = document.getElementById('mobileNav');
+        const teacherWeekView = document.getElementById('teacherWeekView');
         const weekView = document.getElementById('weekView');
         const monthView = document.getElementById('monthView');
         const viewBtns = document.querySelectorAll('.view-btn');
@@ -2415,6 +2707,7 @@
         const attendanceOptions = document.querySelectorAll('.attendance-option');
         const printScheduleBtn = document.getElementById('printScheduleBtn');
         const shareScheduleBtn = document.getElementById('shareScheduleBtn');
+        const exportScheduleBtn = document.getElementById('exportScheduleBtn');
         const viewAllCoursesBtn = document.getElementById('viewAllCoursesBtn');
         
         // Éléments header
@@ -2430,7 +2723,7 @@
         const profileMenu = document.getElementById('profileMenu');
 
         // Variables globales
-        let currentView = 'week';
+        let currentView = 'teacherWeek';
         let selectedCourseForAttendance = null;
         let currentRating = 0;
         let selectedAttendance = 'present';
@@ -2467,7 +2760,105 @@
             return dates;
         }
 
-        // Fonction pour générer l'en-tête de la semaine
+        // Fonction pour générer l'en-tête de la semaine améliorée
+        function generateTeacherWeekHeader(dates) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            let headerHTML = '<div class="teacher-time-column-header">Heure</div>';
+            
+            dates.forEach((date, index) => {
+                const isToday = date.toDateString() === today.toDateString();
+                const dayClass = isToday ? 'teacher-day-header teacher-today-header' : 'teacher-day-header';
+                headerHTML += `
+                    <div class="${dayClass}" data-day="${index}">
+                        <div>${daysShort[date.getDay()]}</div>
+                        <div>${date.getDate()}</div>
+                    </div>
+                `;
+            });
+            
+            return headerHTML;
+        }
+
+        // Fonction pour générer la grille de la semaine améliorée
+        function generateTeacherWeekGrid(dates) {
+            const today = new Date();
+            const nowHours = today.getHours();
+            const nowMinutes = today.getMinutes();
+            const currentTime = nowHours * 60 + nowMinutes;
+            
+            let gridHTML = '';
+            
+            // Créer des créneaux horaires de 8h à 20h
+            for (let hour = 8; hour <= 20; hour++) {
+                for (let minute = 0; minute < 60; minute += 30) {
+                    if (hour === 20 && minute === 30) break;
+                    
+                    const timeLabel = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    const timeValue = hour * 60 + minute;
+                    
+                    gridHTML += `<div class="teacher-time-slot">`;
+                    gridHTML += `<div class="teacher-time-label">${timeLabel}</div>`;
+                    
+                    // Ajouter les cellules pour chaque jour
+                    for (let day = 0; day < 7; day++) {
+                        const date = dates[day];
+                        const isToday = date.toDateString() === today.toDateString();
+                        const dayClass = isToday ? 'teacher-day-cell teacher-today-cell' : 'teacher-day-cell';
+                        
+                        gridHTML += `<div class="${dayClass}" data-day="${day}" data-time="${timeValue}">`;
+                        
+                        // Trouver les cours pour ce jour et cette heure
+                        const coursesAtThisTime = scheduleData.courses.filter(course => {
+                            const courseDate = new Date(course.date);
+                            return courseDate.getDate() === date.getDate() &&
+                                   courseDate.getMonth() === date.getMonth() &&
+                                   courseDate.getFullYear() === date.getFullYear() &&
+                                   isCourseAtTime(course, timeValue);
+                        });
+                        
+                        // Ajouter les cours
+                        coursesAtThisTime.forEach(course => {
+                            const durationInMinutes = course.duration * 60;
+                            const startMinutes = timeStringToMinutes(course.startTime);
+                            const top = 0;
+                            const height = (durationInMinutes / 30) * 30;
+                            
+                            // Déterminer la classe selon le type et l'importance
+                            let typeClass = course.type === 'online' ? 'online' : 'in-person';
+                            if (course.isImportant) typeClass += ' important';
+                            if (course.status === 'past') typeClass += ' past';
+                            
+                            gridHTML += `
+                                <div class="teacher-course-slot ${typeClass}" 
+                                     style="top: ${top}px; height: ${height}px; background-color: ${course.color};"
+                                     data-course-id="${course.id}"
+                                     onclick="openAttendanceModal(${course.id})">
+                                    <div class="teacher-course-slot-title">
+                                        <span>${course.subject}</span>
+                                        ${course.isImportant ? '<i class="fas fa-star"></i>' : ''}
+                                    </div>
+                                    <div class="teacher-course-slot-time">${course.startTime} - ${course.endTime}</div>
+                                    <div class="teacher-course-slot-teacher" title="${course.teacher}">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                        <span>${course.teacher}</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        
+                        gridHTML += `</div>`;
+                    }
+                    
+                    gridHTML += `</div>`;
+                }
+            }
+            
+            return gridHTML;
+        }
+
+        // Fonction pour générer l'en-tête de la semaine originale
         function generateWeekHeader(dates) {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
@@ -2488,7 +2879,7 @@
             return headerHTML;
         }
 
-        // Fonction pour générer la grille de la semaine
+        // Fonction pour générer la grille de la semaine originale
         function generateWeekGrid(dates) {
             const today = new Date();
             const nowHours = today.getHours();
@@ -2743,6 +3134,10 @@
                         attendanceBadge = '<span class="status-badge" style="background-color: rgba(244,67,54,0.1); color: #F44336; margin-left: 10px;">✗ Absent</span>';
                     }
                     
+                    // Icône selon le type
+                    const typeIcon = course.type === 'online' ? 'fa-video' : 'fa-map-marker-alt';
+                    const typeText = course.type === 'online' ? 'En ligne' : 'Présentiel';
+                    
                     coursesHTML += `
                         <div class="course-item ${statusClass}">
                             <div class="course-time">
@@ -2753,8 +3148,8 @@
                                 <div class="course-subject">${course.subject} ${course.isImportant ? '<i class="fas fa-star" style="color: var(--jaune-principal); margin-left: 5px;"></i>' : ''}</div>
                                 <div class="course-teacher">${course.teacher}</div>
                                 <div class="course-location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>${course.location}</span>
+                                    <i class="fas ${typeIcon}"></i>
+                                    <span>${typeText} - ${course.location}</span>
                                 </div>
                             </div>
                             <div class="course-status">
@@ -2775,13 +3170,13 @@
                                     </button>
                                 ` : ''}
                                 ${course.status === 'current' ? `
-                                    <button class="btn btn-primary">
+                                    <button class="btn btn-primary" onclick="joinCourse(${course.id})">
                                         <i class="fas fa-video"></i>
                                         <span>Rejoindre</span>
                                     </button>
                                 ` : ''}
                                 ${course.status === 'upcoming' ? `
-                                    <button class="btn btn-outline">
+                                    <button class="btn btn-outline" onclick="viewCourseDetails(${course.id})">
                                         <i class="fas fa-info-circle"></i>
                                         <span>Détails</span>
                                     </button>
@@ -2823,6 +3218,10 @@
                     const dayName = daysOfWeek[courseDate.getDay()];
                     const dateStr = `${dayName} ${courseDate.getDate()} ${months[courseDate.getMonth()]}`;
                     
+                    // Icône selon le type
+                    const typeIcon = course.type === 'online' ? 'fa-video' : 'fa-map-marker-alt';
+                    const typeText = course.type === 'online' ? 'En ligne' : 'Présentiel';
+                    
                     upcomingHTML += `
                         <div class="upcoming-course-card">
                             <div class="upcoming-course-header">
@@ -2838,17 +3237,17 @@
                                 <span>${course.teacher}</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                <i class="fas fa-map-marker-alt" style="color: var(--gris-moyen);"></i>
-                                <span style="color: var(--gris-moyen); font-size: 0.9rem;">${course.location}</span>
+                                <i class="fas ${typeIcon}" style="color: var(--gris-moyen);"></i>
+                                <span style="color: var(--gris-moyen); font-size: 0.9rem;">${typeText} - ${course.location}</span>
                             </div>
                             <div class="upcoming-course-actions">
                                 ${course.status === 'current' ? `
-                                    <button class="btn btn-primary" style="flex: 1;">
+                                    <button class="btn btn-primary" style="flex: 1;" onclick="joinCourse(${course.id})">
                                         <i class="fas fa-video"></i>
                                         <span>Rejoindre</span>
                                     </button>
                                 ` : `
-                                    <button class="btn btn-outline" style="flex: 1;">
+                                    <button class="btn btn-outline" style="flex: 1;" onclick="viewCourseDetails(${course.id})">
                                         <i class="fas fa-info-circle"></i>
                                         <span>Détails</span>
                                     </button>
@@ -2935,6 +3334,7 @@
             // Mettre à jour l'affichage
             updateTodayCourses();
             updateUpcomingCourses();
+            updateTeacherWeekView();
             updateWeekView();
             
             // Fermer le modal
@@ -2953,7 +3353,22 @@
             selectedAttendance = 'present';
         }
 
-        // Fonction pour mettre à jour la vue semaine
+        // Fonction pour mettre à jour la vue semaine améliorée
+        function updateTeacherWeekView() {
+            const weekStart = getWeekStart(scheduleData.currentWeek);
+            const weekDates = generateWeekDates(weekStart);
+            
+            // Mettre à jour l'affichage de la date
+            const startStr = `${weekDates[0].getDate()} ${months[weekDates[0].getMonth()].substring(0, 3)}`;
+            const endStr = `${weekDates[6].getDate()} ${months[weekDates[6].getMonth()]} ${weekDates[6].getFullYear()}`;
+            currentDateDisplay.textContent = `Semaine du ${startStr} au ${endStr}`;
+            
+            // Générer l'en-tête et la grille
+            document.getElementById('teacherWeekHeader').innerHTML = generateTeacherWeekHeader(weekDates);
+            document.getElementById('teacherWeekGrid').innerHTML = generateTeacherWeekGrid(weekDates);
+        }
+
+        // Fonction pour mettre à jour la vue semaine originale
         function updateWeekView() {
             const weekStart = getWeekStart(scheduleData.currentWeek);
             const weekDates = generateWeekDates(weekStart);
@@ -2980,11 +3395,16 @@
                 }
             });
             
-            // Afficher la vue sélectionnée
+            // Masquer toutes les vues
+            teacherWeekView.classList.remove('active');
             weekView.classList.remove('active');
             monthView.classList.remove('active');
             
-            if (view === 'week') {
+            // Afficher la vue sélectionnée
+            if (view === 'teacherWeek') {
+                teacherWeekView.classList.add('active');
+                updateTeacherWeekView();
+            } else if (view === 'week') {
                 weekView.classList.add('active');
                 updateWeekView();
             } else if (view === 'month') {
@@ -2995,6 +3415,70 @@
                 // ou générer une vue jour détaillée
                 alert('Vue jour - En développement');
             }
+        }
+
+        // Fonction pour rejoindre un cours
+        function joinCourse(courseId) {
+            const course = scheduleData.courses.find(c => c.id === courseId);
+            if (!course) return;
+            
+            if (course.type === 'online' && course.link) {
+                // Ouvrir le lien de la visioconférence dans un nouvel onglet
+                window.open(course.link, '_blank');
+            } else {
+                alert(`Cours présentiel: ${course.location}\n\nAdresse: ${course.link || course.location}`);
+            }
+        }
+
+        // Fonction pour voir les détails d'un cours
+        function viewCourseDetails(courseId) {
+            const course = scheduleData.courses.find(c => c.id === courseId);
+            if (!course) return;
+            
+            const courseDate = new Date(course.date);
+            const dateStr = `${daysOfWeek[courseDate.getDay()]} ${courseDate.getDate()} ${months[courseDate.getMonth()]} ${courseDate.getFullYear()}`;
+            
+            alert(`Détails du cours:\n\n` +
+                  `Matière: ${course.subject}\n` +
+                  `Titre: ${course.title}\n` +
+                  `Enseignant: ${course.teacher}\n` +
+                  `Date: ${dateStr}\n` +
+                  `Heure: ${course.startTime} - ${course.endTime}\n` +
+                  `Durée: ${course.duration} heures\n` +
+                  `Type: ${course.type === 'online' ? 'En ligne' : 'Présentiel'}\n` +
+                  `Lieu: ${course.location}\n` +
+                  `${course.isImportant ? '⭐ Cours important' : ''}`);
+        }
+
+        // Fonction pour exporter l'emploi du temps
+        function exportSchedule() {
+            // Créer un CSV des cours
+            let csvContent = "Date,Heure Début,Heure Fin,Matière,Enseignant,Type,Lieu,Statut\n";
+            
+            scheduleData.courses.forEach(course => {
+                const courseDate = new Date(course.date);
+                const dateStr = `${courseDate.getDate()}/${courseDate.getMonth() + 1}/${courseDate.getFullYear()}`;
+                const typeStr = course.type === 'online' ? 'En ligne' : 'Présentiel';
+                const statusStr = course.status === 'past' ? 'Terminé' : 
+                                 course.status === 'current' ? 'En cours' : 'À venir';
+                
+                csvContent += `"${dateStr}","${course.startTime}","${course.endTime}","${course.subject}","${course.teacher}","${typeStr}","${course.location}","${statusStr}"\n`;
+            });
+            
+            // Télécharger le fichier CSV
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute("href", url);
+            link.setAttribute("download", `emploi_du_temps_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            alert('Emploi du temps exporté avec succès !');
         }
 
         // Fonction pour imprimer l'emploi du temps
@@ -3039,6 +3523,7 @@
                                 <th>Heure</th>
                                 <th>Matière</th>
                                 <th>Enseignant</th>
+                                <th>Type</th>
                                 <th>Lieu</th>
                                 <th>Statut</th>
                             </tr>
@@ -3060,12 +3545,15 @@
                                     statusText = 'À venir';
                                 }
                                 
+                                const typeText = course.type === 'online' ? 'En ligne' : 'Présentiel';
+                                
                                 return `
                                     <tr class="${statusClass}">
                                         <td>${formatShortDate(courseDate)}</td>
                                         <td>${course.startTime} - ${course.endTime}</td>
                                         <td>${course.subject}</td>
                                         <td>${course.teacher}</td>
+                                        <td>${typeText}</td>
                                         <td>${course.location}</td>
                                         <td>${statusText}</td>
                                     </tr>
@@ -3195,7 +3683,7 @@
             // Initialiser les vues
             updateTodayCourses();
             updateUpcomingCourses();
-            updateWeekView();
+            updateTeacherWeekView();
             
             // Configurer les événements du header
             setupHeaderEvents();
@@ -3216,7 +3704,9 @@
             // Navigation du calendrier
             prevWeekBtn.addEventListener('click', () => {
                 scheduleData.currentWeek.setDate(scheduleData.currentWeek.getDate() - 7);
-                if (currentView === 'week') {
+                if (currentView === 'teacherWeek') {
+                    updateTeacherWeekView();
+                } else if (currentView === 'week') {
                     updateWeekView();
                 } else if (currentView === 'month') {
                     generateMonthView(scheduleData.currentWeek);
@@ -3227,7 +3717,9 @@
             
             nextWeekBtn.addEventListener('click', () => {
                 scheduleData.currentWeek.setDate(scheduleData.currentWeek.getDate() + 7);
-                if (currentView === 'week') {
+                if (currentView === 'teacherWeek') {
+                    updateTeacherWeekView();
+                } else if (currentView === 'week') {
                     updateWeekView();
                 } else if (currentView === 'month') {
                     generateMonthView(scheduleData.currentWeek);
@@ -3238,7 +3730,9 @@
             
             todayBtn.addEventListener('click', () => {
                 scheduleData.currentWeek = new Date();
-                if (currentView === 'week') {
+                if (currentView === 'teacherWeek') {
+                    updateTeacherWeekView();
+                } else if (currentView === 'week') {
                     updateWeekView();
                 } else if (currentView === 'month') {
                     generateMonthView(scheduleData.currentWeek);
@@ -3302,6 +3796,9 @@
             // Bouton d'impression
             printScheduleBtn.addEventListener('click', printSchedule);
             
+            // Bouton d'exportation
+            exportScheduleBtn.addEventListener('click', exportSchedule);
+            
             // Bouton partager l'emploi du temps
             shareScheduleBtn.addEventListener('click', function() {
                 if (navigator.share) {
@@ -3335,6 +3832,8 @@
 
         // Exposer les fonctions nécessaires globalement
         window.openAttendanceModal = openAttendanceModal;
+        window.joinCourse = joinCourse;
+        window.viewCourseDetails = viewCourseDetails;
     </script>
 </body>
 </html>
