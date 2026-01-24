@@ -1,0 +1,3279 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - EduTogoConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de couleurs - Drapeau togolais */
+        :root {
+            --jaune-principal: #FFD700;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
+            --gris-clair: #F5F5F5;
+            --vert-message-moi: #E1FFC7;
+            --vert-message-autre: #F0F0F0;
+            --orange-notification: #FF9800;
+            --cyan-info: #00BCD4;
+        }
+
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Container principal */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Principal */
+        .main-header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+
+        /* Barre de recherche */
+        .search-bar-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--blanc-principal);
+            border-radius: 30px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+
+        .search-filters-btn {
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-left: 1px solid var(--gris-clair);
+            margin-left: 10px;
+        }
+
+        .search-btn {
+            background-color: var(--jaune-principal);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-fonce);
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            transform: scale(1.05);
+        }
+
+        /* Panneau de filtres */
+        .search-filters-panel {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 10px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .search-filters-panel.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .filters-title {
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .close-filters {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: var(--blanc-principal);
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--jaune-principal);
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gris-clair);
+        }
+
+        /* Bouton notification */
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .notification-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Menu déroulant profil */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--blanc-principal);
+            min-width: 250px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1001;
+            margin-top: 10px;
+        }
+
+        .profile-menu.active {
+            display: block;
+        }
+
+        .profile-menu-header {
+            padding: 20px;
+            background-color: var(--gris-clair);
+            text-align: center;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .profile-menu-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--blanc-principal);
+            font-weight: bold;
+        }
+
+        .profile-menu-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-menu-email {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .profile-menu-list {
+            list-style: none;
+        }
+
+        .profile-menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            transition: background-color 0.3s;
+        }
+
+        .profile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-menu-item:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gris-fonce);
+            text-decoration: none;
+        }
+
+        .profile-menu-link i {
+            width: 20px;
+            color: var(--gris-moyen);
+        }
+
+        .profile-menu-link.logout {
+            color: var(--rouge-principal);
+        }
+
+        .profile-menu-link.logout i {
+            color: var(--rouge-principal);
+        }
+
+        /* Barre de navigation horizontale */
+        .horizontal-nav {
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        /* Navigation horizontale */
+        .horizontal-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-bottom-color: var(--blanc-principal);
+        }
+
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.3);
+            border-bottom-color: var(--jaune-principal);
+            font-weight: 600;
+        }
+
+        .nav-badge {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-primary:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.2);
+        }
+
+        .btn-success {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-warning {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+        }
+
+        .btn-danger {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-info {
+            background-color: var(--cyan-info);
+            color: var(--blanc-principal);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--vert-principal);
+            border: 2px solid var(--vert-principal);
+        }
+
+        /* Menu mobile toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+        }
+
+        /* Flèche retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-5px);
+        }
+
+        /* Actions header */
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Barre de recherche spécifique messages */
+        .search-bar-container-messages {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .search-bar-messages {
+            display: flex;
+            align-items: center;
+            background-color: var(--gris-clair);
+            border-radius: 30px;
+            padding: 8px 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .search-bar-messages:focus-within {
+            border-color: var(--jaune-principal);
+            background-color: var(--blanc-principal);
+        }
+
+        .search-bar-messages input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+
+        .search-btn-messages {
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+        }
+
+        /* Menu mobile */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            z-index: 1000;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        .mobile-nav-badge {
+            margin-left: auto;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+
+        /* Contenu principal - Messagerie */
+        .messaging-container {
+            display: flex;
+            height: calc(100vh - 140px); /* Ajusté pour la barre de navigation horizontale */
+            padding: 20px 0;
+        }
+
+        /* Panneau latéral des conversations */
+        .conversations-sidebar {
+            width: 350px;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin-right: 20px;
+        }
+
+        /* En-tête du panneau des conversations */
+        .conversations-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .conversations-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .conversations-title h2 {
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+        }
+
+        .new-message-btn {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .new-message-btn:hover {
+            background-color: #008c45;
+            transform: scale(1.05);
+        }
+
+        /* Filtres de conversations */
+        .conversation-filters {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .conversation-filter-btn {
+            padding: 8px 15px;
+            background-color: var(--gris-clair);
+            border: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .conversation-filter-btn.active {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .conversation-filter-btn:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        /* Liste des conversations */
+        .conversations-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .conversation-item:hover {
+            background-color: rgba(0,166,81,0.05);
+        }
+
+        .conversation-item.active {
+            background-color: rgba(0,166,81,0.1);
+            border-left: 4px solid var(--vert-principal);
+        }
+
+        .conversation-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--blanc-principal);
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .avatar-teacher {
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+        }
+
+        .avatar-parent {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+        }
+
+        .avatar-school {
+            background: linear-gradient(45deg, var(--vert-principal), var(--rouge-principal));
+        }
+
+        .avatar-student {
+            background: linear-gradient(45deg, var(--jaune-principal), var(--rouge-principal));
+        }
+
+        .avatar-school-admin {
+            background: linear-gradient(45deg, var(--vert-principal), var(--cyan-info));
+        }
+
+        .conversation-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .conversation-name {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .conversation-time {
+            font-size: 0.75rem;
+            color: var(--gris-moyen);
+        }
+
+        .conversation-preview {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .conversation-unread {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .conversation-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            margin-top: 3px;
+        }
+
+        .status-online {
+            color: var(--vert-principal);
+        }
+
+        .status-offline {
+            color: var(--gris-moyen);
+        }
+
+        /* Zone de chat principale */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        /* En-tête du chat */
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--gris-clair);
+            background-color: var(--blanc-principal);
+        }
+
+        .chat-partner-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .chat-partner-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--blanc-principal);
+        }
+
+        .chat-partner-details h3 {
+            font-size: 1.2rem;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+        }
+
+        .chat-partner-details p {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-action-btn {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-moyen);
+            transition: all 0.3s;
+        }
+
+        .chat-action-btn:hover {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+        }
+
+        /* Zone des messages */
+        .messages-container {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Date séparateur */
+        .message-date-separator {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .message-date-separator span {
+            background-color: var(--gris-clair);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Message */
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            max-width: 70%;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message.received {
+            align-self: flex-start;
+        }
+
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--blanc-principal);
+            margin: 0 10px;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            padding: 12px 15px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.sent .message-content {
+            background-color: var(--vert-message-moi);
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.received .message-content {
+            background-color: var(--vert-message-autre);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: var(--gris-moyen);
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .message-status {
+            position: absolute;
+            bottom: -15px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: var(--gris-moyen);
+        }
+
+        .message-status.delivered {
+            color: var(--gris-moyen);
+        }
+
+        .message-status.read {
+            color: var(--vert-principal);
+        }
+
+        /* Zone de saisie */
+        .message-input-container {
+            padding: 20px 25px;
+            border-top: 1px solid var(--gris-clair);
+            background-color: var(--blanc-principal);
+        }
+
+        .message-input-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .message-input-actions {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .message-input-action {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-moyen);
+            transition: all 0.3s;
+        }
+
+        .message-input-action:hover {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            resize: none;
+            max-height: 120px;
+            min-height: 50px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .message-input:focus {
+            border-color: var(--vert-principal);
+        }
+
+        .send-message-btn {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .send-message-btn:hover {
+            background-color: #008c45;
+            transform: scale(1.05);
+        }
+
+        .send-message-btn:disabled {
+            background-color: var(--gris-clair);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* État chat vide */
+        .empty-chat-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 40px;
+            color: var(--gris-moyen);
+        }
+
+        .empty-chat-icon {
+            font-size: 4rem;
+            color: var(--gris-clair);
+            margin-bottom: 20px;
+        }
+
+        .empty-chat-state h3 {
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            margin-bottom: 10px;
+        }
+
+        .empty-chat-state p {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        /* Modal nouveau message */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            color: var(--gris-fonce);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-moyen);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-search-bar {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .modal-search-bar:focus {
+            outline: none;
+            border-color: var(--vert-principal);
+        }
+
+        .modal-contacts-list {
+            list-style: none;
+        }
+
+        .modal-contact-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--gris-clair);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal-contact-item:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .modal-contact-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--blanc-principal);
+            margin-right: 15px;
+        }
+
+        .modal-contact-info h4 {
+            font-size: 1rem;
+            color: var(--gris-fonce);
+            margin-bottom: 3px;
+        }
+
+        .modal-contact-info p {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Styles pour le pied de page (mis à jour selon le tableau de bord) */
+        .main-footer {
+            background-color: var(--gris-fonce);
+            color: var(--gris-clair);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gris-clair);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: var(--gris-clair);
+        }
+
+        .copyright a {
+            color: var(--jaune-principal);
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .messaging-container {
+                flex-direction: column;
+                height: auto;
+                min-height: calc(100vh - 140px);
+            }
+            
+            .conversations-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+                max-height: 300px;
+            }
+            
+            .chat-container {
+                min-height: 500px;
+            }
+
+            .horizontal-nav {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+
+            .search-bar-container {
+                max-width: 300px;
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .messaging-container {
+                padding: 10px 0;
+            }
+            
+            .messages-container {
+                padding: 15px;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+            
+            .message-input-wrapper {
+                gap: 10px;
+            }
+
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .search-bar-container {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .conversations-header {
+                padding: 15px;
+            }
+            
+            .chat-header {
+                padding: 15px;
+            }
+            
+            .message-input-container {
+                padding: 15px;
+            }
+            
+            .message-input-action {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .send-message-btn {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .modal {
+                width: 95%;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* Animation pour nouveaux messages */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Scrollbar personnalisée */
+        .conversations-list::-webkit-scrollbar,
+        .messages-container::-webkit-scrollbar,
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .conversations-list::-webkit-scrollbar-track,
+        .messages-container::-webkit-scrollbar-track,
+        .modal-body::-webkit-scrollbar-track {
+            background: var(--gris-clair);
+            border-radius: 4px;
+        }
+
+        .conversations-list::-webkit-scrollbar-thumb,
+        .messages-container::-webkit-scrollbar-thumb,
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--gris-moyen);
+            border-radius: 4px;
+        }
+
+        .conversations-list::-webkit-scrollbar-thumb:hover,
+        .messages-container::-webkit-scrollbar-thumb:hover,
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: var(--gris-fonce);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <!-- Barre de recherche -->
+                <div class="search-bar-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="mainSearchInput" placeholder="Rechercher des enseignants, élèves, matières...">
+                        <button class="search-filters-btn" id="searchFiltersBtn">
+                            <i class="fas fa-filter"></i>
+                            <span>Filtres</span>
+                        </button>
+                        <button class="search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Panneau de filtres -->
+                    <div class="search-filters-panel" id="searchFiltersPanel">
+                        <div class="filters-header">
+                            <h3 class="filters-title">Filtres de recherche avancés</h3>
+                            <button class="close-filters" id="closeFiltersBtn">&times;</button>
+                        </div>
+                        
+                        <div class="filters-grid">
+                            <div class="filter-group">
+                                <label class="filter-label">Type de recherche</label>
+                                <select class="filter-select" id="searchType">
+                                    <option value="all">Tout (enseignants, élèves, matières)</option>
+                                    <option value="teachers">Enseignants uniquement</option>
+                                    <option value="students">Élèves uniquement</option>
+                                    <option value="subjects">Par matière</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Niveau scolaire</label>
+                                <select class="filter-select" id="searchLevel">
+                                    <option value="all">Tous les niveaux</option>
+                                    <option value="6eme">6ème</option>
+                                    <option value="5eme">5ème</option>
+                                    <option value="4eme">4ème</option>
+                                    <option value="3eme">3ème</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Matière</label>
+                                <select class="filter-select" id="searchSubject">
+                                    <option value="all">Toutes les matières</option>
+                                    <option value="math">Mathématiques</option>
+                                    <option value="french">Français</option>
+                                    <option value="english">Anglais</option>
+                                    <option value="history">Histoire-Géographie</option>
+                                    <option value="physics">Sciences Physiques</option>
+                                    <option value="svt">SVT</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Statut</label>
+                                <select class="filter-select" id="searchStatus">
+                                    <option value="all">Tous les statuts</option>
+                                    <option value="active">Actif</option>
+                                    <option value="inactive">Inactif</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button class="btn btn-secondary" id="resetFiltersBtn">Réinitialiser</button>
+                            <button class="btn btn-primary" id="applyFiltersBtn">Appliquer les filtres</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
+                    <!-- Bouton notifications -->
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <!-- Menu déroulant profil -->
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div class="school-avatar-small-nav">CM</div>
+                            <div>
+                                <div style="font-weight: 600; color: var(--gris-fonce);">Collège Moderne</div>
+                                <span style="display: inline-block; padding: 3px 10px; background-color: var(--vert-principal); color: var(--blanc-principal); border-radius: 20px; font-size: 0.75rem; font-weight: 600;">Administrateur</span>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="profile-menu" id="profileMenu">
+                            <div class="profile-menu-header">
+                                <div class="profile-menu-avatar">CM</div>
+                                <div class="profile-menu-name">Collège Moderne de Lomé</div>
+                                <div class="profile-menu-email">admin@college-moderne.tg</div>
+                            </div>
+                            
+                            <ul class="profile-menu-list">
+                                <li class="profile-menu-item">
+                                    <a href="school_profile.html" class="profile-menu-link">
+                                        <i class="fas fa-school"></i>
+                                        <span>Profil de l'école</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="school_settings.html" class="profile-menu-link">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Paramètres</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="billing.html" class="profile-menu-link">
+                                        <i class="fas fa-credit-card"></i>
+                                        <span>Facturation</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="login.html" class="profile-menu-link logout">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Déconnexion</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de Navigation Horizontale -->
+    <nav class="horizontal-nav">
+        <div class="container">
+            <div class="nav-container">
+                <!-- Menu de navigation horizontal -->
+                <div class="horizontal-menu">
+                    <a href="school_dashboard.html" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="school_teachers.html" class="nav-item">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Nos enseignants</span>
+                    </a>
+                    <a href="school_courses.html" class="nav-item">
+                        <i class="fas fa-book"></i>
+                        <span>Nos cours</span>
+                    </a>
+                    <a href="school_students.html" class="nav-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Nos élèves</span>
+                    </a>
+                    <a href="school_messages.html" class="nav-item active">
+                        <i class="fas fa-comments"></i>
+                        <span>Messages</span>
+                        <span class="nav-badge">5</span>
+                    </a>
+                    <a href="school_contracts.html" class="nav-item">
+                        <i class="fas fa-file-contract"></i>
+                        <span>Contrats</span>
+                    </a>
+                    <a href="school_calendar.html" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Calendrier</span>
+                    </a>
+                    <a href="school_finances.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Rapport</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-menu">
+            <a href="school_dashboard.html" class="mobile-nav-item">
+                <i class="fas fa-home"></i>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="school_teachers.html" class="mobile-nav-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Nos enseignants</span>
+            </a>
+            <a href="school_courses.html" class="mobile-nav-item">
+                <i class="fas fa-book"></i>
+                <span>Nos cours</span>
+            </a>
+            <a href="school_students.html" class="mobile-nav-item">
+                <i class="fas fa-user-graduate"></i>
+                <span>Nos élèves</span>
+            </a>
+            <a href="school_messages.html" class="mobile-nav-item active">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+                <span class="mobile-nav-badge">5</span>
+            </a>
+            <a href="school_contracts.html" class="mobile-nav-item">
+                <i class="fas fa-file-contract"></i>
+                <span>Contrats</span>
+            </a>
+            <a href="school_calendar.html" class="mobile-nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Calendrier</span>
+            </a>
+            <a href="school_finances.html" class="mobile-nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Rapport</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Contenu principal - Messagerie -->
+    <main class="container">
+        <div class="messaging-container">
+            <!-- Panneau latéral des conversations -->
+            <aside class="conversations-sidebar">
+                <div class="conversations-header">
+                    <div class="conversations-title">
+                        <h2>Messages</h2>
+                        <button class="new-message-btn" id="newMessageBtn" title="Nouveau message">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="conversation-filters">
+                        <button class="conversation-filter-btn active" data-filter="all">Tous</button>
+                        <button class="conversation-filter-btn" data-filter="unread">Non lus</button>
+                        <button class="conversation-filter-btn" data-filter="teachers">Enseignants</button>
+                        <button class="conversation-filter-btn" data-filter="parents">Parents</button>
+                        <button class="conversation-filter-btn" data-filter="students">Élèves</button>
+                        <button class="conversation-filter-btn" data-filter="schools">Écoles</button>
+                    </div>
+                </div>
+                
+                <div class="conversations-list" id="conversationsList">
+                    <!-- Les conversations seront chargées dynamiquement -->
+                </div>
+            </aside>
+            
+            <!-- Zone de chat principale -->
+            <section class="chat-container">
+                <!-- État initial : chat vide -->
+                <div class="empty-chat-state" id="emptyChatState">
+                    <div class="empty-chat-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Vos messages</h3>
+                    <p>Sélectionnez une conversation pour afficher les messages ou commencez une nouvelle discussion.</p>
+                    <button class="btn btn-primary" id="startNewChatBtn">
+                        <i class="fas fa-edit"></i>
+                        <span>Nouveau message</span>
+                    </button>
+                </div>
+                
+                <!-- Chat actif (caché par défaut) -->
+                <div class="chat-active" id="chatActive" style="display: none; flex-direction: column; height: 100%;">
+                    <!-- En-tête du chat -->
+                    <div class="chat-header">
+                        <div class="chat-partner-info">
+                            <div class="chat-partner-avatar" id="chatPartnerAvatar"></div>
+                            <div class="chat-partner-details">
+                                <h3 id="chatPartnerName"></h3>
+                                <p id="chatPartnerStatus"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-actions">
+                            <button class="chat-action-btn" title="Informations" id="chatInfoBtn">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                            <button class="chat-action-btn" title="Appel vocal" id="voiceCallBtn">
+                                <i class="fas fa-phone-alt"></i>
+                            </button>
+                            <button class="chat-action-btn" title="Appel vidéo" id="videoCallBtn">
+                                <i class="fas fa-video"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Zone des messages -->
+                    <div class="messages-container" id="messagesContainer">
+                        <!-- Les messages seront chargés dynamiquement -->
+                    </div>
+                    
+                    <!-- Zone de saisie -->
+                    <div class="message-input-container">
+                        <div class="message-input-wrapper">
+                            <div class="message-input-actions">
+                                <button class="message-input-action" title="Joindre un fichier" id="attachFileBtn">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <button class="message-input-action" title="Émoticônes" id="emojiBtn">
+                                    <i class="far fa-smile"></i>
+                                </button>
+                            </div>
+                            
+                            <textarea class="message-input" id="messageInput" placeholder="Tapez votre message..." rows="1"></textarea>
+                            
+                            <button class="send-message-btn" id="sendMessageBtn" title="Envoyer le message" disabled>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Pied de page (mis à jour selon le tableau de bord) -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                        <div class="logo-icon">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
+                    </a>
+                    <p style="color: var(--gris-clair);">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="school_dashboard.html">Tableau de bord</a></li>
+                        <li><a href="school_courses.html">Nos cours</a></li>
+                        <li><a href="school_teachers.html">Nos enseignants</a></li>
+                        <li><a href="../Authentification/auth.html">Connexion</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Catégories</h3>
+                    <ul class="footer-links">
+                        <li><a href="../eleve/cours.html?subject=math">Mathématiques</a></li>
+                        <li><a href="../eleve/cours.html?subject=french">Français</a></li>
+                        <li><a href="../eleve/cours.html?subject=english">Anglais</a></li>
+                        <li><a href="../eleve/cours.html?subject=science">Sciences</a></li>
+                        <li><a href="../eleve/cours.html?level=3eme">Préparation BEPC</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.html"
+                        style="color: var(--jaune-principal);">Politique de confidentialité</a> | <a href="terms.html"
+                        style="color: var(--jaune-principal);">Conditions d'utilisation</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Nouveau Message -->
+    <div class="modal-overlay" id="newMessageModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Nouveau message</h2>
+                <button class="modal-close" id="closeNewMessageModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="modal-search-bar" id="contactSearch" placeholder="Rechercher un contact...">
+                
+                <ul class="modal-contacts-list" id="modalContactsList">
+                    <!-- Les contacts seront chargés dynamiquement -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Informations Chat -->
+    <div class="modal-overlay" id="chatInfoModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="chatInfoTitle">Informations</h2>
+                <button class="modal-close" id="closeChatInfoModalBtn">&times;</button>
+            </div>
+            <div class="modal-body" id="chatInfoContent">
+                <!-- Les informations du chat seront chargées dynamiquement -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données simulées pour les conversations et messages (adaptées pour une école)
+        const messagingData = {
+            currentUser: {
+                id: 1000,
+                name: "Collège Moderne",
+                initials: "CM",
+                type: "school_admin",
+                role: "Administrateur"
+            },
+            
+            // Liste des contacts disponibles
+            contacts: [
+                {
+                    id: 101,
+                    name: "Jean Dupont",
+                    type: "teacher",
+                    initials: "JD",
+                    subject: "Mathématiques",
+                    status: "online",
+                    lastSeen: "Il y a 2 min",
+                    conversations: [1]
+                },
+                {
+                    id: 102,
+                    name: "Marie Akakpo",
+                    type: "teacher",
+                    initials: "MA",
+                    subject: "Français",
+                    status: "offline",
+                    lastSeen: "Il y a 1 heure",
+                    conversations: [2]
+                },
+                {
+                    id: 103,
+                    name: "Paul Lawson",
+                    type: "teacher",
+                    initials: "PL",
+                    subject: "Anglais",
+                    status: "online",
+                    lastSeen: "En ligne",
+                    conversations: [3]
+                },
+                {
+                    id: 201,
+                    name: "Koffi Agbessi",
+                    type: "student",
+                    initials: "KA",
+                    level: "3ème",
+                    status: "online",
+                    lastSeen: "En ligne",
+                    conversations: [4]
+                },
+                {
+                    id: 202,
+                    name: "Ama Adjo",
+                    type: "student",
+                    initials: "AA",
+                    level: "4ème",
+                    status: "offline",
+                    lastSeen: "Il y a 2 heures",
+                    conversations: [5]
+                },
+                {
+                    id: 301,
+                    name: "M. Agbessi",
+                    type: "parent",
+                    initials: "MA",
+                    relation: "Père de Koffi",
+                    status: "offline",
+                    lastSeen: "Hier, 16:30",
+                    conversations: [6]
+                },
+                {
+                    id: 302,
+                    name: "Mme. Adjo",
+                    type: "parent",
+                    initials: "MA",
+                    relation: "Mère d'Ama",
+                    status: "online",
+                    lastSeen: "En ligne",
+                    conversations: [7]
+                },
+                {
+                    id: 401,
+                    name: "Lycée Français de Lomé",
+                    type: "school",
+                    initials: "LF",
+                    role: "École partenaire",
+                    status: "offline",
+                    lastSeen: "Aujourd'hui, 10:15",
+                    conversations: [8]
+                },
+                {
+                    id: 402,
+                    name: "Ministère de l'Éducation",
+                    type: "school_admin",
+                    initials: "ME",
+                    role: "Administration",
+                    status: "offline",
+                    lastSeen: "Hier, 16:30",
+                    conversations: [9]
+                }
+            ],
+            
+            // Liste des conversations
+            conversations: [
+                {
+                    id: 1,
+                    contactId: 101,
+                    lastMessage: "Je vous enverrai le programme de la semaine prochaine",
+                    lastMessageTime: "10:30",
+                    unreadCount: 3,
+                    lastMessageDate: "Aujourd'hui",
+                    isPinned: true
+                },
+                {
+                    id: 2,
+                    contactId: 102,
+                    lastMessage: "Le cours de français de 4ème est complet",
+                    lastMessageTime: "09:15",
+                    unreadCount: 1,
+                    lastMessageDate: "Aujourd'hui",
+                    isPinned: false
+                },
+                {
+                    id: 3,
+                    contactId: 103,
+                    lastMessage: "Super travail sur le TP de chimie!",
+                    lastMessageTime: "Hier",
+                    unreadCount: 0,
+                    lastMessageDate: "Hier",
+                    isPinned: true
+                },
+                {
+                    id: 4,
+                    contactId: 201,
+                    lastMessage: "Quand est la prochaine réunion parents-professeurs?",
+                    lastMessageTime: "17:45",
+                    unreadCount: 0,
+                    lastMessageDate: "Hier",
+                    isPinned: false
+                },
+                {
+                    id: 5,
+                    contactId: 202,
+                    lastMessage: "Je serai absent demain pour raisons médicales",
+                    lastMessageTime: "14:20",
+                    unreadCount: 2,
+                    lastMessageDate: "Aujourd'hui",
+                    isPinned: true
+                },
+                {
+                    id: 6,
+                    contactId: 301,
+                    lastMessage: "Merci pour le suivi de mon fils",
+                    lastMessageTime: "11/10",
+                    unreadCount: 0,
+                    lastMessageDate: "11/10",
+                    isPinned: false
+                },
+                {
+                    id: 7,
+                    contactId: 302,
+                    lastMessage: "Réunion parents-professeurs le 25 novembre",
+                    lastMessageTime: "10/10",
+                    unreadCount: 0,
+                    lastMessageDate: "10/10",
+                    isPinned: false
+                },
+                {
+                    id: 8,
+                    contactId: 401,
+                    lastMessage: "Proposition de partenariat pédagogique",
+                    lastMessageTime: "09/10",
+                    unreadCount: 0,
+                    lastMessageDate: "09/10",
+                    isPinned: false
+                },
+                {
+                    id: 9,
+                    contactId: 402,
+                    lastMessage: "Nouvelle circulaire sur les programmes scolaires",
+                    lastMessageTime: "05/10",
+                    unreadCount: 0,
+                    lastMessageDate: "05/10",
+                    isPinned: false
+                }
+            ],
+            
+            // Messages pour chaque conversation
+            messages: {
+                1: [
+                    {
+                        id: 1001,
+                        senderId: 101,
+                        text: "Bonjour, j'ai terminé la préparation du cours de maths pour la 3ème",
+                        time: "08:30",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 1002,
+                        senderId: 1000,
+                        text: "Parfait, merci Jean. Pouvez-vous l'envoyer aux élèves via la plateforme?",
+                        time: "08:35",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 1003,
+                        senderId: 101,
+                        text: "Oui, je le ferai cet après-midi. J'ai aussi besoin du matériel pour le TP de géométrie",
+                        time: "08:40",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 1004,
+                        senderId: 1000,
+                        text: "Le matériel sera disponible à partir de demain matin",
+                        time: "08:42",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 1005,
+                        senderId: 101,
+                        text: "Excellent. Je vous enverrai le programme de la semaine prochaine",
+                        time: "10:30",
+                        date: "Aujourd'hui",
+                        status: "delivered"
+                    }
+                ],
+                2: [
+                    {
+                        id: 2001,
+                        senderId: 102,
+                        text: "Bonjour, le cours de français de 4ème est maintenant complet",
+                        time: "09:10",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 2002,
+                        senderId: 1000,
+                        text: "Très bien. Combien d'élèves au total?",
+                        time: "09:12",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 2003,
+                        senderId: 102,
+                        text: "Nous avons 20 élèves inscrits, c'est la capacité maximale",
+                        time: "09:15",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 2004,
+                        senderId: 1000,
+                        text: "Parfait. Faut-il prévoir une liste d'attente?",
+                        time: "09:16",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 2005,
+                        senderId: 102,
+                        text: "Le cours de français de 4ème est complet, nous avons déjà 5 personnes sur liste d'attente",
+                        time: "09:15",
+                        date: "Aujourd'hui",
+                        status: "delivered"
+                    }
+                ],
+                5: [
+                    {
+                        id: 5001,
+                        senderId: 202,
+                        text: "Bonjour, c'est Ama Adjo de la 4ème",
+                        time: "14:15",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 5002,
+                        senderId: 202,
+                        text: "Je serai absent demain pour raisons médicales",
+                        time: "14:20",
+                        date: "Aujourd'hui",
+                        status: "delivered"
+                    },
+                    {
+                        id: 5003,
+                        senderId: 1000,
+                        text: "Merci de nous prévenir. Rétablissement rapide!",
+                        time: "14:22",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 5004,
+                        senderId: 202,
+                        text: "Merci. Je rattraperai le cours la semaine prochaine",
+                        time: "14:25",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    }
+                ],
+                8: [
+                    {
+                        id: 8001,
+                        senderId: 401,
+                        text: "Bonjour, nous souhaiterions discuter d'un partenariat pédagogique",
+                        time: "10:15",
+                        date: "09/10",
+                        status: "read"
+                    },
+                    {
+                        id: 8002,
+                        senderId: 1000,
+                        text: "Bonjour, avec plaisir. Quel type de partenariat envisagez-vous?",
+                        time: "10:30",
+                        date: "09/10",
+                        status: "read"
+                    },
+                    {
+                        id: 8003,
+                        senderId: 401,
+                        text: "Proposition de partenariat pédagogique pour des échanges d'enseignants",
+                        time: "11:00",
+                        date: "09/10",
+                        status: "read"
+                    }
+                ]
+            }
+        };
+
+        // Éléments DOM
+        const conversationsList = document.getElementById('conversationsList');
+        const filterBtns = document.querySelectorAll('.conversation-filter-btn');
+        const emptyChatState = document.getElementById('emptyChatState');
+        const chatActive = document.getElementById('chatActive');
+        const chatPartnerAvatar = document.getElementById('chatPartnerAvatar');
+        const chatPartnerName = document.getElementById('chatPartnerName');
+        const chatPartnerStatus = document.getElementById('chatPartnerStatus');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const newMessageBtn = document.getElementById('newMessageBtn');
+        const startNewChatBtn = document.getElementById('startNewChatBtn');
+        const newMessageModal = document.getElementById('newMessageModal');
+        const closeNewMessageModalBtn = document.getElementById('closeNewMessageModalBtn');
+        const contactSearch = document.getElementById('contactSearch');
+        const modalContactsList = document.getElementById('modalContactsList');
+        const chatInfoModal = document.getElementById('chatInfoModal');
+        const closeChatInfoModalBtn = document.getElementById('closeChatInfoModalBtn');
+        const chatInfoBtn = document.getElementById('chatInfoBtn');
+        const voiceCallBtn = document.getElementById('voiceCallBtn');
+        const videoCallBtn = document.getElementById('videoCallBtn');
+        const attachFileBtn = document.getElementById('attachFileBtn');
+        const emojiBtn = document.getElementById('emojiBtn');
+        const profileBtn = document.getElementById('profileBtn');
+        const profileMenu = document.getElementById('profileMenu');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const searchFiltersBtn = document.getElementById('searchFiltersBtn');
+        const searchFiltersPanel = document.getElementById('searchFiltersPanel');
+        const closeFiltersBtn = document.getElementById('closeFiltersBtn');
+        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+        const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const mainSearchInput = document.getElementById('mainSearchInput');
+        const notificationBtn = document.getElementById('notificationBtn');
+
+        // Variables d'état
+        let currentConversationId = null;
+        let currentFilter = 'all';
+        let messageInterval = null;
+
+        // Initialiser l'application
+        function initApp() {
+            renderConversations();
+            setupEventListeners();
+            
+            // Simuler la réception de nouveaux messages périodiquement
+            messageInterval = setInterval(simulateNewMessage, 15000);
+        }
+
+        // Rendre la liste des conversations
+        function renderConversations(filter = 'all') {
+            conversationsList.innerHTML = '';
+            currentFilter = filter;
+            
+            // Filtrer les conversations
+            let filteredConversations = [...messagingData.conversations];
+            
+            if (filter !== 'all') {
+                if (filter === 'unread') {
+                    filteredConversations = filteredConversations.filter(conv => conv.unreadCount > 0);
+                } else {
+                    // Filtrer par type de contact
+                    filteredConversations = filteredConversations.filter(conv => {
+                        const contact = messagingData.contacts.find(c => c.id === conv.contactId);
+                        return contact && contact.type === filter;
+                    });
+                }
+            }
+            
+            // Trier les conversations (épinglées d'abord, puis par date)
+            filteredConversations.sort((a, b) => {
+                if (a.isPinned && !b.isPinned) return -1;
+                if (!a.isPinned && b.isPinned) return 1;
+                
+                // Trier par date (plus récent d'abord)
+                const dateA = getDateValue(a.lastMessageDate);
+                const dateB = getDateValue(b.lastMessageDate);
+                return dateB - dateA;
+            });
+            
+            // Afficher les conversations
+            filteredConversations.forEach(conversation => {
+                const contact = messagingData.contacts.find(c => c.id === conversation.contactId);
+                if (!contact) return;
+                
+                const conversationItem = document.createElement('div');
+                conversationItem.className = 'conversation-item';
+                conversationItem.dataset.conversationId = conversation.id;
+                
+                // Déterminer la classe d'avatar en fonction du type
+                let avatarClass = '';
+                switch(contact.type) {
+                    case 'teacher': avatarClass = 'avatar-teacher'; break;
+                    case 'parent': avatarClass = 'avatar-parent'; break;
+                    case 'school': avatarClass = 'avatar-school'; break;
+                    case 'student': avatarClass = 'avatar-student'; break;
+                    case 'school_admin': avatarClass = 'avatar-school-admin'; break;
+                }
+                
+                // Déterminer le statut
+                let statusText = contact.status === 'online' ? 'En ligne' : contact.lastSeen;
+                
+                conversationItem.innerHTML = `
+                    <div class="conversation-avatar ${avatarClass}">${contact.initials}</div>
+                    <div class="conversation-info">
+                        <div class="conversation-name">
+                            <span>${contact.name}</span>
+                            <span class="conversation-time">${conversation.lastMessageTime}</span>
+                        </div>
+                        <div class="conversation-preview">${conversation.lastMessage}</div>
+                        <div class="conversation-status">
+                            <i class="fas fa-circle ${contact.status === 'online' ? 'status-online' : 'status-offline'}"></i>
+                            <span>${statusText}</span>
+                        </div>
+                    </div>
+                    ${conversation.unreadCount > 0 ? `<div class="conversation-unread">${conversation.unreadCount}</div>` : ''}
+                `;
+                
+                // Ajouter un événement pour sélectionner la conversation
+                conversationItem.addEventListener('click', () => {
+                    selectConversation(conversation.id);
+                });
+                
+                conversationsList.appendChild(conversationItem);
+            });
+            
+            // Si aucune conversation, afficher un message
+            if (filteredConversations.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.style.padding = '30px';
+                emptyMessage.style.textAlign = 'center';
+                emptyMessage.style.color = 'var(--gris-moyen)';
+                emptyMessage.innerHTML = `
+                    <i class="fas fa-comment-slash" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>Aucune conversation</p>
+                `;
+                conversationsList.appendChild(emptyMessage);
+            }
+        }
+
+        // Sélectionner une conversation
+        function selectConversation(conversationId) {
+            currentConversationId = conversationId;
+            
+            // Mettre à jour l'interface
+            const conversation = messagingData.conversations.find(c => c.id === conversationId);
+            const contact = messagingData.contacts.find(c => c.id === conversation.contactId);
+            
+            // Mettre à jour l'en-tête du chat
+            let avatarClass = '';
+            switch(contact.type) {
+                case 'teacher': avatarClass = 'avatar-teacher'; break;
+                case 'parent': avatarClass = 'avatar-parent'; break;
+                case 'school': avatarClass = 'avatar-school'; break;
+                case 'student': avatarClass = 'avatar-student'; break;
+                case 'school_admin': avatarClass = 'avatar-school-admin'; break;
+            }
+            
+            chatPartnerAvatar.className = `chat-partner-avatar ${avatarClass}`;
+            chatPartnerAvatar.textContent = contact.initials;
+            chatPartnerName.textContent = contact.name;
+            
+            let statusText = contact.status === 'online' ? 'En ligne' : `Dernière connexion: ${contact.lastSeen}`;
+            if (contact.type === 'teacher') {
+                statusText = `${contact.subject} • ${statusText}`;
+            } else if (contact.type === 'parent') {
+                statusText = `${contact.relation} • ${statusText}`;
+            } else if (contact.type === 'school' || contact.type === 'school_admin') {
+                statusText = `${contact.role} • ${statusText}`;
+            } else if (contact.type === 'student') {
+                statusText = `${contact.level} • ${statusText}`;
+            }
+            
+            chatPartnerStatus.innerHTML = `<i class="fas fa-circle ${contact.status === 'online' ? 'status-online' : 'status-offline'}"></i> ${statusText}`;
+            
+            // Afficher le chat et masquer l'état vide
+            emptyChatState.style.display = 'none';
+            chatActive.style.display = 'flex';
+            
+            // Marquer la conversation comme lue
+            markConversationAsRead(conversationId);
+            
+            // Charger les messages
+            renderMessages(conversationId);
+            
+            // Mettre à jour la sélection dans la liste
+            document.querySelectorAll('.conversation-item').forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.dataset.conversationId) === conversationId) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Faire défiler vers le bas
+            setTimeout(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 100);
+        }
+
+        // Rendre les messages d'une conversation
+        function renderMessages(conversationId) {
+            messagesContainer.innerHTML = '';
+            
+            const messages = messagingData.messages[conversationId] || [];
+            
+            // Grouper les messages par date
+            const messagesByDate = {};
+            messages.forEach(message => {
+                if (!messagesByDate[message.date]) {
+                    messagesByDate[message.date] = [];
+                }
+                messagesByDate[message.date].push(message);
+            });
+            
+            // Afficher les messages par date
+            Object.keys(messagesByDate).forEach(date => {
+                // Ajouter un séparateur de date
+                const dateSeparator = document.createElement('div');
+                dateSeparator.className = 'message-date-separator';
+                dateSeparator.innerHTML = `<span>${formatDateForDisplay(date)}</span>`;
+                messagesContainer.appendChild(dateSeparator);
+                
+                // Afficher les messages de cette date
+                messagesByDate[date].forEach(message => {
+                    const isSent = message.senderId === messagingData.currentUser.id;
+                    const messageElement = document.createElement('div');
+                    messageElement.className = `message ${isSent ? 'sent' : 'received'}`;
+                    
+                    // Pour les messages reçus, afficher l'avatar de l'expéditeur
+                    let avatarHtml = '';
+                    if (!isSent) {
+                        const contact = messagingData.contacts.find(c => c.id === message.senderId);
+                        if (contact) {
+                            let avatarClass = '';
+                            switch(contact.type) {
+                                case 'teacher': avatarClass = 'avatar-teacher'; break;
+                                case 'parent': avatarClass = 'avatar-parent'; break;
+                                case 'school': avatarClass = 'avatar-school'; break;
+                                case 'student': avatarClass = 'avatar-student'; break;
+                                case 'school_admin': avatarClass = 'avatar-school-admin'; break;
+                            }
+                            avatarHtml = `<div class="message-avatar ${avatarClass}">${contact.initials}</div>`;
+                        }
+                    }
+                    
+                    // Statut du message (pour les messages envoyés)
+                    let statusHtml = '';
+                    if (isSent) {
+                        let statusIcon = 'fa-check';
+                        if (message.status === 'read') {
+                            statusIcon = 'fa-check-double';
+                        }
+                        statusHtml = `<div class="message-status ${message.status}"><i class="fas ${statusIcon}"></i></div>`;
+                    }
+                    
+                    messageElement.innerHTML = `
+                        ${avatarHtml}
+                        <div class="message-content">
+                            <div class="message-text">${escapeHtml(message.text)}</div>
+                            <div class="message-time">${message.time} ${statusHtml}</div>
+                        </div>
+                    `;
+                    
+                    messagesContainer.appendChild(messageElement);
+                });
+            });
+            
+            // Si aucun message, afficher un message
+            if (messages.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.style.padding = '40px';
+                emptyMessage.style.textAlign = 'center';
+                emptyMessage.style.color = 'var(--gris-moyen)';
+                emptyMessage.innerHTML = `
+                    <i class="fas fa-comment-medical" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>Aucun message dans cette conversation</p>
+                    <p style="font-size: 0.9rem;">Envoyez le premier message!</p>
+                `;
+                messagesContainer.appendChild(emptyMessage);
+            }
+        }
+
+        // Envoyer un message
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (!text || !currentConversationId) return;
+            
+            // Créer le nouveau message
+            const newMessage = {
+                id: Date.now(),
+                senderId: messagingData.currentUser.id,
+                text: text,
+                time: getCurrentTime(),
+                date: getCurrentDate(),
+                status: 'delivered'
+            };
+            
+            // Ajouter le message aux données
+            if (!messagingData.messages[currentConversationId]) {
+                messagingData.messages[currentConversationId] = [];
+            }
+            messagingData.messages[currentConversationId].push(newMessage);
+            
+            // Mettre à jour la conversation
+            const conversation = messagingData.conversations.find(c => c.id === currentConversationId);
+            if (conversation) {
+                conversation.lastMessage = text;
+                conversation.lastMessageTime = newMessage.time;
+                conversation.lastMessageDate = newMessage.date;
+            }
+            
+            // Réinitialiser le champ de saisie
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            sendMessageBtn.disabled = true;
+            
+            // Afficher le message
+            renderMessages(currentConversationId);
+            
+            // Mettre à jour la liste des conversations
+            renderConversations(currentFilter);
+            
+            // Simuler une réponse après un délai
+            setTimeout(() => {
+                simulateReply(currentConversationId);
+            }, 2000);
+            
+            // Faire défiler vers le bas
+            setTimeout(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 100);
+        }
+
+        // Simuler une réponse
+        function simulateReply(conversationId) {
+            const conversation = messagingData.conversations.find(c => c.id === conversationId);
+            if (!conversation) return;
+            
+            const contact = messagingData.contacts.find(c => c.id === conversation.contactId);
+            if (!contact) return;
+            
+            // Messages de réponse prédéfinis selon le type de contact
+            let possibleReplies = [];
+            
+            switch(contact.type) {
+                case 'teacher':
+                    possibleReplies = [
+                        "D'accord, je vous tiens au courant",
+                        "Merci pour l'information",
+                        "Je traiterai cela dès demain",
+                        "Pouvez-vous me donner plus de détails?",
+                        "Très bien, merci!"
+                    ];
+                    break;
+                case 'parent':
+                    possibleReplies = [
+                        "Merci pour l'information",
+                        "Je prends note",
+                        "À quelle heure puis-je vous appeler?",
+                        "Je vous remercie pour le suivi",
+                        "D'accord, à bientôt"
+                    ];
+                    break;
+                case 'student':
+                    possibleReplies = [
+                        "Merci!",
+                        "D'accord, je comprends",
+                        "À demain alors",
+                        "Je ferai comme vous dites",
+                        "Merci pour votre aide"
+                    ];
+                    break;
+                case 'school':
+                case 'school_admin':
+                    possibleReplies = [
+                        "Message bien reçu",
+                        "Nous en prendrons note",
+                        "Merci pour l'information",
+                        "Nous étudierons votre demande",
+                        "Bien noté, merci"
+                    ];
+                    break;
+            }
+            
+            // Sélectionner une réponse aléatoire
+            const randomReply = possibleReplies[Math.floor(Math.random() * possibleReplies.length)];
+            
+            // Créer le message de réponse
+            const replyMessage = {
+                id: Date.now() + 1,
+                senderId: contact.id,
+                text: randomReply,
+                time: getCurrentTime(),
+                date: getCurrentDate(),
+                status: 'delivered'
+            };
+            
+            // Ajouter le message
+            messagingData.messages[conversationId].push(replyMessage);
+            
+            // Mettre à jour la conversation
+            conversation.lastMessage = randomReply;
+            conversation.lastMessageTime = replyMessage.time;
+            conversation.lastMessageDate = replyMessage.date;
+            conversation.unreadCount = (conversation.unreadCount || 0) + 1;
+            
+            // Mettre à jour l'affichage
+            if (currentConversationId === conversationId) {
+                renderMessages(conversationId);
+                markConversationAsRead(conversationId);
+            }
+            
+            // Mettre à jour la liste des conversations
+            renderConversations(currentFilter);
+            
+            // Notification
+            showNotification(contact.name, randomReply);
+        }
+
+        // Simuler un nouveau message (pour les autres conversations)
+        function simulateNewMessage() {
+            // Ne pas simuler si l'utilisateur est en train de discuter
+            if (currentConversationId) return;
+            
+            // Choisir une conversation au hasard (sauf la conversation actuelle)
+            const availableConversations = messagingData.conversations.filter(c => c.id !== currentConversationId);
+            if (availableConversations.length === 0) return;
+            
+            const randomConversation = availableConversations[Math.floor(Math.random() * availableConversations.length)];
+            const contact = messagingData.contacts.find(c => c.id === randomConversation.contactId);
+            
+            // Messages aléatoires selon le type de contact
+            let possibleMessages = [];
+            
+            switch(contact.type) {
+                case 'teacher':
+                    possibleMessages = [
+                        "Demande de congé pour la semaine prochaine",
+                        "Matériel pédagogique à commander",
+                        "Problème technique dans la salle de classe",
+                        "Résultats des évaluations disponibles"
+                    ];
+                    break;
+                case 'parent':
+                    possibleMessages = [
+                        "Demande de rendez-vous",
+                        "Question sur les frais de scolarité",
+                        "Mon enfant sera absent demain",
+                        "Merci pour le suivi de mon enfant"
+                    ];
+                    break;
+                case 'student':
+                    possibleMessages = [
+                        "Question sur le devoir de maths",
+                        "Je serai absent demain",
+                        "Problème avec mon compte",
+                        "Merci pour le cours!"
+                    ];
+                    break;
+                case 'school':
+                case 'school_admin':
+                    possibleMessages = [
+                        "Nouvelle circulaire disponible",
+                        "Invitation à une réunion",
+                        "Document à signer",
+                        "Mise à jour des programmes"
+                    ];
+                    break;
+            }
+            
+            const randomMessage = possibleMessages[Math.floor(Math.random() * possibleMessages.length)];
+            
+            // Créer le message
+            const newMessage = {
+                id: Date.now(),
+                senderId: contact.id,
+                text: randomMessage,
+                time: getCurrentTime(),
+                date: getCurrentDate(),
+                status: 'delivered'
+            };
+            
+            // Ajouter le message
+            if (!messagingData.messages[randomConversation.id]) {
+                messagingData.messages[randomConversation.id] = [];
+            }
+            messagingData.messages[randomConversation.id].push(newMessage);
+            
+            // Mettre à jour la conversation
+            randomConversation.lastMessage = randomMessage;
+            randomConversation.lastMessageTime = newMessage.time;
+            randomConversation.lastMessageDate = newMessage.date;
+            randomConversation.unreadCount = (randomConversation.unreadCount || 0) + 1;
+            
+            // Mettre à jour l'affichage
+            renderConversations(currentFilter);
+            
+            // Notification
+            showNotification(contact.name, randomMessage);
+        }
+
+        // Marquer une conversation comme lue
+        function markConversationAsRead(conversationId) {
+            const conversation = messagingData.conversations.find(c => c.id === conversationId);
+            if (conversation) {
+                conversation.unreadCount = 0;
+            }
+            
+            // Mettre à jour la liste des conversations
+            const conversationItem = document.querySelector(`.conversation-item[data-conversation-id="${conversationId}"] .conversation-unread`);
+            if (conversationItem) {
+                conversationItem.remove();
+            }
+        }
+
+        // Ouvrir le modal pour nouveau message
+        function openNewMessageModal() {
+            newMessageModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            renderContactsList();
+        }
+
+        // Fermer le modal pour nouveau message
+        function closeNewMessageModal() {
+            newMessageModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            contactSearch.value = '';
+        }
+
+        // Rendre la liste des contacts dans le modal
+        function renderContactsList(searchTerm = '') {
+            modalContactsList.innerHTML = '';
+            
+            // Filtrer les contacts
+            let filteredContacts = messagingData.contacts.filter(contact => {
+                // Exclure les contacts avec lesquels on a déjà une conversation
+                const hasConversation = messagingData.conversations.some(conv => conv.contactId === contact.id);
+                
+                // Filtrer par terme de recherche
+                const matchesSearch = searchTerm === '' || 
+                    contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    (contact.subject && contact.subject.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    (contact.level && contact.level.toLowerCase().includes(searchTerm.toLowerCase()));
+                
+                return !hasConversation && matchesSearch;
+            });
+            
+            // Afficher les contacts
+            if (filteredContacts.length > 0) {
+                filteredContacts.forEach(contact => {
+                    const contactItem = document.createElement('li');
+                    contactItem.className = 'modal-contact-item';
+                    contactItem.dataset.contactId = contact.id;
+                    
+                    let avatarClass = '';
+                    switch(contact.type) {
+                        case 'teacher': avatarClass = 'avatar-teacher'; break;
+                        case 'parent': avatarClass = 'avatar-parent'; break;
+                        case 'school': avatarClass = 'avatar-school'; break;
+                        case 'student': avatarClass = 'avatar-student'; break;
+                        case 'school_admin': avatarClass = 'avatar-school-admin'; break;
+                    }
+                    
+                    let details = '';
+                    if (contact.type === 'teacher') {
+                        details = `Enseignant ${contact.subject}`;
+                    } else if (contact.type === 'parent') {
+                        details = contact.relation;
+                    } else if (contact.type === 'school' || contact.type === 'school_admin') {
+                        details = contact.role;
+                    } else if (contact.type === 'student') {
+                        details = `Élève ${contact.level}`;
+                    }
+                    
+                    contactItem.innerHTML = `
+                        <div class="modal-contact-avatar ${avatarClass}">${contact.initials}</div>
+                        <div class="modal-contact-info">
+                            <h4>${contact.name}</h4>
+                            <p>${details}</p>
+                        </div>
+                    `;
+                    
+                    // Ajouter un événement pour démarrer une nouvelle conversation
+                    contactItem.addEventListener('click', () => {
+                        startNewConversation(contact.id);
+                    });
+                    
+                    modalContactsList.appendChild(contactItem);
+                });
+            } else {
+                // Afficher un message si aucun contact
+                const emptyMessage = document.createElement('li');
+                emptyMessage.style.padding = '30px';
+                emptyMessage.style.textAlign = 'center';
+                emptyMessage.style.color = 'var(--gris-moyen)';
+                
+                if (searchTerm) {
+                    emptyMessage.innerHTML = `
+                        <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>Aucun contact trouvé pour "${searchTerm}"</p>
+                    `;
+                } else {
+                    emptyMessage.innerHTML = `
+                        <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>Tous vos contacts ont déjà une conversation</p>
+                    `;
+                }
+                
+                modalContactsList.appendChild(emptyMessage);
+            }
+        }
+
+        // Démarrer une nouvelle conversation
+        function startNewConversation(contactId) {
+            const contact = messagingData.contacts.find(c => c.id === contactId);
+            if (!contact) return;
+            
+            // Créer une nouvelle conversation
+            const newConversation = {
+                id: Date.now(),
+                contactId: contactId,
+                lastMessage: "Nouvelle conversation",
+                lastMessageTime: getCurrentTime(),
+                lastMessageDate: getCurrentDate(),
+                unreadCount: 0,
+                isPinned: false
+            };
+            
+            // Ajouter la conversation
+            messagingData.conversations.push(newConversation);
+            
+            // Initialiser les messages
+            messagingData.messages[newConversation.id] = [];
+            
+            // Fermer le modal
+            closeNewMessageModal();
+            
+            // Sélectionner la nouvelle conversation
+            selectConversation(newConversation.id);
+            
+            // Mettre à jour la liste des conversations
+            renderConversations(currentFilter);
+        }
+
+        // Ouvrir le modal des informations du chat
+        function openChatInfoModal() {
+            if (!currentConversationId) return;
+            
+            const conversation = messagingData.conversations.find(c => c.id === currentConversationId);
+            const contact = messagingData.contacts.find(c => c.id === conversation.contactId);
+            
+            if (!contact) return;
+            
+            // Mettre à jour le titre
+            document.getElementById('chatInfoTitle').textContent = `Informations - ${contact.name}`;
+            
+            // Créer le contenu
+            let avatarClass = '';
+            switch(contact.type) {
+                case 'teacher': avatarClass = 'avatar-teacher'; break;
+                case 'parent': avatarClass = 'avatar-parent'; break;
+                case 'school': avatarClass = 'avatar-school'; break;
+                case 'student': avatarClass = 'avatar-student'; break;
+                case 'school_admin': avatarClass = 'avatar-school-admin'; break;
+            }
+            
+            let contactDetails = '';
+            if (contact.type === 'teacher') {
+                contactDetails = `
+                    <p><strong>Matière:</strong> ${contact.subject}</p>
+                    <p><strong>Statut:</strong> Enseignant certifié</p>
+                `;
+            } else if (contact.type === 'parent') {
+                contactDetails = `
+                    <p><strong>Lien de parenté:</strong> ${contact.relation}</p>
+                `;
+            } else if (contact.type === 'school' || contact.type === 'school_admin') {
+                contactDetails = `
+                    <p><strong>Rôle:</strong> ${contact.role}</p>
+                    <p><strong>Type:</strong> ${contact.type === 'school' ? 'Établissement scolaire' : 'Administration'}</p>
+                `;
+            } else if (contact.type === 'student') {
+                contactDetails = `
+                    <p><strong>Niveau:</strong> ${contact.level}</p>
+                `;
+            }
+            
+            // Statistiques de la conversation
+            const messages = messagingData.messages[currentConversationId] || [];
+            const myMessages = messages.filter(m => m.senderId === messagingData.currentUser.id).length;
+            const theirMessages = messages.filter(m => m.senderId === contact.id).length;
+            
+            const chatInfoContent = document.getElementById('chatInfoContent');
+            chatInfoContent.innerHTML = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div class="modal-contact-avatar ${avatarClass}" style="width: 80px; height: 80px; font-size: 1.8rem; margin: 0 auto 15px;">${contact.initials}</div>
+                    <h3 style="color: var(--gris-fonce); margin-bottom: 10px;">${contact.name}</h3>
+                    ${contactDetails}
+                </div>
+                
+                <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                    <h4 style="color: var(--gris-fonce); margin-bottom: 10px;">Statistiques de la conversation</h4>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--vert-principal);">${messages.length}</div>
+                            <div style="font-size: 0.8rem; color: var(--gris-moyen);">Messages totaux</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--vert-principal);">${myMessages}</div>
+                            <div style="font-size: 0.8rem; color: var(--gris-moyen);">Mes messages</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--vert-principal);">${theirMessages}</div>
+                            <div style="font-size: 0.8rem; color: var(--gris-moyen);">Messages de ${contact.name.split(' ')[0]}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn" style="flex: 1; background-color: var(--rouge-principal); color: white;" onclick="clearConversation(${currentConversationId})">
+                        <i class="fas fa-trash"></i> Effacer l'historique
+                    </button>
+                    <button class="btn" style="flex: 1; background-color: var(--jaune-principal); color: var(--gris-fonce);" onclick="togglePinConversation(${currentConversationId})">
+                        <i class="fas fa-thumbtack"></i> ${conversation.isPinned ? 'Désépingler' : 'Épingler'}
+                    </button>
+                </div>
+            `;
+            
+            chatInfoModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Fermer le modal des informations
+        function closeChatInfoModal() {
+            chatInfoModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Effacer l'historique d'une conversation
+        function clearConversation(conversationId) {
+            if (confirm("Voulez-vous vraiment effacer tous les messages de cette conversation? Cette action est irréversible.")) {
+                messagingData.messages[conversationId] = [];
+                renderMessages(conversationId);
+                closeChatInfoModal();
+            }
+        }
+
+        // Épingler/Désépingler une conversation
+        function togglePinConversation(conversationId) {
+            const conversation = messagingData.conversations.find(c => c.id === conversationId);
+            if (conversation) {
+                conversation.isPinned = !conversation.isPinned;
+                renderConversations(currentFilter);
+                closeChatInfoModal();
+            }
+        }
+
+        // Afficher une notification
+        function showNotification(sender, message) {
+            // Vérifier si les notifications sont supportées
+            if (!("Notification" in window)) {
+                console.log("Ce navigateur ne supporte pas les notifications desktop");
+                return;
+            }
+            
+            // Vérifier la permission
+            if (Notification.permission === "granted") {
+                // Créer une notification
+                const notification = new Notification(`Nouveau message de ${sender}`, {
+                    body: message,
+                    icon: '/favicon.ico'
+                });
+                
+                // Fermer la notification après 5 secondes
+                setTimeout(() => {
+                    notification.close();
+                }, 5000);
+                
+            } else if (Notification.permission !== "denied") {
+                // Demander la permission
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        showNotification(sender, message);
+                    }
+                });
+            }
+        }
+
+        // Configurer les écouteurs d'événements
+        function setupEventListeners() {
+            // Filtres de conversations
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderConversations(btn.dataset.filter);
+                });
+            });
+            
+            // Champ de saisie de message
+            messageInput.addEventListener('input', () => {
+                // Ajuster la hauteur
+                messageInput.style.height = 'auto';
+                messageInput.style.height = (messageInput.scrollHeight) + 'px';
+                
+                // Activer/désactiver le bouton d'envoi
+                sendMessageBtn.disabled = messageInput.value.trim() === '';
+            });
+            
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!sendMessageBtn.disabled) {
+                        sendMessage();
+                    }
+                }
+            });
+            
+            // Bouton d'envoi
+            sendMessageBtn.addEventListener('click', sendMessage);
+            
+            // Bouton nouveau message
+            newMessageBtn.addEventListener('click', openNewMessageModal);
+            startNewChatBtn.addEventListener('click', openNewMessageModal);
+            
+            // Fermer le modal nouveau message
+            closeNewMessageModalBtn.addEventListener('click', closeNewMessageModal);
+            newMessageModal.addEventListener('click', (e) => {
+                if (e.target === newMessageModal) {
+                    closeNewMessageModal();
+                }
+            });
+            
+            // Recherche dans le modal
+            contactSearch.addEventListener('input', () => {
+                renderContactsList(contactSearch.value);
+            });
+            
+            // Boutons d'actions du chat
+            chatInfoBtn.addEventListener('click', openChatInfoModal);
+            closeChatInfoModalBtn.addEventListener('click', closeChatInfoModal);
+            chatInfoModal.addEventListener('click', (e) => {
+                if (e.target === chatInfoModal) {
+                    closeChatInfoModal();
+                }
+            });
+            
+            // Boutons d'appel (simulation)
+            voiceCallBtn.addEventListener('click', () => {
+                alert("Fonctionnalité d'appel vocal en développement");
+            });
+            
+            videoCallBtn.addEventListener('click', () => {
+                alert("Fonctionnalité d'appel vidéo en développement");
+            });
+            
+            attachFileBtn.addEventListener('click', () => {
+                alert("Fonctionnalité d'envoi de fichier en développement");
+            });
+            
+            emojiBtn.addEventListener('click', () => {
+                alert("Sélecteur d'émoticônes en développement");
+            });
+            
+            // Menu déroulant profil
+            profileBtn.addEventListener('click', () => {
+                profileMenu.classList.toggle('active');
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                    profileMenu.classList.remove('active');
+                }
+            });
+            
+            // Configuration des événements du header
+            setupHeaderEvents();
+            
+            // Gestion de la flèche retour en haut
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Demander la permission pour les notifications
+            if (Notification.permission === "default") {
+                setTimeout(() => {
+                    Notification.requestPermission();
+                }, 2000);
+            }
+        }
+
+        // Configuration des événements du header
+        function setupHeaderEvents() {
+            // Ouvrir/fermer les filtres de recherche
+            searchFiltersBtn.addEventListener('click', () => {
+                searchFiltersPanel.classList.toggle('active');
+            });
+
+            closeFiltersBtn.addEventListener('click', () => {
+                searchFiltersPanel.classList.remove('active');
+            });
+
+            // Fermer les filtres en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!searchFiltersPanel.contains(e.target) && 
+                    !searchFiltersBtn.contains(e.target) && 
+                    searchFiltersPanel.classList.contains('active')) {
+                    searchFiltersPanel.classList.remove('active');
+                }
+            });
+
+            // Réinitialiser les filtres
+            resetFiltersBtn.addEventListener('click', () => {
+                document.getElementById('searchType').value = 'all';
+                document.getElementById('searchLevel').value = 'all';
+                document.getElementById('searchSubject').value = 'all';
+                document.getElementById('searchStatus').value = 'all';
+                mainSearchInput.value = '';
+            });
+
+            // Appliquer les filtres et lancer la recherche
+            applyFiltersBtn.addEventListener('click', performSearch);
+            searchBtn.addEventListener('click', performSearch);
+
+            mainSearchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Gestion menu mobile
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+            });
+
+            // Fermer menu mobile en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!mobileNav.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+                    mobileNav.classList.remove('active');
+                }
+            });
+
+            // Gestion des notifications
+            notificationBtn.addEventListener('click', () => {
+                alert('Notifications - Cette fonctionnalité sera implémentée prochainement');
+            });
+        }
+
+        function performSearch() {
+            const searchType = document.getElementById('searchType').value;
+            const searchLevel = document.getElementById('searchLevel').value;
+            const searchSubject = document.getElementById('searchSubject').value;
+            const searchStatus = document.getElementById('searchStatus').value;
+            const searchQuery = mainSearchInput.value.trim();
+            
+            searchFiltersPanel.classList.remove('active');
+            showSearchResults({
+                query: searchQuery,
+                type: searchType,
+                level: searchLevel,
+                subject: searchSubject,
+                status: searchStatus
+            });
+        }
+
+        function showSearchResults(filters) {
+            alert(`Recherche avec les filtres:\n
+                Type: ${filters.type}\n
+                Niveau: ${filters.level}\n
+                Matière: ${filters.subject}\n
+                Statut: ${filters.status}\n
+                Recherche: "${filters.query}"`);
+        }
+
+        // Fonctions utilitaires
+        function getCurrentTime() {
+            const now = new Date();
+            return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        }
+
+        function getCurrentDate() {
+            const now = new Date();
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            if (now.toDateString() === today.toDateString()) {
+                return "Aujourd'hui";
+            } else if (now.toDateString() === yesterday.toDateString()) {
+                return "Hier";
+            } else {
+                return `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+            }
+        }
+
+        function getDateValue(dateString) {
+            if (dateString === "Aujourd'hui") return 3;
+            if (dateString === "Hier") return 2;
+            
+            // Pour les autres dates, convertir en timestamp
+            const parts = dateString.split('/');
+            if (parts.length === 3) {
+                return new Date(parts[2], parts[1] - 1, parts[0]).getTime();
+            }
+            
+            return 1; // Valeur par défaut pour les dates inconnues
+        }
+
+        function formatDateForDisplay(dateString) {
+            if (dateString === "Aujourd'hui" || dateString === "Hier") {
+                return dateString;
+            }
+            
+            // Convertir "JJ/MM/AAAA" en format plus lisible
+            const parts = dateString.split('/');
+            if (parts.length === 3) {
+                const months = [
+                    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+                ];
+                return `${parts[0]} ${months[parseInt(parts[1]) - 1]} ${parts[2]}`;
+            }
+            
+            return dateString;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialiser l'application au chargement
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        // Exposer les fonctions globales nécessaires
+        window.clearConversation = clearConversation;
+        window.togglePinConversation = togglePinConversation;
+    </script>
+</body>
+</html>

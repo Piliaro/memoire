@@ -1,0 +1,3689 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demandes d'adhésion - École - EduTogoConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de couleurs - Drapeau togolais */
+        :root {
+            --jaune-principal: #FFD700;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
+            --gris-clair: #F5F5F5;
+            --orange-cours: #FF9800;
+            --cyan-suggestion: #00BCD4;
+            --violet-premium: #9C27B0;
+            --bleu-prof: #2196F3;
+            --orange-ecole: #FF9800;
+            --badge-premium-bg: rgba(255,215,0,0.15);
+            --badge-standard-bg: rgba(0,166,81,0.15);
+            --badge-gratuit-bg: rgba(33,150,243,0.15);
+        }
+
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Flèche retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--blanc-principal);
+            overflow: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(239, 51, 64, 0.4);
+        }
+
+        /* Indicateur de progression du scroll */
+        .scroll-progress {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s ease;
+        }
+
+        .scroll-progress.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .scroll-progress-circle {
+            fill: none;
+            stroke: var(--vert-principal);
+            stroke-width: 3;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 0.3s ease;
+        }
+
+        .scroll-progress-text {
+            fill: var(--gris-fonce);
+            font-size: 10px;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+
+        /* Header Principal */
+        .main-header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+
+        /* Barre de recherche */
+        .search-bar-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--blanc-principal);
+            border-radius: 30px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+
+        .search-filters-btn {
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-left: 1px solid var(--gris-clair);
+            margin-left: 10px;
+        }
+
+        .search-btn {
+            background-color: var(--jaune-principal);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-fonce);
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            transform: scale(1.05);
+        }
+
+        /* Panneau de filtres */
+        .search-filters-panel {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 10px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .search-filters-panel.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .filters-title {
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .close-filters {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: var(--blanc-principal);
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--jaune-principal);
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gris-clair);
+        }
+
+        /* Barre de navigation horizontale - RÉDUITE */
+        .horizontal-nav {
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .school-quick-info-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .school-avatar-small-nav {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--blanc-principal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--vert-principal);
+            border: 2px solid var(--blanc-principal);
+        }
+
+        .school-name-nav {
+            font-weight: 600;
+            color: var(--blanc-principal);
+            font-size: 0.95rem;
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 3px 10px;
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Navigation horizontale */
+        .horizontal-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-bottom-color: var(--blanc-principal);
+        }
+
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.3);
+            border-bottom-color: var(--jaune-principal);
+            font-weight: 600;
+        }
+
+        .nav-item i {
+            font-size: 1rem;
+        }
+
+        .nav-badge {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        /* Actions header */
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        /* Bouton notification */
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .notification-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Menu déroulant profil */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--blanc-principal);
+            min-width: 250px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1001;
+            margin-top: 10px;
+        }
+
+        .profile-menu.active {
+            display: block;
+        }
+
+        .profile-menu-header {
+            padding: 20px;
+            background-color: var(--gris-clair);
+            text-align: center;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .profile-menu-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--blanc-principal);
+            font-weight: bold;
+        }
+
+        .profile-menu-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-menu-email {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .profile-menu-list {
+            list-style: none;
+        }
+
+        .profile-menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            transition: background-color 0.3s;
+        }
+
+        .profile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-menu-item:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gris-fonce);
+            text-decoration: none;
+        }
+
+        .profile-menu-link i {
+            width: 20px;
+            color: var(--gris-moyen);
+        }
+
+        .profile-menu-link.logout {
+            color: var(--rouge-principal);
+        }
+
+        .profile-menu-link.logout i {
+            color: var(--rouge-principal);
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-primary:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.2);
+        }
+
+        .btn-success {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-success:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gris-fonce);
+            color: var(--blanc-principal);
+        }
+
+        /* Contenu principal - ESPACE RÉDUIT */
+        .main-content {
+            padding: 20px 0 30px;
+        }
+
+        /* Menu mobile toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+        }
+
+        /* Menu Mobile */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            z-index: 1000;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        .mobile-nav-badge {
+            margin-left: auto;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+
+        /* Statistiques de demandes */
+        .demand-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+            margin-bottom: 0;
+        }
+
+        .stat-card {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.pending {
+            background-color: rgba(255,152,0,0.1);
+            color: var(--orange-cours);
+        }
+
+        .stat-icon.approved {
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+        }
+
+        .stat-icon.rejected {
+            background-color: rgba(239,51,64,0.1);
+            color: var(--rouge-principal);
+        }
+
+        .stat-icon.total {
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prof);
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        /* Section des demandes en cours */
+        .current-demands-section {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--gris-fonce);
+            font-size: 1.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--gris-moyen);
+            margin-top: 5px;
+        }
+
+        /* Filtres de demandes */
+        .demand-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background-color: var(--blanc-principal);
+            border: 2px solid var(--gris-clair);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(90deg, var(--vert-principal), var(--jaune-principal));
+            border-color: transparent;
+            color: var(--blanc-principal);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background-color: var(--gris-clair);
+        }
+
+        /* Demandes Grid */
+        .demands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        /* Carte de demande */
+        .demand-card {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--gris-clair);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .demand-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--vert-principal);
+        }
+
+        .demand-header {
+            padding: 25px;
+            background-color: var(--blanc-principal);
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .level-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prof);
+            border: 1px solid var(--bleu-prof);
+        }
+
+        .demand-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-pending {
+            background-color: rgba(255,152,0,0.1);
+            color: var(--orange-cours);
+            border: 1px solid var(--orange-cours);
+        }
+
+        .badge-approved {
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+            border: 1px solid var(--vert-principal);
+        }
+
+        .badge-rejected {
+            background-color: rgba(239,51,64,0.1);
+            color: var(--rouge-principal);
+            border: 1px solid var(--rouge-principal);
+        }
+
+        .badge-onhold {
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prof);
+            border: 1px solid var(--bleu-prof);
+        }
+
+        .demand-student {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            margin-top: 10px;
+        }
+
+        .student-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--bleu-prof), var(--cyan-suggestion));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--blanc-principal);
+            font-size: 1.1rem;
+        }
+
+        .student-info h4 {
+            font-size: 1rem;
+            color: var(--gris-fonce);
+            margin-bottom: 2px;
+        }
+
+        .student-info p {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        .demand-title {
+            font-size: 1.4rem;
+            color: var(--gris-fonce);
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .demand-subject {
+            color: var(--gris-moyen);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        /* Métadonnées de la demande avec matière et niveau */
+        .demand-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .demand-meta > div {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        /* Détails de la demande */
+        .demand-details {
+            padding: 25px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: var(--gris-fonce);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .detail-value.pending {
+            color: var(--orange-cours);
+        }
+
+        .detail-value.approved {
+            color: var(--vert-principal);
+        }
+
+        .detail-value.rejected {
+            color: var(--rouge-principal);
+        }
+
+        /* Actions de la demande */
+        .demand-actions {
+            padding: 15px 25px;
+            display: flex;
+            gap: 8px;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            min-width: 100px;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-primary:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-warning {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+        }
+
+        .btn-warning:hover {
+            background-color: #e6c200;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background-color: var(--bleu-prof);
+            color: var(--blanc-principal);
+        }
+
+        .btn-info:hover {
+            background-color: #0b7dda;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--vert-principal);
+            border: 2px solid var(--vert-principal);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        /* Animation pulse */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+            }
+        }
+
+        /* Section historique des demandes */
+        .history-section {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        /* Tableau historique */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--blanc-principal);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            margin-top: 30px;
+        }
+
+        .history-table th {
+            background-color: rgba(0,166,81,0.1);
+            padding: 15px;
+            text-align: left;
+            color: var(--gris-fonce);
+            font-weight: 600;
+            border-bottom: 2px solid var(--vert-principal);
+        }
+
+        .history-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .history-table tr:hover {
+            background-color: rgba(0,166,81,0.05);
+        }
+
+        .history-table .student-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-table .student-avatar-small {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--bleu-prof), var(--cyan-suggestion));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--blanc-principal);
+            font-size: 0.8rem;
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background-color: rgba(255,152,0,0.1);
+            color: var(--orange-cours);
+        }
+
+        .status-approved {
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+        }
+
+        .status-rejected {
+            background-color: rgba(239,51,64,0.1);
+            color: var(--rouge-principal);
+        }
+
+        .status-onhold {
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prof);
+        }
+
+        /* Section demandes actives */
+        .approved-demands-section {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: var(--gris-fonce);
+            color: var(--gris-clair);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gris-clair);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: var(--gris-clair);
+        }
+
+        /* Modals */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            color: var(--gris-fonce);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-moyen);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* Objectifs de l'élève */
+        .objectives-list {
+            margin-top: 15px;
+        }
+
+        .objective-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: rgba(33,150,243,0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--bleu-prof);
+        }
+
+        .objective-item i {
+            color: var(--bleu-prof);
+            margin-top: 3px;
+        }
+
+        /* Section demandes actives */
+        .approved-demands-section {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .demands-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .horizontal-nav {
+                display: none;
+            }
+            
+            .demand-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .demands-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .demand-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .demand-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-btn {
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .demand-actions {
+                flex-direction: column;
+            }
+            
+            .history-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .current-demands-section, .history-section, .approved-demands-section {
+                padding: 20px;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut (Esc)">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Indicateur de progression du scroll -->
+    <div class="scroll-progress" id="scrollProgress">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="18" stroke="#e6e6e6" stroke-width="3" fill="none"/>
+            <circle class="scroll-progress-circle" cx="20" cy="20" r="18" stroke-dasharray="113.097" stroke-dashoffset="113.097"/>
+            <text class="scroll-progress-text" x="20" y="20">0%</text>
+        </svg>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <!-- Barre de recherche -->
+                <div class="search-bar-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="mainSearchInput" placeholder="Rechercher enseignants, élèves, cours...">
+                        <button class="search-filters-btn" id="searchFiltersBtn">
+                            <i class="fas fa-filter"></i>
+                            <span>Filtres</span>
+                        </button>
+                        <button class="search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Panneau de filtres -->
+                    <div class="search-filters-panel" id="searchFiltersPanel">
+                        <div class="filters-header">
+                            <h3 class="filters-title">Filtres de recherche avancés</h3>
+                            <button class="close-filters" id="closeFiltersBtn">&times;</button>
+                        </div>
+                        
+                        <div class="filters-grid">
+                            <div class="filter-group">
+                                <label class="filter-label">Matière</label>
+                                <select class="filter-select" id="searchSubject">
+                                    <option value="all">Toutes les matières</option>
+                                    <option value="sciences">Sciences</option>
+                                    <option value="litterature">Littérature</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Mode d'enseignement</label>
+                                <select class="filter-select" id="searchMode">
+                                    <option value="all">Tous les modes</option>
+                                    <option value="en-ligne">En ligne</option>
+                                    <option value="presentiel">Présentiel</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Niveau scolaire</label>
+                                <select class="filter-select" id="searchLevel">
+                                    <option value="all">Tous les niveaux</option>
+                                    <option value="6eme">6ème</option>
+                                    <option value="5eme">5ème</option>
+                                    <option value="4eme">4ème</option>
+                                    <option value="3eme">3ème</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button class="btn btn-secondary" id="resetFiltersBtn">Réinitialiser</button>
+                            <button class="btn btn-primary" id="applyFiltersBtn">Appliquer les filtres</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-actions">
+                    <!-- Bouton notifications -->
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <!-- Menu déroulant profil -->
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div class="school-avatar-small-nav">CM</div>
+                            <div>
+                                <div class="school-name-nav">Collège Moderne</div>
+                                <div style="font-size: 0.8rem; color: var(--gris-moyen);">Administrateur</div>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="profile-menu" id="profileMenu">
+                            <div class="profile-menu-header">
+                                <div class="profile-menu-avatar">CM</div>
+                                <div class="profile-menu-name">Collège Moderne de Lomé</div>
+                                <div class="profile-menu-email">admin@college-moderne.tg</div>
+                            </div>
+                            
+                            <ul class="profile-menu-list">
+                                <li class="profile-menu-item">
+                                    <a href="school_profile.html" class="profile-menu-link">
+                                        <i class="fas fa-school"></i>
+                                        <span>Profil de l'école</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="school_settings.html" class="profile-menu-link">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Paramètres</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="school_messages.html" class="profile-menu-link">
+                                        <i class="fas fa-comments"></i>
+                                        <span>Messages</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="login.html" class="profile-menu-link logout">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Déconnexion</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de Navigation Horizontale -->
+    <nav class="horizontal-nav">
+        <div class="container">
+            <div class="nav-container">
+                 <!-- Menu de navigation horizontal -->
+                <div class="horizontal-menu">
+                    <a href="school_dashboard.html" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="school_teachers.html" class="nav-item">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Nos enseignants</span>
+                        <span class="nav-badge">2</span>
+                    </a>
+                    <a href="school_courses.html" class="nav-item">
+                        <i class="fas fa-book"></i>
+                        <span>Nos cours</span>
+                    </a>
+                    <a href="school_students.html" class="nav-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Nos élèves</span>
+                        <span class="nav-badge">15</span>
+                    </a>
+                    <a href="school_messages.html" class="nav-item">
+                        <i class="fas fa-comments"></i>
+                        <span>Messages</span>
+                        <span class="nav-badge">5</span>
+                    </a>
+                    <a href="school_contracts.html" class="nav-item active">
+                        <i class="fas fa-file-contract"></i>
+                        <span>Contrats</span>
+                    </a>
+                    <a href="school_calendar.html" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Calendrier</span>
+                    </a>
+                    <a href="school_finances.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Rapport</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-menu">
+            <a href="school_dashboard.html" class="mobile-nav-item">
+                <i class="fas fa-home"></i>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="school_teachers.html" class="mobile-nav-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Enseignants</span>
+            </a>
+            <a href="school_students.html" class="mobile-nav-item">
+                <i class="fas fa-users"></i>
+                <span>Élèves</span>
+            </a>
+            <a href="school_demands.html" class="mobile-nav-item active">
+                <i class="fas fa-file-signature"></i>
+                <span>Demandes d'adhésion</span>
+                <span class="mobile-nav-badge">8</span>
+            </a>
+            <a href="school_schedule.html" class="mobile-nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Emploi du temps</span>
+            </a>
+            <a href="school_messages.html" class="mobile-nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+                <span class="mobile-nav-badge">5</span>
+            </a>
+            <a href="school_finances.html" class="mobile-nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Finances</span>
+            </a>
+            <a href="school_settings.html" class="mobile-nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Paramètres</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Section des demandes en cours -->
+    <section class="current-demands-section">
+        <div class="container">
+            <!-- Statistiques de demandes -->
+            <div class="demand-stats">
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fas fa-inbox"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>8</h3>
+                        <p>Demandes totales</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>3</h3>
+                        <p>En attente</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon approved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>4</h3>
+                        <p>Approuvées</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon rejected">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>1</h3>
+                        <p>Refusées</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Demandes d'inscription en attente</h2>
+                    <p class="section-subtitle">Validez ou refusez les demandes d'inscription de vos élèves aux cours</p>
+                </div>
+            </div>
+
+            <!-- Filtres de demandes -->
+            <div class="demand-filters">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th"></i>
+                    <span>Toutes les demandes</span>
+                </button>
+                <button class="filter-btn" data-filter="pending">
+                    <i class="fas fa-clock"></i>
+                    <span>En attente</span>
+                </button>
+                <button class="filter-btn" data-filter="approved">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Approuvées</span>
+                </button>
+                <button class="filter-btn" data-filter="rejected">
+                    <i class="fas fa-times-circle"></i>
+                    <span>Refusées</span>
+                </button>
+            </div>
+
+            <!-- Grille de demandes -->
+            <div class="demands-grid" id="demandsGrid">
+                <!-- Demande 1 - En attente de validation -->
+                <div class="demand-card" data-status="pending">
+                    <div class="level-badge">3ème</div>
+                    <div class="demand-header">
+                        <div class="demand-badge badge-pending">En attente</div>
+                        <div class="demand-student">
+                            <div class="student-avatar">KA</div>
+                            <div class="student-info">
+                                <h4>Koffi Agbessi</h4>
+                                <p>Élève - 3ème A</p>
+                            </div>
+                        </div>
+                        <h3 class="demand-title">Mathématiques - M. Jean Dupont</h3>
+                        <div class="demand-meta">
+                            <div>
+                                <span><i class="fas fa-book"></i> Matière: Mathématiques</span>
+                                <span><i class="fas fa-user-graduate"></i> Enseignant: M. Jean Dupont</span>
+                            </div>
+                            <span><i class="fas fa-money-bill"></i> 5.000 FCFA/h</span>
+                        </div>
+                    </div>
+
+                    <!-- Détails de la demande -->
+                    <div class="demand-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Date demande:</span>
+                            <span class="detail-value">05/11/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Durée souhaitée:</span>
+                            <span class="detail-value">20 séances (2 mois)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Horaires demandés:</span>
+                            <span class="detail-value">Lun/Mer/Ven 16h-18h</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Type de cours:</span>
+                            <span class="detail-value">Cours en groupe (max. 5 élèves)</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions de la demande -->
+                    <div class="demand-actions">
+                        <button class="btn btn-primary" onclick="approveDemand(1)">
+                            <i class="fas fa-check"></i> Approuver
+                        </button>
+                        <button class="btn btn-danger" onclick="rejectDemand(1)">
+                            <i class="fas fa-times"></i> Refuser
+                        </button>
+                        <button class="btn btn-info" onclick="viewStudentDetails(1)">
+                            <i class="fas fa-user"></i> Profil élève
+                        </button>
+                        <button class="btn btn-secondary" onclick="viewTeacherDetails(1)">
+                            <i class="fas fa-chalkboard-teacher"></i> Profil enseignant
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Demande 2 - En attente de validation -->
+                <div class="demand-card" data-status="pending">
+                    <div class="level-badge">4ème</div>
+                    <div class="demand-header">
+                        <div class="demand-badge badge-pending">En attente</div>
+                        <div class="demand-student">
+                            <div class="student-avatar">MA</div>
+                            <div class="student-info">
+                                <h4>Mariam Adjo</h4>
+                                <p>Élève - 4ème B</p>
+                            </div>
+                        </div>
+                        <h3 class="demand-title">Français - Mme Sylvie Amedegnato</h3>
+                        <div class="demand-meta">
+                            <div>
+                                <span><i class="fas fa-book"></i> Matière: Français</span>
+                                <span><i class="fas fa-user-graduate"></i> Enseignante: Mme Sylvie Amedegnato</span>
+                            </div>
+                            <span><i class="fas fa-money-bill"></i> 3.500 FCFA/h</span>
+                        </div>
+                    </div>
+
+                    <!-- Détails de la demande -->
+                    <div class="demand-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Date demande:</span>
+                            <span class="detail-value">04/11/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Durée souhaitée:</span>
+                            <span class="detail-value">12 séances (6 semaines)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Horaires demandés:</span>
+                            <span class="detail-value">Mar/Jeu 15h-17h</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Type de cours:</span>
+                            <span class="detail-value">Cours individuel</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions de la demande -->
+                    <div class="demand-actions">
+                        <button class="btn btn-primary" onclick="approveDemand(2)">
+                            <i class="fas fa-check"></i> Approuver
+                        </button>
+                        <button class="btn btn-danger" onclick="rejectDemand(2)">
+                            <i class="fas fa-times"></i> Refuser
+                        </button>
+                        <button class="btn btn-info" onclick="viewStudentDetails(2)">
+                            <i class="fas fa-user"></i> Profil élève
+                        </button>
+                        <button class="btn btn-secondary" onclick="viewTeacherDetails(2)">
+                            <i class="fas fa-chalkboard-teacher"></i> Profil enseignant
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Demande 3 - En attente de validation -->
+                <div class="demand-card" data-status="pending">
+                    <div class="level-badge">5ème</div>
+                    <div class="demand-header">
+                        <div class="demand-badge badge-pending">En attente</div>
+                        <div class="demand-student">
+                            <div class="student-avatar">SA</div>
+                            <div class="student-info">
+                                <h4>Samuel Amevon</h4>
+                                <p>Élève - 5ème A</p>
+                            </div>
+                        </div>
+                        <h3 class="demand-title">Sciences Physiques - M. Komi Mensah</h3>
+                        <div class="demand-meta">
+                            <div>
+                                <span><i class="fas fa-book"></i> Matière: Sciences Physiques</span>
+                                <span><i class="fas fa-user-graduate"></i> Enseignant: M. Komi Mensah</span>
+                            </div>
+                            <span><i class="fas fa-money-bill"></i> 4.200 FCFA/h</span>
+                        </div>
+                    </div>
+
+                    <!-- Détails de la demande -->
+                    <div class="demand-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Date demande:</span>
+                            <span class="detail-value">03/11/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Durée souhaitée:</span>
+                            <span class="detail-value">15 séances (10 semaines)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Horaires demandés:</span>
+                            <span class="detail-value">Sam 9h-12h</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Type de cours:</span>
+                            <span class="detail-value">Cours en groupe (max. 8 élèves)</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions de la demande -->
+                    <div class="demand-actions">
+                        <button class="btn btn-primary" onclick="approveDemand(3)">
+                            <i class="fas fa-check"></i> Approuver
+                        </button>
+                        <button class="btn btn-danger" onclick="rejectDemand(3)">
+                            <i class="fas fa-times"></i> Refuser
+                        </button>
+                        <button class="btn btn-info" onclick="viewStudentDetails(3)">
+                            <i class="fas fa-user"></i> Profil élève
+                        </button>
+                        <button class="btn btn-secondary" onclick="viewTeacherDetails(3)">
+                            <i class="fas fa-chalkboard-teacher"></i> Profil enseignant
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Demande 4 - Acceptée -->
+                <div class="demand-card" data-status="approved">
+                    <div class="level-badge">6ème</div>
+                    <div class="demand-header">
+                        <div class="demand-badge badge-approved">Approuvée</div>
+                        <div class="demand-student">
+                            <div class="student-avatar">FA</div>
+                            <div class="student-info">
+                                <h4>Fousséna Akakpo</h4>
+                                <p>Élève - 6ème C</p>
+                            </div>
+                        </div>
+                        <h3 class="demand-title">Anglais - Mme Adjoa Johnson</h3>
+                        <div class="demand-meta">
+                            <div>
+                                <span><i class="fas fa-book"></i> Matière: Anglais</span>
+                                <span><i class="fas fa-user-graduate"></i> Enseignante: Mme Adjoa Johnson</span>
+                            </div>
+                            <span><i class="fas fa-money-bill"></i> 3.800 FCFA/h</span>
+                        </div>
+                    </div>
+
+                    <!-- Détails de la demande -->
+                    <div class="demand-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Date demande:</span>
+                            <span class="detail-value">28/10/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Date approbation:</span>
+                            <span class="detail-value approved">30/10/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Durée approuvée:</span>
+                            <span class="detail-value">10 séances (5 semaines)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Horaires approuvés:</span>
+                            <span class="detail-value">Mar/Ven 14h-16h</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions de la demande -->
+                    <div class="demand-actions">
+                        <button class="btn btn-secondary" onclick="viewDemandDetails(4)">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                        <button class="btn btn-warning" onclick="sendNotification(4)">
+                            <i class="fas fa-bell"></i> Notifier
+                        </button>
+                        <button class="btn btn-info" onclick="generateContract(4)">
+                            <i class="fas fa-file-contract"></i> Générer contrat
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Demande 5 - Refusée -->
+                <div class="demand-card" data-status="rejected">
+                    <div class="level-badge">3ème</div>
+                    <div class="demand-header">
+                        <div class="demand-badge badge-rejected">Refusée</div>
+                        <div class="demand-student">
+                            <div class="student-avatar">YK</div>
+                            <div class="student-info">
+                                <h4>Yao Kokou</h4>
+                                <p>Élève - 3ème B</p>
+                            </div>
+                        </div>
+                        <h3 class="demand-title">Mathématiques - M. Jean Dupont</h3>
+                        <div class="demand-meta">
+                            <div>
+                                <span><i class="fas fa-book"></i> Matière: Mathématiques</span>
+                                <span><i class="fas fa-user-graduate"></i> Enseignant: M. Jean Dupont</span>
+                            </div>
+                            <span><i class="fas fa-money-bill"></i> 5.000 FCFA/h</span>
+                        </div>
+                    </div>
+
+                    <!-- Détails de la demande -->
+                    <div class="demand-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Date demande:</span>
+                            <span class="detail-value">25/10/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Date refus:</span>
+                            <span class="detail-value rejected">28/10/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Motif du refus:</span>
+                            <span class="detail-value">Groupe déjà complet</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Alternative proposée:</span>
+                            <span class="detail-value">Cours individuel avec M. Koffi G.</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions de la demande -->
+                    <div class="demand-actions">
+                        <button class="btn btn-secondary" onclick="viewDemandDetails(5)">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                        <button class="btn btn-info" onclick="reconsiderDemand(5)">
+                            <i class="fas fa-redo"></i> Réexaminer
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Demande 6 - Acceptée -->
+                <div class="demand-card" data-status="approved">
+                    <div class="level-badge">4ème</div>
+                    <div class="demand-header">
+                        <div class="demand-badge badge-approved">Approuvée</div>
+                        <div class="demand-student">
+                            <div class="student-avatar">KL</div>
+                            <div class="student-info">
+                                <h4>Kossi Lawson</h4>
+                                <p>Élève - 4ème A</p>
+                            </div>
+                        </div>
+                        <h3 class="demand-title">Histoire-Géographie - M. Yao Akakpo</h3>
+                        <div class="demand-meta">
+                            <div>
+                                <span><i class="fas fa-book"></i> Matière: Histoire-Géo</span>
+                                <span><i class="fas fa-user-graduate"></i> Enseignant: M. Yao Akakpo</span>
+                            </div>
+                            <span><i class="fas fa-money-bill"></i> 3.000 FCFA/h</span>
+                        </div>
+                    </div>
+
+                    <!-- Détails de la demande -->
+                    <div class="demand-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Date demande:</span>
+                            <span class="detail-value">22/10/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Date approbation:</span>
+                            <span class="detail-value approved">24/10/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Durée approuvée:</span>
+                            <span class="detail-value">8 séances (4 semaines)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Horaires approuvés:</span>
+                            <span class="detail-value">Mer 15h-17h, Sam 10h-12h</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions de la demande -->
+                    <div class="demand-actions">
+                        <button class="btn btn-secondary" onclick="viewDemandDetails(6)">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                        <button class="btn btn-warning" onclick="sendNotification(6)">
+                            <i class="fas fa-bell"></i> Notifier
+                        </button>
+                        <button class="btn btn-info" onclick="generateContract(6)">
+                            <i class="fas fa-file-contract"></i> Générer contrat
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section des demandes approuvées -->
+    <section class="approved-demands-section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Demandes approuvées récentes</h2>
+                    <p class="section-subtitle">Suivez les demandes d'adhésion qui ont été validées</p>
+                </div>
+            </div>
+
+            <!-- Grille de demandes approuvées -->
+            <div class="demands-grid" id="approvedDemandsGrid">
+                <!-- Demande approuvée 1 -->
+                <div class="demand-card" data-status="approved">
+                    <div class="level-badge">3ème</div>
+                    <div class="demand-header">
+                        <div class="demand-badge badge-approved">Contrat généré</div>
+                        <div class="demand-student">
+                            <div class="student-avatar">FA</div>
+                            <div class="student-info">
+                                <h4>Fousséna Akakpo</h4>
+                                <p>Élève - 3ème A</p>
+                            </div>
+                        </div>
+                        <h3 class="demand-title">Anglais - Mme Adjoa Johnson</h3>
+                        <div class="demand-meta">
+                            <div>
+                                <span><i class="fas fa-book"></i> Matière: Anglais</span>
+                                <span><i class="fas fa-user-graduate"></i> Enseignante: Mme Adjoa Johnson</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Détails de la demande -->
+                    <div class="demand-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Date début:</span>
+                            <span class="detail-value">06/11/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Montant total:</span>
+                            <span class="detail-value">38.000 FCFA</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Statut paiement:</span>
+                            <span class="detail-value">En attente</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Référence contrat:</span>
+                            <span class="detail-value">CON-ETC-2023-045</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions de la demande -->
+                    <div class="demand-actions">
+                        <button class="btn btn-primary" onclick="viewContract(101)">
+                            <i class="fas fa-file-contract"></i> Voir contrat
+                        </button>
+                        <button class="btn btn-warning" onclick="sendPaymentReminder(101)">
+                            <i class="fas fa-bell"></i> Rappel paiement
+                        </button>
+                        <button class="btn btn-secondary" onclick="viewDemandDetails(7)">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Demande approuvée 2 -->
+                <div class="demand-card" data-status="approved">
+                    <div class="level-badge">4ème</div>
+                    <div class="demand-header">
+                        <div class="demand-badge badge-approved">Contrat actif</div>
+                        <div class="demand-student">
+                            <div class="student-avatar">KL</div>
+                            <div class="student-info">
+                                <h4>Kossi Lawson</h4>
+                                <p>Élève - 4ème A</p>
+                            </div>
+                        </div>
+                        <h3 class="demand-title">Histoire-Géographie - M. Yao Akakpo</h3>
+                        <div class="demand-meta">
+                            <div>
+                                <span><i class="fas fa-book"></i> Matière: Histoire-Géo</span>
+                                <span><i class="fas fa-user-graduate"></i> Enseignant: M. Yao Akakpo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Détails de la demande -->
+                    <div class="demand-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Date début:</span>
+                            <span class="detail-value">30/10/2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Montant total:</span>
+                            <span class="detail-value">24.000 FCFA</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Statut paiement:</span>
+                            <span class="detail-value approved">Payé</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Progression:</span>
+                            <span class="detail-value">2/8 séances</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions de la demande -->
+                    <div class="demand-actions">
+                        <button class="btn btn-primary" onclick="viewContract(102)">
+                            <i class="fas fa-file-contract"></i> Voir contrat
+                        </button>
+                        <button class="btn btn-info" onclick="contactParties(102)">
+                            <i class="fas fa-comments"></i> Contacter
+                        </button>
+                        <button class="btn btn-secondary" onclick="viewDemandDetails(8)">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section historique des demandes -->
+    <section class="history-section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Historique des demandes</h2>
+                    <p class="section-subtitle">Consultez toutes les demandes traitées précédemment</p>
+                </div>
+            </div>
+
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Élève</th>
+                        <th>Cours</th>
+                        <th>Enseignant</th>
+                        <th>Date demande</th>
+                        <th>Date décision</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <!-- Les lignes seront ajoutées dynamiquement -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                        <div class="logo-icon">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
+                    </a>
+                    <p style="color: var(--gris-clair);">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="school_dashboard.html">Tableau de bord</a></li>
+                        <li><a href="school_teachers.html">Enseignants</a></li>
+                        <li><a href="school_demands.html">Demandes d'adhésion</a></li>
+                        <li><a href="../Authentification/auth.html">Connexion</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Ressources</h3>
+                    <ul class="footer-links">
+                        <li><a href="school_resources.html">Ressources pédagogiques</a></li>
+                        <li><a href="school_forum.html">Forum écoles</a></li>
+                        <li><a href="school_training.html">Formations</a></li>
+                        <li><a href="school_support.html">Support technique</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.html"
+                        style="color: var(--jaune-principal);">Politique de confidentialité</a> | <a href="terms.html"
+                        style="color: var(--jaune-principal);">Conditions d'utilisation</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de validation de demande -->
+    <div class="modal-overlay" id="demandValidationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Valider la demande</h2>
+                <button class="modal-close" id="closeValidationModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="validationContent">
+                    <!-- Le contenu sera injecté dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal détails demande -->
+    <div class="modal-overlay" id="demandDetailsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Détails de la demande</h2>
+                <button class="modal-close" id="closeDemandDetailsModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="demandDetailsContent">
+                    <!-- Les détails de la demande seront injectés dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal détails élève -->
+    <div class="modal-overlay" id="studentDetailsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Profil de l'élève</h2>
+                <button class="modal-close" id="closeStudentDetailsModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="studentDetailsContent">
+                    <!-- Les détails de l'élève seront injectés dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal détails enseignant -->
+    <div class="modal-overlay" id="teacherDetailsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Profil de l'enseignant</h2>
+                <button class="modal-close" id="closeTeacherDetailsModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="teacherDetailsContent">
+                    <!-- Les détails de l'enseignant seront injectés dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données simulées pour les demandes
+        const demandsData = {
+            pendingDemands: [
+                {
+                    id: 1,
+                    title: "Mathématiques - M. Jean Dupont",
+                    student: "Koffi Agbessi",
+                    studentInitials: "KA",
+                    class: "3ème A",
+                    teacher: "M. Jean Dupont",
+                    teacherId: "T001",
+                    subject: "Mathématiques",
+                    level: "3ème",
+                    type: "Cours en groupe (max. 5 élèves)",
+                    sessions: 20,
+                    pricePerHour: 5000,
+                    totalAmount: 100000,
+                    status: "pending",
+                    requestDate: "05/11/2023",
+                    availability: "Lun/Mer/Ven 16h-18h",
+                    duration: "20 séances (2 mois)",
+                    objectives: [
+                        "Maîtriser les équations du premier degré",
+                        "Améliorer la résolution de problèmes géométriques",
+                        "Préparation intensive pour le BEPC",
+                        "Renforcement des bases algébriques"
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Français - Mme Sylvie Amedegnato",
+                    student: "Mariam Adjo",
+                    studentInitials: "MA",
+                    class: "4ème B",
+                    teacher: "Mme Sylvie Amedegnato",
+                    teacherId: "T002",
+                    subject: "Français",
+                    level: "4ème",
+                    type: "Cours individuel",
+                    sessions: 12,
+                    pricePerHour: 3500,
+                    totalAmount: 42000,
+                    status: "pending",
+                    requestDate: "04/11/2023",
+                    availability: "Mar/Jeu 15h-17h",
+                    duration: "12 séances (6 semaines)",
+                    objectives: [
+                        "Améliorer l'orthographe et la grammaire",
+                        "Renforcer l'expression écrite",
+                        "Préparation aux dictées",
+                        "Compréhension de textes littéraires"
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Sciences Physiques - M. Komi Mensah",
+                    student: "Samuel Amevon",
+                    studentInitials: "SA",
+                    class: "5ème A",
+                    teacher: "M. Komi Mensah",
+                    teacherId: "T003",
+                    subject: "Sciences Physiques",
+                    level: "5ème",
+                    type: "Cours en groupe (max. 8 élèves)",
+                    sessions: 15,
+                    pricePerHour: 4200,
+                    totalAmount: 63000,
+                    status: "pending",
+                    requestDate: "03/11/2023",
+                    availability: "Sam 9h-12h",
+                    duration: "15 séances (10 semaines)",
+                    objectives: [
+                        "Comprendre les lois de Newton",
+                        "Maîtriser les conversions d'énergie",
+                        "Préparation aux évaluations trimestrielles",
+                        "Expérimentations pratiques"
+                    ]
+                }
+            ],
+            
+            approvedDemands: [
+                {
+                    id: 4,
+                    title: "Anglais - Mme Adjoa Johnson",
+                    student: "Fousséna Akakpo",
+                    studentInitials: "FA",
+                    class: "6ème C",
+                    teacher: "Mme Adjoa Johnson",
+                    teacherId: "T004",
+                    subject: "Anglais",
+                    level: "6ème",
+                    type: "Cours individuel",
+                    sessions: 10,
+                    pricePerHour: 3800,
+                    totalAmount: 38000,
+                    status: "approved",
+                    requestDate: "28/10/2023",
+                    approvalDate: "30/10/2023",
+                    availability: "Mar/Ven 14h-16h",
+                    duration: "10 séances (5 semaines)",
+                    objectives: [
+                        "Améliorer la prononciation",
+                        "Développer le vocabulaire",
+                        "Renforcer la grammaire anglaise",
+                        "Préparation aux conversations courantes"
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "Mathématiques - M. Jean Dupont",
+                    student: "Yao Kokou",
+                    studentInitials: "YK",
+                    class: "3ème B",
+                    teacher: "M. Jean Dupont",
+                    teacherId: "T001",
+                    subject: "Mathématiques",
+                    level: "3ème",
+                    type: "Cours en groupe",
+                    sessions: 20,
+                    pricePerHour: 5000,
+                    totalAmount: 100000,
+                    status: "rejected",
+                    requestDate: "25/10/2023",
+                    rejectionDate: "28/10/2023",
+                    rejectionReason: "Groupe déjà complet",
+                    alternative: "Cours individuel avec M. Koffi G.",
+                    objectives: [
+                        "Renforcement des bases arithmétiques",
+                        "Apprentissage des opérations fondamentales",
+                        "Initiation à la géométrie",
+                        "Développement de la logique mathématique"
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "Histoire-Géographie - M. Yao Akakpo",
+                    student: "Kossi Lawson",
+                    studentInitials: "KL",
+                    class: "4ème A",
+                    teacher: "M. Yao Akakpo",
+                    teacherId: "T005",
+                    subject: "Histoire-Géographie",
+                    level: "4ème",
+                    type: "Cours en groupe",
+                    sessions: 8,
+                    pricePerHour: 3000,
+                    totalAmount: 24000,
+                    status: "approved",
+                    requestDate: "22/10/2023",
+                    approvalDate: "24/10/2023",
+                    availability: "Mer 15h-17h, Sam 10h-12h",
+                    duration: "8 séances (4 semaines)",
+                    objectives: [
+                        "Comprendre les grandes périodes historiques",
+                        "Maîtriser la géographie du Togo",
+                        "Préparation aux évaluations",
+                        "Développer l'esprit critique"
+                    ]
+                }
+            ],
+            
+            activeContracts: [
+                {
+                    id: 101,
+                    title: "Anglais - Mme Adjoa Johnson",
+                    student: "Fousséna Akakpo",
+                    studentInitials: "FA",
+                    class: "3ème A",
+                    teacher: "Mme Adjoa Johnson",
+                    teacherId: "T004",
+                    subject: "Anglais",
+                    level: "3ème",
+                    type: "Cours individuel",
+                    sessions: 10,
+                    pricePerHour: 3800,
+                    totalAmount: 38000,
+                    status: "approved",
+                    startDate: "06/11/2023",
+                    contractRef: "CON-ETC-2023-045",
+                    paymentStatus: "pending",
+                    objectives: [
+                        "Améliorer la prononciation",
+                        "Développer le vocabulaire",
+                        "Renforcer la grammaire anglaise",
+                        "Préparation aux conversations courantes"
+                    ]
+                },
+                {
+                    id: 102,
+                    title: "Histoire-Géographie - M. Yao Akakpo",
+                    student: "Kossi Lawson",
+                    studentInitials: "KL",
+                    class: "4ème A",
+                    teacher: "M. Yao Akakpo",
+                    teacherId: "T005",
+                    subject: "Histoire-Géographie",
+                    level: "4ème",
+                    type: "Cours en groupe",
+                    sessions: 8,
+                    pricePerHour: 3000,
+                    totalAmount: 24000,
+                    status: "approved",
+                    startDate: "30/10/2023",
+                    progress: 2,
+                    totalSessions: 8,
+                    paymentStatus: "paid",
+                    objectives: [
+                        "Comprendre les grandes périodes historiques",
+                        "Maîtriser la géographie du Togo",
+                        "Préparation aux évaluations",
+                        "Développer l'esprit critique"
+                    ]
+                }
+            ],
+            
+            demandHistory: [
+                {
+                    id: 201,
+                    student: "Afi Mensah",
+                    studentInitials: "AM",
+                    course: "Mathématiques 3ème",
+                    teacher: "M. Jean Dupont",
+                    requestDate: "01/10/2023",
+                    decisionDate: "03/10/2023",
+                    status: "approved"
+                },
+                {
+                    id: 202,
+                    student: "Komla Yao",
+                    studentInitials: "KY",
+                    course: "Français 4ème",
+                    teacher: "Mme Sylvie Amedegnato",
+                    requestDate: "28/09/2023",
+                    decisionDate: "30/09/2023",
+                    status: "approved"
+                },
+                {
+                    id: 203,
+                    student: "Kodjo Amegan",
+                    studentInitials: "KA",
+                    course: "Sciences Physiques 5ème",
+                    teacher: "M. Komi Mensah",
+                    requestDate: "25/09/2023",
+                    decisionDate: "27/09/2023",
+                    status: "rejected"
+                },
+                {
+                    id: 204,
+                    student: "Séna Adjo",
+                    studentInitials: "SA",
+                    course: "Anglais 6ème",
+                    teacher: "Mme Adjoa Johnson",
+                    requestDate: "20/09/2023",
+                    decisionDate: "22/09/2023",
+                    status: "approved"
+                }
+            ]
+        };
+
+        // Données des enseignants
+        const teachersData = [
+            {
+                id: "T001",
+                name: "Jean Dupont",
+                initials: "JD",
+                subject: "Mathématiques",
+                grade: "Professeur certifié",
+                experience: "8 ans",
+                rating: 4.8,
+                studentsCount: 42,
+                bio: "Professeur de mathématiques passionné avec 8 ans d'expérience. Spécialiste de la préparation au BEPC."
+            },
+            {
+                id: "T002",
+                name: "Sylvie Amedegnato",
+                initials: "SA",
+                subject: "Français",
+                grade: "Professeure agrégée",
+                experience: "12 ans",
+                rating: 4.9,
+                studentsCount: 38,
+                bio: "Professeure de français, agrégée de lettres modernes. Passionnée par la littérature et la pédagogie."
+            },
+            {
+                id: "T003",
+                name: "Komi Mensah",
+                initials: "KM",
+                subject: "Sciences Physiques",
+                grade: "Docteur en physique",
+                experience: "15 ans",
+                rating: 4.7,
+                studentsCount: 56,
+                bio: "Docteur en physique, spécialiste des sciences expérimentales. Pédagogue reconnu pour ses méthodes innovantes."
+            },
+            {
+                id: "T004",
+                name: "Adjoa Johnson",
+                initials: "AJ",
+                subject: "Anglais",
+                grade: "Professeur bilingue",
+                experience: "10 ans",
+                rating: 4.8,
+                studentsCount: 47,
+                bio: "Professeure bilingue français-anglais, certifiée CELTA. Expérience internationale en enseignement."
+            },
+            {
+                id: "T005",
+                name: "Yao Akakpo",
+                initials: "YA",
+                subject: "Histoire-Géographie",
+                grade: "Professeur certifié",
+                experience: "6 ans",
+                rating: 4.6,
+                studentsCount: 35,
+                bio: "Professeur d'histoire-géographie passionné par l'Afrique et ses civilisations. Méthodes pédagogiques interactives."
+            }
+        ];
+
+        // Éléments DOM
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const demandCards = document.querySelectorAll('.demand-card');
+        const demandsGrid = document.getElementById('demandsGrid');
+        const historyTableBody = document.getElementById('historyTableBody');
+        
+        // Modals
+        const demandValidationModal = document.getElementById('demandValidationModal');
+        const closeValidationModalBtn = document.getElementById('closeValidationModalBtn');
+        const validationContent = document.getElementById('validationContent');
+        
+        const demandDetailsModal = document.getElementById('demandDetailsModal');
+        const closeDemandDetailsModalBtn = document.getElementById('closeDemandDetailsModalBtn');
+        const demandDetailsContent = document.getElementById('demandDetailsContent');
+        
+        const studentDetailsModal = document.getElementById('studentDetailsModal');
+        const closeStudentDetailsModalBtn = document.getElementById('closeStudentDetailsModalBtn');
+        const studentDetailsContent = document.getElementById('studentDetailsContent');
+        
+        const teacherDetailsModal = document.getElementById('teacherDetailsModal');
+        const closeTeacherDetailsModalBtn = document.getElementById('closeTeacherDetailsModalBtn');
+        const teacherDetailsContent = document.getElementById('teacherDetailsContent');
+        
+        // Éléments header modifiés
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const profileBtn = document.getElementById('profileBtn');
+        const profileMenu = document.getElementById('profileMenu');
+        const notificationBtn = document.getElementById('notificationBtn');
+        const searchFiltersBtn = document.getElementById('searchFiltersBtn');
+        const searchFiltersPanel = document.getElementById('searchFiltersPanel');
+        const closeFiltersBtn = document.getElementById('closeFiltersBtn');
+        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+        const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const mainSearchInput = document.getElementById('mainSearchInput');
+        
+        // Flèche retour en haut
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const scrollProgress = document.getElementById('scrollProgress');
+        const scrollProgressCircle = document.querySelector('.scroll-progress-circle');
+        const scrollProgressText = document.querySelector('.scroll-progress-text');
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            initDemandHistory();
+            setupEventListeners();
+            filterDemands('all');
+            
+            // Configurer les événements header
+            setupHeaderEvents();
+            
+            // Initialiser la flèche retour en haut
+            window.addEventListener('scroll', toggleBackToTopButton);
+            backToTopBtn.addEventListener('click', scrollToTop);
+            toggleBackToTopButton();
+            
+            // Gestion de la touche Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    scrollToTop();
+                }
+            });
+        });
+
+        // Initialiser l'historique des demandes
+        function initDemandHistory() {
+            historyTableBody.innerHTML = '';
+            
+            demandsData.demandHistory.forEach(demand => {
+                const row = document.createElement('tr');
+                
+                let statusClass = '';
+                let statusText = '';
+                switch(demand.status) {
+                    case 'approved':
+                        statusClass = 'status-approved';
+                        statusText = 'Approuvée';
+                        break;
+                    case 'rejected':
+                        statusClass = 'status-rejected';
+                        statusText = 'Refusée';
+                        break;
+                }
+                
+                row.innerHTML = `
+                    <td class="student-cell">
+                        <div class="student-avatar-small">${demand.studentInitials}</div>
+                        <span>${demand.student}</span>
+                    </td>
+                    <td>
+                        <strong>${demand.course}</strong>
+                    </td>
+                    <td>${demand.teacher}</td>
+                    <td>${demand.requestDate}</td>
+                    <td>${demand.decisionDate}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.85rem;" onclick="viewDemandHistory(${demand.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                
+                historyTableBody.appendChild(row);
+            });
+        }
+
+        // Configurer les événements header
+        function setupHeaderEvents() {
+            // Gestion menu mobile
+            if (mobileNavToggle) {
+                mobileNavToggle.addEventListener('click', () => {
+                    if (mobileNav) mobileNav.classList.toggle('active');
+                });
+            }
+
+            // Fermer menu mobile en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (mobileNav && !mobileNav.contains(e.target) && mobileNavToggle && !mobileNavToggle.contains(e.target)) {
+                    mobileNav.classList.remove('active');
+                }
+            });
+
+            // Gestion menu déroulant profil
+            if (profileBtn) {
+                profileBtn.addEventListener('click', () => {
+                    if (profileMenu) profileMenu.classList.toggle('active');
+                });
+            }
+
+            // Fermer le menu déroulant en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (profileBtn && !profileBtn.contains(e.target) && profileMenu && !profileMenu.contains(e.target)) {
+                    profileMenu.classList.remove('active');
+                }
+            });
+
+            // Gestion barre de recherche
+            if (searchFiltersBtn) {
+                searchFiltersBtn.addEventListener('click', () => {
+                    if (searchFiltersPanel) searchFiltersPanel.classList.toggle('active');
+                });
+            }
+
+            if (closeFiltersBtn) {
+                closeFiltersBtn.addEventListener('click', () => {
+                    if (searchFiltersPanel) searchFiltersPanel.classList.remove('active');
+                });
+            }
+
+            // Fermer les filtres en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (searchFiltersPanel && !searchFiltersPanel.contains(e.target) && 
+                    searchFiltersBtn && !searchFiltersBtn.contains(e.target) && 
+                    searchFiltersPanel.classList.contains('active')) {
+                    searchFiltersPanel.classList.remove('active');
+                }
+            });
+
+            // Réinitialiser les filtres
+            if (resetFiltersBtn) {
+                resetFiltersBtn.addEventListener('click', () => {
+                    document.getElementById('searchSubject').value = 'all';
+                    document.getElementById('searchMode').value = 'all';
+                    document.getElementById('searchLevel').value = 'all';
+                    if (mainSearchInput) mainSearchInput.value = '';
+                });
+            }
+
+            // Appliquer les filtres et lancer la recherche
+            if (applyFiltersBtn) {
+                applyFiltersBtn.addEventListener('click', performSearch);
+            }
+            
+            if (searchBtn) {
+                searchBtn.addEventListener('click', performSearch);
+            }
+
+            if (mainSearchInput) {
+                mainSearchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+        }
+
+        function performSearch() {
+            const searchSubject = document.getElementById('searchSubject').value;
+            const searchMode = document.getElementById('searchMode').value;
+            const searchLevel = document.getElementById('searchLevel').value;
+            const searchQuery = mainSearchInput.value.trim();
+            
+            searchFiltersPanel.classList.remove('active');
+            showSearchResults({
+                query: searchQuery,
+                subject: searchSubject,
+                mode: searchMode,
+                level: searchLevel
+            });
+        }
+
+        function showSearchResults(filters) {
+            alert(`Recherche avec les filtres:\n
+                Matière: ${filters.subject}\n
+                Mode: ${filters.mode}\n
+                Niveau: ${filters.level}\n
+                Recherche: "${filters.query}"`);
+        }
+
+        // Gestion de la flèche retour en haut
+        function toggleBackToTopButton() {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            // Calcul du pourcentage de défilement
+            const scrollPercent = (scrollPosition / (documentHeight - windowHeight)) * 100;
+            
+            // Mettre à jour l'indicateur de progression
+            const circleLength = 113.097; // 2 * π * r (r=18)
+            const offset = circleLength - (scrollPercent / 100) * circleLength;
+            scrollProgressCircle.style.strokeDashoffset = offset;
+            scrollProgressText.textContent = Math.round(scrollPercent) + '%';
+            
+            // Afficher/masquer les boutons
+            if (scrollPosition > 300) {
+                backToTopBtn.classList.add('visible');
+                scrollProgress.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+                scrollProgress.classList.remove('visible');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Configurer les événements
+        function setupEventListeners() {
+            // Filtrage des demandes
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const filter = btn.dataset.filter;
+                    filterDemands(filter);
+                });
+            });
+
+            // Modals
+            closeValidationModalBtn.addEventListener('click', closeValidationModal);
+            closeDemandDetailsModalBtn.addEventListener('click', closeDemandDetailsModal);
+            closeStudentDetailsModalBtn.addEventListener('click', closeStudentDetailsModal);
+            closeTeacherDetailsModalBtn.addEventListener('click', closeTeacherDetailsModal);
+
+            // Fermer modals en cliquant à l'extérieur
+            demandValidationModal.addEventListener('click', (e) => {
+                if (e.target === demandValidationModal) {
+                    closeValidationModal();
+                }
+            });
+
+            demandDetailsModal.addEventListener('click', (e) => {
+                if (e.target === demandDetailsModal) {
+                    closeDemandDetailsModal();
+                }
+            });
+
+            studentDetailsModal.addEventListener('click', (e) => {
+                if (e.target === studentDetailsModal) {
+                    closeStudentDetailsModal();
+                }
+            });
+
+            teacherDetailsModal.addEventListener('click', (e) => {
+                if (e.target === teacherDetailsModal) {
+                    closeTeacherDetailsModal();
+                }
+            });
+        }
+
+        // Filtrer les demandes
+        function filterDemands(filter) {
+            demandCards.forEach(card => {
+                if (filter === 'all' || card.dataset.status === filter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonctions pour la validation des demandes
+        function approveDemand(demandId) {
+            const demand = demandsData.pendingDemands.find(d => d.id === demandId);
+            
+            if (demand) {
+                validationContent.innerHTML = `
+                    <div style="margin-bottom: 25px;">
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px;">Approuver la demande</h3>
+                        <p style="color: var(--gris-moyen); margin-bottom: 20px;">
+                            Vous êtes sur le point d'approuver la demande de <strong>${demand.student}</strong> pour le cours:
+                        </p>
+                        
+                        <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                            <h4 style="color: var(--gris-fonce); margin-bottom: 10px;">${demand.title}</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <div>
+                                    <div style="color: var(--gris-moyen); font-size: 0.9rem;">Élève</div>
+                                    <div style="color: var(--gris-fonce); font-weight: 600;">${demand.student}</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--gris-moyen); font-size: 0.9rem;">Classe</div>
+                                    <div style="color: var(--gris-fonce); font-weight: 600;">${demand.class}</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--gris-moyen); font-size: 0.9rem;">Matière</div>
+                                    <div style="color: var(--gris-fonce); font-weight: 600;">${demand.subject}</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--gris-moyen); font-size: 0.9rem;">Enseignant</div>
+                                    <div style="color: var(--gris-fonce); font-weight: 600;">${demand.teacher}</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--gris-moyen); font-size: 0.9rem;">Séances</div>
+                                    <div style="color: var(--gris-fonce); font-weight: 600;">${demand.sessions} séances</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--gris-moyen); font-size: 0.9rem;">Montant total</div>
+                                    <div style="color: var(--vert-principal); font-weight: 600;">${demand.totalAmount.toLocaleString()} FCFA</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--gris-fonce); margin-bottom: 15px;">Objectifs de l'élève</h4>
+                            <div class="objectives-list">
+                                ${demand.objectives.map(obj => `
+                                    <div class="objective-item">
+                                        <i class="fas fa-bullseye"></i>
+                                        <span>${obj}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--gris-fonce); margin-bottom: 15px;">Confirmation d'approbation</h4>
+                            <div style="background-color: rgba(0,166,81,0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--vert-principal);">
+                                <p style="color: var(--gris-fonce); margin-bottom: 10px;">
+                                    <i class="fas fa-info-circle" style="color: var(--vert-principal); margin-right: 10px;"></i>
+                                    En approuvant cette demande:
+                                </p>
+                                <ul style="color: var(--gris-moyen); margin-left: 20px;">
+                                    <li>Un contrat sera généré pour l'élève et l'enseignant</li>
+                                    <li>L'élève sera notifié et pourra procéder au paiement</li>
+                                    <li>L'enseignant recevra une notification d'approbation</li>
+                                    <li>Le cours sera ajouté à l'emploi du temps</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--gris-fonce); margin-bottom: 15px;">Conditions spécifiques (optionnel)</h4>
+                            <textarea id="approvalConditions" style="width: 100%; padding: 12px; border: 2px solid var(--gris-clair); border-radius: 8px; font-size: 0.95rem; min-height: 100px;" placeholder="Ajoutez des conditions spécifiques pour ce contrat..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button class="btn btn-secondary" onclick="closeValidationModal()">
+                            <i class="fas fa-times"></i> Annuler
+                        </button>
+                        <button class="btn btn-primary" onclick="confirmApproval(${demandId})">
+                            <i class="fas fa-check"></i> Confirmer l'approbation
+                        </button>
+                    </div>
+                `;
+                
+                openValidationModal();
+            }
+        }
+
+        function rejectDemand(demandId) {
+            const demand = demandsData.pendingDemands.find(d => d.id === demandId);
+            
+            if (demand) {
+                validationContent.innerHTML = `
+                    <div style="margin-bottom: 25px;">
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px;">Refuser la demande</h3>
+                        <p style="color: var(--gris-moyen); margin-bottom: 20px;">
+                            Vous êtes sur le point de refuser la demande de <strong>${demand.student}</strong> pour le cours:
+                        </p>
+                        
+                        <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                            <h4 style="color: var(--gris-fonce); margin-bottom: 10px;">${demand.title}</h4>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--gris-fonce); margin-bottom: 15px;">Motif du refus</h4>
+                            <select id="rejectionReason" style="width: 100%; padding: 12px; border: 2px solid var(--gris-clair); border-radius: 8px; font-size: 0.95rem; margin-bottom: 15px;">
+                                <option value="">Sélectionnez un motif...</option>
+                                <option value="capacity">Capacité du groupe atteinte</option>
+                                <option value="schedule">Emploi du temps incompatible</option>
+                                <option value="teacher">Enseignant non disponible</option>
+                                <option value="level">Niveau de l'élève inadapté</option>
+                                <option value="other">Autre motif</option>
+                            </select>
+                            
+                            <textarea id="rejectionDetails" style="width: 100%; padding: 12px; border: 2px solid var(--gris-clair); border-radius: 8px; font-size: 0.95rem; min-height: 100px; display: none;" placeholder="Précisez les détails du refus..."></textarea>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--gris-fonce); margin-bottom: 15px;">Alternative proposée (optionnel)</h4>
+                            <textarea id="alternative" style="width: 100%; padding: 12px; border: 2px solid var(--gris-clair); border-radius: 8px; font-size: 0.95rem; min-height: 80px;" placeholder="Proposez une alternative à l'élève..."></textarea>
+                        </div>
+                        
+                        <div style="background-color: rgba(239,51,64,0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--rouge-principal); margin-bottom: 25px;">
+                            <p style="color: var(--gris-fonce); margin: 0;">
+                                <i class="fas fa-exclamation-triangle" style="color: var(--rouge-principal); margin-right: 10px;"></i>
+                                Le refus sera définitif. L'élève et l'enseignant seront informés de votre décision.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button class="btn btn-secondary" onclick="closeValidationModal()">
+                            <i class="fas fa-times"></i> Annuler
+                        </button>
+                        <button class="btn btn-danger" onclick="confirmRejection(${demandId})">
+                            <i class="fas fa-times"></i> Confirmer le refus
+                        </button>
+                    </div>
+                `;
+                
+                // Afficher/masquer le champ de détails selon la sélection
+                const rejectionReason = document.getElementById('rejectionReason');
+                const rejectionDetails = document.getElementById('rejectionDetails');
+                
+                rejectionReason.addEventListener('change', () => {
+                    if (rejectionReason.value === 'other') {
+                        rejectionDetails.style.display = 'block';
+                    } else {
+                        rejectionDetails.style.display = 'none';
+                    }
+                });
+                
+                openValidationModal();
+            }
+        }
+
+        function confirmApproval(demandId) {
+            const approvalConditions = document.getElementById('approvalConditions')?.value || "";
+            
+            // Mettre à jour le statut de la demande
+            const demand = demandsData.pendingDemands.find(d => d.id === demandId);
+            if (demand) {
+                demand.status = 'approved';
+                demand.approvalDate = new Date().toLocaleDateString('fr-FR');
+                demand.approvalConditions = approvalConditions;
+                
+                // Déplacer vers approvedDemands
+                demandsData.approvedDemands.push(demand);
+                demandsData.pendingDemands = demandsData.pendingDemands.filter(d => d.id !== demandId);
+                
+                // Ajouter à l'historique
+                demandsData.demandHistory.unshift({
+                    id: demandId + 100,
+                    student: demand.student,
+                    studentInitials: demand.studentInitials,
+                    course: `${demand.subject} ${demand.level}`,
+                    teacher: demand.teacher,
+                    requestDate: demand.requestDate,
+                    decisionDate: new Date().toLocaleDateString('fr-FR'),
+                    status: 'approved'
+                });
+            }
+            
+            alert(`Demande #${demandId} approuvée ! L'élève et l'enseignant ont été notifiés.`);
+            closeValidationModal();
+            location.reload();
+        }
+
+        function confirmRejection(demandId) {
+            const rejectionReason = document.getElementById('rejectionReason').value;
+            const rejectionDetails = document.getElementById('rejectionDetails').value;
+            const alternative = document.getElementById('alternative').value;
+            
+            if (!rejectionReason) {
+                alert("Veuillez sélectionner un motif de refus.");
+                return;
+            }
+            
+            // Mettre à jour le statut de la demande
+            const demand = demandsData.pendingDemands.find(d => d.id === demandId);
+            if (demand) {
+                demand.status = 'rejected';
+                demand.rejectionReason = rejectionReason;
+                demand.rejectionDetails = rejectionDetails;
+                demand.alternative = alternative;
+                demand.rejectionDate = new Date().toLocaleDateString('fr-FR');
+                
+                // Déplacer vers approvedDemands (pour l'historique)
+                demandsData.approvedDemands.push(demand);
+                demandsData.pendingDemands = demandsData.pendingDemands.filter(d => d.id !== demandId);
+                
+                // Ajouter à l'historique
+                demandsData.demandHistory.unshift({
+                    id: demandId + 100,
+                    student: demand.student,
+                    studentInitials: demand.studentInitials,
+                    course: `${demand.subject} ${demand.level}`,
+                    teacher: demand.teacher,
+                    requestDate: demand.requestDate,
+                    decisionDate: new Date().toLocaleDateString('fr-FR'),
+                    status: 'rejected'
+                });
+            }
+            
+            alert(`Demande #${demandId} refusée. L'élève et l'enseignant ont été informés.`);
+            closeValidationModal();
+            location.reload();
+        }
+
+        function viewStudentDetails(studentId) {
+            // Simulation de données d'élève
+            const demand = demandsData.pendingDemands.find(d => d.id === studentId) || 
+                          demandsData.approvedDemands.find(d => d.id === studentId);
+            
+            if (demand) {
+                const studentData = {
+                    name: demand.student,
+                    initials: demand.studentInitials,
+                    grade: demand.level,
+                    class: demand.class,
+                    school: "Collège d'Excellence",
+                    city: "Lomé",
+                    joined: "15/09/2023",
+                    averageGrade: 14.5,
+                    absences: 2,
+                    demandsCount: 3,
+                    completedCourses: 1
+                };
+                
+                studentDetailsContent.innerHTML = `
+                    <div style="margin-bottom: 25px;">
+                        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                            <div class="student-avatar" style="width: 80px; height: 80px; font-size: 1.8rem;">${studentData.initials}</div>
+                            <div>
+                                <h3 style="color: var(--gris-fonce); margin-bottom: 5px;">${studentData.name}</h3>
+                                <p style="color: var(--gris-moyen); margin-bottom: 5px;">${studentData.school}</p>
+                                <span style="display: inline-block; padding: 5px 15px; background-color: var(--bleu-prof); color: var(--blanc-principal); border-radius: 20px; font-size: 0.85rem; font-weight: 600;">${studentData.class}</span>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--gris-fonce); margin-bottom: 15px;">Objectifs de l'élève pour ce cours</h4>
+                            <div class="objectives-list">
+                                ${demand.objectives.map(obj => `
+                                    <div class="objective-item">
+                                        <i class="fas fa-bullseye"></i>
+                                        <span>${obj}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px;">
+                            <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px;">
+                                <div style="color: var(--gris-moyen); font-size: 0.9rem; margin-bottom: 5px;">Moyenne générale</div>
+                                <div style="color: var(--gris-fonce); font-weight: 600; font-size: 1.2rem;">${studentData.averageGrade}/20</div>
+                            </div>
+                            <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px;">
+                                <div style="color: var(--gris-moyen); font-size: 0.9rem; margin-bottom: 5px;">Absences</div>
+                                <div style="color: var(--gris-fonce); font-weight: 600; font-size: 1.2rem;">${studentData.absences}</div>
+                            </div>
+                            <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px;">
+                                <div style="color: var(--gris-moyen); font-size: 0.9rem; margin-bottom: 5px;">Demandes de cours</div>
+                                <div style="color: var(--gris-fonce); font-weight: 600; font-size: 1.2rem;">${studentData.demandsCount}</div>
+                            </div>
+                            <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px;">
+                                <div style="color: var(--gris-moyen); font-size: 0.9rem; margin-bottom: 5px;">Cours terminés</div>
+                                <div style="color: var(--gris-fonce); font-weight: 600; font-size: 1.2rem;">${studentData.completedCourses}</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--gris-fonce); margin-bottom: 15px;">Informations scolaires</h4>
+                            <div style="background-color: var(--gris-clair); padding: 20px; border-radius: 10px;">
+                                <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                        <span style="color: var(--gris-moyen);">Établissement:</span>
+                                        <span style="color: var(--gris-fonce); font-weight: 600;">${studentData.school}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                        <span style="color: var(--gris-moyen);">Classe:</span>
+                                        <span style="color: var(--gris-fonce); font-weight: 600;">${studentData.class}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                        <span style="color: var(--gris-moyen);">Membre depuis:</span>
+                                        <span style="color: var(--gris-fonce); font-weight: 600;">${studentData.joined}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                        <span style="color: var(--gris-moyen);">Ville:</span>
+                                        <span style="color: var(--gris-fonce); font-weight: 600;">${studentData.city}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <button class="btn btn-warning" onclick="contactStudent('${studentData.name}')">
+                                <i class="fas fa-comment"></i> Contacter
+                            </button>
+                            <button class="btn btn-secondary" onclick="closeStudentDetailsModal()">
+                                <i class="fas fa-times"></i> Fermer
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                openStudentDetailsModal();
+            }
+        }
+
+        function viewTeacherDetails(demandId) {
+            const demand = demandsData.pendingDemands.find(d => d.id === demandId) || 
+                          demandsData.approvedDemands.find(d => d.id === demandId);
+            
+            if (demand) {
+                const teacher = teachersData.find(t => t.id === demand.teacherId);
+                
+                if (teacher) {
+                    teacherDetailsContent.innerHTML = `
+                        <div style="margin-bottom: 25px;">
+                            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                                <div class="student-avatar" style="width: 80px; height: 80px; font-size: 1.8rem; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));">${teacher.initials}</div>
+                                <div>
+                                    <h3 style="color: var(--gris-fonce); margin-bottom: 5px;">${teacher.name}</h3>
+                                    <p style="color: var(--gris-moyen); margin-bottom: 5px;">${teacher.grade}</p>
+                                    <span style="display: inline-block; padding: 5px 15px; background-color: var(--orange-ecole); color: var(--blanc-principal); border-radius: 20px; font-size: 0.85rem; font-weight: 600;">${teacher.subject}</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 25px;">
+                                <h4 style="color: var(--gris-fonce); margin-bottom: 10px;">Biographie</h4>
+                                <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px;">
+                                    <p style="color: var(--gris-moyen); margin: 0;">${teacher.bio}</p>
+                                </div>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px;">
+                                <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px;">
+                                    <div style="color: var(--gris-moyen); font-size: 0.9rem; margin-bottom: 5px;">Expérience</div>
+                                    <div style="color: var(--gris-fonce); font-weight: 600; font-size: 1.2rem;">${teacher.experience}</div>
+                                </div>
+                                <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px;">
+                                    <div style="color: var(--gris-moyen); font-size: 0.9rem; margin-bottom: 5px;">Évaluation</div>
+                                    <div style="color: var(--gris-fonce); font-weight: 600; font-size: 1.2rem;">
+                                        ${teacher.rating}/5 <i class="fas fa-star" style="color: var(--jaune-principal);"></i>
+                                    </div>
+                                </div>
+                                <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px;">
+                                    <div style="color: var(--gris-moyen); font-size: 0.9rem; margin-bottom: 5px;">Élèves formés</div>
+                                    <div style="color: var(--gris-fonce); font-weight: 600; font-size: 1.2rem;">${teacher.studentsCount}</div>
+                                </div>
+                                <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px;">
+                                    <div style="color: var(--gris-moyen); font-size: 0.9rem; margin-bottom: 5px;">Matière</div>
+                                    <div style="color: var(--gris-fonce); font-weight: 600; font-size: 1.2rem;">${teacher.subject}</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 25px;">
+                                <h4 style="color: var(--gris-fonce); margin-bottom: 15px;">Cours proposés par cet enseignant</h4>
+                                <div style="background-color: var(--gris-clair); padding: 20px; border-radius: 10px;">
+                                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                                        <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                            <span style="color: var(--gris-moyen);">Mathématiques 3ème:</span>
+                                            <span style="color: var(--gris-fonce); font-weight: 600;">5.000 FCFA/h</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                            <span style="color: var(--gris-moyen);">Mathématiques 4ème:</span>
+                                            <span style="color: var(--gris-fonce); font-weight: 600;">4.500 FCFA/h</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                            <span style="color: var(--gris-moyen);">Prépa BEPC:</span>
+                                            <span style="color: var(--gris-fonce); font-weight: 600;">6.000 FCFA/h</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                                <button class="btn btn-warning" onclick="contactTeacher('${teacher.name}')">
+                                    <i class="fas fa-comment"></i> Contacter
+                                </button>
+                                <button class="btn btn-secondary" onclick="closeTeacherDetailsModal()">
+                                    <i class="fas fa-times"></i> Fermer
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    openTeacherDetailsModal();
+                }
+            }
+        }
+
+        function viewDemandDetails(demandId) {
+            const demand = demandsData.pendingDemands.find(d => d.id === demandId) || 
+                          demandsData.approvedDemands.find(d => d.id === demandId);
+            
+            if (demand) {
+                let statusText = '';
+                let statusColor = '';
+                
+                switch(demand.status) {
+                    case 'pending':
+                        statusText = 'En attente';
+                        statusColor = 'var(--orange-cours)';
+                        break;
+                    case 'approved':
+                        statusText = 'Approuvée';
+                        statusColor = 'var(--vert-principal)';
+                        break;
+                    case 'rejected':
+                        statusText = 'Refusée';
+                        statusColor = 'var(--rouge-principal)';
+                        break;
+                }
+                
+                demandDetailsContent.innerHTML = `
+                    <div style="margin-bottom: 25px;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                            <div class="student-avatar" style="width: 60px; height: 60px; font-size: 1.5rem;">${demand.studentInitials}</div>
+                            <div>
+                                <h3 style="color: var(--gris-fonce); margin-bottom: 5px;">${demand.student}</h3>
+                                <p style="color: var(--gris-moyen); margin: 0;">${demand.class}</p>
+                            </div>
+                            <div style="margin-left: auto;">
+                                <span style="padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; background-color: ${statusColor}20; color: ${statusColor}; border: 1px solid ${statusColor};">${statusText}</span>
+                            </div>
+                        </div>
+                        
+                        <h2 style="color: var(--gris-fonce); margin-bottom: 15px;">${demand.title}</h2>
+                        
+                        <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                            <p style="margin: 0; color: var(--gris-moyen);">
+                                <strong>Matière:</strong> ${demand.subject}<br>
+                                <strong>Niveau:</strong> ${demand.level}<br>
+                                <strong>Enseignant:</strong> ${demand.teacher}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: var(--gris-fonce); margin-bottom: 15px;">Objectifs de l'élève</h4>
+                        <div class="objectives-list">
+                            ${demand.objectives.map(obj => `
+                                <div class="objective-item">
+                                    <i class="fas fa-bullseye"></i>
+                                    <span>${obj}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: var(--gris-fonce); margin-bottom: 15px;">Détails de la demande</h4>
+                        <div style="background-color: var(--gris-clair); padding: 20px; border-radius: 10px;">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Date demande:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600;">${demand.requestDate}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Nombre de séances:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600;">${demand.sessions} séances</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Type de cours:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600;">${demand.type}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Prix horaire:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600;">${demand.pricePerHour.toLocaleString()} FCFA/h</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Montant total:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600; font-size: 1.1rem;">${demand.totalAmount.toLocaleString()} FCFA</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Horaires souhaités:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600;">${demand.availability}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Durée souhaitée:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600;">${demand.duration}</span>
+                                </div>
+                                ${demand.approvalDate ? `
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Date approbation:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600;">${demand.approvalDate}</span>
+                                </div>
+                                ` : ''}
+                                ${demand.rejectionDate ? `
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Date refus:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600;">${demand.rejectionDate}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Motif refus:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600;">${demand.rejectionReason}</span>
+                                </div>
+                                ${demand.alternative ? `
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                    <span style="color: var(--gris-moyen);">Alternative proposée:</span>
+                                    <span style="color: var(--gris-fonce); font-weight: 600;">${demand.alternative}</span>
+                                </div>
+                                ` : ''}
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        ${demand.status === 'pending' ? `
+                        <button class="btn btn-primary" onclick="approveDemand(${demand.id})">
+                            <i class="fas fa-check"></i> Approuver
+                        </button>
+                        <button class="btn btn-danger" onclick="rejectDemand(${demand.id})">
+                            <i class="fas fa-times"></i> Refuser
+                        </button>
+                        ` : ''}
+                        ${demand.status === 'approved' ? `
+                        <button class="btn btn-warning" onclick="sendNotification(${demand.id})">
+                            <i class="fas fa-bell"></i> Notifier
+                        </button>
+                        <button class="btn btn-info" onclick="generateContract(${demand.id})">
+                            <i class="fas fa-file-contract"></i> Générer contrat
+                        </button>
+                        ` : ''}
+                        ${demand.status === 'rejected' ? `
+                        <button class="btn btn-info" onclick="reconsiderDemand(${demand.id})">
+                            <i class="fas fa-redo"></i> Réexaminer
+                        </button>
+                        ` : ''}
+                        <button class="btn btn-secondary" onclick="closeDemandDetailsModal()">
+                            <i class="fas fa-times"></i> Fermer
+                        </button>
+                    </div>
+                `;
+                
+                openDemandDetailsModal();
+            }
+        }
+
+        function reconsiderDemand(demandId) {
+            const demand = demandsData.approvedDemands.find(d => d.id === demandId);
+            
+            if (demand && demand.status === 'rejected') {
+                demand.status = 'pending';
+                delete demand.rejectionDate;
+                delete demand.rejectionReason;
+                delete demand.alternative;
+                
+                // Déplacer vers pendingDemands
+                demandsData.pendingDemands.push(demand);
+                demandsData.approvedDemands = demandsData.approvedDemands.filter(d => d.id !== demandId);
+                
+                alert(`Demande #${demandId} réouverte pour réexamen.`);
+                closeDemandDetailsModal();
+                location.reload();
+            }
+        }
+
+        function sendNotification(demandId) {
+            const demand = demandsData.approvedDemands.find(d => d.id === demandId);
+            
+            if (demand) {
+                alert(`Notification envoyée à ${demand.student} et ${demand.teacher} pour la demande #${demandId}`);
+            }
+        }
+
+        function generateContract(demandId) {
+            const demand = demandsData.approvedDemands.find(d => d.id === demandId);
+            
+            if (demand) {
+                // Générer une référence de contrat
+                const contractRef = `CON-ETC-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`;
+                
+                // Créer un contrat actif
+                const activeContract = {
+                    id: demandId + 100,
+                    title: demand.title,
+                    student: demand.student,
+                    studentInitials: demand.studentInitials,
+                    class: demand.class,
+                    teacher: demand.teacher,
+                    teacherId: demand.teacherId,
+                    subject: demand.subject,
+                    level: demand.level,
+                    type: demand.type,
+                    sessions: demand.sessions,
+                    pricePerHour: demand.pricePerHour,
+                    totalAmount: demand.totalAmount,
+                    status: "approved",
+                    startDate: new Date().toLocaleDateString('fr-FR'),
+                    contractRef: contractRef,
+                    paymentStatus: "pending",
+                    objectives: demand.objectives
+                };
+                
+                demandsData.activeContracts.push(activeContract);
+                
+                alert(`Contrat généré pour la demande #${demandId}. Référence: ${contractRef}`);
+                location.reload();
+            }
+        }
+
+        function viewContract(contractId) {
+            const contract = demandsData.activeContracts.find(c => c.id === contractId);
+            
+            if (contract) {
+                // Ouvrir une nouvelle fenêtre ou rediriger vers la page de contrat
+                alert(`Ouverture du contrat ${contract.contractRef} pour ${contract.student}`);
+                // window.open(`school_contract.html?id=${contractId}`, '_blank');
+            }
+        }
+
+        function sendPaymentReminder(contractId) {
+            const contract = demandsData.activeContracts.find(c => c.id === contractId);
+            
+            if (contract) {
+                alert(`Rappel de paiement envoyé à ${contract.student} pour le contrat ${contract.contractRef}`);
+            }
+        }
+
+        function contactParties(contractId) {
+            const contract = demandsData.activeContracts.find(c => c.id === contractId);
+            
+            if (contract) {
+                alert(`Ouverture de la messagerie pour contacter ${contract.student} et ${contract.teacher}`);
+            }
+        }
+
+        function viewDemandHistory(demandId) {
+            const demand = demandsData.demandHistory.find(d => d.id === demandId);
+            if (demand) {
+                // Pour simplifier, on affiche les détails dans la modal de demande
+                viewDemandDetails(demandId - 100);
+            }
+        }
+
+        function contactStudent(studentName) {
+            alert(`Ouverture de la messagerie pour contacter ${studentName}`);
+        }
+
+        function contactTeacher(teacherName) {
+            alert(`Ouverture de la messagerie pour contacter ${teacherName}`);
+        }
+
+        // Gestion des modals
+        function openValidationModal() {
+            demandValidationModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeValidationModal() {
+            demandValidationModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function openDemandDetailsModal() {
+            demandDetailsModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDemandDetailsModal() {
+            demandDetailsModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function openStudentDetailsModal() {
+            studentDetailsModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeStudentDetailsModal() {
+            studentDetailsModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function openTeacherDetailsModal() {
+            teacherDetailsModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTeacherDetailsModal() {
+            teacherDetailsModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Gestion responsive
+        function checkWindowSize() {
+            if (window.innerWidth <= 992) {
+                document.querySelector('.menu-toggle').style.display = 'block';
+            } else {
+                document.querySelector('.menu-toggle').style.display = 'none';
+                mobileNav.classList.remove('active');
+            }
+        }
+        
+        window.addEventListener('resize', checkWindowSize);
+        checkWindowSize();
+    </script>
+</body>
+</html>

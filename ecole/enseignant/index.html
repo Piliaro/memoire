@@ -1,0 +1,2534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord Enseignant | EduTogoConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de couleurs - Drapeau togolais */
+        :root {
+            --jaune-principal: #FFD700;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
+            --gris-clair: #F5F5F5;
+            --orange-cours: #FF9800;
+            --cyan-suggestion: #00BCD4;
+            --violet-premium: #9C27B0;
+            --rouge-passe: #F44336;
+            --vert-suisse: #4CAF50;
+            --bleu-prochain: #2196F3;
+            --violet-important: #9C27B0;
+        }
+
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Principal */
+        .main-header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+
+        /* Bouton notification dans le header */
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .notification-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Menu mobile toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+        }
+
+        /* Barre de navigation horizontale */
+        .horizontal-nav {
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        /* Navigation horizontale */
+        .horizontal-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-bottom-color: var(--blanc-principal);
+        }
+
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.3);
+            border-bottom-color: var(--jaune-principal);
+            font-weight: 600;
+        }
+
+        /* Boutons */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-primary:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-success {
+            background-color: var(--vert-suisse);
+            color: var(--blanc-principal);
+        }
+
+        .btn-warning {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+        }
+
+        .btn-danger {
+            background-color: var(--rouge-passe);
+            color: var(--blanc-principal);
+        }
+
+        .btn-info {
+            background-color: var(--bleu-prochain);
+            color: var(--blanc-principal);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--vert-principal);
+            border: 2px solid var(--vert-principal);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Contenu principal */
+        .main-content {
+            padding: 30px 0;
+        }
+
+        /* Cartes de statistiques alignées horizontalement */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--blanc-principal);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+            height: 100px;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .icon-students {
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prochain);
+        }
+
+        .icon-courses {
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+        }
+
+        .icon-hours {
+            background-color: rgba(255,152,0,0.1);
+            color: var(--orange-cours);
+        }
+
+        .icon-satisfaction {
+            background-color: rgba(156,39,176,0.1);
+            color: var(--violet-premium);
+        }
+
+        .stat-info {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gris-fonce);
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+            line-height: 1.3;
+        }
+
+        .stat-trend {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .trend-up {
+            background-color: rgba(76,175,80,0.1);
+            color: var(--vert-suisse);
+        }
+
+        .trend-down {
+            background-color: rgba(244,67,54,0.1);
+            color: var(--rouge-passe);
+        }
+
+        /* Section cours à venir en 5 colonnes */
+        .upcoming-courses-section {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: var(--gris-fonce);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .course-card {
+            background-color: var(--blanc-principal);
+            border-radius: 10px;
+            border: 2px solid var(--gris-clair);
+            padding: 20px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 250px;
+        }
+
+        .course-card:hover {
+            border-color: var(--vert-principal);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .course-time {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .time-start {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gris-fonce);
+        }
+
+        .time-duration {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        .course-subject {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .course-students {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .course-location {
+            color: var(--gris-moyen);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .course-status {
+            margin-top: auto;
+            text-align: center;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-upcoming {
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+        }
+
+        .status-in-progress {
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prochain);
+        }
+
+        /* Section calendrier */
+        .calendar-section {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .calendar-mini {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            color: var(--gris-moyen);
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calendar-day:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .calendar-day.today {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            font-weight: 600;
+        }
+
+        .calendar-day.has-course {
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prochain);
+            font-weight: 600;
+        }
+
+        .calendar-day.other-month {
+            color: var(--gris-clair);
+        }
+
+        /* Section messages récents */
+        .messages-section {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .messages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--gris-clair);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .message-item:hover {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.05);
+        }
+
+        .message-item.unread {
+            background-color: rgba(33,150,243,0.05);
+            border-color: var(--bleu-prochain);
+        }
+
+        .message-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .message-content {
+            flex: 1;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+        }
+
+        .message-preview {
+            color: var(--gris-moyen);
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .message-time {
+            color: var(--gris-moyen);
+            font-size: 0.8rem;
+        }
+
+        .message-unread {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--rouge-principal);
+        }
+
+        /* Section élèves récents - MIS À JOUR */
+        .students-section {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .student-card {
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid var(--gris-clair);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .student-card:hover {
+            border-color: var(--vert-principal);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Badge en haut à gauche */
+        .student-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .badge-new {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+        }
+
+        .badge-premium {
+            background-color: rgba(255,215,0,0.15);
+            color: var(--gris-fonce);
+            border: 1px solid var(--jaune-principal);
+        }
+
+        .badge-standard {
+            background-color: rgba(0,166,81,0.15);
+            color: var(--vert-principal);
+            border: 1px solid var(--vert-principal);
+        }
+
+        /* Statut en ligne en haut à droite */
+        .student-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-online {
+            background-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        .status-offline {
+            background-color: #9E9E9E;
+        }
+
+        .status-away {
+            background-color: #FF9800;
+        }
+
+        .status-text {
+            font-size: 0.7rem;
+            color: var(--gris-moyen);
+        }
+
+        .student-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin: 20px auto 15px;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+        }
+
+        .student-class {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        /* NOUVEAU: École de provenance */
+        .student-school {
+            color: var(--gris-moyen);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-style: italic;
+        }
+
+        .student-school i {
+            color: var(--vert-principal);
+        }
+
+        /* Boutons détails et message */
+        .student-actions {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .btn-student-action {
+            flex: 1;
+            padding: 8px 5px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-student-detail {
+            background-color: var(--bleu-prochain);
+            color: var(--blanc-principal);
+        }
+
+        .btn-student-detail:hover {
+            background-color: #0d47a1;
+            transform: translateY(-2px);
+        }
+
+        .btn-student-message {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-student-message:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+        }
+
+        /* NOUVELLE SECTION: Mes Cours */
+        .my-courses-section {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        /* Styles pour la section de cours (similaire à la page fournie) */
+        .course-level {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .course-teacher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .teacher-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--blanc-principal);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .teacher-info h4 {
+            font-size: 0.85rem;
+            color: var(--gris-fonce);
+            margin-bottom: 2px;
+        }
+
+        .teacher-info p {
+            font-size: 0.75rem;
+            color: var(--gris-moyen);
+            line-height: 1.3;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gris-moyen);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .course-rating {
+            color: var(--jaune-principal);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1px;
+        }
+
+        .course-price-section {
+            padding: 0px 18px;
+            background-color: rgba(0,0,0,0.02);
+            border-top: 1px solid var(--gris-clair);
+        }
+
+        .course-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+
+        .price-amount {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gris-fonce);
+        }
+
+        .price-period {
+            font-size: 0.8rem;
+            color: var(--gris-moyen);
+            font-weight: normal;
+        }
+
+        .price-free {
+            color: var(--vert-principal);
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-course {
+            flex: 1;
+            padding: 5px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .btn-details {
+            background-color: var(--gris-clair);
+            color: var(--gris-moyen);
+        }
+
+        .btn-details:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-enroll {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-enroll:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+        }
+
+        .btn-premium {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+        }
+
+        .btn-premium:hover {
+            background-color: #e6c200;
+            transform: translateY(-2px);
+        }
+
+        .course-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .badge-premium {
+            background-color: rgba(255,215,0,0.15);
+            color: var(--gris-fonce);
+            border: 1px solid var(--jaune-principal);
+        }
+
+        .badge-standard {
+            background-color: rgba(0,166,81,0.15);
+            color: var(--vert-principal);
+            border: 1px solid var(--vert-principal);
+        }
+
+        .badge-gratuit {
+            background-color: rgba(33,150,243,0.15);
+            color: #2196F3;
+            border: 1px solid #2196F3;
+        }
+
+        .my-courses-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .my-course-card {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--gris-clair);
+            transition: all 0.3s;
+            position: relative;
+            height: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .my-course-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: var(--vert-principal);
+        }
+
+        .my-course-card.premium {
+            border: 1px solid var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.15);
+        }
+
+        .my-course-header {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .my-course-title {
+            font-size: 1rem;
+            color: var(--gris-fonce);
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 40px;
+        }
+
+        .my-course-subject {
+            color: var(--gris-moyen);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        /* Menu mobile */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            z-index: 1000;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        /* Badge de notification */
+        .nav-badge {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        /* Menu déroulant profil */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-btn:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--blanc-principal);
+            min-width: 250px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1001;
+            margin-top: 10px;
+        }
+
+        .profile-menu.active {
+            display: block;
+        }
+
+        .profile-menu-header {
+            padding: 20px;
+            background-color: var(--gris-clair);
+            text-align: center;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .profile-menu-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--blanc-principal);
+            font-weight: bold;
+        }
+
+        .profile-menu-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-menu-email {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .profile-menu-list {
+            list-style: none;
+        }
+
+        .profile-menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            transition: background-color 0.3s;
+        }
+
+        .profile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-menu-item:hover {
+            background-color: var(--gris-clair);
+        }
+
+        .profile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gris-fonce);
+            text-decoration: none;
+        }
+
+        .profile-menu-link i {
+            width: 20px;
+            color: var(--gris-moyen);
+        }
+
+        .profile-menu-link.logout {
+            color: var(--rouge-principal);
+        }
+
+        .profile-menu-link.logout i {
+            color: var(--rouge-principal);
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: var(--gris-fonce);
+            color: var(--gris-clair);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gris-clair);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: var(--gris-clair);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .courses-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .students-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .my-courses-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .horizontal-nav {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .courses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .students-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .my-courses-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .students-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .my-courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .upcoming-courses-section,
+            .calendar-section,
+            .messages-section,
+            .students-section,
+            .my-courses-section {
+                padding: 20px;
+            }
+            
+            .stat-card {
+                padding: 15px;
+                height: 90px;
+            }
+            
+            .stat-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-actions">
+                    <!-- Bouton notification -->
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <!-- Menu déroulant profil -->
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--blanc-principal);">MA</div>
+                            <div>
+                                <div style="font-weight: 600; color: var(--gris-fonce);">Marie Akakpo</div>
+                                <div style="font-size: 0.8rem; color: var(--gris-moyen);">Enseignante - Français</div>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="profile-menu" id="profileMenu">
+                            <div class="profile-menu-header">
+                                <div class="profile-menu-avatar">MA</div>
+                                <div class="profile-menu-name">Marie Akakpo</div>
+                                <div class="profile-menu-email">marie.akakpo@edutogoconnect.tg</div>
+                            </div>
+                            
+                            <ul class="profile-menu-list">
+                                <li class="profile-menu-item">
+                                    <a href="teacher_profile.html" class="profile-menu-link">
+                                        <i class="fas fa-user"></i>
+                                        <span>Mon profil</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="teacher_settings.html" class="profile-menu-link">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Paramètres</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="teacher_notifications.html" class="profile-menu-link">
+                                        <i class="fas fa-bell"></i>
+                                        <span>Notifications</span>
+                                        <span style="margin-left: auto; background-color: var(--rouge-principal); color: var(--blanc-principal); padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">3</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="../login.html" class="profile-menu-link logout">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Déconnexion</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de Navigation Horizontale -->
+    <nav class="horizontal-nav">
+        <div class="container">
+            <div class="nav-container">
+                <!-- Menu de navigation horizontal -->
+                <div class="horizontal-menu">
+                    <a href="teacher_dashboard.html" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="teacher_courses.html" class="nav-item">
+                        <i class="fas fa-book-open"></i>
+                        <span>Mes cours</span>
+                        <span class="nav-badge">12</span>
+                    </a>
+                    <a href="teacher_students.html" class="nav-item">
+                        <i class="fas fa-users"></i>
+                        <span>Mes élèves</span>
+                    </a>
+                    <a href="teacher_calendar.html" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Calendrier</span>
+                    </a>
+                    <a href="teacher_messages.html" class="nav-item">
+                        <i class="fas fa-comments"></i>
+                        <span>Messages</span>
+                        <span class="nav-badge">5</span>
+                    </a>
+                    <a href="teacher_reports.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Rapports</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-menu">
+            <a href="teacher_dashboard.html" class="mobile-nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="teacher_courses.html" class="mobile-nav-item">
+                <i class="fas fa-book-open"></i>
+                <span>Mes cours</span>
+                <span class="nav-badge">12</span>
+            </a>
+            <a href="teacher_students.html" class="mobile-nav-item">
+                <i class="fas fa-users"></i>
+                <span>Mes élèves</span>
+            </a>
+            <a href="teacher_calendar.html" class="mobile-nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Calendrier</span>
+            </a>
+            <a href="teacher_messages.html" class="mobile-nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+                <span class="nav-badge">5</span>
+            </a>
+            <a href="teacher_reports.html" class="mobile-nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Rapports</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Cartes de statistiques alignées horizontalement -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-students">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">156</div>
+                        <div class="stat-label">Élèves actifs</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            +12%
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-courses">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">28</div>
+                        <div class="stat-label">Cours programmés</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            +8%
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-hours">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">68h</div>
+                        <div class="stat-label">Heures enseignées ce mois</div>
+                        <div class="stat-trend trend-down">
+                            <i class="fas fa-arrow-down"></i>
+                            -5%
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-satisfaction">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">4.8/5</div>
+                        <div class="stat-label">Satisfaction élèves</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            +15%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section cours à venir (5 colonnes) -->
+            <section class="upcoming-courses-section">
+                <div class="section-header">
+                    <h2 class="section-title">Cours à venir aujourd'hui</h2>
+                    <a href="teacher_calendar.html" class="btn btn-outline">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Voir le calendrier complet</span>
+                    </a>
+                </div>
+                
+                <div class="courses-grid">
+                    <div class="course-card">
+                        <div class="course-time">
+                            <div class="time-start">09:00</div>
+                            <div class="time-duration">1h30</div>
+                        </div>
+                        <div class="course-subject">Français - Grammaire</div>
+                        <div class="course-students">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Komi Adjo</span>
+                        </div>
+                        <div class="course-location">
+                            <i class="fas fa-video"></i>
+                            <span>En ligne</span>
+                        </div>
+                        <div class="course-status">
+                            <span class="status-badge status-upcoming">À venir</span>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-time">
+                            <div class="time-start">10:30</div>
+                            <div class="time-duration">1h30</div>
+                        </div>
+                        <div class="course-subject">Français - Orthographe</div>
+                        <div class="course-students">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Sena Gado</span>
+                        </div>
+                        <div class="course-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Salle 102</span>
+                        </div>
+                        <div class="course-status">
+                            <span class="status-badge status-upcoming">À venir</span>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-time">
+                            <div class="time-start">14:00</div>
+                            <div class="time-duration">2h00</div>
+                        </div>
+                        <div class="course-subject">Français - Expression écrite</div>
+                        <div class="course-students">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Aya Mensah</span>
+                        </div>
+                        <div class="course-location">
+                            <i class="fas fa-video"></i>
+                            <span>En ligne</span>
+                        </div>
+                        <div class="course-status">
+                            <span class="status-badge status-upcoming">À venir</span>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-time">
+                            <div class="time-start">16:00</div>
+                            <div class="time-duration">1h30</div>
+                        </div>
+                        <div class="course-subject">Français - Lecture</div>
+                        <div class="course-students">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Fifi Kossi</span>
+                        </div>
+                        <div class="course-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Salle 103</span>
+                        </div>
+                        <div class="course-status">
+                            <span class="status-badge status-upcoming">À venir</span>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-time">
+                            <div class="time-start">18:00</div>
+                            <div class="time-duration">2h00</div>
+                        </div>
+                        <div class="course-subject">Préparation BEPC</div>
+                        <div class="course-students">
+                            <i class="fas fa-users"></i>
+                            <span>Groupe de 5</span>
+                        </div>
+                        <div class="course-location">
+                            <i class="fas fa-video"></i>
+                            <span>En ligne</span>
+                        </div>
+                        <div class="course-status">
+                            <span class="status-badge status-upcoming">À venir</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Deux colonnes pour les sections restantes -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                <!-- Section calendrier -->
+                <section class="calendar-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Calendrier du mois</h2>
+                        <div style="color: var(--gris-moyen); font-size: 0.95rem;">Novembre 2023</div>
+                    </div>
+                    
+                    <div class="calendar-mini">
+                        <!-- En-têtes des jours -->
+                        <div class="calendar-day-header">Lun</div>
+                        <div class="calendar-day-header">Mar</div>
+                        <div class="calendar-day-header">Mer</div>
+                        <div class="calendar-day-header">Jeu</div>
+                        <div class="calendar-day-header">Ven</div>
+                        <div class="calendar-day-header">Sam</div>
+                        <div class="calendar-day-header">Dim</div>
+                        
+                        <!-- Jours du mois (exemple pour novembre 2023) -->
+                        <!-- Première ligne (30 oct - 5 nov) -->
+                        <div class="calendar-day other-month">30</div>
+                        <div class="calendar-day other-month">31</div>
+                        <div class="calendar-day">1</div>
+                        <div class="calendar-day">2</div>
+                        <div class="calendar-day">3</div>
+                        <div class="calendar-day">4</div>
+                        <div class="calendar-day">5</div>
+                        
+                        <!-- Deuxième ligne (6-12 nov) -->
+                        <div class="calendar-day has-course">6</div>
+                        <div class="calendar-day">7</div>
+                        <div class="calendar-day has-course">8</div>
+                        <div class="calendar-day">9</div>
+                        <div class="calendar-day has-course">10</div>
+                        <div class="calendar-day">11</div>
+                        <div class="calendar-day">12</div>
+                        
+                        <!-- Troisième ligne (13-19 nov) -->
+                        <div class="calendar-day">13</div>
+                        <div class="calendar-day has-course">14</div>
+                        <div class="calendar-day">15</div>
+                        <div class="calendar-day has-course">16</div>
+                        <div class="calendar-day">17</div>
+                        <div class="calendar-day">18</div>
+                        <div class="calendar-day">19</div>
+                        
+                        <!-- Quatrième ligne (20-26 nov) -->
+                        <div class="calendar-day has-course">20</div>
+                        <div class="calendar-day">21</div>
+                        <div class="calendar-day has-course">22</div>
+                        <div class="calendar-day today">23</div>
+                        <div class="calendar-day has-course">24</div>
+                        <div class="calendar-day">25</div>
+                        <div class="calendar-day">26</div>
+                        
+                        <!-- Cinquième ligne (27 nov - 3 déc) -->
+                        <div class="calendar-day">27</div>
+                        <div class="calendar-day has-course">28</div>
+                        <div class="calendar-day">29</div>
+                        <div class="calendar-day has-course">30</div>
+                        <div class="calendar-day other-month">1</div>
+                        <div class="calendar-day other-month">2</div>
+                        <div class="calendar-day other-month">3</div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; display: flex; gap: 15px; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                            <div style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--bleu-prochain);"></div>
+                            <span style="font-size: 0.9rem; color: var(--gris-moyen);">Cours programmé</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                            <div style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--vert-principal);"></div>
+                            <span style="font-size: 0.9rem; color: var(--gris-moyen);">Aujourd'hui</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section messages récents -->
+                <section class="messages-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Messages récents</h2>
+                        <a href="teacher_messages.html" class="btn btn-outline">
+                            <i class="fas fa-comments"></i>
+                            <span>Voir tous</span>
+                        </a>
+                    </div>
+                    
+                    <div class="messages-list">
+                        <div class="message-item unread">
+                            <div class="message-avatar">KA</div>
+                            <div class="message-content">
+                                <div class="message-sender">Koffi Agbessi</div>
+                                <div class="message-preview">Bonjour Mme Akakpo, concernant le cours de demain...</div>
+                                <div class="message-time">Il y a 15 min</div>
+                            </div>
+                            <div class="message-unread"></div>
+                        </div>
+                        
+                        <div class="message-item">
+                            <div class="message-avatar">CM</div>
+                            <div class="message-content">
+                                <div class="message-sender">Collège Moderne</div>
+                                <div class="message-preview">Rappel: Réunion des enseignants vendredi...</div>
+                                <div class="message-time">Il y a 2 heures</div>
+                            </div>
+                        </div>
+                        
+                        <div class="message-item unread">
+                            <div class="message-avatar">AM</div>
+                            <div class="message-content">
+                                <div class="message-sender">Aya Mensah</div>
+                                <div class="message-preview">Madame, je n'ai pas compris l'exercice...</div>
+                                <div class="message-time">Il y a 3 heures</div>
+                            </div>
+                            <div class="message-unread"></div>
+                        </div>
+                        
+                        <div class="message-item">
+                            <div class="message-avatar">JD</div>
+                            <div class="message-content">
+                                <div class="message-sender">Jean Dupont</div>
+                                <div class="message-preview">Salut Marie, tu as reçu le nouveau programme ?</div>
+                                <div class="message-time">Hier, 16:30</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- NOUVELLE SECTION: Mes Cours (similaire à la page fournie) -->
+            <section class="my-courses-section">
+                <div class="section-header">
+                    <h2 class="section-title">Mes Cours</h2>
+                    <a href="teacher_courses.html" class="btn btn-outline">
+                        <i class="fas fa-book-open"></i>
+                        <span>Voir tous mes cours</span>
+                    </a>
+                </div>
+                
+                <div class="my-courses-grid" id="myCoursesGrid">
+                    <!-- Les cours seront ajoutés dynamiquement -->
+                </div>
+            </section>
+
+            <!-- Section élèves récents - MIS À JOUR avec école de provenance -->
+            <section class="students-section">
+                <div class="section-header">
+                    <h2 class="section-title">Mes élèves récents</h2>
+                    <a href="teacher_students.html" class="btn btn-outline">
+                        <i class="fas fa-users"></i>
+                        <span>Tous mes élèves</span>
+                    </a>
+                </div>
+                
+                <div class="students-grid">
+                    <div class="student-card">
+                        <div class="student-badge badge-new">Nouveau</div>
+                        <div class="student-status">
+                            <div class="status-dot status-online"></div>
+                            <span class="status-text">En ligne</span>
+                        </div>
+                        <div class="student-avatar">AM</div>
+                        <div class="student-name">Aya Mensah</div>
+                        <div class="student-class">3ème B</div>
+                        <!-- NOUVEAU: École de provenance -->
+                        <div class="student-school">
+                            <i class="fas fa-school"></i>
+                            <span>Collège Moderne de Lomé</span>
+                        </div>
+                        <div class="student-actions">
+                            <button class="btn-student-action btn-student-detail">
+                                <i class="fas fa-eye"></i>
+                                <span>Détails</span>
+                            </button>
+                            <button class="btn-student-action btn-student-message">
+                                <i class="fas fa-comment"></i>
+                                <span>Message</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="student-card">
+                        <div class="student-badge badge-premium">Premium</div>
+                        <div class="student-status">
+                            <div class="status-dot status-offline"></div>
+                            <span class="status-text">Hors ligne</span>
+                        </div>
+                        <div class="student-avatar">KA</div>
+                        <div class="student-name">Komi Adjo</div>
+                        <div class="student-class">4ème A</div>
+                        <!-- NOUVEAU: École de provenance -->
+                        <div class="student-school">
+                            <i class="fas fa-school"></i>
+                            <span>Lycée Français de Lomé</span>
+                        </div>
+                        <div class="student-actions">
+                            <button class="btn-student-action btn-student-detail">
+                                <i class="fas fa-eye"></i>
+                                <span>Détails</span>
+                            </button>
+                            <button class="btn-student-action btn-student-message">
+                                <i class="fas fa-comment"></i>
+                                <span>Message</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="student-card">
+                        <div class="student-badge badge-premium">Premium</div>
+                        <div class="student-status">
+                            <div class="status-dot status-online"></div>
+                            <span class="status-text">En ligne</span>
+                        </div>
+                        <div class="student-avatar">SG</div>
+                        <div class="student-name">Sena Gado</div>
+                        <div class="student-class">3ème C</div>
+                        <!-- NOUVEAU: École de provenance -->
+                        <div class="student-school">
+                            <i class="fas fa-school"></i>
+                            <span>Collège Protestant de Kara</span>
+                        </div>
+                        <div class="student-actions">
+                            <button class="btn-student-action btn-student-detail">
+                                <i class="fas fa-eye"></i>
+                                <span>Détails</span>
+                            </button>
+                            <button class="btn-student-action btn-student-message">
+                                <i class="fas fa-comment"></i>
+                                <span>Message</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="student-card">
+                        <div class="student-badge badge-standard">Standard</div>
+                        <div class="student-status">
+                            <div class="status-dot status-away"></div>
+                            <span class="status-text">Absent</span>
+                        </div>
+                        <div class="student-avatar">FK</div>
+                        <div class="student-name">Fifi Kossi</div>
+                        <div class="student-class">5ème A</div>
+                        <!-- NOUVEAU: École de provenance -->
+                        <div class="student-school">
+                            <i class="fas fa-school"></i>
+                            <span>École Internationale de Kpalimé</span>
+                        </div>
+                        <div class="student-actions">
+                            <button class="btn-student-action btn-student-detail">
+                                <i class="fas fa-eye"></i>
+                                <span>Détails</span>
+                            </button>
+                            <button class="btn-student-action btn-student-message">
+                                <i class="fas fa-comment"></i>
+                                <span>Message</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                        <div class="logo-icon">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
+                    </a>
+                    <p style="color: var(--gris-clair);">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="../eleve/cours.html">Tous les cours</a></li>
+                        <li><a href="../eleve/enseignant.html">Nos enseignants</a></li>
+                        <li><a href="../eleve/all_schools.html">Écoles partenaires</a></li>
+                        <li><a href="../Authentification/auth.html">Connexion</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Catégories</h3>
+                    <ul class="footer-links">
+                        <li><a href="../eleve/cours.html?subject=math">Mathématiques</a></li>
+                        <li><a href="../eleve/cours.html?subject=french">Français</a></li>
+                        <li><a href="../eleve/cours.html?subject=english">Anglais</a></li>
+                        <li><a href="../eleve/cours.html?subject=science">Sciences</a></li>
+                        <li><a href="../eleve/cours.html?level=3eme">Préparation BEPC</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.html"
+                        style="color: var(--jaune-principal);">Politique de confidentialité</a> | <a href="terms.html"
+                        style="color: var(--jaune-principal);">Conditions d'utilisation</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Données simulées pour le tableau de bord
+        const dashboardData = {
+            teacher: {
+                name: "Marie Akakpo",
+                subject: "Français",
+                status: "online",
+                totalStudents: 156,
+                monthlyCourses: 28,
+                hoursTaught: 68,
+                rating: 4.8
+            },
+            stats: {
+                hoursTaught: 68,
+                scheduledCourses: 28,
+                studentSatisfaction: 4.8,
+                trends: {
+                    students: "+12%",
+                    courses: "+8%",
+                    hours: "-5%",
+                    satisfaction: "+15%"
+                }
+            },
+            upcomingCourses: [
+                {
+                    id: 1,
+                    subject: "Français - Grammaire",
+                    student: "Komi Adjo",
+                    class: "4ème A",
+                    time: "09:00",
+                    duration: "1h30",
+                    location: "En ligne",
+                    status: "upcoming"
+                },
+                {
+                    id: 2,
+                    subject: "Français - Orthographe",
+                    student: "Sena Gado",
+                    class: "3ème C",
+                    time: "10:30",
+                    duration: "1h30",
+                    location: "Salle 102",
+                    status: "upcoming"
+                },
+                {
+                    id: 3,
+                    subject: "Français - Expression écrite",
+                    student: "Aya Mensah",
+                    class: "3ème B",
+                    time: "14:00",
+                    duration: "2h00",
+                    location: "En ligne",
+                    status: "upcoming"
+                },
+                {
+                    id: 4,
+                    subject: "Français - Lecture",
+                    student: "Fifi Kossi",
+                    class: "5ème A",
+                    time: "16:00",
+                    duration: "1h30",
+                    location: "Salle 103",
+                    status: "upcoming"
+                },
+                {
+                    id: 5,
+                    subject: "Préparation BEPC",
+                    student: "Groupe de 5",
+                    class: "3ème",
+                    time: "18:00",
+                    duration: "2h00",
+                    location: "En ligne",
+                    status: "upcoming"
+                }
+            ],
+            messages: [
+                {
+                    id: 1,
+                    sender: "Koffi Agbessi",
+                    initials: "KA",
+                    preview: "Bonjour Mme Akakpo, concernant le cours de demain...",
+                    time: "Il y a 15 min",
+                    unread: true
+                },
+                {
+                    id: 2,
+                    sender: "Collège Moderne",
+                    initials: "CM",
+                    preview: "Rappel: Réunion des enseignants vendredi...",
+                    time: "Il y a 2 heures",
+                    unread: false
+                },
+                {
+                    id: 3,
+                    sender: "Aya Mensah",
+                    initials: "AM",
+                    preview: "Madame, je n'ai pas compris l'exercice...",
+                    time: "Il y a 3 heures",
+                    unread: true
+                },
+                {
+                    id: 4,
+                    sender: "Jean Dupont",
+                    initials: "JD",
+                    preview: "Salut Marie, tu as reçu le nouveau programme ?",
+                    time: "Hier, 16:30",
+                    unread: false
+                }
+            ],
+            recentStudents: [
+                {
+                    id: 1,
+                    name: "Aya Mensah",
+                    initials: "AM",
+                    class: "3ème B",
+                    school: "Collège Moderne de Lomé",
+                    status: "online",
+                    badge: "new",
+                    badgeType: "badge-new"
+                },
+                {
+                    id: 2,
+                    name: "Komi Adjo",
+                    initials: "KA",
+                    class: "4ème A",
+                    school: "Lycée Français de Lomé",
+                    status: "offline",
+                    badge: "premium",
+                    badgeType: "badge-premium"
+                },
+                {
+                    id: 3,
+                    name: "Sena Gado",
+                    initials: "SG",
+                    class: "3ème C",
+                    school: "Collège Protestant de Kara",
+                    status: "online",
+                    badge: "premium",
+                    badgeType: "badge-premium"
+                },
+                {
+                    id: 4,
+                    name: "Fifi Kossi",
+                    initials: "FK",
+                    class: "5ème A",
+                    school: "École Internationale de Kpalimé",
+                    status: "away",
+                    badge: "standard",
+                    badgeType: "badge-standard"
+                }
+            ],
+            myCourses: [
+                {
+                    id: 101,
+                    title: "Français - Grammaire de base 6ème",
+                    subject: "french",
+                    level: "6ème",
+                    teacher: "Marie Akakpo",
+                    teacherInitials: "MA",
+                    profession: "Professeure de Français",
+                    location: "Lomé",
+                    price: 2000,
+                    isFree: false,
+                    rating: 4.7,
+                    students: 98,
+                    type: "groupe",
+                    isNew: true,
+                    isPremium: false
+                },
+                {
+                    id: 102,
+                    title: "Français - Préparation au Brevet",
+                    subject: "french",
+                    level: "3ème",
+                    teacher: "Marie Akakpo",
+                    teacherInitials: "MA",
+                    profession: "Professeure de Français",
+                    location: "Lomé",
+                    price: 4000,
+                    isFree: false,
+                    rating: 4.8,
+                    students: 105,
+                    type: "intensif",
+                    isNew: true,
+                    isPremium: true
+                },
+                {
+                    id: 103,
+                    title: "Français - Expression écrite 5ème",
+                    subject: "french",
+                    level: "5ème",
+                    teacher: "Marie Akakpo",
+                    teacherInitials: "MA",
+                    profession: "Professeure de Français",
+                    location: "En ligne",
+                    price: 2700,
+                    isFree: false,
+                    rating: 4.7,
+                    students: 93,
+                    type: "groupe",
+                    isNew: false,
+                    isPremium: false
+                },
+                {
+                    id: 104,
+                    title: "Français - Littérature africaine",
+                    subject: "french",
+                    level: "3ème",
+                    teacher: "Marie Akakpo",
+                    teacherInitials: "MA",
+                    profession: "Professeure de Français",
+                    location: "Kpalimé",
+                    price: 3800,
+                    isFree: false,
+                    rating: 4.8,
+                    students: 61,
+                    type: "groupe",
+                    isNew: true,
+                    isPremium: false
+                },
+                {
+                    id: 105,
+                    title: "Initiation au Français 6ème",
+                    subject: "french",
+                    level: "6ème",
+                    teacher: "Marie Akakpo",
+                    teacherInitials: "MA",
+                    profession: "Professeure de Français",
+                    location: "Lomé",
+                    price: 0,
+                    isFree: true,
+                    rating: 4.6,
+                    students: 215,
+                    type: "en-ligne",
+                    isNew: false,
+                    isPremium: false
+                }
+            ]
+        };
+
+        // Éléments DOM
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const profileBtn = document.getElementById('profileBtn');
+        const profileMenu = document.getElementById('profileMenu');
+        const notificationBtn = document.getElementById('notificationBtn');
+        const myCoursesGrid = document.getElementById('myCoursesGrid');
+
+        // Fonction pour initialiser le tableau de bord
+        function initializeDashboard() {
+            // Mettre à jour les statistiques
+            document.querySelectorAll('.stat-value')[0].textContent = dashboardData.teacher.totalStudents;
+            document.querySelectorAll('.stat-value')[1].textContent = dashboardData.teacher.monthlyCourses;
+            document.querySelectorAll('.stat-value')[2].textContent = dashboardData.teacher.hoursTaught + "h";
+            document.querySelectorAll('.stat-value')[3].textContent = dashboardData.teacher.rating + "/5";
+            
+            // Mettre à jour les tendances
+            document.querySelectorAll('.stat-trend')[0].innerHTML = `<i class="fas fa-arrow-up"></i> ${dashboardData.stats.trends.students}`;
+            document.querySelectorAll('.stat-trend')[1].innerHTML = `<i class="fas fa-arrow-up"></i> ${dashboardData.stats.trends.courses}`;
+            document.querySelectorAll('.stat-trend')[2].innerHTML = `<i class="fas fa-arrow-down"></i> ${dashboardData.stats.trends.hours}`;
+            document.querySelectorAll('.stat-trend')[3].innerHTML = `<i class="fas fa-arrow-up"></i> ${dashboardData.stats.trends.satisfaction}`;
+            
+            // Marquer la date d'aujourd'hui dans le calendrier
+            const today = new Date().getDate();
+            const calendarDays = document.querySelectorAll('.calendar-day');
+            calendarDays.forEach(day => {
+                if (parseInt(day.textContent) === today) {
+                    day.classList.add('today');
+                }
+            });
+
+            // Afficher les cours
+            renderMyCourses();
+            
+            // Simuler le statut des élèves
+            simulateStudentStatus();
+        }
+
+        // Afficher les cours
+        function renderMyCourses() {
+            myCoursesGrid.innerHTML = '';
+            
+            dashboardData.myCourses.forEach(course => {
+                const courseCard = createMyCourseCard(course);
+                myCoursesGrid.appendChild(courseCard);
+            });
+        }
+
+        // Créer une carte de cours (similaire à la page fournie)
+        function createMyCourseCard(course) {
+            const card = document.createElement('div');
+            card.className = `my-course-card ${course.isPremium ? 'premium' : ''}`;
+            
+            // Déterminer le badge
+            let badgeHTML = '';
+            if (course.isPremium) {
+                badgeHTML = '<div class="course-badge badge-premium">PREMIUM</div>';
+            } else if (course.isFree) {
+                badgeHTML = '<div class="course-badge badge-gratuit">GRATUIT</div>';
+            } else {
+                badgeHTML = '<div class="course-badge badge-standard">STANDARD</div>';
+            }
+            
+            // Formater le prix
+            let priceHTML = '';
+            if (course.isFree) {
+                priceHTML = `
+                    <div class="price-amount price-free">Gratuit</div>
+                    <div class="price-period">/cours</div>
+                `;
+            } else {
+                priceHTML = `
+                    <div class="price-amount">${course.price.toLocaleString()} FCFA</div>
+                    <div class="price-period">/heure</div>
+                `;
+            }
+            
+            // Étoiles de notation
+            const stars = Math.floor(course.rating);
+            const hasHalfStar = course.rating % 1 >= 0.5;
+            let starsHTML = '';
+            for (let i = 0; i < stars; i++) {
+                starsHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            card.innerHTML = `
+                <div class="my-course-header">
+                    ${badgeHTML}
+                    <div class="course-level">${course.level}</div>
+                    <h3 class="my-course-title">${course.title}</h3>
+                    <p class="my-course-subject">${getSubjectName(course.subject)}</p>
+                    
+                    <div class="course-teacher">
+                        <div class="teacher-avatar">${course.teacherInitials}</div>
+                        <div class="teacher-info">
+                            <h4>${course.teacher}</h4>
+                            <p>${course.profession}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="course-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${course.location}</span>
+                    </div>
+                    
+                    <div class="course-meta">
+                        <div class="course-rating">
+                            ${starsHTML} ${course.rating}/5
+                        </div>
+                        <div>${course.students} élèves</div>
+                    </div>
+                    
+                    <div class="course-actions">
+                        <a href="teacher_course_details.html?id=${course.id}" class="btn-course btn-details">
+                            <i class="fas fa-eye"></i> Détails
+                        </a>
+                        <button class="btn-course btn-enroll" onclick="manageCourse(${course.id})">
+                            <i class="fas fa-edit"></i> Gérer
+                        </button>
+                    </div>
+                </div>
+                <div class="course-price-section">
+                    <div class="course-price">
+                        ${priceHTML}
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Obtenir le nom de la matière
+        function getSubjectName(subject) {
+            const subjects = {
+                'math': 'Mathématiques',
+                'french': 'Français',
+                'english': 'Anglais',
+                'physics': 'Sciences Physiques',
+                'svt': 'SVT',
+                'history': 'Histoire-Géographie',
+                'philo': 'Philosophie',
+                'toutes': 'Toutes matières',
+                'other': 'Autre matière'
+            };
+            return subjects[subject] || subject;
+        }
+
+        // Gestion menu mobile
+        mobileNavToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+        });
+
+        // Fermer menu mobile en cliquant à l'extérieur
+        document.addEventListener('click', (e) => {
+            if (!mobileNav.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+                mobileNav.classList.remove('active');
+            }
+        });
+
+        // Gestion menu déroulant profil
+        profileBtn.addEventListener('click', () => {
+            profileMenu.classList.toggle('active');
+        });
+
+        // Fermer le menu déroulant en cliquant à l'extérieur
+        document.addEventListener('click', (e) => {
+            if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.remove('active');
+            }
+        });
+
+        // Simulation de changement de statut des élèves
+        function simulateStudentStatus() {
+            const studentCards = document.querySelectorAll('.student-card');
+            
+            studentCards.forEach((card, index) => {
+                const student = dashboardData.recentStudents[index];
+                if (student) {
+                    const statusDot = card.querySelector('.status-dot');
+                    const statusText = card.querySelector('.status-text');
+                    
+                    // Retirer toutes les classes de statut
+                    statusDot.classList.remove('status-online', 'status-offline', 'status-away');
+                    // Ajouter la classe de statut
+                    statusDot.classList.add(`status-${student.status}`);
+                    
+                    // Mettre à jour le texte
+                    switch(student.status) {
+                        case 'online':
+                            statusText.textContent = 'En ligne';
+                            break;
+                        case 'offline':
+                            statusText.textContent = 'Hors ligne';
+                            break;
+                        case 'away':
+                            statusText.textContent = 'Absent';
+                            break;
+                    }
+                }
+            });
+        }
+
+        // Gestion des cours
+        window.manageCourse = function(courseId) {
+            const course = dashboardData.myCourses.find(c => c.id === courseId);
+            if (course) {
+                alert(`Gestion du cours: ${course.title}\n\nVous pouvez modifier les détails, ajouter du contenu, ou gérer les inscriptions.`);
+            }
+        };
+
+        // Initialiser le tableau de bord au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+            
+            // Changer le statut des élèves toutes les 30 secondes
+            setInterval(simulateStudentStatus, 30000);
+            
+            // Ajouter des événements aux cartes de cours
+            document.querySelectorAll('.course-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const courseSubject = this.querySelector('.course-subject').textContent;
+                    alert(`Ouverture des détails du cours: ${courseSubject}`);
+                });
+            });
+            
+            // Ajouter des événements aux messages
+            document.querySelectorAll('.message-item').forEach(message => {
+                message.addEventListener('click', function() {
+                    const sender = this.querySelector('.message-sender').textContent;
+                    const preview = this.querySelector('.message-preview').textContent;
+                    
+                    // Marquer comme lu
+                    this.classList.remove('unread');
+                    const unreadDot = this.querySelector('.message-unread');
+                    if (unreadDot) {
+                        unreadDot.style.display = 'none';
+                    }
+                    
+                    // Simuler l'ouverture du message
+                    alert(`Message de ${sender}:\n\n${preview}\n\n(Simulation - Dans la vraie application, cela ouvrirait la conversation complète)`);
+                });
+            });
+            
+            // Ajouter des événements aux cartes d'élèves
+            document.querySelectorAll('.student-card').forEach((card, index) => {
+                card.addEventListener('click', function(e) {
+                    // Ne pas déclencher si on clique sur les boutons d'action
+                    if (!e.target.closest('.student-actions')) {
+                        const studentName = this.querySelector('.student-name').textContent;
+                        const studentSchool = this.querySelector('.student-school span').textContent;
+                        alert(`Ouverture du profil de l'élève: ${studentName}\nÉcole: ${studentSchool}`);
+                    }
+                });
+                
+                // Gestion des boutons d'action des élèves
+                const detailBtn = card.querySelector('.btn-student-detail');
+                const messageBtn = card.querySelector('.btn-student-message');
+                
+                if (detailBtn) {
+                    detailBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const studentName = card.querySelector('.student-name').textContent;
+                        const studentSchool = card.querySelector('.student-school span').textContent;
+                        alert(`Voir les détails de l'élève: ${studentName}\nÉcole: ${studentSchool}`);
+                    });
+                }
+                
+                if (messageBtn) {
+                    messageBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const studentName = card.querySelector('.student-name').textContent;
+                        alert(`Envoyer un message à: ${studentName}`);
+                    });
+                }
+            });
+            
+            // Ajouter des événements aux jours du calendrier
+            document.querySelectorAll('.calendar-day:not(.other-month)').forEach(day => {
+                day.addEventListener('click', function() {
+                    const dayNumber = this.textContent;
+                    if (this.classList.contains('has-course')) {
+                        alert(`Jour ${dayNumber}: Vous avez des cours programmés`);
+                    } else {
+                        alert(`Jour ${dayNumber}: Aucun cours programmé`);
+                    }
+                });
+            });
+            
+            // Gestion du bouton de notification
+            notificationBtn.addEventListener('click', function() {
+                alert('Ouverture des notifications (3 nouvelles notifications)');
+            });
+            
+            // Ajouter des événements aux cartes de cours personnels
+            document.querySelectorAll('.my-course-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Ne pas déclencher si on clique sur les boutons d'action
+                    if (!e.target.closest('.course-actions')) {
+                        const courseTitle = this.querySelector('.my-course-title').textContent;
+                        alert(`Ouverture du cours: ${courseTitle}`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

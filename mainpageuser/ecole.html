@@ -882,6 +882,53 @@
             font-size: 0.85rem;
         }
 
+        /* Badge de statut en ligne/hors ligne */
+        .teacher-status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--blanc-principal);
+            z-index: 2;
+        }
+
+        .teacher-status-badge.online {
+            background-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        .teacher-status-badge.offline {
+            background-color: #F44336;
+            box-shadow: 0 0 5px rgba(244, 67, 54, 0.5);
+        }
+
+        .teacher-status-badge.away {
+            background-color: #FF9800;
+            box-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
+        }
+
+        .teacher-status-text {
+            position: absolute;
+            top: 15px;
+            right: 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .teacher-card:hover .teacher-status-text {
+            opacity: 1;
+        }
+
         .teacher-content {
             padding: 15px;
             flex-grow: 1;
@@ -925,7 +972,7 @@
             color: #4CAF50;
         }
 
-        /* Actions - 3 BOUTONS comme demandé */
+        /* Actions - 4 BOUTONS comme demandé */
         .teacher-card-actions {
             display: flex;
             gap: 8px;
@@ -945,6 +992,16 @@
             border: none;
             transition: all 0.3s;
             font-size: 0.85rem;
+        }
+
+        .btn-teacher-detail {
+            background-color: var(--cyan-suggestion);
+            color: var(--blanc-principal);
+        }
+
+        .btn-teacher-detail:hover {
+            background-color: #0097A7;
+            transform: translateY(-2px);
         }
 
         .btn-teacher-edit {
@@ -1036,177 +1093,230 @@
             color: var(--blanc-principal);
         }
 
-        /* Section cours récents */
-        .dashboard-sections {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .dashboard-section {
+        /* Section cours ajoutés par les enseignants */
+        .teacher-courses-section {
             background-color: var(--blanc-principal);
             border-radius: 15px;
-            padding: 25px;
+            padding: 30px;
+            margin-bottom: 40px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
         }
 
-        .dashboard-section:hover {
-            transform: translateY(-5px);
-        }
-
-        .section-icon {
-            width: 60px;
-            height: 60px;
+        /* Carte de cours avec style similaire à la page exemple */
+        .course-card {
+            background-color: var(--blanc-principal);
             border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--gris-clair);
+            transition: all 0.3s;
+            position: relative;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: var(--vert-principal);
+        }
+
+        .course-card.premium {
+            border: 1px solid var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.15);
+        }
+
+        .course-header {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Badge pour les cours */
+        .course-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .badge-premium {
+            background-color: rgba(255,215,0,0.15);
+            color: var(--gris-fonce);
+            border: 1px solid var(--jaune-principal);
+        }
+
+        .badge-standard {
+            background-color: rgba(0,166,81,0.15);
+            color: var(--vert-principal);
+            border: 1px solid var(--vert-principal);
+        }
+
+        .badge-gratuit {
+            background-color: rgba(33,150,243,0.15);
+            color: #2196F3;
+            border: 1px solid #2196F3;
+        }
+
+        .course-level {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .course-title {
+            font-size: 1rem;
+            color: var(--gris-fonce);
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 40px;
+        }
+
+        .course-subject {
+            color: var(--gris-moyen);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        /* TAILLE RÉDUITE pour les infos enseignant dans les cours */
+        .course-teacher {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--blanc-principal);
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
-        .section-icon.students {
-            background: linear-gradient(45deg, var(--vert-principal), var(--bleu-ecole));
+        .course-teacher .teacher-avatar {
+            width: 35px;
+            height: 35px;
+            font-size: 0.9rem;
+            margin: 0;
         }
 
-        .section-icon.teachers {
-            background: linear-gradient(45deg, var(--jaune-principal), var(--rouge-principal));
+        .course-teacher .teacher-info h4 {
+            font-size: 0.85rem;
+            margin-bottom: 2px;
         }
 
-        .section-icon.calendar {
-            background: linear-gradient(45deg, var(--violet-premium), var(--cyan-suggestion));
+        .course-teacher .teacher-info p {
+            font-size: 0.7rem;
+            color: var(--gris-moyen);
         }
 
-        .dashboard-section h3 {
-            font-size: 1.3rem;
-            color: var(--gris-fonce);
+        .course-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            color: var(--gris-moyen);
+            margin-bottom: 12px;
+        }
+
+        .course-location i {
+            font-size: 0.7rem;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gris-moyen);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .course-rating {
+            color: var(--jaune-principal);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1px;
+        }
+
+        .course-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 10px;
         }
 
-        .dashboard-section p {
-            color: var(--gris-moyen);
-            margin-bottom: 20px;
-            font-size: 0.95rem;
+        .price-amount {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gris-fonce);
         }
 
-        .section-stats {
+        .price-period {
+            font-size: 0.8rem;
+            color: var(--gris-moyen);
+            font-weight: normal;
+        }
+
+        .price-free {
+            color: var(--vert-principal);
+        }
+
+        .course-actions {
             display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            padding-top: 20px;
+            gap: 8px;
+            padding: 10px 15px;
             border-top: 1px solid var(--gris-clair);
         }
 
-        .stat-item {
+        .btn-course {
+            flex: 1;
+            padding: 5px;
             text-align: center;
-        }
-
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--gris-fonce);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--gris-moyen);
-        }
-
-        /* Modal ajout enseignant */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
-
-        .modal-header {
-            padding: 25px 30px;
-            border-bottom: 1px solid var(--gris-clair);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            color: var(--gris-fonce);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gris-moyen);
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .modal-close:hover {
-            color: var(--rouge-principal);
-        }
-
-        .modal-body {
-            padding: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
+            border-radius: 6px;
             font-weight: 600;
-            color: var(--gris-fonce);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--gris-clair);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-            background-color: var(--blanc-principal);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--jaune-principal);
-            box-shadow: 0 0 0 3px rgba(255,215,0,0.1);
-        }
-
-        .form-text {
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
             font-size: 0.85rem;
-            color: var(--gris-moyen);
-            margin-top: 5px;
         }
 
-        .form-row {
+        .btn-continue {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-continue:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+        }
+
+        .btn-review {
+            background-color: var(--gris-clair);
+            color: var(--gris-moyen);
+        }
+
+        .btn-review:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        /* Grille des cours */
+        .courses-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
         }
 
         /* Footer */
@@ -1354,108 +1464,96 @@
         }
 
         /* Modals */
-        .notification-modal {
-            max-width: 500px;
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
         }
 
-        .notification-header {
+        .modal {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--gris-clair);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid var(--gris-clair);
         }
 
-        .notification-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .notification-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .mark-all-read {
-            background: none;
-            border: none;
-            color: var(--bleu-ecole);
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .notification-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .notification-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--gris-clair);
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
-
-        .notification-item:hover {
-            background-color: var(--gris-clair);
-        }
-
-        .notification-item.unread {
-            background-color: rgba(33,150,243,0.05);
-        }
-
-        .notification-content {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-        }
-
-        .notification-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-        }
-
-        .notification-icon.success {
-            background-color: rgba(76,175,80,0.1);
-            color: var(--vert-principal);
-        }
-
-        .notification-icon.warning {
-            background-color: rgba(255,193,7,0.1);
-            color: var(--jaune-principal);
-        }
-
-        .notification-icon.info {
-            background-color: rgba(33,150,243,0.1);
-            color: var(--bleu-ecole);
-        }
-
-        .notification-icon.alert {
-            background-color: rgba(244,67,54,0.1);
-            color: var(--rouge-principal);
-        }
-
-        .notification-text h4 {
-            font-size: 0.95rem;
-            margin-bottom: 5px;
+        .modal-title {
+            font-size: 1.5rem;
             color: var(--gris-fonce);
         }
 
-        .notification-text p {
-            font-size: 0.85rem;
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
             color: var(--gris-moyen);
-            margin-bottom: 5px;
+            cursor: pointer;
+            transition: color 0.3s;
         }
 
-        .notification-time {
-            font-size: 0.75rem;
+        .modal-close:hover {
+            color: var(--rouge-principal);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            background-color: var(--blanc-principal);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--jaune-principal);
+            box-shadow: 0 0 0 3px rgba(255,215,0,0.1);
+        }
+
+        .form-text {
+            font-size: 0.85rem;
             color: var(--gris-moyen);
+            margin-top: 5px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         /* Responsive */
@@ -1467,6 +1565,10 @@
             .teachers-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
+            
+            .courses-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         @media (max-width: 1200px) {
@@ -1475,6 +1577,10 @@
             }
             
             .teachers-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .courses-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
             
@@ -1494,6 +1600,10 @@
             }
             
             .teachers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .courses-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             
@@ -1536,6 +1646,10 @@
                 grid-template-columns: 1fr;
             }
             
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .header-actions {
                 width: 100%;
                 justify-content: space-between;
@@ -1549,10 +1663,6 @@
             
             .main-content {
                 padding: 20px 0 30px;
-            }
-            
-            .dashboard-sections {
-                grid-template-columns: 1fr;
             }
             
             .search-bar-container {
@@ -1598,6 +1708,14 @@
             }
             
             .btn-teacher-action {
+                width: 100%;
+            }
+            
+            .course-actions {
+                flex-direction: column;
+            }
+            
+            .btn-course {
                 width: 100%;
             }
             
@@ -1979,9 +2097,11 @@
 
                 <!-- Grille des enseignants - 5 colonnes avec nouveau design -->
                 <div class="teachers-grid active" id="teachersGrid">
-                    <!-- Enseignant 1 -->
+                    <!-- Enseignant 1 - En ligne -->
                     <div class="teacher-card">
                         <div class="teacher-header">
+                            <div class="teacher-status-badge online" title="En ligne"></div>
+                            <div class="teacher-status-text">En ligne</div>
                             <div class="teacher-avatar">JD</div>
                             <h3 class="teacher-name">Jean Dupont</h3>
                             <p class="teacher-role">Enseignant de Mathématiques</p>
@@ -2001,22 +2121,27 @@
                             </div>
                             
                             <div class="teacher-card-actions">
+                                <button class="btn-teacher-action btn-teacher-detail" onclick="viewTeacherDetail(1)">
+                                    <i class="fas fa-eye"></i> 
+                                </button>
                                 <button class="btn-teacher-action btn-teacher-edit" onclick="editTeacher(1)">
-                                    <i class="fas fa-edit"></i> Modifier
+                                    <i class="fas fa-edit"></i> 
                                 </button>
                                 <button class="btn-teacher-action btn-teacher-delete" onclick="deleteTeacher(1)">
-                                    <i class="fas fa-trash"></i> Supprimer
+                                    <i class="fas fa-trash"></i> 
                                 </button>
                                 <button class="btn-teacher-action btn-teacher-message" onclick="messageTeacher(1)">
-                                    <i class="fas fa-comment"></i> Message
+                                    <i class="fas fa-comment"></i> 
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Enseignant 2 -->
+                    <!-- Enseignant 2 - En ligne -->
                     <div class="teacher-card">
                         <div class="teacher-header">
+                            <div class="teacher-status-badge online" title="En ligne"></div>
+                            <div class="teacher-status-text">En ligne</div>
                             <div class="teacher-avatar">MA</div>
                             <h3 class="teacher-name">Marie Akakpo</h3>
                             <p class="teacher-role">Enseignante de Français</p>
@@ -2036,22 +2161,27 @@
                             </div>
                             
                             <div class="teacher-card-actions">
+                                <button class="btn-teacher-action btn-teacher-detail" onclick="viewTeacherDetail(2)">
+                                    <i class="fas fa-eye"></i> 
+                                </button>
                                 <button class="btn-teacher-action btn-teacher-edit" onclick="editTeacher(2)">
-                                    <i class="fas fa-edit"></i> Modifier
+                                    <i class="fas fa-edit"></i> 
                                 </button>
                                 <button class="btn-teacher-action btn-teacher-delete" onclick="deleteTeacher(2)">
-                                    <i class="fas fa-trash"></i> Supprimer
+                                    <i class="fas fa-trash"></i> 
                                 </button>
                                 <button class="btn-teacher-action btn-teacher-message" onclick="messageTeacher(2)">
-                                    <i class="fas fa-comment"></i> Message
+                                    <i class="fas fa-comment"></i> 
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Enseignant 3 -->
+                    <!-- Enseignant 3 - Hors ligne -->
                     <div class="teacher-card">
                         <div class="teacher-header">
+                            <div class="teacher-status-badge offline" title="Hors ligne"></div>
+                            <div class="teacher-status-text">Hors ligne</div>
                             <div class="teacher-avatar">KA</div>
                             <h3 class="teacher-name">Koffi Agbessi</h3>
                             <p class="teacher-role">Enseignant de SVT</p>
@@ -2071,22 +2201,27 @@
                             </div>
                             
                             <div class="teacher-card-actions">
+                                <button class="btn-teacher-action btn-teacher-detail" onclick="viewTeacherDetail(3)">
+                                    <i class="fas fa-eye"></i> 
+                                </button>
                                 <button class="btn-teacher-action btn-teacher-edit" onclick="editTeacher(3)">
-                                    <i class="fas fa-edit"></i> Modifier
+                                    <i class="fas fa-edit"></i> 
                                 </button>
                                 <button class="btn-teacher-action btn-teacher-delete" onclick="deleteTeacher(3)">
-                                    <i class="fas fa-trash"></i> Supprimer
+                                    <i class="fas fa-trash"></i> 
                                 </button>
                                 <button class="btn-teacher-action btn-teacher-message" onclick="messageTeacher(3)">
-                                    <i class="fas fa-comment"></i> Message
+                                    <i class="fas fa-comment"></i> 
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Enseignant 4 -->
+                    <!-- Enseignant 4 - Absent -->
                     <div class="teacher-card">
                         <div class="teacher-header">
+                            <div class="teacher-status-badge away" title="Absent"></div>
+                            <div class="teacher-status-text">Absent</div>
                             <div class="teacher-avatar">AD</div>
                             <h3 class="teacher-name">Amélie Diallo</h3>
                             <p class="teacher-role">Enseignante d'Histoire-Géo</p>
@@ -2106,22 +2241,27 @@
                             </div>
                             
                             <div class="teacher-card-actions">
+                                <button class="btn-teacher-action btn-teacher-detail" onclick="viewTeacherDetail(4)">
+                                    <i class="fas fa-eye"></i> 
+                                </button>
                                 <button class="btn-teacher-action btn-teacher-edit" onclick="editTeacher(4)">
-                                    <i class="fas fa-edit"></i> Modifier
+                                    <i class="fas fa-edit"></i> 
                                 </button>
                                 <button class="btn-teacher-action btn-teacher-delete" onclick="deleteTeacher(4)">
-                                    <i class="fas fa-trash"></i> Supprimer
+                                    <i class="fas fa-trash"></i> 
                                 </button>
                                 <button class="btn-teacher-action btn-teacher-message" onclick="messageTeacher(4)">
-                                    <i class="fas fa-comment"></i> Message
+                                    <i class="fas fa-comment"></i> 
                                 </button>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Enseignant 5 -->
+                    <!-- Enseignant 5 - Occupé -->
                     <div class="teacher-card">
                         <div class="teacher-header">
+                            <div class="teacher-status-badge busy" title="Occupé"></div>
+                            <div class="teacher-status-text">Occupé</div>
                             <div class="teacher-avatar">PL</div>
                             <h3 class="teacher-name">Paul Lawson</h3>
                             <p class="teacher-role">Enseignant d'Anglais</p>
@@ -2141,14 +2281,17 @@
                             </div>
                             
                             <div class="teacher-card-actions">
+                                <button class="btn-teacher-action btn-teacher-detail" onclick="viewTeacherDetail(5)">
+                                    <i class="fas fa-eye"></i> 
+                                </button>
                                 <button class="btn-teacher-action btn-teacher-edit" onclick="editTeacher(5)">
-                                    <i class="fas fa-edit"></i> Modifier
+                                    <i class="fas fa-edit"></i> 
                                 </button>
                                 <button class="btn-teacher-action btn-teacher-delete" onclick="deleteTeacher(5)">
-                                    <i class="fas fa-trash"></i> Supprimer
+                                    <i class="fas fa-trash"></i> 
                                 </button>
                                 <button class="btn-teacher-action btn-teacher-message" onclick="messageTeacher(5)">
-                                    <i class="fas fa-comment"></i> Message
+                                    <i class="fas fa-comment"></i> 
                                 </button>
                             </div>
                         </div>
@@ -2169,6 +2312,7 @@
                     <thead>
                         <tr>
                             <th>Enseignant</th>
+                            <th>Statut</th>
                             <th>Email</th>
                             <th>Mot de passe</th>
                             <th>Téléphone</th>
@@ -2183,6 +2327,12 @@
                                 <strong>Jean Dupont</strong>
                                 <div style="font-size: 0.85rem; color: var(--gris-moyen);">Enseignant de Mathématiques</div>
                             </td>
+                            <td>
+                                <span style="display: inline-flex; align-items: center; gap: 5px;">
+                                    <div class="teacher-status-badge online" style="position: static; width: 10px; height: 10px;"></div>
+                                    <span>En ligne</span>
+                                </span>
+                            </td>
                             <td>jean.dupont@college-moderne.tg</td>
                             <td>
                                 <span class="password-badge" onclick="togglePassword(this)">••••••••</span>
@@ -2192,6 +2342,9 @@
                             <td>Maths, Physique</td>
                             <td>6ème, 5ème, 4ème, 3ème</td>
                             <td>
+                                <button class="btn-teacher-action btn-teacher-detail" style="padding: 5px 10px; font-size: 0.85rem;" onclick="viewTeacherDetail(1)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
                                 <button class="btn-teacher-action btn-teacher-edit" style="padding: 5px 10px; font-size: 0.85rem;" onclick="editTeacher(1)">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -2208,6 +2361,12 @@
                                 <strong>Marie Akakpo</strong>
                                 <div style="font-size: 0.85rem; color: var(--gris-moyen);">Enseignante de Français</div>
                             </td>
+                            <td>
+                                <span style="display: inline-flex; align-items: center; gap: 5px;">
+                                    <div class="teacher-status-badge online" style="position: static; width: 10px; height: 10px;"></div>
+                                    <span>En ligne</span>
+                                </span>
+                            </td>
                             <td>marie.akakpo@college-moderne.tg</td>
                             <td>
                                 <span class="password-badge" onclick="togglePassword(this)">••••••••</span>
@@ -2217,6 +2376,9 @@
                             <td>Français, Anglais</td>
                             <td>6ème, 5ème, 4ème</td>
                             <td>
+                                <button class="btn-teacher-action btn-teacher-detail" style="padding: 5px 10px; font-size: 0.85rem;" onclick="viewTeacherDetail(2)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
                                 <button class="btn-teacher-action btn-teacher-edit" style="padding: 5px 10px; font-size: 0.85rem;" onclick="editTeacher(2)">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -2233,6 +2395,12 @@
                                 <strong>Koffi Agbessi</strong>
                                 <div style="font-size: 0.85rem; color: var(--gris-moyen);">Enseignant de SVT</div>
                             </td>
+                            <td>
+                                <span style="display: inline-flex; align-items: center; gap: 5px;">
+                                    <div class="teacher-status-badge offline" style="position: static; width: 10px; height: 10px;"></div>
+                                    <span>Hors ligne</span>
+                                </span>
+                            </td>
                             <td>koffi.agbessi@college-moderne.tg</td>
                             <td>
                                 <span class="password-badge" onclick="togglePassword(this)">••••••••</span>
@@ -2242,6 +2410,9 @@
                             <td>SVT, Chimie</td>
                             <td>5ème, 4ème, 3ème</td>
                             <td>
+                                <button class="btn-teacher-action btn-teacher-detail" style="padding: 5px 10px; font-size: 0.85rem;" onclick="viewTeacherDetail(3)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
                                 <button class="btn-teacher-action btn-teacher-edit" style="padding: 5px 10px; font-size: 0.85rem;" onclick="editTeacher(3)">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -2258,6 +2429,12 @@
                                 <strong>Amélie Diallo</strong>
                                 <div style="font-size: 0.85rem; color: var(--gris-moyen);">Enseignante d'Histoire-Géo</div>
                             </td>
+                            <td>
+                                <span style="display: inline-flex; align-items: center; gap: 5px;">
+                                    <div class="teacher-status-badge away" style="position: static; width: 10px; height: 10px;"></div>
+                                    <span>Absent</span>
+                                </span>
+                            </td>
                             <td>amelie.diallo@college-moderne.tg</td>
                             <td>
                                 <span class="password-badge" onclick="togglePassword(this)">••••••••</span>
@@ -2267,6 +2444,9 @@
                             <td>Histoire, Géographie</td>
                             <td>6ème, 5ème, 4ème, 3ème</td>
                             <td>
+                                <button class="btn-teacher-action btn-teacher-detail" style="padding: 5px 10px; font-size: 0.85rem;" onclick="viewTeacherDetail(4)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
                                 <button class="btn-teacher-action btn-teacher-edit" style="padding: 5px 10px; font-size: 0.85rem;" onclick="editTeacher(4)">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -2282,51 +2462,251 @@
                 </table>
             </section>
 
-            <!-- Section cours récents -->
-            <div class="section">
+            <!-- Nouvelle section: Cours ajoutés par les enseignants -->
+            <section class="teacher-courses-section">
                 <div class="section-header">
-                    <h2 class="section-title">Cours récemment ajoutés</h2>
+                    <div>
+                        <h2 class="section-title">Cours ajoutés par les enseignants</h2>
+                        <p class="section-subtitle">Tous les cours créés par votre équipe pédagogique</p>
+                    </div>
                     <a href="school_courses.html" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Ajouter un cours
+                        <i class="fas fa-eye"></i> Voir tous les cours
                     </a>
                 </div>
 
-                <div class="teachers-grid">
-                    <!-- Cours 1 -->
-                    <div class="teacher-card" style="cursor: default;">
-                        <div class="teacher-header">
-                            <div class="teacher-avatar">JD</div>
-                            <h3 class="teacher-name">Mathématiques 3ème</h3>
-                            <p class="teacher-role">Enseignant: Jean Dupont</p>
-                            <div class="teacher-rating">
-                                <i class="fas fa-users"></i> 15 élèves
+                <!-- Grille des cours -->
+                <div class="courses-grid" id="coursesGrid">
+                    <!-- Cours 1 - Premium -->
+                    <div class="course-card premium">
+                        <div class="course-header">
+                            <div class="course-badge badge-premium">PREMIUM</div>
+                            <div class="course-level">3ème</div>
+                            <h3 class="course-title">Mathématiques - 3ème</h3>
+                            <p class="course-subject">Mathématiques</p>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">JD</div>
+                                <div class="teacher-info">
+                                    <h4>Jean Dupont</h4>
+                                    <p>Enseignant au Lycée Français</p>
+                                </div>
+                            </div>
+                            
+                            <div class="course-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Lomé</span>
+                            </div>
+                            
+                            <div class="course-meta">
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i> 4.8/5
+                                </div>
+                                <div>124 élèves</div>
+                            </div>
+                            
+                            <div class="course-price">
+                                <div class="price-amount">5.000 FCFA<span class="price-period">/heure</span></div>
                             </div>
                         </div>
-                        <div class="teacher-content">
-                            <div class="teacher-subjects">
-                                <span class="subject-tag math">Mathématiques</span>
-                            </div>
+                        
+                        <div class="course-actions">
+                            <button class="btn-course btn-continue" onclick="viewCourse(1)">
+                                <i class="fas fa-eye"></i> Voir détails
+                            </button>
+                            <button class="btn-course btn-review" onclick="editCourse(1)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Cours 2 -->
-                    <div class="teacher-card" style="cursor: default;">
-                        <div class="teacher-header">
-                            <div class="teacher-avatar">MA</div>
-                            <h3 class="teacher-name">Français 4ème</h3>
-                            <p class="teacher-role">Enseignante: Marie Akakpo</p>
-                            <div class="teacher-rating">
-                                <i class="fas fa-users"></i> 12 élèves
+                    <!-- Cours 2 - Standard -->
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div class="course-badge badge-standard">STANDARD</div>
+                            <div class="course-level">4ème</div>
+                            <h3 class="course-title">Français - 4ème</h3>
+                            <p class="course-subject">Français</p>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">MA</div>
+                                <div class="teacher-info">
+                                    <h4>Marie Akakpo</h4>
+                                    <p>Professeure de Français</p>
+                                </div>
+                            </div>
+                            
+                            <div class="course-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Lomé</span>
+                            </div>
+                            
+                            <div class="course-meta">
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i> 4.7/5
+                                </div>
+                                <div>98 élèves</div>
+                            </div>
+                            
+                            <div class="course-price">
+                                <div class="price-amount">2.000 FCFA<span class="price-period">/heure</span></div>
                             </div>
                         </div>
-                        <div class="teacher-content">
-                            <div class="teacher-subjects">
-                                <span class="subject-tag french">Français</span>
+                        
+                        <div class="course-actions">
+                            <button class="btn-course btn-continue" onclick="viewCourse(2)">
+                                <i class="fas fa-eye"></i> Voir détails
+                            </button>
+                            <button class="btn-course btn-review" onclick="editCourse(2)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cours 3 - Gratuit -->
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div class="course-badge badge-gratuit">GRATUIT</div>
+                            <div class="course-level">5ème</div>
+                            <h3 class="course-title">Anglais Conversation - Débutant</h3>
+                            <p class="course-subject">Anglais</p>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">PL</div>
+                                <div class="teacher-info">
+                                    <h4>Paul Lawson</h4>
+                                    <p>Enseignant natif anglophone</p>
+                                </div>
                             </div>
+                            
+                            <div class="course-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>En ligne</span>
+                            </div>
+                            
+                            <div class="course-meta">
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i> 4.9/5
+                                </div>
+                                <div>215 élèves</div>
+                            </div>
+                            
+                            <div class="course-price">
+                                <div class="price-amount price-free">Gratuit<span class="price-period">/cours</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-actions">
+                            <button class="btn-course btn-continue" onclick="viewCourse(3)">
+                                <i class="fas fa-eye"></i> Voir détails
+                            </button>
+                            <button class="btn-course btn-review" onclick="editCourse(3)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cours 4 - Premium -->
+                    <div class="course-card premium">
+                        <div class="course-header">
+                            <div class="course-badge badge-premium">PREMIUM</div>
+                            <div class="course-level">3ème</div>
+                            <h3 class="course-title">Préparation intensive BEPC</h3>
+                            <p class="course-subject">Toutes matières</p>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">KA</div>
+                                <div class="teacher-info">
+                                    <h4>Koffi Agbessi</h4>
+                                    <p>Spécialiste examens</p>
+                                </div>
+                            </div>
+                            
+                            <div class="course-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Lomé</span>
+                            </div>
+                            
+                            <div class="course-meta">
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i> 5.0/5
+                                </div>
+                                <div>156 élèves</div>
+                            </div>
+                            
+                            <div class="course-price">
+                                <div class="price-amount">8.000 FCFA<span class="price-period">/mois</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-actions">
+                            <button class="btn-course btn-continue" onclick="viewCourse(4)">
+                                <i class="fas fa-eye"></i> Voir détails
+                            </button>
+                            <button class="btn-course btn-review" onclick="editCourse(4)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cours 5 - Standard -->
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div class="course-badge badge-standard">STANDARD</div>
+                            <div class="course-level">6ème</div>
+                            <h3 class="course-title">Initiation aux Sciences</h3>
+                            <p class="course-subject">Sciences Physiques</p>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">AD</div>
+                                <div class="teacher-info">
+                                    <h4>Amélie Diallo</h4>
+                                    <p>Chercheuse en Sciences</p>
+                                </div>
+                            </div>
+                            
+                            <div class="course-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Lomé</span>
+                            </div>
+                            
+                            <div class="course-meta">
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i> 4.7/5
+                                </div>
+                                <div>87 élèves</div>
+                            </div>
+                            
+                            <div class="course-price">
+                                <div class="price-amount">1.500 FCFA<span class="price-period">/heure</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-actions">
+                            <button class="btn-course btn-continue" onclick="viewCourse(5)">
+                                <i class="fas fa-eye"></i> Voir détails
+                            </button>
+                            <button class="btn-course btn-review" onclick="editCourse(5)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     </main>
 
@@ -2579,6 +2959,7 @@
                     diploma: "Master en Mathématiques",
                     experience: 8,
                     rating: 4.8,
+                    status: "online",
                     contract: "CDI",
                     hireDate: "2016-03-15"
                 },
@@ -2596,8 +2977,135 @@
                     diploma: "Licence en Lettres Modernes",
                     experience: 5,
                     rating: 5.0,
+                    status: "online",
                     contract: "CDI",
                     hireDate: "2019-09-01"
+                },
+                {
+                    id: 3,
+                    firstName: "Koffi",
+                    lastName: "Agbessi",
+                    email: "koffi.agbessi@college-moderne.tg",
+                    password: "password789",
+                    phone: "+228 92 34 56 78",
+                    role: "Enseignant de SVT",
+                    subjects: ["svt", "chemistry"],
+                    levels: ["5ème", "4ème", "3ème"],
+                    degree: "Master",
+                    diploma: "Master en Biologie",
+                    experience: 7,
+                    rating: 4.9,
+                    status: "offline",
+                    contract: "CDI",
+                    hireDate: "2017-10-15"
+                },
+                {
+                    id: 4,
+                    firstName: "Amélie",
+                    lastName: "Diallo",
+                    email: "amelie.diallo@college-moderne.tg",
+                    password: "password101",
+                    phone: "+228 93 45 67 89",
+                    role: "Enseignante d'Histoire-Géo",
+                    subjects: ["history", "geography"],
+                    levels: ["6ème", "5ème", "4ème", "3ème"],
+                    degree: "Licence",
+                    diploma: "Licence en Histoire",
+                    experience: 4,
+                    rating: 4.7,
+                    status: "away",
+                    contract: "CDD",
+                    hireDate: "2020-11-01"
+                },
+                {
+                    id: 5,
+                    firstName: "Paul",
+                    lastName: "Lawson",
+                    email: "paul.lawson@college-moderne.tg",
+                    password: "password202",
+                    phone: "+228 94 56 78 90",
+                    role: "Enseignant d'Anglais",
+                    subjects: ["english", "spanish"],
+                    levels: ["6ème", "5ème", "4ème", "3ème"],
+                    degree: "Master",
+                    diploma: "Master en Langues Étrangères",
+                    experience: 6,
+                    rating: 5.0,
+                    status: "busy",
+                    contract: "CDI",
+                    hireDate: "2018-08-20"
+                }
+            ],
+            courses: [
+                {
+                    id: 1,
+                    title: "Mathématiques - 3ème",
+                    subject: "math",
+                    level: "3ème",
+                    teacherId: 1,
+                    teacherName: "Jean Dupont",
+                    price: 5000,
+                    type: "premium",
+                    rating: 4.8,
+                    students: 124,
+                    location: "Lomé",
+                    addedDate: "2024-04-02"
+                },
+                {
+                    id: 2,
+                    title: "Français - 4ème",
+                    subject: "french",
+                    level: "4ème",
+                    teacherId: 2,
+                    teacherName: "Marie Akakpo",
+                    price: 2000,
+                    type: "standard",
+                    rating: 4.7,
+                    students: 98,
+                    location: "Lomé",
+                    addedDate: "2024-03-28"
+                },
+                {
+                    id: 3,
+                    title: "Anglais Conversation - Débutant",
+                    subject: "english",
+                    level: "5ème",
+                    teacherId: 5,
+                    teacherName: "Paul Lawson",
+                    price: 0,
+                    type: "gratuit",
+                    rating: 4.9,
+                    students: 215,
+                    location: "En ligne",
+                    addedDate: "2024-03-25"
+                },
+                {
+                    id: 4,
+                    title: "Préparation intensive BEPC",
+                    subject: "all",
+                    level: "3ème",
+                    teacherId: 3,
+                    teacherName: "Koffi Agbessi",
+                    price: 8000,
+                    type: "premium",
+                    rating: 5.0,
+                    students: 156,
+                    location: "Lomé",
+                    addedDate: "2024-03-20"
+                },
+                {
+                    id: 5,
+                    title: "Initiation aux Sciences",
+                    subject: "physics",
+                    level: "6ème",
+                    teacherId: 4,
+                    teacherName: "Amélie Diallo",
+                    price: 1500,
+                    type: "standard",
+                    rating: 4.7,
+                    students: 87,
+                    location: "Lomé",
+                    addedDate: "2024-03-15"
                 }
             ]
         };
@@ -2700,6 +3208,13 @@
             // window.location.href = `edit_teacher.html?id=${teacherId}`;
         }
 
+        // Fonction pour voir les détails d'un enseignant
+        function viewTeacherDetail(teacherId) {
+            alert(`Voir les détails de l'enseignant #${teacherId}`);
+            // Redirection vers la page de détail
+            // window.location.href = `teacher_detail.html?id=${teacherId}`;
+        }
+
         // Fonction pour supprimer un enseignant
         function deleteTeacher(teacherId) {
             if (confirm(`Voulez-vous vraiment supprimer l'enseignant #${teacherId} ?`)) {
@@ -2727,6 +3242,20 @@
                 passwordText.style.display = 'none';
                 passwordBadge.style.display = 'inline-block';
             }
+        }
+
+        // Fonction pour visualiser un cours
+        function viewCourse(courseId) {
+            alert(`Voir les détails du cours #${courseId}`);
+            // Redirection vers la page du cours
+            // window.location.href = `course_details.html?id=${courseId}`;
+        }
+
+        // Fonction pour modifier un cours
+        function editCourse(courseId) {
+            alert(`Modification du cours #${courseId}`);
+            // Redirection vers la page d'édition du cours
+            // window.location.href = `edit_course.html?id=${courseId}`;
         }
 
         // Gestion du système de vue grid/table
@@ -3104,6 +3633,50 @@
             }
         });
 
+        // Simulation du statut en ligne des enseignants
+        function simulateTeacherStatus() {
+            const statuses = ['online', 'offline', 'away', 'busy'];
+            const teacherCards = document.querySelectorAll('.teacher-card:not(:last-child)');
+            
+            teacherCards.forEach((card, index) => {
+                // Pour les 2 premiers enseignants, garder en ligne
+                // Pour les autres, changer aléatoirement
+                let status;
+                if (index < 2) {
+                    status = 'online';
+                } else {
+                    status = statuses[Math.floor(Math.random() * statuses.length)];
+                }
+                
+                // Mettre à jour le badge
+                const badge = card.querySelector('.teacher-status-badge');
+                const text = card.querySelector('.teacher-status-text');
+                
+                if (badge && text) {
+                    // Retirer toutes les classes de statut
+                    badge.classList.remove('online', 'offline', 'away', 'busy');
+                    // Ajouter la classe de statut
+                    badge.classList.add(status);
+                    
+                    // Mettre à jour le texte
+                    switch(status) {
+                        case 'online':
+                            text.textContent = 'En ligne';
+                            break;
+                        case 'offline':
+                            text.textContent = 'Hors ligne';
+                            break;
+                        case 'away':
+                            text.textContent = 'Absent';
+                            break;
+                        case 'busy':
+                            text.textContent = 'Occupé';
+                            break;
+                    }
+                }
+            });
+        }
+
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
             // Mettre à jour les statistiques avec les données simulées
@@ -3134,6 +3707,12 @@
             
             // Initialiser la visibilité des boutons
             toggleBackToTopButton();
+            
+            // Simuler le statut des enseignants
+            simulateTeacherStatus();
+            
+            // Changer le statut des enseignants toutes les 30 secondes
+            setInterval(simulateTeacherStatus, 30000);
             
             // Gestion responsive
             function checkWindowSize() {
