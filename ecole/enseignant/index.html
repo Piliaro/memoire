@@ -67,6 +67,7 @@
             gap: 10px;
             text-decoration: none;
             color: var(--gris-fonce);
+            flex-shrink: 0;
         }
 
         .logo-icon {
@@ -89,6 +90,165 @@
 
         .logo-text span {
             color: var(--vert-principal);
+        }
+
+        /* Barre de recherche */
+        .search-bar-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--blanc-principal);
+            border-radius: 30px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+
+        .search-filters-btn {
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-left: 1px solid var(--gris-clair);
+            margin-left: 10px;
+        }
+
+        .search-btn {
+            background-color: var(--jaune-principal);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-fonce);
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            transform: scale(1.05);
+        }
+
+        /* Panneau de filtres */
+        .search-filters-panel {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 10px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .search-filters-panel.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+
+        .filters-title {
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .close-filters {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gris-moyen);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: var(--blanc-principal);
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--jaune-principal);
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gris-clair);
         }
 
         /* Bouton notification dans le header */
@@ -133,6 +293,13 @@
             font-size: 1.5rem;
             color: var(--gris-fonce);
             cursor: pointer;
+        }
+
+        /* Actions header */
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
         /* Barre de navigation horizontale */
@@ -1291,6 +1458,16 @@
             .my-courses-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
+            
+            .search-bar-container {
+                order: 3;
+                max-width: 100%;
+                margin: 15px 0 0 0;
+            }
+            
+            .navbar {
+                flex-wrap: wrap;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1357,6 +1534,68 @@
                     <div class="logo-text">Edu<span>Togo</span>Connect</div>
                 </a>
 
+                <!-- Barre de recherche -->
+                <div class="search-bar-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="mainSearchInput" placeholder="Rechercher cours, élèves, messages...">
+                        <button class="search-filters-btn" id="searchFiltersBtn">
+                            <i class="fas fa-filter"></i>
+                            <span>Filtres</span>
+                        </button>
+                        <button class="search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Panneau de filtres -->
+                    <div class="search-filters-panel" id="searchFiltersPanel">
+                        <div class="filters-header">
+                            <h3 class="filters-title">Filtres de recherche avancés</h3>
+                            <button class="close-filters" id="closeFiltersBtn">&times;</button>
+                        </div>
+                        
+                        <div class="filters-grid">
+                            <div class="filter-group">
+                                <label class="filter-label">Matière</label>
+                                <select class="filter-select" id="searchSubject">
+                                    <option value="all">Toutes les matières</option>
+                                    <option value="francais">Français</option>
+                                    <option value="mathematiques">Mathématiques</option>
+                                    <option value="anglais">Anglais</option>
+                                    <option value="sciences">Sciences</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Type de cours</label>
+                                <select class="filter-select" id="searchType">
+                                    <option value="all">Tous les types</option>
+                                    <option value="en-ligne">En ligne</option>
+                                    <option value="presentiel">Présentiel</option>
+                                    <option value="groupe">Groupe</option>
+                                    <option value="individuel">Individuel</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Statut</label>
+                                <select class="filter-select" id="searchStatus">
+                                    <option value="all">Tous les statuts</option>
+                                    <option value="a_venir">À venir</option>
+                                    <option value="en_cours">En cours</option>
+                                    <option value="termine">Terminé</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button class="btn btn-secondary" id="resetFiltersBtn">Réinitialiser</button>
+                            <button class="btn btn-primary" id="applyFiltersBtn">Appliquer les filtres</button>
+                        </div>
+                    </div>
+                </div>
+
                 <button class="menu-toggle" id="mobileNavToggle">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -1397,6 +1636,12 @@
                                     <a href="teacher_settings.html" class="profile-menu-link">
                                         <i class="fas fa-cog"></i>
                                         <span>Paramètres</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="teacher_finances.html" class="profile-menu-link">
+                                        <i class="fas fa-wallet"></i>
+                                        <span>Mes revenus</span>
                                     </a>
                                 </li>
                                 <li class="profile-menu-item">
@@ -2229,6 +2474,15 @@
         const profileMenu = document.getElementById('profileMenu');
         const notificationBtn = document.getElementById('notificationBtn');
         const myCoursesGrid = document.getElementById('myCoursesGrid');
+        
+        // Gestion barre de recherche
+        const searchFiltersBtn = document.getElementById('searchFiltersBtn');
+        const searchFiltersPanel = document.getElementById('searchFiltersPanel');
+        const closeFiltersBtn = document.getElementById('closeFiltersBtn');
+        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+        const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const mainSearchInput = document.getElementById('mainSearchInput');
 
         // Fonction pour initialiser le tableau de bord
         function initializeDashboard() {
@@ -2435,6 +2689,61 @@
             }
         };
 
+        // Gestion barre de recherche
+        searchFiltersBtn.addEventListener('click', () => {
+            searchFiltersPanel.classList.toggle('active');
+        });
+
+        closeFiltersBtn.addEventListener('click', () => {
+            searchFiltersPanel.classList.remove('active');
+        });
+
+        // Fermer les filtres en cliquant à l'extérieur
+        document.addEventListener('click', (e) => {
+            if (searchFiltersPanel && !searchFiltersPanel.contains(e.target) && 
+                searchFiltersBtn && !searchFiltersBtn.contains(e.target) && 
+                searchFiltersPanel.classList.contains('active')) {
+                searchFiltersPanel.classList.remove('active');
+            }
+        });
+
+        // Réinitialiser les filtres
+        resetFiltersBtn.addEventListener('click', () => {
+            document.getElementById('searchSubject').value = 'all';
+            document.getElementById('searchType').value = 'all';
+            document.getElementById('searchStatus').value = 'all';
+            mainSearchInput.value = '';
+        });
+
+        // Appliquer les filtres et lancer la recherche
+        applyFiltersBtn.addEventListener('click', performTeacherSearch);
+        searchBtn.addEventListener('click', performTeacherSearch);
+
+        mainSearchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performTeacherSearch();
+            }
+        });
+
+        function performTeacherSearch() {
+            const searchSubject = document.getElementById('searchSubject').value;
+            const searchType = document.getElementById('searchType').value;
+            const searchStatus = document.getElementById('searchStatus').value;
+            const searchQuery = mainSearchInput.value.trim();
+            
+            searchFiltersPanel.classList.remove('active');
+            
+            // Ici, vous pouvez ajouter la logique de recherche réelle
+            alert(`Recherche avec les filtres:\n
+                Matière: ${searchSubject}\n
+                Type: ${searchType}\n
+                Statut: ${searchStatus}\n
+                Recherche: "${searchQuery}"`);
+            
+            // Exemple: Redirection ou filtrage des éléments de la page
+            // filterTeacherDashboard(searchQuery, searchSubject, searchType, searchStatus);
+        }
+
         // Initialiser le tableau de bord au chargement
         document.addEventListener('DOMContentLoaded', function() {
             initializeDashboard();
@@ -2528,6 +2837,28 @@
                     }
                 });
             });
+            
+            // Gestion responsive pour la barre de recherche
+            function checkWindowSize() {
+                if (window.innerWidth <= 992) {
+                    const searchContainer = document.querySelector('.search-bar-container');
+                    if (searchContainer) {
+                        searchContainer.style.order = '3';
+                        searchContainer.style.maxWidth = '100%';
+                        searchContainer.style.margin = '15px 0 0 0';
+                    }
+                } else {
+                    const searchContainer = document.querySelector('.search-bar-container');
+                    if (searchContainer) {
+                        searchContainer.style.order = '';
+                        searchContainer.style.maxWidth = '500px';
+                        searchContainer.style.margin = '0 20px';
+                    }
+                }
+            }
+            
+            window.addEventListener('resize', checkWindowSize);
+            checkWindowSize();
         });
     </script>
 </body>
