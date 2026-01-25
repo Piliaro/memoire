@@ -197,7 +197,11 @@
             dominant-baseline: middle;
         }
 
-        /* Modal pour l'inscription/authentification */
+        /* NOUVEAU MODAL: Achat de ressources */
+        #purchaseModal .modal-header {
+            background: linear-gradient(135deg, var(--violet-premium) 0%, var(--violet-autres) 100%);
+        }
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -278,150 +282,6 @@
 
         .modal-body {
             padding: 30px;
-        }
-
-        .profile-selection {
-            margin-bottom: 25px;
-        }
-
-        .profile-title {
-            font-size: 1.1rem;
-            color: var(--gris-fonce);
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .profile-options {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .profile-option {
-            flex: 1;
-            max-width: 180px;
-            border: 2px solid var(--gris-clair);
-            border-radius: 10px;
-            padding: 20px 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .profile-option:hover {
-            border-color: var(--vert-principal);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .profile-option.selected {
-            border-color: var(--vert-principal);
-            background-color: rgba(0,166,81,0.05);
-        }
-
-        .profile-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--blanc-principal);
-            font-size: 1.5rem;
-        }
-
-        .profile-name {
-            font-weight: 600;
-            color: var(--gris-fonce);
-            font-size: 1rem;
-        }
-
-        .profile-description {
-            font-size: 0.85rem;
-            color: var(--gris-moyen);
-            line-height: 1.4;
-        }
-
-        .auth-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .auth-title {
-            font-size: 1.1rem;
-            color: var(--gris-fonce);
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .auth-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-            border: 2px solid var(--gris-clair);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .auth-option:hover {
-            border-color: var(--vert-principal);
-            background-color: rgba(0,166,81,0.05);
-        }
-
-        .auth-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(0,166,81,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--vert-principal);
-            font-size: 1.2rem;
-        }
-
-        .auth-info h4 {
-            font-size: 1rem;
-            color: var(--gris-fonce);
-            margin-bottom: 5px;
-        }
-
-        .auth-info p {
-            font-size: 0.85rem;
-            color: var(--gris-moyen);
-        }
-
-        .course-info-modal {
-            background-color: rgba(0,166,81,0.05);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--vert-principal);
-        }
-
-        .course-info-modal h4 {
-            color: var(--gris-fonce);
-            margin-bottom: 8px;
-            font-size: 1rem;
-        }
-
-        .course-info-modal p {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-
-        /* NOUVEAU MODAL: Achat de ressources */
-        #purchaseModal .modal-header {
-            background: linear-gradient(135deg, var(--violet-premium) 0%, var(--violet-autres) 100%);
         }
 
         .resource-preview {
@@ -2038,83 +1898,7 @@
         </svg>
     </div>
 
-    <!-- Modal pour l'inscription/authentification -->
-    <div class="modal-overlay" id="authModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">Avant de continuer</h3>
-                <p id="modalSubtitle">Veuillez vous connecter ou vous inscrire</p>
-                <button class="close-modal" id="closeModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <!-- Étape 1: Choix entre "J'ai un compte" et "S'inscrire" -->
-                <div id="step1" class="initial-step">
-                    <p class="step-message">Pour accéder à toutes les fonctionnalités, vous devez avoir un compte.</p>
-                    
-                    <div class="auth-options">
-                        <div class="auth-option" data-action="login">
-                            <div class="auth-icon">
-                                <i class="fas fa-sign-in-alt"></i>
-                            </div>
-                            <div class="auth-info">
-                                <h4>J'ai un compte</h4>
-                                <p>Je me connecte avec mes identifiants</p>
-                            </div>
-                        </div>
-                        
-                        <div class="auth-option" data-action="register">
-                            <div class="auth-icon">
-                                <i class="fas fa-user-plus"></i>
-                            </div>
-                            <div class="auth-info">
-                                <h4>S'inscrire</h4>
-                                <p>Je crée un nouveau compte</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Étape 2a: Sélection du type de compte pour l'inscription -->
-                <div id="step2Register" style="display: none;">
-                    <div class="profile-selection">
-                        <div class="profile-title">Je m'inscris en tant que :</div>
-                        <div class="profile-options">
-                            <div class="profile-option" data-profile="eleve">
-                                <div class="profile-icon">
-                                    <i class="fas fa-graduation-cap"></i>
-                                </div>
-                                <div class="profile-name">Élève</div>
-                                <div class="profile-description">Je suis un élève du collège</div>
-                            </div>
-                            <div class="profile-option" data-profile="parent">
-                                <div class="profile-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="profile-name">Parent</div>
-                                <div class="profile-description">Je suis parent d'un élève</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Étape 2b: Information pour la connexion -->
-                <div id="step2Login" style="display: none;">
-                    <div class="course-info-modal">
-                        <h4>Connexion requise</h4>
-                        <p>Vous allez être redirigé vers la page de connexion pour accéder à votre compte.</p>
-                    </div>
-                </div>
-
-                <!-- Actions -->
-                <div class="modal-actions">
-                    <button class="modal-btn modal-btn-secondary" id="cancelBtn">Annuler</button>
-                    <button class="modal-btn modal-btn-primary" id="continueBtn" disabled>Continuer</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- NOUVEAU MODAL: Achat de ressources -->
+    <!-- MODAL: Achat de ressources -->
     <div class="modal-overlay" id="purchaseModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2179,7 +1963,6 @@
 
                 <ul class="nav-links" id="navLinks">
                     <li><a href="#cours">Cours</a></li>
-                    <li><a href="#ressources">Ressources</a></li>
                     <li><a href="#niveaux">Niveaux</a></li>
                     <li><a href="#enseignants">Enseignants</a></li>
                     <li><a href="#ecoles">Ecoles</a></li>
@@ -2190,7 +1973,7 @@
 
                 <div class="auth-buttons">
                     <a href="Authentification/auth.html" class="btn btn-login">Connexion</a>
-                    <a href="#inscription" class="btn btn-signup" id="openSignupModal">S'inscrire</a>
+                    <a href="#inscription" class="btn btn-signup">Inscription</a>
                 </div>
             </nav>
             
@@ -2208,7 +1991,7 @@
                 </ul>
                 <div class="mobile-auth">
                     <a href="Authentification/auth.html" class="btn btn-login">Connexion</a>
-                    <a href="#inscription" class="btn btn-signup">S'inscrire</a>
+                    <a href="inscription/choix-inscription.html" class="btn btn-signup">S'inscrire</a>
                 </div>
             </div>
         </div>
@@ -2228,10 +2011,10 @@
             </div>
 
             <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-                <a href="#inscription" class="btn btn-success">Je suis Élève</a>
-                <a href="#inscription" class="btn btn-alert">Je suis Enseignant</a>
-                <a href="#inscription" class="btn btn-success">Je suis Parent d'eleve</a>
-                <a href="#inscription" class="btn btn-alert">Je suis une ecole/institut</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-success">Je suis Élève</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-alert">Je suis Enseignant</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-success">Je suis Parent d'eleve</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-alert">Je suis une ecole/institut</a>
             </div>
         </div>
     </section>
@@ -2295,7 +2078,7 @@
                     <p>Notre mission est de créer une plateforme éducative innovante qui connecte les élèves du collège avec les meilleurs enseignants du pays. Nous voulons briser les barrières géographiques et économiques qui limitent l'accès à une éducation de qualité.</p>
                     <p>EduTogoConnect a été fondé avec la conviction que chaque élève mérite un accompagnement personnalisé, quel que soit son lieu de résidence ou son milieu social. Notre plateforme utilise la technologie pour rapprocher les élèves des enseignants compétents, créant ainsi un écosystème éducatif dynamique et inclusif.</p>
                     <p>Nous nous engageons à soutenir le système éducatif togolais en fournissant des outils modernes et efficaces pour améliorer les résultats scolaires et préparer les jeunes à relever les défis de demain.</p>
-                    <a href="#inscription" class="btn btn-info">Rejoindre notre mission</a>
+                    <a href="inscription/choix-inscription.html" class="btn btn-info">Rejoindre notre mission</a>
                 </div>
             </div>
         </div>
@@ -3113,28 +2896,6 @@
             { id: 10, name: "UNESCO" }
         ];
 
-        // MODIFICATION: Configuration de la modal d'inscription
-        const authModal = document.getElementById('authModal');
-        const closeModal = document.getElementById('closeModal');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const continueBtn = document.getElementById('continueBtn');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalSubtitle = document.getElementById('modalSubtitle');
-        
-        // Éléments des étapes
-        const step1 = document.getElementById('step1');
-        const step2Register = document.getElementById('step2Register');
-        const step2Login = document.getElementById('step2Login');
-        
-        // Options d'authentification
-        const authOptions = document.querySelectorAll('.auth-option');
-        const profileOptions = document.querySelectorAll('.profile-option');
-
-        // Variables d'état pour la modal
-        let selectedProfile = null;
-        let selectedAction = null;
-        let currentStep = 1;
-
         // MODIFICATION: Éléments du modal d'achat
         const purchaseModal = document.getElementById('purchaseModal');
         const closePurchaseModal = document.getElementById('closePurchaseModal');
@@ -3146,142 +2907,11 @@
         let selectedResource = null;
         let selectedPriceOption = null;
 
-        // MODIFICATION: Fonction pour ouvrir la modal d'inscription depuis les boutons des cours
+        // MODIFICATION: Ouvrir la modal d'inscription depuis les boutons des cours
         window.openEnrollModal = function(courseId) {
-            const course = coursesData.find(c => c.id === courseId);
-            
-            if (course) {
-                // Ouvrir la modal avec les informations du cours
-                modalTitle.textContent = `Inscription au cours`;
-                modalSubtitle.textContent = course.title;
-                
-                // Ajouter les informations du cours dans la modal
-                const courseInfo = document.createElement('div');
-                courseInfo.className = 'course-info-modal';
-                courseInfo.innerHTML = `
-                    <h4>${course.title}</h4>
-                    <p><strong>Matière:</strong> ${getSubjectName(course.subject)}</p>
-                    <p><strong>Niveau:</strong> ${course.level}</p>
-                    <p><strong>Enseignant:</strong> ${course.teacher}</p>
-                    ${course.isFree ? 
-                        `<p><strong>Prix:</strong> Gratuit</p>` : 
-                        `<p><strong>Prix:</strong> ${course.price.toLocaleString()} FCFA/heure</p>`
-                    }
-                `;
-                
-                // Insérer les informations du cours dans la modal
-                const modalBody = document.querySelector('.modal-body');
-                const existingCourseInfo = modalBody.querySelector('.course-info-modal');
-                if (existingCourseInfo) {
-                    existingCourseInfo.remove();
-                }
-                
-                // Insérer au début du corps de la modal
-                modalBody.insertBefore(courseInfo, modalBody.firstChild);
-                
-                // Ouvrir la modal
-                resetModalSelections();
-                authModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
+            // Rediriger directement vers la page de choix d'inscription
+            window.location.href = 'inscription/choix-inscription.html';
         };
-
-        // MODIFICATION: Ouvrir la modal d'authentification générale
-        function openAuthModal() {
-            // Réinitialiser et ouvrir la modal
-            resetModalSelections();
-            authModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // MODIFICATION: Configuration des événements de la modal
-        function setupModalEvents() {
-            // Fermer la modal
-            closeModal.addEventListener('click', closeAuthModal);
-            cancelBtn.addEventListener('click', closeAuthModal);
-            
-            // Fermer la modal en cliquant à l'extérieur
-            authModal.addEventListener('click', (e) => {
-                if (e.target === authModal) {
-                    closeAuthModal();
-                }
-            });
-            
-            // Sélection de l'action dans l'étape 1
-            authOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    // Retirer la sélection précédente
-                    authOptions.forEach(opt => {
-                        opt.style.backgroundColor = '';
-                        opt.style.borderColor = '';
-                    });
-                    
-                    // Appliquer la sélection
-                    option.style.backgroundColor = 'rgba(0,166,81,0.05)';
-                    option.style.borderColor = 'var(--vert-principal)';
-                    selectedAction = option.dataset.action;
-                    
-                    updateContinueButton();
-                });
-            });
-            
-            // Sélection du profil dans l'étape 2 (inscription)
-            profileOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    profileOptions.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedProfile = option.dataset.profile;
-                    updateContinueButton();
-                });
-            });
-            
-            // Bouton continuer
-            continueBtn.addEventListener('click', () => {
-                if (currentStep === 1) {
-                    // Passer à l'étape 2
-                    currentStep = 2;
-                    
-                    if (selectedAction === 'register') {
-                        // Afficher l'étape 2 pour l'inscription
-                        step1.style.display = 'none';
-                        step2Register.style.display = 'block';
-                        step2Login.style.display = 'none';
-                        
-                        modalTitle.textContent = 'Inscription';
-                        modalSubtitle.textContent = 'Choisissez votre profil pour continuer';
-                        
-                        // Réinitialiser la sélection de profil
-                        selectedProfile = null;
-                        profileOptions.forEach(opt => opt.classList.remove('selected'));
-                    } else if (selectedAction === 'login') {
-                        // Afficher l'étape 2 pour la connexion
-                        step1.style.display = 'none';
-                        step2Register.style.display = 'none';
-                        step2Login.style.display = 'block';
-                        
-                        modalTitle.textContent = 'Connexion';
-                        modalSubtitle.textContent = 'Vous allez être redirigé vers la page de connexion';
-                    }
-                    
-                    updateContinueButton();
-                } else if (currentStep === 2) {
-                    // Exécuter l'action finale
-                    if (selectedAction === 'register') {
-                        // Rediriger vers le formulaire d'inscription selon le profil
-                        if (selectedProfile === 'eleve') {
-                            window.location.href = 'inscription/eleve.html';
-                        } else if (selectedProfile === 'parent') {
-                            window.location.href = 'inscription/parent.html';
-                        }
-                    } else if (selectedAction === 'login') {
-                        // Rediriger vers la page de connexion
-                        window.location.href = 'Authentification/auth.html';
-                    }
-                    
-                    closeAuthModal();
-                }
-            });
-        }
 
         // MODIFICATION: Configuration du modal d'achat
         function setupPurchaseModal() {
@@ -3312,68 +2942,6 @@
                     processPurchase();
                 }
             });
-        }
-
-        // MODIFICATION: Fermer la modal
-        function closeAuthModal() {
-            authModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            resetModalSelections();
-        }
-
-        // MODIFICATION: Réinitialiser les sélections de la modal
-        function resetModalSelections() {
-            currentStep = 1;
-            selectedProfile = null;
-            selectedAction = null;
-            
-            // Réinitialiser l'affichage
-            step1.style.display = 'block';
-            step2Register.style.display = 'none';
-            step2Login.style.display = 'none';
-            
-            modalTitle.textContent = 'Avant de continuer';
-            modalSubtitle.textContent = 'Veuillez vous connecter ou vous inscrire';
-            
-            // Réinitialiser les sélections visuelles
-            authOptions.forEach(opt => {
-                opt.style.backgroundColor = '';
-                opt.style.borderColor = '';
-            });
-            
-            profileOptions.forEach(opt => opt.classList.remove('selected'));
-            
-            // Retirer les informations de cours
-            const courseInfo = document.querySelector('.course-info-modal');
-            if (courseInfo && courseInfo.parentElement) {
-                courseInfo.remove();
-            }
-            
-            updateContinueButton();
-        }
-
-        // MODIFICATION: Mettre à jour l'état du bouton continuer
-        function updateContinueButton() {
-            if (currentStep === 1) {
-                // Étape 1: besoin d'une action sélectionnée
-                continueBtn.disabled = !selectedAction;
-                continueBtn.textContent = 'Continuer';
-            } else if (currentStep === 2) {
-                if (selectedAction === 'register') {
-                    // Étape 2 pour l'inscription: besoin d'un profil sélectionné
-                    continueBtn.disabled = !selectedProfile;
-                    continueBtn.textContent = 'S\'inscrire';
-                } else if (selectedAction === 'login') {
-                    // Étape 2 pour la connexion: prêt à continuer
-                    continueBtn.disabled = false;
-                    continueBtn.textContent = 'Se connecter';
-                }
-            }
-            
-            // Mettre à jour l'apparence du bouton
-            continueBtn.className = continueBtn.disabled ? 
-                'modal-btn modal-btn-disabled' : 
-                'modal-btn modal-btn-primary';
         }
 
         // MODIFICATION: Fermer le modal d'achat
@@ -4146,8 +3714,7 @@
 
         // Initialiser toutes les sections
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialiser les modals
-            setupModalEvents();
+            // Initialiser le modal d'achat
             setupPurchaseModal();
             
             // Initialiser les autres composants
@@ -4160,15 +3727,6 @@
             
             // Démarrer le défilement automatique des témoignages
             setInterval(autoScrollTestimonials, testimonialInterval);
-            
-            // Ouvrir la modal depuis le bouton "S'inscrire" du header
-            const openSignupModalBtn = document.getElementById('openSignupModal');
-            if (openSignupModalBtn) {
-                openSignupModalBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    openAuthModal();
-                });
-            }
             
             // Ajouter les événements pour la flèche retour en haut
             window.addEventListener('scroll', () => {

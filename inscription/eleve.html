@@ -10,14 +10,23 @@
         /* Variables de couleurs */
         :root {
             --jaune-principal: #FFD700;
-            --jaune-fonce: #FFC107;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
             --gris-clair: #F5F5F5;
-            --gris-moyen: #E0E0E0;
-            --gris-fonce: #757575;
-            --gris-texte: #424242;
+            --orange-cours: #FF9800;
+            --cyan-suggestion: #00BCD4;
+            --violet-premium: #9C27B0;
+            --bleu-prof: #2196F3;
+            --violet-autres: #7B1FA2;
+            
+            --jaune-fonce: #FFC107;
             --vert-success: #4CAF50;
             --rouge-alerte: #F44336;
-            --blanc: #FFFFFF;
+            --bleu-info: #2196F3;
+            --gris-texte: #424242;
             --noir: #212121;
         }
 
@@ -33,19 +42,68 @@
             background-color: var(--gris-clair);
             color: var(--gris-texte);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
+        /* Flèche retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--blanc-principal);
+            overflow: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(239, 51, 64, 0.4);
+        }
+
         /* Header */
         header {
-            background-color: var(--blanc);
+            background-color: var(--blanc-principal);
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 15px 0;
         }
 
@@ -54,12 +112,12 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: var(--noir);
+            color: var(--gris-fonce);
         }
 
         .logo-icon {
-            background-color: var(--jaune-principal);
-            color: var(--noir);
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -76,55 +134,222 @@
         }
 
         .logo-text span {
-            color: var(--vert-success);
+            color: var(--vert-principal);
         }
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--gris-fonce);
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
             text-decoration: none;
-            margin-top: 15px;
-            transition: color 0.3s;
+            display: inline-block;
+            text-align: center;
         }
 
-        .back-link:hover {
-            color: var(--jaune-fonce);
+        .btn-login {
+            background-color: transparent;
+            border: 2px solid var(--gris-moyen);
+            color: var(--gris-fonce);
+        }
+
+        .btn-login:hover {
+            background-color: var(--gris-clair);
+            border-color: var(--gris-fonce);
+        }
+
+        .btn-signup {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+        }
+
+        .btn-signup:hover {
+            background-color: #e6c200;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         /* Contenu principal */
         .registration-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin: 40px 0;
+            grid-template-columns: 55% 45%;
+            gap: 30px;
+            margin: 30px 0 60px;
+            min-height: calc(100vh - 200px);
         }
 
-        @media (max-width: 992px) {
+        @media (max-width: 1200px) {
             .registration-container {
                 grid-template-columns: 1fr;
+                gap: 40px;
             }
+        }
+
+        /* Section charte */
+        .charte-section {
+            background-color: var(--gris-clair);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            max-height: 900vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .charte-header {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
+            color: var(--blanc-principal);
+            padding: 7px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .charte-title {
+            color: var(--blanc-principal);
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .charte-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .charte-important-note {
+            background-color: rgba(255, 215, 0, 0.2);
+            border: 2px solid var(--jaune-principal);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .charte-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px 5px 10px 10px;
+            margin-bottom: 20px;
+            max-height: 400px;
+        }
+
+        .charte-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .charte-content::-webkit-scrollbar-track {
+            background: var(--gris-clair);
+            border-radius: 4px;
+        }
+
+        .charte-content::-webkit-scrollbar-thumb {
+            background-color: var(--jaune-principal);
+            border-radius: 4px;
+        }
+
+        .charte-section h3 {
+            color: var(--gris-fonce);
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--gris-clair);
+            font-size: 1.1rem;
+        }
+
+        .charte-section p {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .charte-section ul, .charte-section ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .charte-section li {
+            margin-bottom: 5px;
+        }
+
+        .highlight {
+            background-color: rgba(76,175,80,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--vert-success);
+            font-size: 0.9rem;
+        }
+
+        .warning {
+            background-color: rgba(255,215,0,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--jaune-principal);
+            font-size: 0.9rem;
+        }
+
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.85rem;
+        }
+
+        .payment-table th,
+        .payment-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--gris-moyen);
+        }
+
+        .payment-table th {
+            background-color: rgba(76,175,80,0.1);
+            color: var(--gris-fonce);
+            font-weight: 600;
         }
 
         /* Section formulaire */
         .form-section {
-            background-color: var(--blanc);
+            background-color: var(--blanc-principal);
             border-radius: 15px;
-            padding: 40px;
+            padding: 30px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--vert-principal);
         }
 
         .form-title {
-            color: var(--noir);
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--vert-success);
+            color: var(--gris-fonce);
             font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .form-subtitle {
+            color: var(--gris-moyen);
+            font-size: 1rem;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .form-label {
@@ -132,6 +357,7 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--gris-texte);
+            font-size: 0.95rem;
         }
 
         .required {
@@ -145,19 +371,20 @@
             border-radius: 8px;
             font-size: 1rem;
             transition: border-color 0.3s;
-            background-color: var(--blanc);
+            background-color: var(--blanc-principal);
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--vert-success);
-            box-shadow: 0 0 0 3px rgba(76,175,80,0.1);
+            border-color: var(--vert-principal);
+            box-shadow: 0 0 0 3px rgba(0,166,81,0.1);
         }
 
         .form-text {
             font-size: 0.85rem;
-            color: var(--gris-fonce);
+            color: var(--gris-moyen);
             margin-top: 5px;
+            line-height: 1.4;
         }
 
         .form-error {
@@ -167,30 +394,18 @@
             display: none;
         }
 
-        /* Informations parentales */
-        .parent-info-section {
-            background-color: rgba(76,175,80,0.05);
-            border: 2px solid rgba(76,175,80,0.2);
-            border-radius: 8px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-
-        .parent-info-title {
-            color: var(--vert-success);
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
         /* Niveau scolaire */
         .level-selection {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
             margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .level-selection {
+                grid-template-columns: 1fr;
+            }
         }
 
         .level-radio {
@@ -198,29 +413,29 @@
         }
 
         .level-label {
-            flex: 1;
-            min-width: 120px;
-            padding: 15px;
+            display: block;
+            padding: 7px;
             background-color: var(--gris-clair);
             border: 2px solid var(--gris-moyen);
             border-radius: 8px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+            font-weight: 500;
         }
 
         .level-radio:checked + .level-label {
-            background-color: rgba(76,175,80,0.2);
-            border-color: var(--vert-success);
-            color: var(--noir);
+            background-color: rgba(0,166,81,0.2);
+            border-color: var(--vert-principal);
+            color: var(--gris-fonce);
             font-weight: 600;
         }
 
         /* Matières à améliorer */
         .subjects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 8px;
             margin-top: 10px;
         }
 
@@ -230,7 +445,7 @@
 
         .subject-label {
             display: block;
-            padding: 12px 15px;
+            padding: 12px 10px;
             background-color: var(--gris-clair);
             border: 2px solid var(--gris-moyen);
             border-radius: 8px;
@@ -241,19 +456,19 @@
         }
 
         .subject-checkbox:checked + .subject-label {
-            background-color: rgba(76,175,80,0.2);
-            border-color: var(--vert-success);
-            color: var(--noir);
+            background-color: rgba(0,166,81,0.2);
+            border-color: var(--vert-principal);
+            color: var(--gris-fonce);
             font-weight: 600;
         }
 
-        /* Checkbox d'acceptation */
+        /* Checkbox d'acceptation de la charte */
         .acceptance-group {
-            margin: 30px 0;
+            margin: 25px 0;
             padding: 20px;
-            background-color: rgba(76,175,80,0.05);
+            background-color: rgba(0,166,81,0.05);
             border-radius: 8px;
-            border: 1px solid rgba(76,175,80,0.2);
+            border: 1px solid rgba(0,166,81,0.2);
         }
 
         .acceptance-checkbox {
@@ -264,6 +479,7 @@
         .acceptance-label {
             font-weight: 600;
             color: var(--gris-texte);
+            font-size: 0.95rem;
         }
 
         /* Boutons */
@@ -281,15 +497,16 @@
         }
 
         .btn-primary {
-            background-color: var(--vert-success);
-            color: var(--blanc);
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
             width: 100%;
+            padding: 14px;
         }
 
         .btn-primary:hover {
-            background-color: #45a049;
+            background-color: #008c45;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76,175,80,0.3);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.3);
         }
 
         .btn-primary:disabled {
@@ -300,292 +517,234 @@
         }
 
         .btn-secondary {
-            background-color: var(--gris-moyen);
+            background-color: var(--gris-clair);
             color: var(--gris-texte);
             margin-right: 15px;
         }
 
         .btn-secondary:hover {
-            background-color: var(--gris-fonce);
-            color: var(--blanc);
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
         }
 
         .form-actions {
             display: flex;
-            justify-content: space-between;
+            gap: 15px;
             margin-top: 30px;
         }
 
-        /* Section charte */
-        .charte-section {
-            background-color: var(--blanc);
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        .form-actions .btn-secondary {
+            flex: 1;
         }
 
-        .charte-title {
-            color: var(--noir);
-            margin-bottom: 25px;
-            font-size: 1.8rem;
+        .form-actions .btn-primary {
+            flex: 2;
         }
 
-        .charte-content {
-            max-height: 500px;
-            overflow-y: auto;
+        /* Contact support */
+        .support-section {
+            text-align: center;
+            margin-top: 30px;
             padding: 20px;
-            background-color: var(--gris-clair);
+            background-color: rgba(0,166,81,0.05);
             border-radius: 8px;
-            margin-bottom: 25px;
         }
 
-        .charte-section h3 {
-            color: var(--noir);
-            margin: 20px 0 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--gris-moyen);
+        .support-section h4 {
+            color: var(--gris-fonce);
+            margin-bottom: 10px;
         }
 
-        .charte-section ul {
-            margin-left: 20px;
+        .support-section p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--noir);
+            color: var(--gris-moyen);
+            padding: 40px 0 20px;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.2rem;
             margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
         }
 
-        .charte-section li {
-            margin-bottom: 8px;
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--jaune-principal);
         }
 
-        .highlight {
-            background-color: rgba(76,175,80,0.1);
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            border-left: 3px solid var(--vert-success);
+        .footer-links {
+            list-style: none;
         }
 
-        .warning {
-            background-color: rgba(255,215,0,0.1);
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            border-left: 3px solid var(--jaune-principal);
+        .footer-links li {
+            margin-bottom: 10px;
         }
 
-        .payment-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
+        .footer-links a {
+            color: var(--gris-moyen);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
         }
 
-        .payment-table th,
-        .payment-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--gris-moyen);
+        .footer-links a:hover {
+            color: var(--jaune-principal);
         }
 
-        .payment-table th {
-            background-color: rgba(76,175,80,0.1);
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
             color: var(--noir);
-            font-weight: 600;
+            transform: translateY(-3px);
         }
 
-        .payment-table tr:hover {
-            background-color: rgba(0,0,0,0.02);
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .form-section, .charte-section {
-                padding: 25px;
+            .registration-container {
+                margin: 20px 0 40px;
+            }
+            
+            .charte-section, .form-section {
+                padding: 20px;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .charte-title {
+                font-size: 1.4rem;
             }
             
             .subjects-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
             
-            .level-selection {
+            .form-actions {
                 flex-direction: column;
             }
             
-            .level-label {
-                min-width: 100%;
+            .form-actions .btn {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .form-actions .btn:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-banner-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .banner-title {
+                font-size: 1rem;
+            }
+            
+            .level-selection {
+                grid-template-columns: 1fr;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">ET</div>
-                <div class="logo-text">Edu<span>Togo</span>Connect</div>
+            <nav class="navbar">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                 <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Retour à l'accueil
             </a>
+            <div class="banner-title">
+                Inscription Élève - EduTogoConnect
+                <div class="banner-subtitle">Plateforme éducative togolaise</div>
+            </div>
+            <div style="width: 120px;"></div> <!-- Espaceur pour l'alignement -->
+
+            
+            </nav>
         </div>
     </header>
 
+    <div class="charte-header">
+                    <h1 class="charte-title">Charte de l'Élève de la plateforme</h1>
+                </div>
     <main class="container">
         <div class="registration-container">
-            <!-- Formulaire d'inscription Élève -->
-            <section class="form-section">
-                <h1 class="form-title">Inscription Élève</h1>
-                
-                <form id="studentRegistrationForm">
-                    <!-- Informations personnelles de l'élève -->
-                    <div class="form-group">
-                        <h3 style="color: var(--noir); margin-bottom: 15px;">Informations personnelles</h3>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="fullName" class="form-label">Nom  <span class="required">*</span></label>
-                        <input type="text" id="fullName" class="form-control" required>
-                        <div class="form-error" id="fullNameError">Veuillez entrer votre nom de famille</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="fullName" class="form-label">Prenom  <span class="required">*</span></label>
-                        <input type="text" id="fullName" class="form-control" required>
-                        <div class="form-error" id="fullNameError">Veuillez entrer votre prenom</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email" class="form-label">Adresse email <span class="required">*</span></label>
-                        <input type="email" id="email" class="form-control" required>
-                        <div class="form-text">Utilisez une adresse email que vous consultez régulièrement</div>
-                        <div class="form-error" id="emailError">Veuillez entrer une adresse email valide</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone" class="form-label">Téléphone de l'élève/parent <span class="required">*</span></label>
-                        <input type="tel" id="phone" class="form-control" required pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
-                        <div class="form-text">Format: +228 XX XX XX XX</div>
-                        <div class="form-error" id="phoneError">Veuillez entrer un numéro valide au format +228 XX XX XX XX</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="address" class="form-label">Adresse (Ville, Quartier)<span class="required">*</span></label>
-                        <input type="text" id="address" class="form-control">
-                        <div class="form-error" id="addressError">Veuillez entrer votre adresse</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="birthDate" class="form-label">Date de naissance de l'élève <span class="required">*</span></label>
-                        <input type="date" id="birthDate" class="form-control" required>
-                        <div class="form-error" id="birthDateError">Veuillez sélectionner la date de naissance</div>
-                    </div>
-
-                    <!-- Niveau scolaire -->
-                    <div class="form-group">
-                        <label class="form-label">Niveau scolaire actuel <span class="required">*</span></label>
-                        <div class="level-selection">
-                            <input type="radio" id="level6" name="schoolLevel" class="level-radio" value="6eme" required>
-                            <label for="level6" class="level-label">6ème</label>
-                            
-                            <input type="radio" id="level5" name="schoolLevel" class="level-radio" value="5eme">
-                            <label for="level5" class="level-label">5ème</label>
-                            
-                            <input type="radio" id="level4" name="schoolLevel" class="level-radio" value="4eme">
-                            <label for="level4" class="level-label">4ème</label>
-                            
-                            <input type="radio" id="level3" name="schoolLevel" class="level-radio" value="3eme">
-                            <label for="level3" class="level-label">3ème</label>
-                        </div>
-                        <div class="form-error" id="levelError">Veuillez sélectionner votre niveau scolaire</div>
-                    </div>
-
-                    <!-- Établissement scolaire -->
-                    <div class="form-group">
-                        <label for="school" class="form-label">Établissement scolaire</label>
-                        <input type="text" id="school" class="form-control" placeholder="Ex: Collège Saint Joseph, CEG Tokoin...">
-                    </div>
-
-                    <!-- Matières à améliorer -->
-                    <div class="form-group">
-                        <label class="form-label">Matières que vous souhaitez améliorer <span class="required">*</span></label>
-                        <div class="subjects-grid">
-                            <!-- Mathématiques -->
-                            <input type="checkbox" id="math" class="subject-checkbox" value="math">
-                            <label for="math" class="subject-label">Mathématiques</label>
-                            
-                            <!-- Français -->
-                            <input type="checkbox" id="french" class="subject-checkbox" value="french">
-                            <label for="french" class="subject-label">Français</label>
-                            
-                            <!-- Anglais -->
-                            <input type="checkbox" id="english" class="subject-checkbox" value="english">
-                            <label for="english" class="subject-label">Anglais</label>
-                            
-                            <!-- Histoire-Géo -->
-                            <input type="checkbox" id="history" class="subject-checkbox" value="history">
-                            <label for="history" class="subject-label">Histoire-Géo</label>
-                            
-                            <!-- Sciences Physiques -->
-                            <input type="checkbox" id="physics" class="subject-checkbox" value="physics">
-                            <label for="physics" class="subject-label">Sciences Physiques</label>
-                            
-                            <!-- SVT -->
-                            <input type="checkbox" id="svt" class="subject-checkbox" value="svt">
-                            <label for="svt" class="subject-label">SVT</label>
-                            
-                            <!-- Éducation Civique -->
-                            <input type="checkbox" id="civic" class="subject-checkbox" value="civic">
-                            <label for="civic" class="subject-label">Éducation Civique</label>
-                            
-                            <!-- Technologie -->
-                            <input type="checkbox" id="technology" class="subject-checkbox" value="technology">
-                            <label for="technology" class="subject-label">Technologie</label>
-                        </div>
-                        <div class="form-error" id="subjectsError">Veuillez sélectionner au moins une matière</div>
-                    </div>
-
-                    <!-- Objectifs d'apprentissage -->
-                    <div class="form-group">
-                        <label for="learningGoals" class="form-label">Objectifs d'apprentissage</label>
-                        <textarea id="learningGoals" class="form-control" rows="4" placeholder="Ex: Préparation au BEPC, Rattrapage scolaire, Perfectionnement en Maths..."></textarea>
-                        <div class="form-text">Décrivez vos objectifs pour mieux vous orienter vers les bons enseignants</div>
-                    </div>
-
-                    <!-- Budget mensuel approximatif -->
-                    <div class="form-group">
-                        <label for="budget" class="form-label">Budget mensuel approximatif (FCFA)</label>
-                        <select id="budget" class="form-control">
-                            <option value="">Sélectionnez</option>
-                            <option value="10000-20000">10.000 - 20.000 FCFA</option>
-                            <option value="20000-30000">20.000 - 30.000 FCFA</option>
-                            <option value="30000-40000">30.000 - 40.000 FCFA</option>
-                            <option value="40000-50000">40.000 - 50.000 FCFA</option>
-                            <option value="50000+">Plus de 50.000 FCFA</option>
-                        </select>
-                        <div class="form-text">Ce budget nous aide à vous proposer des enseignants adaptés</div>
-                    </div>
-
-                    <!-- Mot de passe -->
-                    <div class="form-group">
-                        <label for="password" class="form-label">Mot de passe <span class="required">*</span></label>
-                        <input type="password" id="password" class="form-control" required>
-                        <div class="form-text">Minimum 8 caractères avec majuscule, minuscule et chiffre</div>
-                        <div class="form-error" id="passwordError">Le mot de passe doit contenir au moins 8 caractères</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="confirm_password" class="form-label">Confirmer le mot de passe <span class="required">*</span></label>
-                        <input type="password" id="confirm_password" class="form-control" required>
-                        <div class="form-error" id="confirmPasswordError">Les mots de passe ne correspondent pas</div>
-                    </div>
-
-                    <!-- Boutons -->
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="resetBtn">Effacer</button>
-                        <button type="submit" class="btn btn-primary" id="submitBtn">S'inscrire</button>
-                    </div>
-                </form>
-            </section>
-
-            <!-- Charte contractuelle de l'Élève -->
+            <!-- Section charte -->
             <section class="charte-section">
-                <h1 class="charte-title">Charte de l'Élève EduTogoConnect</h1>
-                
+                <div class="charte-important-note">
+                    <i class="fas fa-exclamation-circle"></i> 
+                    <strong>ATTENTION :</strong> La lecture attentive de cette charte est <strong>OBLIGATOIRE</strong> avant l'inscription
+                </div>
+
                 <div class="charte-content">
                     <h3>Article 1 - Engagement de l'Élève</h3>
                     <p>En créant un compte sur EduTogoConnect, l'élève (et son représentant légal si mineur) s'engage à :</p>
@@ -617,19 +776,19 @@
                         <thead>
                             <tr>
                                 <th>Méthode</th>
-                                <th>Délai de validation</th>
+                                <th>Délai</th>
                                 <th>Frais</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Mobile Money (Togocom, Moov)</td>
+                                <td>Mobile Money</td>
                                 <td>Instantané</td>
-                                <td>1% (min 100 FCFA)</td>
+                                <td>1%</td>
                             </tr>
                             <tr>
                                 <td>Virement bancaire</td>
-                                <td>24-48 heures</td>
+                                <td>24-48h</td>
                                 <td>500 FCFA</td>
                             </tr>
                             <tr>
@@ -641,138 +800,325 @@
                     </table>
 
                     <div class="warning">
-                        <strong>IMPORTANT :</strong> Aucun remboursement n'est possible après le début du cours, sauf cas exceptionnel validé par l'administration.
+                        <strong>IMPORTANT :</strong> Aucun remboursement après le début du cours.
                     </div>
 
-                    <h3>Article 4 - Tarification et Facturation</h3>
-                    <p>Les tarifs sont fixés librement par chaque enseignant :</p>
+                    <h3>Article 4 - Tarification</h3>
+                    <p>Les tarifs sont fixés par chaque enseignant :</p>
                     <ul>
-                        <li>Tarif horaire moyen : 1.500 à 5.000 FCFA/heure</li>
-                        <li>Possibilité de forfaits mensuels à tarif réduit</li>
-                        <li>Premier cours d'essai possible (à la discrétion de l'enseignant)</li>
-                        <li>Facture détaillée disponible dans votre espace personnel</li>
+                        <li>Tarif horaire : 1.500 à 5.000 FCFA/heure</li>
+                        <li>Forfaits mensuels à tarif réduit</li>
+                        <li>Premier cours d'essai possible</li>
+                        <li>Facture disponible dans votre espace</li>
                     </ul>
 
-                    <h3>Article 5 - Annulation et Report de Cours</h3>
+                    <h3>Article 5 - Annulation de Cours</h3>
                     <p><strong>Règles d'annulation :</strong></p>
                     <ul>
-                        <li>Annulation gratuite jusqu'à 24h avant le cours</li>
-                        <li>Annulation entre 24h et 2h avant : 50% du cours facturé</li>
-                        <li>Annulation moins de 2h avant : 100% du cours facturé</li>
-                        <li>En cas d'absence non justifiée : 100% du cours facturé</li>
-                    </ul>
-
-                    <p><strong>Pour reporter un cours :</strong></p>
-                    <ul>
-                        <li>Contactez l'enseignant au moins 6h à l'avance</li>
-                        <li>Proposez une nouvelle date dans les 7 jours</li>
-                        <li>Maximum 2 reports par mois</li>
+                        <li>Annulation gratuite jusqu'à 24h avant</li>
+                        <li>Annulation 24h-2h avant : 50% facturé</li>
+                        <li>Annulation moins de 2h avant : 100% facturé</li>
+                        <li>Absence non justifiée : 100% facturé</li>
                     </ul>
 
                     <h3>Article 6 - Évaluation des Enseignants</h3>
-                    <p>Après chaque cours, vous pouvez évaluer votre enseignant :</p>
+                    <p>Après chaque cours :</p>
                     <ul>
                         <li>Note de 1 à 5 étoiles</li>
                         <li>Commentaire détaillé (optionnel)</li>
-                        <li>Les évaluations sont anonymes pour l'enseignant</li>
-                        <li>Les avis sont modérés par l'administration</li>
+                        <li>Évaluations anonymes</li>
+                        <li>Avis modérés</li>
                     </ul>
 
                     <h3>Article 7 - Suivi et Progression</h3>
-                    <p>Chaque élève bénéficie d'un suivi personnalisé :</p>
+                    <p>Chaque élève bénéficie de :</p>
                     <ul>
-                        <li>Tableau de bord avec progression par matière</li>
-                        <li>Certificat de fin de cours au format PDF</li>
+                        <li>Tableau de bord avec progression</li>
+                        <li>Certificat de fin de cours</li>
                         <li>Bilan régulier avec l'enseignant</li>
-                        <li>Statistiques de participation et d'assiduité</li>
+                        <li>Statistiques de participation</li>
                     </ul>
 
-                    <h3>Article 8 - Sécurité et Confidentialité</h3>
+                    <h3>Article 8 - Sécurité</h3>
                     <p>La plateforme garantit :</p>
                     <ul>
-                        <li>La protection de vos données personnelles</li>
-                        <li>La confidentialité des échanges avec les enseignants</li>
-                        <li>La sécurité des transactions financières</li>
-                        <li>Un environnement d'apprentissage sécurisé</li>
+                        <li>Protection des données personnelles</li>
+                        <li>Confidentialité des échanges</li>
+                        <li>Sécurité des transactions</li>
+                        <li>Environnement d'apprentissage sécurisé</li>
                     </ul>
 
                     <h3>Article 9 - Comportement en Ligne</h3>
                     <p>L'élève s'engage à :</p>
                     <ul>
-                        <li>Respecter les règles de bon usage de la visioconférence</li>
-                        <li>Ne pas enregistrer les séances sans autorisation</li>
-                        <li>Utiliser un langage approprié dans la messagerie</li>
+                        <li>Respecter les règles de la visioconférence</li>
+                        <li>Ne pas enregistrer sans autorisation</li>
+                        <li>Utiliser un langage approprié</li>
                         <li>Signaler tout comportement inapproprié</li>
                     </ul>
 
                     <h3>Article 10 - Résiliation du Compte</h3>
-                    <p>Le compte élève peut être résilié :</p>
+                    <p>Le compte peut être résilié :</p>
                     <ul>
-                        <li>À la demande de l'élève (ou de son représentant légal)</li>
-                        <li>En cas de non-respect répété de la charte</li>
-                        <li>Pour comportement inapproprié envers un enseignant</li>
-                        <li>Pour fraude ou tentative de fraude</li>
+                        <li>À la demande de l'élève</li>
+                        <li>En cas de non-respect répété</li>
+                        <li>Pour comportement inapproprié</li>
+                        <li>Pour fraude ou tentative</li>
                     </ul>
 
                     <div class="highlight">
                         <h4>Protection des Élèves Mineurs</h4>
                         <p>Pour les élèves de moins de 18 ans :</p>
                         <ul>
-                            <li>L'inscription doit être faite par un parent/tuteur</li>
-                            <li>Les paiements sont effectués par le responsable légal</li>
-                            <li>Les parents ont accès au tableau de bord de progression</li>
-                            <li>Possibilité de désactiver la messagerie directe</li>
+                            <li>Inscription par parent/tuteur</li>
+                            <li>Paiements par responsable légal</li>
+                            <li>Accès parent au tableau de bord</li>
+                            <li>Possibilité de désactiver la messagerie</li>
                         </ul>
                     </div>
-
-                    <h3>Article 11 - Support et Assistance</h3>
-                    <p>En cas de problème :</p>
-                    <ul>
-                        <li>Support technique : support@edutogoconnect.tg</li>
-                        <li>Service facturation : facturation@edutogoconnect.tg</li>
-                        <li>Assistance pédagogique : pedagogie@edutogoconnect.tg</li>
-                        <li>Téléphone : +228 XX XX XX XX (Lun-Ven, 8h-18h)</li>
-                    </ul>
 
                     <div class="warning">
-                        <h4>Rappel Important sur les Paiements</h4>
-                        <p><strong>NE JAMAIS EFFECTUER DE PAIEMENT DIRECT À L'ENSEIGNANT</strong></p>
-                        <p>Tous les paiements doivent passer par la plateforme EduTogoConnect pour :</p>
+                        <h4>Rappel Important</h4>
+                        <p><strong>NE JAMAIS PAYER DIRECTEMENT L'ENSEIGNANT</strong></p>
+                        <p>Tous les paiements doivent passer par la plateforme pour :</p>
                         <ul>
-                            <li>Votre protection en cas de litige</li>
-                            <li>La garantie du service</li>
-                            <li>La facturation officielle</li>
-                            <li>Le suivi de vos transactions</li>
+                            <li>Votre protection</li>
+                            <li>Garantie du service</li>
+                            <li>Facturation officielle</li>
+                            <li>Suivi des transactions</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Acceptation de la charte -->
-                <div class="acceptance-group">
-                    <input type="checkbox" id="acceptCharte" class="acceptance-checkbox" required>
-                    <label for="acceptCharte" class="acceptance-label">
-                        J'ai lu et j'accepte intégralement la charte de l'élève EduTogoConnect
-                    </label>
-                    <p class="form-text" style="margin-top: 10px;">
-                        En cochant cette case, vous acceptez les conditions contractuelles, 
-                        les règles de paiement, et vous engagez à respecter les règles de conduite.
-                    </p>
-                    <p class="form-text">
-                        <strong>Pour les élèves mineurs :</strong> Le parent/tuteur accepte la charte au nom de l'élève.
-                    </p>
-                </div>
-
-                <!-- Contact support -->
-                <div style="text-align: center; margin-top: 30px; padding: 20px; background-color: rgba(76,175,80,0.05); border-radius: 8px;">
-                    <h4 style="color: var(--noir); margin-bottom: 10px;">Questions sur la charte ?</h4>
-                    <p>Contactez notre service juridique :</p>
+                <div class="support-section">
+                    <h4>Questions sur la charte ?</h4>
                     <p><i class="fas fa-envelope"></i> juridique@edutogoconnect.tg</p>
                     <p><i class="fas fa-phone"></i> +228 XX XX XX XX</p>
-                    <p><i class="fas fa-clock"></i> Lundi - Vendredi: 8h-18h</p>
                 </div>
+            </section>
+
+            <!-- Formulaire d'inscription Élève -->
+            <section class="form-section">
+                <div class="form-header">
+                    <h1 class="form-title">Formulaire d'Inscription</h1>
+                    <p class="form-subtitle">Veuillez remplir tous les champs obligatoires (*)</p>
+                </div>
+                
+                <form id="studentRegistrationForm">
+                    <!-- Informations personnelles de l'élève -->
+                    <div class="form-group">
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px; font-size: 1.2rem;">Informations personnelles</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">Nom de famille <span class="required">*</span></label>
+                        <input type="text" id="lastName" class="form-control" required placeholder="Votre nom de famille">
+                        <div class="form-error" id="lastNameError">Veuillez entrer votre nom de famille</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">Prénom <span class="required">*</span></label>
+                        <input type="text" id="firstName" class="form-control" required placeholder="Votre prénom">
+                        <div class="form-error" id="firstNameError">Veuillez entrer votre prénom</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Adresse email <span class="required">*</span></label>
+                        <input type="email" id="email" class="form-control" required placeholder="exemple@email.com">
+                        <div class="form-text">Utilisez une adresse email valide</div>
+                        <div class="form-error" id="emailError">Adresse email invalide</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Téléphone <span class="required">*</span></label>
+                        <input type="tel" id="phone" class="form-control" required pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
+                        <div class="form-text">Format: +228 XX XX XX XX</div>
+                        <div class="form-error" id="phoneError">Numéro invalide</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address" class="form-label">Ville et Quartier <span class="required">*</span></label>
+                        <input type="text" id="address" class="form-control" required placeholder="Ex: Lomé, Tokoin">
+                        <div class="form-error" id="addressError">Veuillez entrer votre adresse</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthDate" class="form-label">Date de naissance <span class="required">*</span></label>
+                        <input type="date" id="birthDate" class="form-control" required>
+                        <div class="form-error" id="birthDateError">Date de naissance requise</div>
+                    </div>
+
+                    <!-- Niveau scolaire -->
+                    <div class="form-group">
+                        <label class="form-label">Niveau scolaire actuel <span class="required">*</span></label>
+                        <div class="level-selection">
+                            <input type="radio" id="level6" name="schoolLevel" class="level-radio" value="6eme" required>
+                            <label for="level6" class="level-label">6ème</label>
+                            
+                            <input type="radio" id="level5" name="schoolLevel" class="level-radio" value="5eme">
+                            <label for="level5" class="level-label">5ème</label>
+                            
+                            <input type="radio" id="level4" name="schoolLevel" class="level-radio" value="4eme">
+                            <label for="level4" class="level-label">4ème</label>
+                            
+                            <input type="radio" id="level3" name="schoolLevel" class="level-radio" value="3eme">
+                            <label for="level3" class="level-label">3ème</label>
+                        </div>
+                        <div class="form-error" id="levelError">Veuillez sélectionner votre niveau</div>
+                    </div>
+
+                    <!-- Établissement scolaire -->
+                    <div class="form-group">
+                        <label for="school" class="form-label">Établissement scolaire</label>
+                        <input type="text" id="school" class="form-control" placeholder="Collège/CEG/Lycée">
+                    </div>
+
+                    <!-- Matières à améliorer -->
+                    <div class="form-group">
+                        <label class="form-label">Matières à améliorer <span class="required">*</span></label>
+                        <div class="subjects-grid">
+                            <input type="checkbox" id="math" class="subject-checkbox" value="math">
+                            <label for="math" class="subject-label">Maths</label>
+                            
+                            <input type="checkbox" id="french" class="subject-checkbox" value="french">
+                            <label for="french" class="subject-label">Français</label>
+                            
+                            <input type="checkbox" id="english" class="subject-checkbox" value="english">
+                            <label for="english" class="subject-label">Anglais</label>
+                            
+                            <input type="checkbox" id="history" class="subject-checkbox" value="history">
+                            <label for="history" class="subject-label">Histoire-Géo</label>
+                            
+                            <input type="checkbox" id="physics" class="subject-checkbox" value="physics">
+                            <label for="physics" class="subject-label">Sciences Physiques</label>
+                            
+                            <input type="checkbox" id="svt" class="subject-checkbox" value="svt">
+                            <label for="svt" class="subject-label">SVT</label>
+                            
+                            <input type="checkbox" id="civic" class="subject-checkbox" value="civic">
+                            <label for="civic" class="subject-label">Éducation Civique</label>
+                            
+                            <input type="checkbox" id="technology" class="subject-checkbox" value="technology">
+                            <label for="technology" class="subject-label">Technologie</label>
+                        </div>
+                        <div class="form-error" id="subjectsError">Sélectionnez au moins une matière</div>
+                    </div>
+
+                    <!-- Objectifs d'apprentissage -->
+                    <div class="form-group">
+                        <label for="learningGoals" class="form-label">Objectifs d'apprentissage</label>
+                        <textarea id="learningGoals" class="form-control" rows="3" placeholder="Ex: Préparation BEPC, Rattrapage scolaire..."></textarea>
+                        <div class="form-text">Aide à vous orienter vers les bons enseignants</div>
+                    </div>
+
+                    <!-- Budget mensuel -->
+                    <div class="form-group">
+                        <label for="budget" class="form-label">Budget mensuel approximatif</label>
+                        <select id="budget" class="form-control">
+                            <option value="">Sélectionnez</option>
+                            <option value="10000-20000">10.000 - 20.000 FCFA</option>
+                            <option value="20000-30000">20.000 - 30.000 FCFA</option>
+                            <option value="30000-40000">30.000 - 40.000 FCFA</option>
+                            <option value="40000-50000">40.000 - 50.000 FCFA</option>
+                            <option value="50000+">Plus de 50.000 FCFA</option>
+                        </select>
+                        <div class="form-text">Pour vous proposer des enseignants adaptés</div>
+                    </div>
+
+                    <!-- Mot de passe -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">Mot de passe <span class="required">*</span></label>
+                        <input type="password" id="password" class="form-control" required placeholder="Minimum 8 caractères">
+                        <div class="form-text">Majuscule, minuscule et chiffre</div>
+                        <div class="form-error" id="passwordError">Minimum 8 caractères</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password" class="form-label">Confirmation <span class="required">*</span></label>
+                        <input type="password" id="confirm_password" class="form-control" required placeholder="Retapez votre mot de passe">
+                        <div class="form-error" id="confirmPasswordError">Mots de passe différents</div>
+                    </div>
+
+                    <!-- Acceptation de la charte -->
+                    <div class="acceptance-group">
+                        <input type="checkbox" id="acceptCharte" class="acceptance-checkbox" required>
+                        <label for="acceptCharte" class="acceptance-label">
+                            J'ai lu et j'accepte la charte de l'élève
+                        </label>
+                        <p class="form-text" style="margin-top: 10px;">
+                            En cochant, vous acceptez les conditions contractuelles.
+                        </p>
+                        <p class="form-text">
+                            <strong>Pour les mineurs :</strong> Le parent accepte au nom de l'élève.
+                        </p>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="resetBtn">Effacer</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">S'inscrire</button>
+                    </div>
+                </form>
             </section>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 15px;">
+                        <div class="logo-icon" style="width: 30px; height: 30px; font-size: 16px;">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal); font-size: 20px;">Edu<span>Togo</span>Connect</div>
+                    </div>
+                    <p style="font-size: 0.9rem; line-height: 1.5;">Plateforme éducative togolaise pour les élèves du collège (6ème à 3ème).</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="../index.html#cours">Cours</a></li>
+                        <li><a href="../index.html#enseignants">Enseignants</a></li>
+                        <li><a href="../index.html#niveaux">Niveaux</a></li>
+                        <li><a href="../index.html#ecoles">Écoles</a></li>
+                        <li><a href="../index.html#temoignages">Témoignages</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Inscriptions</h3>
+                    <ul class="footer-links">
+                        <li><a href="eleve.html">Élève</a></li>
+                        <li><a href="enseignant.html">Enseignant</a></li>
+                        <li><a href="parent.html">Parent</a></li>
+                        <li><a href="ecole.html">École</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 8px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 8px;"></i> Lun-Ven: 8h-18h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Éléments du formulaire
@@ -780,6 +1126,26 @@
         const submitBtn = document.getElementById('submitBtn');
         const acceptCharte = document.getElementById('acceptCharte');
         const resetBtn = document.getElementById('resetBtn');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+
+        // ============ FLÈCHE RETOUR EN HAUT ============
+        function toggleBackToTopButton() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        window.addEventListener('scroll', toggleBackToTopButton);
+        backToTopBtn.addEventListener('click', scrollToTop);
 
         // ============ VALIDATION DU FORMULAIRE ============
         function validateForm() {
@@ -811,7 +1177,7 @@
                 document.getElementById('levelError').style.display = 'none';
             }
 
-            // Validation des matières sélectionnées
+            // Validation des matières
             const selectedSubjects = registrationForm.querySelectorAll('.subject-checkbox:checked');
             if (selectedSubjects.length === 0) {
                 document.getElementById('subjectsError').style.display = 'block';
@@ -871,35 +1237,25 @@
             input.addEventListener('blur', validateForm);
         });
 
-        // Écouteur pour les boutons radio (niveau scolaire)
+        // Écouteurs pour les sélections
         const levelRadios = registrationForm.querySelectorAll('input[name="schoolLevel"]');
-        levelRadios.forEach(radio => {
-            radio.addEventListener('change', validateForm);
-        });
+        levelRadios.forEach(radio => radio.addEventListener('change', validateForm));
 
-        // Écouteur pour les checkboxes (matières)
         const subjectCheckboxes = registrationForm.querySelectorAll('.subject-checkbox');
-        subjectCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', validateForm);
-        });
+        subjectCheckboxes.forEach(checkbox => checkbox.addEventListener('change', validateForm));
 
-        // Écouteur pour l'acceptation de la charte
         acceptCharte.addEventListener('change', validateForm);
 
         // ============ RESET DU FORMULAIRE ============
         resetBtn.addEventListener('click', () => {
-            if (confirm('Voulez-vous vraiment effacer tous les champs du formulaire ?')) {
+            if (confirm('Effacer tous les champs du formulaire ?')) {
                 registrationForm.reset();
                 submitBtn.disabled = true;
                 acceptCharte.checked = false;
                 
-                // Masquer toutes les erreurs
                 document.querySelectorAll('.form-error').forEach(error => {
                     error.style.display = 'none';
                 });
-                
-                // Réinitialiser la validation
-                validateForm();
             }
         });
 
@@ -907,72 +1263,45 @@
         registrationForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Validation finale
             if (!validateForm()) {
                 alert('Veuillez corriger les erreurs dans le formulaire.');
                 return;
             }
             
-            // Vérifier l'acceptation de la charte
             if (!acceptCharte.checked) {
                 alert('Vous devez accepter la charte de l\'élève pour vous inscrire.');
                 return;
             }
             
-            // Simuler l'envoi (à remplacer par AJAX dans la version PHP)
-            alert('Inscription réussie ! Vous pouvez maintenant vous connecter à votre compte.');
+            // Simulation d'envoi
+            alert('Inscription réussie ! Redirection vers la page de connexion...');
             
-            // Réinitialiser le formulaire
             registrationForm.reset();
             submitBtn.disabled = true;
             acceptCharte.checked = false;
             
-            // Masquer toutes les erreurs
             document.querySelectorAll('.form-error').forEach(error => {
                 error.style.display = 'none';
             });
             
-            // Redirection vers la page de connexion (à adapter)
-            // window.location.href = 'login.php?success=1';
+            // Redirection vers la page de connexion
+            setTimeout(() => {
+                window.location.href = '../Authentification/auth.html?success=1';
+            }, 1500);
         });
 
         // ============ LOGIQUE POUR ÉLÈVES MINEURS ============
         const birthDateInput = document.getElementById('birthDate');
+        const today = new Date();
+        const maxDate = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
+        const minDate = new Date(today.getFullYear() - 25, today.getMonth(), today.getDate());
         
-        birthDateInput.addEventListener('change', function() {
-            const birthDate = new Date(this.value);
-            const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
-            
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            
-            // Si l'élève a moins de 18 ans, mettre en évidence la section parentale
-            const parentSection = document.querySelector('.parent-info-section');
-            if (age < 18) {
-                parentSection.style.borderColor = 'var(--vert-success)';
-                parentSection.style.backgroundColor = 'rgba(76,175,80,0.1)';
-                
-                // Optionnel : rendre certains champs parentaux obligatoires
-                const parentName = document.getElementById('parentName');
-                parentName.required = true;
-                parentName.parentElement.querySelector('.form-label').innerHTML += ' <span class="required">*</span>';
-            } else {
-                parentSection.style.borderColor = 'rgba(76,175,80,0.2)';
-                parentSection.style.backgroundColor = 'rgba(76,175,80,0.05)';
-                
-                // Rendre les champs parentaux optionnels
-                const parentName = document.getElementById('parentName');
-                parentName.required = false;
-                const label = parentName.parentElement.querySelector('.form-label');
-                label.innerHTML = label.innerHTML.replace(' <span class="required">*</span>', '');
-            }
-        });
+        birthDateInput.max = maxDate.toISOString().split('T')[0];
+        birthDateInput.min = minDate.toISOString().split('T')[0];
 
         // Initialisation : désactiver le bouton submit
         submitBtn.disabled = true;
+        toggleBackToTopButton();
     </script>
 </body>
 </html>
