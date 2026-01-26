@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +10,23 @@
         /* Variables de couleurs */
         :root {
             --jaune-principal: #FFD700;
-            --jaune-fonce: #FFC107;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
             --gris-clair: #F5F5F5;
-            --gris-moyen: #E0E0E0;
-            --gris-fonce: #757575;
-            --gris-texte: #424242;
+            --orange-cours: #FF9800;
+            --cyan-suggestion: #00BCD4;
+            --violet-premium: #9C27B0;
+            --bleu-prof: #2196F3;
+            --violet-autres: #7B1FA2;
+            
+            --jaune-fonce: #FFC107;
             --vert-success: #4CAF50;
             --rouge-alerte: #F44336;
-            --blanc: #FFFFFF;
+            --bleu-info: #2196F3;
+            --gris-texte: #424242;
             --noir: #212121;
         }
 
@@ -34,47 +42,389 @@
             background-color: var(--gris-clair);
             color: var(--gris-texte);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        /* Flèche retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--blanc-principal);
+            overflow: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(239, 51, 64, 0.4);
+        }
+
+        /* Header corrigé */
+        header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+            min-width: 200px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+
+        /* Centre de l'header */
+        .header-center {
+            flex: 1;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .banner-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-bottom: 4px;
+        }
+
+        .banner-subtitle {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Droite de l'header */
+        .header-right {
+            display: flex;
+            justify-content: flex-end;
+            min-width: 180px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px !important;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* Boutons généraux */
+        .btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-secondary {
+            background-color: var(--gris-clair);
+            color: var(--gris-texte);
+            border: 2px solid var(--gris-moyen);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+            border-color: var(--gris-fonce);
+        }
+
+        /* Bannière charte après l'entête */
+        .charte-banner {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
+            color: var(--blanc-principal);
+            padding: 5px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .charte-banner-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .charte-banner-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .charte-banner-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
         }
 
         /* Contenu principal */
         .registration-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin: 40px 0;
+            grid-template-columns: 55% 45%;
+            gap: 15px;
+            margin: 0 0 60px;
+            min-height: calc(100vh - 200px);
         }
 
-        @media (max-width: 992px) {
+        @media (max-width: 1200px) {
             .registration-container {
                 grid-template-columns: 1fr;
+                gap: 40px;
             }
+        }
+
+        /* Section charte */
+        .charte-section {
+            background-color: var(--gris-clair);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            max-height: 900vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .charte-header {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
+            color: var(--blanc-principal);
+            padding: 7px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .charte-title {
+            color: var(--blanc-principal);
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .charte-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .charte-important-note {
+            background-color: var(--rouge-principal);
+            border: 2px solid var(--rouge-principal);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--blanc-principal);
+        }
+
+        .charte-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px 5px 10px 10px;
+            margin-bottom: 20px;
+            max-height: 400px;
+        }
+
+        .charte-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .charte-content::-webkit-scrollbar-track {
+            background: var(--gris-clair);
+            border-radius: 4px;
+        }
+
+        .charte-content::-webkit-scrollbar-thumb {
+            background-color: var(--jaune-principal);
+            border-radius: 4px;
+        }
+
+        .charte-section h3 {
+            color: var(--gris-fonce);
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--gris-clair);
+            font-size: 1.1rem;
+        }
+
+        .charte-section p {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .charte-section ul, .charte-section ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .charte-section li {
+            margin-bottom: 5px;
+        }
+
+        .highlight {
+            background-color: rgba(76,175,80,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--vert-success);
+            font-size: 0.9rem;
+        }
+
+        .warning {
+            background-color: rgba(255,215,0,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--jaune-principal);
+            font-size: 0.9rem;
+        }
+
+        .commission-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.85rem;
+        }
+
+        .commission-table th,
+        .commission-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--gris-moyen);
+        }
+
+        .commission-table th {
+            background-color: rgba(76,175,80,0.1);
+            color: var(--gris-fonce);
+            font-weight: 600;
         }
 
         /* Section formulaire */
         .form-section {
-            background-color: var(--blanc);
+            background-color: var(--blanc-principal);
             border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--vert-principal);
         }
 
         .form-title {
-            color: var(--noir);
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--jaune-principal);
+            color: var(--gris-fonce);
             font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .form-subtitle {
+            color: var(--gris-moyen);
+            font-size: 1rem;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+        }
+
+        /* Groupes en ligne */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Ajustement pour 3 colonnes sur les grands écrans */
+        @media (min-width: 992px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 991px) and (min-width: 769px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
         }
 
         .form-label {
@@ -82,6 +432,7 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--gris-texte);
+            font-size: 0.95rem;
         }
 
         .required {
@@ -95,19 +446,45 @@
             border-radius: 8px;
             font-size: 1rem;
             transition: border-color 0.3s;
-            background-color: var(--blanc);
+            background-color: var(--blanc-principal);
+        }
+
+        /* Styles pour les champs invalides */
+        .form-control:invalid {
+            border-color: var(--rouge-alerte);
+            background-color: rgba(244, 67, 54, 0.05);
+        }
+
+        .form-control:invalid:focus {
+            border-color: var(--rouge-alerte);
+            box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+        }
+
+        /* Style pour les champs obligatoires non remplis */
+        .form-control:required:not(:valid):not(:focus):not(:placeholder-shown) {
+            border-color: var(--rouge-alerte);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+            padding-right: 40px;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--jaune-principal);
-            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+            border-color: var(--vert-principal);
+            box-shadow: 0 0 0 3px rgba(0,166,81,0.1);
         }
 
         .form-text {
             font-size: 0.85rem;
-            color: var(--gris-fonce);
+            color: var(--gris-moyen);
             margin-top: 5px;
+            line-height: 1.4;
         }
 
         .form-error {
@@ -150,15 +527,14 @@
 
         /* Niveaux d'enseignement */
         .levels-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
             margin-top: 10px;
         }
 
         .level-item {
-            flex: 1;
-            min-width: 120px;
+            text-align: center;
         }
 
         .level-checkbox {
@@ -171,7 +547,6 @@
             background-color: var(--gris-clair);
             border: 2px solid var(--gris-moyen);
             border-radius: 8px;
-            text-align: center;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -184,134 +559,115 @@
         }
 
         /* Upload de fichiers - Section CV */
-        .cv-section {
-            background-color: rgba(255, 215, 0, 0.05);
-            border: 2px solid var(--jaune-principal);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .cv-requirement {
+        .file-upload-container {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            color: var(--noir);
-            font-weight: 600;
-        }
-
-        .cv-requirement i {
-            color: var(--jaune-fonce);
-        }
-
-        .cv-upload-area {
-            border: 3px dashed var(--jaune-principal);
-            border-radius: 8px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background-color: rgba(255, 215, 0, 0.1);
-        }
-
-        .cv-upload-area:hover {
-            background-color: rgba(255, 215, 0, 0.15);
-            border-color: var(--jaune-fonce);
-        }
-
-        .cv-upload-area i {
-            font-size: 3rem;
-            color: var(--jaune-fonce);
-            margin-bottom: 15px;
-        }
-
-        .cv-upload-text {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--noir);
-            margin-bottom: 10px;
-        }
-
-        .cv-input {
-            display: none;
-        }
-
-        .cv-preview {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .cv-file-info {
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+            border: 2px dashed var(--gris-moyen);
+            border-radius: 10px;
+            background-color: var(--gris-clair);
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 150px;
+            margin-top: 10px;
+        }
+
+        .file-upload-container.dragover {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.1);
+            transform: scale(1.02);
+        }
+
+        .file-upload-icon {
+            font-size: 2.5rem;
+            color: var(--gris-moyen);
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .file-upload-container:hover .file-upload-icon {
+            color: var(--vert-principal);
+        }
+
+        .file-upload-text {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .file-upload-btn {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .file-upload-btn:hover {
+            background-color: var(--gris-fonce);
+        }
+
+        .file-preview-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .file-preview-info {
+            display: flex;
+            align-items: center;
             gap: 15px;
             background-color: rgba(76, 175, 80, 0.1);
             padding: 15px;
             border-radius: 8px;
             border: 1px solid var(--vert-success);
+            width: 100%;
+            margin-bottom: 10px;
         }
 
-        .cv-file-info i {
+        .file-preview-icon {
             color: var(--vert-success);
             font-size: 2rem;
         }
 
-        .cv-details {
+        .file-details {
             text-align: left;
+            flex: 1;
         }
 
-        .cv-file-name {
+        .file-name {
             font-weight: 600;
             color: var(--noir);
         }
 
-        .cv-file-size {
-            color: var(--gris-fonce);
+        .file-size {
+            color: var(--gris-moyen);
             font-size: 0.9rem;
         }
 
-        .cv-remove {
-            color: var(--rouge-alerte);
-            cursor: pointer;
-            background: none;
+        .file-remove-btn {
+            background-color: var(--rouge-alerte);
+            color: var(--blanc-principal);
             border: none;
-            font-size: 1.2rem;
-        }
-
-        .cv-error {
-            color: var(--rouge-alerte);
-            text-align: center;
-            margin-top: 10px;
-            display: none;
-        }
-
-        /* Upload autres documents */
-        .file-upload {
-            border: 2px dashed var(--gris-moyen);
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
+            padding: 6px 15px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s;
+            font-size: 0.85rem;
+            transition: background-color 0.3s;
         }
 
-        .file-upload:hover {
-            border-color: var(--jaune-principal);
-            background-color: rgba(255, 215, 0, 0.05);
+        .file-remove-btn:hover {
+            background-color: #d32f2f;
         }
 
-        .file-upload i {
-            font-size: 2.5rem;
-            color: var(--gris-fonce);
-            margin-bottom: 15px;
-        }
-
-        .file-input {
-            display: none;
-        }
-
+        /* File list pour autres documents */
         .file-list {
             margin-top: 15px;
             max-height: 200px;
@@ -328,12 +684,12 @@
             margin-bottom: 5px;
         }
 
-        .file-name {
+        .file-item-name {
             flex: 1;
             font-size: 0.9rem;
         }
 
-        .file-remove {
+        .file-item-remove {
             color: var(--rouge-alerte);
             cursor: pointer;
             background: none;
@@ -341,83 +697,100 @@
             font-size: 1rem;
         }
 
-        /* Section charte */
-        .charte-section {
-            background-color: var(--blanc);
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .charte-title {
-            color: var(--noir);
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-        }
-
-        .charte-content {
-            max-height: 500px;
-            overflow-y: auto;
+        /* Photo de profil */
+        .photo-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
+            border: 2px dashed var(--gris-moyen);
+            border-radius: 10px;
             background-color: var(--gris-clair);
-            border-radius: 8px;
-            margin-bottom: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 150px;
+            margin-top: 10px;
         }
 
-        .charte-section h3 {
-            color: var(--noir);
-            margin: 20px 0 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--gris-moyen);
+        .photo-upload-container.dragover {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.1);
+            transform: scale(1.02);
         }
 
-        .charte-section ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
+        .photo-upload-icon {
+            font-size: 2.5rem;
+            color: var(--gris-moyen);
+            margin-bottom: 10px;
+            transition: color 0.3s;
         }
 
-        .charte-section li {
-            margin-bottom: 8px;
+        .photo-upload-container:hover .photo-upload-icon {
+            color: var(--vert-principal);
         }
 
-        .highlight {
-            background-color: rgba(255, 215, 0, 0.1);
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            border-left: 3px solid var(--jaune-principal);
+        .photo-upload-text {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
         }
 
-        .commission-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
+        .photo-upload-btn {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
         }
 
-        .commission-table th,
-        .commission-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--gris-moyen);
+        .photo-upload-btn:hover {
+            background-color: var(--gris-fonce);
         }
 
-        .commission-table th {
-            background-color: rgba(255, 215, 0, 0.1);
-            color: var(--noir);
-            font-weight: 600;
+        .photo-preview-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 15px;
         }
 
-        .commission-table tr:hover {
-            background-color: rgba(0, 0, 0, 0.02);
+        .photo-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--blanc-principal);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 10px;
         }
 
-        /* Checkbox d'acceptation */
+        .photo-remove-btn {
+            background-color: var(--rouge-alerte);
+            color: var(--blanc-principal);
+            border: none;
+            padding: 6px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s;
+        }
+
+        .photo-remove-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Checkbox d'acceptation de la charte */
         .acceptance-group {
-            margin: 30px 0;
+            margin: 25px 0;
             padding: 20px;
-            background-color: rgba(76, 175, 80, 0.05);
+            background-color: rgba(0,166,81,0.05);
             border-radius: 8px;
-            border: 1px solid rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(0,166,81,0.2);
         }
 
         .acceptance-checkbox {
@@ -428,336 +801,309 @@
         .acceptance-label {
             font-weight: 600;
             color: var(--gris-texte);
+            font-size: 0.95rem;
         }
 
-        /* Boutons */
-        .btn {
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            font-size: 1rem;
-        }
-
+        /* Boutons formulaire */
         .btn-primary {
-            background-color: var(--jaune-principal);
-            color: var(--noir);
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
             width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
         }
 
         .btn-primary:hover {
-            background-color: var(--jaune-fonce);
+            background-color: #008c45;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.3);
         }
 
+        /* Style du bouton désactivé */
         .btn-primary:disabled {
             background-color: var(--gris-moyen);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+            opacity: 0.6;
         }
 
-        .btn-secondary {
+        .btn-primary:disabled:hover {
             background-color: var(--gris-moyen);
-            color: var(--gris-texte);
-            margin-right: 15px;
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--gris-fonce);
-            color: var(--blanc);
+            transform: none;
+            box-shadow: none;
         }
 
         .form-actions {
             display: flex;
-            justify-content: space-between;
+            gap: 15px;
             margin-top: 30px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
+        .form-actions .btn-secondary {
+            flex: 1;
+            border-radius: 8px;
+            padding: 14px;
+            background-color: var(--gris-clair);
+            color: var(--gris-texte);
+            border: 2px solid var(--gris-moyen);
+            text-align: center;
+            cursor: pointer;
+        }
 
-            .form-section,
-            .charte-section {
-                padding: 25px;
+        .form-actions .btn-primary {
+            flex: 2;
+        }
+
+        /* Contact support */
+        .support-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(0,166,81,0.05);
+            border-radius: 8px;
+        }
+
+        .support-section h4 {
+            color: var(--gris-fonce);
+            margin-bottom: 10px;
+        }
+
+        .support-section p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--noir);
+            color: var(--gris-moyen);
+            padding: 40px 0 20px;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--gris-moyen);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--noir);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Responsive général */
+        @media (max-width: 992px) {
+            .navbar {
+                flex-wrap: wrap;
             }
+            
+            .header-center {
+                order: 3;
+                flex-basis: 100%;
+                margin-top: 10px;
+            }
+            
+            .header-right {
+                flex: 1;
+                justify-content: flex-end;
+            }
+        }
 
+        @media (max-width: 768px) {
+            .registration-container {
+                margin: 20px 0 40px;
+            }
+            
+            .charte-section, .form-section {
+                padding: 20px;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .charte-title {
+                font-size: 1.4rem;
+            }
+            
             .subjects-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
-
+            
             .levels-container {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+            
+            .form-actions {
                 flex-direction: column;
             }
+            
+            .form-actions .btn {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .form-actions .btn:last-child {
+                margin-bottom: 0;
+            }
+        }
 
-            .level-item {
-                min-width: 100%;
+        @media (max-width: 576px) {
+            .logo-text {
+                font-size: 1.1rem;
+            }
+            
+            .banner-title {
+                font-size: 1rem;
+            }
+            
+            .banner-subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .back-link {
+                padding: 6px 12px !important;
+                font-size: 0.85rem;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .levels-container {
+                grid-template-columns: 1fr 1fr;
             }
         }
     </style>
 </head>
-
 <body>
-    <!-- Header -->
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Header corrigé -->
     <header>
         <div class="container">
             <nav class="navbar">
-                <div class="logo">
+                <!-- Logo à gauche -->
+                <a href="../index.html" class="logo">
                     <div class="logo-icon">ET</div>
                     <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <!-- Titre au centre -->
+                <div class="header-center">
+                    <div class="banner-title">Inscription Enseignant - EduTogoConnect</div>
+                    <div class="banner-subtitle">Plateforme éducative togolaise</div>
                 </div>
 
-                <div class="menu-toggle" id="menuToggle">
-                    <i class="fas fa-bars"></i>
-                </div>
-
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="#fonctionnalite">Fonctionnalités</a></li>
-                    <li><a href="#niveaux">Niveaux</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-
-                <div class="auth-buttons">
-                    <a href="login.php" class="btn btn-login">Connexion</a>
-                    <a href="#inscription" class="btn btn-signup">S'inscrire</a>
+                <!-- Bouton retour à droite -->
+                <div class="header-right">
+                    <a href="../index.html" class="btn btn-secondary back-link">
+                        <i class="fas fa-arrow-left"></i> Retour à l'accueil
+                    </a>
                 </div>
             </nav>
-
-            <!-- Menu mobile -->
-            <!--
-            <div class="mobile-menu" id="mobileMenu">
-                <ul class="nav-links">
-                    <li><a href="#accueil">Accueil</a></li>
-                    <li><a href="#fonctionnalites">Fonctionnalités</a></li>
-                    <li><a href="#niveaux">Niveaux</a></li>
-                    <li><a href="#inscription">S'inscrire</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <div class="mobile-auth">
-                    <a href="login.php" class="btn btn-login">Connexion</a>
-                    <a href="register.php" class="btn btn-signup">Inscription</a>
-                </div>
-            </div>
-            -->
-
         </div>
     </header>
 
+    <!-- Bannière charte après l'entête -->
+    <div class="charte-banner">
+        <div class="container">
+            <div class="charte-banner-content">
+                <h2 class="charte-banner-title">Charte de l'Enseignant de la plateforme Règles et engagements à respecter</h2>
+            </div>
+        </div>
+    </div>
+
     <main class="container">
         <div class="registration-container">
-            <!-- Formulaire d'inscription -->
-            <section class="form-section">
-                <h1 class="form-title">Inscription Enseignant</h1>
-
-                <form id="teacherRegistrationForm">
-                    <!-- Informations personnelles -->
-                    <div class="form-group">
-                        <h3 style="color: var(--noir); margin-bottom: 15px;">Informations personnelles</h3>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="fullName" class="form-label">Nom complet <span class="required">*</span></label>
-                        <input type="text" id="fullName" class="form-control" required>
-                        <div class="form-error" id="fullNameError">Veuillez entrer votre nom complet</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email" class="form-label">Adresse email <span class="required">*</span></label>
-                        <input type="email" id="email" class="form-control" required>
-                        <div class="form-error" id="emailError">Veuillez entrer une adresse email valide</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone" class="form-label">Téléphone <span class="required">*</span></label>
-                        <input type="tel" id="phone" class="form-control" required
-                            pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
-                        <div class="form-text">Format: +228 XX XX XX XX</div>
-                        <div class="form-error" id="phoneError">Veuillez entrer un numéro valide au format +228 XX XX XX
-                            XX</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="address" class="form-label">Adresse (Ville, Quartier)</label>
-                        <input type="text" id="address" class="form-control">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="birthDate" class="form-label">Date de naissance <span
-                                class="required">*</span></label>
-                        <input type="date" id="birthDate" class="form-control" required>
-                        <div class="form-error" id="birthDateError">Veuillez sélectionner votre date de naissance</div>
-                    </div>
-
-                    <!-- Matières enseignées -->
-                    <div class="form-group">
-                        <label class="form-label">Matières que vous enseignez <span class="required">*</span></label>
-                        <div class="subjects-grid">
-                            <!-- Mathématiques -->
-                            <input type="checkbox" id="math" class="subject-checkbox" value="math">
-                            <label for="math" class="subject-label">Mathématiques</label>
-
-                            <!-- Français -->
-                            <input type="checkbox" id="french" class="subject-checkbox" value="french">
-                            <label for="french" class="subject-label">Français</label>
-
-                            <!-- Anglais -->
-                            <input type="checkbox" id="english" class="subject-checkbox" value="english">
-                            <label for="english" class="subject-label">Anglais</label>
-
-                            <!-- Histoire-Géo -->
-                            <input type="checkbox" id="history" class="subject-checkbox" value="history">
-                            <label for="history" class="subject-label">Histoire-Géo</label>
-
-                            <!-- Sciences Physiques -->
-                            <input type="checkbox" id="physics" class="subject-checkbox" value="physics">
-                            <label for="physics" class="subject-label">Sciences Physiques</label>
-
-                            <!-- SVT -->
-                            <input type="checkbox" id="svt" class="subject-checkbox" value="svt">
-                            <label for="svt" class="subject-label">SVT</label>
-
-                            <!-- Éducation Civique -->
-                            <input type="checkbox" id="civic" class="subject-checkbox" value="civic">
-                            <label for="civic" class="subject-label">Éducation Civique</label>
-
-                            <!-- Technologie -->
-                            <input type="checkbox" id="technology" class="subject-checkbox" value="technology">
-                            <label for="technology" class="subject-label">Technologie</label>
-                        </div>
-                        <div class="form-error" id="subjectsError">Veuillez sélectionner au moins une matière</div>
-                    </div>
-
-                    <!-- Niveaux enseignés -->
-                    <div class="form-group">
-                        <label class="form-label">Niveaux que vous enseignez <span class="required">*</span></label>
-                        <div class="levels-container">
-                            <div class="level-item">
-                                <input type="checkbox" id="level6" class="level-checkbox" value="6eme">
-                                <label for="level6" class="level-label">6ème</label>
-                            </div>
-                            <div class="level-item">
-                                <input type="checkbox" id="level5" class="level-checkbox" value="5eme">
-                                <label for="level5" class="level-label">5ème</label>
-                            </div>
-                            <div class="level-item">
-                                <input type="checkbox" id="level4" class="level-checkbox" value="4eme">
-                                <label for="level4" class="level-label">4ème</label>
-                            </div>
-                            <div class="level-item">
-                                <input type="checkbox" id="level3" class="level-checkbox" value="3eme">
-                                <label for="level3" class="level-label">3ème</label>
-                            </div>
-                        </div>
-                        <div class="form-error" id="levelsError">Veuillez sélectionner au moins un niveau</div>
-                    </div>
-
-                    <!-- Expérience -->
-                    <div class="form-group">
-                        <label for="experience" class="form-label">Années d'expérience d'enseignement</label>
-                        <select id="experience" class="form-control">
-                            <option value="">Sélectionnez</option>
-                            <option value="0-2">Moins de 2 ans</option>
-                            <option value="2-5">2 à 5 ans</option>
-                            <option value="5-10">5 à 10 ans</option>
-                            <option value="10+">Plus de 10 ans</option>
-                        </select>
-                    </div>
-
-                    <!-- Description -->
-                    <div class="form-group">
-                        <label for="description" class="form-label">Description de votre méthode d'enseignement</label>
-                        <textarea id="description" class="form-control" rows="4"
-                            placeholder="Décrivez votre approche pédagogique..."></textarea>
-                    </div>
-
-                    <!-- Tarif horaire -->
-                    <div class="form-group">
-                        <label for="hourlyRate" class="form-label">Tarif horaire proposé (FCFA) <span
-                                class="required">*</span></label>
-                        <input type="number" id="hourlyRate" class="form-control" min="1000" step="500" required>
-                        <div class="form-text">Tarif minimum recommandé: 1.500 FCFA/heure</div>
-                        <div class="form-error" id="hourlyRateError">Veuillez entrer un tarif valide (minimum 1000 FCFA)
-                        </div>
-                    </div>
-
-                    <!-- SECTION CV OBLIGATOIRE -->
-                    <div class="form-group">
-                        <div class="cv-section">
-                            <div class="cv-requirement">
-                                <i class="fas fa-exclamation-circle"></i>
-                                <span>CV OBLIGATOIRE - Le CV est requis pour l'évaluation de votre profil</span>
-                            </div>
-
-                            <div class="cv-upload-area" id="cvUploadArea">
-                                <i class="fas fa-file-pdf"></i>
-                                <div class="cv-upload-text">Téléchargez votre Curriculum Vitae (CV)</div>
-                                <p>Formats acceptés: PDF uniquement (Max 10MB)</p>
-                                <p class="form-text">Votre CV doit inclure votre expérience, formations, et compétences
-                                    pédagogiques</p>
-                                <input type="file" id="cvInput" class="cv-input" accept=".pdf">
-                            </div>
-
-                            <div class="cv-preview" id="cvPreview">
-                                <!-- Aperçu du CV apparaîtra ici -->
-                            </div>
-
-                            <div class="cv-error" id="cvError">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span>Le CV est obligatoire. Veuillez télécharger votre CV au format PDF.</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Documents justificatifs supplémentaires -->
-                    <div class="form-group">
-                        <label class="form-label">Autres documents justificatifs <span class="required">*</span></label>
-                        <p class="form-text">Veuillez uploader les documents suivants :</p>
-                        <ul style="margin-left: 20px; margin-bottom: 15px;">
-                            <li>Copie de la pièce d'identité</li>
-                            <li>Diplômes/certifications</li>
-                            <li>Lettre de motivation</li>
-                            <li>Autres documents pertinents</li>
-                        </ul>
-
-                        <div class="file-upload" id="fileUploadArea">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Cliquez pour sélectionner des fichiers ou glissez-déposez</p>
-                            <p class="form-text">Formats acceptés: PDF, JPG, PNG (Max 5MB par fichier)</p>
-                            <input type="file" id="fileInput" class="file-input" multiple accept=".pdf,.jpg,.jpeg,.png">
-                        </div>
-
-                        <div class="file-list" id="fileList">
-                            <!-- Les fichiers uploadés apparaîtront ici -->
-                        </div>
-                        <div class="form-error" id="documentsError">Veuillez uploader au moins un document justificatif
-                        </div>
-                    </div>
-
-                    <!-- Boutons -->
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="resetBtn">Effacer</button>
-                        <button type="submit" class="btn btn-primary" id="submitBtn">Soumettre l'inscription</button>
-                    </div>
-                </form>
-            </section>
-
-            <!-- Charte contractuelle -->
+            <!-- Section charte -->
             <section class="charte-section">
-                <h1 class="charte-title">Charte d'enseignement</h1>
+
+                <div class="charte-important-note">
+                    <i class="fas fa-exclamation-circle"></i> 
+                    <strong>ATTENTION :</strong> La lecture attentive de cette charte est <strong>OBLIGATOIRE</strong> avant l'inscription.
+                </div>
 
                 <div class="charte-content">
                     <h3>Article 1 - Engagement de l'Enseignant</h3>
                     <p>En créant un compte sur EduTogoConnect, l'enseignant s'engage à :</p>
                     <ul>
                         <li>Fournir des informations exactes et vérifiables</li>
-                        <li><strong>Fournir un CV complet et à jour</strong></li>
+                        <li><strong>Fournir un CV complet et à jour (OBLIGATOIRE)</strong></li>
                         <li>Respecter les horaires des cours convenus avec les élèves</li>
                         <li>Préparer adéquatement les séances de cours</li>
                         <li>Maintenir un comportement professionnel en toute circonstance</li>
@@ -765,7 +1111,7 @@
                     </ul>
 
                     <h3>Article 2 - Importance du CV</h3>
-                    <p><strong>Le CV est obligatoire pour tous les enseignants :</strong></p>
+                    <p><strong>Le CV est OBLIGATOIRE pour tous les enseignants :</strong></p>
                     <ul>
                         <li>Permet l'évaluation de vos compétences et expériences</li>
                         <li>Augmente la confiance des élèves et parents</li>
@@ -880,42 +1226,315 @@
                         <li>Respecter la procédure de règlement des différends</li>
                         <li>Accepter la décision finale de l'administration</li>
                     </ul>
+
+                    <div class="warning">
+                        <h4>Rappel Important</h4>
+                        <p><strong>CV OBLIGATOIRE - Pas de CV, pas d'inscription !</strong></p>
+                        <p>Votre CV doit être au format PDF et inclure :</p>
+                        <ul>
+                            <li>Votre parcours académique complet</li>
+                            <li>Votre expérience d'enseignement</li>
+                            <li>Vos compétences pédagogiques</li>
+                            <li>Vos certifications et formations</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <!-- Acceptation de la charte -->
-                <div class="acceptance-group">
-                    <input type="checkbox" id="acceptCharte" class="acceptance-checkbox" required>
-                    <label for="acceptCharte" class="acceptance-label">
-                        J'ai lu et j'accepte intégralement la charte de l'enseignant EduTogoConnect
-                    </label>
-                    <p class="form-text" style="margin-top: 10px;">
-                        En cochant cette case, vous acceptez les conditions contractuelles,
-                        les tarifications, les commissions et <strong>l'obligation de fournir un CV à jour</strong>.
-                    </p>
-                </div>
-
-                <!-- Contact support -->
-                <div
-                    style="text-align: center; margin-top: 30px; padding: 20px; background-color: rgba(255,215,0,0.05); border-radius: 8px;">
-                    <h4 style="color: var(--noir); margin-bottom: 10px;">Questions sur la charte ou le CV ?</h4>
-                    <p>Contactez notre service juridique :</p>
+                <div class="support-section">
+                    <h4>Questions sur la charte ou le CV ?</h4>
                     <p><i class="fas fa-envelope"></i> juridique@edutogoconnect.tg</p>
                     <p><i class="fas fa-phone"></i> +228 XX XX XX XX</p>
                 </div>
             </section>
-        </div>
 
-            <!-- Footer -->
+            <!-- Formulaire d'inscription Enseignant -->
+            <section class="form-section">
+                <div class="form-header">
+                    <h1 class="form-title">Formulaire d'Inscription Enseignant</h1>
+                    <p class="form-subtitle">Veuillez remplir tous les champs obligatoires (*)</p>
+                </div>
+                
+                <form id="teacherRegistrationForm">
+                    <!-- Informations personnelles -->
+                    <div class="form-group">
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px; font-size: 1.2rem;">Informations personnelles</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">Nom complet <span class="required">*</span></label>
+                        <input type="text" id="fullName" class="form-control" required placeholder="Votre nom">
+                        <div class="form-error" id="fullNameError">Veuillez entrer votre nom complet</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">Prénom <span class="required">*</span></label>
+                        <input type="text" id="firstName" class="form-control" required placeholder="Votre prénom">
+                        <div class="form-error" id="firstNameError">Veuillez entrer votre prénom</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Adresse email <span class="required">*</span></label>
+                        <input type="email" id="email" class="form-control" required placeholder="exemple@email.com">
+                        <div class="form-text">Utilisez une adresse email valide</div>
+                        <div class="form-error" id="emailError">Adresse email invalide</div>
+                    </div>
+
+                    <!-- Région et Téléphone sur la même ligne -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="region" class="form-label">Région <span class="required">*</span></label>
+                            <select id="region" class="form-control" required>
+                                <option value="">Sélectionnez votre région</option>
+                                <option value="maritime">Maritime</option>
+                                <option value="plateaux">Plateaux</option>
+                                <option value="centrale">Centrale</option>
+                                <option value="kara">Kara</option>
+                                <option value="savanes">Savanes</option>
+                            </select>
+                            <div class="form-error" id="regionError">Veuillez sélectionner votre région</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Téléphone <span class="required">*</span></label>
+                            <input type="tel" id="phone" class="form-control" required pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
+                            <div class="form-text">Format: +228 XX XX XX XX</div>
+                            <div class="form-error" id="phoneError">Numéro invalide</div>
+                        </div>
+                    </div>
+
+                    <!-- Ville/Quartier, Sexe et Date de naissance sur la même ligne -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city" class="form-label">Ville/Quartier <span class="required">*</span></label>
+                            <select id="city" class="form-control" required>
+                                <option value="">Sélectionnez votre ville/quartier</option>
+                            </select>
+                            <div class="form-error" id="cityError">Veuillez sélectionner votre ville/quartier</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender" class="form-label">Sexe <span class="required">*</span></label>
+                            <select id="gender" class="form-control" required>
+                                <option value="">Sélectionnez votre sexe</option>
+                                <option value="male">Masculin</option>
+                                <option value="female">Féminin</option>
+                            </select>
+                            <div class="form-error" id="genderError">Veuillez sélectionner votre sexe</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birthDate" class="form-label">Date de naissance <span class="required">*</span></label>
+                            <input type="date" id="birthDate" class="form-control" required>
+                            <div class="form-error" id="birthDateError">Date de naissance requise</div>
+                        </div>
+                    </div>
+
+                    <!-- Matières enseignées -->
+                    <div class="form-group">
+                        <label class="form-label">Matières que vous enseignez <span class="required">*</span></label>
+                        <div class="subjects-grid">
+                            <!-- Mathématiques -->
+                            <input type="checkbox" id="math" class="subject-checkbox" value="math">
+                            <label for="math" class="subject-label">Mathématiques</label>
+
+                            <!-- Français -->
+                            <input type="checkbox" id="french" class="subject-checkbox" value="french">
+                            <label for="french" class="subject-label">Français</label>
+
+                            <!-- Anglais -->
+                            <input type="checkbox" id="english" class="subject-checkbox" value="english">
+                            <label for="english" class="subject-label">Anglais</label>
+
+                            <!-- Histoire-Géo -->
+                            <input type="checkbox" id="history" class="subject-checkbox" value="history">
+                            <label for="history" class="subject-label">Histoire-Géo</label>
+
+                            <!-- Sciences Physiques -->
+                            <input type="checkbox" id="physics" class="subject-checkbox" value="physics">
+                            <label for="physics" class="subject-label">Sciences Physiques</label>
+
+                            <!-- SVT -->
+                            <input type="checkbox" id="svt" class="subject-checkbox" value="svt">
+                            <label for="svt" class="subject-label">SVT</label>
+
+                            <!-- Éducation Civique -->
+                            <input type="checkbox" id="civic" class="subject-checkbox" value="civic">
+                            <label for="civic" class="subject-label">Éducation Civique</label>
+
+                            <!-- Technologie -->
+                            <input type="checkbox" id="technology" class="subject-checkbox" value="technology">
+                            <label for="technology" class="subject-label">Technologie</label>
+                        </div>
+                        <div class="form-error" id="subjectsError">Veuillez sélectionner au moins une matière</div>
+                    </div>
+
+                    <!-- Niveaux enseignés -->
+                    <div class="form-group">
+                        <label class="form-label">Niveaux que vous enseignez <span class="required">*</span></label>
+                        <div class="levels-container">
+                            <div class="level-item">
+                                <input type="checkbox" id="level6" class="level-checkbox" value="6eme">
+                                <label for="level6" class="level-label">6ème</label>
+                            </div>
+                            <div class="level-item">
+                                <input type="checkbox" id="level5" class="level-checkbox" value="5eme">
+                                <label for="level5" class="level-label">5ème</label>
+                            </div>
+                            <div class="level-item">
+                                <input type="checkbox" id="level4" class="level-checkbox" value="4eme">
+                                <label for="level4" class="level-label">4ème</label>
+                            </div>
+                            <div class="level-item">
+                                <input type="checkbox" id="level3" class="level-checkbox" value="3eme">
+                                <label for="level3" class="level-label">3ème</label>
+                            </div>
+                            <div class="level-item">
+                                <input type="checkbox" id="level2" class="level-checkbox" value="Tout">
+                                <label for="level2" class="level-label">Tout</label>
+                            </div>
+                        </div>
+                        <div class="form-error" id="levelsError">Veuillez sélectionner au moins un niveau</div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label for="description" class="form-label">Description de votre profil et de votre méthode d'enseignement</label>
+                        <textarea id="description" class="form-control" rows="4" placeholder="Décrivez vous, votre parcours et votre approche pédagogique, vos spécialités, etc..."></textarea>
+                    </div>
+
+                    <!-- Photo de profil -->
+                    <div class="form-group">
+                        <label class="form-label">Photo de profil (optionnelle)</label>
+                        <div class="photo-upload-container" id="photoUploadContainer">
+                            <div class="photo-upload-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="photo-upload-text">
+                                <strong>Cliquez pour ajouter une photo</strong><br>
+                                ou glissez-déposez une image ici
+                            </div>
+                            <div class="form-text" style="margin-top: 5px; font-size: 0.8rem;">
+                                Formats acceptés: JPG, PNG (max. 2MB)
+                            </div>
+                            <button type="button" class="photo-upload-btn" id="photoUploadBtn">
+                                Choisir une photo
+                            </button>
+                            <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="photo-preview-container" id="photoPreviewContainer">
+                            <img src="" alt="Aperçu photo de profil" class="photo-preview" id="photoPreview">
+                            <button type="button" class="photo-remove-btn" id="photoRemoveBtn">
+                                <i class="fas fa-trash"></i> Supprimer la photo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- CV OBLIGATOIRE -->
+                    <div class="form-group">
+                        <label class="form-label">Curriculum Vitae (CV) <span class="required">*</span></label>
+                        <div class="form-text" style="color: var(--rouge-alerte); font-weight: 600; margin-bottom: 10px;">
+                            <i class="fas fa-exclamation-circle"></i> CV OBLIGATOIRE pour l'inscription
+                        </div>
+                        <div class="file-upload-container" id="cvUploadContainer">
+                            <div class="file-upload-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="file-upload-text">
+                                <strong>Cliquez pour ajouter votre CV</strong><br>
+                                ou glissez-déposez un fichier PDF ici
+                            </div>
+                            <div class="form-text" style="margin-top: 5px; font-size: 0.8rem;">
+                                Format accepté: PDF uniquement (max. 10MB)
+                            </div>
+                            <button type="button" class="file-upload-btn" id="cvUploadBtn">
+                                Choisir un fichier
+                            </button>
+                            <input type="file" id="cvInput" accept=".pdf" style="display: none;">
+                        </div>
+                        <div class="file-preview-container" id="cvPreviewContainer">
+                            <div class="file-preview-info">
+                                <div class="file-preview-icon">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <div class="file-details">
+                                    <div class="file-name" id="cvFileName"></div>
+                                    <div class="file-size" id="cvFileSize"></div>
+                                </div>
+                                <button type="button" class="file-remove-btn" id="cvRemoveBtn">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-error" id="cvError">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Le CV est obligatoire. Veuillez télécharger votre CV au format PDF.</span>
+                        </div>
+                    </div>
+
+                    <!-- Documents justificatifs supplémentaires -->
+                    <div class="form-group">
+                        <label class="form-label">Autres documents justificatifs</label>
+                        <p class="form-text">Veuillez uploader les documents suivants :</p>
+                        <ul style="margin-left: 20px; margin-bottom: 15px; font-size: 0.9rem;">
+                            <li>Copie de la pièce d'identité</li>
+                            <li>Diplômes/certifications</li>
+                            <li>Lettre de motivation</li>
+                            <li>Autres documents pertinents</li>
+                        </ul>
+
+                        <div class="file-upload-container" id="docUploadContainer">
+                            <div class="file-upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="file-upload-text">
+                                <strong>Cliquez pour sélectionner des fichiers</strong><br>
+                                ou glissez-déposez ici
+                            </div>
+                            <div class="form-text" style="margin-top: 5px; font-size: 0.8rem;">
+                                Formats acceptés: PDF, JPG, PNG (max. 5MB par fichier)
+                            </div>
+                            <button type="button" class="file-upload-btn" id="docUploadBtn">
+                                Choisir des fichiers
+                            </button>
+                            <input type="file" id="docInput" multiple accept=".pdf,.jpg,.jpeg,.png" style="display: none;">
+                        </div>
+
+                        <div class="file-list" id="fileList">
+                            <!-- Les fichiers uploadés apparaîtront ici -->
+                        </div>
+                    </div>
+
+                    <!-- Acceptation de la charte -->
+                    <div class="acceptance-group">
+                        <input type="checkbox" id="acceptCharte" class="acceptance-checkbox" required>
+                        <label for="acceptCharte" class="acceptance-label">
+                            J'ai lu et j'accepte la charte de l'enseignant
+                        </label>
+                        <p class="form-text" style="margin-top: 10px;">
+                            En cochant, vous <strong>acceptez les conditions contractuelles, les tarifications, les commissions et l'obligation de fournir un CV à jour.</strong>
+                        </p>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="resetBtn">Effacer</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn" disabled>S'inscrire</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
     <footer id="contact">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <div class="logo" style="margin-bottom: 20px;">
-                        <div class="logo-icon">ET</div>
-                        <div class="logo-text" style="color: var(--blanc);">Edu<span>Togo</span>Connect</div>
+                    <div class="logo" style="margin-bottom: 15px;">
+                        <div class="logo-icon" style="width: 30px; height: 30px; font-size: 16px;">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal); font-size: 20px;">Edu<span>Togo</span>Connect</div>
                     </div>
-                    <p>La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs
-                        enseignants.</p>
+                    <p style="font-size: 0.9rem; line-height: 1.5;">Plateforme éducative togolaise pour les élèves du collège (6ème à 3ème).</p>
                     <div class="social-links">
                         <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
@@ -927,112 +1546,244 @@
                 <div class="footer-col">
                     <h3>Liens rapides</h3>
                     <ul class="footer-links">
-                        <li><a href="#accueil">Accueil</a></li>
-                        <li><a href="#fonctionnalites">Fonctionnalités</a></li>
-                        <li><a href="#niveaux">Niveaux</a></li>
-                        <li><a href="faq.php">FAQ</a></li>
-                        <li><a href="blog.php">Blog</a></li>
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="../index.html#cours">Cours</a></li>
+                        <li><a href="../index.html#enseignants">Enseignants</a></li>
+                        <li><a href="../index.html#niveaux">Niveaux</a></li>
+                        <li><a href="../index.html#ecoles">Écoles</a></li>
+                        <li><a href="../index.html#temoignages">Témoignages</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-col">
-                    <h3>Pour les enseignants</h3>
+                    <h3>Inscriptions</h3>
                     <ul class="footer-links">
-                        <li><a href="teacher-guide.php">Guide des enseignants</a></li>
-                        <li><a href="verification.php">Processus de vérification</a></li>
-                        <li><a href="premium.php">Formule Premium</a></li>
-                        <li><a href="pricing.php">Tarifs et commissions</a></li>
+                        <li><a href="eleve.html">Élève</a></li>
+                        <li><a href="enseignant.html">Enseignant</a></li>
+                        <li><a href="parent.html">Parent</a></li>
+                        <li><a href="ecole.html">École</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-col">
                     <h3>Contact</h3>
                     <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
-                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +228 XX XX XX XX</li>
-                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
-                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 8px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 8px;"></i> Lun-Ven: 8h-18h</li>
                     </ul>
                 </div>
             </div>
 
             <div class="copyright">
-                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.php"
-                        style="color: var(--jaune-principal);">Politique de confidentialité</a> | <a href="terms.php"
-                        style="color: var(--jaune-principal);">Conditions d'utilisation</a></p>
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
-    </main>
-
     <script>
-        // Gestion de l'upload de fichiers
-        const fileInput = document.getElementById('fileInput');
-        const fileUploadArea = document.getElementById('fileUploadArea');
-        const fileList = document.getElementById('fileList');
+        // Éléments principaux
+        const registrationForm = document.getElementById('teacherRegistrationForm');
         const submitBtn = document.getElementById('submitBtn');
         const acceptCharte = document.getElementById('acceptCharte');
         const resetBtn = document.getElementById('resetBtn');
-        const registrationForm = document.getElementById('teacherRegistrationForm');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const regionSelect = document.getElementById('region');
+        const citySelect = document.getElementById('city');
 
-        // Éléments CV
+        // Éléments pour la photo
+        const photoInput = document.getElementById('photoInput');
+        const photoUploadBtn = document.getElementById('photoUploadBtn');
+        const photoUploadContainer = document.getElementById('photoUploadContainer');
+        const photoPreviewContainer = document.getElementById('photoPreviewContainer');
+        const photoPreview = document.getElementById('photoPreview');
+        const photoRemoveBtn = document.getElementById('photoRemoveBtn');
+
+        // Éléments pour le CV
         const cvInput = document.getElementById('cvInput');
-        const cvUploadArea = document.getElementById('cvUploadArea');
-        const cvPreview = document.getElementById('cvPreview');
+        const cvUploadBtn = document.getElementById('cvUploadBtn');
+        const cvUploadContainer = document.getElementById('cvUploadContainer');
+        const cvPreviewContainer = document.getElementById('cvPreviewContainer');
+        const cvFileName = document.getElementById('cvFileName');
+        const cvFileSize = document.getElementById('cvFileSize');
+        const cvRemoveBtn = document.getElementById('cvRemoveBtn');
         const cvError = document.getElementById('cvError');
 
-        let uploadedFiles = [];
+        // Éléments pour autres documents
+        const docInput = document.getElementById('docInput');
+        const docUploadBtn = document.getElementById('docUploadBtn');
+        const docUploadContainer = document.getElementById('docUploadContainer');
+        const fileList = document.getElementById('fileList');
+
+        // Variables de stockage
         let cvFile = null;
+        let uploadedFiles = [];
+
+        // ============ FLÈCHE RETOUR EN HAUT ============
+        function toggleBackToTopButton() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        window.addEventListener('scroll', toggleBackToTopButton);
+        backToTopBtn.addEventListener('click', scrollToTop);
+
+        // ============ GESTION DES VILLES PAR RÉGION ============
+        const citiesByRegion = {
+            'maritime': [
+                {value: 'lome', label: 'Lomé (capitale)'},
+                {value: 'aneho', label: 'Aného'},
+                {value: 'tsevie', label: 'Tsévié'},
+                {value: 'vogan', label: 'Vogan'},
+                {value: 'tabligbo', label: 'Tabligbo'}
+            ],
+            'plateaux': [
+                {value: 'atakpame', label: 'Atakpamé'},
+                {value: 'badou', label: 'Badou'},
+                {value: 'kpalime', label: 'Kpalimé'},
+                {value: 'sotouboua', label: 'Sotouboua'}
+            ],
+            'centrale': [
+                {value: 'sokode', label: 'Sokodé'},
+                {value: 'tchamba', label: 'Tchamba'},
+                {value: 'bafilo', label: 'Bafilo'},
+                {value: 'bassar', label: 'Bassar'}
+            ],
+            'kara': [
+                {value: 'kara', label: 'Kara'},
+                {value: 'kande', label: 'Kandé'},
+                {value: 'pagouda', label: 'Pagouda'}
+            ],
+            'savanes': [
+                {value: 'dapaong', label: 'Dapaong'},
+                {value: 'mandouri', label: 'Mandouri'},
+                {value: 'tone', label: 'Tône'},
+                {value: 'kpendjal', label: 'Kpendjal'}
+            ]
+        };
+
+        function updateCityOptions() {
+            const selectedRegion = regionSelect.value;
+            citySelect.innerHTML = '<option value="">Sélectionnez votre ville/quartier</option>';
+            
+            if (selectedRegion && citiesByRegion[selectedRegion]) {
+                citiesByRegion[selectedRegion].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.value;
+                    option.textContent = city.label;
+                    citySelect.appendChild(option);
+                });
+            } else {
+                // Si aucune région n'est sélectionnée, afficher toutes les villes
+                Object.keys(citiesByRegion).forEach(region => {
+                    const optgroup = document.createElement('optgroup');
+                    optgroup.label = `Région ${region.charAt(0).toUpperCase() + region.slice(1)}`;
+                    
+                    citiesByRegion[region].forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.value;
+                        option.textContent = city.label;
+                        optgroup.appendChild(option);
+                    });
+                    
+                    citySelect.appendChild(optgroup);
+                });
+            }
+            
+            validateForm();
+        }
+
+        regionSelect.addEventListener('change', updateCityOptions);
+
+        // ============ GESTION DE LA PHOTO DE PROFIL ============
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Vérifier la taille du fichier (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Le fichier est trop volumineux. Maximum 2MB autorisé.');
+                return;
+            }
+            
+            // Vérifier le type de fichier
+            if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
+                alert('Seuls les formats JPG et PNG sont acceptés.');
+                return;
+            }
+            
+            // Afficher l'aperçu
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photoPreview.src = e.target.result;
+                photoUploadContainer.style.display = 'none';
+                photoPreviewContainer.style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removePhoto() {
+            photoInput.value = '';
+            photoPreview.src = '';
+            photoUploadContainer.style.display = 'flex';
+            photoPreviewContainer.style.display = 'none';
+        }
+
+        // Gestion du drag and drop pour la photo
+        photoUploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            photoUploadContainer.classList.add('dragover');
+        });
+
+        photoUploadContainer.addEventListener('dragleave', () => {
+            photoUploadContainer.classList.remove('dragover');
+        });
+
+        photoUploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            photoUploadContainer.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                photoInput.files = e.dataTransfer.files;
+                handlePhotoUpload({ target: photoInput });
+            }
+        });
+
+        photoUploadBtn.addEventListener('click', () => {
+            photoInput.click();
+        });
+
+        photoInput.addEventListener('change', handlePhotoUpload);
+        photoRemoveBtn.addEventListener('click', removePhoto);
 
         // ============ GESTION DU CV ============
-        // Click sur la zone d'upload CV
-        cvUploadArea.addEventListener('click', () => {
-            cvInput.click();
-        });
-
-        // Sélection du CV
-        cvInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleCVFile(e.target.files[0]);
-            }
-        });
-
-        // Drag and drop pour CV
-        cvUploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            cvUploadArea.style.borderColor = 'var(--jaune-fonce)';
-            cvUploadArea.style.backgroundColor = 'rgba(255,215,0,0.2)';
-        });
-
-        cvUploadArea.addEventListener('dragleave', () => {
-            cvUploadArea.style.borderColor = 'var(--jaune-principal)';
-            cvUploadArea.style.backgroundColor = 'rgba(255,215,0,0.1)';
-        });
-
-        cvUploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            cvUploadArea.style.borderColor = 'var(--jaune-principal)';
-            cvUploadArea.style.backgroundColor = 'rgba(255,215,0,0.1)';
-
-            if (e.dataTransfer.files.length > 0) {
-                handleCVFile(e.dataTransfer.files[0]);
-            }
-        });
-
-        function handleCVFile(file) {
-            // Vérifier la taille (max 10MB pour CV)
+        function handleCVUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Vérifier la taille du fichier (max 10MB pour CV)
             if (file.size > 10 * 1024 * 1024) {
-                alert(`Le fichier ${file.name} dépasse la taille maximale de 10MB pour un CV`);
+                alert('Le fichier est trop volumineux. Maximum 10MB autorisé pour un CV.');
                 return;
             }
-
-            // Vérifier le type (PDF uniquement)
+            
+            // Vérifier le type de fichier (PDF uniquement)
             if (file.type !== 'application/pdf') {
-                alert(`Seuls les fichiers PDF sont acceptés pour le CV. Format reçu: ${file.type}`);
+                alert('Seuls les fichiers PDF sont acceptés pour le CV.');
                 return;
             }
-
+            
             cvFile = file;
             updateCVPreview();
             cvError.style.display = 'none';
@@ -1040,132 +1791,163 @@
         }
 
         function updateCVPreview() {
-            cvPreview.innerHTML = '';
-
             if (cvFile) {
                 const fileSize = (cvFile.size / (1024 * 1024)).toFixed(2);
-
-                const cvInfo = document.createElement('div');
-                cvInfo.className = 'cv-file-info';
-
-                cvInfo.innerHTML = `
-                    <i class="fas fa-file-pdf"></i>
-                    <div class="cv-details">
-                        <div class="cv-file-name">${cvFile.name}</div>
-                        <div class="cv-file-size">${fileSize} MB</div>
-                    </div>
-                    <button class="cv-remove" id="removeCV">
-                        <i class="fas fa-times"></i>
-                    </button>
-                `;
-
-                cvPreview.appendChild(cvInfo);
-
-                // Bouton de suppression du CV
-                document.getElementById('removeCV').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    cvFile = null;
-                    cvInput.value = '';
-                    updateCVPreview();
-                    cvError.style.display = 'block';
-                    validateForm();
-                });
+                cvFileName.textContent = cvFile.name;
+                cvFileSize.textContent = `${fileSize} MB`;
+                cvUploadContainer.style.display = 'none';
+                cvPreviewContainer.style.display = 'flex';
+            } else {
+                cvFileName.textContent = '';
+                cvFileSize.textContent = '';
+                cvUploadContainer.style.display = 'flex';
+                cvPreviewContainer.style.display = 'none';
             }
         }
 
-        // ============ GESTION AUTRES DOCUMENTS ============
-        // Drag and drop autres documents
-        fileUploadArea.addEventListener('dragover', (e) => {
+        function removeCV() {
+            cvInput.value = '';
+            cvFile = null;
+            updateCVPreview();
+            cvError.style.display = 'block';
+            validateForm();
+        }
+
+        // Gestion du drag and drop pour le CV
+        cvUploadContainer.addEventListener('dragover', (e) => {
             e.preventDefault();
-            fileUploadArea.style.borderColor = 'var(--jaune-principal)';
-            fileUploadArea.style.backgroundColor = 'rgba(255,215,0,0.1)';
+            cvUploadContainer.classList.add('dragover');
         });
 
-        fileUploadArea.addEventListener('dragleave', () => {
-            fileUploadArea.style.borderColor = 'var(--gris-moyen)';
-            fileUploadArea.style.backgroundColor = '';
+        cvUploadContainer.addEventListener('dragleave', () => {
+            cvUploadContainer.classList.remove('dragover');
         });
 
-        fileUploadArea.addEventListener('drop', (e) => {
+        cvUploadContainer.addEventListener('drop', (e) => {
             e.preventDefault();
-            fileUploadArea.style.borderColor = 'var(--gris-moyen)';
-            fileUploadArea.style.backgroundColor = '';
-
-            const files = Array.from(e.dataTransfer.files);
-            handleFiles(files);
+            cvUploadContainer.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                cvInput.files = e.dataTransfer.files;
+                handleCVUpload({ target: cvInput });
+            }
         });
 
-        // Click sur la zone d'upload autres documents
-        fileUploadArea.addEventListener('click', () => {
-            fileInput.click();
+        cvUploadBtn.addEventListener('click', () => {
+            cvInput.click();
         });
 
-        // Sélection de fichiers via input
-        fileInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            handleFiles(files);
-        });
+        cvInput.addEventListener('change', handleCVUpload);
+        cvRemoveBtn.addEventListener('click', removeCV);
 
-        // Gestion des autres fichiers
-        function handleFiles(files) {
+        // ============ GESTION DES AUTRES DOCUMENTS ============
+        function handleOtherDocuments(event) {
+            const files = Array.from(event.target.files);
+            
             files.forEach(file => {
                 // Vérifier la taille (max 5MB)
                 if (file.size > 5 * 1024 * 1024) {
                     alert(`Le fichier ${file.name} dépasse la taille maximale de 5MB`);
                     return;
                 }
-
+                
                 // Vérifier le type
                 const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
                 if (!validTypes.includes(file.type)) {
                     alert(`Le format de ${file.name} n'est pas accepté`);
                     return;
                 }
-
+                
                 uploadedFiles.push(file);
-                updateFileList();
-                validateForm();
             });
+            
+            updateFileList();
+            validateForm();
         }
 
-        // Mise à jour de la liste des fichiers
         function updateFileList() {
             fileList.innerHTML = '';
-
-            if (uploadedFiles.length === 0) {
-                document.getElementById('documentsError').style.display = 'block';
-            } else {
-                document.getElementById('documentsError').style.display = 'none';
-            }
-
+            
             uploadedFiles.forEach((file, index) => {
                 const fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
-
+                
                 const fileName = document.createElement('span');
-                fileName.className = 'file-name';
+                fileName.className = 'file-item-name';
                 fileName.textContent = file.name;
-
+                
                 const fileRemove = document.createElement('button');
-                fileRemove.className = 'file-remove';
+                fileRemove.className = 'file-item-remove';
                 fileRemove.innerHTML = '<i class="fas fa-times"></i>';
                 fileRemove.addEventListener('click', () => {
                     uploadedFiles.splice(index, 1);
                     updateFileList();
                     validateForm();
                 });
-
+                
                 fileItem.appendChild(fileName);
                 fileItem.appendChild(fileRemove);
                 fileList.appendChild(fileItem);
             });
         }
 
+        // Gestion du drag and drop pour autres documents
+        docUploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            docUploadContainer.classList.add('dragover');
+        });
+
+        docUploadContainer.addEventListener('dragleave', () => {
+            docUploadContainer.classList.remove('dragover');
+        });
+
+        docUploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            docUploadContainer.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                docInput.files = e.dataTransfer.files;
+                handleOtherDocuments({ target: docInput });
+            }
+        });
+
+        docUploadBtn.addEventListener('click', () => {
+            docInput.click();
+        });
+
+        docInput.addEventListener('change', handleOtherDocuments);
+
         // ============ VALIDATION DU FORMULAIRE ============
         function validateForm() {
             let isValid = true;
+            
+            // Validation des champs requis de base
+            const requiredFields = registrationForm.querySelectorAll('input[required], select[required]');
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    const errorElement = document.getElementById(field.id + 'Error');
+                    if (errorElement) {
+                        errorElement.style.display = 'block';
+                    }
+                } else {
+                    const errorElement = document.getElementById(field.id + 'Error');
+                    if (errorElement) {
+                        errorElement.style.display = 'none';
+                    }
+                }
+            });
 
-            // Validation CV
+            // Validation du sexe (champ ajouté)
+            const gender = document.getElementById('gender');
+            if (!gender.value.trim()) {
+                isValid = false;
+                document.getElementById('genderError').style.display = 'block';
+            } else {
+                document.getElementById('genderError').style.display = 'none';
+            }
+
+            // Validation du CV (obligatoire)
             if (!cvFile) {
                 cvError.style.display = 'block';
                 isValid = false;
@@ -1173,15 +1955,7 @@
                 cvError.style.display = 'none';
             }
 
-            // Validation autres documents
-            if (uploadedFiles.length === 0) {
-                document.getElementById('documentsError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('documentsError').style.display = 'none';
-            }
-
-            // Validation matières
+            // Validation des matières
             const selectedSubjects = registrationForm.querySelectorAll('.subject-checkbox:checked');
             if (selectedSubjects.length === 0) {
                 document.getElementById('subjectsError').style.display = 'block';
@@ -1190,7 +1964,7 @@
                 document.getElementById('subjectsError').style.display = 'none';
             }
 
-            // Validation niveaux
+            // Validation des niveaux
             const selectedLevels = registrationForm.querySelectorAll('.level-checkbox:checked');
             if (selectedLevels.length === 0) {
                 document.getElementById('levelsError').style.display = 'block';
@@ -1199,42 +1973,80 @@
                 document.getElementById('levelsError').style.display = 'none';
             }
 
+            // Validation de l'email
+            const email = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email.value && !emailRegex.test(email.value)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+            }
+
+            // Validation du téléphone
+            const phone = document.getElementById('phone');
+            const phoneRegex = /^\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}$/;
+            if (phone.value && !phoneRegex.test(phone.value)) {
+                document.getElementById('phoneError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('phoneError').style.display = 'none';
+            }
+
             // Activer/désactiver bouton submit
+            // Le bouton est désactivé si: 
+            // 1. Le formulaire n'est pas valide
+            // 2. La charte n'est pas acceptée
             submitBtn.disabled = !(isValid && acceptCharte.checked);
+            
+            return isValid;
         }
 
-        // Écouteur pour l'acceptation de la charte
-        acceptCharte.addEventListener('change', validateForm);
-
-        // Validation en temps réel des champs
-        const requiredFields = registrationForm.querySelectorAll('[required]');
-        requiredFields.forEach(field => {
-            field.addEventListener('blur', validateForm);
-            field.addEventListener('input', validateForm);
+        // Écouteurs d'événements pour validation en temps réel
+        const inputs = registrationForm.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('input', validateForm);
+            input.addEventListener('blur', validateForm);
         });
 
-        // Validation des matières et niveaux
-        const checkboxes = registrationForm.querySelectorAll('.subject-checkbox, .level-checkbox');
-        checkboxes.forEach(checkbox => {
+        // Écouteurs pour les checkboxes (matières et niveaux)
+        const subjectCheckboxes = registrationForm.querySelectorAll('.subject-checkbox');
+        subjectCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', validateForm);
         });
 
+        const levelCheckboxes = registrationForm.querySelectorAll('.level-checkbox');
+        levelCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', validateForm);
+        });
+
+        acceptCharte.addEventListener('change', validateForm);
+
         // ============ RESET DU FORMULAIRE ============
         resetBtn.addEventListener('click', () => {
-            if (confirm('Voulez-vous vraiment effacer tous les champs du formulaire ?')) {
+            if (confirm('Effacer tous les champs du formulaire ?')) {
                 registrationForm.reset();
-                uploadedFiles = [];
-                cvFile = null;
-                cvInput.value = '';
-                updateFileList();
-                updateCVPreview();
                 submitBtn.disabled = true;
                 acceptCharte.checked = false;
-
-                // Masquer toutes les erreurs
+                
+                // Réinitialiser les fichiers
+                removePhoto();
+                removeCV();
+                uploadedFiles = [];
+                updateFileList();
+                
+                // Réinitialiser les villes
+                updateCityOptions();
+                
+                // Masquer les erreurs
                 document.querySelectorAll('.form-error').forEach(error => {
                     error.style.display = 'none';
                 });
+                
+                // Masquer l'erreur du sexe
+                document.getElementById('genderError').style.display = 'none';
+                
+                // Afficher l'erreur du CV
                 cvError.style.display = 'block';
             }
         });
@@ -1242,37 +2054,85 @@
         // ============ SOUMISSION DU FORMULAIRE ============
         registrationForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
-            // Validation finale
-            validateForm();
-
-            // Vérifier si le bouton est désactivé
-            if (submitBtn.disabled) {
-                alert('Veuillez compléter tous les champs obligatoires et accepter la charte.');
+            
+            if (!validateForm()) {
+                alert('Veuillez corriger les erreurs dans le formulaire.');
                 return;
             }
-
-            // Simuler l'envoi (à remplacer par AJAX dans la version PHP)
-            alert('Formulaire soumis avec succès ! Votre CV et documents seront vérifiés par un administrateur sous 48h.');
-
-            // Réinitialiser le formulaire
+            
+            if (!acceptCharte.checked) {
+                alert('Vous devez accepter la charte de l\'enseignant pour vous inscrire.');
+                return;
+            }
+            
+            // Simulation d'envoi
+            const formData = new FormData(registrationForm);
+            
+            if (photoInput.files.length > 0) {
+                formData.append('profilePhoto', photoInput.files[0]);
+            }
+            
+            if (cvFile) {
+                formData.append('cv', cvFile);
+            }
+            
+            uploadedFiles.forEach((file, index) => {
+                formData.append(`document_${index}`, file);
+            });
+            
+            // Afficher un message de succès
+            alert('Inscription réussie ! Votre CV et documents seront vérifiés par un administrateur sous 48h.');
+            
+            // Réinitialisation du formulaire
             registrationForm.reset();
-            uploadedFiles = [];
-            cvFile = null;
-            cvInput.value = '';
-            updateFileList();
-            updateCVPreview();
             submitBtn.disabled = true;
             acceptCharte.checked = false;
-
-            // Redirection (à adapter)
-            // window.location.href = 'inscription_success.php';
+            
+            // Réinitialiser les fichiers
+            removePhoto();
+            removeCV();
+            uploadedFiles = [];
+            updateFileList();
+            updateCityOptions();
+            
+            // Masquer les erreurs
+            document.querySelectorAll('.form-error').forEach(error => {
+                error.style.display = 'none';
+            });
+            
+            // Afficher l'erreur du CV
+            cvError.style.display = 'block';
+            
+            // Redirection vers la page de connexion
+            setTimeout(() => {
+                window.location.href = '../Authentification/auth.html?success=1';
+            }, 1500);
         });
 
-        // Initialisation : désactiver le bouton submit et afficher erreur CV
-        submitBtn.disabled = true;
-        cvError.style.display = 'block';
+        // ============ INITIALISATION ============
+        function initializeForm() {
+            // Configurer la date de naissance
+            const birthDateInput = document.getElementById('birthDate');
+            const today = new Date();
+            const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+            const minDate = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
+            
+            birthDateInput.max = maxDate.toISOString().split('T')[0];
+            birthDateInput.min = minDate.toISOString().split('T')[0];
+
+            // Initialiser les villes
+            updateCityOptions();
+            
+            // Initialiser l'état du bouton comme désactivé
+            submitBtn.disabled = true;
+            cvError.style.display = 'block';
+            
+            // Initialiser la flèche retour en haut
+            toggleBackToTopButton();
+        }
+
+        // Appeler l'initialisation quand le DOM est chargé
+        document.addEventListener('DOMContentLoaded', initializeForm);
     </script>
 </body>
-
 </html>

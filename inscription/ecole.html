@@ -3,23 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Institution École - EduTogoConnect</title>
+    <title>Inscription École - EduTogoConnect</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Variables de couleurs */
         :root {
             --jaune-principal: #FFD700;
-            --jaune-fonce: #FFC107;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
             --gris-clair: #F5F5F5;
-            --gris-moyen: #E0E0E0;
-            --gris-fonce: #757575;
-            --gris-texte: #424242;
+            --orange-cours: #FF9800;
+            --cyan-suggestion: #00BCD4;
+            --violet-premium: #9C27B0;
+            --bleu-prof: #2196F3;
+            --violet-autres: #7B1FA2;
+            
+            --jaune-fonce: #FFC107;
             --vert-success: #4CAF50;
             --rouge-alerte: #F44336;
-            --blanc: #FFFFFF;
+            --bleu-info: #2196F3;
+            --gris-texte: #424242;
             --noir: #212121;
-            --bleu: #0056b3;
-            --bleu-clair: #00a8e8;
         }
 
         /* Reset et styles généraux */
@@ -34,91 +41,356 @@
             background-color: var(--gris-clair);
             color: var(--gris-texte);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Header */
-        .header-section {
-            background: linear-gradient(135deg, var(--bleu), var(--bleu-clair));
-            color: var(--blanc);
-            padding: 40px 0;
-            border-radius: 15px;
-            margin: 30px 0;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 86, 179, 0.2);
-        }
-
-        .logo-header {
+        /* Flèche retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--blanc-principal);
+            overflow: hidden;
         }
 
-        .logo-icon-header {
-            font-size: 3rem;
-            margin-right: 20px;
-            color: var(--jaune-principal);
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
         }
 
-        .header-title {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(239, 51, 64, 0.4);
+        }
+
+        /* Header corrigé */
+        header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+            min-width: 200px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
             font-weight: 700;
         }
 
-        .header-subtitle {
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+
+        /* Centre de l'header */
+        .header-center {
+            flex: 1;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .banner-title {
             font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 800px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-bottom: 4px;
+        }
+
+        .banner-subtitle {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Droite de l'header */
+        .header-right {
+            display: flex;
+            justify-content: flex-end;
+            min-width: 180px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px !important;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* Boutons généraux */
+        .btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-secondary {
+            background-color: var(--gris-clair);
+            color: var(--gris-texte);
+            border: 2px solid var(--gris-moyen);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+            border-color: var(--gris-fonce);
+        }
+
+        /* Bannière charte après l'entête */
+        .charte-banner {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
+            color: var(--blanc-principal);
+            padding: 5px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .charte-banner-content {
+            max-width: 900px;
             margin: 0 auto;
+        }
+
+        .charte-banner-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .charte-banner-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
         }
 
         /* Contenu principal */
         .registration-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin: 40px 0;
+            grid-template-columns: 55% 45%;
+            gap: 15px;
+            margin: 0 0 60px;
+            min-height: calc(100vh - 200px);
         }
 
-        @media (max-width: 992px) {
+        @media (max-width: 1200px) {
             .registration-container {
                 grid-template-columns: 1fr;
+                gap: 40px;
             }
+        }
+
+        /* Section charte */
+        .charte-section {
+            background-color: var(--gris-clair);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            max-height: 900vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .charte-important-note {
+            background-color: red;
+            border: 2px solid var(--vert-principal);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--blanc-principal);
+        }
+
+        .charte-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px 5px 10px 10px;
+            margin-bottom: 20px;
+            max-height: 400px;
+        }
+
+        .charte-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .charte-content::-webkit-scrollbar-track {
+            background: var(--gris-clair);
+            border-radius: 4px;
+        }
+
+        .charte-content::-webkit-scrollbar-thumb {
+            background-color: var(--jaune-principal);
+            border-radius: 4px;
+        }
+
+        .charte-section h3 {
+            color: var(--gris-fonce);
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--gris-clair);
+            font-size: 1.1rem;
+        }
+
+        .charte-section p {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .charte-section ul, .charte-section ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .charte-section li {
+            margin-bottom: 5px;
+        }
+
+        .highlight {
+            background-color: rgba(76,175,80,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--vert-success);
+            font-size: 0.9rem;
+        }
+
+        .warning {
+            background-color: rgba(255,215,0,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--jaune-principal);
+            font-size: 0.9rem;
+        }
+
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.85rem;
+        }
+
+        .payment-table th,
+        .payment-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--gris-moyen);
+        }
+
+        .payment-table th {
+            background-color: rgba(76,175,80,0.1);
+            color: var(--gris-fonce);
+            font-weight: 600;
         }
 
         /* Section formulaire */
         .form-section {
-            background-color: var(--blanc);
+            background-color: var(--blanc-principal);
             border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--vert-principal);
         }
 
         .form-title {
-            color: var(--bleu);
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--jaune-principal);
+            color: var(--gris-fonce);
             font-size: 1.8rem;
-            display: flex;
-            align-items: center;
+            margin-bottom: 10px;
         }
 
-        .form-title i {
-            margin-right: 10px;
-            color: var(--bleu-clair);
+        .form-subtitle {
+            color: var(--gris-moyen);
+            font-size: 1rem;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+        }
+
+        /* Groupes en ligne */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
         }
 
         .form-label {
@@ -126,6 +398,7 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--gris-texte);
+            font-size: 0.95rem;
         }
 
         .required {
@@ -139,19 +412,29 @@
             border-radius: 8px;
             font-size: 1rem;
             transition: border-color 0.3s;
-            background-color: var(--blanc);
+            background-color: var(--blanc-principal);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+            padding-right: 40px;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--jaune-principal);
-            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+            border-color: var(--vert-principal);
+            box-shadow: 0 0 0 3px rgba(0,166,81,0.1);
         }
 
         .form-text {
             font-size: 0.85rem;
-            color: var(--gris-fonce);
+            color: var(--gris-moyen);
             margin-top: 5px;
+            line-height: 1.4;
         }
 
         .form-error {
@@ -161,57 +444,102 @@
             display: none;
         }
 
-        .form-row {
+        /* Téléchargement photo de profil */
+        .photo-upload-container {
             display: flex;
-            gap: 20px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        @media (max-width: 768px) {
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-        }
-
-        /* Section des types d'écoles */
-        .school-types-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border: 2px dashed var(--gris-moyen);
+            border-radius: 10px;
+            background-color: var(--gris-clair);
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 150px;
             margin-top: 10px;
         }
 
-        .school-type-checkbox {
-            display: none;
+        .photo-upload-container:hover {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.05);
         }
 
-        .school-type-label {
-            display: block;
-            padding: 15px;
-            background-color: var(--gris-clair);
-            border: 2px solid var(--gris-moyen);
-            border-radius: 8px;
+        .photo-upload-container.dragover {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.1);
+            transform: scale(1.02);
+        }
+
+        .photo-upload-icon {
+            font-size: 2.5rem;
+            color: var(--gris-moyen);
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .photo-upload-container:hover .photo-upload-icon {
+            color: var(--vert-principal);
+        }
+
+        .photo-upload-text {
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
+            margin-bottom: 10px;
+            color: var(--gris-moyen);
             font-size: 0.9rem;
         }
 
-        .school-type-checkbox:checked + .school-type-label {
-            background-color: rgba(0, 168, 232, 0.2);
-            border-color: var(--bleu-clair);
-            color: var(--bleu);
-            font-weight: 600;
+        .photo-upload-btn {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .photo-upload-btn:hover {
+            background-color: var(--gris-fonce);
+        }
+
+        .photo-preview-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .photo-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 4px solid var(--blanc-principal);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 10px;
+        }
+
+        .photo-remove-btn {
+            background-color: var(--rouge-alerte);
+            color: var(--blanc-principal);
+            border: none;
+            padding: 6px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s;
+        }
+
+        .photo-remove-btn:hover {
+            background-color: #d32f2f;
         }
 
         /* Upload de fichiers - Documents requis */
         .documents-section {
             background-color: rgba(0, 168, 232, 0.05);
-            border: 2px solid var(--bleu-clair);
+            border: 2px solid var(--bleu-info);
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 25px;
@@ -222,16 +550,16 @@
             align-items: center;
             gap: 10px;
             margin-bottom: 15px;
-            color: var(--bleu);
+            color: var(--bleu-info);
             font-weight: 600;
         }
 
         .documents-requirement i {
-            color: var(--bleu-clair);
+            color: var(--bleu-info);
         }
 
         .file-upload-area {
-            border: 3px dashed var(--bleu-clair);
+            border: 3px dashed var(--bleu-info);
             border-radius: 8px;
             padding: 30px 20px;
             text-align: center;
@@ -242,19 +570,19 @@
 
         .file-upload-area:hover {
             background-color: rgba(0, 168, 232, 0.15);
-            border-color: var(--bleu);
+            border-color: var(--vert-principal);
         }
 
         .file-upload-area i {
             font-size: 2.5rem;
-            color: var(--bleu-clair);
+            color: var(--bleu-info);
             margin-bottom: 15px;
         }
 
         .file-upload-text {
             font-size: 1.1rem;
             font-weight: 600;
-            color: var(--bleu);
+            color: var(--bleu-info);
             margin-bottom: 10px;
         }
 
@@ -276,7 +604,7 @@
             background-color: var(--gris-clair);
             border-radius: 8px;
             margin-bottom: 10px;
-            border-left: 4px solid var(--bleu-clair);
+            border-left: 4px solid var(--bleu-info);
         }
 
         .file-name {
@@ -300,67 +628,13 @@
             display: none;
         }
 
-        /* Section charte */
-        .charte-section {
-            background-color: var(--blanc);
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .charte-title {
-            color: var(--bleu);
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .charte-title i {
-            margin-right: 10px;
-            color: var(--bleu-clair);
-        }
-
-        .charte-content {
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 20px;
-            background-color: var(--gris-clair);
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
-        .charte-section h3 {
-            color: var(--bleu);
-            margin: 20px 0 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--gris-moyen);
-        }
-
-        .charte-section ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        .charte-section li {
-            margin-bottom: 8px;
-        }
-
-        .highlight {
-            background-color: rgba(0, 168, 232, 0.1);
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            border-left: 3px solid var(--bleu-clair);
-        }
-
-        /* Checkbox d'acceptation */
+        /* Checkbox d'acceptation de la charte */
         .acceptance-group {
-            margin: 30px 0;
+            margin: 25px 0;
             padding: 20px;
-            background-color: rgba(76, 175, 80, 0.05);
+            background-color: rgba(0,166,81,0.05);
             border-radius: 8px;
-            border: 1px solid rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(0,166,81,0.2);
         }
 
         .acceptance-checkbox {
@@ -371,32 +645,23 @@
         .acceptance-label {
             font-weight: 600;
             color: var(--gris-texte);
+            font-size: 0.95rem;
         }
 
-        /* Boutons */
-        .btn {
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            font-size: 1rem;
-        }
-
+        /* Boutons formulaire */
         .btn-primary {
-            background-color: var(--bleu);
-            color: var(--blanc);
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
             width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
         }
 
         .btn-primary:hover {
-            background-color: var(--bleu-clair);
+            background-color: #008c45;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 86, 179, 0.3);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.3);
         }
 
         .btn-primary:disabled {
@@ -406,293 +671,521 @@
             box-shadow: none;
         }
 
-        .btn-secondary {
-            background-color: var(--gris-moyen);
-            color: var(--gris-texte);
-            margin-right: 15px;
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--gris-fonce);
-            color: var(--blanc);
-        }
-
         .form-actions {
             display: flex;
-            justify-content: space-between;
+            gap: 15px;
             margin-top: 30px;
+        }
+
+        .form-actions .btn-secondary {
+            flex: 1;
+            border-radius: 8px;
+            padding: 14px;
+            background-color: var(--gris-clair);
+            color: var(--gris-texte);
+            border: 2px solid var(--gris-moyen);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .form-actions .btn-primary {
+            flex: 2;
+        }
+
+        /* Contact support */
+        .support-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(0,166,81,0.05);
+            border-radius: 8px;
+        }
+
+        .support-section h4 {
+            color: var(--gris-fonce);
+            margin-bottom: 10px;
+        }
+
+        .support-section p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
         }
 
         /* Footer */
         footer {
-            background-color: var(--bleu);
-            color: var(--blanc);
-            padding: 40px 0;
-            margin-top: 50px;
-            border-radius: 15px 15px 0 0;
+            background-color: var(--noir);
+            color: var(--gris-moyen);
+            padding: 40px 0 20px;
+            margin-top: auto;
         }
 
-        .footer-content {
-            text-align: center;
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
         }
 
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
         }
 
-        .footer-logo i {
-            font-size: 2rem;
-            margin-right: 15px;
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--gris-moyen);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
             color: var(--jaune-principal);
         }
 
-        .footer-text {
-            font-size: 1.5rem;
-            font-weight: 600;
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
         }
 
-        .footer-contact {
-            margin-top: 20px;
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
             font-size: 0.9rem;
-            opacity: 0.9;
         }
 
-        /* Responsive */
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--noir);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Responsive général */
+        @media (max-width: 992px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+            
+            .header-center {
+                order: 3;
+                flex-basis: 100%;
+                margin-top: 10px;
+            }
+            
+            .header-right {
+                flex: 1;
+                justify-content: flex-end;
+            }
+        }
+
         @media (max-width: 768px) {
-            .form-section, .charte-section {
-                padding: 25px;
+            .registration-container {
+                margin: 20px 0 40px;
             }
             
-            .school-types-container {
-                grid-template-columns: 1fr;
+            .charte-section, .form-section {
+                padding: 20px;
             }
             
-            .header-title {
-                font-size: 2rem;
+            .form-title {
+                font-size: 1.5rem;
             }
             
-            .header-subtitle {
+            .charte-title {
+                font-size: 1.4rem;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .form-actions .btn {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .form-actions .btn:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-text {
+                font-size: 1.1rem;
+            }
+            
+            .banner-title {
                 font-size: 1rem;
+            }
+            
+            .banner-subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .back-link {
+                padding: 6px 12px !important;
+                font-size: 0.85rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header avec logo -->
-        <div class="header-section">
-            <div class="logo-header">
-                <i class="fas fa-graduation-cap logo-icon-header"></i>
-                <div>
-                    <h1 class="header-title">EduTogoConnect</h1>
-                    <p class="header-subtitle">Formulaire d'inscription des écoles et institutions partenaires</p>
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <!-- Logo à gauche -->
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <!-- Titre au centre -->
+                <div class="header-center">
+                    <div class="banner-title">Inscription École - EduTogoConnect</div>
+                    <div class="banner-subtitle">Plateforme éducative togolaise</div>
                 </div>
+
+                <!-- Bouton retour à droite -->
+                <div class="header-right">
+                    <a href="../index.html" class="btn btn-secondary back-link">
+                        <i class="fas fa-arrow-left"></i> Retour à l'accueil
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Bannière charte après l'entête -->
+    <div class="charte-banner">
+        <div class="container">
+            <div class="charte-banner-content">
+                <h2 class="charte-banner-title">Charte des Écoles Partenaires - Règles et engagements à respecter</h2>
             </div>
         </div>
+    </div>
 
+    <main class="container">
         <div class="registration-container">
             <!-- Section charte -->
             <section class="charte-section">
-                <h1 class="charte-title"><i class="fas fa-file-contract"></i> Charte EduTogoConnect</h1>
-                
+                <div class="charte-important-note">
+                    <i class="fas fa-exclamation-circle"></i> 
+                    <strong>ATTENTION :</strong> La lecture attentive de cette charte est <strong>OBLIGATOIRE</strong> avant l'inscription
+                </div>
+
                 <div class="charte-content">
                     <h3>Préambule</h3>
-                    <p>EduTogoConnect est une plateforme éducative visant à connecter les institutions éducatives togolaises pour favoriser le partage des ressources, l'échange d'expériences et l'amélioration continue de la qualité de l'éducation. En adhérant à cette charte, votre institution s'engage à respecter les principes et valeurs définis ci-dessous.</p>
+                    <p>EduTogoConnect est une plateforme éducative qui connecte les écoles, instituts et établissements d'enseignement avec des enseignants qualifiés et des élèves. En adhérant à cette charte, vous vous engagez à respecter les principes et valeurs pédagogiques définis ci-dessous.</p>
                     
-                    <h3>Article 1 : Valeurs et Principes</h3>
-                    <p>Les institutions membres d'EduTogoConnect s'engagent à :</p>
+                    <h3>Article 1 : Engagement de l'École</h3>
+                    <p>En créant un compte sur EduTogoConnect, l'école s'engage à :</p>
                     <ul>
-                        <li>Promouvoir une éducation inclusive et de qualité pour tous les apprenants</li>
-                        <li>Respecter les droits de l'enfant et les principes d'équité et de non-discrimination</li>
-                        <li>Favoriser un environnement d'apprentissage sûr et stimulant</li>
-                        <li>Encourager l'innovation pédagogique et l'utilisation responsable des technologies éducatives</li>
-                        <li>Participer activement à la vie du réseau EduTogoConnect</li>
+                        <li>Fournir des informations exactes et vérifiables sur l'établissement</li>
+                        <li>Respecter les normes éducatives et pédagogiques</li>
+                        <li>Maintenir un environnement d'apprentissage de qualité</li>
+                        <li>Communiquer régulièrement avec les parents et élèves</li>
+                        <li>Respecter la confidentialité des informations des élèves</li>
+                        <li>Fournir tous les documents requis (statuts, accréditations, etc.)</li>
                     </ul>
                     
-                    <h3>Article 2 : Engagements des institutions</h3>
-                    <p>Chaque institution membre s'engage à :</p>
-                    <ul>
-                        <li>Fournir des informations exactes et à jour concernant son établissement</li>
-                        <li>Partager au moins une ressource pédagogique ou bonne pratique par trimestre</li>
-                        <li>Participer à au moins une activité du réseau par an (webinaire, atelier, etc.)</li>
-                        <li>Respecter les droits d'auteur et la propriété intellectuelle des ressources partagées</li>
-                        <li>Maintenir un comportement professionnel et respectueux dans toutes les interactions au sein du réseau</li>
-                    </ul>
-                    
-                    <h3>Article 3 : Engagements d'EduTogoConnect</h3>
-                    <p>EduTogoConnect s'engage à :</p>
-                    <ul>
-                        <li>Fournir une plateforme sécurisée et fonctionnelle pour faciliter les échanges</li>
-                        <li>Organiser régulièrement des événements de formation et de partage d'expériences</li>
-                        <li>Faciliter l'accès à des ressources éducatives de qualité</li>
-                        <li>Respecter la confidentialité des données des institutions membres</li>
-                        <li>Promouvoir les initiatives et réalisations des institutions membres</li>
-                    </ul>
-                    
-                    <h3>Article 4 : Durée et résiliation</h3>
-                    <p>L'adhésion à EduTogoConnect est valable pour une année scolaire et est renouvelable tacitement. Toute institution peut se retirer du réseau en informant par écrit la coordination. EduTogoConnect se réserve le droit de mettre fin à l'adhésion d'une institution en cas de manquement grave aux engagements de cette charte.</p>
-                    
-                    <h3>Article 5 : Protection des données</h3>
-                    <p>Les données collectées sont utilisées exclusivement dans le cadre des activités du réseau EduTogoConnect et ne sont en aucun cas cédées à des tiers sans consentement préalable. Conformément à la loi sur la protection des données, vous disposez d'un droit d'accès, de rectification et de suppression de vos données.</p>
-
-                    <h3>Article 6 : Documentation requise</h3>
+                    <h3>Article 2 : Documents Requis</h3>
                     <div class="highlight">
                         <strong>Documents obligatoires pour l'inscription :</strong>
                         <ul>
-                            <li>Récépissé de déclaration d'école</li>
-                            <li>Arrêté d'ouverture ou autorisation de fonctionnement</li>
+                            <li>Statuts officiels de l'établissement</li>
+                            <li>Accréditation/autorisation d'ouverture</li>
+                            <li>Photocopie légalisée de l'acte de création</li>
                             <li>Attestation de conformité des locaux</li>
-                            <li>Curriculum scolaire</li>
-                            <li>Liste du personnel enseignant</li>
-                            <li>Photos des infrastructures</li>
+                            <li>Liste des enseignants avec qualifications</li>
+                            <li>Photos de l'établissement (minimum 3)</li>
+                            <li>Logo et photos représentatives</li>
                         </ul>
                     </div>
+                    
+                    <h3>Article 3 : Publicité et Visibilité</h3>
+                    <p>En tant qu'école partenaire, vous bénéficiez de :</p>
+                    <ul>
+                        <li>Page dédiée sur la plateforme</li>
+                        <li>Apparition dans les résultats de recherche</li>
+                        <li>Publication d'annonces de recrutement d'enseignants</li>
+                        <li>Promotion d'événements scolaires</li>
+                        <li>Publication de résultats et classements</li>
+                        <li>Mise en avant des enseignants associés</li>
+                    </ul>
+                    
+                    <h3>Article 4 : Services Premium</h3>
+                    <div class="highlight">
+                        <strong>Services premium pour les écoles :</strong>
+                        <ul>
+                            <li>Page web personnalisée avec domaine personnalisé</li>
+                            <li>Système de gestion d'élèves intégré</li>
+                            <li>Outils de communication avec les parents</li>
+                            <li>Gestion des paiements et facturation</li>
+                            <li>Statistiques détaillées et rapports</li>
+                            <li>Support prioritaire 24/7</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Article 5 : Commission de la Plateforme</h3>
+                    <table class="payment-table">
+                        <thead>
+                            <tr>
+                                <th>Type de service</th>
+                                <th>Commission</th>
+                                <th>Paiement</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Abonnement standard</td>
+                                <td>15% par transaction</td>
+                                <td>Mensuel</td>
+                            </tr>
+                            <tr>
+                                <td>Abonnement premium</td>
+                                <td>10% par transaction</td>
+                                <td>Mensuel</td>
+                            </tr>
+                            <tr>
+                                <td>Publicité et promotion</td>
+                                <td>Forfaitaire</td>
+                                <td>À l'acte</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3>Article 6 : Recrutement d'Enseignants</h3>
+                    <p>La plateforme permet aux écoles de :</p>
+                    <ul>
+                        <li>Publier des offres d'emploi pour enseignants</li>
+                        <li>Rechercher parmi les enseignants certifiés</li>
+                        <li>Vérifier les qualifications et expériences</li>
+                        <li>Organiser des entretiens via la plateforme</li>
+                        <li>Gérer les contrats et paiements</li>
+                    </ul>
+                    
+                    <h3>Article 7 : Responsabilités</h3>
+                    <p>L'école est responsable de :</p>
+                    <ul>
+                        <li>La qualité de l'enseignement dispensé</li>
+                        <li>La sécurité des élèves et enseignants</li>
+                        <li>La conformité des locaux aux normes</li>
+                        <li>La véracité des informations publiées</li>
+                        <li>Le respect du calendrier scolaire</li>
+                    </ul>
+                    
+                    <div class="warning">
+                        <h4>Attention Importante</h4>
+                        <p><strong>TOUS LES PAIEMENTS DOIVENT PASSER PAR LA PLATEFORME</strong></p>
+                        <p>Pour :</p>
+                        <ul>
+                            <li>Votre sécurité et celle des parents</li>
+                            <li>Garantie du service</li>
+                            <li>Facturation officielle</li>
+                            <li>Suivi des transactions</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Article 8 : Évaluation et Notation</h3>
+                    <p>Les écoles sont évaluées par :</p>
+                    <ul>
+                        <li>Les élèves et parents</li>
+                        <li>Les enseignants associés</li>
+                        <li>L'équipe EduTogoConnect</li>
+                        <li>Les critères de qualité définis</li>
+                    </ul>
+                    
+                    <h3>Article 9 : Confidentialité</h3>
+                    <p>La plateforme garantit :</p>
+                    <ul>
+                        <li>Protection des données de l'établissement</li>
+                        <li>Confidentialité des informations sensibles</li>
+                        <li>Sécurité des transactions financières</li>
+                        <li>Respect de la vie privée</li>
+                    </ul>
+                    
+                    <h3>Article 10 : Résiliation du Partenariat</h3>
+                    <p>Le partenariat peut être résilié :</p>
+                    <ul>
+                        <li>À la demande de l'école</li>
+                        <li>En cas de non-respect répété de la charte</li>
+                        <li>Pour manquements graves aux obligations</li>
+                        <li>Pour fraude ou tentative de fraude</li>
+                    </ul>
                 </div>
-                
-                <!-- Acceptation de la charte -->
-                <div class="acceptance-group">
-                    <input type="checkbox" id="acceptCharte" class="acceptance-checkbox" required>
-                    <label for="acceptCharte" class="acceptance-label">
-                        Je, soussigné(e), représentant légal de l'institution, ai pris connaissance de la charte EduTogoConnect et m'engage à la respecter intégralement.
-                    </label>
-                </div>
-                
-                <div class="acceptance-group" style="background-color: rgba(0,168,232,0.05); border-color: rgba(0,168,232,0.2);">
-                    <input type="checkbox" id="acceptNewsletter" class="acceptance-checkbox">
-                    <label for="acceptNewsletter" class="acceptance-label">
-                        Je souhaite recevoir la newsletter mensuelle d'EduTogoConnect et des informations sur les événements du réseau.
-                    </label>
-                </div>
-                
-                <div class="acceptance-group" style="background-color: rgba(255,215,0,0.05); border-color: rgba(255,215,0,0.2);">
-                    <input type="checkbox" id="acceptPartage" class="acceptance-checkbox">
-                    <label for="acceptPartage" class="acceptance-label">
-                        J'accepte que mon institution soit mentionnée dans l'annuaire des institutions partenaires d'EduTogoConnect.
-                    </label>
+
+                <div class="support-section">
+                    <h4>Questions sur la charte ?</h4>
+                    <p><i class="fas fa-envelope"></i> ecoles@edutogoconnect.tg</p>
+                    <p><i class="fas fa-phone"></i> +228 XX XX XX XX</p>
                 </div>
             </section>
 
-            <!-- Formulaire d'inscription -->
+            <!-- Formulaire d'inscription École -->
             <section class="form-section">
-                <h1 class="form-title"><i class="fas fa-school"></i> Informations sur l'école</h1>
-
+                <div class="form-header">
+                    <h1 class="form-title">Inscription École/Institut</h1>
+                    <p class="form-subtitle">Veuillez remplir tous les champs obligatoires (*)</p>
+                </div>
+                
                 <form id="schoolRegistrationForm">
-                    <!-- Informations de base -->
+                    <!-- Informations de l'établissement -->
                     <div class="form-group">
-                        <label for="nomEcole" class="form-label">Nom de l'école/institution <span class="required">*</span></label>
-                        <input type="text" id="nomEcole" class="form-control" required>
-                        <div class="form-error" id="nomEcoleError">Veuillez entrer le nom de l'institution</div>
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px; font-size: 1.2rem;">Informations de l'établissement</h3>
                     </div>
 
-                    <!-- Type d'école -->
                     <div class="form-group">
-                        <label class="form-label">Type d'institution <span class="required">*</span></label>
-                        <div class="school-types-container">
-
-                            <input type="radio" id="typePublique" name="typeEcole" class="school-type-checkbox" value="public">
-                            <label for="typePublique" class="school-type-label">École publique</label>
-
-                            <input type="radio" id="typePrivee" name="typeEcole" class="school-type-checkbox" value="privee">
-                            <label for="typePrivee" class="school-type-label">Ecole privee</label>
-
-                            <input type="radio" id="typeInstitut" name="typeEcole" class="school-type-checkbox" value="institut">
-                            <label for="typeInstitut" class="school-type-label">Institut de formation</label>
-
-                        </div>
-                        <div class="form-error" id="typeEcoleError">Veuillez sélectionner un type d'institution</div>
+                        <label for="nomEcole" class="form-label">Nom officiel de l'établissement <span class="required">*</span></label>
+                        <input type="text" id="nomEcole" class="form-control" required placeholder="Ex: Collège d'Excellence de Lomé">
+                        <div class="form-error" id="nomEcoleError">Veuillez entrer le nom officiel de votre établissement</div>
                     </div>
 
-                    <!-- Adresse -->
+                    <!-- Contact et téléphone -->
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="adresse" class="form-label">Adresse complète <span class="required">*</span></label>
-                            <input type="text" id="adresse" class="form-control" required>
-                            <div class="form-error" id="adresseError">Veuillez entrer l'adresse de l'institution</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="ville" class="form-label">Ville <span class="required">*</span></label>
-                            <input type="text" id="ville" class="form-control" required>
-                            <div class="form-error" id="villeError">Veuillez entrer la ville</div>
-                        </div>
+                        <label for="typeEtablissement" class="form-label">Type d'établissement <span class="required">*</span></label>
+                        <select id="typeEtablissement" class="form-control" required>
+                            <option value="">Sélectionnez le type</option>
+                            <option value="college">Collège (CEG)</option>
+                            <option value="lycee">Lycée</option>
+                            <option value="institut">Institut</option>
+                            <option value="ecole_privee">École privée</option>
+                            <option value="centre_formation">Centre de formation</option>
+                            <option value="universite">Université</option>
+                        </select>
+                        <div class="form-error" id="typeEtablissementError">Veuillez sélectionner le type d'établissement</div>
                     </div>
-
-                    <!-- Contacts -->
-                    <div class="form-row">
+                    
                         <div class="form-group">
                             <label for="telephone" class="form-label">Téléphone <span class="required">*</span></label>
                             <input type="tel" id="telephone" class="form-control" required pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
                             <div class="form-text">Format: +228 XX XX XX XX</div>
-                            <div class="form-error" id="telephoneError">Veuillez entrer un numéro valide au format +228 XX XX XX XX</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email" class="form-label">Email institutionnel <span class="required">*</span></label>
-                            <input type="email" id="email" class="form-control" required>
-                            <div class="form-error" id="emailError">Veuillez entrer une adresse email valide</div>
+                            <div class="form-error" id="telephoneError">Numéro de téléphone invalide</div>
                         </div>
                     </div>
 
-                    <!-- Responsable et effectif -->
+                    <!-- Région et Ville -->
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="directeur" class="form-label">Nom du directeur/recteur <span class="required">*</span></label>
-                            <input type="text" id="directeur" class="form-control" required>
-                            <div class="form-error" id="directeurError">Veuillez entrer le nom du responsable</div>
+                            <label for="region" class="form-label">Région <span class="required">*</span></label>
+                            <select id="region" class="form-control" required>
+                                <option value="">Sélectionnez votre région</option>
+                                <option value="maritime">Maritime</option>
+                                <option value="plateaux">Plateaux</option>
+                                <option value="centrale">Centrale</option>
+                                <option value="kara">Kara</option>
+                                <option value="savanes">Savanes</option>
+                            </select>
+                            <div class="form-error" id="regionError">Veuillez sélectionner votre région</div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="effectif" class="form-label">Effectif approximatif des élèves</label>
-                            <input type="number" id="effectif" class="form-control" min="0" placeholder="Ex: 500">
+                            <label for="ville" class="form-label">Ville <span class="required">*</span></label>
+                            <select id="ville" class="form-control" required>
+                                <option value="">Sélectionnez votre ville</option>
+                            </select>
+                            <div class="form-error" id="villeError">Veuillez sélectionner votre ville</div>
                         </div>
                     </div>
 
-                    <!-- Année de création et site web -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="anneeCreation" class="form-label">Année de création</label>
-                            <input type="number" id="anneeCreation" class="form-control" min="1900" max="2024" placeholder="Ex: 1995">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="siteWeb" class="form-label">Site web (si disponible)</label>
-                            <input type="url" id="siteWeb" class="form-control" placeholder="https://www.exemple.tg">
-                        </div>
-                    </div>
-
-                    <!-- Personne de contact -->
                     <div class="form-group">
-                        <h3 style="color: var(--bleu); margin-bottom: 15px; padding-top: 10px; border-top: 1px solid var(--gris-moyen);">Personne de contact</h3>
+                        <label for="email" class="form-label">Email officiel <span class="required">*</span></label>
+                        <input type="email" id="email" class="form-control" required placeholder="contact@ecole.tg">
+                        <div class="form-error" id="emailError">Adresse email invalide</div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="contactNom" class="form-label">Nom complet <span class="required">*</span></label>
-                            <input type="text" id="contactNom" class="form-control" required>
-                            <div class="form-error" id="contactNomError">Veuillez entrer le nom du contact</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="contactFonction" class="form-label">Fonction <span class="required">*</span></label>
-                            <input type="text" id="contactFonction" class="form-control" required placeholder="Ex: Secrétaire, Chargé de communication">
-                            <div class="form-error" id="contactFonctionError">Veuillez entrer la fonction du contact</div>
-                        </div>
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label for="description" class="form-label">Description de votre etablissement et de votre méthode d'enseignement</label>
+                        <textarea id="description" class="form-control" rows="4" placeholder="Décrivez votre ecole, votre parcours et votre approche pédagogique, vos spécialités, etc..."></textarea>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="contactTelephone" class="form-label">Téléphone portable <span class="required">*</span></label>
-                            <input type="tel" id="contactTelephone" class="form-control" required pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
-                            <div class="form-error" id="contactTelephoneError">Veuillez entrer un numéro valide</div>
+                    <!-- Mot de passe -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">Mot de passe <span class="required">*</span></label>
+                        <input type="password" id="password" class="form-control" required placeholder="Minimum 8 caractères">
+                        <div class="form-text">Doit contenir au moins une majuscule, une minuscule et un chiffre</div>
+                        <div class="form-error" id="passwordError">Le mot de passe doit contenir au moins 8 caractères</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password" class="form-label">Confirmation du mot de passe <span class="required">*</span></label>
+                        <input type="password" id="confirm_password" class="form-control" required placeholder="Retapez votre mot de passe">
+                        <div class="form-error" id="confirmPasswordError">Les mots de passe ne correspondent pas</div>
+                    </div>
+
+                    <!-- Photo de profil de l'école -->
+                    <div class="form-group">
+                        <label class="form-label">Logo/Photo de l'établissement <span class="required">*</span></label>
+                        <div class="photo-upload-container" id="photoUploadContainer">
+                            <div class="photo-upload-icon">
+                                <i class="fas fa-school"></i>
+                            </div>
+                            <div class="photo-upload-text">
+                                <strong>Cliquez pour ajouter le logo</strong><br>
+                                ou glissez-déposez une image ici
+                            </div>
+                            <div class="form-text" style="margin-top: 5px; font-size: 0.8rem;">
+                                Formats acceptés: JPG, PNG (max. 5MB)
+                            </div>
+                            <button type="button" class="photo-upload-btn" id="photoUploadBtn">
+                                Choisir une image
+                            </button>
+                            <input type="file" id="photoInput" accept="image/*" style="display: none;">
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="contactEmail" class="form-label">Email personnel <span class="required">*</span></label>
-                            <input type="email" id="contactEmail" class="form-control" required>
-                            <div class="form-error" id="contactEmailError">Veuillez entrer une adresse email valide</div>
+                        <div class="photo-preview-container" id="photoPreviewContainer">
+                            <img src="" alt="Aperçu logo de l'école" class="photo-preview" id="photoPreview">
+                            <button type="button" class="photo-remove-btn" id="photoRemoveBtn">
+                                <i class="fas fa-trash"></i> Supprimer l'image
+                            </button>
                         </div>
                     </div>
 
@@ -740,10 +1233,15 @@
                         </div>
                     </div>
 
-                    <!-- Commentaires additionnels -->
-                    <div class="form-group">
-                        <label for="commentaires" class="form-label">Commentaires additionnels</label>
-                        <textarea id="commentaires" class="form-control" rows="4" placeholder="Avez-vous des attentes particulières concernant votre adhésion à EduTogoConnect ? Souhaitez-vous ajouter d'autres informations ?"></textarea>
+                    <!-- Acceptation de la charte -->
+                    <div class="acceptance-group">
+                        <input type="checkbox" id="acceptCharte" class="acceptance-checkbox" required>
+                        <label for="acceptCharte" class="acceptance-label">
+                            J'ai lu et j'accepte la charte des écoles partenaires EduTogoConnect
+                        </label>
+                        <p class="form-text" style="margin-top: 10px;">
+                            En cochant, vous <strong>acceptez les conditions contractuelles</strong> et vous engagez à respecter les règles de la plateforme.
+                        </p>
                     </div>
 
                     <!-- Boutons -->
@@ -754,51 +1252,255 @@
                 </form>
             </section>
         </div>
+    </main>
 
-        <!-- Footer -->
-        <footer>
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    <div class="footer-text">EduTogoConnect</div>
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 15px;">
+                        <div class="logo-icon" style="width: 30px; height: 30px; font-size: 16px;">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal); font-size: 20px;">Edu<span>Togo</span>Connect</div>
+                    </div>
+                    <p style="font-size: 0.9rem; line-height: 1.5;">Plateforme éducative togolaise pour les écoles, enseignants et élèves du collège.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
                 </div>
-                <p>Plateforme de réseau éducatif togolais</p>
-                <div class="footer-contact">
-                    <p>Tél: +228 XX XXX XXX | Email: contact@edutogoconnect.tg</p>
-                    <p>&copy; 2024 EduTogoConnect - Tous droits réservés</p>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="../index.html#cours">Cours</a></li>
+                        <li><a href="../index.html#enseignants">Enseignants</a></li>
+                        <li><a href="../index.html#niveaux">Niveaux</a></li>
+                        <li><a href="../index.html#ecoles">Écoles</a></li>
+                        <li><a href="../index.html#temoignages">Témoignages</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Inscriptions</h3>
+                    <ul class="footer-links">
+                        <li><a href="eleve.html">Élève</a></li>
+                        <li><a href="enseignant.html">Enseignant</a></li>
+                        <li><a href="parent.html">Parent</a></li>
+                        <li><a href="ecole.html">École</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 8px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 8px;"></i> Lun-Ven: 8h-18h</li>
+                    </ul>
                 </div>
             </div>
-        </footer>
-    </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Gestion de l'upload de fichiers
-        const fileInput = document.getElementById('fileInput');
-        const fileUploadArea = document.getElementById('fileUploadArea');
-        const fileList = document.getElementById('fileList');
+        // Éléments du formulaire
+        const registrationForm = document.getElementById('schoolRegistrationForm');
         const submitBtn = document.getElementById('submitBtn');
         const acceptCharte = document.getElementById('acceptCharte');
         const resetBtn = document.getElementById('resetBtn');
-        const registrationForm = document.getElementById('schoolRegistrationForm');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const regionSelect = document.getElementById('region');
+        const villeSelect = document.getElementById('ville');
+        const photoInput = document.getElementById('photoInput');
+        const photoUploadBtn = document.getElementById('photoUploadBtn');
+        const photoUploadContainer = document.getElementById('photoUploadContainer');
+        const photoPreviewContainer = document.getElementById('photoPreviewContainer');
+        const photoPreview = document.getElementById('photoPreview');
+        const photoRemoveBtn = document.getElementById('photoRemoveBtn');
+        const fileInput = document.getElementById('fileInput');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileList = document.getElementById('fileList');
 
+        // Variables globales
         let uploadedFiles = [];
+        let hasLogo = false;
+
+        // ============ FLÈCHE RETOUR EN HAUT ============
+        function toggleBackToTopButton() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        window.addEventListener('scroll', toggleBackToTopButton);
+        backToTopBtn.addEventListener('click', scrollToTop);
+
+        // ============ GESTION DES VILLES PAR RÉGION ============
+        const citiesByRegion = {
+            'maritime': [
+                {value: 'lome', label: 'Lomé (capitale)'},
+                {value: 'aneho', label: 'Aného'},
+                {value: 'tsevie', label: 'Tsévié'},
+                {value: 'vogan', label: 'Vogan'},
+                {value: 'tabligbo', label: 'Tabligbo'}
+            ],
+            'plateaux': [
+                {value: 'atakpame', label: 'Atakpamé'},
+                {value: 'badou', label: 'Badou'},
+                {value: 'kpalime', label: 'Kpalimé'},
+                {value: 'sotouboua', label: 'Sotouboua'}
+            ],
+            'centrale': [
+                {value: 'sokode', label: 'Sokodé'},
+                {value: 'tchamba', label: 'Tchamba'},
+                {value: 'bafilo', label: 'Bafilo'},
+                {value: 'bassar', label: 'Bassar'}
+            ],
+            'kara': [
+                {value: 'kara', label: 'Kara'},
+                {value: 'kande', label: 'Kandé'},
+                {value: 'pagouda', label: 'Pagouda'}
+            ],
+            'savanes': [
+                {value: 'dapaong', label: 'Dapaong'},
+                {value: 'mandouri', label: 'Mandouri'},
+                {value: 'tone', label: 'Tône'},
+                {value: 'kpendjal', label: 'Kpendjal'}
+            ]
+        };
+
+        function updateCityOptions() {
+            const selectedRegion = regionSelect.value;
+            villeSelect.innerHTML = '<option value="">Sélectionnez votre ville</option>';
+            
+            if (selectedRegion && citiesByRegion[selectedRegion]) {
+                citiesByRegion[selectedRegion].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.value;
+                    option.textContent = city.label;
+                    villeSelect.appendChild(option);
+                });
+            } else {
+                // Si aucune région n'est sélectionnée, afficher toutes les villes
+                Object.keys(citiesByRegion).forEach(region => {
+                    const optgroup = document.createElement('optgroup');
+                    optgroup.label = `Région ${region.charAt(0).toUpperCase() + region.slice(1)}`;
+                    
+                    citiesByRegion[region].forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.value;
+                        option.textContent = city.label;
+                        optgroup.appendChild(option);
+                    });
+                    
+                    villeSelect.appendChild(optgroup);
+                });
+            }
+            
+            validateForm();
+        }
+
+        regionSelect.addEventListener('change', updateCityOptions);
+
+        // ============ GESTION DE LA PHOTO DE PROFIL ============
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Vérifier la taille du fichier (max 5MB pour les écoles)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Le fichier est trop volumineux. Maximum 5MB autorisé.');
+                return;
+            }
+            
+            // Vérifier le type de fichier
+            if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
+                alert('Seuls les formats JPG et PNG sont acceptés.');
+                return;
+            }
+            
+            // Afficher l'aperçu
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photoPreview.src = e.target.result;
+                photoUploadContainer.style.display = 'none';
+                photoPreviewContainer.style.display = 'flex';
+                hasLogo = true;
+                validateForm();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removePhoto() {
+            photoInput.value = '';
+            photoPreview.src = '';
+            photoUploadContainer.style.display = 'flex';
+            photoPreviewContainer.style.display = 'none';
+            hasLogo = false;
+            validateForm();
+        }
+
+        // Gestion du drag and drop
+        photoUploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            photoUploadContainer.classList.add('dragover');
+        });
+
+        photoUploadContainer.addEventListener('dragleave', () => {
+            photoUploadContainer.classList.remove('dragover');
+        });
+
+        photoUploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            photoUploadContainer.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                photoInput.files = e.dataTransfer.files;
+                handlePhotoUpload({ target: photoInput });
+            }
+        });
+
+        photoUploadBtn.addEventListener('click', () => {
+            photoInput.click();
+        });
+
+        photoInput.addEventListener('change', handlePhotoUpload);
+        photoRemoveBtn.addEventListener('click', removePhoto);
 
         // ============ GESTION DES DOCUMENTS ============
         // Drag and drop autres documents
         fileUploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
-            fileUploadArea.style.borderColor = 'var(--bleu)';
+            fileUploadArea.style.borderColor = 'var(--vert-principal)';
             fileUploadArea.style.backgroundColor = 'rgba(0,168,232,0.15)';
         });
 
         fileUploadArea.addEventListener('dragleave', () => {
-            fileUploadArea.style.borderColor = 'var(--bleu-clair)';
+            fileUploadArea.style.borderColor = 'var(--bleu-info)';
             fileUploadArea.style.backgroundColor = 'rgba(0,168,232,0.1)';
         });
 
         fileUploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
-            fileUploadArea.style.borderColor = 'var(--bleu-clair)';
+            fileUploadArea.style.borderColor = 'var(--bleu-info)';
             fileUploadArea.style.backgroundColor = 'rgba(0,168,232,0.1)';
 
             const files = Array.from(e.dataTransfer.files);
@@ -854,7 +1556,13 @@
 
                 const fileName = document.createElement('span');
                 fileName.className = 'file-name';
-                fileName.textContent = file.name;
+                
+                // Ajouter une icône selon le type
+                if (file.type === 'application/pdf') {
+                    fileName.innerHTML = `<i class="fas fa-file-pdf" style="color: var(--rouge-alerte); margin-right: 8px;"></i> ${file.name}`;
+                } else {
+                    fileName.innerHTML = `<i class="fas fa-file-image" style="color: var(--vert-principal); margin-right: 8px;"></i> ${file.name}`;
+                }
 
                 const fileRemove = document.createElement('button');
                 fileRemove.className = 'file-remove';
@@ -874,7 +1582,7 @@
         // ============ VALIDATION DU FORMULAIRE ============
         function validateForm() {
             let isValid = true;
-
+            
             // Validation des champs requis
             const requiredFields = registrationForm.querySelectorAll('[required]');
             requiredFields.forEach(field => {
@@ -887,24 +1595,7 @@
                 }
             });
 
-            // Validation type d'école
-            const selectedType = registrationForm.querySelector('input[name="typeEcole"]:checked');
-            if (!selectedType) {
-                document.getElementById('typeEcoleError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('typeEcoleError').style.display = 'none';
-            }
-
-            // Validation documents
-            if (uploadedFiles.length === 0) {
-                document.getElementById('documentsError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('documentsError').style.display = 'none';
-            }
-
-            // Validation email
+            // Validation de l'email
             const emailField = document.getElementById('email');
             const emailError = document.getElementById('emailError');
             if (emailField.value && !isValidEmail(emailField.value)) {
@@ -912,7 +1603,7 @@
                 isValid = false;
             }
 
-            // Validation téléphone
+            // Validation du téléphone
             const phoneField = document.getElementById('telephone');
             const phoneError = document.getElementById('telephoneError');
             if (phoneField.value && !isValidPhone(phoneField.value)) {
@@ -920,8 +1611,59 @@
                 isValid = false;
             }
 
+            // Validation région
+            const regionSelect = document.getElementById('region');
+            if (!regionSelect.value) {
+                document.getElementById('regionError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('regionError').style.display = 'none';
+            }
+
+            // Validation ville
+            const villeSelect = document.getElementById('ville');
+            if (!villeSelect.value) {
+                document.getElementById('villeError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('villeError').style.display = 'none';
+            }
+
+            // Validation du mot de passe
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirm_password');
+            
+            if (password.value.length < 8) {
+                document.getElementById('passwordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('passwordError').style.display = 'none';
+            }
+            
+            if (password.value !== confirmPassword.value) {
+                document.getElementById('confirmPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('confirmPasswordError').style.display = 'none';
+            }
+
+            // Validation logo (obligatoire)
+            if (!hasLogo) {
+                isValid = false;
+            }
+
+            // Validation documents (au moins un document obligatoire)
+            if (uploadedFiles.length === 0) {
+                document.getElementById('documentsError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('documentsError').style.display = 'none';
+            }
+
             // Activer/désactiver bouton submit
             submitBtn.disabled = !(isValid && acceptCharte.checked);
+            
+            return isValid;
         }
 
         // Fonctions de validation
@@ -939,16 +1681,10 @@
         acceptCharte.addEventListener('change', validateForm);
 
         // Validation en temps réel des champs
-        const requiredFields = registrationForm.querySelectorAll('[required]');
-        requiredFields.forEach(field => {
-            field.addEventListener('blur', validateForm);
-            field.addEventListener('input', validateForm);
-        });
-
-        // Validation des types d'école
-        const typeRadios = registrationForm.querySelectorAll('.school-type-checkbox');
-        typeRadios.forEach(radio => {
-            radio.addEventListener('change', validateForm);
+        const inputs = registrationForm.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('blur', validateForm);
+            input.addEventListener('input', validateForm);
         });
 
         // ============ RESET DU FORMULAIRE ============
@@ -956,8 +1692,12 @@
             if (confirm('Voulez-vous vraiment effacer tous les champs du formulaire ?')) {
                 registrationForm.reset();
                 uploadedFiles = [];
+                hasLogo = false;
                 fileInput.value = '';
+                photoInput.value = '';
                 updateFileList();
+                removePhoto();
+                updateCityOptions(); // Réinitialiser les villes
                 submitBtn.disabled = true;
                 acceptCharte.checked = false;
 
@@ -974,11 +1714,19 @@
             e.preventDefault();
 
             // Validation finale
-            validateForm();
+            if (!validateForm()) {
+                alert('Veuillez corriger les erreurs dans le formulaire.');
+                return;
+            }
+
+            if (!acceptCharte.checked) {
+                alert('Vous devez accepter la charte des écoles partenaires pour vous inscrire.');
+                return;
+            }
 
             // Vérifier si le bouton est désactivé
             if (submitBtn.disabled) {
-                alert('Veuillez compléter tous les champs obligatoires, uploader les documents requis et accepter la charte.');
+                alert('Veuillez compléter tous les champs obligatoires, télécharger votre logo et accepter la charte.');
                 return;
             }
 
@@ -987,13 +1735,17 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
 
             setTimeout(() => {
-                alert('Formulaire soumis avec succès ! Votre institution sera vérifiée par notre équipe sous 72h ouvrables.');
+                alert('Formulaire soumis avec succès ! Votre école sera vérifiée par notre équipe sous 48h.');
                 
                 // Réinitialiser le formulaire
                 registrationForm.reset();
                 uploadedFiles = [];
+                hasLogo = false;
                 fileInput.value = '';
+                photoInput.value = '';
                 updateFileList();
+                removePhoto();
+                updateCityOptions(); // Réinitialiser les villes
                 submitBtn.disabled = true;
                 acceptCharte.checked = false;
                 submitBtn.innerHTML = 'Soumettre l\'inscription';
@@ -1006,8 +1758,18 @@
             }, 1500);
         });
 
-        // Initialisation : désactiver le bouton submit
-        submitBtn.disabled = true;
+        // Initialisation
+        function initializeForm() {
+            // Initialiser les villes
+            updateCityOptions();
+            
+            // Désactiver le bouton submit initialement
+            submitBtn.disabled = true;
+            document.getElementById('documentsError').style.display = 'block';
+        }
+
+        // Appeler l'initialisation quand le DOM est chargé
+        document.addEventListener('DOMContentLoaded', initializeForm);
     </script>
 </body>
 </html>

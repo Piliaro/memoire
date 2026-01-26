@@ -16,6 +16,18 @@
             --gris-fonce: #333333;
             --gris-moyen: #666666;
             --gris-clair: #F5F5F5;
+            --orange-cours: #FF9800;
+            --cyan-suggestion: #00BCD4;
+            --violet-premium: #9C27B0;
+            --bleu-prof: #2196F3;
+            --violet-autres: #7B1FA2;
+            
+            --jaune-fonce: #FFC107;
+            --vert-success: #4CAF50;
+            --rouge-alerte: #F44336;
+            --bleu-info: #2196F3;
+            --gris-texte: #424242;
+            --noir: #212121;
         }
 
         /* Reset et styles généraux */
@@ -28,22 +40,72 @@
 
         body {
             background-color: var(--gris-clair);
-            color: var(--gris-fonce);
+            color: var(--gris-texte);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Header */
+        /* Flèche retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--blanc-principal);
+            overflow: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(239, 51, 64, 0.4);
+        }
+
+        /* Header corrigé */
         header {
             background-color: var(--blanc-principal);
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 15px 0;
+            gap: 20px;
         }
 
         .logo {
@@ -52,6 +114,7 @@
             gap: 10px;
             text-decoration: none;
             color: var(--gris-fonce);
+            min-width: 200px;
         }
 
         .logo-icon {
@@ -76,73 +139,310 @@
             color: var(--vert-principal);
         }
 
+        /* Centre de l'header */
+        .header-center {
+            flex: 1;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .banner-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-bottom: 4px;
+        }
+
+        .banner-subtitle {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Droite de l'header */
+        .header-right {
+            display: flex;
+            justify-content: flex-end;
+            min-width: 180px;
+        }
+
         .back-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: var(--gris-moyen);
-            text-decoration: none;
-            margin-top: 15px;
-            transition: color 0.3s;
+            padding: 8px 16px !important;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
 
-        .back-link:hover {
-            color: var(--jaune-principal);
+        /* Boutons généraux */
+        .btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-secondary {
+            background-color: var(--gris-clair);
+            color: var(--gris-texte);
+            border: 2px solid var(--gris-moyen);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+            border-color: var(--gris-fonce);
+        }
+
+        /* Bannière charte après l'entête */
+        .charte-banner {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
+            color: var(--blanc-principal);
+            padding: 5px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .charte-banner-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .charte-banner-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .charte-banner-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
         }
 
         /* Contenu principal */
         .registration-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin: 40px 0;
+            grid-template-columns: 55% 45%;
+            gap: 15px;
+            margin: 0 0 60px;
+            min-height: calc(100vh - 200px);
         }
 
-        @media (max-width: 992px) {
+        @media (max-width: 1200px) {
             .registration-container {
                 grid-template-columns: 1fr;
+                gap: 40px;
             }
+        }
+
+        /* Section charte */
+        .charte-section {
+            background-color: var(--gris-clair);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            max-height: 900vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .charte-header {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
+            color: var(--blanc-principal);
+            padding: 7px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .charte-title {
+            color: var(--blanc-principal);
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .charte-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .charte-important-note {
+            background-color: red;
+            border: 2px solid var(--vert-principal);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--blanc-principal);
+        }
+
+        .charte-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px 5px 10px 10px;
+            margin-bottom: 20px;
+            max-height: 400px;
+        }
+
+        .charte-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .charte-content::-webkit-scrollbar-track {
+            background: var(--gris-clair);
+            border-radius: 4px;
+        }
+
+        .charte-content::-webkit-scrollbar-thumb {
+            background-color: var(--jaune-principal);
+            border-radius: 4px;
+        }
+
+        .charte-section h3 {
+            color: var(--gris-fonce);
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--gris-clair);
+            font-size: 1.1rem;
+        }
+
+        .charte-section p {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .charte-section ul, .charte-section ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .charte-section li {
+            margin-bottom: 5px;
+        }
+
+        .highlight {
+            background-color: rgba(76,175,80,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--vert-success);
+            font-size: 0.9rem;
+        }
+
+        .warning {
+            background-color: rgba(255,215,0,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--jaune-principal);
+            font-size: 0.9rem;
+        }
+
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.85rem;
+        }
+
+        .payment-table th,
+        .payment-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--gris-moyen);
+        }
+
+        .payment-table th {
+            background-color: rgba(76,175,80,0.1);
+            color: var(--gris-fonce);
+            font-weight: 600;
         }
 
         /* Section formulaire */
         .form-section {
             background-color: var(--blanc-principal);
             border-radius: 15px;
-            padding: 40px;
+            padding: 30px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--vert-principal);
         }
 
         .form-title {
             color: var(--gris-fonce);
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--vert-principal);
             font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .form-subtitle {
+            color: var(--gris-moyen);
+            font-size: 1rem;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+        }
+
+        /* Groupes en ligne */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
         }
 
         .form-label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--gris-fonce);
+            color: var(--gris-texte);
+            font-size: 0.95rem;
         }
 
         .required {
-            color: var(--rouge-principal);
+            color: var(--rouge-alerte);
         }
 
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid var(--gris-clair);
+            border: 2px solid var(--gris-moyen);
             border-radius: 8px;
             font-size: 1rem;
             transition: border-color 0.3s;
             background-color: var(--blanc-principal);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+            padding-right: 40px;
         }
 
         .form-control:focus {
@@ -155,10 +455,11 @@
             font-size: 0.85rem;
             color: var(--gris-moyen);
             margin-top: 5px;
+            line-height: 1.4;
         }
 
         .form-error {
-            color: var(--rouge-principal);
+            color: var(--rouge-alerte);
             font-size: 0.85rem;
             margin-top: 5px;
             display: none;
@@ -244,8 +545,8 @@
             transform: translateY(-2px);
         }
 
-        /* Modal pour ajouter un enfant */
-        .modal-overlay {
+        /* Modal pour rechercher un enfant */
+        .student-search-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -253,16 +554,16 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
+            z-index: 1001;
             justify-content: center;
             align-items: center;
         }
 
-        .modal {
+        .student-search-modal .modal {
             background-color: var(--blanc-principal);
             border-radius: 15px;
             width: 90%;
-            max-width: 500px;
+            max-width: 600px;
             max-height: 90vh;
             overflow: auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -291,176 +592,6 @@
 
         .modal-body {
             padding: 20px;
-        }
-
-        /* Checkbox d'acceptation */
-        .acceptance-group {
-            margin: 30px 0;
-            padding: 20px;
-            background-color: rgba(0,166,81,0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(0,166,81,0.2);
-        }
-
-        .acceptance-checkbox {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-
-        .acceptance-label {
-            font-weight: 600;
-            color: var(--gris-fonce);
-        }
-
-        /* Boutons */
-        .btn {
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-            width: 100%;
-        }
-
-        .btn-primary:hover {
-            background-color: #008c45;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,166,81,0.3);
-        }
-
-        .btn-primary:disabled {
-            background-color: var(--gris-moyen);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn-secondary {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-            margin-right: 15px;
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--gris-fonce);
-        }
-
-        .form-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-
-        /* Section charte */
-        .charte-section {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-
-        .charte-title {
-            color: var(--gris-fonce);
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-        }
-
-        .charte-content {
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 20px;
-            background-color: var(--gris-clair);
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
-        .charte-section h3 {
-            color: var(--gris-fonce);
-            margin: 20px 0 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .charte-section ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        .charte-section li {
-            margin-bottom: 8px;
-        }
-
-        .highlight {
-            background-color: rgba(0,166,81,0.1);
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            border-left: 3px solid var(--vert-principal);
-        }
-
-        .warning {
-            background-color: rgba(255,215,0,0.1);
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            border-left: 3px solid var(--jaune-principal);
-        }
-
-        .payment-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        .payment-table th,
-        .payment-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .payment-table th {
-            background-color: rgba(0,166,81,0.1);
-            color: var(--gris-fonce);
-            font-weight: 600;
-        }
-
-        .payment-table tr:hover {
-            background-color: rgba(0,0,0,0.02);
-        }
-
-        /* Modal pour rechercher un enfant */
-        .student-search-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1001;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .student-search-modal .modal {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .student-search-container {
@@ -531,10 +662,208 @@
             border-left: 3px solid var(--rouge-principal);
         }
 
-        /* Responsive */
+        /* Checkbox d'acceptation */
+        .acceptance-group {
+            margin: 25px 0;
+            padding: 20px;
+            background-color: rgba(0,166,81,0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0,166,81,0.2);
+        }
+
+        .acceptance-checkbox {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .acceptance-label {
+            font-weight: 600;
+            color: var(--gris-texte);
+            font-size: 0.95rem;
+        }
+
+        /* Boutons formulaire */
+        .btn-primary {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,166,81,0.3);
+        }
+
+        .btn-primary:disabled {
+            background-color: var(--gris-moyen);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .form-actions .btn-secondary {
+            flex: 1;
+            border-radius: 8px;
+            padding: 14px;
+            background-color: var(--gris-clair);
+            color: var(--gris-texte);
+            border: 2px solid var(--gris-moyen);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .form-actions .btn-primary {
+            flex: 2;
+        }
+
+        /* Contact support */
+        .support-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(0,166,81,0.05);
+            border-radius: 8px;
+        }
+
+        .support-section h4 {
+            color: var(--gris-fonce);
+            margin-bottom: 10px;
+        }
+
+        .support-section p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--noir);
+            color: var(--gris-moyen);
+            padding: 40px 0 20px;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--gris-moyen);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--noir);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Responsive général */
+        @media (max-width: 992px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+            
+            .header-center {
+                order: 3;
+                flex-basis: 100%;
+                margin-top: 10px;
+            }
+            
+            .header-right {
+                flex: 1;
+                justify-content: flex-end;
+            }
+        }
+
         @media (max-width: 768px) {
-            .form-section, .charte-section {
-                padding: 25px;
+            .registration-container {
+                margin: 20px 0 40px;
+            }
+            
+            .charte-section, .form-section {
+                padding: 20px;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .charte-title {
+                font-size: 1.4rem;
             }
             
             .children-table {
@@ -542,201 +871,92 @@
                 overflow-x: auto;
             }
             
-            .search-tabs {
+            .form-actions {
                 flex-direction: column;
+            }
+            
+            .form-actions .btn {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .form-actions .btn:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-text {
+                font-size: 1.1rem;
+            }
+            
+            .banner-title {
+                font-size: 1rem;
+            }
+            
+            .banner-subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .back-link {
+                padding: 6px 12px !important;
+                font-size: 0.85rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Header corrigé -->
     <header>
         <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">ET</div>
-                <div class="logo-text">Edu<span>Togo</span>Connect</div>
-            </a>
-            <a href="index.html" class="back-link">
-                <i class="fas fa-arrow-left"></i> Retour à l'accueil
-            </a>
+            <nav class="navbar">
+                <!-- Logo à gauche -->
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <!-- Titre au centre -->
+                <div class="header-center">
+                    <div class="banner-title">Inscription Parent/Tuteur - EduTogoConnect</div>
+                    <div class="banner-subtitle">Gérez les cours de vos enfants en toute simplicité</div>
+                </div>
+
+                <!-- Bouton retour à droite -->
+                <div class="header-right">
+                    <a href="../index.html" class="btn btn-secondary back-link">
+                        <i class="fas fa-arrow-left"></i> Retour à l'accueil
+                    </a>
+                </div>
+            </nav>
         </div>
     </header>
 
+    <!-- Bannière charte après l'entête -->
+    <div class="charte-banner">
+        <div class="container">
+            <div class="charte-banner-content">
+                <h2 class="charte-banner-title">Charte du Parent/Tuteur de la plateforme Règles et engagements à respecter</h2>
+            </div>
+        </div>
+    </div>
+
     <main class="container">
         <div class="registration-container">
-            <!-- Formulaire d'inscription Parent -->
-            <section class="form-section">
-                <h1 class="form-title">Inscription Parent/Tuteur</h1>
-                
-                <form id="parentRegistrationForm">
-                    <!-- Informations personnelles du parent -->
-                    <div class="form-group">
-                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px;">Informations personnelles</h3>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="parentFullName" class="form-label">Nom complet <span class="required">*</span></label>
-                        <input type="text" id="parentFullName" class="form-control" required>
-                        <div class="form-error" id="parentFullNameError">Veuillez entrer votre nom complet</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="parentEmail" class="form-label">Adresse email <span class="required">*</span></label>
-                        <input type="email" id="parentEmail" class="form-control" required>
-                        <div class="form-text">Utilisez une adresse email que vous consultez régulièrement</div>
-                        <div class="form-error" id="parentEmailError">Veuillez entrer une adresse email valide</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="parentPhone" class="form-label">Téléphone principal <span class="required">*</span></label>
-                        <input type="tel" id="parentPhone" class="form-control" required pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
-                        <div class="form-text">Format: +228 XX XX XX XX</div>
-                        <div class="form-error" id="parentPhoneError">Veuillez entrer un numéro valide au format +228 XX XX XX XX</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="parentAddress" class="form-label">Adresse (Ville, Quartier) <span class="required">*</span></label>
-                        <input type="text" id="parentAddress" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="parentProfession" class="form-label">Profession</label>
-                        <input type="text" id="parentProfession" class="form-control" placeholder="Ex: Fonctionnaire, Commerçant, Enseignant...">
-                    </div>
-
-                    <!-- Informations de connexion -->
-                    <div class="form-group">
-                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px;">Informations de connexion</h3>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="parentPassword" class="form-label">Mot de passe <span class="required">*</span></label>
-                        <input type="password" id="parentPassword" class="form-control" required>
-                        <div class="form-text">Minimum 8 caractères avec majuscule, minuscule et chiffre</div>
-                        <div class="form-error" id="parentPasswordError">Le mot de passe doit contenir au moins 8 caractères</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="parentConfirmPassword" class="form-label">Confirmer le mot de passe <span class="required">*</span></label>
-                        <input type="password" id="parentConfirmPassword" class="form-control" required>
-                        <div class="form-error" id="parentConfirmPasswordError">Les mots de passe ne correspondent pas</div>
-                    </div>
-
-                    <!-- Informations sur les enfants -->
-                    <div class="children-section">
-                        <div class="children-section-title">
-                            <i class="fas fa-child"></i>
-                            <span>Informations sur vos enfants</span>
-                        </div>
-                        
-                        <p class="form-text">Ajoutez les enfants pour lesquels vous souhaitez organiser des cours de soutien.</p>
-                        <p class="form-text" style="color: var(--vert-principal); font-weight: 600;">
-                            <i class="fas fa-info-circle"></i> Vous devez ajouter uniquement des enfants déjà inscrits sur la plateforme.
-                        </p>
-                        
-                        <!-- Tableau des enfants -->
-                        <table class="children-table">
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Niveau</th>
-                                    <th>Matières</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="childrenTableBody">
-                                <!-- Les lignes seront ajoutées dynamiquement -->
-                            </tbody>
-                        </table>
-                        
-                        <button type="button" class="add-child-btn" id="addChildBtn">
-                            <i class="fas fa-plus-circle"></i>
-                            Ajouter un enfant
-                        </button>
-                    </div>
-
-                    <!-- Préférences de notification -->
-                    <div class="form-group">
-                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px;">Préférences de notification</h3>
-                        
-                        <div style="margin-top: 10px;">
-                            <input type="checkbox" id="notifNewCourses" class="acceptance-checkbox" checked>
-                            <label for="notifNewCourses" class="acceptance-label" style="font-weight: normal;">
-                                Notifications sur les nouveaux cours disponibles
-                            </label>
-                        </div>
-                        
-                        <div style="margin-top: 10px;">
-                            <input type="checkbox" id="notifProgress" class="acceptance-checkbox" checked>
-                            <label for="notifProgress" class="acceptance-label" style="font-weight: normal;">
-                                Rapports de progression hebdomadaires
-                            </label>
-                        </div>
-                        
-                        <div style="margin-top: 10px;">
-                            <input type="checkbox" id="notifPayments" class="acceptance-checkbox" checked>
-                            <label for="notifPayments" class="acceptance-label" style="font-weight: normal;">
-                                Alertes de paiement et factures
-                            </label>
-                        </div>
-                        
-                        <div style="margin-top: 10px;">
-                            <input type="checkbox" id="notifMessages" class="acceptance-checkbox" checked>
-                            <label for="notifMessages" class="acceptance-label" style="font-weight: normal;">
-                                Messages des enseignants
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Méthode de paiement préférée -->
-                    <div class="form-group">
-                        <label for="paymentMethod" class="form-label">Méthode de paiement préférée</label>
-                        <select id="paymentMethod" class="form-control">
-                            <option value="">Sélectionnez</option>
-                            <option value="mobile_money">Mobile Money (Togocom, Moov)</option>
-                            <option value="bank_transfer">Virement bancaire</option>
-                            <option value="card">Carte bancaire</option>
-                        </select>
-                    </div>
-
-                    <!-- Budget mensuel global -->
-                    <div class="form-group">
-                        <label for="totalBudget" class="form-label">Budget mensuel global estimé (FCFA)</label>
-                        <select id="totalBudget" class="form-control">
-                            <option value="">Sélectionnez</option>
-                            <option value="10000-30000">10.000 - 30.000 FCFA</option>
-                            <option value="30000-50000">30.000 - 50.000 FCFA</option>
-                            <option value="50000-80000">50.000 - 80.000 FCFA</option>
-                            <option value="80000+">Plus de 80.000 FCFA</option>
-                        </select>
-                        <div class="form-text">Ce budget nous aide à vous proposer des forfaits adaptés</div>
-                    </div>
-
-                    <!-- Comment avez-vous connu EduTogoConnect -->
-                    <div class="form-group">
-                        <label for="discoverySource" class="form-label">Comment avez-vous connu EduTogoConnect ?</label>
-                        <select id="discoverySource" class="form-control">
-                            <option value="">Sélectionnez</option>
-                            <option value="recommandation">Recommandation d'un ami/proche</option>
-                            <option value="reseaux_sociaux">Réseaux sociaux (Facebook, WhatsApp...)</option>
-                            <option value="recherche">Recherche internet</option>
-                            <option value="publicite">Publicité</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-
-                    <!-- Boutons -->
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="parentResetBtn">Effacer</button>
-                        <button type="submit" class="btn btn-primary" id="parentSubmitBtn" disabled>S'inscrire</button>
-                    </div>
-                </form>
-            </section>
-
-            <!-- Charte contractuelle du Parent -->
+            <!-- Section charte -->
             <section class="charte-section">
-                <h1 class="charte-title">Charte du Parent/Tuteur EduTogoConnect</h1>
-                
+
+                <div class="charte-important-note">
+                    <i class="fas fa-exclamation-circle"></i> 
+                    <strong>ATTENTION :</strong> La lecture attentive de cette charte est <strong>OBLIGATOIRE</strong> avant l'inscription
+                </div>
+
                 <div class="charte-content">
                     <h3>Article 1 - Rôle et Responsabilités du Parent</h3>
                     <p>En créant un compte parent sur EduTogoConnect, vous vous engagez à :</p>
@@ -930,29 +1150,200 @@
                     </ul>
                 </div>
 
-                <!-- Acceptation de la charte -->
-                <div class="acceptance-group">
-                    <input type="checkbox" id="acceptParentCharte" class="acceptance-checkbox" required>
-                    <label for="acceptParentCharte" class="acceptance-label">
-                        J'ai lu et j'accepte intégralement la charte du parent/tuteur EduTogoConnect
-                    </label>
-                    <p class="form-text" style="margin-top: 10px;">
-                        En cochant cette case, vous acceptez les conditions contractuelles, 
-                        les règles de paiement, et vous engagez à respecter les règles de conduite.
-                    </p>
-                    <p class="form-text">
-                        <strong>Vous reconnaissez être le parent/tuteur légal</strong> des enfants que vous inscrirez sur la plateforme.
-                    </p>
-                </div>
-
-                <!-- Contact support -->
-                <div style="text-align: center; margin-top: 30px; padding: 20px; background-color: rgba(0,166,81,0.05); border-radius: 8px;">
-                    <h4 style="color: var(--gris-fonce); margin-bottom: 10px;">Questions sur la charte ?</h4>
-                    <p>Contactez notre service dédié aux parents :</p>
+                <div class="support-section">
+                    <h4>Questions sur la charte ?</h4>
                     <p><i class="fas fa-envelope"></i> parents@edutogoconnect.tg</p>
                     <p><i class="fas fa-phone"></i> +228 XX XX XX XX</p>
                     <p><i class="fas fa-clock"></i> Lundi - Vendredi: 8h-18h, Samedi: 9h-13h</p>
                 </div>
+            </section>
+
+            <!-- Formulaire d'inscription Parent -->
+            <section class="form-section">
+                <div class="form-header">
+                    <h1 class="form-title">Formulaire d'Inscription Parent</h1>
+                    <p class="form-subtitle">Veuillez remplir tous les champs obligatoires (*)</p>
+                </div>
+                
+                <form id="parentRegistrationForm">
+                    <!-- Informations personnelles du parent -->
+                    <div class="form-group">
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px; font-size: 1.2rem;">Informations personnelles</h3>
+                    </div>
+
+                    <!-- Nom et Prénom sur la même ligne -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="parentLastName" class="form-label">Nom de famille <span class="required">*</span></label>
+                            <input type="text" id="parentLastName" class="form-control" required placeholder="Votre nom de famille">
+                            <div class="form-error" id="parentLastNameError">Veuillez entrer votre nom de famille</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="parentFirstName" class="form-label">Prénom <span class="required">*</span></label>
+                            <input type="text" id="parentFirstName" class="form-control" required placeholder="Votre prénom">
+                            <div class="form-error" id="parentFirstNameError">Veuillez entrer votre prénom</div>
+                        </div>
+                    </div>
+
+                    <!-- Sexe et Profession sur la même ligne -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="parentGender" class="form-label">Sexe <span class="required">*</span></label>
+                            <select id="parentGender" class="form-control" required>
+                                <option value="">Sélectionnez votre sexe</option>
+                                <option value="M">Masculin</option>
+                                <option value="F">Féminin</option>
+                            </select>
+                            <div class="form-error" id="parentGenderError">Veuillez sélectionner votre sexe</div>
+                        </div>
+
+                          <div class="form-group">
+                        <label for="parentPhone" class="form-label">Téléphone principal <span class="required">*</span></label>
+                        <input type="tel" id="parentPhone" class="form-control" required pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
+                        <div class="form-error" id="parentPhoneError">Veuillez entrer un numéro valide</div>
+                    </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentEmail" class="form-label">Adresse email <span class="required">*</span></label>
+                        <input type="email" id="parentEmail" class="form-control" required placeholder="exemple@email.com">
+                        <div class="form-text">Utilisez une adresse email que vous consultez régulièrement</div>
+                        <div class="form-error" id="parentEmailError">Veuillez entrer une adresse email valide</div>
+                    </div>
+
+                    <!-- Région et Ville/Quartier sur la même ligne -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="parentRegion" class="form-label">Région <span class="required">*</span></label>
+                            <select id="parentRegion" class="form-control" required>
+                                <option value="">Sélectionnez votre région</option>
+                                <option value="maritime">Maritime</option>
+                                <option value="plateaux">Plateaux</option>
+                                <option value="centrale">Centrale</option>
+                                <option value="kara">Kara</option>
+                                <option value="savanes">Savanes</option>
+                            </select>
+                            <div class="form-error" id="parentRegionError">Veuillez sélectionner votre région</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="parentAddress" class="form-label">Ville/Quartier <span class="required">*</span></label>
+                            <select id="parentAddress" class="form-control" required>
+                                <option value="">Sélectionnez votre ville/quartier</option>
+                                <!-- Villes de la région Maritime -->
+                                <optgroup label="Région Maritime">
+                                    <option value="lome">Lomé (capitale)</option>
+                                    <option value="aného">Aného</option>
+                                    <option value="tsévié">Tsévié</option>
+                                    <option value="vogan">Vogan</option>
+                                    <option value="tabligbo">Tabligbo</option>
+                                    <option value="kpalimé">Kpalimé</option>
+                                </optgroup>
+                                <!-- Villes de la région des Plateaux -->
+                                <optgroup label="Région des Plateaux">
+                                    <option value="atakpamé">Atakpamé</option>
+                                    <option value="badou">Badou</option>
+                                    <option value="kpalimé">Kpalimé</option>
+                                    <option value="sotouboua">Sotouboua</option>
+                                </optgroup>
+                                <!-- Villes de la région Centrale -->
+                                <optgroup label="Région Centrale">
+                                    <option value="sokodé">Sokodé</option>
+                                    <option value="tchamba">Tchamba</option>
+                                    <option value="bafilo">Bafilo</option>
+                                    <option value="bassar">Bassar</option>
+                                </optgroup>
+                                <!-- Villes de la région Kara -->
+                                <optgroup label="Région Kara">
+                                    <option value="kara">Kara</option>
+                                    <option value="kandé">Kandé</option>
+                                    <option value="pagouda">Pagouda</option>
+                                </optgroup>
+                                <!-- Villes de la région des Savanes -->
+                                <optgroup label="Région des Savanes">
+                                    <option value="dapaong">Dapaong</option>
+                                    <option value="mandouri">Mandouri</option>
+                                    <option value="tone">Tône</option>
+                                    <option value="kpendjal">Kpendjal</option>
+                                </optgroup>
+                            </select>
+                            <div class="form-error" id="parentAddressError">Veuillez sélectionner votre ville/quartier</div>
+                        </div>
+                    </div>
+
+                    <!-- Informations de connexion -->
+                    <div class="form-group">
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px; font-size: 1.2rem;">Informations de connexion</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentPassword" class="form-label">Mot de passe <span class="required">*</span></label>
+                        <input type="password" id="parentPassword" class="form-control" required placeholder="Minimum 8 caractères">
+                        <div class="form-text">Minimum 8 caractères avec majuscule, minuscule et chiffre</div>
+                        <div class="form-error" id="parentPasswordError">Le mot de passe doit contenir au moins 8 caractères</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentConfirmPassword" class="form-label">Confirmer le mot de passe <span class="required">*</span></label>
+                        <input type="password" id="parentConfirmPassword" class="form-control" required placeholder="Retapez votre mot de passe">
+                        <div class="form-error" id="parentConfirmPasswordError">Les mots de passe ne correspondent pas</div>
+                    </div>
+
+                    <!-- Informations sur les enfants -->
+                    <div class="children-section">
+                        <div class="children-section-title">
+                            <i class="fas fa-child"></i>
+                            <span>Informations sur vos enfants</span>
+                        </div>
+                        
+                        <p class="form-text">Ajoutez les enfants pour lesquels vous souhaitez organiser des cours de soutien.</p>
+                        <p class="form-text" style="color: var(--vert-principal); font-weight: 600;">
+                            <i class="fas fa-info-circle"></i> Vous devez ajouter uniquement des enfants déjà inscrits sur la plateforme.
+                        </p>
+                        
+                        <!-- Tableau des enfants -->
+                        <table class="children-table">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Niveau</th>
+                                    <th>Matières</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="childrenTableBody">
+                                <!-- Les lignes seront ajoutées dynamiquement -->
+                            </tbody>
+                        </table>
+                        
+                        <button type="button" class="add-child-btn" id="addChildBtn">
+                            <i class="fas fa-plus-circle"></i>
+                            Ajouter un enfant
+                        </button>
+                    </div>
+
+                    <!-- Acceptation de la charte -->
+                    <div class="acceptance-group">
+                        <input type="checkbox" id="acceptParentCharte" class="acceptance-checkbox" required>
+                        <label for="acceptParentCharte" class="acceptance-label">
+                            J'ai lu et j'accepte intégralement la charte du parent/tuteur EduTogoConnect
+                        </label>
+                        <p class="form-text" style="margin-top: 10px;">
+                            En cochant cette case, vous acceptez les conditions contractuelles, 
+                            les règles de paiement, et vous engagez à respecter les règles de conduite.
+                        </p>
+                        <p class="form-text">
+                            <strong>Vous reconnaissez être le parent/tuteur légal</strong> des enfants que vous inscrirez sur la plateforme.
+                        </p>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="parentResetBtn">Effacer</button>
+                        <button type="submit" class="btn btn-primary" id="parentSubmitBtn" disabled>S'inscrire</button>
+                    </div>
+                </form>
             </section>
         </div>
     </main>
@@ -1012,15 +1403,70 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 15px;">
+                        <div class="logo-icon" style="width: 30px; height: 30px; font-size: 16px;">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal); font-size: 20px;">Edu<span>Togo</span>Connect</div>
+                    </div>
+                    <p style="font-size: 0.9rem; line-height: 1.5;">Plateforme éducative togolaise pour les élèves du collège (6ème à 3ème).</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="../index.html#cours">Cours</a></li>
+                        <li><a href="../index.html#enseignants">Enseignants</a></li>
+                        <li><a href="../index.html#niveaux">Niveaux</a></li>
+                        <li><a href="../index.html#ecoles">Écoles</a></li>
+                        <li><a href="../index.html#temoignages">Témoignages</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Inscriptions</h3>
+                    <ul class="footer-links">
+                        <li><a href="eleve.html">Élève</a></li>
+                        <li><a href="enseignant.html">Enseignant</a></li>
+                        <li><a href="parent.html">Parent</a></li>
+                        <li><a href="ecole.html">École</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 8px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 8px;"></i> Lun-Ven: 8h-18h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // Données des enfants (simulation - remplacé par recherche d'enfants existants)
-        let childrenData = [];
-        
         // Éléments du formulaire
         const parentRegistrationForm = document.getElementById('parentRegistrationForm');
         const parentSubmitBtn = document.getElementById('parentSubmitBtn');
         const acceptParentCharte = document.getElementById('acceptParentCharte');
         const parentResetBtn = document.getElementById('parentResetBtn');
+        const backToTopBtn = document.getElementById('backToTopBtn');
         const addChildBtn = document.getElementById('addChildBtn');
         const childrenTableBody = document.getElementById('childrenTableBody');
         
@@ -1041,6 +1487,25 @@
         let selectedStudent = null;
         let searchTimeout = null;
         
+        // ============ FLÈCHE RETOUR EN HAUT ============
+        function toggleBackToTopButton() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        window.addEventListener('scroll', toggleBackToTopButton);
+        backToTopBtn.addEventListener('click', scrollToTop);
+
         // ============ SIMULATION DE DONNÉES D'ÉLÈVES EXISTANTS ============
         // Dans la réalité, ces données seraient récupérées depuis une base de données
         const existingStudents = [
@@ -1051,6 +1516,79 @@
             { id: 5, name: "Kodjo Akakpo", email: "kodjo.akakpo@example.com", phone: "+228 94 56 78 90", level: "5ème", subjects: ["Mathématiques", "Sciences Physiques", "SVT"] }
         ];
         
+        // Données des enfants (simulation - remplacé par recherche d'enfants existants)
+        let childrenData = [];
+        
+        // ============ GESTION DES VILLES PAR RÉGION ============
+        const citiesByRegion = {
+            'maritime': [
+                {value: 'lome', label: 'Lomé (capitale)'},
+                {value: 'aneho', label: 'Aného'},
+                {value: 'tsevie', label: 'Tsévié'},
+                {value: 'vogan', label: 'Vogan'},
+                {value: 'tabligbo', label: 'Tabligbo'}
+            ],
+            'plateaux': [
+                {value: 'atakpame', label: 'Atakpamé'},
+                {value: 'badou', label: 'Badou'},
+                {value: 'kpalime', label: 'Kpalimé'},
+                {value: 'sotouboua', label: 'Sotouboua'}
+            ],
+            'centrale': [
+                {value: 'sokode', label: 'Sokodé'},
+                {value: 'tchamba', label: 'Tchamba'},
+                {value: 'bafilo', label: 'Bafilo'},
+                {value: 'bassar', label: 'Bassar'}
+            ],
+            'kara': [
+                {value: 'kara', label: 'Kara'},
+                {value: 'kande', label: 'Kandé'},
+                {value: 'pagouda', label: 'Pagouda'}
+            ],
+            'savanes': [
+                {value: 'dapaong', label: 'Dapaong'},
+                {value: 'mandouri', label: 'Mandouri'},
+                {value: 'tone', label: 'Tône'},
+                {value: 'kpendjal', label: 'Kpendjal'}
+            ]
+        };
+
+        const parentRegionSelect = document.getElementById('parentRegion');
+        const parentAddressSelect = document.getElementById('parentAddress');
+
+        function updateParentCityOptions() {
+            const selectedRegion = parentRegionSelect.value;
+            parentAddressSelect.innerHTML = '<option value="">Sélectionnez votre ville/quartier</option>';
+            
+            if (selectedRegion && citiesByRegion[selectedRegion]) {
+                citiesByRegion[selectedRegion].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.value;
+                    option.textContent = city.label;
+                    parentAddressSelect.appendChild(option);
+                });
+            } else {
+                // Si aucune région n'est sélectionnée, afficher toutes les villes
+                Object.keys(citiesByRegion).forEach(region => {
+                    const optgroup = document.createElement('optgroup');
+                    optgroup.label = `Région ${region.charAt(0).toUpperCase() + region.slice(1)}`;
+                    
+                    citiesByRegion[region].forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.value;
+                        option.textContent = city.label;
+                        optgroup.appendChild(option);
+                    });
+                    
+                    parentAddressSelect.appendChild(optgroup);
+                });
+            }
+            
+            validateParentForm();
+        }
+
+        parentRegionSelect.addEventListener('change', updateParentCityOptions);
+
         // ============ GESTION DE LA RECHERCHE D'ENFANTS ============
         function openStudentSearchModal() {
             studentSearchModal.style.display = 'flex';
@@ -1442,6 +1980,7 @@
                 });
                 
                 // Réinitialiser la validation
+                updateParentCityOptions();
                 validateParentForm();
             }
         });
@@ -1477,20 +2016,14 @@
             
             // Préparer les données pour l'envoi
             const parentData = {
-                fullName: document.getElementById('parentFullName').value,
+                lastName: document.getElementById('parentLastName').value,
+                firstName: document.getElementById('parentFirstName').value,
+                gender: document.getElementById('parentGender').value,
                 email: document.getElementById('parentEmail').value,
                 phone: document.getElementById('parentPhone').value,
+                region: document.getElementById('parentRegion').value,
                 address: document.getElementById('parentAddress').value,
                 profession: document.getElementById('parentProfession').value,
-                notificationPreferences: {
-                    newCourses: document.getElementById('notifNewCourses').checked,
-                    progress: document.getElementById('notifProgress').checked,
-                    payments: document.getElementById('notifPayments').checked,
-                    messages: document.getElementById('notifMessages').checked
-                },
-                paymentMethod: document.getElementById('paymentMethod').value,
-                budget: document.getElementById('totalBudget').value,
-                discoverySource: document.getElementById('discoverySource').value,
                 children: childrenData.map(child => ({
                     existingId: child.existingId,
                     name: child.name
@@ -1514,12 +2047,39 @@
             });
             
             // Redirection vers la page de connexion (à adapter)
-            // window.location.href = 'parent_login.php?success=1';
+            setTimeout(() => {
+                window.location.href = '../Authentification/auth.html?success=1';
+            }, 1500);
         });
 
         // Initialisation
         updateChildrenTable();
+        updateParentCityOptions();
         parentSubmitBtn.disabled = true;
+        toggleBackToTopButton();
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const professionInput = document.getElementById('parentProfession');
+    
+    professionInput.addEventListener('input', function() {
+        if (this.value.length > 35) {
+            this.value = this.value.substring(0, 35);
+        }
+    });
+    
+    // Validation personnalisée (optionnel)
+    const form = professionInput.closest('form');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            if (!professionInput.value.trim()) {
+                event.preventDefault();
+                alert('Le champ Profession est obligatoire');
+                professionInput.focus();
+            }
+        });
+    }
+});
     </script>
 </body>
 </html>
