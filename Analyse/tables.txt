@@ -1,0 +1,41 @@
+tables
+
+	eleve(nom, prenom, sexe, date de naissance, niveau, email, region,ville, telephone, quartier, mot de passe, confirmation de mot de passe, photo, etablissement)
+
+	enseignant(nom, prenom, sexe, date de naissance,email, region,ville, telephone, mot de passe,photo,CV,document,Description,Niveaux, Matières)
+
+	parent(nom, prenom, sexe,email, profession, region,ville, telephone, mot de passe,confirmation de mot de passe, photo)
+
+	ecole(nom, type, telephone,region,ville,email,description,mot de passe, confirmation de mot de passe, logo, documents)
+
+	matiere(maths, physiques-chimie, SVT, Histo-Geo, Français, Anglais)(nom_mat,niveau_mat)
+	
+	tuteur(nom, prenom, sexe, matiere enseignees, role, Niveaux(6eme,5eme,4eme,3eme)voulu enseigner,Niveau d'étude *,Diplôme obtenu *
+,Date d'embauche, Type de contrat *, Salaire mensuel, Notes additionnelles)
+	
+
+un eleve s'inscrit sur la plateforme avec ses informations, il se connecte et choisi les cours disponible dans son fil d'actualiter en fonction du niveau d'etude(6eme,5eme,4eme,3eme) qu'il a choisit lors de l'inscription, il peut choisir plusieurs cours et plusieurs enseignants. les cours a choisr on 3 offres(gratuite,standard,premuim), s'il choisi le cours gratuit il sera ajouter automatiquement dans la liste de ses cours, si le cours est standard ou premuim, un message de soumisson d'inscription a rejoindre l'offre du cours choisi a l'enseignant qui va soit accepter ou refuser, en fonction du nombre d'heure choisi il va regler le paiement a l'enseignant en signant un contrat. l'eleve peut choisir les autres cours qui sont directement payant(c'est une fois le paiement effectuer qu'il a acces au cours). 
+
+l'enseignant s'inscrit, il attend que l'administrateur du site valide son compte, voici le processus de validation par l'administrateur(en attente, verification de documents, validation), lors de la verification s'il manque un document on envera un mail a l'enseignant pour lui demander de completr, ce meme message s'affiche sur la page de verification de l'enseignant sur lequel il voit en temps reel l'evolution de sa candidature, une fois son compte valider il a acces a son compte sur lequel il accepte ou rejete les soumissions d'adhesion a ses offres de cours(standard, premuim). 
+
+l'ecole s'inscrit, il attend le meme processus de verification que l'enseignant, une fois le compte activer il pourra accepter ou refuser les soumission d'adhésions au cours, lorsqu'il accepte il attribut un tuteur qu'il ajoute au prealable a leur equipe de tuteur(avec ses informations de connexion et role) a l'eleve. c'est l'ecole qui inscrit ses tuteurs avec leur nom, prenom, photo, telephone,email, mot de passe … le tuteur ne s'inscrit pas de lui meme directment sur la plateforme.
+
+
+le parent s'inscrit il ajoute des eleves qui sont ses enfants qui doivent au préalables etre inscrit sur la plateforme en temps que eleve. une fois ajouter son fil d'actualite de cours et enseignant sera mis a jour pour afficher que les propositions correspondante aux niveaux d'etudes de ses enfants ajouter. le parent gere ses enfantsc, en voyant le calendrier des cours programmer avec l'enseignant, le parent voit les cours de séances déjà suivis, elle peut ajouter des cours pour ses enfants et payer, une fois payer ce cours, le cours va s'afficher chez le parent et chez l'eleve. le parent vois les transaction effectuees par son enfant de meme l'enfant vois les transactions effectuees par ses parents.  
+
+l'admin du site se connecte il ajouter des utilisatur et peut attribuer des roles de gestion de la page administrateur. il geres les eleves, les enseignants, les ecole et il peut supprimer n'importe quel utilisateur en lui envoyant un message de la cause de la suppression de l'utilisateur. il gere la validation d'inscription de enseignants et ecole. il voit en temps reel les transactions financieres, il réponds aux messages des eleves, enseignants, ecole.
+
+les utilisateurs intereagissent entre eux via une messageries integreer. dans la messagerie on integre la fonctionalite d'appels audio,et d'appelle video, ils peuvent faire des message audios, aucun message audio n'est possible d'envoyer aux administrateurs du site. 
+
+les calendriers de programmations de cours sont partages entre l'eleve, le parent et l'enseignant, pour les ecole c'est leur equipe d'enseignants qui partage leur calendrier avec l'eleve et l'admin de la page ecole. 
+
+les signature de contrats sont partager entre l'eleve, le parent et l'enseignant, pour les ecole le contrat est partager avec l'eleve, l'ecole et le parent. 
+
+les utilisateur ne peuvent pas avec 2 comptes des meme informations sur la plateforme.
+
+les notifications sont envoyees aux utilisateurs, les utilisateurs ont un statut de presence en ligne ou pas. les eleves doivent noter les enseignants sur une echelle de 0 a 5(ces notes s'afficheronts en etoiles sur le profils de l'enseignant), ces meme eleves notes aussi les enseignants des ecole, on fera la moyennes des notes des enseignants d'ecole pour trouver une note sur 5 de l'ecole auquel l'enseignant est affilier. l'ecole inscrit elle meme ses enseignant que nous appellons tuteurs(nom, prenom, photo, email, telephone,...) . ces tuteurs seront notes de 0 a 5 par les eleves, le tuteur se connecte en tant que tuteur affilier a une ecole. 
+
+dans la partie messages il y'a l'integration d'une fonctionnalite permettant d'effectuer des appel audio et des appeles video. a part les offre(gratuite, standard et premuim) des cours les enseignants et tuteur peuvent ajouter d'autres cours qui peuvent etre des fiches de revisions, resumer de cours, epreuve et son corriger qu'il vend immédiatement(c'est a dire les eleves vont acheter le cours)
+
+faite une analyse merise en etablissant les tables, les relation et cardinalitees, les contrainte, le mcd, et mld
+

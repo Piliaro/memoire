@@ -1,0 +1,2330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - EduTogoConnect Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de couleurs - Drapeau togolais */
+        :root {
+            --jaune-principal: #FFD700;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
+            --gris-clair: #F5F5F5;
+            --orange-attente: #FF9800;
+            --vert-valide: #4CAF50;
+            --rouge-invalide: #F44336;
+            --cyan-info: #00BCD4;
+        }
+        
+        body {
+            background-color: var(--gris-clair);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--gris-fonce);
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Header Principal */
+        .main-header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+        }
+        
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+        
+        /* Barre de recherche */
+        .search-bar-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--blanc-principal);
+            border-radius: 30px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+        
+        .search-btn {
+            background-color: var(--jaune-principal);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-fonce);
+            transition: all 0.3s;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            transform: scale(1.05);
+        }
+        
+        /* Menu déroulant profil */
+        .profile-dropdown {
+            position: relative;
+        }
+        
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        
+        .profile-btn:hover {
+            background-color: var(--gris-clair);
+        }
+        
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--blanc-principal);
+            min-width: 280px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1001;
+            margin-top: 10px;
+        }
+        
+        .profile-menu.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .profile-menu-header {
+            padding: 20px;
+            background-color: var(--gris-clair);
+            text-align: center;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+        
+        .profile-menu-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--blanc-principal);
+            font-weight: bold;
+        }
+        
+        .profile-menu-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--gris-fonce);
+        }
+        
+        .profile-menu-role {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .profile-menu-email {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .profile-menu-lastlogin {
+            color: var(--gris-moyen);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            justify-content: center;
+        }
+        
+        .profile-menu-list {
+            list-style: none;
+        }
+        
+        .profile-menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            transition: background-color 0.3s;
+        }
+        
+        .profile-menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .profile-menu-item:hover {
+            background-color: var(--gris-clair);
+        }
+        
+        .profile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gris-fonce);
+            text-decoration: none;
+        }
+        
+        .profile-menu-link i {
+            width: 20px;
+            color: var(--gris-moyen);
+        }
+        
+        .profile-menu-link.logout {
+            color: var(--rouge-principal);
+        }
+        
+        .profile-menu-link.logout i {
+            color: var(--rouge-principal);
+        }
+        
+        /* Barre de navigation horizontale */
+        .horizontal-nav {
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        /* Navigation horizontale */
+        .horizontal-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-bottom-color: var(--blanc-principal);
+        }
+        
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.3);
+            border-bottom-color: var(--jaune-principal);
+            font-weight: 600;
+        }
+        
+        .nav-item i {
+            font-size: 1rem;
+        }
+        
+        .nav-badge {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        /* Bouton notification */
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .notification-btn:hover {
+            background-color: var(--gris-clair);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* Menu mobile toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+        }
+        
+        /* Contenu principal */
+        .main-content {
+            padding: 30px 0;
+            height: calc(100vh - 140px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Interface de chat améliorée */
+        .messaging-container {
+            display: flex;
+            height: 100%;
+            gap: 20px;
+            flex: 1;
+            min-height: 0;
+        }
+        
+        .conversations-sidebar {
+            width: 350px;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--gris-clair);
+        }
+        
+        .conversations-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+        
+        .conversations-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .conversations-title h2 {
+            font-size: 1.3rem;
+            color: var(--gris-fonce);
+            margin: 0;
+        }
+        
+        .new-message-btn {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .new-message-btn:hover {
+            background-color: #008c45;
+            transform: scale(1.05);
+        }
+        
+        .conversation-filters {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        .filter-btn {
+            padding: 8px 15px;
+            background-color: var(--gris-clair);
+            border: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .filter-btn.active {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+        
+        .filter-btn:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+        
+        .conversations-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .conversation-item:hover {
+            background-color: rgba(0,166,81,0.05);
+        }
+        
+        .conversation-item.active {
+            background-color: rgba(0,166,81,0.1);
+            border-left: 4px solid var(--vert-principal);
+        }
+        
+        .conversation-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--blanc-principal);
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .avatar-teacher {
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+        }
+        
+        .avatar-school {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+        }
+        
+        .avatar-parent {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+        }
+        
+        .avatar-student {
+            background: linear-gradient(45deg, var(--jaune-principal), var(--rouge-principal));
+        }
+        
+        .avatar-admin {
+            background: linear-gradient(45deg, var(--vert-principal), var(--rouge-principal));
+        }
+        
+        .conversation-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .conversation-name {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .conversation-time {
+            font-size: 0.75rem;
+            color: var(--gris-moyen);
+        }
+        
+        .conversation-preview {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .conversation-unread {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .conversation-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            margin-top: 3px;
+        }
+        
+        .status-online {
+            color: var(--vert-principal);
+        }
+        
+        .status-offline {
+            color: var(--gris-moyen);
+        }
+        
+        /* Zone de chat principale */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid var(--gris-clair);
+        }
+        
+        /* En-tête du chat */
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--gris-clair);
+            background-color: var(--blanc-principal);
+        }
+        
+        .chat-partner-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .chat-partner-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--blanc-principal);
+        }
+        
+        .chat-partner-details h3 {
+            font-size: 1.2rem;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+        }
+        
+        .chat-partner-details p {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .chat-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-action-btn {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-moyen);
+            transition: all 0.3s;
+        }
+        
+        .chat-action-btn:hover {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+        }
+        
+        /* Zone des messages */
+        .messages-container {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Date séparateur */
+        .message-date-separator {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .message-date-separator span {
+            background-color: var(--gris-clair);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+        
+        /* Message */
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            max-width: 70%;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.sent {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        
+        .message.received {
+            align-self: flex-start;
+        }
+        
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--blanc-principal);
+            margin: 0 10px;
+            flex-shrink: 0;
+        }
+        
+        .message-content {
+            padding: 12px 15px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+        
+        .message.sent .message-content {
+            background-color: #E1FFC7;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.received .message-content {
+            background-color: #F0F0F0;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            color: var(--gris-moyen);
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .message-status {
+            position: absolute;
+            bottom: -15px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: var(--gris-moyen);
+        }
+        
+        .message-status.delivered {
+            color: var(--gris-moyen);
+        }
+        
+        .message-status.read {
+            color: var(--vert-principal);
+        }
+        
+        /* Zone de saisie */
+        .message-input-container {
+            padding: 20px 25px;
+            border-top: 1px solid var(--gris-clair);
+            background-color: var(--blanc-principal);
+        }
+        
+        .message-input-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+        }
+        
+        .message-input-actions {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .message-input-action {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-moyen);
+            transition: all 0.3s;
+        }
+        
+        .message-input-action:hover {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            resize: none;
+            max-height: 120px;
+            min-height: 50px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .message-input:focus {
+            border-color: var(--vert-principal);
+        }
+        
+        .send-message-btn {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+        
+        .send-message-btn:hover {
+            background-color: #008c45;
+            transform: scale(1.05);
+        }
+        
+        .send-message-btn:disabled {
+            background-color: var(--gris-clair);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* État chat vide */
+        .empty-chat-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 40px;
+            color: var(--gris-moyen);
+        }
+        
+        .empty-chat-icon {
+            font-size: 4rem;
+            color: var(--gris-clair);
+            margin-bottom: 20px;
+        }
+        
+        .empty-chat-state h3 {
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            margin-bottom: 10px;
+        }
+        
+        .empty-chat-state p {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+        
+        /* Boutons principaux */
+        .btn-primary-custom {
+            background-color: var(--vert-principal);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 166, 81, 0.3);
+            color: white;
+        }
+        
+        /* Modal nouveau message */
+        .new-message-modal .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .new-message-modal .modal-header {
+            background-color: var(--vert-principal);
+            color: white;
+            border-bottom: none;
+        }
+        
+        .recipient-search {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .recipient-search input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .recipient-search input:focus {
+            border-color: var(--vert-principal);
+        }
+        
+        .recipient-search i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gris-moyen);
+        }
+        
+        .recipient-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .recipient-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--gris-clair);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .recipient-item:hover {
+            background-color: rgba(0,166,81,0.05);
+        }
+        
+        .recipient-item.selected {
+            background-color: rgba(0,166,81,0.1);
+            border-left: 4px solid var(--vert-principal);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .logo-text {
+                font-size: 18px;
+            }
+            
+            .horizontal-nav {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .messaging-container {
+                flex-direction: column;
+                height: auto;
+                min-height: 600px;
+            }
+            
+            .conversations-sidebar {
+                width: 100%;
+                margin-bottom: 20px;
+                max-height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .search-bar-container {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .messages-container {
+                padding: 15px;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+            
+            .message-input-wrapper {
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .admin-container {
+                padding: 0 15px;
+            }
+            
+            .conversations-header {
+                padding: 15px;
+            }
+            
+            .chat-header {
+                padding: 15px;
+            }
+            
+            .message-input-container {
+                padding: 15px;
+            }
+            
+            .message-input-action {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .send-message-btn {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="admin-container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect - Admin</div>
+                </a>
+                
+                <!-- Barre de recherche -->
+                <div class="search-bar-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="mainSearchInput" placeholder="Rechercher dans les messages...">
+                        <button class="search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <!-- Bouton notifications -->
+                <button class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">12</span>
+                </button>
+                
+                <!-- Menu déroulant profil -->
+                <div class="profile-dropdown">
+                    <button class="profile-btn" id="profileBtn">
+                        <div class="user-avatar-small" style="background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));">AD</div>
+                        <div>
+                            <div class="user-name">Admin System</div>
+                            <div style="font-size: 0.8rem; color: var(--gris-moyen);">Administrateur Principal</div>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    
+                    <div class="profile-menu" id="profileMenu">
+                        <div class="profile-menu-header">
+                            <div class="profile-menu-avatar">AD</div>
+                            <div class="profile-menu-name">Admin System</div>
+                            <div class="profile-menu-role">Administrateur Principal</div>
+                            <div class="profile-menu-email">admin@edutogoconnect.tg</div>
+                            <div class="profile-menu-lastlogin">
+                                <i class="far fa-clock"></i>
+                                <span>Dernière connexion: Aujourd'hui, 14:30</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="profile-menu-list">
+                            <li class="profile-menu-item">
+                                <a href="dashboard.html" class="profile-menu-link">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>Tableau de bord</span>
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="soumissions.html" class="profile-menu-link">
+                                    <i class="fas fa-user-graduate"></i>
+                                    <span>Soumissions</span>
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="#" class="profile-menu-link">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Paramètres système</span>
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="#" class="profile-menu-link">
+                                    <i class="fas fa-history"></i>
+                                    <span>Journal d'activité</span>
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="../Authentification/auth.html" class="profile-menu-link logout">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Déconnexion</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de Navigation Horizontale -->
+    <nav class="horizontal-nav">
+        <div class="admin-container">
+            <div class="nav-container">
+                
+                <!-- Menu de navigation horizontal -->
+                <div class="horizontal-menu">
+                    <a href="../admin/dashboard.html" class="nav-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="../admin/soumission.html" class="nav-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Soumissions</span>
+                    </a>
+                    <a href="../admin/message.html" class="nav-item active">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                        <span class="nav-badge">12</span>
+                    </a>
+                    <a href="../admin/paiement.html" class="nav-item">
+                        <i class="fas fa-euro-sign"></i>
+                        <span>Paiements</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <div class="admin-container h-100">
+            <div class="messaging-container">
+                <!-- Panneau latéral des conversations -->
+                <aside class="conversations-sidebar">
+                    <div class="conversations-header">
+                        <div class="conversations-title">
+                            <h2>Messages</h2>
+                            <button class="new-message-btn" id="newMessageBtn" title="Nouveau message" data-bs-toggle="modal" data-bs-target="#newMessageModal">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="conversation-filters">
+                            <button class="filter-btn active" data-filter="all">Tous</button>
+                            <button class="filter-btn" data-filter="unread">Non lus</button>
+                            <button class="filter-btn" data-filter="teachers">Enseignants</button>
+                            <button class="filter-btn" data-filter="schools">Écoles</button>
+                            <button class="filter-btn" data-filter="students">Élèves</button>
+                        </div>
+                    </div>
+                    
+                    <div class="conversations-list" id="conversationsList">
+                        <!-- Les conversations seront chargées dynamiquement -->
+                    </div>
+                </aside>
+                
+                <!-- Zone de chat principale -->
+                <section class="chat-container">
+                    <!-- État initial : chat vide -->
+                    <div class="empty-chat-state" id="emptyChatState">
+                        <div class="empty-chat-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Messages d'administration</h3>
+                        <p>Sélectionnez une conversation pour afficher les messages ou commencez une nouvelle discussion.</p>
+                        <button class="btn btn-primary-custom" id="startNewChatBtn" data-bs-toggle="modal" data-bs-target="#newMessageModal">
+                            <i class="fas fa-edit"></i>
+                            <span>Nouveau message</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Chat actif (caché par défaut) -->
+                    <div class="chat-active" id="chatActive" style="display: none; flex-direction: column; height: 100%;">
+                        <!-- En-tête du chat -->
+                        <div class="chat-header">
+                            <div class="chat-partner-info">
+                                <div class="chat-partner-avatar" id="chatPartnerAvatar"></div>
+                                <div class="chat-partner-details">
+                                    <h3 id="chatPartnerName"></h3>
+                                    <p id="chatPartnerStatus"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-actions">
+                                <button class="chat-action-btn" title="Informations" id="chatInfoBtn">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                <button class="chat-action-btn" title="Appel vocal" id="voiceCallBtn">
+                                    <i class="fas fa-phone-alt"></i>
+                                </button>
+                                <button class="chat-action-btn" title="Appel vidéo" id="videoCallBtn">
+                                    <i class="fas fa-video"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Zone des messages -->
+                        <div class="messages-container" id="messagesContainer">
+                            <!-- Les messages seront chargés dynamiquement -->
+                        </div>
+                        
+                        <!-- Zone de saisie -->
+                        <div class="message-input-container">
+                            <div class="message-input-wrapper">
+                                <div class="message-input-actions">
+                                    <button class="message-input-action" title="Joindre un fichier" id="attachFileBtn">
+                                        <i class="fas fa-paperclip"></i>
+                                    </button>
+                                    <button class="message-input-action" title="Émoticônes" id="emojiBtn">
+                                        <i class="far fa-smile"></i>
+                                    </button>
+                                </div>
+                                
+                                <textarea class="message-input" id="messageInput" placeholder="Tapez votre message..." rows="1"></textarea>
+                                
+                                <button class="send-message-btn" id="sendMessageBtn" title="Envoyer le message" disabled>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal pour nouveau message -->
+    <div class="modal fade new-message-modal" id="newMessageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouveau message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="recipient-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="recipientSearch" placeholder="Rechercher un contact...">
+                    </div>
+                    
+                    <div class="recipient-list" id="recipientList">
+                        <!-- Les contacts seront chargés dynamiquement -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary-custom" id="startConversationBtn" disabled>
+                        Commencer la conversation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour les informations du contact -->
+    <div class="modal fade" id="contactInfoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Informations du contact</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="contactInfoBody">
+                    <!-- Les informations seront chargées dynamiquement -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Données simulées pour la messagerie
+        const messagingData = {
+            currentUser: {
+                id: 0,
+                name: "Admin System",
+                initials: "AD",
+                type: "admin",
+                avatarClass: "avatar-admin"
+            },
+            
+            contacts: [
+                {
+                    id: 101,
+                    name: "Koffi Agbessi",
+                    type: "teacher",
+                    initials: "KA",
+                    subject: "Mathématiques",
+                    status: "online",
+                    lastSeen: "Il y a 2 min",
+                    email: "k.agbessi@example.tg",
+                    phone: "+228 90 12 34 56",
+                    avatarClass: "avatar-teacher"
+                },
+                {
+                    id: 102,
+                    name: "Marie Dubois",
+                    type: "teacher",
+                    initials: "MD",
+                    subject: "Français",
+                    status: "offline",
+                    lastSeen: "Il y a 1 heure",
+                    email: "m.dubois@example.tg",
+                    phone: "+228 91 23 45 67",
+                    avatarClass: "avatar-teacher"
+                },
+                {
+                    id: 201,
+                    name: "Lycée Moderne de Lomé",
+                    type: "school",
+                    initials: "LM",
+                    role: "Administration",
+                    status: "offline",
+                    lastSeen: "Aujourd'hui, 10:15",
+                    email: "contact@lyceemoderne.tg",
+                    phone: "+228 22 21 43 21",
+                    avatarClass: "avatar-school"
+                },
+                {
+                    id: 301,
+                    name: "Thomas Kossi",
+                    type: "student",
+                    initials: "TK",
+                    grade: "Terminale A",
+                    status: "online",
+                    lastSeen: "En ligne",
+                    email: "t.kossi@example.tg",
+                    phone: "+228 97 65 43 21",
+                    avatarClass: "avatar-student"
+                },
+                {
+                    id: 401,
+                    name: "Support Technique",
+                    type: "admin",
+                    initials: "ST",
+                    role: "Équipe support",
+                    status: "online",
+                    lastSeen: "En ligne",
+                    email: "support@edutogoconnect.tg",
+                    phone: "+228 22 22 22 22",
+                    avatarClass: "avatar-admin"
+                }
+            ],
+            
+            conversations: [
+                {
+                    id: 1,
+                    contactId: 101,
+                    lastMessage: "J'ai un problème avec la validation de mon compte",
+                    lastMessageTime: "10:30",
+                    unreadCount: 3,
+                    lastMessageDate: "Aujourd'hui",
+                    isPinned: true
+                },
+                {
+                    id: 2,
+                    contactId: 201,
+                    lastMessage: "Notre dossier d'inscription est-il complet?",
+                    lastMessageTime: "09:15",
+                    unreadCount: 1,
+                    lastMessageDate: "Aujourd'hui",
+                    isPinned: false
+                },
+                {
+                    id: 3,
+                    contactId: 102,
+                    lastMessage: "Merci pour votre aide!",
+                    lastMessageTime: "Hier, 16:45",
+                    unreadCount: 0,
+                    lastMessageDate: "Hier",
+                    isPinned: false
+                },
+                {
+                    id: 4,
+                    contactId: 401,
+                    lastMessage: "La maintenance est prévue pour demain",
+                    lastMessageTime: "Hier, 14:20",
+                    unreadCount: 0,
+                    lastMessageDate: "Hier",
+                    isPinned: true
+                }
+            ],
+            
+            messages: {
+                1: [
+                    {
+                        id: 1001,
+                        senderId: 101,
+                        text: "Bonjour, j'ai soumis mon profil enseignant mais il n'est toujours pas validé",
+                        time: "08:30",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 1002,
+                        senderId: 0,
+                        text: "Bonjour M. Agbessi, nous vérifions vos documents. Il manque le certificat de non-condamnation.",
+                        time: "08:35",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 1003,
+                        senderId: 101,
+                        text: "Je l'ai envoyé par email hier. Pouvez-vous vérifier?",
+                        time: "08:40",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 1004,
+                        senderId: 0,
+                        text: "Je vais vérifier et vous tiens au courant.",
+                        time: "08:45",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    }
+                ],
+                2: [
+                    {
+                        id: 2001,
+                        senderId: 201,
+                        text: "Bonjour, notre dossier d'inscription est-il complet?",
+                        time: "09:15",
+                        date: "Aujourd'hui",
+                        status: "read"
+                    },
+                    {
+                        id: 2002,
+                        senderId: 0,
+                        text: "Bonjour, il manque le certificat d'hygiène et sécurité. Pouvez-vous nous l'envoyer?",
+                        time: "09:30",
+                        date: "Aujourd'hui",
+                        status: "delivered"
+                    }
+                ],
+                4: [
+                    {
+                        id: 4001,
+                        senderId: 401,
+                        text: "Bonjour Admin, une maintenance est prévue pour demain de 2h à 4h du matin.",
+                        time: "14:20",
+                        date: "Hier",
+                        status: "read"
+                    },
+                    {
+                        id: 4002,
+                        senderId: 0,
+                        text: "Merci pour l'information. Je vais prévenir les utilisateurs.",
+                        time: "14:25",
+                        date: "Hier",
+                        status: "read"
+                    }
+                ]
+            }
+        };
+        
+        // Variables globales
+        let currentConversationId = null;
+        let currentFilter = 'all';
+        let selectedRecipientId = null;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser la messagerie
+            initMessaging();
+            
+            // Gestion du menu déroulant profil
+            const profileBtn = document.getElementById('profileBtn');
+            const profileMenu = document.getElementById('profileMenu');
+            
+            if (profileBtn && profileMenu) {
+                profileBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    profileMenu.classList.toggle('active');
+                });
+                
+                // Fermer le menu déroulant en cliquant à l'extérieur
+                document.addEventListener('click', (e) => {
+                    if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                        profileMenu.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Gestion de la barre de recherche
+            const searchBtn = document.getElementById('searchBtn');
+            const mainSearchInput = document.getElementById('mainSearchInput');
+            
+            if (searchBtn && mainSearchInput) {
+                searchBtn.addEventListener('click', performSearch);
+                mainSearchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+                
+                function performSearch() {
+                    const searchQuery = mainSearchInput.value.trim();
+                    if (searchQuery) {
+                        // Filtrer les conversations en fonction de la recherche
+                        filterConversationsBySearch(searchQuery);
+                    }
+                }
+            }
+            
+            // Gestion des notifications
+            const notificationBtn = document.getElementById('notificationBtn');
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function() {
+                    showNotifications();
+                });
+            }
+            
+            // Simulation de nouveaux messages
+            simulateNewMessages();
+        });
+        
+        // Initialiser la messagerie
+        function initMessaging() {
+            // Rendre les conversations
+            renderConversations();
+            
+            // Configurer les événements
+            setupMessagingEvents();
+            
+            // Rendre la liste des contacts pour le modal
+            renderRecipientList();
+        }
+        
+        // Rendre les conversations
+        function renderConversations(filter = 'all') {
+            const conversationsList = document.getElementById('conversationsList');
+            if (!conversationsList) return;
+            
+            conversationsList.innerHTML = '';
+            currentFilter = filter;
+            
+            let filteredConversations = [...messagingData.conversations];
+            
+            if (filter !== 'all') {
+                if (filter === 'unread') {
+                    filteredConversations = filteredConversations.filter(conv => conv.unreadCount > 0);
+                } else {
+                    filteredConversations = filteredConversations.filter(conv => {
+                        const contact = messagingData.contacts.find(c => c.id === conv.contactId);
+                        return contact && contact.type === filter;
+                    });
+                }
+            }
+            
+            // Trier: épinglés d'abord, puis par date
+            filteredConversations.sort((a, b) => {
+                if (a.isPinned && !b.isPinned) return -1;
+                if (!a.isPinned && b.isPinned) return 1;
+                return new Date(b.lastMessageDate + ' ' + b.lastMessageTime) - new Date(a.lastMessageDate + ' ' + a.lastMessageTime);
+            });
+            
+            if (filteredConversations.length === 0) {
+                conversationsList.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-comment-slash fa-2x text-muted mb-3"></i>
+                        <p class="text-muted">Aucune conversation</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredConversations.forEach(conversation => {
+                const contact = messagingData.contacts.find(c => c.id === conversation.contactId);
+                if (!contact) return;
+                
+                const conversationItem = document.createElement('div');
+                conversationItem.className = 'conversation-item';
+                conversationItem.dataset.conversationId = conversation.id;
+                
+                if (conversation.id === currentConversationId) {
+                    conversationItem.classList.add('active');
+                }
+                
+                let statusText = contact.status === 'online' ? 'En ligne' : contact.lastSeen;
+                let pinIcon = conversation.isPinned ? '<i class="fas fa-thumbtack text-warning me-1" style="font-size: 0.7rem;"></i>' : '';
+                
+                conversationItem.innerHTML = `
+                    <div class="conversation-avatar ${contact.avatarClass}">${contact.initials}</div>
+                    <div class="conversation-info">
+                        <div class="conversation-name">
+                            <span>${pinIcon}${contact.name}</span>
+                            <span class="conversation-time">${conversation.lastMessageTime}</span>
+                        </div>
+                        <div class="conversation-preview">${conversation.lastMessage}</div>
+                        <div class="conversation-status">
+                            <i class="fas fa-circle ${contact.status === 'online' ? 'status-online' : 'status-offline'}"></i>
+                            <span>${statusText}</span>
+                        </div>
+                    </div>
+                    ${conversation.unreadCount > 0 ? `<div class="conversation-unread">${conversation.unreadCount}</div>` : ''}
+                `;
+                
+                conversationItem.addEventListener('click', () => {
+                    selectConversation(conversation.id);
+                });
+                
+                conversationsList.appendChild(conversationItem);
+            });
+            
+            // Mettre à jour le badge de notification
+            updateNotificationBadge();
+        }
+        
+        // Rendre la liste des destinataires
+        function renderRecipientList() {
+            const recipientList = document.getElementById('recipientList');
+            if (!recipientList) return;
+            
+            recipientList.innerHTML = '';
+            
+            messagingData.contacts.forEach(contact => {
+                const recipientItem = document.createElement('div');
+                recipientItem.className = 'recipient-item';
+                recipientItem.dataset.contactId = contact.id;
+                
+                recipientItem.innerHTML = `
+                    <div class="conversation-avatar ${contact.avatarClass} me-3">${contact.initials}</div>
+                    <div class="flex-grow-1">
+                        <div class="fw-bold">${contact.name}</div>
+                        <div class="text-muted" style="font-size: 0.85rem;">
+                            ${contact.type === 'teacher' ? `Enseignant - ${contact.subject}` : 
+                              contact.type === 'school' ? `École - ${contact.role}` :
+                              contact.type === 'student' ? `Élève - ${contact.grade}` :
+                              `Support - ${contact.role}`}
+                        </div>
+                    </div>
+                    <i class="fas fa-check text-success" style="display: none;"></i>
+                `;
+                
+                recipientItem.addEventListener('click', () => {
+                    // Désélectionner tous les autres
+                    document.querySelectorAll('.recipient-item').forEach(item => {
+                        item.classList.remove('selected');
+                        item.querySelector('.fa-check').style.display = 'none';
+                    });
+                    
+                    // Sélectionner celui-ci
+                    recipientItem.classList.add('selected');
+                    recipientItem.querySelector('.fa-check').style.display = 'block';
+                    selectedRecipientId = contact.id;
+                    
+                    // Activer le bouton de démarrage
+                    document.getElementById('startConversationBtn').disabled = false;
+                });
+                
+                recipientList.appendChild(recipientItem);
+            });
+        }
+        
+        // Sélectionner une conversation
+        function selectConversation(conversationId) {
+            currentConversationId = conversationId;
+            
+            const conversation = messagingData.conversations.find(c => c.id === conversationId);
+            if (!conversation) return;
+            
+            const contact = messagingData.contacts.find(c => c.id === conversation.contactId);
+            if (!contact) return;
+            
+            // Mettre à jour l'affichage du chat
+            document.getElementById('chatPartnerAvatar').className = `chat-partner-avatar ${contact.avatarClass}`;
+            document.getElementById('chatPartnerAvatar').textContent = contact.initials;
+            document.getElementById('chatPartnerName').textContent = contact.name;
+            
+            let statusText = contact.status === 'online' ? 'En ligne' : `Dernière connexion: ${contact.lastSeen}`;
+            if (contact.type === 'teacher') {
+                statusText = `${contact.subject} • ${statusText}`;
+            } else if (contact.type === 'school') {
+                statusText = `${contact.role} • ${statusText}`;
+            } else if (contact.type === 'student') {
+                statusText = `${contact.grade} • ${statusText}`;
+            } else {
+                statusText = `${contact.role} • ${statusText}`;
+            }
+            
+            document.getElementById('chatPartnerStatus').innerHTML = `<i class="fas fa-circle ${contact.status === 'online' ? 'status-online' : 'status-offline'}"></i> ${statusText}`;
+            
+            // Afficher le chat actif
+            document.getElementById('emptyChatState').style.display = 'none';
+            document.getElementById('chatActive').style.display = 'flex';
+            
+            // Rendre les messages
+            renderMessages(conversationId);
+            
+            // Marquer comme lu
+            markConversationAsRead(conversationId);
+            
+            // Mettre à jour la sélection visuelle
+            document.querySelectorAll('.conversation-item').forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.dataset.conversationId) === conversationId) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Focus sur le champ de saisie
+            setTimeout(() => {
+                document.getElementById('messageInput').focus();
+            }, 100);
+        }
+        
+        // Rendre les messages
+        function renderMessages(conversationId) {
+            const messagesContainer = document.getElementById('messagesContainer');
+            if (!messagesContainer) return;
+            
+            messagesContainer.innerHTML = '';
+            
+            const messages = messagingData.messages[conversationId] || [];
+            
+            // Grouper les messages par date
+            const messagesByDate = {};
+            messages.forEach(message => {
+                if (!messagesByDate[message.date]) {
+                    messagesByDate[message.date] = [];
+                }
+                messagesByDate[message.date].push(message);
+            });
+            
+            // Rendre les messages par date
+            Object.keys(messagesByDate).forEach(date => {
+                // Ajouter un séparateur de date
+                const dateSeparator = document.createElement('div');
+                dateSeparator.className = 'message-date-separator';
+                dateSeparator.innerHTML = `<span>${date}</span>`;
+                messagesContainer.appendChild(dateSeparator);
+                
+                // Rendre les messages de cette date
+                messagesByDate[date].forEach(message => {
+                    const isSent = message.senderId === messagingData.currentUser.id;
+                    const messageElement = document.createElement('div');
+                    messageElement.className = `message ${isSent ? 'sent' : 'received'}`;
+                    
+                    let avatarHtml = '';
+                    if (!isSent) {
+                        const contact = messagingData.contacts.find(c => c.id === message.senderId);
+                        if (contact) {
+                            avatarHtml = `<div class="message-avatar ${contact.avatarClass}">${contact.initials}</div>`;
+                        }
+                    }
+                    
+                    let statusHtml = '';
+                    if (isSent) {
+                        let statusIcon = 'fa-check';
+                        if (message.status === 'read') {
+                            statusIcon = 'fa-check-double';
+                        }
+                        statusHtml = `<div class="message-status ${message.status}"><i class="fas ${statusIcon}"></i></div>`;
+                    }
+                    
+                    messageElement.innerHTML = `
+                        ${avatarHtml}
+                        <div class="message-content">
+                            <div class="message-text">${escapeHtml(message.text)}</div>
+                            <div class="message-time">${message.time} ${statusHtml}</div>
+                        </div>
+                    `;
+                    
+                    messagesContainer.appendChild(messageElement);
+                });
+            });
+            
+            // Faire défiler vers le bas
+            setTimeout(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 100);
+        }
+        
+        // Envoyer un message
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const text = messageInput.value.trim();
+            
+            if (!text || !currentConversationId) return;
+            
+            const newMessage = {
+                id: Date.now(),
+                senderId: messagingData.currentUser.id,
+                text: text,
+                time: getCurrentTime(),
+                date: getCurrentDate(),
+                status: 'delivered'
+            };
+            
+            // Ajouter le message aux données
+            if (!messagingData.messages[currentConversationId]) {
+                messagingData.messages[currentConversationId] = [];
+            }
+            messagingData.messages[currentConversationId].push(newMessage);
+            
+            // Mettre à jour la conversation
+            const conversation = messagingData.conversations.find(c => c.id === currentConversationId);
+            if (conversation) {
+                conversation.lastMessage = text;
+                conversation.lastMessageTime = newMessage.time;
+                conversation.lastMessageDate = newMessage.date;
+                conversation.unreadCount = 0; // L'admin a envoyé un message
+            }
+            
+            // Réinitialiser le champ de saisie
+            messageInput.value = '';
+            document.getElementById('sendMessageBtn').disabled = true;
+            
+            // Mettre à jour l'affichage
+            renderMessages(currentConversationId);
+            renderConversations(currentFilter);
+            
+            // Simuler une réponse automatique pour certaines conversations
+            simulateAutoReply(currentConversationId);
+        }
+        
+        // Simuler une réponse automatique
+        function simulateAutoReply(conversationId) {
+            setTimeout(() => {
+                const conversation = messagingData.conversations.find(c => c.id === conversationId);
+                if (!conversation) return;
+                
+                const contact = messagingData.contacts.find(c => c.id === conversation.contactId);
+                if (!contact) return;
+                
+                // Ne pas répondre aux messages du support
+                if (contact.type === 'admin') return;
+                
+                const autoReplies = [
+                    "Merci pour votre message. Nous traiterons votre demande dans les plus brefs délais.",
+                    "Votre message a bien été reçu. Nous reviendrons vers vous rapidement.",
+                    "Nous avons pris note de votre message. Un membre de notre équipe vous répondra bientôt."
+                ];
+                
+                const randomReply = autoReplies[Math.floor(Math.random() * autoReplies.length)];
+                
+                const autoReplyMessage = {
+                    id: Date.now() + 1,
+                    senderId: contact.id,
+                    text: randomReply,
+                    time: getCurrentTime(),
+                    date: getCurrentDate(),
+                    status: 'read'
+                };
+                
+                // Ajouter la réponse automatique
+                messagingData.messages[conversationId].push(autoReplyMessage);
+                
+                // Mettre à jour la conversation
+                conversation.lastMessage = randomReply;
+                conversation.lastMessageTime = autoReplyMessage.time;
+                conversation.lastMessageDate = autoReplyMessage.date;
+                conversation.unreadCount = 1;
+                
+                // Mettre à jour l'affichage si cette conversation est active
+                if (currentConversationId === conversationId) {
+                    renderMessages(conversationId);
+                    markConversationAsRead(conversationId);
+                }
+                
+                // Mettre à jour la liste des conversations
+                renderConversations(currentFilter);
+                
+                // Mettre à jour le badge de notification
+                updateNotificationBadge();
+                
+            }, 2000); // Répondre après 2 secondes
+        }
+        
+        // Marquer une conversation comme lue
+        function markConversationAsRead(conversationId) {
+            const conversation = messagingData.conversations.find(c => c.id === conversationId);
+            if (conversation && conversation.unreadCount > 0) {
+                conversation.unreadCount = 0;
+                renderConversations(currentFilter);
+                updateNotificationBadge();
+            }
+        }
+        
+        // Configurer les événements de la messagerie
+        function setupMessagingEvents() {
+            // Filtres de conversation
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderConversations(btn.dataset.filter);
+                });
+            });
+            
+            // Champ de saisie de message
+            const messageInput = document.getElementById('messageInput');
+            const sendMessageBtn = document.getElementById('sendMessageBtn');
+            
+            if (messageInput && sendMessageBtn) {
+                messageInput.addEventListener('input', () => {
+                    sendMessageBtn.disabled = messageInput.value.trim() === '';
+                    
+                    // Ajuster la hauteur du champ de texte
+                    messageInput.style.height = 'auto';
+                    messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
+                });
+                
+                messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        if (!sendMessageBtn.disabled) {
+                            sendMessage();
+                        }
+                    }
+                });
+                
+                sendMessageBtn.addEventListener('click', sendMessage);
+            }
+            
+            // Bouton de nouveau message
+            const newMessageBtn = document.getElementById('newMessageBtn');
+            const startNewChatBtn = document.getElementById('startNewChatBtn');
+            const startConversationBtn = document.getElementById('startConversationBtn');
+            
+            if (newMessageBtn) {
+                newMessageBtn.addEventListener('click', () => {
+                    selectedRecipientId = null;
+                    document.getElementById('recipientSearch').value = '';
+                    renderRecipientList();
+                });
+            }
+            
+            if (startNewChatBtn) {
+                startNewChatBtn.addEventListener('click', () => {
+                    selectedRecipientId = null;
+                    document.getElementById('recipientSearch').value = '';
+                    renderRecipientList();
+                });
+            }
+            
+            if (startConversationBtn) {
+                startConversationBtn.addEventListener('click', () => {
+                    if (selectedRecipientId) {
+                        startNewConversation(selectedRecipientId);
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('newMessageModal'));
+                        modal.hide();
+                    }
+                });
+            }
+            
+            // Recherche de destinataires
+            const recipientSearch = document.getElementById('recipientSearch');
+            if (recipientSearch) {
+                recipientSearch.addEventListener('input', () => {
+                    filterRecipients(recipientSearch.value);
+                });
+            }
+            
+            // Boutons d'action du chat
+            const chatInfoBtn = document.getElementById('chatInfoBtn');
+            const voiceCallBtn = document.getElementById('voiceCallBtn');
+            const videoCallBtn = document.getElementById('videoCallBtn');
+            
+            if (chatInfoBtn) {
+                chatInfoBtn.addEventListener('click', showContactInfo);
+            }
+            
+            if (voiceCallBtn) {
+                voiceCallBtn.addEventListener('click', () => {
+                    alert('Fonctionnalité d\'appel vocal en développement');
+                });
+            }
+            
+            if (videoCallBtn) {
+                videoCallBtn.addEventListener('click', () => {
+                    alert('Fonctionnalité d\'appel vidéo en développement');
+                });
+            }
+            
+            // Boutons d'action de saisie
+            const attachFileBtn = document.getElementById('attachFileBtn');
+            const emojiBtn = document.getElementById('emojiBtn');
+            
+            if (attachFileBtn) {
+                attachFileBtn.addEventListener('click', () => {
+                    alert('Fonctionnalité de pièce jointe en développement');
+                });
+            }
+            
+            if (emojiBtn) {
+                emojiBtn.addEventListener('click', () => {
+                    alert('Fonctionnalité d\'émoticônes en développement');
+                });
+            }
+        }
+        
+        // Filtrer les conversations par recherche
+        function filterConversationsBySearch(query) {
+            const filteredConversations = messagingData.conversations.filter(conv => {
+                const contact = messagingData.contacts.find(c => c.id === conv.contactId);
+                if (!contact) return false;
+                
+                return contact.name.toLowerCase().includes(query.toLowerCase()) ||
+                       conv.lastMessage.toLowerCase().includes(query.toLowerCase());
+            });
+            
+            // Mettre à jour l'affichage (simplifié pour cet exemple)
+            if (query) {
+                alert(`Recherche: "${query}"\n${filteredConversations.length} conversation(s) trouvée(s)`);
+            }
+        }
+        
+        // Filtrer les destinataires
+        function filterRecipients(query) {
+            const recipientItems = document.querySelectorAll('.recipient-item');
+            
+            recipientItems.forEach(item => {
+                const contactId = parseInt(item.dataset.contactId);
+                const contact = messagingData.contacts.find(c => c.id === contactId);
+                
+                if (!contact) {
+                    item.style.display = 'none';
+                    return;
+                }
+                
+                const matchesSearch = query === '' || 
+                    contact.name.toLowerCase().includes(query.toLowerCase()) ||
+                    (contact.type === 'teacher' && contact.subject.toLowerCase().includes(query.toLowerCase())) ||
+                    (contact.type === 'school' && contact.role.toLowerCase().includes(query.toLowerCase())) ||
+                    (contact.type === 'student' && contact.grade.toLowerCase().includes(query.toLowerCase()));
+                
+                item.style.display = matchesSearch ? 'flex' : 'none';
+            });
+        }
+        
+        // Démarrer une nouvelle conversation
+        function startNewConversation(contactId) {
+            // Vérifier si une conversation existe déjà
+            let existingConversation = messagingData.conversations.find(c => c.contactId === contactId);
+            
+            if (existingConversation) {
+                // Sélectionner la conversation existante
+                selectConversation(existingConversation.id);
+                return;
+            }
+            
+            // Créer une nouvelle conversation
+            const contact = messagingData.contacts.find(c => c.id === contactId);
+            if (!contact) return;
+            
+            const newConversationId = Math.max(...messagingData.conversations.map(c => c.id)) + 1;
+            
+            const newConversation = {
+                id: newConversationId,
+                contactId: contactId,
+                lastMessage: "Nouvelle conversation",
+                lastMessageTime: getCurrentTime(),
+                lastMessageDate: getCurrentDate(),
+                unreadCount: 0,
+                isPinned: false
+            };
+            
+            // Ajouter aux données
+            messagingData.conversations.push(newConversation);
+            messagingData.messages[newConversationId] = [];
+            
+            // Sélectionner la nouvelle conversation
+            selectConversation(newConversationId);
+            
+            // Mettre à jour l'affichage
+            renderConversations(currentFilter);
+        }
+        
+        // Afficher les informations du contact
+        function showContactInfo() {
+            if (!currentConversationId) return;
+            
+            const conversation = messagingData.conversations.find(c => c.id === currentConversationId);
+            if (!conversation) return;
+            
+            const contact = messagingData.contacts.find(c => c.id === conversation.contactId);
+            if (!contact) return;
+            
+            const contactInfoBody = document.getElementById('contactInfoBody');
+            if (!contactInfoBody) return;
+            
+            let contactType = '';
+            switch(contact.type) {
+                case 'teacher': contactType = 'Enseignant'; break;
+                case 'school': contactType = 'École'; break;
+                case 'student': contactType = 'Élève'; break;
+                case 'admin': contactType = 'Administrateur'; break;
+                default: contactType = 'Utilisateur';
+            }
+            
+            contactInfoBody.innerHTML = `
+                <div class="text-center mb-4">
+                    <div class="conversation-avatar ${contact.avatarClass} mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+                        ${contact.initials}
+                    </div>
+                    <h4>${contact.name}</h4>
+                    <p class="text-muted">${contactType}</p>
+                </div>
+                
+                <div class="mb-3">
+                    <h6>Informations de contact</h6>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-envelope text-muted me-3" style="width: 20px;"></i>
+                        <span>${contact.email}</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-phone text-muted me-3" style="width: 20px;"></i>
+                        <span>${contact.phone}</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-circle ${contact.status === 'online' ? 'text-success' : 'text-muted'} me-3" style="width: 20px;"></i>
+                        <span>${contact.status === 'online' ? 'En ligne' : `Hors ligne - ${contact.lastSeen}`}</span>
+                    </div>
+                </div>
+                
+                ${contact.type === 'teacher' ? `
+                    <div class="mb-3">
+                        <h6>Informations professionnelles</h6>
+                        <p><strong>Matière:</strong> ${contact.subject}</p>
+                    </div>
+                ` : ''}
+                
+                ${contact.type === 'student' ? `
+                    <div class="mb-3">
+                        <h6>Informations académiques</h6>
+                        <p><strong>Classe:</strong> ${contact.grade}</p>
+                    </div>
+                ` : ''}
+                
+                ${contact.type === 'school' ? `
+                    <div class="mb-3">
+                        <h6>Informations de l'établissement</h6>
+                        <p><strong>Rôle:</strong> ${contact.role}</p>
+                    </div>
+                ` : ''}
+            `;
+            
+            const contactInfoModal = new bootstrap.Modal(document.getElementById('contactInfoModal'));
+            contactInfoModal.show();
+        }
+        
+        // Afficher les notifications
+        function showNotifications() {
+            const unreadConversations = messagingData.conversations.filter(conv => conv.unreadCount > 0);
+            
+            if (unreadConversations.length === 0) {
+                alert('Vous n\'avez aucune nouvelle notification.');
+                return;
+            }
+            
+            let notificationMessage = `Vous avez ${unreadConversations.length} nouvelle(s) notification(s):\n\n`;
+            
+            unreadConversations.forEach(conv => {
+                const contact = messagingData.contacts.find(c => c.id === conv.contactId);
+                if (contact) {
+                    notificationMessage += `• ${contact.name}: ${conv.lastMessage}\n`;
+                }
+            });
+            
+            notificationMessage += "\nCliquez sur une conversation pour lire les messages.";
+            alert(notificationMessage);
+            
+            // Marquer toutes comme lues
+            unreadConversations.forEach(conv => {
+                conv.unreadCount = 0;
+            });
+            
+            // Mettre à jour l'affichage
+            renderConversations(currentFilter);
+            updateNotificationBadge();
+        }
+        
+        // Mettre à jour le badge de notification
+        function updateNotificationBadge() {
+            const totalUnread = messagingData.conversations.reduce((sum, conv) => sum + conv.unreadCount, 0);
+            const notificationBadge = document.querySelector('.notification-badge');
+            const navBadge = document.querySelector('.nav-badge');
+            
+            if (notificationBadge) {
+                if (totalUnread > 0) {
+                    notificationBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
+                    notificationBadge.style.display = 'flex';
+                } else {
+                    notificationBadge.style.display = 'none';
+                }
+            }
+            
+            if (navBadge) {
+                if (totalUnread > 0) {
+                    navBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
+                } else {
+                    navBadge.style.display = 'none';
+                }
+            }
+        }
+        
+        // Simuler de nouveaux messages
+        function simulateNewMessages() {
+            // Simuler un nouveau message toutes les 30 secondes (pour la démo)
+            setInterval(() => {
+                // Ne pas ajouter de nouveaux messages si l'utilisateur est en train de chatter
+                if (currentConversationId) return;
+                
+                // 20% de chance d'ajouter un nouveau message
+                if (Math.random() < 0.2) {
+                    // Choisir une conversation aléatoire
+                    const randomIndex = Math.floor(Math.random() * messagingData.conversations.length);
+                    const conversation = messagingData.conversations[randomIndex];
+                    
+                    if (conversation) {
+                        const contact = messagingData.contacts.find(c => c.id === conversation.contactId);
+                        if (contact) {
+                            // Messages aléatoires
+                            const randomMessages = [
+                                "Bonjour, avez-vous une minute?",
+                                "Je vous recontacte concernant ma demande",
+                                "Pouvez-vous m'aider avec un problème?",
+                                "Merci pour votre réponse précédente",
+                                "J'ai une question supplémentaire"
+                            ];
+                            
+                            const randomMessage = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+                            
+                            // Ajouter le message
+                            const newMessage = {
+                                id: Date.now(),
+                                senderId: contact.id,
+                                text: randomMessage,
+                                time: getCurrentTime(),
+                                date: getCurrentDate(),
+                                status: 'delivered'
+                            };
+                            
+                            if (!messagingData.messages[conversation.id]) {
+                                messagingData.messages[conversation.id] = [];
+                            }
+                            messagingData.messages[conversation.id].push(newMessage);
+                            
+                            // Mettre à jour la conversation
+                            conversation.lastMessage = randomMessage;
+                            conversation.lastMessageTime = newMessage.time;
+                            conversation.lastMessageDate = newMessage.date;
+                            conversation.unreadCount++;
+                            
+                            // Mettre à jour l'affichage
+                            renderConversations(currentFilter);
+                            updateNotificationBadge();
+                            
+                            // Si cette conversation est affichée, mettre à jour les messages
+                            if (currentConversationId === conversation.id) {
+                                renderMessages(conversation.id);
+                                markConversationAsRead(conversation.id);
+                            }
+                        }
+                    }
+                }
+            }, 30000); // Toutes les 30 secondes
+        }
+        
+        // Fonctions utilitaires
+        function getCurrentTime() {
+            const now = new Date();
+            return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        }
+        
+        function getCurrentDate() {
+            const now = new Date();
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            if (now.toDateString() === today.toDateString()) {
+                return "Aujourd'hui";
+            } else if (now.toDateString() === yesterday.toDateString()) {
+                return "Hier";
+            } else {
+                return now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+            }
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

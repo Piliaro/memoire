@@ -465,201 +465,75 @@
             display: none;
         }
 
-        /* Section enfants */
-        .children-section {
-            background-color: rgba(0,166,81,0.05);
-            border: 2px solid rgba(0,166,81,0.2);
-            border-radius: 8px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-
-        .children-section-title {
-            color: var(--vert-principal);
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+        /* Upload de photo de profil */
+        .photo-upload-container {
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        /* Tableau des enfants */
-        .children-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            background-color: var(--blanc-principal);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .children-table th,
-        .children-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .children-table th {
-            background-color: rgba(0,166,81,0.1);
-            color: var(--gris-fonce);
-            font-weight: 600;
-        }
-
-        .children-table tr:hover {
-            background-color: rgba(0,0,0,0.02);
-        }
-
-        .remove-child {
-            background-color: rgba(239,51,64,0.1);
-            color: var(--rouge-principal);
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .remove-child:hover {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-        }
-
-        .add-child-btn {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 15px;
-            transition: all 0.3s;
-        }
-
-        .add-child-btn:hover {
-            background-color: #008c45;
-            transform: translateY(-2px);
-        }
-
-        /* Modal pour rechercher un enfant */
-        .student-search-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1001;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .student-search-modal .modal {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--gris-clair);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            color: var(--gris-fonce);
-            font-size: 1.5rem;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gris-moyen);
-            cursor: pointer;
-        }
-
-        .modal-body {
-            padding: 20px;
-        }
-
-        .student-search-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .search-tabs {
-            display: flex;
-            gap: 10px;
+            gap: 20px;
             margin-bottom: 20px;
         }
 
-        .search-tab {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid var(--gris-clair);
-            background-color: var(--blanc-principal);
-            border-radius: 8px;
+        .photo-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--gris-clair);
+            border: 3px solid var(--gris-moyen);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
             cursor: pointer;
-            text-align: center;
-            font-weight: 600;
             transition: all 0.3s;
         }
 
-        .search-tab.active {
+        .photo-preview:hover {
             border-color: var(--vert-principal);
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
+            transform: scale(1.05);
         }
 
-        .search-results {
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid var(--gris-clair);
-            border-radius: 8px;
-            margin-top: 15px;
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
         }
 
-        .search-result-item {
-            padding: 15px;
-            border-bottom: 1px solid var(--gris-clair);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .search-result-item:hover {
-            background-color: rgba(0,166,81,0.05);
-        }
-
-        .search-result-item.selected {
-            background-color: rgba(0,166,81,0.1);
-            border-left: 3px solid var(--vert-principal);
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 30px;
+        .photo-preview .placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             color: var(--gris-moyen);
         }
 
-        .student-not-found {
-            background-color: rgba(239,51,64,0.05);
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border-left: 3px solid var(--rouge-principal);
+        .photo-preview .placeholder i {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .upload-instructions {
+            flex: 1;
+        }
+
+        .upload-instructions h4 {
+            color: var(--gris-fonce);
+            margin-bottom: 10px;
+        }
+
+        .upload-instructions ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .upload-instructions li {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var(--gris-moyen);
+        }
+
+        .file-input {
+            display: none;
         }
 
         /* Checkbox d'acceptation */
@@ -883,6 +757,11 @@
             
             .form-actions .btn:last-child {
                 margin-bottom: 0;
+            }
+            
+            .photo-upload-container {
+                flex-direction: column;
+                text-align: center;
             }
         }
 
@@ -1165,28 +1044,28 @@
                     <p class="form-subtitle">Veuillez remplir tous les champs obligatoires (*)</p>
                 </div>
                 
-                <form id="parentRegistrationForm">
+                <form id="parentRegistrationForm" enctype="multipart/form-data">
+
                     <!-- Informations personnelles du parent -->
                     <div class="form-group">
                         <h3 style="color: var(--gris-fonce); margin-bottom: 15px; font-size: 1.2rem;">Informations personnelles</h3>
                     </div>
 
-                    <!-- Nom et Prénom sur la même ligne -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="parentLastName" class="form-label">Nom de famille <span class="required">*</span></label>
-                            <input type="text" id="parentLastName" class="form-control" required placeholder="Votre nom de famille">
-                            <div class="form-error" id="parentLastNameError">Veuillez entrer votre nom de famille</div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="parentFirstName" class="form-label">Prénom <span class="required">*</span></label>
-                            <input type="text" id="parentFirstName" class="form-control" required placeholder="Votre prénom">
-                            <div class="form-error" id="parentFirstNameError">Veuillez entrer votre prénom</div>
-                        </div>
+                    <!-- Nom -->
+                    <div class="form-group">
+                        <label for="parentLastName" class="form-label">Nom de famille <span class="required">*</span></label>
+                        <input type="text" id="parentLastName" class="form-control" required placeholder="Votre nom de famille">
+                        <div class="form-error" id="parentLastNameError">Veuillez entrer votre nom de famille</div>
                     </div>
 
-                    <!-- Sexe et Profession sur la même ligne -->
+                    <!-- Prénom -->
+                    <div class="form-group">
+                        <label for="parentFirstName" class="form-label">Prénom <span class="required">*</span></label>
+                        <input type="text" id="parentFirstName" class="form-control" required placeholder="Votre prénom">
+                        <div class="form-error" id="parentFirstNameError">Veuillez entrer votre prénom</div>
+                    </div>
+
+                    <!-- Sexe et telephone sur la même ligne -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="parentGender" class="form-label">Sexe <span class="required">*</span></label>
@@ -1198,12 +1077,12 @@
                             <div class="form-error" id="parentGenderError">Veuillez sélectionner votre sexe</div>
                         </div>
 
-                          <div class="form-group">
-                        <label for="parentPhone" class="form-label">Téléphone principal <span class="required">*</span></label>
-                        <input type="tel" id="parentPhone" class="form-control" required pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
-                        <div class="form-error" id="parentPhoneError">Veuillez entrer un numéro valide</div>
-                    </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="parentPhone" class="form-label">Téléphone principal <span class="required">*</span></label>
+                            <input type="tel" id="parentPhone" class="form-control" required pattern="\+228\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}" placeholder="+228 XX XX XX XX">
+                            <div class="form-error" id="parentPhoneError">Veuillez entrer un numéro valide</div>
+                        </div>
+                    </div>          
 
                     <div class="form-group">
                         <label for="parentEmail" class="form-label">Adresse email <span class="required">*</span></label>
@@ -1290,39 +1169,35 @@
                         <div class="form-error" id="parentConfirmPasswordError">Les mots de passe ne correspondent pas</div>
                     </div>
 
-                    <!-- Informations sur les enfants -->
-                    <div class="children-section">
-                        <div class="children-section-title">
-                            <i class="fas fa-child"></i>
-                            <span>Informations sur vos enfants</span>
+                     <!-- Photo de profil -->
+                    <div class="form-group">
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 15px; font-size: 1.2rem;">Photo de profil</h3>
+                        <div class="photo-upload-container">
+                            <div class="photo-preview" id="photoPreview">
+                                <div class="placeholder">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>Photo</span>
+                                </div>
+                                <img id="previewImage" src="" alt="Prévisualisation">
+                            </div>
+                            <div class="upload-instructions">
+                                <h4>Instructions :</h4>
+                                <ul>
+                                    <li>Format accepté : JPG, PNG, JPEG</li>
+                                    <li>Taille maximale : 2 MB</li>
+                                    <li>Dimensions recommandées : 400x400 px</li>
+                                    <li>Photo récente et claire</li>
+                                    <li>Visage bien visible</li>
+                                </ul>
+                                <input type="file" id="profilePhoto" name="profilePhoto" class="file-input" accept="image/*">
+                                <button type="button" class="btn btn-secondary" onclick="document.getElementById('profilePhoto').click()" style="padding: 8px 16px; font-size: 0.9rem;">
+                                    <i class="fas fa-upload"></i> Choisir une photo
+                                </button>
+                                <div class="form-error" id="profilePhotoError" style="margin-top: 10px;"></div>
+                                <div class="form-text" style="margin-top: 10px;">La photo de profil est optionnelle mais recommandée pour faciliter l'identification.</div>
+                            </div>
                         </div>
-                        
-                        <p class="form-text">Ajoutez les enfants pour lesquels vous souhaitez organiser des cours de soutien.</p>
-                        <p class="form-text" style="color: var(--vert-principal); font-weight: 600;">
-                            <i class="fas fa-info-circle"></i> Vous devez ajouter uniquement des enfants déjà inscrits sur la plateforme.
-                        </p>
-                        
-                        <!-- Tableau des enfants -->
-                        <table class="children-table">
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Niveau</th>
-                                    <th>Matières</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="childrenTableBody">
-                                <!-- Les lignes seront ajoutées dynamiquement -->
-                            </tbody>
-                        </table>
-                        
-                        <button type="button" class="add-child-btn" id="addChildBtn">
-                            <i class="fas fa-plus-circle"></i>
-                            Ajouter un enfant
-                        </button>
                     </div>
-
                     <!-- Acceptation de la charte -->
                     <div class="acceptance-group">
                         <input type="checkbox" id="acceptParentCharte" class="acceptance-checkbox" required>
@@ -1347,61 +1222,6 @@
             </section>
         </div>
     </main>
-
-    <!-- Modal pour rechercher un enfant existant -->
-    <div class="student-search-modal" id="studentSearchModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 class="modal-title">Rechercher un enfant existant</h2>
-                <button class="modal-close" id="closeStudentSearchModalBtn">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="student-search-container">
-                    <p class="form-text">Recherchez un enfant déjà inscrit sur la plateforme pour l'ajouter à votre compte.</p>
-                    
-                    <div class="search-tabs">
-                        <button class="search-tab active" data-search-type="name">Par nom</button>
-                        <button class="search-tab" data-search-type="email">Par email</button>
-                        <button class="search-tab" data-search-type="phone">Par téléphone</button>
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="text" id="studentSearchInput" class="form-control" placeholder="Commencez à taper pour rechercher...">
-                        <div class="form-text" id="searchHint">Entrez le nom complet de l'enfant</div>
-                    </div>
-                    
-                    <div class="search-results" id="searchResults">
-                        <div class="no-results">
-                            <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 10px; color: var(--gris-moyen);"></i>
-                            <p>Entrez des informations pour rechercher un enfant</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Message lorsque l'enfant n'est pas trouvé -->
-                    <div class="student-not-found" id="studentNotFound" style="display: none;">
-                        <h4 style="color: var(--rouge-principal); margin-bottom: 10px;">
-                            <i class="fas fa-exclamation-triangle"></i> Enfant non trouvé
-                        </h4>
-                        <p>L'enfant que vous recherchez n'est pas encore inscrit sur la plateforme.</p>
-                        <p><strong>Que faire ?</strong></p>
-                        <ul style="margin-left: 20px; margin-top: 10px;">
-                            <li>Demandez à votre enfant de s'inscrire d'abord comme élève sur la plateforme</li>
-                            <li>Vérifiez les informations que vous avez saisies</li>
-                            <li>Une fois l'inscription de l'enfant terminée, vous pourrez l'ajouter ici</li>
-                        </ul>
-                        <button type="button" class="btn btn-primary" id="continueWithoutChildBtn" style="margin-top: 15px;">
-                            Continuer sans ajouter cet enfant
-                        </button>
-                    </div>
-                    
-                    <div class="form-actions" id="searchActions">
-                        <button type="button" class="btn btn-secondary" id="cancelSearchBtn">Annuler</button>
-                        <button type="button" class="btn btn-primary" id="confirmAddChildBtn" disabled>Ajouter l'enfant</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer id="contact">
@@ -1455,7 +1275,7 @@
             </div>
 
             <div class="copyright">
-                <p>&copy; 2023 EduTogoConnect. Tous droits réservés.</p>
+                <p>&copy; 2026 EduTogoConnect. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
@@ -1467,25 +1287,12 @@
         const acceptParentCharte = document.getElementById('acceptParentCharte');
         const parentResetBtn = document.getElementById('parentResetBtn');
         const backToTopBtn = document.getElementById('backToTopBtn');
-        const addChildBtn = document.getElementById('addChildBtn');
-        const childrenTableBody = document.getElementById('childrenTableBody');
         
-        // Modal recherche d'élèves
-        const studentSearchModal = document.getElementById('studentSearchModal');
-        const closeStudentSearchModalBtn = document.getElementById('closeStudentSearchModalBtn');
-        const cancelSearchBtn = document.getElementById('cancelSearchBtn');
-        const studentSearchInput = document.getElementById('studentSearchInput');
-        const searchResults = document.getElementById('searchResults');
-        const searchTabs = document.querySelectorAll('.search-tab');
-        const searchHint = document.getElementById('searchHint');
-        const confirmAddChildBtn = document.getElementById('confirmAddChildBtn');
-        const studentNotFound = document.getElementById('studentNotFound');
-        const continueWithoutChildBtn = document.getElementById('continueWithoutChildBtn');
-        
-        // Variables pour la recherche
-        let currentSearchType = 'name';
-        let selectedStudent = null;
-        let searchTimeout = null;
+        // Éléments pour la photo de profil
+        const profilePhotoInput = document.getElementById('profilePhoto');
+        const photoPreview = document.getElementById('photoPreview');
+        const previewImage = document.getElementById('previewImage');
+        const profilePhotoError = document.getElementById('profilePhotoError');
         
         // ============ FLÈCHE RETOUR EN HAUT ============
         function toggleBackToTopButton() {
@@ -1506,19 +1313,6 @@
         window.addEventListener('scroll', toggleBackToTopButton);
         backToTopBtn.addEventListener('click', scrollToTop);
 
-        // ============ SIMULATION DE DONNÉES D'ÉLÈVES EXISTANTS ============
-        // Dans la réalité, ces données seraient récupérées depuis une base de données
-        const existingStudents = [
-            { id: 1, name: "Koffi Mensah", email: "koffi.mensah@example.com", phone: "+228 90 12 34 56", level: "5ème", subjects: ["Mathématiques", "Sciences Physiques"] },
-            { id: 2, name: "Afi Adjo", email: "afi.adjo@example.com", phone: "+228 91 23 45 67", level: "4ème", subjects: ["Français", "Anglais"] },
-            { id: 3, name: "Komlan Agbeko", email: "komlan.agbeko@example.com", phone: "+228 92 34 56 78", level: "3ème", subjects: ["Mathématiques", "SVT", "Histoire-Géo"] },
-            { id: 4, name: "Mawussi Yawa", email: "mawussi.yawa@example.com", phone: "+228 93 45 67 89", level: "6ème", subjects: ["Français", "Anglais"] },
-            { id: 5, name: "Kodjo Akakpo", email: "kodjo.akakpo@example.com", phone: "+228 94 56 78 90", level: "5ème", subjects: ["Mathématiques", "Sciences Physiques", "SVT"] }
-        ];
-        
-        // Données des enfants (simulation - remplacé par recherche d'enfants existants)
-        let childrenData = [];
-        
         // ============ GESTION DES VILLES PAR RÉGION ============
         const citiesByRegion = {
             'maritime': [
@@ -1589,297 +1383,47 @@
 
         parentRegionSelect.addEventListener('change', updateParentCityOptions);
 
-        // ============ GESTION DE LA RECHERCHE D'ENFANTS ============
-        function openStudentSearchModal() {
-            studentSearchModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            resetSearch();
-        }
-        
-        function closeStudentSearchModal() {
-            studentSearchModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            resetSearch();
-        }
-        
-        function resetSearch() {
-            studentSearchInput.value = '';
-            searchResults.innerHTML = `
-                <div class="no-results">
-                    <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 10px; color: var(--gris-moyen);"></i>
-                    <p>Entrez des informations pour rechercher un enfant</p>
-                </div>
-            `;
-            studentNotFound.style.display = 'none';
-            selectedStudent = null;
-            confirmAddChildBtn.disabled = true;
-        }
-        
-        // Changer le type de recherche
-        searchTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                searchTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                currentSearchType = tab.dataset.searchType;
-                
-                // Mettre à jour le placeholder et l'indice
-                switch(currentSearchType) {
-                    case 'name':
-                        studentSearchInput.placeholder = "Entrez le nom complet de l'enfant";
-                        searchHint.textContent = "Entrez le nom complet de l'enfant";
-                        break;
-                    case 'email':
-                        studentSearchInput.placeholder = "Entrez l'adresse email de l'enfant";
-                        searchHint.textContent = "Entrez l'adresse email de l'enfant";
-                        break;
-                    case 'phone':
-                        studentSearchInput.placeholder = "Entrez le numéro de téléphone de l'enfant";
-                        searchHint.textContent = "Entrez le numéro de téléphone de l'enfant";
-                        break;
+        // ============ GESTION DE LA PHOTO DE PROFIL ============
+        profilePhotoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            
+            if (file) {
+                // Vérifier le type de fichier
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                if (!validTypes.includes(file.type)) {
+                    profilePhotoError.textContent = 'Format de fichier non supporté. Utilisez JPG, JPEG ou PNG.';
+                    profilePhotoError.style.display = 'block';
+                    profilePhotoInput.value = '';
+                    return;
                 }
                 
-                resetSearch();
-            });
-        });
-        
-        // Recherche d'élèves
-        studentSearchInput.addEventListener('input', () => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(performSearch, 500);
-        });
-        
-        function performSearch() {
-            const searchTerm = studentSearchInput.value.trim().toLowerCase();
-            
-            if (searchTerm.length < 2) {
-                resetSearch();
-                return;
-            }
-            
-            // Filtrer les élèves existants
-            let filteredStudents = [];
-            
-            switch(currentSearchType) {
-                case 'name':
-                    filteredStudents = existingStudents.filter(student => 
-                        student.name.toLowerCase().includes(searchTerm)
-                    );
-                    break;
-                case 'email':
-                    filteredStudents = existingStudents.filter(student => 
-                        student.email.toLowerCase().includes(searchTerm)
-                    );
-                    break;
-                case 'phone':
-                    // Nettoyer le numéro de téléphone pour la recherche
-                    const cleanPhone = searchTerm.replace(/\s+/g, '');
-                    filteredStudents = existingStudents.filter(student => 
-                        student.phone.replace(/\s+/g, '').includes(cleanPhone)
-                    );
-                    break;
-            }
-            
-            displaySearchResults(filteredStudents);
-        }
-        
-        function displaySearchResults(students) {
-            if (students.length === 0) {
-                // Afficher le message d'enfant non trouvé
-                searchResults.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-user-times" style="font-size: 2rem; margin-bottom: 10px; color: var(--gris-moyen);"></i>
-                        <p>Aucun enfant trouvé avec ces informations</p>
-                    </div>
-                `;
-                studentNotFound.style.display = 'block';
-                selectedStudent = null;
-                confirmAddChildBtn.disabled = true;
-                return;
-            }
-            
-            // Cacher le message d'enfant non trouvé
-            studentNotFound.style.display = 'none';
-            
-            // Afficher les résultats
-            searchResults.innerHTML = '';
-            
-            students.forEach(student => {
-                const resultItem = document.createElement('div');
-                resultItem.className = 'search-result-item';
-                resultItem.dataset.studentId = student.id;
-                
-                // Vérifier si l'élève est déjà ajouté
-                const isAlreadyAdded = childrenData.some(child => child.existingId === student.id);
-                
-                resultItem.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <h4 style="color: var(--gris-fonce); margin-bottom: 5px;">${student.name}</h4>
-                            <p style="font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 5px;">
-                                <i class="fas fa-graduation-cap"></i> ${student.level}
-                            </p>
-                            <p style="font-size: 0.85rem; color: var(--gris-moyen); margin-bottom: 5px;">
-                                <i class="fas fa-book"></i> ${student.subjects.join(', ')}
-                            </p>
-                            <p style="font-size: 0.85rem; color: var(--gris-moyen);">
-                                <i class="fas fa-phone"></i> ${student.phone}
-                            </p>
-                        </div>
-                        ${isAlreadyAdded ? 
-                            '<span style="color: var(--vert-principal); font-weight: 600;"><i class="fas fa-check-circle"></i> Déjà ajouté</span>' : 
-                            '<span style="color: var(--gris-moyen);"><i class="fas fa-plus-circle"></i> Ajouter</span>'
-                        }
-                    </div>
-                `;
-                
-                // Ne permettre la sélection que si l'enfant n'est pas déjà ajouté
-                if (!isAlreadyAdded) {
-                    resultItem.addEventListener('click', () => {
-                        // Désélectionner tous les autres éléments
-                        document.querySelectorAll('.search-result-item').forEach(item => {
-                            item.classList.remove('selected');
-                        });
-                        
-                        // Sélectionner cet élément
-                        resultItem.classList.add('selected');
-                        selectedStudent = student;
-                        confirmAddChildBtn.disabled = false;
-                    });
+                // Vérifier la taille (max 2 MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    profilePhotoError.textContent = 'La taille de l\'image ne doit pas dépasser 2 MB.';
+                    profilePhotoError.style.display = 'block';
+                    profilePhotoInput.value = '';
+                    return;
                 }
                 
-                searchResults.appendChild(resultItem);
-            });
-            
-            // Si aucun enfant n'est sélectionnable (tous déjà ajoutés)
-            const allAlreadyAdded = students.every(student => 
-                childrenData.some(child => child.existingId === student.id)
-            );
-            
-            if (allAlreadyAdded) {
-                const message = document.createElement('div');
-                message.className = 'no-results';
-                message.innerHTML = `
-                    <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 10px; color: var(--vert-principal);"></i>
-                    <p>Tous ces enfants sont déjà ajoutés à votre compte</p>
-                `;
-                searchResults.innerHTML = '';
-                searchResults.appendChild(message);
-                confirmAddChildBtn.disabled = true;
-            }
-        }
-        
-        // Ajouter l'enfant sélectionné
-        confirmAddChildBtn.addEventListener('click', () => {
-            if (!selectedStudent) return;
-            
-            // Vérifier si l'enfant est déjà ajouté
-            const isAlreadyAdded = childrenData.some(child => child.existingId === selectedStudent.id);
-            
-            if (!isAlreadyAdded) {
-                // Ajouter l'enfant aux données
-                const childId = Date.now(); // ID unique basé sur le timestamp
-                childrenData.push({
-                    id: childId,
-                    existingId: selectedStudent.id,
-                    name: selectedStudent.name,
-                    level: selectedStudent.level,
-                    subjects: selectedStudent.subjects,
-                    email: selectedStudent.email,
-                    phone: selectedStudent.phone,
-                    isExistingStudent: true
-                });
+                // Effacer les erreurs précédentes
+                profilePhotoError.style.display = 'none';
                 
-                // Mettre à jour le tableau
-                updateChildrenTable();
-                
-                // Mettre à jour la validation du formulaire principal
-                validateParentForm();
-            }
-            
-            closeStudentSearchModal();
-        });
-        
-        // Continuer sans ajouter d'enfant
-        continueWithoutChildBtn.addEventListener('click', () => {
-            closeStudentSearchModal();
-        });
-        
-        // ============ GESTION DES ENFANTS ============
-        // Ouvrir le modal pour rechercher un enfant
-        addChildBtn.addEventListener('click', openStudentSearchModal);
-        
-        // Fermer le modal de recherche
-        closeStudentSearchModalBtn.addEventListener('click', closeStudentSearchModal);
-        cancelSearchBtn.addEventListener('click', closeStudentSearchModal);
-        
-        // Fermer le modal en cliquant à l'extérieur
-        studentSearchModal.addEventListener('click', (e) => {
-            if (e.target === studentSearchModal) {
-                closeStudentSearchModal();
+                // Afficher la prévisualisation
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                    photoPreview.querySelector('.placeholder').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
             }
         });
-        
-        function removeChild(childId) {
-            childrenData = childrenData.filter(child => child.id !== childId);
-            updateChildrenTable();
-            validateParentForm();
-        }
-        
-        function updateChildrenTable() {
-            childrenTableBody.innerHTML = '';
-            
-            if (childrenData.length === 0) {
-                childrenTableBody.innerHTML = `
-                    <tr>
-                        <td colspan="4" style="text-align: center; color: var(--gris-moyen); padding: 30px;">
-                            <i class="fas fa-child" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
-                            <p>Aucun enfant ajouté</p>
-                            <p class="form-text">Cliquez sur "Ajouter un enfant" pour commencer</p>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            childrenData.forEach((child, index) => {
-                const row = document.createElement('tr');
-                
-                // Formater les matières pour l'affichage
-                const subjectsText = child.subjects.length > 2 
-                    ? `${child.subjects.slice(0, 2).join(', ')}...`
-                    : child.subjects.join(', ');
-                
-                // Icône pour indiquer que c'est un enfant existant
-                const existingIcon = child.isExistingStudent ? 
-                    '<i class="fas fa-check-circle" title="Enfant déjà inscrit sur la plateforme" style="color: var(--vert-principal); margin-right: 5px;"></i>' : 
-                    '<i class="fas fa-exclamation-triangle" title="Nouvel enfant à inscrire" style="color: var(--jaune-principal); margin-right: 5px;"></i>';
-                
-                row.innerHTML = `
-                    <td>${existingIcon}<strong>${child.name}</strong></td>
-                    <td>${getLevelLabel(child.level)}</td>
-                    <td>${subjectsText}</td>
-                    <td>
-                        <button type="button" class="remove-child" onclick="removeChild(${child.id})">
-                            <i class="fas fa-times"></i> Supprimer
-                        </button>
-                    </td>
-                `;
-                
-                childrenTableBody.appendChild(row);
-            });
-        }
-        
-        function getLevelLabel(level) {
-            const levels = {
-                '6ème': '6ème',
-                '5ème': '5ème',
-                '4ème': '4ème',
-                '3ème': '3ème',
-                'autre': 'Autre niveau'
-            };
-            return levels[level] || level;
-        }
-        
+
+        // Permettre de cliquer sur la prévisualisation pour sélectionner une nouvelle image
+        photoPreview.addEventListener('click', function() {
+            profilePhotoInput.click();
+        });
+
         // ============ VALIDATION DU FORMULAIRE PARENT ============
         function validateParentForm() {
             let isValid = true;
@@ -1887,7 +1431,7 @@
             // Validation des champs requis du parent
             const requiredFields = parentRegistrationForm.querySelectorAll('[required]');
             requiredFields.forEach(field => {
-                if (!field.value.trim()) {
+                if (!field.value.trim() && field.id !== 'profilePhoto') {
                     isValid = false;
                     const errorElement = document.getElementById(field.id + 'Error');
                     if (errorElement) {
@@ -1939,14 +1483,18 @@
                 document.getElementById('parentConfirmPasswordError').style.display = 'none';
             }
 
-            // Vérifier qu'au moins un enfant est ajouté
-            if (childrenData.length === 0) {
+            // Validation de la profession (limite de caractères)
+            const profession = document.getElementById('parentProfession');
+            if (profession.value.length > 35) {
+                document.getElementById('parentProfessionError').textContent = 'La profession ne doit pas dépasser 35 caractères';
+                document.getElementById('parentProfessionError').style.display = 'block';
                 isValid = false;
-                document.querySelector('.children-section').style.borderColor = 'var(--rouge-principal)';
-                document.querySelector('.children-section').style.backgroundColor = 'rgba(239,51,64,0.05)';
+            } else if (!profession.value.trim()) {
+                document.getElementById('parentProfessionError').textContent = 'Veuillez entrer votre profession';
+                document.getElementById('parentProfessionError').style.display = 'block';
+                isValid = false;
             } else {
-                document.querySelector('.children-section').style.borderColor = 'rgba(0,166,81,0.2)';
-                document.querySelector('.children-section').style.backgroundColor = 'rgba(0,166,81,0.05)';
+                document.getElementById('parentProfessionError').style.display = 'none';
             }
 
             // Activer/désactiver bouton submit
@@ -1969,10 +1517,14 @@
         parentResetBtn.addEventListener('click', () => {
             if (confirm('Voulez-vous vraiment effacer tous les champs du formulaire ?')) {
                 parentRegistrationForm.reset();
-                childrenData = [];
-                updateChildrenTable();
                 parentSubmitBtn.disabled = true;
                 acceptParentCharte.checked = false;
+                
+                // Réinitialiser la prévisualisation de la photo
+                previewImage.src = '';
+                previewImage.style.display = 'none';
+                photoPreview.querySelector('.placeholder').style.display = 'flex';
+                profilePhotoError.style.display = 'none';
                 
                 // Masquer toutes les erreurs
                 document.querySelectorAll('.form-error').forEach(error => {
@@ -2001,43 +1553,34 @@
                 return;
             }
             
-            // Vérifier qu'au moins un enfant est ajouté
-            if (childrenData.length === 0) {
-                alert('Veuillez ajouter au moins un enfant.');
-                return;
-            }
-            
-            // Vérifier que tous les enfants sont des élèves existants
-            const nonExistingChildren = childrenData.filter(child => !child.isExistingStudent);
-            if (nonExistingChildren.length > 0) {
-                alert('Tous les enfants doivent être déjà inscrits sur la plateforme. Veuillez demander à vos enfants de s\'inscrire d\'abord comme élèves.');
-                return;
-            }
-            
             // Préparer les données pour l'envoi
             const parentData = {
                 lastName: document.getElementById('parentLastName').value,
                 firstName: document.getElementById('parentFirstName').value,
                 gender: document.getElementById('parentGender').value,
+                profession: document.getElementById('parentProfession').value,
                 email: document.getElementById('parentEmail').value,
                 phone: document.getElementById('parentPhone').value,
                 region: document.getElementById('parentRegion').value,
                 address: document.getElementById('parentAddress').value,
-                profession: document.getElementById('parentProfession').value,
-                children: childrenData.map(child => ({
-                    existingId: child.existingId,
-                    name: child.name
-                }))
+                profilePhoto: profilePhotoInput.files[0] ? profilePhotoInput.files[0].name : null
             };
             
             // Simuler l'envoi (à remplacer par AJAX dans la version PHP)
             console.log('Données parent à envoyer:', parentData);
+            
+            // Si une photo est sélectionnée, simuler son upload
+            if (profilePhotoInput.files.length > 0) {
+                console.log('Photo sélectionnée:', profilePhotoInput.files[0].name);
+            }
+            
             alert('Inscription réussie ! Un email de confirmation vous a été envoyé.');
             
             // Réinitialiser le formulaire
             parentRegistrationForm.reset();
-            childrenData = [];
-            updateChildrenTable();
+            previewImage.src = '';
+            previewImage.style.display = 'none';
+            photoPreview.querySelector('.placeholder').style.display = 'flex';
             parentSubmitBtn.disabled = true;
             acceptParentCharte.checked = false;
             
@@ -2052,34 +1595,21 @@
             }, 1500);
         });
 
+        // Validation de la longueur de la profession en temps réel
+        const professionInput = document.getElementById('parentProfession');
+        professionInput.addEventListener('input', function() {
+            const charCount = this.value.length;
+            const maxLength = 35;
+            
+            if (charCount > maxLength) {
+                this.value = this.value.substring(0, maxLength);
+            }
+        });
+
         // Initialisation
-        updateChildrenTable();
         updateParentCityOptions();
         parentSubmitBtn.disabled = true;
         toggleBackToTopButton();
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-    const professionInput = document.getElementById('parentProfession');
-    
-    professionInput.addEventListener('input', function() {
-        if (this.value.length > 35) {
-            this.value = this.value.substring(0, 35);
-        }
-    });
-    
-    // Validation personnalisée (optionnel)
-    const form = professionInput.closest('form');
-    if (form) {
-        form.addEventListener('submit', function(event) {
-            if (!professionInput.value.trim()) {
-                event.preventDefault();
-                alert('Le champ Profession est obligatoire');
-                professionInput.focus();
-            }
-        });
-    }
-});
     </script>
 </body>
 </html>

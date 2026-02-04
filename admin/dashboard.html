@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord Admin - EduTogoConnect</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js pour les graphiques -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Variables de couleurs - Drapeau togolais */
+        :root {
+            --jaune-principal: #FFD700;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
+            --gris-clair: #F5F5F5;
+            --orange-attente: #FF9800;
+            --vert-valide: #4CAF50;
+            --rouge-invalide: #F44336;
+            --cyan-info: #00BCD4;
+        }
+        
+        body {
+            background-color: var(--gris-clair);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--gris-fonce);
+        }
+        
+        /* Header Principal */
+        .main-header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+        }
+        
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+        
+        /* Barre de recherche */
+        .search-bar-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--blanc-principal);
+            border-radius: 30px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+        
+        .search-btn {
+            background-color: var(--jaune-principal);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gris-fonce);
+            transition: all 0.3s;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            transform: scale(1.05);
+        }
+        
+        /* Menu déroulant profil */
+        .profile-dropdown {
+            position: relative;
+        }
+        
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        
+        .profile-btn:hover {
+            background-color: var(--gris-clair);
+        }
+        
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--blanc-principal);
+            min-width: 280px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1001;
+            margin-top: 10px;
+        }
+        
+        .profile-menu.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .profile-menu-header {
+            padding: 20px;
+            background-color: var(--gris-clair);
+            text-align: center;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+        
+        .profile-menu-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--blanc-principal);
+            font-weight: bold;
+        }
+        
+        .profile-menu-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--gris-fonce);
+        }
+        
+        .profile-menu-role {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .profile-menu-email {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .profile-menu-lastlogin {
+            color: var(--gris-moyen);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            justify-content: center;
+        }
+        
+        .profile-menu-list {
+            list-style: none;
+        }
+        
+        .profile-menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gris-clair);
+            transition: background-color 0.3s;
+        }
+        
+        .profile-menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .profile-menu-item:hover {
+            background-color: var(--gris-clair);
+        }
+        
+        .profile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gris-fonce);
+            text-decoration: none;
+        }
+        
+        .profile-menu-link i {
+            width: 20px;
+            color: var(--gris-moyen);
+        }
+        
+        .profile-menu-link.logout {
+            color: var(--rouge-principal);
+        }
+        
+        .profile-menu-link.logout i {
+            color: var(--rouge-principal);
+        }
+        
+        /* Barre de navigation horizontale */
+        .horizontal-nav {
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        /* Navigation horizontale */
+        .horizontal-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-bottom-color: var(--blanc-principal);
+        }
+        
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.3);
+            border-bottom-color: var(--jaune-principal);
+            font-weight: 600;
+        }
+        
+        .nav-item i {
+            font-size: 1rem;
+        }
+        
+        .nav-badge {
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        /* Bouton notification */
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .notification-btn:hover {
+            background-color: var(--gris-clair);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--rouge-principal);
+            color: var(--blanc-principal);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* Menu mobile toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+        }
+        
+        /* Contenu principal */
+        .main-content {
+            padding: 30px 0;
+        }
+        
+        /* Cartes de statistiques (réduites) */
+        .stat-card {
+            text-align: center;
+            padding: 1.2rem 0.8rem;
+            border-radius: 12px;
+            color: white;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: none;
+            transition: transform 0.3s ease;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card.messages {
+            background: linear-gradient(135deg, var(--rouge-principal), #d32f2f);
+        }
+        
+        .stat-card.submissions {
+            background: linear-gradient(135deg, var(--orange-attente), #f57c00);
+        }
+        
+        .stat-card.validations {
+            background: linear-gradient(135deg, var(--vert-principal), #00796b);
+        }
+        
+        .stat-card.payments {
+            background: linear-gradient(135deg, var(--jaune-principal), #fbc02d);
+            color: var(--gris-fonce);
+        }
+        
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+        
+        /* Contenu du tableau de bord (style ajusté) */
+        .dashboard-content {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--gris-clair);
+            position: relative;
+            overflow: hidden;
+            margin-top: 1.5rem;
+        }
+        
+        .dashboard-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%);
+        }
+        
+        /* Cartes d'administration */
+        .admin-card {
+            background: var(--blanc-principal);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .admin-card-header {
+            background: linear-gradient(90deg, var(--vert-principal), rgba(0, 166, 81, 0.9));
+            color: white;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 1rem 1.2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        /* Styles pour les boutons personnalisés */
+        .btn-primary-custom {
+            background-color: var(--vert-principal);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .logo-text {
+                font-size: 18px;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .stat-card {
+                height: 100px;
+                padding: 1rem 0.5rem;
+            }
+            
+            .horizontal-nav {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .search-bar-container {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .stat-card {
+                padding: 1.5rem 0.8rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .admin-container {
+                padding: 0 15px;
+            }
+            
+            .admin-card-header {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .d-flex.justify-content-between {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="admin-container">
+            <nav class="navbar">
+                <a href="../admin/dashboard.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect - Admin</div>
+                </a>
+                
+                <!-- Barre de recherche -->
+                <div class="search-bar-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="mainSearchInput" placeholder="Rechercher dans l'admin...">
+                        <button class="search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <button class="menu-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <!-- Bouton notifications -->
+                <button class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </button>
+                
+                <!-- Menu déroulant profil -->
+                <div class="profile-dropdown">
+                    <button class="profile-btn" id="profileBtn">
+                        <div class="user-avatar-small" style="background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));">AD</div>
+                        <div>
+                            <div class="user-name">Admin System</div>
+                            <div style="font-size: 0.8rem; color: var(--gris-moyen);">Administrateur Principal</div>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    
+                    <div class="profile-menu" id="profileMenu">
+                        <div class="profile-menu-header">
+                            <div class="profile-menu-avatar">AD</div>
+                            <div class="profile-menu-name">Admin System</div>
+                            <div class="profile-menu-role">Administrateur Principal</div>
+                            <div class="profile-menu-email">admin@edutogoconnect.tg</div>
+                            <div class="profile-menu-lastlogin">
+                                <i class="far fa-clock"></i>
+                                <span>Dernière connexion: Aujourd'hui, 14:30</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="profile-menu-list">
+                            <li class="profile-menu-item">
+                                <a href="#" class="profile-menu-link">
+                                    <i class="fas fa-user-cog"></i>
+                                    <span>Mon profil Admin</span>
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="#" class="profile-menu-link">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Paramètres système</span>
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="#" class="profile-menu-link">
+                                    <i class="fas fa-users-cog"></i>
+                                    <span>Gestion des rôles</span>
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="#" class="profile-menu-link">
+                                    <i class="fas fa-history"></i>
+                                    <span>Journal d'activité</span>
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="../Authentification/auth.html" class="profile-menu-link logout">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Déconnexion</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de Navigation Horizontale -->
+    <nav class="horizontal-nav">
+        <div class="admin-container">
+            <div class="nav-container">
+                
+                <!-- Menu de navigation horizontal -->
+                <div class="horizontal-menu">
+                    <a href="../admin/dashboard.html" class="nav-item active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="../admin/soumission.html" class="nav-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Soumissions</span>
+                        <span class="nav-badge">8</span>
+                    </a>
+                    <a href="../admin/message.html" class="nav-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                        <span class="nav-badge">12</span>
+                    </a>
+                    <a href="../admin/paiement.html" class="nav-item">
+                        <i class="fas fa-euro-sign"></i>
+                        <span>Paiements</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <div class="admin-container mt-4">
+            <!-- Cartes de statistiques (réduites) -->
+            <div class="row mb-4">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card messages">
+                        <div class="stat-number" id="messageCount">12</div>
+                        <div class="stat-label">
+                            <i class="fas fa-envelope me-2"></i> Nouveaux messages
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card submissions">
+                        <div class="stat-number" id="submissionCount">8</div>
+                        <div class="stat-label">
+                            <i class="fas fa-user-graduate me-2"></i> Soumissions profil
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card validations">
+                        <div class="stat-number" id="validationCount">3</div>
+                        <div class="stat-label">
+                            <i class="fas fa-user-check me-2"></i> Validations en cours
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card payments">
+                        <div class="stat-number" id="paymentCount">824,000</div>
+                        <div class="stat-label">
+                            <i class="fas fa-money-bill me-2"></i> Paiements (FCFA)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu du tableau de bord -->
+            <div class="dashboard-content">
+                <div class="p-4">
+                    <h4 class="mb-4 fw-bold text-center" style="color: var(--vert-principal);">
+                        <i class="fas fa-tachometer-alt me-2"></i>Tableau de Bord Administratif
+                    </h4>
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <i class="fas fa-chart-line me-2"></i>Activité du site (7 derniers jours)
+                                </div>
+                                <div class="p-3">
+                                    <canvas id="activityChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <i class="fas fa-exclamation-circle me-2"></i>Alertes récentes
+                                </div>
+                                <div class="p-3">
+                                    <div class="alert alert-warning d-flex align-items-center mb-2">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        <div>5 soumissions avec documents manquants</div>
+                                    </div>
+                                    <div class="alert alert-info d-flex align-items-center mb-2">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <div>3 nouveaux messages de chat non lus</div>
+                                    </div>
+                                    <div class="alert alert-success d-flex align-items-center mb-2">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        <div>8 profils validés cette semaine</div>
+                                    </div>
+                                    <div class="alert alert-danger d-flex align-items-center">
+                                        <i class="fas fa-times-circle me-2"></i>
+                                        <div>2 profils rejetés - Documents falsifiés</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <i class="fas fa-history me-2"></i>Activité récente
+                                </div>
+                                <div class="p-3">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2 d-flex">
+                                            <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                            <div>Validation du profil "Jean Dupont" (Enseignant)</div>
+                                            <small class="text-muted ms-auto">Il y a 10 min</small>
+                                        </li>
+                                        <li class="mb-2 d-flex">
+                                            <i class="fas fa-times-circle text-danger me-2 mt-1"></i>
+                                            <div>Rejet du profil "Lycée Moderne" - Documents manquants</div>
+                                            <small class="text-muted ms-auto">Il y a 25 min</small>
+                                        </li>
+                                        <li class="mb-2 d-flex">
+                                            <i class="fas fa-user-graduate text-warning me-2 mt-1"></i>
+                                            <div>Nouvelle soumission "Koffi Agbessi" (Enseignant)</div>
+                                            <small class="text-muted ms-auto">Il y a 1h</small>
+                                        </li>
+                                        <li class="mb-2 d-flex">
+                                            <i class="fas fa-envelope text-info me-2 mt-1"></i>
+                                            <div>Nouveau message de "Sophie Martin"</div>
+                                            <small class="text-muted ms-auto">Il y a 2h</small>
+                                        </li>
+                                        <li class="mb-2 d-flex">
+                                            <i class="fas fa-euro-sign text-success me-2 mt-1"></i>
+                                            <div>Paiement de 150,000 FCFA de "Université de Lomé"</div>
+                                            <small class="text-muted ms-auto">Il y a 3h</small>
+                                        </li>
+                                        <li class="mb-2 d-flex">
+                                            <i class="fas fa-user-cog text-primary me-2 mt-1"></i>
+                                            <div>Mise à jour des paramètres système</div>
+                                            <small class="text-muted ms-auto">Il y a 5h</small>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <i class="fas fa-cog me-2"></i>Actions rapides
+                                </div>
+                                <div class="p-3">
+                                    <div class="row g-2">
+                                        <div class="col-md-6">
+                                            <a href="../admin/soumission.html" class="btn btn-primary-custom w-100 mb-2">
+                                                <i class="fas fa-user-graduate me-1"></i> Voir soumissions
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="../admin/message.html" class="btn btn-primary-custom w-100 mb-2" style="background-color: var(--rouge-principal);">
+                                                <i class="fas fa-envelope me-1"></i> Gérer messages
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="../admin/paiement.html" class="btn btn-primary-custom w-100 mb-2" style="background-color: var(--jaune-principal);">
+                                                <i class="fas fa-euro-sign me-1"></i> Paiements
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btn btn-primary-custom w-100 mb-2" style="background-color: var(--orange-attente);">
+                                                <i class="fas fa-file-export me-1"></i> Exporter données
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btn btn-primary-custom w-100 mb-2" style="background-color: var(--cyan-info);">
+                                                <i class="fas fa-chart-bar me-1"></i> Statistiques
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btn btn-primary-custom w-100 mb-2" style="background-color: var(--gris-fonce);">
+                                                <i class="fas fa-users-cog me-1"></i> Gérer rôles
+                                            </button>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button class="btn btn-outline-danger w-100">
+                                                <i class="fas fa-trash-alt me-1"></i> Vider la corbeille
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialisation des graphiques
+        document.addEventListener('DOMContentLoaded', function() {
+            // Graphique d'activité
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            const activityChart = new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+                    datasets: [
+                        {
+                            label: 'Soumissions',
+                            data: [5, 8, 6, 10, 12, 3, 7],
+                            borderColor: '#FF9800',
+                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Validations',
+                            data: [3, 5, 4, 8, 10, 2, 6],
+                            borderColor: '#00A651',
+                            backgroundColor: 'rgba(0, 166, 81, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Messages',
+                            data: [8, 12, 10, 15, 14, 6, 11],
+                            borderColor: '#EF3340',
+                            backgroundColor: 'rgba(239, 51, 64, 0.1)',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Nombre'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Gestion du menu déroulant profil
+            const profileBtn = document.getElementById('profileBtn');
+            const profileMenu = document.getElementById('profileMenu');
+            
+            if (profileBtn && profileMenu) {
+                profileBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    profileMenu.classList.toggle('active');
+                });
+                
+                // Fermer le menu déroulant en cliquant à l'extérieur
+                document.addEventListener('click', (e) => {
+                    if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                        profileMenu.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Gestion de la barre de recherche
+            const searchBtn = document.getElementById('searchBtn');
+            const mainSearchInput = document.getElementById('mainSearchInput');
+            
+            if (searchBtn && mainSearchInput) {
+                searchBtn.addEventListener('click', performSearch);
+                mainSearchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+                
+                function performSearch() {
+                    const searchQuery = mainSearchInput.value.trim();
+                    if (searchQuery) {
+                        alert(`Recherche: "${searchQuery}"`);
+                        // Ici, on ferait une recherche réelle
+                    }
+                }
+            }
+            
+            // Simulation de mise à jour en temps réel
+            function simulateRealTimeUpdates() {
+                setInterval(() => {
+                    const submissionCount = document.getElementById('submissionCount');
+                    const currentSubmissions = parseInt(submissionCount.textContent);
+                    const newSubmissions = Math.max(0, currentSubmissions + Math.floor(Math.random() * 3) - 1);
+                    submissionCount.textContent = newSubmissions;
+                    
+                }, 60000);
+            }
+            
+            simulateRealTimeUpdates();
+            
+            // Gestion des notifications
+            const notificationBtn = document.getElementById('notificationBtn');
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function() {
+                    alert('Vous avez 5 nouvelles notifications:\n- 2 nouvelles soumissions\n- 1 message de chat\n- 2 paiements réussis');
+                    const badge = document.querySelector('.notification-badge');
+                    if (badge) {
+                        badge.textContent = '0';
+                        badge.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

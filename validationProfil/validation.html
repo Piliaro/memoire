@@ -1251,7 +1251,7 @@
             }
         ];
 
-        // Étapes de vérification
+        // Étapes de vérification (mises à jour - sans "Vérification des références" et "Validation administrative")
         const verificationSteps = [
             {
                 id: 1,
@@ -1269,20 +1269,6 @@
             },
             {
                 id: 3,
-                title: "Vérification des références",
-                description: "Contact et vérification de vos références professionnelles",
-                status: "pending",
-                time: "À venir"
-            },
-            {
-                id: 4,
-                title: "Validation administrative",
-                description: "Validation finale par notre comité d'admission",
-                status: "pending",
-                time: "À venir"
-            },
-            {
-                id: 5,
                 title: "Activation du compte",
                 description: "Votre compte sera activé et vous recevrez vos identifiants",
                 status: "pending",
@@ -1488,7 +1474,7 @@
                 let stepStatus = step.status;
                 
                 // Ajuster les statuts en fonction du statut global
-                if (status === 'approved' && step.id <= 5) {
+                if (status === 'approved' && step.id <= 3) {
                     stepStatus = 'completed';
                 } else if (status === 'rejected' && step.id <= 2) {
                     stepStatus = step.id === 2 ? 'current' : step.status;
