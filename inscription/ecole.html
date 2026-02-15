@@ -1091,15 +1091,12 @@
                     <!-- Contact et téléphone -->
                     <div class="form-row">
                         <div class="form-group">
-                        <label for="typeEtablissement" class="form-label">Type d'établissement <span class="required">*</span></label>
+                        <label for="typeEtablissement" class="form-label">Type d'établissement/ecole <span class="required">*</span></label>
                         <select id="typeEtablissement" class="form-control" required>
                             <option value="">Sélectionnez le type</option>
-                            <option value="college">Collège (CEG)</option>
-                            <option value="lycee">Lycée</option>
-                            <option value="institut">Institut</option>
-                            <option value="ecole_privee">École privée</option>
-                            <option value="centre_formation">Centre de formation</option>
-                            <option value="universite">Université</option>
+                            <option value="lycee">Publique</option>
+                            <option value="ecole_privee">Privee</option>
+                            <option value="centre_formation">Institut</option>
                         </select>
                         <div class="form-error" id="typeEtablissementError">Veuillez sélectionner le type d'établissement</div>
                     </div>
@@ -1356,34 +1353,35 @@
         // ============ GESTION DES VILLES PAR RÉGION ============
         const citiesByRegion = {
             'maritime': [
-                {value: 'lome', label: 'Lomé (capitale)'},
-                {value: 'aneho', label: 'Aného'},
-                {value: 'tsevie', label: 'Tsévié'},
+                {value: 'lome', label: 'Lome'},
+                {value: 'aneho', label: 'Aneho'},
+                {value: 'tsevie', label: 'Tsevie'},
                 {value: 'vogan', label: 'Vogan'},
                 {value: 'tabligbo', label: 'Tabligbo'}
             ],
             'plateaux': [
-                {value: 'atakpame', label: 'Atakpamé'},
+                {value: 'atakpame', label: 'Atakpame'},
                 {value: 'badou', label: 'Badou'},
-                {value: 'kpalime', label: 'Kpalimé'},
-                {value: 'sotouboua', label: 'Sotouboua'}
+                {value: 'kpalime', label: 'Kpalime'},
             ],
             'centrale': [
-                {value: 'sokode', label: 'Sokodé'},
+                {value: 'sokode', label: 'Sokode'},
                 {value: 'tchamba', label: 'Tchamba'},
                 {value: 'bafilo', label: 'Bafilo'},
-                {value: 'bassar', label: 'Bassar'}
+                {value: 'sotouboua', label: 'Sotouboua'}
             ],
             'kara': [
                 {value: 'kara', label: 'Kara'},
-                {value: 'kande', label: 'Kandé'},
-                {value: 'pagouda', label: 'Pagouda'}
+                {value: 'kande', label: 'Kande'},
+                {value: 'pagouda', label: 'Pagouda'},
+                {value: 'bassar', label: 'Bassar'}
             ],
             'savanes': [
                 {value: 'dapaong', label: 'Dapaong'},
                 {value: 'mandouri', label: 'Mandouri'},
                 {value: 'tone', label: 'Tône'},
-                {value: 'kpendjal', label: 'Kpendjal'}
+                {value: 'kpendjal', label: 'Kpendjal'},
+                {value: 'mango', label: 'Mango'}
             ]
         };
 

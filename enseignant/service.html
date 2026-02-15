@@ -23,6 +23,7 @@
             --badge-premium-bg: rgba(255,215,0,0.15);
             --badge-standard-bg: rgba(0,166,81,0.15);
             --badge-gratuit-bg: rgba(33,150,243,0.15);
+            --violet-autres: #7B1FA2;
         }
 
         /* Reset et styles généraux */
@@ -37,6 +38,9 @@
             background-color: var(--gris-clair);
             color: var(--gris-fonce);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Flèche retour en haut */
@@ -606,6 +610,7 @@
 
         /* Contenu principal */
         .main-content {
+            flex: 1;
             padding: 20px 0 30px;
         }
 
@@ -617,7 +622,7 @@
             padding: 20px 0;
             margin-bottom: 30px;
             border-bottom: 1px solid var(--gris-clair);
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 20px;
         }
 
@@ -628,6 +633,7 @@
             justify-content: space-between;
             width: 100%;
             gap: 20px;
+            flex-wrap: nowrap;
         }
 
         /* Titre et description */
@@ -653,6 +659,7 @@
             flex: 2;
             justify-content: center;
             min-width: 300px;
+            flex-wrap: nowrap;
         }
 
         .stat-card-inline {
@@ -780,7 +787,7 @@
             background-color: var(--gris-clair);
         }
 
-        /* Grille des services - MODIFIÉ */
+        /* Grille des services */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -795,7 +802,7 @@
             border: 2px solid var(--gris-clair);
             transition: all 0.3s;
             position: relative;
-            height: 330px; /* Réduit de 400px à 330px */
+            height: 330px;
             display: flex;
             flex-direction: column;
             cursor: pointer;
@@ -828,9 +835,9 @@
             box-shadow: 0 4px 15px rgba(255,215,0,0.15);
         }
 
-        .service-card.inactive {
-            opacity: 0.7;
-            border-style: dashed;
+        .service-card.resource {
+            border: 2px solid var(--violet-autres);
+            box-shadow: 0 4px 15px rgba(123, 31, 162, 0.15);
         }
 
         .service-header {
@@ -871,6 +878,12 @@
             background-color: rgba(33,150,243,0.15);
             color: #2196F3;
             border: 1px solid #2196F3;
+        }
+
+        .badge-resource {
+            background-color: rgba(123,31,162,0.15);
+            color: var(--violet-autres);
+            border: 1px solid var(--violet-autres);
         }
 
         /* Style pour le niveau */
@@ -949,7 +962,7 @@
             color: var(--vert-principal);
         }
 
-        /* Style pour les actions - MODIFIÉ */
+        /* Style pour les actions */
         .service-card-actions {
             display: flex;
             gap: 8px;
@@ -1125,7 +1138,7 @@
             background-color: var(--gris-fonce);
             color: var(--gris-clair);
             padding: 60px 0 30px;
-            margin-top: 60px;
+            margin-top: auto;
         }
 
         .footer-grid {
@@ -1280,34 +1293,44 @@
 
         .modal {
             background-color: var(--blanc-principal);
-            border-radius: 15px;
+            border-radius: 20px;
             width: 90%;
-            max-width: 800px;
+            max-width: 1500px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
 
         .modal-header {
-            padding: 25px 30px;
-            border-bottom: 1px solid var(--gris-clair);
+            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--rouge-principal);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            text-align: center;
+            position: relative;
         }
 
         .modal-title {
             font-size: 1.5rem;
-            color: var(--gris-fonce);
+            color: var(--blanc-principal);
+            text-transform: bold;
+            flex: 1;
+            text-align: center;
+            margin: 0;
         }
 
         .modal-close {
             background: none;
             border: none;
             font-size: 1.5rem;
-            color: var(--gris-moyen);
+            color: var(--blanc-principal);
             cursor: pointer;
             transition: color 0.3s;
+            position: absolute;
+            right: 25px;
+            top: 20px;
         }
 
         .modal-close:hover {
@@ -1315,7 +1338,8 @@
         }
 
         .modal-body {
-            padding: 30px;
+            padding: 40px;
+            background-color: var(--blanc-principal);
         }
 
         .form-group {
@@ -1349,6 +1373,62 @@
             font-size: 0.85rem;
             color: var(--gris-moyen);
             margin-top: 5px;
+        }
+
+        /* NOUVEAU: Choix du type de service */
+        .service-type-selection {
+            margin-bottom: 30px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 10px;
+            padding: 25px;
+            background-color: rgba(0,166,81,0.02);
+        }
+
+        .service-type-options {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .service-type-option {
+            flex: 1;
+            border: 2px solid var(--gris-clair);
+            border-radius: 10px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .service-type-option:hover {
+            border-color: var(--jaune-principal);
+            transform: translateY(-5px);
+        }
+
+        .service-type-option.selected {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.05);
+        }
+
+        .service-type-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--gris-moyen);
+        }
+
+        .service-type-option.selected .service-type-icon {
+            color: var(--vert-principal);
+        }
+
+        .service-type-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .service-type-description {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
         }
 
         /* Plans de tarification */
@@ -1432,112 +1512,431 @@
             color: var(--gris-moyen);
         }
 
-        /* Modal Notifications */
-        .notification-modal {
-            max-width: 500px;
+        /* NOUVEAUX CHAMPS conditionnels */
+        .conditional-field {
+            display: none;
+            animation: fadeIn 0.3s ease;
         }
 
-        .notification-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid var(--gris-clair);
+        .conditional-field.show {
+            display: block;
         }
 
-        .notification-title {
-            font-size: 1.3rem;
-            font-weight: 600;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .notification-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .mark-all-read {
-            background: none;
-            border: none;
-            color: var(--bleu-prof);
-            cursor: pointer;
-            font-weight: 500;
+        .optional-label {
+            color: var(--gris-moyen);
+            font-weight: normal;
             font-size: 0.9rem;
         }
 
-        .notification-list {
-            max-height: 400px;
-            overflow-y: auto;
+        /* Styles pour la section ressources */
+        .resources-section {
+            border-top: 2px solid var(--gris-clair);
+            padding-top: 25px;
+            margin-top: 25px;
         }
 
-        .notification-item {
-            padding: 15px 20px;
+        .resources-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
             border-bottom: 1px solid var(--gris-clair);
-            transition: background-color 0.3s;
-            cursor: pointer;
+            padding-bottom: 10px;
         }
 
-        .notification-item:hover {
+        .resource-tab {
+            padding: 10px 20px;
+            background-color: var(--blanc-principal);
+            border: 2px solid var(--gris-clair);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .resource-tab.active {
+            background: linear-gradient(90deg, var(--vert-principal), var(--jaune-principal));
+            border-color: transparent;
+            color: var(--blanc-principal);
+        }
+
+        .resource-tab:hover:not(.active) {
             background-color: var(--gris-clair);
         }
 
-        .notification-item.unread {
-            background-color: rgba(33,150,243,0.05);
+        .resource-form {
+            display: none;
+            padding: 20px;
+            background-color: rgba(0,166,81,0.05);
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
 
-        .notification-content {
+        .resource-form.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--gris-moyen);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: rgba(255,255,255,0.5);
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.05);
+        }
+
+        .btn-remove-file {
+            background: none;
+            border: none;
+            color: var(--rouge-principal);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .resources-list-container {
+            margin-top: 30px;
+            border-top: 1px solid var(--gris-clair);
+            padding-top: 20px;
+        }
+
+        .resources-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .empty-resources-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gris-moyen);
+            background-color: rgba(0,0,0,0.02);
+            border-radius: 10px;
+            border: 2px dashed var(--gris-clair);
+        }
+
+        .resource-item {
             display: flex;
-            align-items: flex-start;
-            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--blanc-principal);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid var(--gris-clair);
+            transition: all 0.3s;
         }
 
-        .notification-icon {
+        .resource-item:hover {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .resource-icon {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            flex-shrink: 0;
         }
 
-        .notification-icon.success {
-            background-color: rgba(76,175,80,0.1);
-            color: var(--vert-principal);
+        .resource-icon.video {
+            background-color: rgba(239,51,64,0.1);
+            color: var(--rouge-principal);
         }
 
-        .notification-icon.warning {
-            background-color: rgba(255,193,7,0.1);
-            color: var(--jaune-principal);
-        }
-
-        .notification-icon.info {
+        .resource-icon.pdf {
             background-color: rgba(33,150,243,0.1);
             color: var(--bleu-prof);
         }
 
-        .notification-icon.alert {
-            background-color: rgba(244,67,54,0.1);
+        .resource-icon.link {
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+        }
+
+        .resource-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .resource-title {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .resource-description {
+            font-size: 0.9rem;
+            color: var(--gris-moyen);
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .resource-meta {
+            font-size: 0.8rem;
+            color: var(--gris-moyen);
+            display: flex;
+            gap: 15px;
+        }
+
+        .resource-actions {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .btn-resource-action {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-resource-edit {
+            color: var(--bleu-prof);
+        }
+
+        .btn-resource-edit:hover {
+            background-color: rgba(33,150,243,0.1);
+        }
+
+        .btn-resource-delete {
             color: var(--rouge-principal);
         }
 
-        .notification-text h4 {
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-            color: var(--gris-fonce);
+        .btn-resource-delete:hover {
+            background-color: rgba(239,51,64,0.1);
         }
 
-        .notification-text p {
+        .resource-preview {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: var(--gris-clair);
+            border-radius: 5px;
             font-size: 0.85rem;
-            color: var(--gris-moyen);
-            margin-bottom: 5px;
+            word-break: break-all;
         }
 
-        .notification-time {
-            font-size: 0.75rem;
+        /* NOUVEAUX STYLES POUR LES CHAMPS AJOUTÉS */
+        .content-items-container, .objectives-container {
+            border: 1px solid var(--gris-clair);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            background-color: rgba(0,166,81,0.02);
+        }
+        
+        .content-item, .objective-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background-color: var(--blanc-principal);
+            border-radius: 6px;
+            border: 1px solid var(--gris-clair);
+        }
+        
+        .content-item i, .objective-item i {
+            margin-right: 10px;
+            color: var(--gris-moyen);
+            cursor: pointer;
+        }
+        
+        .content-item input, .objective-item input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 0.95rem;
+            background-color: transparent;
+        }
+        
+        .btn-add-item {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-add-item:hover {
+            background-color: #008c45;
+        }
+        
+        /* Style pour les fichiers uploadés */
+        .uploaded-files-list {
+            margin-top: 15px;
+        }
+        
+        .uploaded-file-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: var(--gris-clair);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border: 1px solid var(--gris-moyen);
+        }
+        
+        .file-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .file-size {
+            font-size: 0.8rem;
             color: var(--gris-moyen);
         }
+        
+        .file-progress {
+            width: 100%;
+            height: 4px;
+            background-color: var(--gris-clair);
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--vert-principal);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        /* Style pour l'upload de vidéos/audios */
+        .media-upload-area {
+            border: 2px dashed var(--gris-moyen);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: rgba(33,150,243,0.05);
+            margin-top: 15px;
+        }
+        
+        .media-upload-area.dragover {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.1);
+        }
+        
+        .media-upload-area i {
+            font-size: 2.5rem;
+            color: var(--bleu-prof);
+            margin-bottom: 15px;
+        }
+        
+        /* Support de cours dropdown */
+        .support-dropdown {
+            margin-top: 10px;
+        }
+        
+        .support-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .support-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            background-color: var(--gris-clair);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .support-option.selected {
+            background-color: rgba(255,215,0,0.2);
+            border: 1px solid var(--jaune-principal);
+        }
+        
+        .support-option input[type="checkbox"] {
+            margin: 0;
+        }
+        
+        /* Styles pour les formulaires en ligne */
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
 
-        /* Responsive pour la nouvelle disposition */
+        /* Styles pour les boutons de type de service */
+        .service-type {
+            padding: 15px 25px;
+            border: 2px solid var(--gris-clair);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+            background-color: var(--blanc-principal);
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .service-type.active {
+            border-color: var(--vert-principal);
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+        }
+
+        .service-type:hover {
+            border-color: var(--jaune-principal);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
         @media (max-width: 1200px) {
             .services-grid {
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -1564,6 +1963,10 @@
             .stat-card-inline {
                 min-width: 130px;
                 padding: 12px 15px;
+            }
+            
+            .form-row {
+                flex-wrap: wrap;
             }
         }
 
@@ -1644,11 +2047,12 @@
             .services-stats-inline {
                 width: 100%;
                 justify-content: flex-start;
+                flex-wrap: wrap;
             }
             
             .stat-card-inline {
                 min-width: 150px;
-                max-width: none;
+                max-width: calc(50% - 10px);
             }
             
             .header-action-button {
@@ -1657,6 +2061,14 @@
             
             .header-action-button button {
                 width: 100%;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .service-type-options {
+                flex-direction: column;
             }
         }
 
@@ -1725,6 +2137,22 @@
             .header-action-button button {
                 width: 100%;
             }
+            
+            .pricing-plans {
+                grid-template-columns: 1fr;
+            }
+            
+            .resources-tabs {
+                flex-direction: column;
+            }
+            
+            .support-options {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1765,6 +2193,35 @@
             
             .stat-info-inline p {
                 font-size: 0.8rem;
+            }
+            
+            .resource-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .resource-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .resource-actions {
+                align-self: flex-end;
+                margin-top: 10px;
+            }
+            
+            .content-item, .objective-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .content-item i, .objective-item i {
+                margin-bottom: 5px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
@@ -1956,33 +2413,33 @@
             <div class="nav-container">
                 <!-- Menu de navigation horizontal -->
                 <div class="horizontal-menu">
-                    <a href="teacher_dashboard.html" class="nav-item">
+                    <a href="../mainpageuser/enseignant.html" class="nav-item">
                         <i class="fas fa-home"></i>
                         <span>Tableau de bord</span>
                     </a>
-                    <a href="teacher_services.html" class="nav-item active">
+                    <a href="../enseignant/service.html" class="nav-item active">
                         <i class="fas fa-chalkboard-teacher"></i>
                         <span>Mes services</span>
                     </a>
-                    <a href="teacher_students.html" class="nav-item">
+                    <a href="../enseignant/eleves.html" class="nav-item">
                         <i class="fas fa-user-graduate"></i>
                         <span>Mes élèves</span>
                         <span class="nav-badge">15</span>
                     </a>
-                    <a href="teacher_contracts.html" class="nav-item">
+                    <a href="../enseignant/contrat.html" class="nav-item">
                         <i class="fas fa-file-contract"></i>
                         <span>Mes contrats</span>
                     </a>
-                    <a href="teacher_schedule.html" class="nav-item">
+                    <a href="../enseignant/calendrier.html" class="nav-item">
                         <i class="fas fa-calendar-alt"></i>
                         <span>Calendrier</span>
                     </a>
-                    <a href="teacher_messages.html" class="nav-item">
+                    <a href="../enseignant/message.html" class="nav-item">
                         <i class="fas fa-comments"></i>
                         <span>Messages</span>
                         <span class="nav-badge">3</span>
                     </a>
-                    <a href="teacher_finances.html" class="nav-item">
+                    <a href="../enseignant/finances.html" class="nav-item">
                         <i class="fas fa-chart-line"></i>
                         <span>Rapport</span>
                     </a>
@@ -1994,33 +2451,33 @@
     <!-- Menu Mobile -->
     <div class="mobile-nav" id="mobileNav">
         <div class="mobile-menu">
-            <a href="teacher_dashboard.html" class="mobile-nav-item">
+            <a href="../mainpageuser/enseignant.html" class="mobile-nav-item">
                 <i class="fas fa-home"></i>
                 <span>Tableau de bord</span>
             </a>
-            <a href="teacher_services.html" class="mobile-nav-item active">
+            <a href="../enseignant/service.html" class="mobile-nav-item active">
                 <i class="fas fa-chalkboard-teacher"></i>
                 <span>Mes services</span>
             </a>
-            <a href="teacher_students.html" class="mobile-nav-item">
+            <a href="../enseignant/eleves.html" class="mobile-nav-item">
                 <i class="fas fa-user-graduate"></i>
                 <span>Mes élèves</span>
                 <span class="mobile-nav-badge">15</span>
             </a>
-            <a href="teacher_contracts.html" class="mobile-nav-item">
+            <a href="../enseignant/contrat.html" class="mobile-nav-item">
                 <i class="fas fa-file-contract"></i>
                 <span>Mes contrats</span>
             </a>
-            <a href="teacher_schedule.html" class="mobile-nav-item">
+            <a href="../enseignant/calendrier.html" class="mobile-nav-item">
                 <i class="fas fa-calendar-alt"></i>
                 <span>Calendrier</span>
             </a>
-            <a href="teacher_messages.html" class="mobile-nav-item">
+            <a href="../enseignant/message.html" class="mobile-nav-item">
                 <i class="fas fa-comments"></i>
                 <span>Messages</span>
                 <span class="mobile-nav-badge">3</span>
             </a>
-            <a href="teacher_finances.html" class="mobile-nav-item">
+            <a href="../enseignant/finances.html" class="mobile-nav-item">
                 <i class="fas fa-chart-line"></i>
                 <span>Rapport</span>
             </a>
@@ -2102,7 +2559,7 @@
                     </div>
                 </div>
 
-                <!-- Barre d'actions et filtres - MODIFIÉ -->
+                <!-- Barre d'actions et filtres -->
                 <div class="actions-bar">
                     <div class="filters">
                         <button class="filter-btn active" data-filter="all">
@@ -2121,6 +2578,10 @@
                             <i class="fas fa-crown"></i>
                             <span>Premium</span>
                         </button>
+                        <button class="filter-btn" data-filter="resource">
+                            <i class="fas fa-book"></i>
+                            <span>Ressources</span>
+                        </button>
                     </div>
                     
                     <div class="view-options">
@@ -2130,7 +2591,7 @@
                     </div>
                 </div>
 
-                <!-- Grille des services - MODIFIÉ -->
+                <!-- Grille des services -->
                 <div class="services-grid" id="servicesGrid">
                     <!-- Service 1 - PREMIUM -->
                     <div class="service-card premium" data-plan="premium" onclick="viewServiceDetails(1)">
@@ -2329,6 +2790,74 @@
                             </button>
                         </div>
                     </div>
+
+                    <!-- Service 7 - RESSOURCE PÉDAGOGIQUE -->
+                    <div class="service-card resource" data-plan="resource" onclick="viewServiceDetails(7)">
+                        <div class="service-header">
+                            <div class="course-badge badge-resource">RESSOURCE</div>
+                            <div class="course-level-service">3ème • BEPC</div>
+                            <h3 class="service-card-title">Fiches de révision BEPC - Mathématiques</h3>
+                            <p class="service-card-subject">Mathématiques • Fiche de révision</p>
+                            
+                            <div class="service-card-meta">
+                                <div class="service-card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i> 4.8/5
+                                </div>
+                                <div>287 téléchargements</div>
+                            </div>
+                            
+                            <div class="service-card-price">
+                                <div class="service-price-amount">1.500 FCFA<span class="price-period">/unité</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card-actions" onclick="event.stopPropagation();">
+                            <button class="btn-service-action btn-service-edit" onclick="editService(7)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn-service-action btn-service-delete" onclick="deleteService(7)">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Service 8 - RESSOURCE PÉDAGOGIQUE -->
+                    <div class="service-card resource" data-plan="resource" onclick="viewServiceDetails(8)">
+                        <div class="service-header">
+                            <div class="course-badge badge-resource">RESSOURCE</div>
+                            <div class="course-level-service">3ème</div>
+                            <h3 class="service-card-title">Annales BEPC corrigées - 2020-2023</h3>
+                            <p class="service-card-subject">Toutes matières • Épreuve d'examen</p>
+                            
+                            <div class="service-card-meta">
+                                <div class="service-card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i> 4.9/5
+                                </div>
+                                <div>412 téléchargements</div>
+                            </div>
+                            
+                            <div class="service-card-price">
+                                <div class="service-price-amount">3.000 FCFA<span class="price-period">/unité</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card-actions" onclick="event.stopPropagation();">
+                            <button class="btn-service-action btn-service-edit" onclick="editService(8)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn-service-action btn-service-delete" onclick="deleteService(8)">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </button>
+                        </div>
+                    </div>
                     
                     <!-- Carte pour ajouter un nouveau service -->
                     <div class="service-card" style="border-style: dashed; border-color: var(--gris-moyen); background: transparent; cursor: default;" onclick="openServiceModal()">
@@ -2353,7 +2882,7 @@
                     <div class="archived-container" id="archivedContainer">
                         <div class="services-grid">
                             <!-- Service archivé 1 -->
-                            <div class="service-card" data-plan="standard" onclick="viewServiceDetails(7)">
+                            <div class="service-card" data-plan="standard" onclick="viewServiceDetails(9)">
                                 <div class="service-header">
                                     <div class="course-badge badge-standard">STANDARD</div>
                                     <div class="course-level-service">5ème</div>
@@ -2376,10 +2905,10 @@
                                 </div>
                                 
                                 <div class="service-card-actions" onclick="event.stopPropagation();">
-                                    <button class="btn-service-action btn-service-edit" onclick="editService(7)">
+                                    <button class="btn-service-action btn-service-edit" onclick="editService(9)">
                                         <i class="fas fa-edit"></i> Modifier
                                     </button>
-                                    <button class="btn-service-action btn-service-activate" onclick="activateService(7)">
+                                    <button class="btn-service-action btn-service-activate" onclick="activateService(9)">
                                         <i class="fas fa-play"></i> Réactiver
                                     </button>
                                 </div>
@@ -2586,118 +3115,480 @@
     <div class="modal-overlay" id="createServiceModal">
         <div class="modal">
             <div class="modal-header">
-                <h2 class="modal-title">Créer un nouveau service</h2>
+                <h2 class="modal-title">CRÉER UN NOUVEAU SERVICE</h2>
                 <button class="modal-close" id="closeModalBtn">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="createServiceForm">
-                    <div class="form-group">
-                        <label class="form-label">Sélectionnez une formule de service *</label>
-                        <div class="pricing-plans">
-                            <div class="plan-option" data-plan="gratuit">
-                                <div class="plan-name">Gratuit</div>
-                                <div class="plan-price free">0 FCFA</div>
-                                <div class="plan-price-note">Service gratuit</div>
-                                <ul class="plan-features">
-                                    <li>1h par séance</li>
-                                    <li>1 séance/semaine</li>
-                                    <li class="disabled">Support vidéo</li>
-                                    <li class="disabled">Exercices perso</li>
-                                </ul>
-                                <div class="form-text">Idéal pour se faire connaître</div>
+                    <!-- Choix du type de service -->
+                    <div class="form-group service-type-selection">
+                        <label class="form-label">Sélectionnez le type de service *</label>
+                        <p class="form-text">Choisissez entre créer une offre de cours ou vendre des ressources pédagogiques</p>
+                        
+                        <div style="display: flex; flex-direction: row; gap: 10px; margin-top: 20px;">
+                            <button type="button" class="service-type active" data-service-type="courses">
+                                <i class="fas fa-chalkboard-teacher"></i> Offre de cours
+                            </button>
+                            <button type="button" class="service-type" data-service-type="resources">
+                                <i class="fas fa-book"></i> Vendre des ressources pédagogiques
+                            </button>
+                        </div>
+                        <input type="hidden" id="selectedServiceType" name="service_type" required>
+                    </div>
+
+                    <!-- Section conditionnelle pour les offres de cours -->
+                    <div id="coursesSection" class="conditional-field show">
+                        <!-- Plans de tarification pour les cours -->
+                        <div class="form-group" id="pricingPlansSection">
+                            <label class="form-label">Sélectionnez une formule de service *</label>
+                            <div class="pricing-plans">
+                                <div class="plan-option" data-plan="gratuit">
+                                    <div class="plan-name">Gratuit</div>
+                                    <div class="plan-price free">0 FCFA</div>
+                                    <div class="plan-price-note">Service gratuit</div>
+                                    <ul class="plan-features">
+                                        <li>1h par séance</li>
+                                        <li>1 séance/semaine</li>
+                                        <li class="disabled">Support vidéo</li>
+                                        <li class="disabled">Exercices perso</li>
+                                    </ul>
+                                    <div class="form-text">Idéal pour se faire connaître</div>
+                                </div>
+                                
+                                <div class="plan-option" data-plan="standard">
+                                    <div class="plan-name">Standard</div>
+                                    <div class="plan-price standard">À fixer</div>
+                                    <div class="plan-price-note">Vous fixez le tarif</div>
+                                    <ul class="plan-features">
+                                        <li>1h30 par séance</li>
+                                        <li>2 séances/semaine</li>
+                                        <li>Support vidéo</li>
+                                        <li class="disabled">Exercices perso</li>
+                                    </ul>
+                                    <div class="form-text">Fixez un tarif raisonnable entre 1.500 et 3.500 FCFA/heure</div>
+                                </div>
+                                
+                                <div class="plan-option" data-plan="premium">
+                                    <div class="plan-name">Premium</div>
+                                    <div class="plan-price premium">À fixer</div>
+                                    <div class="plan-price-note">Vous fixez le tarif</div>
+                                    <ul class="plan-features">
+                                        <li>2h par séance</li>
+                                        <li>3 séances/semaine</li>
+                                        <li>Support vidéo HD</li>
+                                        <li>Exercices personnalisés</li>
+                                    </ul>
+                                    <div class="form-text">Fixez un tarif raisonnable entre 4.000 et 10.000 FCFA/heure</div>
+                                </div>
                             </div>
-                            
-                            <div class="plan-option" data-plan="standard">
-                                <div class="plan-name">Standard</div>
-                                <div class="plan-price standard">À fixer</div>
-                                <div class="plan-price-note">Vous fixez le tarif</div>
-                                <ul class="plan-features">
-                                    <li>1h30 par séance</li>
-                                    <li>2 séances/semaine</li>
-                                    <li>Support vidéo</li>
-                                    <li class="disabled">Exercices perso</li>
-                                </ul>
-                                <div class="form-text">Fixez un tarif raisonnable entre 1.500 et 3.500 FCFA/heure</div>
+                            <input type="hidden" id="selectedPlan" name="plan_type">
+                        </div>
+
+                        <!-- Votre méthode d'enseignement (uniquement pour les cours) -->
+                        <div class="form-group">
+                            <label for="serviceMethod" class="form-label">Votre méthode d'enseignement *</label>
+                            <textarea id="serviceMethod" name="method" class="form-control" rows="4" placeholder="Notre méthode d'enseignement privilégie l'apprentissage par la pratique avec des exercices concrets et des exemples tirés du quotidien des élèves togolais..." required></textarea>
+                        </div>
+
+                        <!-- Durée et séances (uniquement pour les cours) -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="duration" class="form-label">Durée d'une séance *</label>
+                                <select id="duration" name="duration" class="form-control" required>
+                                    <option value="">Sélectionnez une dureé</option>
+                                    <option value="60">1 heure</option>
+                                    <option value="90">1 heure 30</option>
+                                    <option value="120">2 heures</option>
+                                    <option value="180">2 heures 30</option>
+                                    <option value="210">3 heures</option>
+                                </select>
                             </div>
-                            
-                            <div class="plan-option" data-plan="premium">
-                                <div class="plan-name">Premium</div>
-                                <div class="plan-price premium">À fixer</div>
-                                <div class="plan-price-note">Vous fixez le tarif</div>
-                                <ul class="plan-features">
-                                    <li>2h par séance</li>
-                                    <li>3 séances/semaine</li>
-                                    <li>Support vidéo HD</li>
-                                    <li>Exercices personnalisés</li>
-                                </ul>
-                                <div class="form-text">Fixez un tarif raisonnable entre 4.000 et 10.000 FCFA/heure</div>
+                            <div class="form-group">
+                                <label for="sessionsPerWeek" class="form-label">Séances par semaine *</label>
+                                <select id="sessionsPerWeek" name="sessions_per_week" class="form-control" required>
+                                    <option value="">Sélectionnez le nombre de séance(s)</option>
+                                    <option value="1">1 séance</option>
+                                    <option value="2" selected>2 séances</option>
+                                    <option value="3">3 séances</option>
+                                </select>
                             </div>
                         </div>
-                        <input type="hidden" id="selectedPlan" name="plan_type" required>
                     </div>
 
+                    <!-- Section commune à tous les services -->
                     <div class="form-group">
-                        <label for="serviceSubject" class="form-label">Matière *</label>
-                        <select id="serviceSubject" name="subject" class="form-control" required>
-                            <option value="">Sélectionnez une matière</option>
-                            <option value="math">Mathématiques</option>
-                            <option value="french">Français</option>
-                            <option value="english">Anglais</option>
-                            <option value="history">Histoire-Géographie</option>
-                            <option value="physics">Sciences Physiques</option>
-                            <option value="svt">SVT</option>
-                            <option value="civic">Éducation Civique</option>
-                            <option value="technology">Technologie</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="serviceLevel" class="form-label">Niveau scolaire *</label>
-                        <select id="serviceLevel" name="level" class="form-control" required>
-                            <option value="">Sélectionnez un niveau</option>
-                            <option value="6eme">6ème</option>
-                            <option value="5eme">5ème</option>
-                            <option value="4eme">4ème</option>
-                            <option value="3eme">3ème</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="serviceTitle" class="form-label">Titre du service *</label>
+                        <label for="serviceTitle" class="form-label">Titre du cours *</label>
                         <input type="text" id="serviceTitle" name="title" class="form-control" placeholder="Ex: Cours de Maths intensif 3ème" required>
                     </div>
 
                     <div class="form-group">
                         <label for="serviceDescription" class="form-label">Description détaillée *</label>
-                        <textarea id="serviceDescription" name="description" class="form-control" rows="4" placeholder="Décrivez votre service, votre méthode d'enseignement, les objectifs..." required></textarea>
+                        <textarea id="serviceDescription" name="description" class="form-control" rows="4" placeholder="Ce cours de mathématiques niveau 6ème est spécialement conçu pour les élèves du collège au Togo. Il couvre l'ensemble du programme officiel avec une approche pédagogique adaptée au contexte togolais..." required></textarea>
                     </div>
 
+                    <!-- Première ligne : Catégorie, Matière, Niveau scolaire -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="serviceCategorie" class="form-label">Catégorie *</label>
+                            <select id="serviceCategorie" name="categorie" class="form-control" required>
+                                <option value="">Sélectionnez une catégorie</option>
+                                <option value="sciences">Sciences</option>
+                                <option value="litterature">Littératures</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceSubject" class="form-label">Matière *</label>
+                            <select id="serviceSubject" name="subject" class="form-control" required>
+                                <option value="">Sélectionnez une matière</option>
+                                <option value="math">Mathématiques</option>
+                                <option value="physics">Physique-Chimie</option>
+                                <option value="svt">SVT</option>
+                                <option value="french">Français</option>
+                                <option value="english">Anglais</option>
+                                <option value="history">Histoire-Géographie</option>
+                                <option value="technology">Technologie</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceLevel" class="form-label">Niveau scolaire *</label>
+                            <select id="serviceLevel" name="level" class="form-control" required>
+                                <option value="">Sélectionnez un niveau</option>
+                                <option value="6eme">6ème</option>
+                                <option value="5eme">5ème</option>
+                                <option value="4eme">4ème</option>
+                                <option value="3eme">3ème</option>
+                                <option value="all">Tous niveaux</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Tarif (commun mais avec des messages différents) -->
                     <div class="form-group" id="hourlyRateGroup">
-                        <label for="hourlyRate" class="form-label">Tarif horaire (FCFA) *</label>
-                        <input type="number" id="hourlyRate" name="hourly_rate" class="form-control" min="0" step="500" placeholder="Ex: 2500" required>
-                        <div class="form-text" id="rateInfo">Veuillez fixer un tarif raisonnable pour votre service</div>
+                        <label for="hourlyRate" class="form-label" id="priceLabel">Tarif horaire (FCFA) *</label>
+                        <input type="number" id="hourlyRate" name="hourly_rate" class="form-control" min="0" step="500" placeholder="Ex: 2500">
+                        <div class="form-text" id="rateInfo">Veuillez sélectionner une formule de service d'abord</div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="duration" class="form-label">Durée d'une séance *</label>
-                        <select id="duration" name="duration" class="form-control" required>
-                            <option value="60">1 heure</option>
-                            <option value="90" selected>1 heure 30</option>
-                            <option value="120">2 heures</option>
-                        </select>
+                    <!-- NOUVEAU : Contenu principal (facultatif pour les ressources) -->
+                    <div class="form-group" id="contentItemsGroup">
+                        <label class="form-label">Contenu principal <span class="optional-label" id="contentOptionalLabel">*</span></label>
+                        <p class="form-text" style="margin-bottom: 10px;">Listez les principaux points qui seront abordés dans le cours</p>
+                        <div class="content-items-container" id="contentItemsContainer">
+                            <div class="content-item">
+                                <i class="fas fa-grip-vertical handle"></i>
+                                <i class="fas fa-circle" style="color: var(--vert-principal); font-size: 0.8rem;"></i>
+                                <input type="text" class="content-item-input" placeholder="Ex: Introduction aux fractions" data-index="0">
+                                <i class="fas fa-times remove-item" style="margin-left: auto;" onclick="removeContentItem(this)"></i>
+                            </div>
+                            <div class="content-item">
+                                <i class="fas fa-grip-vertical handle"></i>
+                                <i class="fas fa-circle" style="color: var(--vert-principal); font-size: 0.8rem;"></i>
+                                <input type="text" class="content-item-input" placeholder="Ex: Opérations sur les fractions" data-index="1">
+                                <i class="fas fa-times remove-item" style="margin-left: auto;" onclick="removeContentItem(this)"></i>
+                            </div>
+                            <div class="content-item">
+                                <i class="fas fa-grip-vertical handle"></i>
+                                <i class="fas fa-circle" style="color: var(--vert-principal); font-size: 0.8rem;"></i>
+                                <input type="text" class="content-item-input" placeholder="Ex: Problèmes pratiques" data-index="2">
+                                <i class="fas fa-times remove-item" style="margin-left: auto;" onclick="removeContentItem(this)"></i>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-item" onclick="addContentItem()">
+                            <i class="fas fa-plus"></i> Ajouter un point
+                        </button>
+                        <input type="hidden" id="contentItemsData" name="content_items">
                     </div>
 
-                    <div class="form-group">
-                        <label for="sessionsPerWeek" class="form-label">Séances par semaine *</label>
-                        <select id="sessionsPerWeek" name="sessions_per_week" class="form-control" required>
-                            <option value="1">1 séance</option>
-                            <option value="2" selected>2 séances</option>
-                            <option value="3">3 séances</option>
-                            <option value="5">5 séances (quotidien)</option>
-                        </select>
+                    <!-- NOUVEAU : Objectifs du cours (facultatif pour les ressources) -->
+                    <div class="form-group" id="objectivesGroup">
+                        <label class="form-label">Objectifs du cours <span class="optional-label" id="objectivesOptionalLabel">*</span></label>
+                        <p class="form-text" style="margin-bottom: 10px;">Définissez les objectifs d'apprentissage pour vos élèves</p>
+                        <div class="objectives-container" id="objectivesContainer">
+                            <div class="objective-item">
+                                <i class="fas fa-grip-vertical handle"></i>
+                                <i class="far fa-square objective-checkbox" onclick="toggleObjectiveCheckbox(this)"></i>
+                                <input type="text" class="objective-item-input" placeholder="Ex: Comprendre les bases des fractions" data-index="0">
+                                <i class="fas fa-times remove-item" style="margin-left: auto;" onclick="removeObjectiveItem(this)"></i>
+                            </div>
+                            <div class="objective-item">
+                                <i class="fas fa-grip-vertical handle"></i>
+                                <i class="far fa-square objective-checkbox" onclick="toggleObjectiveCheckbox(this)"></i>
+                                <input type="text" class="objective-item-input" placeholder="Ex: Savoir additionner et soustraire des fractions" data-index="1">
+                                <i class="fas fa-times remove-item" style="margin-left: auto;" onclick="removeObjectiveItem(this)"></i>
+                            </div>
+                            <div class="objective-item">
+                                <i class="fas fa-grip-vertical handle"></i>
+                                <i class="far fa-square objective-checkbox" onclick="toggleObjectiveCheckbox(this)"></i>
+                                <input type="text" class="objective-item-input" placeholder="Ex: Résoudre des problèmes pratiques avec des fractions" data-index="2">
+                                <i class="fas fa-times remove-item" style="margin-left: auto;" onclick="removeObjectiveItem(this)"></i>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-item" onclick="addObjectiveItem()">
+                            <i class="fas fa-plus"></i> Ajouter un objectif
+                        </button>
+                        <input type="hidden" id="objectivesData" name="objectives">
                     </div>
 
-                    <div class="form-actions" style="margin-top: 30px;">
+                    <!-- NOUVEAU : Support de cours -->
+                    <div class="form-group" id="supportGroup">
+                        <label class="form-label">Support de cours</label>
+                        <p class="form-text" style="margin-bottom: 10px;">Cochez pour sélectionner les types de supports que vous allez fournir</p>
+                        <div class="support-options">
+                            <div class="support-option" data-support="pdf">
+                                <input type="checkbox" id="supportPdf" name="support_pdf" value="pdf" checked>
+                                <label for="supportPdf">
+                                    <i class="fas fa-file-pdf"></i> PDF/Documents
+                                </label>
+                            </div>
+                            <div class="support-option" data-support="videos">
+                                <input type="checkbox" id="supportVideos" name="support_videos" value="videos">
+                                <label for="supportVideos">
+                                    <i class="fas fa-video"></i> Vidéos
+                                </label>
+                            </div>
+                            <div class="support-option" data-support="audio">
+                                <input type="checkbox" id="supportAudio" name="support_audio" value="audio">
+                                <label for="supportAudio">
+                                    <i class="fas fa-music"></i> Audios
+                                </label>
+                            </div>
+                            <div class="support-option" data-support="exercices">
+                                <input type="checkbox" id="supportExercices" name="support_exercices" value="exercices">
+                                <label for="supportExercices">
+                                    <i class="fas fa-tasks"></i> Exercices
+                                </label>
+                            </div>
+                            <div class="support-option" data-support="presentation">
+                                <input type="checkbox" id="supportPresentation" name="support_presentation" value="presentation">
+                                <label for="supportPresentation">
+                                    <i class="fas fa-file-powerpoint"></i> Autres Présentations
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION RESSOURCES (affichée pour les deux types) -->
+                    <div class="form-group resources-section">
+                        <div class="resources-header">
+                            <h3 class="section-title" style="margin-bottom: 10px;">
+                                <i class="fas fa-paperclip"></i> Ressources du cours
+                            </h3>
+                            <p class="form-text" style="margin-bottom: 20px;">
+                                Ajoutez des ressources pédagogiques (vidéos, PDF, audios, liens) qui seront accessibles à vos élèves
+                            </p>
+                        </div>
+
+                        <!-- Interface d'ajout de ressources -->
+                        <div class="resources-interface">
+                            <div class="resources-tabs">
+                                <button type="button" class="resource-tab active" data-resource-type="video">
+                                    <i class="fas fa-video"></i> Vidéo
+                                </button>
+                                <button type="button" class="resource-tab" data-resource-type="audio">
+                                    <i class="fas fa-music"></i> Audio
+                                </button>
+                                <button type="button" class="resource-tab" data-resource-type="pdf">
+                                    <i class="fas fa-file-pdf"></i> PDF/Document
+                                </button>
+                                <button type="button" class="resource-tab" data-resource-type="link">
+                                    <i class="fas fa-link"></i> Lien externe
+                                </button>
+                            </div>
+
+                            <!-- Formulaire d'ajout de ressources -->
+                            <div class="resource-form-container">
+                                <!-- Formulaire vidéo -->
+                                <div class="resource-form active" id="videoForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Titre de la vidéo *</label>
+                                        <input type="text" class="form-control resource-input" id="videoTitle" placeholder="Ex: Introduction aux fractions">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label">Upload de vidéo *</label>
+                                        <div class="media-upload-area" id="videoUploadArea">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <p>Glissez-déposez votre fichier vidéo ici ou cliquez pour sélectionner</p>
+                                            <p class="form-text">Formats acceptés: MP4, AVI, MOV, WMV (max 100MB)</p>
+                                            <input type="file" class="resource-input" id="videoFile" accept="video/*" hidden>
+                                            <button type="button" class="btn btn-secondary" id="browseVideoBtn">
+                                                <i class="fas fa-folder-open"></i> Sélectionner un fichier
+                                            </button>
+                                        </div>
+                                        
+                                        <!-- Prévisualisation vidéo -->
+                                        <div class="media-preview" id="videoPreview" style="display: none;">
+                                            <video class="video-preview" id="videoPlayer" controls>
+                                                Votre navigateur ne supporte pas la lecture de vidéos.
+                                            </video>
+                                        </div>
+                                        
+                                        <!-- Informations du fichier -->
+                                        <div class="file-info" id="videoFileInfo" style="display: none; margin-top: 10px; padding: 10px; background-color: var(--gris-clair); border-radius: 5px;">
+                                            <div style="display: flex; align-items: center; gap: 10px;">
+                                                <i class="fas fa-file-video" style="color: var(--rouge-principal);"></i>
+                                                <div class="file-info">
+                                                    <div class="file-name" id="videoFileName"></div>
+                                                    <div class="file-size" id="videoFileSize"></div>
+                                                    <div class="file-progress">
+                                                        <div class="progress-bar" id="videoProgressBar"></div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn-remove-file" id="removeVideoBtn">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control resource-input" id="videoDescription" rows="2" placeholder="Brève description du contenu de la vidéo"></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label">Durée (optionnel)</label>
+                                        <input type="text" class="form-control resource-input" id="videoDuration" placeholder="Ex: 15:30">
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary" id="addVideoBtn">
+                                        <i class="fas fa-plus"></i> Ajouter cette vidéo
+                                    </button>
+                                </div>
+
+                                <!-- Formulaire audio -->
+                                <div class="resource-form" id="audioForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Titre de l'audio *</label>
+                                        <input type="text" class="form-control resource-input" id="audioTitle" placeholder="Ex: Explication des fractions">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label">Upload d'audio *</label>
+                                        <div class="media-upload-area" id="audioUploadArea">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <p>Glissez-déposez votre fichier audio ici ou cliquez pour sélectionner</p>
+                                            <p class="form-text">Formats acceptés: MP3, WAV, AAC, OGG (max 50MB)</p>
+                                            <input type="file" class="resource-input" id="audioFile" accept="audio/*" hidden>
+                                            <button type="button" class="btn btn-secondary" id="browseAudioBtn">
+                                                <i class="fas fa-folder-open"></i> Sélectionner un fichier
+                                            </button>
+                                        </div>
+                                        
+                                        <!-- Prévisualisation audio -->
+                                        <div class="media-preview" id="audioPreview" style="display: none;">
+                                            <div class="audio-preview">
+                                                <i class="fas fa-play-circle" style="font-size: 2rem;"></i>
+                                                <span style="margin-left: 10px;">Prévisualisation audio</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Informations du fichier -->
+                                        <div class="file-info" id="audioFileInfo" style="display: none; margin-top: 10px; padding: 10px; background-color: var(--gris-clair); border-radius: 5px;">
+                                            <div style="display: flex; align-items: center; gap: 10px;">
+                                                <i class="fas fa-file-audio" style="color: var(--bleu-prof);"></i>
+                                                <div class="file-info">
+                                                    <div class="file-name" id="audioFileName"></div>
+                                                    <div class="file-size" id="audioFileSize"></div>
+                                                    <div class="file-progress">
+                                                        <div class="progress-bar" id="audioProgressBar"></div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn-remove-file" id="removeAudioBtn">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control resource-input" id="audioDescription" rows="2" placeholder="Brève description du contenu audio"></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label">Durée (optionnel)</label>
+                                        <input type="text" class="form-control resource-input" id="audioDuration" placeholder="Ex: 10:45">
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary" id="addAudioBtn">
+                                        <i class="fas fa-plus"></i> Ajouter cet audio
+                                    </button>
+                                </div>
+
+                                <!-- Formulaire PDF -->
+                                <div class="resource-form" id="pdfForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Titre du document *</label>
+                                        <input type="text" class="form-control resource-input" id="pdfTitle" placeholder="Ex: Exercices sur les fractions">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Fichier PDF *</label>
+                                        <div class="media-upload-area" id="pdfUploadArea">
+                                            <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                            <p>Glissez-déposez votre fichier PDF ici ou cliquez pour sélectionner</p>
+                                            <p class="form-text">Taille maximale: 50MB</p>
+                                            <input type="file" class="resource-input" id="pdfFile" accept=".pdf" hidden>
+                                            <button type="button" class="btn btn-secondary" id="browsePdfBtn">
+                                                <i class="fas fa-folder-open"></i> Sélectionner un fichier
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control resource-input" id="pdfDescription" rows="2" placeholder="Description du contenu du document"></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" id="addPdfBtn">
+                                        <i class="fas fa-plus"></i> Ajouter ce document
+                                    </button>
+                                </div>
+
+                                <!-- Formulaire lien -->
+                                <div class="resource-form" id="linkForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Titre du lien *</label>
+                                        <input type="text" class="form-control resource-input" id="linkTitle" placeholder="Ex: Vidéo explicative sur les fractions">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">URL *</label>
+                                        <input type="url" class="form-control resource-input" id="linkUrl" placeholder="Ex: https://www.youtube.com/watch?v=...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Type de contenu</label>
+                                        <select class="form-control resource-input" id="linkType">
+                                            <option value="website">Site web</option>
+                                            <option value="youtube">Vidéo YouTube</option>
+                                            <option value="document">Document en ligne</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control resource-input" id="linkDescription" rows="2" placeholder="Description de ce que contient ce lien"></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" id="addLinkBtn">
+                                        <i class="fas fa-plus"></i> Ajouter ce lien
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Liste des ressources ajoutées -->
+                            <div class="resources-list-container">
+                                <h4 style="margin-bottom: 15px; color: var(--gris-fonce);">
+                                    <i class="fas fa-list"></i> Ressources ajoutées (<span id="resourcesCount">0</span>)
+                                </h4>
+                                <div class="resources-list" id="resourcesList">
+                                    <div class="empty-resources-message">
+                                        <i class="fas fa-inbox" style="font-size: 2rem; color: var(--gris-moyen); margin-bottom: 10px;"></i>
+                                        <p>Aucune ressource ajoutée pour le moment</p>
+                                        <p class="form-text">Ajoutez des vidéos, audios, documents ou liens pour enrichir votre service</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIN DE LA SECTION RESSOURCES -->
+
+                    <div class="form-actions" style="margin-top: 30px; display: flex; gap: 15px; justify-content: flex-end;">
                         <button type="button" class="btn btn-secondary" id="cancelServiceBtn">Annuler</button>
                         <button type="submit" class="btn btn-primary">Créer le service</button>
                     </div>
@@ -2746,7 +3637,8 @@
                     sessions_per_week: 3,
                     rating: 4.8,
                     description: "Cours intensif de mathématiques pour la préparation au BEPC avec exercices pratiques et simulations d'examens.",
-                    created_date: "15/03/2024"
+                    created_date: "15/03/2024",
+                    service_type: "courses"
                 },
                 {
                     id: 2,
@@ -2762,7 +3654,8 @@
                     sessions_per_week: 2,
                     rating: 4.7,
                     description: "Perfectionnement en grammaire française, orthographe et conjugaison pour élèves de 4ème.",
-                    created_date: "10/02/2024"
+                    created_date: "10/02/2024",
+                    service_type: "courses"
                 },
                 {
                     id: 3,
@@ -2778,7 +3671,8 @@
                     sessions_per_week: 1,
                     rating: 4.5,
                     description: "Cours d'initiation à l'anglais pour les élèves de 6ème, basé sur l'apprentissage du vocabulaire de base.",
-                    created_date: "05/01/2024"
+                    created_date: "05/01/2024",
+                    service_type: "courses"
                 },
                 {
                     id: 4,
@@ -2794,7 +3688,8 @@
                     sessions_per_week: 2,
                     rating: 4.6,
                     description: "Cours complet de physique-chimie pour le programme de 3ème avec expériences pratiques.",
-                    created_date: "20/02/2024"
+                    created_date: "20/02/2024",
+                    service_type: "courses"
                 },
                 {
                     id: 5,
@@ -2810,7 +3705,8 @@
                     sessions_per_week: 3,
                     rating: 4.7,
                     description: "Cours approfondi de biologie cellulaire avec microscopie virtuelle et études de cas.",
-                    created_date: "01/04/2024"
+                    created_date: "01/04/2024",
+                    service_type: "courses"
                 },
                 {
                     id: 6,
@@ -2826,10 +3722,45 @@
                     sessions_per_week: 2,
                     rating: 4.9,
                     description: "Cours couvrant l'ensemble du programme d'histoire-géographie avec cartes et documents.",
-                    created_date: "12/03/2024"
+                    created_date: "12/03/2024",
+                    service_type: "courses"
                 },
                 {
                     id: 7,
+                    subject: "Mathématiques",
+                    level: "3ème",
+                    title: "Fiches de révision BEPC - Mathématiques",
+                    plan_type: "resource",
+                    hourly_rate: 1500,
+                    enrolled_students: 287,
+                    completed_sessions: 0,
+                    status: "active",
+                    rating: 4.8,
+                    description: "Fiches complètes de révision pour le BEPC en mathématiques",
+                    created_date: "10/03/2024",
+                    service_type: "resources",
+                    resource_type: "fiche_revision",
+                    downloads: 287
+                },
+                {
+                    id: 8,
+                    subject: "toutes",
+                    level: "3ème",
+                    title: "Annales BEPC corrigées - 2020-2023",
+                    plan_type: "resource",
+                    hourly_rate: 3000,
+                    enrolled_students: 412,
+                    completed_sessions: 0,
+                    status: "active",
+                    rating: 4.9,
+                    description: "Sujets officiels des dernières sessions avec corrigés détaillés",
+                    created_date: "05/03/2024",
+                    service_type: "resources",
+                    resource_type: "epreuve_examen",
+                    downloads: 412
+                },
+                {
+                    id: 9,
                     subject: "Technologie",
                     level: "5ème",
                     title: "Technologie - Initiation",
@@ -2842,7 +3773,8 @@
                     sessions_per_week: 1,
                     rating: 4.8,
                     description: "Cours d'initiation à la technologie pour élèves de 5ème (archivé).",
-                    created_date: "15/12/2023"
+                    created_date: "15/12/2023",
+                    service_type: "courses"
                 }
             ]
         };
@@ -2891,17 +3823,33 @@
             }
         ];
 
+        // Tableau pour stocker les ressources du cours
+        let courseResources = [];
+        
+        // Variables pour les nouveaux champs
+        let contentItems = [];
+        let objectives = [];
+
         // Gestion du modal
         const createServiceBtn = document.getElementById('createServiceBtn');
         const createServiceBtnMobile = document.getElementById('createServiceBtnMobile');
         const createServiceModal = document.getElementById('createServiceModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
         const cancelServiceBtn = document.getElementById('cancelServiceBtn');
+        const selectedServiceTypeInput = document.getElementById('selectedServiceType');
+        const coursesSection = document.getElementById('coursesSection');
+        const pricingPlansSection = document.getElementById('pricingPlansSection');
         const planOptions = document.querySelectorAll('.plan-option');
         const selectedPlanInput = document.getElementById('selectedPlan');
         const hourlyRateInput = document.getElementById('hourlyRate');
         const hourlyRateGroup = document.getElementById('hourlyRateGroup');
+        const priceLabel = document.getElementById('priceLabel');
         const rateInfo = document.getElementById('rateInfo');
+        const contentItemsGroup = document.getElementById('contentItemsGroup');
+        const objectivesGroup = document.getElementById('objectivesGroup');
+        const contentOptionalLabel = document.getElementById('contentOptionalLabel');
+        const objectivesOptionalLabel = document.getElementById('objectivesOptionalLabel');
+        const supportGroup = document.getElementById('supportGroup');
         
         // Gestion menu mobile
         const mobileNavToggle = document.getElementById('mobileNavToggle');
@@ -2955,11 +3903,11 @@
                       `Titre: ${service.title}\n` +
                       `Matière: ${service.subject}\n` +
                       `Niveau: ${service.level}\n` +
-                      `Type: ${service.plan_type.toUpperCase()}\n` +
-                      `Prix: ${service.hourly_rate === 0 ? 'Gratuit' : service.hourly_rate + ' FCFA/heure'}\n` +
+                      `Type: ${service.service_type === 'courses' ? 'Cours' : 'Ressource pédagogique'}\n` +
+                      `Formule: ${service.plan_type ? service.plan_type.toUpperCase() : 'RESSOURCE'}\n` +
+                      `Prix: ${service.hourly_rate === 0 ? 'Gratuit' : service.hourly_rate + (service.service_type === 'courses' ? ' FCFA/heure' : ' FCFA/unité')}\n` +
                       `Statut: ${service.status === 'active' ? 'Actif' : 'Inactif'}\n` +
-                      `Élèves inscrits: ${service.enrolled_students}\n` +
-                      `Séances complétées: ${service.completed_sessions}\n` +
+                      `Élèves/achats: ${service.enrolled_students}\n` +
                       `Note: ${service.rating}/5\n\n` +
                       `Description:\n${service.description}`);
             }
@@ -3019,6 +3967,8 @@
             document.body.style.overflow = 'hidden';
             // Fermer menu mobile si ouvert
             if (mobileNav) mobileNav.classList.remove('active');
+            // Réinitialiser le formulaire
+            resetServiceForm();
         }
 
         // Fermer modal création service
@@ -3033,73 +3983,102 @@
         function closeServiceModal() {
             createServiceModal.style.display = 'none';
             document.body.style.overflow = 'auto';
-            // Réinitialiser le formulaire
+        }
+
+        function resetServiceForm() {
             document.getElementById('createServiceForm').reset();
+            // Réinitialiser la sélection du type de service
+            document.querySelectorAll('.service-type').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Sélectionner par défaut "Offre de cours"
+            document.querySelector('.service-type[data-service-type="courses"]').classList.add('active');
+            selectedServiceTypeInput.value = 'courses';
+            
+            // Réinitialiser la sélection du plan
             planOptions.forEach(opt => opt.classList.remove('selected'));
             selectedPlanInput.value = '';
             hourlyRateInput.value = '';
+            hourlyRateInput.disabled = true;
             hourlyRateInput.required = false;
             hourlyRateGroup.style.display = 'block';
-            rateInfo.textContent = "Veuillez fixer un tarif raisonnable pour votre service";
+            rateInfo.textContent = "Veuillez sélectionner une formule de service d'abord";
+            
+            // Mettre à jour l'interface
+            updateServiceTypeUI('courses');
+            
+            // Réinitialiser les ressources
+            courseResources = [];
+            renderResourcesList();
+            
+            // Réinitialiser les nouveaux champs
+            contentItems = [];
+            objectives = [];
         }
 
-        // Ouvrir modal notifications
-        notificationBtn.addEventListener('click', openNotificationModal);
-        if (notificationNavBtnMobile) {
-            notificationNavBtnMobile.addEventListener('click', () => {
-                openNotificationModal();
-                if (mobileNav) mobileNav.classList.remove('active');
+        // Sélection du type de service
+        document.querySelectorAll('.service-type').forEach(button => {
+            button.addEventListener('click', function() {
+                // Retirer la classe active de tous les boutons
+                document.querySelectorAll('.service-type').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Ajouter la classe active au bouton cliqué
+                this.classList.add('active');
+                
+                // Mettre à jour le champ caché
+                const serviceType = this.dataset.serviceType;
+                selectedServiceTypeInput.value = serviceType;
+                
+                // Mettre à jour l'interface
+                updateServiceTypeUI(serviceType);
             });
-        }
+        });
 
-        function openNotificationModal() {
-            notificationModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            initNotifications();
-        }
-
-        // Fermer modal notifications
-        closeNotificationModalBtn.addEventListener('click', closeNotificationModal);
-        notificationModal.addEventListener('click', (e) => {
-            if (e.target === notificationModal) {
-                closeNotificationModal();
+        function updateServiceTypeUI(serviceType) {
+            // Montrer/cacher les sections appropriées
+            if (serviceType === 'courses') {
+                coursesSection.classList.add('show');
+                pricingPlansSection.style.display = 'block';
+                
+                // Mettre à jour les labels
+                priceLabel.textContent = "Tarif horaire (FCFA) *";
+                contentOptionalLabel.textContent = "*";
+                objectivesOptionalLabel.textContent = "*";
+                
+                // Rendre les champs obligatoires
+                document.getElementById('serviceMethod').required = true;
+                document.getElementById('duration').required = true;
+                document.getElementById('sessionsPerWeek').required = true;
+                
+            } else if (serviceType === 'resources') {
+                coursesSection.classList.remove('show');
+                pricingPlansSection.style.display = 'none';
+                
+                // Mettre à jour les labels
+                priceLabel.textContent = "Prix de la ressource (FCFA) *";
+                contentOptionalLabel.textContent = "(facultatif)";
+                objectivesOptionalLabel.textContent = "(facultatif)";
+                
+                // Rendre les champs optionnels
+                document.getElementById('serviceMethod').required = false;
+                document.getElementById('duration').required = false;
+                document.getElementById('sessionsPerWeek').required = false;
+                
+                // Mettre à jour les infos de tarif
+                hourlyRateInput.disabled = false;
+                hourlyRateInput.required = true;
+                hourlyRateInput.placeholder = "Ex: 1500";
+                rateInfo.textContent = "Fixez un prix unique pour votre ressource pédagogique";
             }
-        });
-
-        function closeNotificationModal() {
-            notificationModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
         }
 
-        // Gestion menu mobile
-        if (mobileNavToggle) {
-            mobileNavToggle.addEventListener('click', () => {
-                if (mobileNav) mobileNav.classList.toggle('active');
-            });
-        }
-
-        // Fermer menu mobile en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (mobileNav && !mobileNav.contains(e.target) && mobileNavToggle && !mobileNavToggle.contains(e.target)) {
-                mobileNav.classList.remove('active');
-            }
-        });
-
-        // Gestion menu déroulant profil
-        profileBtn.addEventListener('click', () => {
-            profileMenu.classList.toggle('active');
-        });
-
-        // Fermer le menu déroulant en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
-                profileMenu.classList.remove('active');
-            }
-        });
-
-        // Sélection du plan
+        // Sélection du plan (uniquement pour les cours)
         planOptions.forEach(option => {
             option.addEventListener('click', () => {
+                if (selectedServiceTypeInput.value !== 'courses') return;
+                
                 // Retirer la sélection précédente
                 planOptions.forEach(opt => opt.classList.remove('selected'));
                 
@@ -3116,6 +4095,8 @@
         });
 
         function updatePricing(planType) {
+            if (selectedServiceTypeInput.value !== 'courses') return;
+            
             switch(planType) {
                 case 'gratuit':
                     hourlyRateInput.value = 0;
@@ -3165,140 +4146,445 @@
             });
         });
 
+        // Fonctions pour gérer le contenu principal
+        function addContentItem() {
+            const container = document.getElementById('contentItemsContainer');
+            const index = container.children.length;
+            
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'content-item';
+            itemDiv.innerHTML = `
+                <i class="fas fa-grip-vertical handle"></i>
+                <i class="fas fa-circle" style="color: var(--vert-principal); font-size: 0.8rem;"></i>
+                <input type="text" class="content-item-input" placeholder="Nouveau point du contenu" data-index="${index}">
+                <i class="fas fa-times remove-item" style="margin-left: auto;" onclick="removeContentItem(this)"></i>
+            `;
+            
+            container.appendChild(itemDiv);
+            saveContentItems();
+        }
+
+        function removeContentItem(element) {
+            const itemDiv = element.closest('.content-item');
+            itemDiv.remove();
+            reindexContentItems();
+            saveContentItems();
+        }
+
+        function reindexContentItems() {
+            const items = document.querySelectorAll('.content-item-input');
+            items.forEach((item, index) => {
+                item.dataset.index = index;
+            });
+        }
+
+        function saveContentItems() {
+            const items = document.querySelectorAll('.content-item-input');
+            contentItems = Array.from(items).map(item => ({
+                text: item.value,
+                index: parseInt(item.dataset.index)
+            })).filter(item => item.text.trim() !== '');
+            
+            document.getElementById('contentItemsData').value = JSON.stringify(contentItems);
+        }
+
+        // Fonctions pour gérer les objectifs
+        function addObjectiveItem() {
+            const container = document.getElementById('objectivesContainer');
+            const index = container.children.length;
+            
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'objective-item';
+            itemDiv.innerHTML = `
+                <i class="fas fa-grip-vertical handle"></i>
+                <i class="far fa-square objective-checkbox" onclick="toggleObjectiveCheckbox(this)"></i>
+                <input type="text" class="objective-item-input" placeholder="Nouvel objectif" data-index="${index}">
+                <i class="fas fa-times remove-item" style="margin-left: auto;" onclick="removeObjectiveItem(this)"></i>
+            `;
+            
+            container.appendChild(itemDiv);
+            saveObjectives();
+        }
+
+        function removeObjectiveItem(element) {
+            const itemDiv = element.closest('.objective-item');
+            itemDiv.remove();
+            reindexObjectiveItems();
+            saveObjectives();
+        }
+
+        function toggleObjectiveCheckbox(element) {
+            if (element.classList.contains('fa-square')) {
+                element.classList.remove('fa-square');
+                element.classList.add('fa-check-square');
+                element.style.color = 'var(--vert-principal)';
+            } else {
+                element.classList.remove('fa-check-square');
+                element.classList.add('fa-square');
+                element.style.color = '';
+            }
+        }
+
+        function reindexObjectiveItems() {
+            const items = document.querySelectorAll('.objective-item-input');
+            items.forEach((item, index) => {
+                item.dataset.index = index;
+            });
+        }
+
+        function saveObjectives() {
+            const items = document.querySelectorAll('.objective-item');
+            objectives = Array.from(items).map((item, index) => {
+                const input = item.querySelector('.objective-item-input');
+                const checkbox = item.querySelector('.objective-checkbox');
+                return {
+                    text: input.value,
+                    completed: checkbox.classList.contains('fa-check-square'),
+                    index: index
+                };
+            }).filter(item => item.text.trim() !== '');
+            
+            document.getElementById('objectivesData').value = JSON.stringify(objectives);
+        }
+
+        // Fonction pour ajouter une ressource
+        function addResource(type) {
+            let title, description, url, file;
+            
+            switch(type) {
+                case 'video':
+                    title = document.getElementById('videoTitle').value;
+                    description = document.getElementById('videoDescription').value;
+                    if (!title) {
+                        alert('Veuillez saisir un titre pour la vidéo');
+                        return;
+                    }
+                    courseResources.push({
+                        type: 'video',
+                        title: title,
+                        description: description,
+                        duration: document.getElementById('videoDuration').value
+                    });
+                    break;
+                    
+                case 'audio':
+                    title = document.getElementById('audioTitle').value;
+                    description = document.getElementById('audioDescription').value;
+                    if (!title) {
+                        alert('Veuillez saisir un titre pour l\'audio');
+                        return;
+                    }
+                    courseResources.push({
+                        type: 'audio',
+                        title: title,
+                        description: description,
+                        duration: document.getElementById('audioDuration').value
+                    });
+                    break;
+                    
+                case 'pdf':
+                    title = document.getElementById('pdfTitle').value;
+                    description = document.getElementById('pdfDescription').value;
+                    if (!title) {
+                        alert('Veuillez saisir un titre pour le document');
+                        return;
+                    }
+                    courseResources.push({
+                        type: 'pdf',
+                        title: title,
+                        description: description
+                    });
+                    break;
+                    
+                case 'link':
+                    title = document.getElementById('linkTitle').value;
+                    url = document.getElementById('linkUrl').value;
+                    description = document.getElementById('linkDescription').value;
+                    if (!title || !url) {
+                        alert('Veuillez saisir un titre et une URL pour le lien');
+                        return;
+                    }
+                    courseResources.push({
+                        type: 'link',
+                        title: title,
+                        url: url,
+                        description: description
+                    });
+                    break;
+            }
+            
+            // Vider les champs du formulaire actif
+            clearResourceForm(type);
+            
+            // Mettre à jour la liste
+            renderResourcesList();
+        }
+
+        function clearResourceForm(type) {
+            switch(type) {
+                case 'video':
+                    document.getElementById('videoTitle').value = '';
+                    document.getElementById('videoDescription').value = '';
+                    document.getElementById('videoDuration').value = '';
+                    break;
+                case 'audio':
+                    document.getElementById('audioTitle').value = '';
+                    document.getElementById('audioDescription').value = '';
+                    document.getElementById('audioDuration').value = '';
+                    break;
+                case 'pdf':
+                    document.getElementById('pdfTitle').value = '';
+                    document.getElementById('pdfDescription').value = '';
+                    break;
+                case 'link':
+                    document.getElementById('linkTitle').value = '';
+                    document.getElementById('linkUrl').value = '';
+                    document.getElementById('linkDescription').value = '';
+                    break;
+            }
+        }
+
+        function renderResourcesList() {
+            const resourcesList = document.getElementById('resourcesList');
+            const resourcesCount = document.getElementById('resourcesCount');
+            
+            if (courseResources.length === 0) {
+                resourcesList.innerHTML = `
+                    <div class="empty-resources-message">
+                        <i class="fas fa-inbox" style="font-size: 2rem; color: var(--gris-moyen); margin-bottom: 10px;"></i>
+                        <p>Aucune ressource ajoutée pour le moment</p>
+                        <p class="form-text">Ajoutez des vidéos, audios, documents ou liens pour enrichir votre service</p>
+                    </div>
+                `;
+                resourcesCount.textContent = '0';
+                return;
+            }
+            
+            let html = '';
+            courseResources.forEach((resource, index) => {
+                let icon = '';
+                let typeLabel = '';
+                
+                switch(resource.type) {
+                    case 'video':
+                        icon = 'fa-video';
+                        typeLabel = 'Vidéo';
+                        break;
+                    case 'audio':
+                        icon = 'fa-music';
+                        typeLabel = 'Audio';
+                        break;
+                    case 'pdf':
+                        icon = 'fa-file-pdf';
+                        typeLabel = 'PDF';
+                        break;
+                    case 'link':
+                        icon = 'fa-link';
+                        typeLabel = 'Lien';
+                        break;
+                }
+                
+                html += `
+                    <div class="resource-item">
+                        <div class="resource-icon ${resource.type}">
+                            <i class="fas ${icon}"></i>
+                        </div>
+                        <div class="resource-info">
+                            <div class="resource-title">${resource.title}</div>
+                            ${resource.description ? `<div class="resource-description">${resource.description}</div>` : ''}
+                            <div class="resource-meta">
+                                <span><i class="fas fa-tag"></i> ${typeLabel}</span>
+                                ${resource.duration ? `<span><i class="far fa-clock"></i> ${resource.duration}</span>` : ''}
+                                ${resource.url ? `<span><i class="fas fa-link"></i> <a href="${resource.url}" target="_blank">Voir le lien</a></span>` : ''}
+                            </div>
+                        </div>
+                        <div class="resource-actions">
+                            <button type="button" class="btn-resource-action btn-resource-delete" onclick="deleteResource(${index})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            resourcesList.innerHTML = html;
+            resourcesCount.textContent = courseResources.length;
+        }
+
+        function deleteResource(index) {
+            if (confirm('Voulez-vous vraiment supprimer cette ressource ?')) {
+                courseResources.splice(index, 1);
+                renderResourcesList();
+            }
+        }
+
         // Gestion du formulaire
         document.getElementById('createServiceForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Validation
-            if (!selectedPlanInput.value) {
-                alert('Veuillez sélectionner une formule de service');
+            // Validation du type de service
+            if (!selectedServiceTypeInput.value) {
+                alert('Veuillez sélectionner un type de service (Offre de cours ou Vendre ressources pédagogiques)');
                 return;
             }
             
-            // Validation du tarif pour les plans payants
-            const planType = selectedPlanInput.value;
-            const hourlyRate = parseFloat(hourlyRateInput.value);
+            const serviceType = selectedServiceTypeInput.value;
             
-            if (planType !== 'gratuit') {
-                if (!hourlyRate || hourlyRate <= 0) {
-                    alert('Veuillez saisir un tarif horaire valide');
+            // Validation spécifique selon le type
+            if (serviceType === 'courses') {
+                // Validation pour les cours
+                if (!selectedPlanInput.value) {
+                    alert('Veuillez sélectionner une formule de service');
                     return;
                 }
                 
-                // Validation des plages de tarif recommandées
-                if (planType === 'standard' && (hourlyRate < 500 || hourlyRate > 10000)) {
-                    if (!confirm(`Le tarif de ${hourlyRate} FCFA/heure est en dehors de la plage recommandée (1.500 - 3.500 FCFA). Voulez-vous continuer ?`)) {
+                // Validation du tarif pour les plans payants
+                const planType = selectedPlanInput.value;
+                const hourlyRate = parseFloat(hourlyRateInput.value);
+                
+                if (planType !== 'gratuit') {
+                    if (!hourlyRate || hourlyRate <= 0) {
+                        alert('Veuillez saisir un tarif horaire valide');
                         return;
                     }
                 }
                 
-                if (planType === 'premium' && (hourlyRate < 1000 || hourlyRate > 20000)) {
-                    if (!confirm(`Le tarif de ${hourlyRate} FCFA/heure est en dehors de la plage recommandée (4.000 - 10.000 FCFA). Voulez-vous continuer ?`)) {
-                        return;
-                    }
+                // Validation des champs spécifiques aux cours
+                if (!document.getElementById('serviceMethod').value.trim()) {
+                    alert('Veuillez décrire votre méthode d\'enseignement');
+                    return;
                 }
+                
+                if (!document.getElementById('duration').value) {
+                    alert('Veuillez sélectionner une durée de séance');
+                    return;
+                }
+                
+                if (!document.getElementById('sessionsPerWeek').value) {
+                    alert('Veuillez sélectionner le nombre de séances par semaine');
+                    return;
+                }
+                
+                // Validation du contenu et objectifs (obligatoires pour les cours)
+                saveContentItems();
+                if (contentItems.length === 0) {
+                    alert('Veuillez ajouter au moins un point dans le contenu principal');
+                    return;
+                }
+                
+                saveObjectives();
+                if (objectives.length === 0) {
+                    alert('Veuillez ajouter au moins un objectif');
+                    return;
+                }
+                
+            } else if (serviceType === 'resources') {
+                // Validation pour les ressources pédagogiques
+                const resourcePrice = parseFloat(hourlyRateInput.value);
+                if (!resourcePrice || resourcePrice < 0) {
+                    alert('Veuillez saisir un prix valide pour votre ressource');
+                    return;
+                }
+                
+                // Contenu et objectifs sont facultatifs pour les ressources
+                saveContentItems();
+                saveObjectives();
             }
+            
+            // Validation des champs communs
+            if (!document.getElementById('serviceTitle').value.trim()) {
+                alert('Veuillez saisir un titre pour le service');
+                return;
+            }
+            
+            if (!document.getElementById('serviceDescription').value.trim()) {
+                alert('Veuillez saisir une description');
+                return;
+            }
+            
+            if (!document.getElementById('serviceCategorie').value) {
+                alert('Veuillez sélectionner une catégorie');
+                return;
+            }
+            
+            if (!document.getElementById('serviceSubject').value) {
+                alert('Veuillez sélectionner une matière');
+                return;
+            }
+            
+            if (!document.getElementById('serviceLevel').value) {
+                alert('Veuillez sélectionner un niveau');
+                return;
+            }
+            
+            // Récupérer les supports de cours sélectionnés
+            const supportOptions = [];
+            document.querySelectorAll('.support-option input[type="checkbox"]:checked').forEach(checkbox => {
+                supportOptions.push(checkbox.value);
+            });
             
             // Récupérer les données du formulaire
             const formData = new FormData(this);
             const serviceData = {
-                plan_type: formData.get('plan_type'),
+                service_type: serviceType,
+                plan_type: serviceType === 'courses' ? formData.get('plan_type') : 'resource',
+                categorie: formData.get('categorie'),
                 subject: formData.get('subject'),
                 level: formData.get('level'),
                 title: formData.get('title'),
                 description: formData.get('description'),
-                hourly_rate: planType === 'gratuit' ? 0 : formData.get('hourly_rate'),
-                duration: formData.get('duration'),
-                sessions_per_week: formData.get('sessions_per_week')
+                method: serviceType === 'courses' ? formData.get('method') : '',
+                hourly_rate: serviceType === 'courses' && formData.get('plan_type') === 'gratuit' ? 0 : formData.get('hourly_rate'),
+                duration: serviceType === 'courses' ? formData.get('duration') : null,
+                sessions_per_week: serviceType === 'courses' ? formData.get('sessions_per_week') : null,
+                content_items: contentItems,
+                objectives: objectives,
+                support_types: supportOptions,
+                resources: courseResources
             };
             
             // Afficher un message de succès
-            alert(`Service "${serviceData.title}" créé avec succès ! Il sera visible après validation.`);
+            let successMessage = `Service "${serviceData.title}" créé avec succès !\n\n`;
+            successMessage += `Catégorie: ${serviceData.categorie}\n`;
+            successMessage += `Matière: ${serviceData.subject}\n`;
+            successMessage += `Niveau: ${serviceData.level}\n`;
             
-            // Simuler l'ajout du service (dans une vraie app, on enverrait au serveur)
+            if (serviceType === 'courses') {
+                successMessage += `Formule: ${serviceData.plan_type.toUpperCase()}\n`;
+                successMessage += `Tarif: ${serviceData.hourly_rate === 0 || serviceData.hourly_rate === '0' ? 'Gratuit' : serviceData.hourly_rate + ' FCFA/heure'}\n`;
+            } else {
+                successMessage += `Prix: ${serviceData.hourly_rate} FCFA/unité\n`;
+            }
+            
+            successMessage += `\nRessources ajoutées: ${courseResources.length}`;
+            
+            alert(successMessage);
+            
+            // Simuler l'ajout du service
             console.log('Nouveau service créé:', serviceData);
             
             // Fermer le modal
             closeServiceModal();
         });
 
-        // Initialiser les notifications
-        function initNotifications() {
-            const notificationList = document.getElementById('notificationList');
-            notificationList.innerHTML = '';
-            
-            notifications.forEach(notification => {
-                const notificationItem = document.createElement('div');
-                notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
-                notificationItem.innerHTML = `
-                    <div class="notification-content">
-                        <div class="notification-icon ${notification.type}">
-                            <i class="fas fa-${getNotificationIcon(notification.type)}"></i>
-                        </div>
-                        <div class="notification-text">
-                            <h4>${notification.title}</h4>
-                            <p>${notification.message}</p>
-                            <div class="notification-time">${notification.time}</div>
-                        </div>
-                    </div>
-                `;
-                
-                notificationItem.addEventListener('click', () => {
-                    // Marquer comme lu
-                    notification.read = true;
-                    updateNotificationBadge();
-                    initNotifications();
-                });
-                
-                notificationList.appendChild(notificationItem);
-            });
-        }
-
-        function getNotificationIcon(type) {
-            switch(type) {
-                case 'success': return 'check-circle';
-                case 'warning': return 'exclamation-triangle';
-                case 'info': return 'info-circle';
-                case 'alert': return 'bell';
-                default: return 'bell';
-            }
-        }
-
-        // Marquer toutes les notifications comme lues
-        markAllReadBtn.addEventListener('click', () => {
-            notifications.forEach(notification => {
-                notification.read = true;
-            });
-            updateNotificationBadge();
-            initNotifications();
+        // Gestion du menu mobile
+        mobileNavToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
         });
 
-        // Mettre à jour le badge de notification
-        function updateNotificationBadge() {
-            const unreadCount = notifications.filter(n => !n.read).length;
-            const badge = document.querySelector('.notification-badge');
-            if (badge) {
-                badge.textContent = unreadCount;
-                if (unreadCount === 0) {
-                    badge.style.display = 'none';
-                } else {
-                    badge.style.display = 'flex';
-                }
-            }
-            
-            // Mettre à jour le badge du menu mobile
-            const mobileBadge = document.querySelector('.mobile-nav-badge');
-            if (mobileBadge) {
-                mobileBadge.textContent = unreadCount;
-                if (unreadCount === 0) {
-                    mobileBadge.style.display = 'none';
-                } else {
-                    mobileBadge.style.display = 'inline-block';
-                }
-            }
-        }
+        // Gestion du menu profil
+        profileBtn.addEventListener('click', () => {
+            profileMenu.classList.toggle('active');
+        });
 
-        // Gestion barre de recherche
+        // Fermer le menu profil quand on clique ailleurs
+        document.addEventListener('click', (e) => {
+            if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.remove('active');
+            }
+        });
+
+        // Gestion des filtres de recherche
         searchFiltersBtn.addEventListener('click', () => {
             searchFiltersPanel.classList.toggle('active');
         });
@@ -3307,67 +4593,114 @@
             searchFiltersPanel.classList.remove('active');
         });
 
-        // Fermer les filtres en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (!searchFiltersPanel.contains(e.target) && 
-                !searchFiltersBtn.contains(e.target) && 
-                searchFiltersPanel.classList.contains('active')) {
-                searchFiltersPanel.classList.remove('active');
-            }
-        });
-
-        // Réinitialiser les filtres
         resetFiltersBtn.addEventListener('click', () => {
-            document.getElementById('searchServiceType').value = 'all';
-            document.getElementById('searchLevel').value = 'all';
-            document.getElementById('searchSubject').value = 'all';
-            document.getElementById('searchStatus').value = 'all';
-            document.getElementById('searchSort').value = 'recent';
-            document.getElementById('searchDate').value = 'all';
-            mainSearchInput.value = '';
+            document.querySelectorAll('.filter-select').forEach(select => {
+                select.value = 'all';
+            });
         });
 
-        // Appliquer les filtres et lancer la recherche
-        applyFiltersBtn.addEventListener('click', performSearch);
-        searchBtn.addEventListener('click', performSearch);
+        applyFiltersBtn.addEventListener('click', () => {
+            alert('Filtres appliqués avec succès !');
+            searchFiltersPanel.classList.remove('active');
+        });
 
-        mainSearchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                performSearch();
+        // Gestion des notifications
+        notificationBtn.addEventListener('click', () => {
+            notificationModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeNotificationModalBtn.addEventListener('click', () => {
+            notificationModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        notificationModal.addEventListener('click', (e) => {
+            if (e.target === notificationModal) {
+                notificationModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         });
 
-        function performSearch() {
-            const searchServiceType = document.getElementById('searchServiceType').value;
-            const searchLevel = document.getElementById('searchLevel').value;
-            const searchSubject = document.getElementById('searchSubject').value;
-            const searchStatus = document.getElementById('searchStatus').value;
-            const searchSort = document.getElementById('searchSort').value;
-            const searchDate = document.getElementById('searchDate').value;
-            const searchQuery = mainSearchInput.value.trim();
-            
-            searchFiltersPanel.classList.remove('active');
-            showSearchResults({
-                query: searchQuery,
-                serviceType: searchServiceType,
-                level: searchLevel,
-                subject: searchSubject,
-                status: searchStatus,
-                sort: searchSort,
-                date: searchDate
+        // Gestion des onglets de ressources
+        document.querySelectorAll('.resource-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Retirer la classe active de tous les onglets
+                document.querySelectorAll('.resource-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Ajouter la classe active à l'onglet cliqué
+                this.classList.add('active');
+                
+                // Cacher tous les formulaires
+                document.querySelectorAll('.resource-form').forEach(form => {
+                    form.classList.remove('active');
+                });
+                
+                // Afficher le formulaire correspondant
+                const resourceType = this.dataset.resourceType;
+                document.getElementById(resourceType + 'Form').classList.add('active');
             });
-        }
+        });
 
-        function showSearchResults(filters) {
-            alert(`Recherche avec les filtres:\n
-                Type de service: ${filters.serviceType}\n
-                Niveau: ${filters.level}\n
-                Matière: ${filters.subject}\n
-                Statut: ${filters.status}\n
-                Trier par: ${filters.sort}\n
-                Date: ${filters.date}\n
-                Recherche: "${filters.query}"`);
-        }
+        // Gestion des boutons d'ajout de ressources
+        document.getElementById('addVideoBtn').addEventListener('click', () => addResource('video'));
+        document.getElementById('addAudioBtn').addEventListener('click', () => addResource('audio'));
+        document.getElementById('addPdfBtn').addEventListener('click', () => addResource('pdf'));
+        document.getElementById('addLinkBtn').addEventListener('click', () => addResource('link'));
+
+        // Gestion des boutons de parcours de fichiers
+        document.getElementById('browseVideoBtn').addEventListener('click', () => {
+            document.getElementById('videoFile').click();
+        });
+        
+        document.getElementById('browseAudioBtn').addEventListener('click', () => {
+            document.getElementById('audioFile').click();
+        });
+        
+        document.getElementById('browsePdfBtn').addEventListener('click', () => {
+            document.getElementById('pdfFile').click();
+        });
+
+        // Initialisation des données
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mettre à jour les statistiques
+            const statElements = document.querySelectorAll('.stat-info-inline h3');
+            if (statElements.length >= 3) {
+                statElements[0].innerText = teacherServices.totalServices;
+                statElements[1].innerText = teacherServices.totalStudents;
+                statElements[2].innerText = teacherServices.avgRating + '/5';
+            }
+            
+            // Événements pour la flèche retour en haut
+            window.addEventListener('scroll', toggleBackToTopButton);
+            backToTopBtn.addEventListener('click', scrollToTop);
+            
+            // Initialiser la visibilité des boutons
+            toggleBackToTopButton();
+            
+            // Gestion responsive
+            function checkWindowSize() {
+                if (window.innerWidth <= 992) {
+                    if (document.querySelector('.menu-toggle')) {
+                        document.querySelector('.menu-toggle').style.display = 'block';
+                    }
+                } else {
+                    if (document.querySelector('.menu-toggle')) {
+                        document.querySelector('.menu-toggle').style.display = 'none';
+                    }
+                    if (mobileNav) mobileNav.classList.remove('active');
+                }
+            }
+            
+            window.addEventListener('resize', checkWindowSize);
+            checkWindowSize();
+            
+            // Initialiser le formulaire
+            updateServiceTypeUI('courses');
+            renderResourcesList();
+        });
 
         // Gestion de la flèche retour en haut
         function toggleBackToTopButton() {
@@ -3434,58 +4767,6 @@
                 tableView.style.display = 'none';
                 toggleViewBtn.innerHTML = '<i class="fas fa-list"></i> Vue tableau';
             }
-        });
-
-        // Initialisation des données
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mettre à jour les statistiques
-            const statElements = document.querySelectorAll('.stat-info-inline h3');
-            if (statElements.length >= 3) {
-                statElements[0].innerText = teacherServices.totalServices;
-                statElements[1].innerText = teacherServices.totalStudents;
-                statElements[2].innerText = teacherServices.avgRating + '/5';
-            }
-            
-            // Initialiser les notifications
-            initNotifications();
-            updateNotificationBadge();
-            
-            // Événements pour la flèche retour en haut
-            window.addEventListener('scroll', toggleBackToTopButton);
-            backToTopBtn.addEventListener('click', scrollToTop);
-            
-            // Initialiser la visibilité des boutons
-            toggleBackToTopButton();
-            
-            // Gestion responsive
-            function checkWindowSize() {
-                if (window.innerWidth <= 992) {
-                    if (document.querySelector('.menu-toggle')) {
-                        document.querySelector('.menu-toggle').style.display = 'block';
-                    }
-                } else {
-                    if (document.querySelector('.menu-toggle')) {
-                        document.querySelector('.menu-toggle').style.display = 'none';
-                    }
-                    if (mobileNav) mobileNav.classList.remove('active');
-                }
-            }
-            
-            window.addEventListener('resize', checkWindowSize);
-            checkWindowSize();
-            
-            // Empêcher la propagation sur tous les boutons d'actions
-            document.querySelectorAll('.service-card-actions').forEach(actions => {
-                actions.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                });
-            });
-            
-            document.querySelectorAll('.table-actions button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                });
-            });
         });
     </script>
 </body>
