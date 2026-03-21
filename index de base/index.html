@@ -1,0 +1,3795 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTogoConnect - Plateforme Éducative Togolaise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Variables de couleurs - Drapeau togolais */
+        :root {
+            --jaune-principal: #FFD700;
+            --rouge-principal: #EF3340;
+            --vert-principal: #00A651;
+            --blanc-principal: #FFFFFF;
+            --gris-fonce: #333333;
+            --gris-moyen: #666666;
+            --gris-clair: #F5F5F5;
+            --orange-cours: #FF9800;
+            --cyan-suggestion: #00BCD4;
+            --violet-premium: #9C27B0;
+            --bleu-prof: #2196F3;
+            --violet-autres: #7B1FA2;
+            
+            --jaune-fonce: #FFC107;
+            --vert-success: #4CAF50;
+            --rouge-alerte: #F44336;
+            --bleu-info: #2196F3;
+            --gris-texte: #424242;
+            --noir: #212121;
+        }
+
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-texte);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Flèche retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--blanc-principal);
+            overflow: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(239, 51, 64, 0.4);
+        }
+
+        .back-to-top:active {
+            transform: translateY(-4px) scale(0.98);
+            transition: transform 0.1s;
+        }
+
+        /* Effet de brillance au survol */
+        .back-to-top::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: left 0.7s ease;
+        }
+
+        .back-to-top:hover::before {
+            left: 100%;
+        }
+
+        /* Effet de vibration légère pour attirer l'attention */
+        @keyframes attention-pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .back-to-top.attention {
+            animation: attention-pulse 2s infinite;
+        }
+
+        /* Animation de pulsation pour la première apparition */
+        @keyframes first-appearance {
+            0% {
+                transform: translateY(20px) scale(0.5);
+                opacity: 0;
+            }
+            70% {
+                transform: translateY(0) scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .back-to-top.first-appear {
+            animation: first-appearance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Animation de pulsation */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 166, 81, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 166, 81, 0);
+            }
+        }
+
+        .back-to-top.pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Indicateur de progrès (optionnel) */
+        .scroll-progress {
+            position: fixed;
+            bottom: 100px;
+            right: 45px;
+            width: 40px;
+            height: 40px;
+            z-index: 9998;
+            display: none;
+        }
+
+        .scroll-progress.visible {
+            display: block;
+        }
+
+        .scroll-progress-circle {
+            fill: none;
+            stroke: var(--vert-principal);
+            stroke-width: 3;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .scroll-progress-text {
+            font-size: 0.6rem;
+            font-weight: bold;
+            fill: var(--gris-fonce);
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        /* NOUVEAU MODAL: Achat de ressources */
+        #purchaseModal .modal-header {
+            background: linear-gradient(135deg, var(--violet-premium) 0%, var(--violet-autres) 100%);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
+            color: var(--blanc-principal);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .modal-header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--blanc-principal);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .resource-preview {
+            background-color: rgba(123, 31, 162, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid var(--violet-autres);
+        }
+
+        .resource-preview h4 {
+            color: var(--gris-fonce);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .resource-preview ul {
+            padding-left: 20px;
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+
+        .resource-preview li {
+            margin-bottom: 5px;
+        }
+
+        .purchase-options {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .purchase-option {
+            flex: 1;
+            border: 2px solid var(--gris-clair);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .purchase-option:hover {
+            border-color: var(--violet-autres);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(123, 31, 162, 0.1);
+        }
+
+        .purchase-option.selected {
+            border-color: var(--violet-autres);
+            background-color: rgba(123, 31, 162, 0.05);
+        }
+
+        .purchase-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gris-fonce);
+            margin: 10px 0;
+        }
+
+        .purchase-period {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .modal-btn-secondary {
+            background-color: var(--gris-clair);
+            color: var(--gris-moyen);
+        }
+
+        .modal-btn-secondary:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .modal-btn-primary {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .modal-btn-primary:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn-purple {
+            background-color: var(--violet-autres);
+            color: var(--blanc-principal);
+        }
+
+        .modal-btn-purple:hover {
+            background-color: #6a1b9a;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn-disabled {
+            background-color: var(--gris-clair);
+            color: var(--gris-moyen);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .modal-btn-disabled:hover {
+            background-color: var(--gris-clair);
+            color: var(--gris-moyen);
+            transform: none;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--blanc-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gris-fonce);
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
+            color: var(--gris-fonce);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--vert-principal);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gris-fonce);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .nav-links a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border: 2px solid var(--gris-moyen);
+            color: var(--gris-fonce);
+        }
+
+        .btn-login:hover {
+            background-color: var(--gris-clair);
+            border-color: var(--gris-fonce);
+        }
+
+        .btn-signup {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+        }
+
+        .btn-signup:hover {
+            background-color: #e6c200;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-success {
+            background-color: var(--vert-success);
+            color: var(--blanc-principal);
+        }
+
+        .btn-success:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .btn-alert {
+            background-color: var(--rouge-alerte);
+            color: var(--blanc-principal);
+        }
+
+        .btn-alert:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background-color: var(--bleu-info);
+            color: var(--blanc-principal);
+        }
+
+        .btn-info:hover {
+            background-color: #0b7dda;
+            transform: translateY(-2px);
+        }
+
+        .btn-purple {
+            background-color: var(--violet-autres);
+            color: var(--blanc-principal);
+        }
+
+        .btn-purple:hover {
+            background-color: #6a1b9a;
+            transform: translateY(-2px);
+        }
+
+        /* Section Hero */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(76,175,80,0.05) 100%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--noir);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--vert-success);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--gris-fonce);
+        }
+
+        .search-box {
+            max-width: 700px;
+            margin: 40px auto 0;
+            background-color: var(--blanc-principal);
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 20px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-btn {
+            background-color: var(--jaune-principal);
+            color: var(--noir);
+            border: none;
+            border-radius: 50px;
+            padding: 0 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--jaune-fonce);
+        }
+
+        /* Section Titres */
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--noir);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--gris-fonce);
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        /* Section Fonctionnalités */
+        .features {
+            padding: 80px 0;
+            background-color: var(--blanc-principal);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background-color: var(--gris-clair);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .icon-yellow {
+            background-color: rgba(255,215,0,0.15);
+            color: var(--jaune-fonce);
+        }
+
+        .icon-green {
+            background-color: rgba(76,175,80,0.15);
+            color: var(--vert-success);
+        }
+
+        .icon-red {
+            background-color: rgba(244,67,54,0.15);
+            color: var(--rouge-alerte);
+        }
+
+        .icon-blue {
+            background-color: rgba(33,150,243,0.15);
+            color: var(--bleu-info);
+        }
+
+        .icon-gray {
+            background-color: rgba(117,117,117,0.15);
+            color: var(--gris-fonce);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--noir);
+        }
+
+        /* Section Témoignages */
+        .testimonials {
+            padding: 80px 0;
+            background-color: var(--gris-clair);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 30px;
+            min-width: 100%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            margin: 0 10px;
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--gris-moyen);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+        }
+
+        .author-info h4 {
+            color: var(--noir);
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--gris-moyen);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .slider-dot.active {
+            background-color: var(--jaune-principal);
+        }
+
+        /* Section Meilleurs Cours */
+        .top-courses {
+            padding: 80px 0;
+            background-color: var(--blanc-principal);
+        }
+
+        .courses-section-title {
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--vert-principal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .courses-section-title i {
+            color: var(--vert-principal);
+        }
+
+        /* Section Autres Cours */
+        .autres-courses-section {
+            background: linear-gradient(135deg, rgba(123, 31, 162, 0.05) 0%, rgba(156, 39, 176, 0.05) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            border: 2px solid rgba(123, 31, 162, 0.1);
+        }
+
+        .autres-courses-title {
+            color: var(--violet-autres);
+            border-bottom: 2px solid var(--violet-autres);
+        }
+
+        .autres-courses-title i {
+            color: var(--violet-autres);
+        }
+
+        /* Cours Grid Layout 5 colonnes */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Course Card compacte */
+        .course-card {
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--gris-clair);
+            transition: all 0.3s;
+            position: relative;
+            height: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: var(--vert-principal);
+        }
+
+        .course-card.premium {
+            border: 1px solid var(--jaune-principal);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.15);
+        }
+
+        .course-header {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .badge-premium {
+            background-color: rgba(255,215,0,0.15);
+            color: var(--gris-fonce);
+            border: 1px solid var(--jaune-principal);
+        }
+
+        .badge-standard {
+            background-color: rgba(0,166,81,0.15);
+            color: var(--vert-principal);
+            border: 1px solid var(--vert-principal);
+        }
+
+        .badge-gratuit {
+            background-color: rgba(33,150,243,0.15);
+            color: #2196F3;
+            border: 1px solid #2196F3;
+        }
+
+        .badge-achat {
+            background-color: rgba(156, 39, 176, 0.15);
+            color: var(--violet-premium);
+            border: 1px solid var(--violet-premium);
+        }
+
+        /* Niveau d'étude pour les ressources */
+        .resource-level {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: rgba(123, 31, 162, 0.1);
+            color: var(--violet-autres);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .course-level {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: rgba(0,166,81,0.1);
+            color: var(--vert-principal);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .course-title {
+            font-size: 1rem;
+            color: var(--gris-fonce);
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 40px;
+        }
+
+        .course-subject {
+            color: var(--gris-moyen);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .course-teacher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .teacher-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--blanc-principal);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .teacher-info h4 {
+            font-size: 0.85rem;
+            color: var(--gris-fonce);
+            margin-bottom: 2px;
+        }
+
+        .teacher-info p {
+            font-size: 0.75rem;
+            color: var(--gris-moyen);
+            line-height: 1.3;
+        }
+
+        .course-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            color: var(--gris-moyen);
+            margin-bottom: 12px;
+        }
+
+        .course-location i {
+            font-size: 0.7rem;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gris-moyen);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gris-moyen);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .course-rating {
+            color: var(--jaune-principal);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1px;
+        }
+
+        .course-price-section {
+            padding: 0px 18px;
+            background-color: rgba(0,0,0,0.02);
+            border-top: 1px solid var(--gris-clair);
+        }
+
+        .course-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+
+        .price-amount {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gris-fonce);
+        }
+
+        .price-period {
+            font-size: 0.8rem;
+            color: var(--gris-moyen);
+            font-weight: normal;
+        }
+
+        .price-free {
+            color: var(--vert-principal);
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .resource-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-course {
+            flex: 1;
+            padding: 5px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .btn-details {
+            background-color: var(--gris-clair);
+            color: var(--gris-moyen);
+        }
+
+        .btn-details:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-enroll {
+            background-color: var(--vert-principal);
+            color: var(--blanc-principal);
+        }
+
+        .btn-enroll:hover {
+            background-color: #008c45;
+            transform: translateY(-2px);
+        }
+
+        .btn-premium {
+            background-color: var(--jaune-principal);
+            color: var(--gris-fonce);
+        }
+
+        .btn-premium:hover {
+            background-color: #e6c200;
+            transform: translateY(-2px);
+        }
+
+        .btn-achat {
+            background-color: var(--violet-autres);
+            color: var(--blanc-principal);
+        }
+
+        .btn-achat:hover {
+            background-color: #6a1b9a;
+            transform: translateY(-2px);
+        }
+
+        .btn-preview {
+            background-color: var(--gris-clair);
+            color: var(--gris-moyen);
+        }
+
+        .btn-preview:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        /* Section Meilleurs Enseignants - MODIFIÉ: défilement horizontal */
+        .top-teachers {
+            padding: 80px 0;
+            background-color: var(--gris-clair);
+        }
+
+        .teachers-slider-container {
+            position: relative;
+            margin-top: 40px;
+        }
+
+        .teachers-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--jaune-principal) var(--gris-clair);
+            scroll-behavior: smooth;
+        }
+
+        .teachers-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .teachers-slider::-webkit-scrollbar-track {
+            background: var(--gris-clair);
+            border-radius: 10px;
+        }
+
+        .teachers-slider::-webkit-scrollbar-thumb {
+            background-color: var(--jaune-principal);
+            border-radius: 10px;
+        }
+
+        /* Styles pour les cartes d'enseignants de la page enseignant.html - adaptées pour le défilement horizontal */
+        .teacher-card-horizontal {
+            min-width: 280px;
+            max-width: 280px;
+            background-color: var(--blanc-principal);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--gris-clair);
+            transition: all 0.3s;
+            position: relative;
+            height: 420px; /* RÉDUIT DE 470px à 420px */
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .teacher-card-horizontal:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--bleu-prof);
+        }
+
+        .teacher-header-horizontal {
+            padding: 20px;
+            background-color: var(--blanc-principal);
+            border-bottom: 1px solid var(--gris-clair);
+            position: relative;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .teacher-avatar-horizontal {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            background: linear-gradient(45deg, var(--vert-principal), var(--bleu-prof));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--blanc-principal);
+            font-size: 1.8rem;
+            border: 3px solid var(--blanc-principal);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .teacher-name-horizontal {
+            font-size: 1.2rem;
+            color: var(--gris-fonce);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .teacher-title-horizontal {
+            color: var(--bleu-prof);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .teacher-rating-horizontal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 10px;
+            color: var(--jaune-principal);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .teacher-meta-horizontal {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            color: var(--gris-moyen);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .teacher-content-horizontal {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .teacher-subjects-horizontal {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .subject-tag-horizontal {
+            padding: 3px 8px;
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prof);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .subject-tag-horizontal.math {
+            background-color: rgba(244,67,54,0.1);
+            color: #F44336;
+        }
+
+        .subject-tag-horizontal.french {
+            background-color: rgba(33,150,243,0.1);
+            color: var(--bleu-prof);
+        }
+
+        .subject-tag-horizontal.english {
+            background-color: rgba(255,193,7,0.1);
+            color: #FFC107;
+        }
+
+        .subject-tag-horizontal.science {
+            background-color: rgba(76,175,80,0.1);
+            color: #4CAF50;
+        }
+
+        /* MODIFICATION SUPPRIMÉE: La description des enseignants a été supprimée */
+        .teacher-description-horizontal {
+            display: none; /* La description a été supprimée */
+        }
+
+        .teacher-actions-horizontal {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .btn-teacher-horizontal {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .btn-profile-horizontal {
+            background-color: var(--gris-clair);
+            color: var(--gris-moyen);
+        }
+
+        .btn-profile-horizontal:hover {
+            background-color: var(--gris-moyen);
+            color: var(--blanc-principal);
+        }
+
+        .btn-contact-horizontal {
+            background-color: var(--bleu-prof);
+            color: var(--blanc-principal);
+        }
+
+        .btn-contact-horizontal:hover {
+            background-color: #0d8bf2;
+            transform: translateY(-2px);
+        }
+
+        /* Boutons de navigation pour le slider */
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: var(--blanc-principal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .slider-nav:hover {
+            background-color: var(--jaune-principal);
+            color: var(--blanc-principal);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-nav.prev {
+            left: -25px;
+        }
+
+        .slider-nav.next {
+            right: -25px;
+        }
+
+        .slider-nav.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slider-nav.disabled:hover {
+            background-color: var(--blanc-principal);
+            color: var(--gris-fonce);
+            transform: translateY(-50%);
+        }
+
+        /* Section Partenaires - AJOUTÉ */
+        .partners {
+            padding: 80px 0;
+            background-color: var(--blanc-principal);
+        }
+
+        .partners-slider {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            margin-top: 50px;
+            height: 120px;
+            position: relative;
+        }
+
+        .partner-track {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            animation: scroll 30s linear infinite;
+        }
+
+        .partner-logo {
+            width: 150px;
+            height: 80px;
+            background-color: var(--gris-clair);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--gris-fonce);
+            font-size: 1.2rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .partner-logo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            background-color: var(--blanc-principal);
+        }
+
+        /* Section Mission */
+        .mission {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(76,175,80,0.1) 100%);
+        }
+
+        .mission-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-top: 50px;
+        }
+
+        .mission-image {
+            flex: 1;
+            height: 400px;
+            background-color: var(--gris-clair);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: var(--jaune-fonce);
+        }
+
+        .mission-text {
+            flex: 1;
+        }
+
+        .mission-text h3 {
+            font-size: 1.8rem;
+            color: var(--noir);
+            margin-bottom: 20px;
+        }
+
+        .mission-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Section Écoles */
+        .schools {
+            padding: 80px 0;
+            background-color: var(--gris-clair);
+        }
+
+        .schools-slider {
+            display: flex;
+            overflow: hidden;
+            margin-top: 50px;
+            height: 150px;
+            position: relative;
+        }
+
+        .school-track {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            animation: scroll 25s linear infinite;
+        }
+
+        .school-card {
+            min-width: 200px;
+            height: 120px;
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .school-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .school-icon {
+            font-size: 2rem;
+            color: var(--vert-success);
+            margin-bottom: 10px;
+        }
+
+        /* Section Niveaux */
+        .levels {
+            padding: 80px 0;
+            background-color: var(--gris-clair);
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .level-card {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .level-card:hover {
+            border-color: var(--jaune-principal);
+            transform: translateY(-5px);
+        }
+
+        .level-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--jaune-fonce);
+            margin-bottom: 10px;
+        }
+
+        .level-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--noir);
+        }
+
+        /* Section Inscription */
+        .signup-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(76,175,80,0.1) 100%);
+            text-align: center;
+        }
+
+        .user-types {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .user-card {
+            background-color: var(--blanc-principal);
+            border-radius: 15px;
+            padding: 40px 30px;
+            width: 260px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .user-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .user-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .student-icon {
+            color: var(--vert-success);
+        }
+
+        .teacher-icon {
+            color: var(--jaune-fonce);
+        }
+
+        .user-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--noir);
+        }
+
+        .user-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .user-card ul li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .user-card ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--vert-success);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--noir);
+            color: var(--gris-moyen);
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--blanc-principal);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--jaune-principal);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gris-moyen);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--jaune-principal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc-principal);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--jaune-principal);
+            color: var(--noir);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Animation pour défilement */
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-150px * 6 - 60px * 6));
+            }
+        }
+
+        /* Responsive */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--noir);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background-color: var(--blanc-principal);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-auth {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Responsive pour le nouveau design des cours */
+        @media (max-width: 1200px) {
+            .courses-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .courses-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .auth-buttons {
+                display: none;
+            }
+            
+            .mobile-menu.active {
+                display: flex;
+            }
+            
+            .mission-content {
+                flex-direction: column;
+            }
+            
+            .mission-image {
+                height: 300px;
+            }
+            
+            .slider-nav {
+                display: none;
+            }
+            
+            .teacher-card-horizontal {
+                min-width: 250px;
+                max-width: 250px;
+            }
+
+            .autres-courses-section {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .courses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 15px;
+            }
+            
+            .search-input, .search-btn {
+                border-radius: 15px;
+                width: 100%;
+            }
+            
+            .user-types {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .course-card {
+                max-width: 100%;
+            }
+            
+            .teacher-card-horizontal {
+                min-width: 220px;
+                max-width: 220px;
+                height: 390px; /* Ajusté pour la version mobile */
+            }
+
+            .purchase-options {
+                flex-direction: column;
+            }
+
+            .autres-courses-section {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .resource-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .btn-course {
+                width: 100%;
+            }
+            
+            .teacher-card-horizontal {
+                min-width: 280px;
+                max-width: 280px;
+                height: 420px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .course-card {
+                border-radius: 10px;
+                height: 320px;
+            }
+            
+            .course-header {
+                padding: 12px;
+            }
+            
+            .course-price-section {
+                padding: 10px 12px;
+            }
+            
+            .course-title {
+                font-size: 0.95rem;
+                min-height: 36px;
+            }
+            
+            .price-amount {
+                font-size: 1.2rem;
+            }
+
+            .purchase-option {
+                padding: 10px;
+            }
+
+            .purchase-price {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Flèche retour en haut -->
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut (Esc)">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Indicateur de progression du scroll (optionnel) -->
+    <div class="scroll-progress" id="scrollProgress">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="18" stroke="#e6e6e6" stroke-width="3" fill="none"/>
+            <circle class="scroll-progress-circle" cx="20" cy="20" r="18" stroke-dasharray="113.097" stroke-dashoffset="113.097"/>
+            <text class="scroll-progress-text" x="20" y="20">0%</text>
+        </svg>
+    </div>
+
+    <!-- MODAL: Achat de ressources -->
+    <div class="modal-overlay" id="purchaseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="purchaseTitle">Acheter une ressource</h3>
+                <p id="purchaseSubtitle"></p>
+                <button class="close-modal" id="closePurchaseModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="purchaseStep1">
+                    <div class="resource-preview">
+                        <h4 id="resourceTitle"></h4>
+                        <p id="resourceDescription"></p>
+                        <p><strong>Type:</strong> <span id="resourceType"></span></p>
+                        <p><strong>Format:</strong> <span id="resourceFormat"></span></p>
+                        <p><strong>Niveau:</strong> <span id="resourceLevel"></span></p>
+                        <p><strong>Contenu:</strong></p>
+                        <ul id="resourceContent"></ul>
+                    </div>
+
+                    <div class="purchase-options">
+                        <div class="purchase-option" data-price="gratuit">
+                            <h4>Gratuit</h4>
+                            <div class="purchase-price price-free">0 FCFA</div>
+                            <div class="purchase-period">Accès immédiat</div>
+                            <p>Version limitée</p>
+                        </div>
+                        <div class="purchase-option" data-price="standard">
+                            <h4>Standard</h4>
+                            <div class="purchase-price" id="standardPrice"></div>
+                            <div class="purchase-period">Accès complet</div>
+                            <p>Téléchargement PDF</p>
+                        </div>
+                        <div class="purchase-option" data-price="premium">
+                            <h4>Premium</h4>
+                            <div class="purchase-price" id="premiumPrice"></div>
+                            <div class="purchase-period">Accès complet + bonus</div>
+                            <p>PDF + corrigés détaillés</p>
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="modal-btn modal-btn-secondary" id="cancelPurchaseBtn">Annuler</button>
+                        <button class="modal-btn modal-btn-purple" id="confirmPurchaseBtn" disabled>Acheter maintenant</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">ET</div>
+                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                </a>
+
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#cours">Cours</a></li>
+                    <li><a href="#niveaux">Niveaux</a></li>
+                    <li><a href="#enseignants">Enseignants</a></li>
+                    <li><a href="#ecoles">Ecoles</a></li>
+                    <li><a href="#partenaires">Partenaires</a></li>
+                    <li><a href="#temoignages">Témoignages</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+
+                <div class="auth-buttons">
+                    <a href="Authentification/auth.html" class="btn btn-login">Connexion</a>
+                    <a href="Authentification/inscription.html" class="btn btn-signup">Inscription</a>
+                </div>
+            </nav>
+            
+            <!-- Menu mobile -->
+            <div class="mobile-menu" id="mobileMenu">
+                <ul class="nav-links">
+                    <li><a href="#cours">Cours</a></li>
+                    <li><a href="#ressources">Ressources</a></li>
+                    <li><a href="#niveaux">Niveaux</a></li>
+                    <li><a href="#enseignants">Enseignants</a></li>
+                    <li><a href="#ecoles">Ecoles</a></li>
+                    <li><a href="#partenaires">Partenaires</a></li>
+                    <li><a href="#temoignages">Témoignages</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="mobile-auth">
+                    <a href="Authentification/auth.html" class="btn btn-login">Connexion</a>
+                    <a href="inscription/choix-inscription.html" class="btn btn-signup">S'inscrire</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section Hero -->
+    <section class="hero" id="accueil">
+        <div class="container">
+            <h1>La plateforme éducative qui <span>connecte</span> les élèves et enseignants du Togo</h1>
+            <p>Trouvez les meilleurs enseignants pour les matières du collège (6ème à 3ème) avec notre système de
+                recommandation intelligent. Apprenez à votre rythme avec un suivi personnalisé.</p>
+
+            <div class="search-box">
+                <input type="text" class="search-input"
+                    placeholder="Rechercher un enseignant, une matière, un niveau...">
+                <button class="search-btn">Rechercher</button>
+            </div>
+
+            <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="inscription/choix-inscription.html" class="btn btn-success">Je suis Élève</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-alert">Je suis Enseignant</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-success">Je suis Parent d'eleve</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-alert">Je suis une ecole/institut</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Fonctionnalités -->
+    <section class="features" id="fonctionnalites">
+        <div class="container">
+            <h2 class="section-title">Fonctionnalités Principales</h2>
+            <p class="section-subtitle">Découvrez les outils qui font d'EduTogoConnect la plateforme éducative la plus
+                complète pour le collège au Togo</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon icon-yellow">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Enseignants Vérifiés</h3>
+                    <p>Tous nos enseignants sont soigneusement sélectionnés et leurs compétences vérifiées par notre
+                        équipe.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-green">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Visio-conférence Intégrée</h3>
+                    <p>Suivez vos cours en ligne directement depuis la plateforme sans logiciel externe.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-yellow">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Système de Notation</h3>
+                    <p>Notez vos enseignants et consultez les avis pour faire le meilleur choix.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-red">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Messagerie Instantanée</h3>
+                    <p>Échangez directement avec vos enseignants via notre messagerie sécurisée.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Notre Mission -->
+    <section class="mission" id="mission">
+        <div class="container">
+            <h2 class="section-title">Notre Mission</h2>
+            <p class="section-subtitle">Nous croyons en une éducation accessible et de qualité pour tous les élèves du Togo</p>
+            
+            <div class="mission-content">
+                <div class="mission-image">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="mission-text">
+                    <h3>Transformer l'éducation au Togo</h3>
+                    <p>Notre mission est de créer une plateforme éducative innovante qui connecte les élèves du collège avec les meilleurs enseignants du pays. Nous voulons briser les barrières géographiques et économiques qui limitent l'accès à une éducation de qualité.</p>
+                    <p>EduTogoConnect a été fondé avec la conviction que chaque élève mérite un accompagnement personnalisé, quel que soit son lieu de résidence ou son milieu social. Notre plateforme utilise la technologie pour rapprocher les élèves des enseignants compétents, créant ainsi un écosystème éducatif dynamique et inclusif.</p>
+                    <p>Nous nous engageons à soutenir le système éducatif togolais en fournissant des outils modernes et efficaces pour améliorer les résultats scolaires et préparer les jeunes à relever les défis de demain.</p>
+                    <a href="inscription/choix-inscription.html" class="btn btn-info">Rejoindre notre mission</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Témoignages -->
+    <section class="testimonials" id="temoignages">
+        <div class="container">
+            <h2 class="section-title">Témoignages des élèves satisfaits</h2>
+            <p class="section-subtitle">Découvrez ce que disent les élèves et parents qui utilisent notre plateforme</p>
+            
+            <div class="testimonials-slider" id="testimonialsSlider">
+                <!-- Les témoignages seront ajoutés dynamiquement via JavaScript -->
+            </div>
+            
+            <div class="slider-controls" id="testimonialControls">
+                <!-- Les points de contrôle seront ajoutés dynamiquement via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Meilleurs Cours -->
+    <section class="top-courses" id="cours">
+        <div class="container">
+            <h2 class="section-title">Meilleurs Cours par Niveau</h2>
+            <p class="section-subtitle">Découvrez les cours les plus populaires pour chaque niveau du collège et les ressources pour vos revision et preparation aux devoirs et examens</p>
+            
+            <!-- Section Sciences -->
+            <div class="courses-grid" id="sciencesGrid">
+                <!-- Les cours de sciences seront ajoutés dynamiquement -->
+            </div>
+            
+            <div class="courses-grid" id="litteratureGrid">
+                <!-- Les cours de littérature seront ajoutés dynamiquement -->
+            </div>
+            
+            <!-- MODIFICATION: Section Autres Cours modifiée pour ressembler au fichier fourni -->
+            <section class="autres-courses-section" id="autres-cours">
+                <h2 class="courses-section-title autres-courses-title">
+                    <i class="fas fa-book"></i> Autres Cours - Ressources pédagogiques
+                </h2>
+                <div class="courses-grid" id="autresCoursGrid">
+                    <!-- Les ressources pédagogiques seront ajoutées dynamiquement -->
+                </div>
+            </section>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="cours.html" class="btn btn-purple">Voir tous les cours</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Meilleurs Enseignants - MODIFIÉ: défilement horizontal -->
+    <section class="top-teachers" id="enseignants">
+        <div class="container">
+            <h2 class="section-title">Nos meilleurs enseignants</h2>
+            <p class="section-subtitle">Découvrez les enseignants les mieux notés par nos élèves</p>
+            
+            <div class="teachers-slider-container">
+                <div class="slider-nav prev" id="prevTeacher">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                
+                <div class="teachers-slider" id="teachersSlider">
+                    <!-- Les enseignants seront ajoutés dynamiquement via JavaScript -->
+                </div>
+                
+                <div class="slider-nav next" id="nextTeacher">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="enseignant.html" class="btn btn-info">Voir tous les enseignants</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Écoles -->
+    <section class="schools" id="ecoles">
+        <div class="container">
+            <h2 class="section-title">Nos écoles et institutions partenaires</h2>
+            <p class="section-subtitle">EduTogoConnect collabore avec les meilleures écoles du Togo</p>
+            
+            <div class="schools-slider">
+                <div class="school-track" id="schoolTrack">
+                    <!-- Les écoles seront ajoutées dynamiquement via JavaScript -->
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="ecole.html" class="btn btn-info">Voir toutes les écoles</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Partenaires - AJOUTÉ -->
+    <section class="partners" id="partenaires">
+        <div class="container">
+            <h2 class="section-title">Nos partenaires et sponsors</h2>
+            <p class="section-subtitle">Ils nous font confiance et nous soutiennent pour transformer l'éducation au Togo</p>
+            
+            <div class="partners-slider">
+                <div class="partner-track" id="partnerTrack">
+                    <!-- Les partenaires seront ajoutés dynamiquement via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Niveaux -->
+    <section class="levels" id="niveaux">
+        <div class="container">
+            <h2 class="section-title">Niveaux Scolaires Couverts</h2>
+            <p class="section-subtitle">Nous couvrons toutes les classes du collège selon le système éducatif togolais</p>
+
+            <div class="levels-grid">
+                <div class="level-card">
+                    <div class="level-number">6ème</div>
+                    <h3>Première année du collège</h3>
+                    <p>Toutes les matières du programme togolais avec une approche adaptée aux nouveaux collégiens.</p>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-number">5ème</div>
+                    <h3>Deuxième année du collège</h3>
+                    <p>Approfondissement des connaissances avec un suivi personnalisé pour chaque élève.</p>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-number">4ème</div>
+                    <h3>Troisième année du collège</h3>
+                    <p>Préparation progressive au Brevet avec des enseignants spécialisés.</p>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-number">3ème</div>
+                    <h3>Dernière année du collège</h3>
+                    <p>Préparation intensive au BEPC avec des cours ciblés et des exercices types.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Inscription -->
+    <section class="signup-section" id="inscription">
+        <div class="container">
+            <h2 class="section-title">Rejoignez notre communauté éducative</h2>
+            <p class="section-subtitle">Choisissez votre profil et inscrivez-vous gratuitement pour commencer</p>
+
+            <div class="user-types">
+                <div class="user-card">
+                    <div class="user-icon student-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Élève</h3>
+                    <p>Je cherche un enseignant pour m'aider dans mes études</p>
+                    <ul>
+                        <li>Trouvez des enseignants vérifiés</li>
+                        <li>Suivez votre progression</li>
+                        <li>Obtenez des certificats</li>
+                        <li>Notez vos enseignants</li>
+                    </ul>
+                    <a href="inscription/eleve.html" class="btn btn-success" style="margin-top: 20px;">S'inscrire comme
+                        Élève</a>
+                </div>
+
+                <div class="user-card">
+                    <div class="user-icon teacher-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Enseignant</h3>
+                    <p>Je propose mes services pour accompagner des élèves</p>
+                    <ul>
+                        <li>Créez vos cours personnalisés</li>
+                        <li>Gérez vos élèves facilement</li>
+                        <li>Obtenez un profil certifié</li>
+                        <li>Générez des revenus</li>
+                    </ul>
+                    <a href="inscription/enseignant.html" class="btn btn-alert" style="margin-top: 20px;">S'inscrire
+                        comme Enseignant</a>
+                </div>
+
+                <div class="user-card">
+                    <div class="user-icon student-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Parent d'Élève</h3>
+                    <p>Je cherche un enseignant pour m'aider dans mes études</p>
+                    <ul>
+                        <li>Trouvez des enseignants vérifiés</li>
+                        <li>Suivez votre progression</li>
+                        <li>Obtenez des certificats</li>
+                        <li>Notez vos enseignants</li>
+                    </ul>
+                    <a href="inscription/parent.html" class="btn btn-success" style="margin-top: 20px;">S'inscrire comme
+                        Parent d'Élève</a>
+                </div>
+
+                <div class="user-card">
+                    <div class="user-icon teacher-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Ecole & institution</h3>
+                    <p>Je propose mes services pour accompagner des élèves</p>
+                    <ul>
+                        <li>Créez vos cours personnalisés</li>
+                        <li>Gérez vos élèves facilement</li>
+                        <li>Obtenez un profil certifié</li>
+                        <li>Générez des revenus</li>
+                    </ul>
+                    <a href="inscription/ecole.html" class="btn btn-alert" style="margin-top: 20px;">S'inscrire
+                        comme Ecole</a>
+                </div>     
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 20px;">
+                        <div class="logo-icon">ET</div>
+                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
+                    </div>
+                    <p>La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs
+                        enseignants.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                        <li><a href="#mission">Notre Mission</a></li>
+                        <li><a href="#niveaux">Niveaux</a></li>
+                        <li><a href="#cours">Meilleurs Cours</a></li>
+                        <li><a href="#ressources">Ressources</a></li>
+                        <li><a href="#enseignants">Nos Enseignants</a></li>
+                        <li><a href="#ecoles">Nos Écoles</a></li>
+                        <li><a href="#partenaires">Nos Partenaires</a></li>
+                        <li><a href="#temoignages">Témoignages</a></li>
+                        <li><a href="faq.php">FAQ</a></li>
+                        <li><a href="blog.php">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Pour les enseignants</h3>
+                    <ul class="footer-links">
+                        <li><a href="teacher-guide.php">Guide des enseignants</a></li>
+                        <li><a href="verification.php">Processus de vérification</a></li>
+                        <li><a href="premium.php">Formule Premium</a></li>
+                        <li><a href="pricing.php">Tarifs et commissions</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +228 XX XX XX XX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
+                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.php"
+                        style="color: var(--jaune-principal);">Politique de confidentialité</a> | <a href="terms.php"
+                        style="color: var(--jaune-principal);">Conditions d'utilisation</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Données pour les cours
+        const coursesData = [
+            // Cours de Sciences
+            {
+                id: 1,
+                title: "Mathématiques - Niveau 6ème",
+                subject: "math",
+                level: "6ème",
+                teacher: "M. Koffi Agbessi",
+                teacherInitials: "KA",
+                profession: "Enseignant au Collège Protestant",
+                location: "Lomé",
+                price: 2500,
+                isFree: false,
+                rating: 4.9,
+                students: 124,
+                type: "individuel",
+                isNew: false,
+                isPremium: true,
+                category: "sciences"
+            },
+            {
+                id: 2,
+                title: "Physique-Chimie - Électricité 4ème",
+                subject: "physics",
+                level: "4ème",
+                teacher: "Dr. Yao Akakpo",
+                teacherInitials: "YA",
+                profession: "Professeur de Physique",
+                location: "Kara",
+                price: 3500,
+                isFree: false,
+                rating: 4.7,
+                students: 92,
+                type: "individuel",
+                isNew: false,
+                isPremium: true,
+                category: "sciences"
+            },
+            {
+                id: 3,
+                title: "SVT - Le Monde Vivant 5ème",
+                subject: "svt",
+                level: "5ème",
+                teacher: "Mme Fatou Diallo",
+                teacherInitials: "FD",
+                profession: "Biologiste",
+                location: "Sokodé",
+                price: 2800,
+                isFree: false,
+                rating: 4.5,
+                students: 76,
+                type: "groupe",
+                isNew: true,
+                isPremium: false,
+                category: "sciences"
+            },
+            {
+                id: 4,
+                title: "Sciences - Révision complète 3ème",
+                subject: "physics",
+                level: "3ème",
+                teacher: "Dr. Lawson Komla",
+                teacherInitials: "LK",
+                profession: "Chercheur en Sciences",
+                location: "Lomé",
+                price: 4500,
+                isFree: false,
+                rating: 4.7,
+                students: 124,
+                type: "groupe",
+                isNew: false,
+                isPremium: true,
+                category: "sciences"
+            },
+            {
+                id: 5,
+                title: "Mathématiques - Géométrie 5ème",
+                subject: "math",
+                level: "5ème",
+                teacher: "Dr. Komla Lawson",
+                teacherInitials: "KL",
+                profession: "Enseignant expérimenté",
+                location: "Dapaong",
+                price: 3000,
+                isFree: false,
+                rating: 4.8,
+                students: 87,
+                type: "individuel",
+                isNew: false,
+                isPremium: true,
+                category: "sciences"
+            },
+
+            // Cours de Littérature
+            {
+                id: 7,
+                title: "Français - Grammaire de base 6ème",
+                subject: "french",
+                level: "6ème",
+                teacher: "Mme Aïcha Mensah",
+                teacherInitials: "AM",
+                profession: "Professeure de Français",
+                location: "Lomé",
+                price: 2000,
+                isFree: false,
+                rating: 4.7,
+                students: 98,
+                type: "groupe",
+                isNew: true,
+                isPremium: false,
+                category: "litterature"
+            },
+            {
+                id: 8,
+                title: "Anglais - Conversation 4ème",
+                subject: "english",
+                level: "4ème",
+                teacher: "Mme Sarah Johnson",
+                teacherInitials: "SJ",
+                profession: "Enseignante bilingue",
+                location: "Lomé",
+                price: 2900,
+                isFree: false,
+                rating: 4.6,
+                students: 88,
+                type: "groupe",
+                isNew: false,
+                isPremium: false,
+                category: "litterature"
+            },
+            {
+                id: 9,
+                title: "Français - Préparation au Brevet",
+                subject: "french",
+                level: "4ème",
+                teacher: "Mme Mariam Konaté",
+                teacherInitials: "MK",
+                profession: "Professeure de Lettres",
+                location: "Kara",
+                price: 4000,
+                isFree: false,
+                rating: 4.8,
+                students: 105,
+                type: "intensif",
+                isNew: true,
+                isPremium: false,
+                category: "litterature"
+            },
+            {
+                id: 10,
+                title: "Initiation à l'Anglais 6ème",
+                subject: "english",
+                level: "6ème",
+                teacher: "M. John Smith",
+                teacherInitials: "JS",
+                profession: "Enseignant natif anglophone",
+                location: "Lomé",
+                price: 0,
+                isFree: true,
+                rating: 4.6,
+                students: 215,
+                type: "en-ligne",
+                isNew: false,
+                isPremium: false,
+                category: "litterature"
+            },
+            {
+                id: 11,
+                title: "Histoire du Togo 5ème",
+                subject: "history",
+                level: "5ème",
+                teacher: "Prof. Kodjo Adjo",
+                teacherInitials: "KA",
+                profession: "Historien",
+                location: "Sokodé",
+                price: 2200,
+                isFree: false,
+                rating: 4.9,
+                students: 112,
+                type: "intensif",
+                isNew: false,
+                isPremium: false,
+                category: "litterature"
+            },
+        ];
+
+        // MODIFICATION: Données pour les ressources pédagogiques avec informations d'enseignants
+        const resourcesData = [
+            {
+                id: 101,
+                title: "Fiches de révision BEPC - Mathématiques",
+                type: "fiche_revision",
+                subject: "math",
+                level: "3ème",
+                description: "Fiches complètes de révision pour le BEPC en mathématiques",
+                format: "PDF",
+                pages: 45,
+                price: 1500,
+                premiumPrice: 2500,
+                rating: 4.8,
+                downloads: 287,
+                content: [
+                    "Algèbre: Calcul littéral, équations",
+                    "Géométrie: Théorèmes, calculs d'aires",
+                    "Statistiques et probabilités",
+                    "Exercices types BEPC corrigés"
+                ],
+                teacher: "Prof. Jean Dupont",
+                teacherInitials: "JD",
+                profession: "Enseignant au Lycée Français",
+                location: "Lomé",
+                category: "autres"
+            },
+            {
+                id: 102,
+                title: "Annales BEPC corrigées - 2020-2023",
+                type: "epreuve_examen",
+                subject: "toutes",
+                level: "3ème",
+                description: "Sujets officiels des dernières sessions avec corrigés détaillés",
+                format: "PDF + Vidéo",
+                pages: 120,
+                price: 3000,
+                premiumPrice: 4500,
+                rating: 4.9,
+                downloads: 412,
+                content: [
+                    "Sujets complets de toutes les matières",
+                    "Corrigés détaillés pas à pas",
+                    "Conseils de méthodologie",
+                    "Grilles d'évaluation officielles"
+                ],
+                teacher: "M. Koffi Agbessi",
+                teacherInitials: "KA",
+                profession: "Enseignant au Collège Protestant",
+                location: "Lomé",
+                category: "autres"
+            },
+            {
+                id: 103,
+                title: "Résumés de cours - Français 4ème",
+                type: "cours_resume",
+                subject: "french",
+                level: "4ème",
+                description: "Synthèse complète du programme de français 4ème",
+                format: "PDF",
+                pages: 35,
+                price: 1200,
+                premiumPrice: 2000,
+                rating: 4.6,
+                downloads: 156,
+                content: [
+                    "Grammaire et conjugaison",
+                    "Figures de style et analyse littéraire",
+                    "Méthodologie de la rédaction",
+                    "Liste d'œuvres au programme"
+                ],
+                teacher: "Mme Aïcha Mensah",
+                teacherInitials: "AM",
+                profession: "Professeure de Français",
+                location: "Lomé",
+                category: "autres"
+            },
+            {
+                id: 104,
+                title: "Exercices corrigés - Sciences Physiques 5ème",
+                type: "exercice_corrige",
+                subject: "physics",
+                level: "5ème",
+                description: "Banque d'exercices avec corrections détaillées",
+                format: "PDF",
+                pages: 60,
+                price: 1800,
+                premiumPrice: 2800,
+                rating: 4.7,
+                downloads: 198,
+                content: [
+                    "Électricité: Circuits, loi d'Ohm",
+                    "Mécanique: Forces, mouvement",
+                    "Chimie: Atomes, molécules",
+                    "Optique: Lumière, miroirs"
+                ],
+                teacher: "Dr. Yao Akakpo",
+                teacherInitials: "YA",
+                profession: "Professeur de Physique",
+                location: "Kara",
+                category: "autres"
+            },
+            {
+                id: 105,
+                title: "Devoirs surveillés - SVT 4ème",
+                type: "devoir",
+                subject: "svt",
+                level: "4ème",
+                description: "Série de devoirs type contrôle avec barème",
+                format: "PDF",
+                pages: 40,
+                price: 1000,
+                premiumPrice: 1800,
+                rating: 4.5,
+                downloads: 134,
+                content: [
+                    "6 devoirs complets",
+                    "Barème de correction",
+                    "Fiches de révision associées",
+                    "Conseils pour réussir"
+                ],
+                teacher: "Mme Fatou Diallo",
+                teacherInitials: "FD",
+                profession: "Biologiste",
+                location: "Sokodé",
+                category: "autres"
+            }
+        ];
+
+        // MODIFICATION: Données des enseignants (simplifiées) depuis enseignant.html
+        const teachersData = [
+            {
+                id: 1,
+                name: "Koffi Agbessi",
+                title: "Professeur de Mathématiques",
+                subjects: ["math", "physics"],
+                levels: ["6ème", "5ème", "4ème", "3ème"],
+                description: "Professeur de mathématiques avec 10 ans d'expérience dans l'enseignement au collège. Spécialiste de la pédagogie différenciée.",
+                rating: 4.9,
+                isAvailable: true,
+                teachingType: ["individuel", "groupe"],
+                avatarInitials: "KA"
+            },
+            {
+                id: 2,
+                name: "Aïcha Mensah",
+                title: "Professeure de Français",
+                subjects: ["french"],
+                levels: ["6ème", "5ème", "3ème"],
+                description: "Enseignante de français passionnée par la littérature africaine. Méthodes innovantes pour l'apprentissage de la grammaire.",
+                rating: 4.7,
+                isAvailable: true,
+                teachingType: ["individuel", "en-ligne"],
+                avatarInitials: "AM"
+            },
+            {
+                id: 3,
+                name: "John Smith",
+                title: "Professeur d'Anglais",
+                subjects: ["english"],
+                levels: ["6ème", "5ème", "4ème", "3ème"],
+                description: "Professeur natif anglophone avec une certification TEFL. Spécialisé dans l'enseignement aux débutants.",
+                rating: 4.9,
+                isAvailable: true,
+                teachingType: ["individuel", "groupe", "en-ligne"],
+                avatarInitials: "JS"
+            },
+            {
+                id: 4,
+                name: "Komla Lawson",
+                title: "Docteur en Sciences",
+                subjects: ["physics", "svt"],
+                levels: ["5ème", "4ème", "3ème"],
+                description: "Docteur en sciences physiques avec une passion pour l'enseignement. Approche expérimentale et pratique.",
+                rating: 4.8,
+                isAvailable: true,
+                teachingType: ["individuel", "groupe"],
+                avatarInitials: "KL"
+            },
+            {
+                id: 5,
+                name: "Fatou Diallo",
+                title: "Professeure de SVT",
+                subjects: ["svt"],
+                levels: ["5ème", "3ème"],
+                description: "Spécialiste en sciences de la vie et de la terre. Utilisation de supports visuels et d'expériences pratiques.",
+                rating: 4.6,
+                isAvailable: true,
+                teachingType: ["individuel", "en-ligne"],
+                avatarInitials: "FD"
+            },
+            {
+                id: 6,
+                name: "Kodjo Adjo",
+                title: "Professeur d'Histoire-Géographie",
+                subjects: ["history"],
+                levels: ["5ème", "4ème", "3ème"],
+                description: "Historien spécialiste de l'Afrique. Méthodes d'enseignement basées sur l'analyse de documents.",
+                rating: 4.9,
+                isAvailable: true,
+                teachingType: ["groupe", "en-ligne"],
+                avatarInitials: "KA"
+            },
+            {
+                id: 7,
+                name: "Yao Akakpo",
+                title: "Professeur de Physique-Chimie",
+                subjects: ["physics"],
+                levels: ["4ème", "3ème"],
+                description: "Ingénieur de formation, passionné par l'enseignement des sciences. Approche concrète et appliquée.",
+                rating: 4.7,
+                isAvailable: true,
+                teachingType: ["individuel", "groupe"],
+                avatarInitials: "YA"
+            },
+            {
+                id: 8,
+                name: "Mariam Konaté",
+                title: "Professeure de Français",
+                subjects: ["french"],
+                levels: ["4ème", "3ème"],
+                description: "Spécialiste de la préparation au BEPC en français. Méthodologie rigoureuse pour la rédaction et l'analyse.",
+                rating: 4.8,
+                isAvailable: true,
+                teachingType: ["individuel", "groupe", "en-ligne"],
+                avatarInitials: "MK"
+            },
+            {
+                id: 9,
+                name: "Sarah Johnson",
+                title: "Professeure d'Anglais",
+                subjects: ["english"],
+                levels: ["4ème", "3ème"],
+                description: "Professeure d'anglais certifiée avec expérience internationale. Focus sur la conversation et la prononciation.",
+                rating: 4.6,
+                isAvailable: true,
+                teachingType: ["individuel", "en-ligne"],
+                avatarInitials: "SJ"
+            },
+            {
+                id: 10,
+                name: "Jean Dupont",
+                title: "Professeur de Mathématiques",
+                subjects: ["math"],
+                levels: ["3ème"],
+                description: "Spécialiste de la préparation intensive au BEPC en mathématiques. Résultats exceptionnels avec ses élèves.",
+                rating: 4.9,
+                isAvailable: true,
+                teachingType: ["individuel", "groupe"],
+                avatarInitials: "JD"
+            },
+            {
+                id: 11,
+                name: "Mensah Yao",
+                title: "Professeur de Philosophie",
+                subjects: ["philo"],
+                levels: ["3ème"],
+                description: "Philosophe et pédagogue, spécialiste de l'initiation à la philosophie pour les collégiens.",
+                rating: 4.8,
+                isAvailable: true,
+                teachingType: ["individuel", "groupe"],
+                avatarInitials: "MY"
+            },
+            {
+                id: 12,
+                name: "Lawson Komla",
+                title: "Professeur de Sciences",
+                subjects: ["physics", "svt"],
+                levels: ["3ème"],
+                description: "Professeur agrégé de sciences, expert en préparation aux examens. Méthodes de révision efficaces.",
+                rating: 4.7,
+                isAvailable: true,
+                teachingType: ["groupe", "en-ligne"],
+                avatarInitials: "LK"
+            }
+        ];
+
+        // Données pour les témoignages
+        const testimonials = [
+            {
+                id: 1,
+                content: "Grâce à EduTogoConnect, j'ai pu améliorer ma moyenne en mathématiques de 3 points en seulement 3 mois. Mon enseignant était très patient et compétent.",
+                author: "Koffi Agbessi",
+                role: "Élève de 4ème",
+                avatar: "KA"
+            },
+            {
+                id: 2,
+                content: "En tant que parent, je cherchais une solution pour aider ma fille en anglais. La plateforme m'a permis de trouver un enseignant parfait en quelques clics. Je recommande vivement!",
+                author: "Aïcha Mensah",
+                role: "Parent d'élève",
+                avatar: "AM"
+            },
+            {
+                id: 3,
+                content: "Les cours sur EduTogoConnect m'ont beaucoup aidé à préparer mon BEPC. Les enseignants sont disponibles et les cours sont bien structurés. Merci pour cette plateforme!",
+                author: "David Akakpo",
+                role: "Élève de 3ème",
+                avatar: "DA"
+            },
+            {
+                id: 4,
+                content: "Je suis enseignante depuis 5 ans et cette plateforme m'a permis de trouver plus d'élèves et d'organiser mon travail efficacement. L'interface est intuitive et les outils sont complets.",
+                author: "Mariam Diallo",
+                role: "Enseignante de Français",
+                avatar: "MD"
+            },
+            {
+                id: 5,
+                content: "Après avoir essayé plusieurs plateformes, EduTogoConnect est de loin la plus adaptée au contexte togolais. Mon fils a repris confiance en lui et ses résultats se sont nettement améliorés.",
+                author: "Komlan Adjo",
+                role: "Parent d'élève",
+                avatar: "KA"
+            }
+        ];
+
+        // Données pour les écoles
+        const schools = [
+            { id: 1, name: "Lycée de Tokoin", city: "Lomé" },
+            { id: 2, name: "Collège Protestant", city: "Kpalimé" },
+            { id: 3, name: "Lycée Scientifique", city: "Lomé" },
+            { id: 4, name: "Collège Moderne", city: "Sokodé" },
+            { id: 5, name: "École Internationale", city: "Lomé" },
+            { id: 6, name: "Lycée du Zio", city: "Tsévié" },
+            { id: 7, name: "Collège Sacré-Cœur", city: "Atakpamé" },
+            { id: 8, name: "Lycée de Kara", city: "Kara" },
+            { id: 9, name: "CEG", city: "Dapaong" },
+            { id: 10, name: "Lycée Technique", city: "Lomé" }
+        ];
+
+        // Données pour les partenaires
+        const partners = [
+            { id: 1, name: "Ministère Éducation" },
+            { id: 2, name: "Banque Togolaise" },
+            { id: 3, name: "Orange Togo" },
+            { id: 4, name: "Canal+" },
+            { id: 5, name: "Togocom" },
+            { id: 6, name: "UNICEF" },
+            { id: 7, name: "Ambassade France" },
+            { id: 8, name: "Coopération Allemande" },
+            { id: 9, name: "FAO" },
+            { id: 10, name: "UNESCO" }
+        ];
+
+        // MODIFICATION: Éléments du modal d'achat
+        const purchaseModal = document.getElementById('purchaseModal');
+        const closePurchaseModal = document.getElementById('closePurchaseModal');
+        const cancelPurchaseBtn = document.getElementById('cancelPurchaseBtn');
+        const confirmPurchaseBtn = document.getElementById('confirmPurchaseBtn');
+        const purchaseOptions = document.querySelectorAll('.purchase-option');
+
+        // Variables d'état pour l'achat
+        let selectedResource = null;
+        let selectedPriceOption = null;
+
+        // MODIFICATION: Ouvrir la modal d'inscription depuis les boutons des cours
+        window.openEnrollModal = function(courseId) {
+            // Rediriger directement vers la page de choix d'inscription
+            window.location.href = 'inscription/choix-inscription.html';
+        };
+
+        // MODIFICATION: Configuration du modal d'achat
+        function setupPurchaseModal() {
+            // Fermer le modal
+            closePurchaseModal.addEventListener('click', closePurchaseModalFunc);
+            cancelPurchaseBtn.addEventListener('click', closePurchaseModalFunc);
+            
+            // Fermer le modal en cliquant à l'extérieur
+            purchaseModal.addEventListener('click', (e) => {
+                if (e.target === purchaseModal) {
+                    closePurchaseModalFunc();
+                }
+            });
+            
+            // Sélection d'option d'achat
+            purchaseOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    purchaseOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedPriceOption = option.dataset.price;
+                    updatePurchaseButton();
+                });
+            });
+            
+            // Bouton de confirmation d'achat
+            confirmPurchaseBtn.addEventListener('click', () => {
+                if (selectedResource && selectedPriceOption) {
+                    processPurchase();
+                }
+            });
+        }
+
+        // MODIFICATION: Fermer le modal d'achat
+        function closePurchaseModalFunc() {
+            purchaseModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            selectedResource = null;
+            selectedPriceOption = null;
+        }
+
+        // MODIFICATION: Mettre à jour le bouton d'achat
+        function updatePurchaseButton() {
+            if (!selectedPriceOption) {
+                confirmPurchaseBtn.disabled = true;
+                confirmPurchaseBtn.textContent = 'Sélectionnez une option';
+                confirmPurchaseBtn.className = 'modal-btn modal-btn-disabled';
+                return;
+            }
+            
+            confirmPurchaseBtn.disabled = false;
+            
+            if (selectedPriceOption === 'gratuit') {
+                confirmPurchaseBtn.textContent = 'Télécharger gratuitement';
+            } else {
+                confirmPurchaseBtn.textContent = 'Procéder au paiement';
+            }
+            
+            confirmPurchaseBtn.className = 'modal-btn modal-btn-purple';
+        }
+
+        // MODIFICATION: Traiter l'achat
+        function processPurchase() {
+            if (!selectedResource || !selectedPriceOption) return;
+            
+            let price = 0;
+            let optionName = '';
+            
+            switch (selectedPriceOption) {
+                case 'gratuit':
+                    price = 0;
+                    optionName = 'Gratuit';
+                    break;
+                case 'standard':
+                    price = selectedResource.price;
+                    optionName = 'Standard';
+                    break;
+                case 'premium':
+                    price = selectedResource.premiumPrice;
+                    optionName = 'Premium';
+                    break;
+            }
+            
+            // Simuler l'achat
+            alert(`Achat en cours...\n\nRessource: ${selectedResource.title}\nOption: ${optionName}\nPrix: ${price === 0 ? 'Gratuit' : price.toLocaleString() + ' FCFA'}\n\nVous allez être redirigé vers le paiement.`);
+            
+            // Fermer le modal après un délai
+            setTimeout(() => {
+                closePurchaseModalFunc();
+                
+                // Redirection vers la page de paiement (simulée)
+                if (price > 0) {
+                    console.log(`Redirection vers le paiement pour la ressource ${selectedResource.id}, option ${selectedPriceOption}`);
+                } else {
+                    // Pour les ressources gratuites, téléchargement direct
+                    alert('Téléchargement en cours...');
+                }
+            }, 1000);
+        }
+
+        // Élément flèche retour en haut
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const scrollProgress = document.getElementById('scrollProgress');
+        let hasAppeared = false;
+        let scrollTimeout;
+
+        // Fonction pour gérer la visibilité de la flèche
+        function toggleBackToTopButton() {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollPercentage = (scrollPosition / (documentHeight - windowHeight)) * 100;
+            
+            // Afficher la flèche après 300px de défilement
+            if (scrollPosition > 300) {
+                backToTopBtn.classList.add('visible');
+                if (scrollProgress) {
+                    scrollProgress.classList.add('visible');
+                }
+                
+                // Animation d'apparition seulement la première fois
+                if (!hasAppeared) {
+                    backToTopBtn.classList.add('first-appear');
+                    hasAppeared = true;
+                    
+                    // Retirer la classe après l'animation
+                    setTimeout(() => {
+                        backToTopBtn.classList.remove('first-appear');
+                        // Animation d'attention pendant 5 secondes
+                        backToTopBtn.classList.add('attention');
+                        setTimeout(() => {
+                            backToTopBtn.classList.remove('attention');
+                        }, 5000);
+                    }, 800);
+                }
+                
+                // Mettre à jour la progression du scroll
+                updateScrollProgress(scrollPercentage);
+                
+                // Effet de pulsation occasionnel quand on est très bas
+                if (scrollPosition > documentHeight * 0.7) {
+                    backToTopBtn.classList.add('pulse');
+                } else {
+                    backToTopBtn.classList.remove('pulse');
+                }
+            } else {
+                backToTopBtn.classList.remove('visible', 'pulse', 'attention');
+                if (scrollProgress) {
+                    scrollProgress.classList.remove('visible');
+                }
+            }
+        }
+
+        // Fonction pour mettre à jour l'indicateur de progression
+        function updateScrollProgress(percentage) {
+            if (!scrollProgress) return;
+            
+            const progressCircle = scrollProgress.querySelector('.scroll-progress-circle');
+            const progressText = scrollProgress.querySelector('.scroll-progress-text');
+            
+            if (progressCircle && progressText) {
+                const circumference = 2 * Math.PI * 18; // Rayon du cercle
+                const offset = circumference - (percentage / 100) * circumference;
+                
+                progressCircle.style.strokeDashoffset = offset;
+                progressText.textContent = `${Math.round(percentage)}%`;
+                
+                // Changer la couleur en fonction de la progression
+                if (percentage > 70) {
+                    progressCircle.style.stroke = 'var(--rouge-principal)';
+                } else if (percentage > 40) {
+                    progressCircle.style.stroke = 'var(--jaune-principal)';
+                } else {
+                    progressCircle.style.stroke = 'var(--vert-principal)';
+                }
+            }
+        }
+
+        // Fonction pour remonter en haut de la page avec effet smooth
+        function scrollToTop() {
+            // Effet visuel de clic
+            backToTopBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                backToTopBtn.style.transform = '';
+            }, 150);
+            
+            // Animation de défilement
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Retirer les animations pendant le défilement
+            backToTopBtn.classList.remove('attention', 'pulse');
+            
+            // Désactiver le bouton pendant le défilement
+            backToTopBtn.style.pointerEvents = 'none';
+            setTimeout(() => {
+                backToTopBtn.style.pointerEvents = 'auto';
+            }, 1000);
+        }
+
+        // Fonction pour vérifier si on est déjà en haut
+        function checkIfAtTop() {
+            if (window.scrollY === 0) {
+                backToTopBtn.classList.remove('visible', 'pulse', 'attention');
+                if (scrollProgress) {
+                    scrollProgress.classList.remove('visible');
+                }
+                hasAppeared = false;
+            }
+        }
+
+        // Initialiser les témoignages
+        function initTestimonials() {
+            const slider = document.getElementById('testimonialsSlider');
+            const controls = document.getElementById('testimonialControls');
+            
+            testimonials.forEach((testimonial, index) => {
+                // Créer la carte de témoignage
+                const testimonialCard = document.createElement('div');
+                testimonialCard.className = 'testimonial-card';
+                testimonialCard.innerHTML = `
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left" style="color: var(--jaune-principal); margin-right: 10px;"></i>
+                        ${testimonial.content}
+                        <i class="fas fa-quote-right" style="color: var(--jaune-principal); margin-left: 10px;"></i>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">${testimonial.avatar}</div>
+                        <div class="author-info">
+                            <h4>${testimonial.author}</h4>
+                            <p>${testimonial.role}</p>
+                        </div>
+                    </div>
+                `;
+                
+                slider.appendChild(testimonialCard);
+                
+                // Créer le point de contrôle
+                const dot = document.createElement('div');
+                dot.className = `slider-dot ${index === 0 ? 'active' : ''}`;
+                dot.dataset.index = index;
+                controls.appendChild(dot);
+                
+                // Ajouter l'événement de clic
+                dot.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    goToTestimonial(index);
+                });
+            });
+        }
+
+        // Fonction pour initialiser les cours
+        function initCourses() {
+            const sciencesGrid = document.getElementById('sciencesGrid');
+            const litteratureGrid = document.getElementById('litteratureGrid');
+            
+            // Filtrer les cours de sciences (5 premiers)
+            const sciencesCourses = coursesData
+                .filter(course => course.category === 'sciences')
+                .slice(0, 10);
+            
+            // Afficher les cours de sciences
+            if (sciencesCourses.length === 0) {
+                sciencesGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 20px; color: var(--gris-moyen);">
+                        <i class="fas fa-flask" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>Aucun cours de sciences disponible.</p>
+                    </div>
+                `;
+            } else {
+                sciencesCourses.forEach(course => {
+                    const courseCard = createCourseCard(course);
+                    sciencesGrid.appendChild(courseCard);
+                });
+            }
+            
+            // Filtrer les cours de littérature (5 premiers)
+            const litteratureCourses = coursesData
+                .filter(course => course.category === 'litterature')
+                .slice(0, 10);
+            
+            // Afficher les cours de littérature
+            if (litteratureCourses.length === 0) {
+                litteratureGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 20px; color: var(--gris-moyen);">
+                        <i class="fas fa-book-open" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>Aucun cours de littérature disponible.</p>
+                    </div>
+                `;
+            } else {
+                litteratureCourses.forEach(course => {
+                    const courseCard = createCourseCard(course);
+                    litteratureGrid.appendChild(courseCard);
+                });
+            }
+        }
+
+        // MODIFICATION: Fonction pour initialiser les ressources pédagogiques
+        function initResources() {
+            const autresCoursGrid = document.getElementById('autresCoursGrid');
+            
+            // Afficher les ressources pédagogiques
+            if (resourcesData.length === 0) {
+                autresCoursGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 20px; color: var(--gris-moyen);">
+                        <i class="fas fa-book" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>Aucune ressource pédagogique disponible.</p>
+                    </div>
+                `;
+            } else {
+                resourcesData.forEach(resource => {
+                    const resourceCard = createResourceCard(resource);
+                    autresCoursGrid.appendChild(resourceCard);
+                });
+            }
+        }
+
+        // Fonction pour créer une carte de cours compacte
+        function createCourseCard(course) {
+            const card = document.createElement('div');
+            card.className = `course-card ${course.isPremium ? 'premium' : ''}`;
+            
+            // Déterminer le badge
+            let badgeHTML = '';
+            if (course.isPremium) {
+                badgeHTML = '<div class="course-badge badge-premium">PREMIUM</div>';
+            } else if (course.isFree) {
+                badgeHTML = '<div class="course-badge badge-gratuit">GRATUIT</div>';
+            } else {
+                badgeHTML = '<div class="course-badge badge-standard">STANDARD</div>';
+            }
+            
+            // Formater le prix
+            let priceHTML = '';
+            if (course.isFree) {
+                priceHTML = `
+                    <div class="price-amount price-free">Gratuit</div>
+                    <div class="price-period">/cours</div>
+                `;
+            } else {
+                priceHTML = `
+                    <div class="price-amount">${course.price.toLocaleString()} FCFA</div>
+                    <div class="price-period">/heure</div>
+                `;
+            }
+            
+            // Étoiles de notation
+            const stars = Math.floor(course.rating);
+            const hasHalfStar = course.rating % 1 >= 0.5;
+            let starsHTML = '';
+            for (let i = 0; i < stars; i++) {
+                starsHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            card.innerHTML = `
+                <div class="course-header">
+                    ${badgeHTML}
+                    <div class="course-level">${course.level}</div>
+                    <h3 class="course-title">${course.title}</h3>
+                    <p class="course-subject">${getSubjectName(course.subject)}</p>
+                    
+                    <div class="course-teacher">
+                        <div class="teacher-avatar">${course.teacherInitials}</div>
+                        <div class="teacher-info">
+                            <h4>${course.teacher}</h4>
+                            <p>${course.profession}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="course-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${course.location}</span>
+                    </div>
+                    
+                    <div class="course-meta">
+                        <div class="course-rating">
+                            ${starsHTML} ${course.rating}/5
+                        </div>
+                        <div>${course.students} élèves</div>
+                    </div>
+                     <div class="course-price">
+                        ${priceHTML}
+                    </div>
+                    <div class="course-actions">
+                        <a href="detail-cours.html?id=${course.id}" class="btn-course btn-details">
+                            <i class="fas fa-eye"></i> Détails
+                        </a>
+                        ${course.isFree ? 
+                            `<button class="btn-course btn-enroll" onclick="openEnrollModal(${course.id})"><i class="fas fa-user-plus"></i> S'inscrire</button>` :
+                            `<button class="btn-course btn-enroll" onclick="openEnrollModal(${course.id})"><i class="fas fa-shopping-cart"></i> S'inscrire</button>`
+                        }
+                    </div>
+                </div>
+                <div class="course-price-section">
+                   
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // MODIFICATION: Fonction pour créer une carte de ressource
+        function createResourceCard(resource) {
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            
+            // Formater le prix
+            let priceHTML = '';
+            if (resource.price === 0) {
+                priceHTML = `
+                    <div class="price-amount price-free">Gratuit</div>
+                `;
+            } else {
+                priceHTML = `
+                    <div class="price-amount">${resource.price.toLocaleString()} FCFA</div>
+                `;
+            }
+            
+            // Étoiles de notation
+            const stars = Math.floor(resource.rating);
+            const hasHalfStar = resource.rating % 1 >= 0.5;
+            let starsHTML = '';
+            for (let i = 0; i < stars; i++) {
+                starsHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            card.innerHTML = `
+                <div class="course-header">
+                    <div class="resource-level">${resource.level}</div>
+                    <h3 class="course-title">${resource.title}</h3>
+                    <p class="course-subject">${getSubjectName(resource.subject)}</p>
+                    
+                    <!-- Section enseignant -->
+                    <div class="course-teacher">
+                        <div class="teacher-avatar">${resource.teacherInitials}</div>
+                        <div class="teacher-info">
+                            <h4>${resource.teacher}</h4>
+                            <p>${resource.profession}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Localisation -->
+                    <div class="course-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${resource.location}</span>
+                    </div>
+                    
+                    <div class="resource-meta">
+                        <div class="course-rating">
+                            ${starsHTML} ${resource.rating}/5
+                        </div>
+                    </div>
+                    
+                    <div class="course-price">
+                        ${priceHTML}
+                    </div>
+                    
+                    <div class="resource-actions">
+                        <button class="btn-course btn-preview" onclick="previewResource(${resource.id})">
+                            <i class="fas fa-eye"></i> Aperçu
+                        </button>
+                        <button class="btn-course btn-achat" onclick="openPurchaseModal(${resource.id})">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // MODIFICATION: Obtenir le nom du type de ressource
+        function getResourceTypeName(type) {
+            const types = {
+                'fiche_revision': 'Fiche de révision',
+                'epreuve_examen': 'Épreuve d\'examen',
+                'cours_resume': 'Cours résumé',
+                'exercice_corrige': 'Exercice corrigé',
+                'devoir': 'Devoir',
+                'kit_revision': 'Kit de révision',
+                'methode': 'Méthodologie',
+                'cahier_activites': 'Cahier d\'activités',
+                'pack_revision': 'Pack révision',
+                'formulaire': 'Formulaire'
+            };
+            return types[type] || type;
+        }
+
+        // MODIFICATION: Aperçu d'une ressource
+        window.previewResource = function(resourceId) {
+            const resource = resourcesData.find(r => r.id === resourceId);
+            if (resource) {
+                openPurchaseModal(resourceId);
+            }
+        };
+
+        // MODIFICATION: Ouvrir le modal d'achat
+        window.openPurchaseModal = function(resourceId) {
+            selectedResource = resourcesData.find(r => r.id === resourceId);
+            
+            if (selectedResource) {
+                // Mettre à jour les informations du modal
+                document.getElementById('purchaseTitle').textContent = selectedResource.title;
+                document.getElementById('purchaseSubtitle').textContent = selectedResource.description;
+                document.getElementById('resourceTitle').textContent = selectedResource.title;
+                document.getElementById('resourceDescription').textContent = selectedResource.description;
+                document.getElementById('resourceType').textContent = getResourceTypeName(selectedResource.type);
+                document.getElementById('resourceFormat').textContent = selectedResource.format;
+                document.getElementById('resourceLevel').textContent = selectedResource.level;
+                
+                // Mettre à jour la liste de contenu
+                const contentList = document.getElementById('resourceContent');
+                contentList.innerHTML = '';
+                selectedResource.content.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    contentList.appendChild(li);
+                });
+                
+                // Mettre à jour les prix
+                document.getElementById('standardPrice').textContent = 
+                    selectedResource.price === 0 ? 'Gratuit' : selectedResource.price.toLocaleString() + ' FCFA';
+                document.getElementById('premiumPrice').textContent = 
+                    selectedResource.premiumPrice === 0 ? 'Gratuit' : selectedResource.premiumPrice.toLocaleString() + ' FCFA';
+                
+                // Réinitialiser les sélections
+                selectedPriceOption = null;
+                purchaseOptions.forEach(opt => opt.classList.remove('selected'));
+                updatePurchaseButton();
+                
+                // Ouvrir le modal
+                purchaseModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        // MODIFICATION: Fonction pour initialiser les enseignants avec défilement horizontal
+        function initTeachers() {
+            const teachersSlider = document.getElementById('teachersSlider');
+            
+            // Prendre les 8 premiers enseignants pour le slider
+            const teachersToShow = teachersData.slice(0, 8);
+            
+            if (teachersToShow.length === 0) {
+                teachersSlider.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--gris-moyen); width: 100%;">
+                        <i class="fas fa-chalkboard-teacher" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                        <h3 style="color: var(--gris-fonce); margin-bottom: 10px;">Aucun enseignant disponible</h3>
+                        <p>Les enseignants seront bientôt disponibles sur notre plateforme.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            teachersToShow.forEach(teacher => {
+                const teacherCard = createTeacherCardHorizontal(teacher);
+                teachersSlider.appendChild(teacherCard);
+            });
+            
+            // Initialiser les boutons de navigation
+            setupTeacherSliderNavigation();
+        }
+
+        // MODIFICATION: Fonction pour créer une carte d'enseignant pour le défilement horizontal
+        function createTeacherCardHorizontal(teacher) {
+            const card = document.createElement('div');
+            card.className = 'teacher-card-horizontal';
+            
+            // Étoiles de notation
+            const stars = Math.floor(teacher.rating);
+            const hasHalfStar = teacher.rating % 1 >= 0.5;
+            let starsHTML = '';
+            for (let i = 0; i < stars; i++) {
+                starsHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            // Matières
+            const subjectsHTML = teacher.subjects.map(subject => {
+                const subjectName = getSubjectName(subject);
+                const subjectClass = getSubjectClass(subject);
+                return `<span class="subject-tag-horizontal ${subjectClass}">${subjectName}</span>`;
+            }).join('');
+            
+            // Niveaux enseignés
+            const levelsText = teacher.levels.length === 4 ? 'Tout le collège' : teacher.levels.join(', ');
+            
+            // MODIFICATION: La description a été supprimée du HTML
+            card.innerHTML = `
+                <div class="teacher-header-horizontal">
+                    <div class="teacher-avatar-horizontal">${teacher.avatarInitials}</div>
+                    <h2 class="teacher-name-horizontal">${teacher.name}</h2>
+                    <p class="teacher-title-horizontal">${teacher.title}</p>
+                    <div class="teacher-rating-horizontal">
+                        ${starsHTML} ${teacher.rating}/5
+                    </div>
+                    <div class="teacher-meta-horizontal">
+                        <div><i class="fas fa-graduation-cap"></i> ${levelsText}</div>
+                    </div>
+                </div>
+                <div class="teacher-content-horizontal">
+                    <div class="teacher-subjects-horizontal">
+                        ${subjectsHTML}
+                    </div>
+                    <!-- MODIFICATION: La description a été supprimée -->
+                    
+                    <div class="teacher-actions-horizontal">
+                        <button class="btn-teacher-horizontal btn-profile-horizontal" onclick="viewTeacherProfile(${teacher.id})">
+                            <i class="fas fa-user-circle"></i> Profil
+                        </button>
+                        <button class="btn-teacher-horizontal btn-contact-horizontal" onclick="contactTeacher(${teacher.id})">
+                            <i class="fab fa-facebook-messenger"></i> Contacter
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // MODIFICATION: Fonction pour configurer la navigation du slider d'enseignants
+        function setupTeacherSliderNavigation() {
+            const slider = document.getElementById('teachersSlider');
+            const prevBtn = document.getElementById('prevTeacher');
+            const nextBtn = document.getElementById('nextTeacher');
+            
+            let currentPosition = 0;
+            const cardWidth = 280; // Largeur d'une carte + gap (20px)
+            const scrollAmount = cardWidth * 2; // Défiler 2 cartes à la fois
+            
+            // Mettre à jour l'état des boutons
+            function updateButtons() {
+                const maxScroll = slider.scrollWidth - slider.clientWidth;
+                
+                if (currentPosition <= 0) {
+                    prevBtn.classList.add('disabled');
+                } else {
+                    prevBtn.classList.remove('disabled');
+                }
+                
+                if (currentPosition >= maxScroll) {
+                    nextBtn.classList.add('disabled');
+                } else {
+                    nextBtn.classList.remove('disabled');
+                }
+            }
+            
+            // Défiler vers la gauche
+            prevBtn.addEventListener('click', function() {
+                if (currentPosition > 0) {
+                    currentPosition = Math.max(0, currentPosition - scrollAmount);
+                    slider.scrollTo({
+                        left: currentPosition,
+                        behavior: 'smooth'
+                    });
+                    setTimeout(updateButtons, 300);
+                }
+            });
+            
+            // Défiler vers la droite
+            nextBtn.addEventListener('click', function() {
+                const maxScroll = slider.scrollWidth - slider.clientWidth;
+                if (currentPosition < maxScroll) {
+                    currentPosition = Math.min(maxScroll, currentPosition + scrollAmount);
+                    slider.scrollTo({
+                        left: currentPosition,
+                        behavior: 'smooth'
+                    });
+                    setTimeout(updateButtons, 300);
+                }
+            });
+            
+            // Mettre à jour la position actuelle lors du défilement manuel
+            slider.addEventListener('scroll', function() {
+                currentPosition = slider.scrollLeft;
+                updateButtons();
+            });
+            
+            // Initialiser l'état des boutons
+            updateButtons();
+        }
+
+        // Initialiser les écoles
+        function initSchools() {
+            const schoolTrack = document.getElementById('schoolTrack');
+            
+            // Dupliquer les écoles pour créer un effet de défilement continu
+            const allSchools = [...schools, ...schools];
+            
+            allSchools.forEach(school => {
+                const schoolCard = document.createElement('div');
+                schoolCard.className = 'school-card';
+                schoolCard.innerHTML = `
+                    <div class="school-icon">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <h4>${school.name}</h4>
+                    <p>${school.city}</p>
+                `;
+                
+                schoolTrack.appendChild(schoolCard);
+            });
+        }
+
+        // Initialiser les partenaires
+        function initPartners() {
+            const partnerTrack = document.getElementById('partnerTrack');
+            
+            // Dupliquer les partenaires pour créer un effet de défilement continu
+            const allPartners = [...partners, ...partners];
+            
+            allPartners.forEach(partner => {
+                const partnerLogo = document.createElement('div');
+                partnerLogo.className = 'partner-logo';
+                partnerLogo.textContent = partner.name;
+                
+                partnerTrack.appendChild(partnerLogo);
+            });
+        }
+
+        // Fonction pour obtenir le nom de la matière
+        function getSubjectName(subject) {
+            const subjects = {
+                'math': 'Mathématiques',
+                'french': 'Français',
+                'english': 'Anglais',
+                'physics': 'Sciences Physiques',
+                'svt': 'SVT',
+                'history': 'Histoire-Géo',
+                'philo': 'Philosophie',
+                'toutes': 'Toutes matières'
+            };
+            return subjects[subject] || subject;
+        }
+
+        // Fonction pour obtenir la classe CSS pour la matière
+        function getSubjectClass(subject) {
+            if (subject === 'math') return 'math';
+            if (subject === 'french') return 'french';
+            if (subject === 'english') return 'english';
+            if (subject === 'physics' || subject === 'svt') return 'science';
+            return '';
+        }
+
+        // Fonctions pour les boutons des enseignants
+        window.viewTeacherProfile = function(teacherId) {
+            const teacher = teachersData.find(t => t.id === teacherId);
+            if (teacher) {
+                alert(`Profil de ${teacher.name}\n\nSpécialité: ${teacher.title}\nNote: ${teacher.rating}/5\n\nCliquez pour voir le profil complet...`);
+                // Dans une application réelle, rediriger vers la page de profil de l'enseignant
+                // window.location.href = `teacher_profile.html?id=${teacherId}`;
+            }
+        };
+
+        window.contactTeacher = function(teacherId) {
+            const teacher = teachersData.find(t => t.id === teacherId);
+            if (teacher) {
+                alert(`Ouvrir Messenger pour contacter ${teacher.name}...`);
+                // Dans une application réelle, ouvrir Messenger ou un système de messagerie
+                // window.open(`https://m.me/${teacher.messengerId}`, '_blank');
+            }
+        };
+
+        // Fonction pour naviguer vers un témoignage spécifique
+        function goToTestimonial(index) {
+            const slider = document.getElementById('testimonialsSlider');
+            const dots = document.querySelectorAll('.slider-dot');
+            
+            // Mettre à jour la position du slider
+            slider.style.transform = `translateX(-${index * 100}%)`;
+            
+            // Mettre à jour les points actifs
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Variables pour le carrousel de témoignages
+        let currentTestimonial = 0;
+        const testimonialInterval = 5000; // 5 secondes
+
+        // Fonction pour faire défiler automatiquement les témoignages
+        function autoScrollTestimonials() {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            goToTestimonial(currentTestimonial);
+        }
+
+        // Initialiser toutes les sections
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser le modal d'achat
+            setupPurchaseModal();
+            
+            // Initialiser les autres composants
+            initTestimonials();
+            initCourses();
+            initResources();  // <-- MODIFICATION: Initialiser les ressources
+            initTeachers();
+            initSchools();
+            initPartners();
+            
+            // Démarrer le défilement automatique des témoignages
+            setInterval(autoScrollTestimonials, testimonialInterval);
+            
+            // Ajouter les événements pour la flèche retour en haut
+            window.addEventListener('scroll', () => {
+                toggleBackToTopButton();
+                
+                // Délai pour vérifier si on est en haut (après défilement)
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(checkIfAtTop, 100);
+            });
+
+            backToTopBtn.addEventListener('click', scrollToTop);
+
+            // Touche "Escape" pour remonter en haut
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && window.scrollY > 300) {
+                    scrollToTop();
+                }
+            });
+
+            // Initialisation au chargement de la page
+            setTimeout(toggleBackToTopButton, 100);
+            
+            // Menu mobile toggle
+            document.getElementById('menuToggle').addEventListener('click', function () {
+                const mobileMenu = document.getElementById('mobileMenu');
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Fermer le menu mobile en cliquant sur un lien
+            document.querySelectorAll('.mobile-menu a').forEach(link => {
+                link.addEventListener('click', function () {
+                    document.getElementById('mobileMenu').classList.remove('active');
+                });
+            });
+
+            // Animation simple au défilement
+            window.addEventListener('scroll', function () {
+                const header = document.querySelector('header');
+                if (window.scrollY > 100) {
+                    header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+                } else {
+                    header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                }
+            });
+            
+            // Ajouter un effet de défilement doux pour les ancres
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,1168 +1,1019 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion - EduTogoConnect</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Variables de couleurs - Drapeau togolais */
-        :root {
-            --jaune-principal: #FFD700;
-            --rouge-principal: #EF3340;
-            --vert-principal: #00A651;
-            --blanc-principal: #FFFFFF;
-            --gris-fonce: #333333;
-            --gris-moyen: #666666;
-            --gris-clair: #F5F5F5;
-            --gris-border: #E0E0E0;
-            --orange-warning: #FF9800;
-            --bleu-info: #2196F3;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--gris-clair);
-            color: var(--gris-fonce);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header */
-        .main-header {
-            background-color: var(--blanc-principal);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 15px 0;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
-            color: var(--gris-fonce);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--gris-fonce);
-        }
-
-        .logo-text span {
-            color: var(--vert-principal);
-        }
-
-        .back-home {
-            color: var(--gris-moyen);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: color 0.3s;
-        }
-
-        .back-home:hover {
-            color: var(--vert-principal);
-        }
-
-        /* Main Content */
-        .login-main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-
-        .login-container {
-            display: flex;
-            width: 100%;
-            max-width: 1000px;
-            min-height: 600px;
-            background-color: var(--blanc-principal);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-
-        /* Left Panel - Illustration */
-        .login-left {
-            flex: 1;
-            background: linear-gradient(135deg, var(--vert-principal), var(--jaune-principal));
-            padding: 60px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            color: var(--blanc-principal);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-left::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            background-size: cover;
-        }
-
-        .login-left-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .login-left h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .login-left p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-            line-height: 1.8;
-        }
-
-        .features-list {
-            list-style: none;
-            margin-top: 30px;
-        }
-
-        .features-list li {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1rem;
-        }
-
-        .features-list i {
-            color: var(--blanc-principal);
-            font-size: 1.2rem;
-        }
-
-        .illustration {
-            margin-top: 40px;
-            text-align: center;
-        }
-
-        .illustration i {
-            font-size: 8rem;
-            opacity: 0.8;
-        }
-
-        /* Right Panel - Form */
-        .login-right {
-            flex: 1;
-            padding: 40px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .login-header h1 {
-            font-size: 2.1rem;
-            color: var(--gris-fonce);
-            margin-bottom: 10px;
-        }
-
-        .login-header p {
-            color: var(--gris-moyen);
-            font-size: 1rem;
-        }
-
-        /* Login Options */
-        .login-options {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .option-btn {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid var(--gris-border);
-            background: var(--blanc-principal);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-            color: var(--gris-moyen);
-        }
-
-        .option-btn:hover {
-            border-color: var(--vert-principal);
-            color: var(--vert-principal);
-        }
-
-        .option-btn.active {
-            border-color: var(--vert-principal);
-            background-color: rgba(0,166,81,0.05);
-            color: var(--vert-principal);
-        }
-
-        .option-btn i {
-            font-size: 1.2rem;
-        }
-
-        /* Form */
-        .login-form {
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--gris-fonce);
-            font-size: 0.95rem;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid var(--gris-border);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s;
-            background-color: var(--blanc-principal);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--vert-principal);
-            box-shadow: 0 0 0 3px rgba(0,166,81,0.1);
-        }
-
-        .form-control.error {
-            border-color: var(--rouge-principal);
-        }
-
-        .form-control.success {
-            border-color: var(--vert-principal);
-        }
-
-        .input-icon {
-            position: absolute;
-            right: 20px;
-            top: 45px;
-            color: var(--gris-moyen);
-        }
-
-        .input-icon.success {
-            color: var(--vert-principal);
-        }
-
-        .input-icon.error {
-            color: var(--rouge-principal);
-        }
-
-        .error-message {
-            color: var(--rouge-principal);
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* Password Visibility */
-        .password-wrapper {
-            position: relative;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--gris-moyen);
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-
-        /* Remember & Forgot */
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            color: var(--gris-moyen);
-        }
-
-        .remember-me input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--vert-principal);
-            cursor: pointer;
-        }
-
-        .forgot-password {
-            color: var(--vert-principal);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-
-        .forgot-password:hover {
-            color: var(--rouge-principal);
-            text-decoration: underline;
-        }
-
-        /* Submit Button */
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--vert-principal), var(--jaune-principal));
-            border: none;
-            border-radius: 10px;
-            color: var(--blanc-principal);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,166,81,0.3);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Separator */
-        .separator {
-            display: flex;
-            align-items: center;
-            margin: 30px 0;
-            color: var(--gris-moyen);
-        }
-
-        .separator::before,
-        .separator::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background-color: var(--gris-border);
-        }
-
-        .separator span {
-            padding: 0 15px;
-            font-size: 0.9rem;
-        }
-
-        /* Social Login */
-        .social-login {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .social-btn {
-            flex: 1;
-            padding: 14px;
-            border: 2px solid var(--gris-border);
-            background: var(--blanc-principal);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-            color: var(--gris-fonce);
-        }
-
-        .social-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-
-        .social-btn.google:hover {
-            border-color: #DB4437;
-            color: #DB4437;
-        }
-
-        .social-btn.facebook:hover {
-            border-color: #4267B2;
-            color: #4267B2;
-        }
-
-        /* Signup Link */
-        .signup-link {
-            text-align: center;
-            margin-top: 30px;
-            color: var(--gris-moyen);
-        }
-
-        .signup-link a {
-            color: var(--vert-principal);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .signup-link a:hover {
-            color: var(--rouge-principal);
-            text-decoration: underline;
-        }
-
-        /* Footer */
-        .main-footer {
-            background-color: var(--gris-fonce);
-            color: var(--gris-clair);
-            padding: 30px 0;
-            margin-top: auto;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .footer-links a {
-            color: var(--gris-clair);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--jaune-principal);
-        }
-
-        /* Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 40px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-
-        .modal-header {
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .modal-title {
-            font-size: 1.8rem;
-            color: var(--gris-fonce);
-            margin-bottom: 10px;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gris-moyen);
-            cursor: pointer;
-        }
-
-        /* Loading */
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--gris-border);
-            border-top: 4px solid var(--vert-principal);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .login-container {
-                flex-direction: column;
-                max-width: 600px;
-            }
-
-            .login-left, .login-right {
-                padding: 40px 30px;
-            }
-
-            .login-left h2 {
-                font-size: 2rem;
-            }
-
-            .illustration i {
-                font-size: 6rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .login-options, .social-login {
-                flex-direction: column;
-            }
-
-            .form-options {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .login-left h2 {
-                font-size: 1.8rem;
-            }
-
-            .login-header h1 {
-                font-size: 1.8rem;
-            }
-
-            .login-left, .login-right {
-                padding: 30px 20px;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .footer-links {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .login-container {
-                border-radius: 10px;
-            }
-
-            .login-left h2 {
-                font-size: 1.6rem;
-            }
-
-            .login-header h1 {
-                font-size: 1.6rem;
-            }
-
-            .features-list li {
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — Sukuli</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --deep:        #002f2a;
+      --deep-alt:    #003333;
+      --deep-mid:    #003d38;
+      --deep-hover:  #004d45;
+      --deep-light:  #005a52;
+      --deep-pale:   #e5f0ef;
+      --teal:        #1ab5a0;
+      --teal-light:  #5dcfbe;
+      --teal-pale:   #dff5f2;
+      --gold:        #e8c44a;
+      --amber:       #c9980e;
+      --white:       #ffffff;
+      --off-white:   #f5faf9;
+      --g50:         #f8fafa;
+      --g100:        #eef3f2;
+      --g200:        #d9e5e4;
+      --g300:        #b5cbc9;
+      --g400:        #84a8a5;
+      --g500:        #5c8885;
+      --txt:         #1a3030;
+      --txt-b:       #3a5555;
+      --txt-m:       #6a8888;
+      --error:       #e53e3e;
+      --error-bg:    #fff5f5;
+      --success:     #1ab5a0;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { height: 100%; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--deep);
+      overflow: hidden;
+    }
+
+    /* ─── LEFT PANEL ─── */
+    .panel-left {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 56px;
+      overflow: hidden;
+      background: linear-gradient(145deg, #001e1b 0%, var(--deep) 40%, #003535 100%);
+    }
+
+    /* animated grid texture */
+    .panel-left::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(26,181,160,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,181,160,.06) 1px, transparent 1px);
+      background-size: 44px 44px;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove {
+      from { background-position: 0 0; }
+      to   { background-position: 44px 44px; }
+    }
+
+    /* floating blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none;
+    }
+    .blob-1 { width: 360px; height: 360px; background: rgba(26,181,160,.10); top: -100px; right: -80px; animation: blobFloat 10s ease-in-out infinite; }
+    .blob-2 { width: 220px; height: 220px; background: rgba(232,196,74,.07); bottom: -60px; left: -40px; animation: blobFloat 13s ease-in-out infinite reverse; }
+    .blob-3 { width: 160px; height: 160px; background: rgba(26,181,160,.06); top: 50%; left: 50%; animation: blobFloat 8s ease-in-out infinite 2s; }
+    @keyframes blobFloat {
+      0%,100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-24px) scale(1.06); }
+    }
+
+    .left-content { position: relative; z-index: 2; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 52px;
+      text-decoration: none;
+    }
+    .brand-badge {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--deep-mid), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800; color: var(--gold); font-size: 1.1rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,.3);
+      flex-shrink: 0;
+    }
+    .brand-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800; font-size: 1.55rem; color: #fff;
+    }
+    .brand-name span { color: var(--teal-light); }
+
+    .left-tagline {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+    .left-tagline em {
+      font-style: normal;
+      color: var(--gold);
+      position: relative;
+    }
+    .left-tagline em::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      opacity: .45;
+    }
+
+    .left-desc {
+      color: rgba(255,255,255,.6);
+      font-size: .93rem;
+      line-height: 1.8;
+      max-width: 380px;
+      margin-bottom: 40px;
+    }
+
+    /* feature pills */
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      animation: slideIn .5s ease both;
+    }
+    .feature-item:nth-child(1) { animation-delay: .1s; }
+    .feature-item:nth-child(2) { animation-delay: .2s; }
+    .feature-item:nth-child(3) { animation-delay: .3s; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .fi-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem;
+      flex-shrink: 0;
+    }
+    .fi-teal  { background: rgba(26,181,160,.2); color: var(--teal-light); }
+    .fi-gold  { background: rgba(232,196,74,.18); color: var(--gold); }
+    .fi-coral { background: rgba(216,90,48,.18); color: #f0896a; }
+    .feature-item p { color: rgba(255,255,255,.72); font-size: .86rem; line-height: 1.5; }
+    .feature-item p strong { color: #fff; font-weight: 700; display: block; font-size: .9rem; }
+
+    /* decorative counter row */
+    .stats-row {
+      display: flex;
+      gap: 28px;
+      margin-top: 44px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .stat strong {
+      display: block;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat span {
+      font-size: .65rem;
+      color: rgba(255,255,255,.45);
+      text-transform: uppercase;
+      letter-spacing: .9px;
+      margin-top: 3px;
+      display: block;
+    }
+
+    /* ─── RIGHT PANEL ─── */
+    .panel-right {
+      background: var(--off-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .form-card {
+      width: 100%;
+      max-width: 420px;
+      animation: cardUp .55s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes cardUp {
+      from { opacity: 0; transform: translateY(36px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* card header */
+    .form-header { margin-bottom: 28px; }
+    .form-header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--txt);
+      margin-bottom: 6px;
+    }
+    .form-header h1 span { color: var(--teal); }
+    .form-header p { color: var(--txt-m); font-size: .9rem; }
+    .form-header p a { color: var(--deep); font-weight: 700; text-decoration: none; }
+    .form-header p a:hover { color: var(--teal); }
+
+    /* role tabs */
+    .role-tabs {
+      display: flex;
+      background: var(--g100);
+      border-radius: 14px;
+      padding: 4px;
+      gap: 3px;
+      margin-bottom: 24px;
+      border: 1.5px solid var(--g200);
+    }
+    .role-tab {
+      flex: 1;
+      padding: 9px 6px;
+      border: none;
+      background: transparent;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--txt-m);
+      transition: all .22s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      line-height: 1.2;
+    }
+    .role-tab i { font-size: .95rem; }
+    .role-tab.active {
+      background: #fff;
+      color: var(--deep);
+      box-shadow: 0 2px 12px rgba(0,47,42,.12);
+    }
+    .role-tab.active i { color: var(--teal); }
+
+    /* divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--g400);
+      font-size: .78rem;
+      font-weight: 600;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--g200);
+    }
+
+    /* form group */
+    .form-group {
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--txt-b);
+      margin-bottom: 6px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .form-group label i { color: var(--teal); font-size: .78rem; }
+
+    .input-wrap { position: relative; }
+    .input-wrap input {
+      width: 100%;
+      padding: 13px 44px 13px 16px;
+      border: 1.8px solid var(--g200);
+      border-radius: 12px;
+      font-size: .92rem;
+      font-family: 'Nunito', sans-serif;
+      color: var(--txt);
+      background: #fff;
+      outline: none;
+      transition: all .22s;
+    }
+    .input-wrap input::placeholder { color: var(--g400); }
+    .input-wrap input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(26,181,160,.12);
+    }
+    .input-wrap input.error-input {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(229,62,62,.1);
+    }
+    .input-wrap input.success-input {
+      border-color: var(--success);
+      box-shadow: 0 0 0 3px rgba(26,181,160,.1);
+    }
+    .input-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--g400);
+      font-size: .88rem;
+      cursor: pointer;
+      transition: color .2s;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .input-icon:hover { color: var(--deep); }
+
+    /* field error */
+    .field-error {
+      font-size: .75rem;
+      color: var(--error);
+      margin-top: 5px;
+      display: none;
+      align-items: center;
+      gap: 4px;
+    }
+    .field-error.show { display: flex; }
+
+    /* remember + forgot */
+    .form-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .checkbox-wrap input[type="checkbox"] { display: none; }
+    .custom-check {
+      width: 18px; height: 18px;
+      border: 2px solid var(--g300);
+      border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+      flex-shrink: 0;
+    }
+    .checkbox-wrap input:checked + .custom-check {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+    .checkbox-wrap input:checked + .custom-check::after {
+      content: '✓';
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 900;
+    }
+    .checkbox-wrap span { font-size: .82rem; color: var(--txt-b); }
+    .forgot-link {
+      font-size: .82rem;
+      color: var(--deep);
+      font-weight: 700;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .forgot-link:hover { color: var(--teal); }
+
+    /* submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--deep) 0%, var(--deep-mid) 100%);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: all .25s;
+      box-shadow: 0 6px 20px rgba(0,47,42,.28);
+      position: relative;
+      overflow: hidden;
+      letter-spacing: .3px;
+    }
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26,181,160,.25), transparent);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,47,42,.36); }
+    .btn-submit:hover::before { opacity: 1; }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-submit .spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2.5px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-txt { display: none; }
+
+    /* alert banner */
+    .alert {
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: .84rem;
+      display: none;
+      align-items: flex-start;
+      gap: 9px;
+      margin-bottom: 18px;
+      border: 1.5px solid;
+      animation: alertPop .3s ease;
+    }
+    @keyframes alertPop {
+      from { opacity: 0; transform: scale(.96); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .alert.show { display: flex; }
+    .alert.alert-error { background: var(--error-bg); border-color: #fed7d7; color: #c53030; }
+    .alert.alert-success { background: var(--teal-pale); border-color: #b2f5ea; color: #276749; }
+    .alert i { margin-top: 1px; flex-shrink: 0; }
+
+    /* forgot password view */
+    .view { display: none; }
+    .view.active { display: block; animation: viewIn .35s ease; }
+    @keyframes viewIn {
+      from { opacity: 0; transform: translateX(12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--txt-m);
+      font-size: .85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 22px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      transition: color .2s;
+      padding: 0;
+    }
+    .back-btn:hover { color: var(--deep); }
+
+    /* signup CTA at bottom */
+    .signup-cta {
+      text-align: center;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--g200);
+      font-size: .85rem;
+      color: var(--txt-m);
+    }
+    .signup-cta a {
+      color: var(--deep);
+      font-weight: 800;
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+    }
+    .signup-cta a:hover { color: var(--teal); }
+
+    /* role badge shown after selection */
+    .role-badge-strip {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: var(--deep-pale);
+      border: 1.5px solid var(--teal-pale);
+      border-radius: 10px;
+      padding: 9px 14px;
+      margin-bottom: 16px;
+      font-size: .82rem;
+      color: var(--deep);
+      font-weight: 700;
+    }
+    .role-badge-strip.show { display: flex; }
+    .role-badge-strip i { color: var(--teal); }
+
+    /* toast */
+    #toast {
+      position: fixed;
+      bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: var(--deep);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: .88rem;
+      font-weight: 700;
+      box-shadow: 0 8px 28px rgba(0,47,42,.38);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: all .36s cubic-bezier(.34,1.56,.64,1);
+      pointer-events: none;
+      white-space: nowrap;
+      border: 1px solid rgba(26,181,160,.3);
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    #toast.success i { color: var(--teal-light); }
+    #toast.error-toast { background: #c53030; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      body { grid-template-columns: 1fr; overflow: auto; }
+      .panel-left { display: none; }
+      .panel-right { min-height: 100vh; padding: 40px 20px; }
+    }
+    @media (max-width: 400px) {
+      .role-tab { font-size: .66rem; padding: 8px 4px; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="main-header">
-        <div class="container">
-            <nav class="navbar">
-                <a href="index.html" class="logo">
-                    <div class="logo-icon">ET</div>
-                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
-                </a>
-                <a href="index.html" class="back-home">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Retour à l'accueil</span>
-                </a>
-            </nav>
-        </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="login-main">
-        <div class="login-container">
-            <!-- Left Panel - Illustration & Info -->
-            <div class="login-left">
-                <div class="login-left-content">
-                    <h2>Bienvenue sur EduTogoConnect</h2>
-                    <p>Connectez-vous pour accéder à votre espace personnel, suivre vos cours, communiquer avec vos enseignants et gérer votre apprentissage.</p>
-                    
-                    <ul class="features-list">
-                        <li><i class="fas fa-check-circle"></i> Accédez à tous vos cours en ligne</li>
-                        <li><i class="fas fa-check-circle"></i> Suivez votre progression détaillée</li>
-                        <li><i class="fas fa-check-circle"></i> Communiquez avec vos enseignants</li>
-                        <li><i class="fas fa-check-circle"></i> Gérez votre emploi du temps</li>
-                        <li><i class="fas fa-check-circle"></i> Téléchargez vos certificats</li>
-                    </ul>
-                    
-                    <div class="illustration">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                </div>
-            </div>
+<!-- ═══════════════ LEFT PANEL ═══════════════ -->
+<div class="panel-left">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
 
-            <!-- Right Panel - Login Form -->
-            <div class="login-right">
-                <div class="login-header">
-                    <h1>Connexion à votre compte</h1>
-                    <p>Accédez à votre espace personnel en utilisant vos identifiants</p>
-                </div>
+  <div class="left-content">
+    <a href="index.html" class="brand">
+      <div class="brand-badge">S</div>
+      <div class="brand-name">Suku<span>li</span></div>
+    </a>
 
-                <!-- Login Options -->
-                <div class="login-options">
-                    <button class="option-btn active" id="emailOptionBtn">
-                        <i class="fas fa-envelope"></i>
-                        <span>Email</span>
-                    </button>
-                    <button class="option-btn" id="phoneOptionBtn">
-                        <i class="fas fa-phone"></i>
-                        <span>Téléphone</span>
-                    </button>
-                </div>
+    <h2 class="left-tagline">
+      Bienvenue sur la plateforme<br>éducative <em>n°1 au Togo</em>
+    </h2>
+    <p class="left-desc">
+      Connectez-vous pour accéder à vos cours, suivre votre progression
+      et communiquer avec vos enseignants.
+    </p>
 
-                <!-- Login Form -->
-                <form class="login-form" id="loginForm">
-                    <!-- Email Field (Visible by default) -->
-                    <div class="form-group" id="emailGroup">
-                        <label for="email" class="form-label">Adresse Email</label>
-                        <div class="input-wrapper">
-                            <input type="email" id="email" class="form-control" placeholder="exemple@domaine.com" required>
-                            <div class="input-icon" id="emailIcon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                        </div>
-                        <div class="error-message" id="emailError">
-                            <i class="fas fa-exclamation-circle"></i>
-                            <span></span>
-                        </div>
-                    </div>
-
-                    <!-- Phone Field (Hidden by default) -->
-                    <div class="form-group" id="phoneGroup" style="display: none;">
-                        <label for="phone" class="form-label">Numéro de Téléphone</label>
-                        <div class="input-wrapper">
-                            <input type="tel" id="phone" class="form-control" placeholder="+228 XX XX XX XX" required>
-                            <div class="input-icon" id="phoneIcon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                        </div>
-                        <div class="error-message" id="phoneError">
-                            <i class="fas fa-exclamation-circle"></i>
-                            <span></span>
-                        </div>
-                    </div>
-
-                    <!-- Password Field -->
-                    <div class="form-group">
-                        <label for="password" class="form-label">Mot de passe</label>
-                        <div class="password-wrapper">
-                            <input type="password" id="password" class="form-control" placeholder="Votre mot de passe" required>
-                            <button type="button" class="toggle-password" id="togglePassword">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="input-icon" id="passwordIcon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <div class="error-message" id="passwordError">
-                            <i class="fas fa-exclamation-circle"></i>
-                            <span></span>
-                        </div>
-                    </div>
-
-                    <!-- Remember & Forgot -->
-                    <div class="form-options">
-                        <label class="remember-me">
-                            <input type="checkbox" id="rememberMe">
-                            <span>Se souvenir de moi</span>
-                        </label>
-                        <a href="#" class="forgot-password" id="forgotPasswordLink">
-                            Mot de passe oublié ?
-                        </a>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Se connecter</span>
-                    </button>
-
-                    <!-- Loading Spinner -->
-                    <div class="loading" id="loadingSpinner">
-                        <div class="spinner"></div>
-                        <p>Connexion en cours...</p>
-                    </div>
-                </form>
-
-                <!-- Separator -->
-                <div class="separator">
-                    <span>Ou connectez-vous avec</span>
-                </div>
-
-                <!-- Social Login -->
-                <div class="social-login">
-                    <button class="social-btn google" id="googleLogin">
-                        <i class="fab fa-google"></i>
-                        <span>Google</span>
-                    </button>
-                    <button class="social-btn facebook" id="facebookLogin">
-                        <i class="fab fa-facebook-f"></i>
-                        <span>Facebook</span>
-                    </button>
-                </div>
-
-                <!-- Signup Link -->
-                <div class="signup-link">
-                    <p>Vous n'avez pas de compte ? <a href="inscription.html">S'inscrire maintenant</a></p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2023 EduTogoConnect. Tous droits réservés.</p>
-                <div class="footer-links">
-                    <a href="privacy.html">Confidentialité</a>
-                    <a href="terms.html">Conditions</a>
-                    <a href="help.html">Aide</a>
-                    <a href="contact.html">Contact</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Forgot Password Modal -->
-    <div class="modal-overlay" id="forgotPasswordModal">
-        <div class="modal">
-            <button class="modal-close" id="closeModalBtn">&times;</button>
-            <div class="modal-header">
-                <h2 class="modal-title">Réinitialiser le mot de passe</h2>
-                <p>Entrez votre email pour recevoir un lien de réinitialisation</p>
-            </div>
-            <form id="resetPasswordForm">
-                <div class="form-group">
-                    <label for="resetEmail" class="form-label">Adresse Email</label>
-                    <input type="email" id="resetEmail" class="form-control" placeholder="exemple@domaine.com" required>
-                    <div class="error-message" id="resetEmailError">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <span></span>
-                    </div>
-                </div>
-                <button type="submit" class="submit-btn" id="resetSubmitBtn">
-                    <i class="fas fa-paper-plane"></i>
-                    <span>Envoyer le lien</span>
-                </button>
-            </form>
-        </div>
+    <div class="features-list">
+      <div class="feature-item">
+        <div class="fi-icon fi-teal"><i class="fas fa-graduation-cap"></i></div>
+        <p><strong>+500 cours disponibles</strong>De la 6ème à la 3ème, toutes matières</p>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon fi-gold"><i class="fas fa-shield-alt"></i></div>
+        <p><strong>Enseignants certifiés</strong>Vérifiés et approuvés par notre équipe</p>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon fi-coral"><i class="fas fa-chart-line"></i></div>
+        <p><strong>Suivi de progression</strong>Tableau de bord personnalisé en temps réel</p>
+      </div>
     </div>
 
-    <script>
-        // DOM Elements
-        const emailOptionBtn = document.getElementById('emailOptionBtn');
-        const phoneOptionBtn = document.getElementById('phoneOptionBtn');
-        const emailGroup = document.getElementById('emailGroup');
-        const phoneGroup = document.getElementById('phoneGroup');
-        const emailInput = document.getElementById('email');
-        const phoneInput = document.getElementById('phone');
-        const passwordInput = document.getElementById('password');
-        const togglePasswordBtn = document.getElementById('togglePassword');
-        const loginForm = document.getElementById('loginForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-        const forgotPasswordModal = document.getElementById('forgotPasswordModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const resetPasswordForm = document.getElementById('resetPasswordForm');
-        const resetSubmitBtn = document.getElementById('resetSubmitBtn');
-        const googleLoginBtn = document.getElementById('googleLogin');
-        const facebookLoginBtn = document.getElementById('facebookLogin');
+    <div class="stats-row">
+      <div class="stat"><strong>2K+</strong><span>Élèves</span></div>
+      <div class="stat"><strong>120+</strong><span>Enseignants</span></div>
+      <div class="stat"><strong>4.8★</strong><span>Note moy.</span></div>
+    </div>
+  </div>
+</div>
 
-        // Toggle between email and phone login
-        emailOptionBtn.addEventListener('click', () => {
-            emailOptionBtn.classList.add('active');
-            phoneOptionBtn.classList.remove('active');
-            emailGroup.style.display = 'block';
-            phoneGroup.style.display = 'none';
-            emailInput.required = true;
-            phoneInput.required = false;
-        });
+<!-- ═══════════════ RIGHT PANEL ═══════════════ -->
+<div class="panel-right">
+  <div class="form-card">
 
-        phoneOptionBtn.addEventListener('click', () => {
-            phoneOptionBtn.classList.add('active');
-            emailOptionBtn.classList.remove('active');
-            phoneGroup.style.display = 'block';
-            emailGroup.style.display = 'none';
-            phoneInput.required = true;
-            emailInput.required = false;
-        });
+    <!-- ── VIEW : LOGIN ── -->
+    <div class="view active" id="viewLogin">
 
-        // Toggle password visibility
-        togglePasswordBtn.addEventListener('click', () => {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            togglePasswordBtn.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-        });
+      <div class="form-header">
+        <h1>Se <span>connecter</span></h1>
+        <p>Pas encore inscrit ? <a href="inscription/choix-inscription.html">Créer un compte</a></p>
+      </div>
 
-        // Form validation
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
+      <!-- role tabs -->
+      <div class="role-tabs" id="roleTabs">
+        <button class="role-tab active" data-role="eleve" onclick="setRole('eleve', this)">
+          <i class="fas fa-user-graduate"></i>Élève
+        </button>
+        <button class="role-tab" data-role="enseignant" onclick="setRole('enseignant', this)">
+          <i class="fas fa-chalkboard-teacher"></i>Enseignant
+        </button>
+        <button class="role-tab" data-role="parent" onclick="setRole('parent', this)">
+          <i class="fas fa-heart"></i>Parent
+        </button>
+        <button class="role-tab" data-role="ecole" onclick="setRole('ecole', this)">
+          <i class="fas fa-school"></i>École
+        </button>
+      </div>
 
-        function validatePhone(phone) {
-            // Accepts Togolese and international formats
-            const re = /^(\+228\s?)?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}$|^0\d{8}$/;
-            return re.test(phone.replace(/\s/g, ''));
-        }
+      <!-- role badge -->
+      <div class="role-badge-strip show" id="roleBadge">
+        <i class="fas fa-user-graduate"></i>
+        <span id="roleBadgeTxt">Connexion en tant qu'Élève</span>
+      </div>
 
-        function validatePassword(password) {
-            return password.length >= 6;
-        }
+      <!-- alert -->
+      <div class="alert" id="loginAlert">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="loginAlertMsg"></span>
+      </div>
 
-        function showError(input, message, errorElement) {
-            input.classList.add('error');
-            input.classList.remove('success');
-            errorElement.style.display = 'flex';
-            errorElement.querySelector('span').textContent = message;
-        }
+      <form id="loginForm" novalidate>
 
-        function showSuccess(input, iconElement) {
-            input.classList.remove('error');
-            input.classList.add('success');
-            iconElement.classList.add('success');
-        }
+        <!-- Email -->
+        <div class="form-group">
+          <label><i class="fas fa-envelope"></i>Adresse email</label>
+          <div class="input-wrap">
+            <input type="email" id="loginEmail" placeholder="votre@email.com" autocomplete="email">
+            <button type="button" class="input-icon" tabindex="-1">
+              <i class="fas fa-at"></i>
+            </button>
+          </div>
+          <div class="field-error" id="emailError">
+            <i class="fas fa-times-circle"></i><span></span>
+          </div>
+        </div>
 
-        function clearError(input, errorElement, iconElement) {
-            input.classList.remove('error', 'success');
-            errorElement.style.display = 'none';
-            iconElement.classList.remove('success', 'error');
-        }
+        <!-- Password -->
+        <div class="form-group">
+          <label><i class="fas fa-lock"></i>Mot de passe</label>
+          <div class="input-wrap">
+            <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+            <button type="button" class="input-icon" id="togglePwd" tabindex="-1" onclick="togglePassword('loginPassword', this)">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="field-error" id="pwdError">
+            <i class="fas fa-times-circle"></i><span></span>
+          </div>
+        </div>
 
-        // Real-time validation
-        emailInput.addEventListener('input', () => {
-            const errorElement = document.getElementById('emailError');
-            const iconElement = document.getElementById('emailIcon');
-            
-            if (emailInput.value === '') {
-                clearError(emailInput, errorElement, iconElement);
-                return;
-            }
-            
-            if (validateEmail(emailInput.value)) {
-                showSuccess(emailInput, iconElement);
-                errorElement.style.display = 'none';
-            } else {
-                showError(emailInput, 'Veuillez entrer une adresse email valide', errorElement);
-                iconElement.classList.add('error');
-            }
-        });
+        <!-- Remember + forgot -->
+        <div class="form-row">
+          <label class="checkbox-wrap">
+            <input type="checkbox" id="rememberMe">
+            <span class="custom-check"></span>
+            <span>Se souvenir de moi</span>
+          </label>
+          <a href="#" class="forgot-link" onclick="showView('viewForgot'); return false;">
+            Mot de passe oublié ?
+          </a>
+        </div>
 
-        phoneInput.addEventListener('input', () => {
-            const errorElement = document.getElementById('phoneError');
-            const iconElement = document.getElementById('phoneIcon');
-            
-            if (phoneInput.value === '') {
-                clearError(phoneInput, errorElement, iconElement);
-                return;
-            }
-            
-            if (validatePhone(phoneInput.value)) {
-                showSuccess(phoneInput, iconElement);
-                errorElement.style.display = 'none';
-            } else {
-                showError(phoneInput, 'Veuillez entrer un numéro de téléphone valide (ex: +228 XX XX XX XX)', errorElement);
-                iconElement.classList.add('error');
-            }
-        });
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="loginBtn">
+          <span class="btn-txt"><i class="fas fa-sign-in-alt"></i>&nbsp;Se connecter</span>
+          <span class="spinner"></span>
+        </button>
 
-        passwordInput.addEventListener('input', () => {
-            const errorElement = document.getElementById('passwordError');
-            const iconElement = document.getElementById('passwordIcon');
-            
-            if (passwordInput.value === '') {
-                clearError(passwordInput, errorElement, iconElement);
-                return;
-            }
-            
-            if (validatePassword(passwordInput.value)) {
-                showSuccess(passwordInput, iconElement);
-                errorElement.style.display = 'none';
-            } else {
-                showError(passwordInput, 'Le mot de passe doit contenir au moins 6 caractères', errorElement);
-                iconElement.classList.add('error');
-            }
-        });
+      </form>
 
-        // Form submission
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            let isValid = true;
-            
-            // Validate based on selected option
-            if (emailOptionBtn.classList.contains('active')) {
-                if (!validateEmail(emailInput.value)) {
-                    showError(emailInput, 'Veuillez entrer une adresse email valide', document.getElementById('emailError'));
-                    isValid = false;
-                }
-            } else {
-                if (!validatePhone(phoneInput.value)) {
-                    showError(phoneInput, 'Veuillez entrer un numéro de téléphone valide', document.getElementById('phoneError'));
-                    isValid = false;
-                }
-            }
-            
-            if (!validatePassword(passwordInput.value)) {
-                showError(passwordInput, 'Le mot de passe doit contenir au moins 6 caractères', document.getElementById('passwordError'));
-                isValid = false;
-            }
-            
-            if (!isValid) {
-                // Shake animation for invalid form
-                loginForm.style.animation = 'shake 0.5s';
-                setTimeout(() => {
-                    loginForm.style.animation = '';
-                }, 500);
-                return;
-            }
-            
-            // Show loading state
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Connexion en cours...</span>';
-            loadingSpinner.style.display = 'block';
-            
-            // Simulate API call
-            try {
-                // In a real app, this would be an API call to your backend
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                // Simulate successful login
-                console.log('Login attempt with:', {
-                    identifier: emailOptionBtn.classList.contains('active') ? emailInput.value : phoneInput.value,
-                    password: passwordInput.value,
-                    rememberMe: document.getElementById('rememberMe').checked
-                });
-                
-                // Show success message
-                alert('Connexion réussie ! Redirection vers votre tableau de bord...');
-                
-                // In a real app, you would redirect to the dashboard
-                // window.location.href = 'student_dashboard.html';
-                
-            } catch (error) {
-                console.error('Login error:', error);
-                alert('Échec de la connexion. Veuillez vérifier vos identifiants.');
-            } finally {
-                // Reset button state
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i><span>Se connecter</span>';
-                loadingSpinner.style.display = 'none';
-            }
-        });
+      <div class="signup-cta">
+        Nouveau sur Sukuli ?
+        <a href="inscription/choix-inscription.html">Créer mon compte gratuitement →</a>
+      </div>
+    </div><!-- /viewLogin -->
 
-        // Forgot password modal
-        forgotPasswordLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            forgotPasswordModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        });
 
-        closeModalBtn.addEventListener('click', () => {
-            forgotPasswordModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
+    <!-- ── VIEW : FORGOT PASSWORD ── -->
+    <div class="view" id="viewForgot">
 
-        forgotPasswordModal.addEventListener('click', (e) => {
-            if (e.target === forgotPasswordModal) {
-                forgotPasswordModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
+      <button class="back-btn" onclick="showView('viewLogin')">
+        <i class="fas fa-arrow-left"></i> Retour à la connexion
+      </button>
 
-        // Reset password form
-        resetPasswordForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const resetEmail = document.getElementById('resetEmail');
-            const resetEmailError = document.getElementById('resetEmailError');
-            
-            if (!validateEmail(resetEmail.value)) {
-                resetEmail.classList.add('error');
-                resetEmailError.style.display = 'flex';
-                resetEmailError.querySelector('span').textContent = 'Veuillez entrer une adresse email valide';
-                return;
-            }
-            
-            // Show loading state
-            resetSubmitBtn.disabled = true;
-            resetSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Envoi en cours...</span>';
-            
-            // Simulate API call
-            try {
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                console.log('Password reset requested for:', resetEmail.value);
-                
-                // Show success message
-                alert('Un email de réinitialisation a été envoyé à ' + resetEmail.value);
-                
-                // Close modal
-                forgotPasswordModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-                resetPasswordForm.reset();
-                
-            } catch (error) {
-                console.error('Reset password error:', error);
-                alert('Une erreur est survenue. Veuillez réessayer.');
-            } finally {
-                resetSubmitBtn.disabled = false;
-                resetSubmitBtn.innerHTML = '<i class="fas fa-paper-plane"></i><span>Envoyer le lien</span>';
-            }
-        });
+      <div class="form-header">
+        <h1>Mot de <span>passe oublié</span></h1>
+        <p>Entrez votre email, nous vous enverrons un lien de réinitialisation.</p>
+      </div>
 
-        // Social login buttons
-        googleLoginBtn.addEventListener('click', () => {
-            console.log('Google login clicked');
-            // In a real app, implement OAuth flow
-            alert('Connexion Google - Cette fonctionnalité sera bientôt disponible !');
-        });
+      <div class="alert" id="forgotAlert">
+        <i class="fas fa-info-circle"></i>
+        <span id="forgotAlertMsg"></span>
+      </div>
 
-        facebookLoginBtn.addEventListener('click', () => {
-            console.log('Facebook login clicked');
-            // In a real app, implement OAuth flow
-            alert('Connexion Facebook - Cette fonctionnalité sera bientôt disponible !');
-        });
+      <form id="forgotForm" novalidate>
+        <div class="form-group">
+          <label><i class="fas fa-envelope"></i>Adresse email</label>
+          <div class="input-wrap">
+            <input type="email" id="forgotEmail" placeholder="votre@email.com" autocomplete="email">
+            <button type="button" class="input-icon" tabindex="-1"><i class="fas fa-at"></i></button>
+          </div>
+          <div class="field-error" id="forgotEmailError">
+            <i class="fas fa-times-circle"></i><span></span>
+          </div>
+        </div>
 
-        // Auto-fill demo credentials for testing
-        window.addEventListener('load', () => {
-            // Uncomment to auto-fill for testing
-            // emailInput.value = 'demo@edutogoconnect.tg';
-            // passwordInput.value = 'demo123';
-            
-            // Check for saved credentials
-            const savedEmail = localStorage.getItem('savedEmail');
-            const savedRemember = localStorage.getItem('rememberMe') === 'true';
-            
-            if (savedEmail && savedRemember) {
-                emailInput.value = savedEmail;
-                document.getElementById('rememberMe').checked = true;
-            }
-        });
+        <button type="submit" class="btn-submit" id="forgotBtn">
+          <span class="btn-txt"><i class="fas fa-paper-plane"></i>&nbsp;Envoyer le lien</span>
+          <span class="spinner"></span>
+        </button>
+      </form>
 
-        // Save credentials if "Remember me" is checked
-        loginForm.addEventListener('submit', () => {
-            const rememberMe = document.getElementById('rememberMe').checked;
-            
-            if (rememberMe && emailOptionBtn.classList.contains('active')) {
-                localStorage.setItem('savedEmail', emailInput.value);
-                localStorage.setItem('rememberMe', 'true');
-            } else {
-                localStorage.removeItem('savedEmail');
-                localStorage.removeItem('rememberMe');
-            }
-        });
+      <div class="signup-cta" style="margin-top:20px">
+        Vous vous souvenez ? <a href="#" onclick="showView('viewLogin'); return false;">Retour à la connexion</a>
+      </div>
 
-        // Add shake animation CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                20%, 40%, 60%, 80% { transform: translateX(5px); }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
+    </div><!-- /viewForgot -->
+
+
+    <!-- ── VIEW : EMAIL SENT ── -->
+    <div class="view" id="viewSent">
+      <div style="text-align:center; padding: 16px 0 28px;">
+        <div style="width:72px;height:72px;background:var(--teal-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.8rem;color:var(--teal);">
+          <i class="fas fa-paper-plane"></i>
+        </div>
+        <h2 style="font-family:'Poppins',sans-serif;font-size:1.45rem;font-weight:900;color:var(--txt);margin-bottom:10px;">Email envoyé !</h2>
+        <p style="color:var(--txt-m);font-size:.92rem;line-height:1.75;max-width:320px;margin:0 auto 28px;">
+          Un lien de réinitialisation a été envoyé à <strong id="sentEmail" style="color:var(--deep)"></strong>.<br>
+          Vérifiez votre boîte de réception et vos spams.
+        </p>
+        <button class="btn-submit" style="max-width:280px;margin:0 auto" onclick="showView('viewLogin')">
+          <span class="btn-txt"><i class="fas fa-arrow-left"></i>&nbsp;Retour à la connexion</span>
+        </button>
+        <p style="margin-top:18px;font-size:.8rem;color:var(--txt-m);">
+          Vous n'avez pas reçu l'email ?
+          <a href="#" onclick="showView('viewForgot'); return false;" style="color:var(--deep);font-weight:700;text-decoration:none;">Réessayer</a>
+        </p>
+      </div>
+    </div><!-- /viewSent -->
+
+  </div><!-- /form-card -->
+</div><!-- /panel-right -->
+
+<!-- TOAST -->
+<div id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<script type="module">
+  // ── Import Supabase (décommente quand tu branches le vrai projet) ──
+  // import { supabase } from '../supabase/client.js'
+  // import { connecterUtilisateur, reinitialiserMotDePasse, redirigerParRole } from './auth.js'
+
+  /* ─── ROLE ─── */
+  const roleLabels = {
+    eleve:      'Élève',
+    enseignant: 'Enseignant',
+    parent:     "Parent d'élève",
+    ecole:      'École / Institution'
+  };
+  const roleIcons = {
+    eleve:      'fa-user-graduate',
+    enseignant: 'fa-chalkboard-teacher',
+    parent:     'fa-heart',
+    ecole:      'fa-school'
+  };
+  let currentRole = 'eleve';
+
+  window.setRole = function(role, btn) {
+    currentRole = role;
+    document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const badge = document.getElementById('roleBadge');
+    badge.classList.add('show');
+    badge.querySelector('i').className = `fas ${roleIcons[role]}`;
+    document.getElementById('roleBadgeTxt').textContent = `Connexion en tant que ${roleLabels[role]}`;
+  };
+
+  /* ─── VIEW SWITCH ─── */
+  window.showView = function(id) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    clearAlerts();
+  };
+
+  function clearAlerts() {
+    document.querySelectorAll('.alert').forEach(a => a.classList.remove('show', 'alert-error', 'alert-success'));
+    document.querySelectorAll('.field-error').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('input').forEach(i => i.classList.remove('error-input', 'success-input'));
+  }
+
+  /* ─── TOGGLE PASSWORD ─── */
+  window.togglePassword = function(inputId, btn) {
+    const inp = document.getElementById(inputId);
+    const icon = btn.querySelector('i');
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      icon.className = 'fas fa-eye-slash';
+    } else {
+      inp.type = 'password';
+      icon.className = 'fas fa-eye';
+    }
+  };
+
+  /* ─── VALIDATION ─── */
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function showFieldError(errorId, msg) {
+    const el = document.getElementById(errorId);
+    el.querySelector('span').textContent = msg;
+    el.classList.add('show');
+    const input = el.previousElementSibling?.querySelector('input') ||
+                  el.previousElementSibling;
+    if (input?.tagName === 'DIV') input.querySelector('input')?.classList.add('error-input');
+  }
+
+  function clearFieldError(errorId) {
+    document.getElementById(errorId)?.classList.remove('show');
+  }
+
+  function showAlert(alertId, msgId, msg, type = 'error') {
+    const alert = document.getElementById(alertId);
+    document.getElementById(msgId).textContent = msg;
+    alert.className = `alert show alert-${type}`;
+    alert.querySelector('i').className = type === 'error'
+      ? 'fas fa-exclamation-circle'
+      : 'fas fa-check-circle';
+  }
+
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    btn.classList.toggle('loading', loading);
+    btn.disabled = loading;
+  }
+
+  /* ─── LOGIN FORM ─── */
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearAlerts();
+
+    const email    = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    let valid = true;
+
+    if (!email) {
+      showFieldError('emailError', 'L\'adresse email est requise.');
+      valid = false;
+    } else if (!validateEmail(email)) {
+      showFieldError('emailError', 'Format d\'email invalide.');
+      valid = false;
+    }
+
+    if (!password) {
+      showFieldError('pwdError', 'Le mot de passe est requis.');
+      valid = false;
+    } else if (password.length < 6) {
+      showFieldError('pwdError', 'Le mot de passe doit contenir au moins 6 caractères.');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    setLoading('loginBtn', true);
+
+    // ── Simulation (remplace par le vrai appel Supabase) ──
+    await new Promise(r => setTimeout(r, 1800));
+
+    /* ── Vrai appel Supabase (décommente) ──
+    const result = await connecterUtilisateur(email, password);
+
+    if (!result.success) {
+      setLoading('loginBtn', false);
+      const errMap = {
+        'Invalid login credentials': 'Email ou mot de passe incorrect.',
+        'Email not confirmed':        'Veuillez confirmer votre email avant de vous connecter.',
+        'Too many requests':          'Trop de tentatives. Réessayez dans quelques minutes.',
+      };
+      showAlert('loginAlert', 'loginAlertMsg',
+        errMap[result.error] || result.error
+      );
+      return;
+    }
+
+    // Vérification du rôle
+    if (result.profile.role !== currentRole) {
+      setLoading('loginBtn', false);
+      showAlert('loginAlert', 'loginAlertMsg',
+        `Ce compte est enregistré en tant que "${roleLabels[result.profile.role]}". Sélectionnez le bon profil.`
+      );
+      return;
+    }
+
+    redirigerParRole(result.profile.role, result.profile.is_verified);
+    return;
+    */
+
+    // ── Démo (retire ce bloc en production) ──
+    setLoading('loginBtn', false);
+
+    // Simulation erreur email
+    if (email === 'erreur@test.com') {
+      showAlert('loginAlert', 'loginAlertMsg', 'Email ou mot de passe incorrect.');
+      document.getElementById('loginEmail').classList.add('error-input');
+      document.getElementById('loginPassword').classList.add('error-input');
+      return;
+    }
+
+    showToast('✅ Connexion réussie ! Redirection…', 'success');
+    setTimeout(() => {
+      const routes = {
+        eleve:      '../dashboard/eleve.html',
+        enseignant: '../dashboard/enseignant.html',
+        parent:     '../dashboard/parent.html',
+        ecole:      '../dashboard/ecole.html',
+      };
+      // window.location.href = routes[currentRole];
+    }, 1500);
+  });
+
+  /* live validation email */
+  document.getElementById('loginEmail').addEventListener('input', function() {
+    clearFieldError('emailError');
+    this.classList.remove('error-input');
+    if (this.value && validateEmail(this.value)) this.classList.add('success-input');
+    else this.classList.remove('success-input');
+  });
+
+  /* ─── FORGOT FORM ─── */
+  document.getElementById('forgotForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearAlerts();
+
+    const email = document.getElementById('forgotEmail').value.trim();
+
+    if (!email) {
+      showFieldError('forgotEmailError', 'L\'adresse email est requise.');
+      return;
+    }
+    if (!validateEmail(email)) {
+      showFieldError('forgotEmailError', 'Format d\'email invalide.');
+      return;
+    }
+
+    setLoading('forgotBtn', true);
+
+    // ── Simulation ──
+    await new Promise(r => setTimeout(r, 1600));
+
+    /* ── Vrai appel Supabase (décommente) ──
+    const result = await reinitialiserMotDePasse(email);
+    setLoading('forgotBtn', false);
+    if (!result.success) {
+      showAlert('forgotAlert', 'forgotAlertMsg', result.error);
+      return;
+    }
+    */
+
+    setLoading('forgotBtn', false);
+    document.getElementById('sentEmail').textContent = email;
+    showView('viewSent');
+  });
+
+  /* ─── TOAST ─── */
+  window.showToast = function(msg, type = '') {
+    const t = document.getElementById('toast');
+    const icon = t.querySelector('i');
+    document.getElementById('toastMsg').textContent = msg;
+    icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+    t.className = `show ${type === 'error' ? 'error-toast' : ''}`;
+    setTimeout(() => t.className = '', 3400);
+  };
+
+  /* ─── KEYBOARD ─── */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && document.activeElement?.tagName !== 'BUTTON') {
+      const activeView = document.querySelector('.view.active');
+      activeView?.querySelector('form')?.requestSubmit();
+    }
+  });
+</script>
 </body>
 </html>
