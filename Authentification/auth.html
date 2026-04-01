@@ -55,7 +55,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 48px 56px;
+      padding: 10px 35px;
       overflow: hidden;
       background: linear-gradient(145deg, #001e1b 0%, var(--deep) 40%, #003535 100%);
     }
@@ -210,7 +210,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 32px 24px;
+      padding: 10px 25px;
       position: relative;
       overflow-y: auto;
     }
@@ -625,28 +625,6 @@
       <div class="form-header">
         <h1>Se <span>connecter</span></h1>
         <p>Pas encore inscrit ? <a href="inscription/choix-inscription.html">Créer un compte</a></p>
-      </div>
-
-      <!-- role tabs -->
-      <div class="role-tabs" id="roleTabs">
-        <button class="role-tab active" data-role="eleve" onclick="setRole('eleve', this)">
-          <i class="fas fa-user-graduate"></i>Élève
-        </button>
-        <button class="role-tab" data-role="enseignant" onclick="setRole('enseignant', this)">
-          <i class="fas fa-chalkboard-teacher"></i>Enseignant
-        </button>
-        <button class="role-tab" data-role="parent" onclick="setRole('parent', this)">
-          <i class="fas fa-heart"></i>Parent
-        </button>
-        <button class="role-tab" data-role="ecole" onclick="setRole('ecole', this)">
-          <i class="fas fa-school"></i>École
-        </button>
-      </div>
-
-      <!-- role badge -->
-      <div class="role-badge-strip show" id="roleBadge">
-        <i class="fas fa-user-graduate"></i>
-        <span id="roleBadgeTxt">Connexion en tant qu'Élève</span>
       </div>
 
       <!-- alert -->

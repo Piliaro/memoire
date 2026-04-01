@@ -9,67 +9,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-    :root {
-        --deep:       #002f2a;
-        --deep-alt:   #003333;
-        --deep-mid:   #003d38;
-        --deep-hover: #004d45;
-        --deep-light: #005a52;
-        --deep-pale:  #e5f0ef;
-        --deep-muted: #c2d8d6;
-        --teal:       #1ab5a0;
-        --teal-light: #5dcfbe;
-        --teal-pale:  #dff5f2;
-        --gold:       #e8c44a;
-        --amber:      #c9980e;
-        --white:      #ffffff;
-        --off-white:  #f5faf9;
-        --g50:        #f8fafa;
-        --g100:       #eef3f2;
-        --g200:       #d9e5e4;
-        --g300:       #b5cbc9;
-        --g400:       #84a8a5;
-        --g500:       #5c8885;
-        --g600:       #3c6360;
-        --g700:       #264545;
-        --g800:       #152f2f;
-        --g900:       #0a1e1e;
-        --hdr:        #0a1a18;
-        --txt:        #1a3030;
-        --txt-b:      #3a5555;
-        --txt-m:      #6a8888;
-        --purple:     #7B1FA2;
-        --purple-light:#f3e5f5;
-        --coral:      #D85A30;
-        --coral-light:#FAECE7;
-        --sh-sm:  0 2px 8px  rgba(0,47,42,.12);
-        --sh-md:  0 8px 28px rgba(0,47,42,.16);
-        --sh-lg:  0 20px 56px rgba(0,47,42,.22);
-        --r-sm:8px; --r-md:14px; --r-lg:22px; --r-xl:32px;
-    }
+    :root{--deep:#002f2a;--deep-alt:#003333;--deep-mid:#003d38;--deep-hover:#004d45;--deep-light:#005a52;--deep-pale:#e5f0ef;--deep-muted:#c2d8d6;--teal:#1ab5a0;--teal-light:#5dcfbe;--teal-pale:#dff5f2;--gold:#e8c44a;--amber:#c9980e;--white:#ffffff;--off-white:#f5faf9;--g50:#f8fafa;--g100:#eef3f2;--g200:#d9e5e4;--g300:#b5cbc9;--g400:#84a8a5;--g500:#5c8885;--g600:#3c6360;--g700:#264545;--g800:#152f2f;--g900:#0a1e1e;--hdr:#0a1a18;--txt:#1a3030;--txt-b:#3a5555;--txt-m:#6a8888;--purple:#7B1FA2;--purple-light:#f3e5f5;--coral:#D85A30;--coral-light:#FAECE7;--red:#e74c3c;--sh-sm:0 2px 8px rgba(0,47,42,.12);--sh-md:0 8px 28px rgba(0,47,42,.16);--sh-lg:0 20px 56px rgba(0,47,42,.22);--r-sm:8px;--r-md:14px;--r-lg:22px;--r-xl:32px}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{font-family:'Nunito',sans-serif;background:var(--off-white);color:var(--txt-b);line-height:1.65;overflow-x:hidden}
     h1,h2,h3,h4,h5{font-family:'Poppins',sans-serif;line-height:1.25;color:var(--txt)}
     .container{width:100%;max-width:1280px;margin:0 auto;padding:0 24px}
-
-    /* ── REVEAL ── */
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
     .reveal-left{opacity:0;transform:translateX(-32px);transition:opacity .65s,transform .65s}
     .reveal-right{opacity:0;transform:translateX(32px);transition:opacity .65s,transform .65s}
     .reveal.visible,.reveal-left.visible,.reveal-right.visible{opacity:1;transform:translate(0)}
-
-    /* ── BACK TO TOP ── */
     #backToTop{position:fixed;bottom:28px;right:28px;z-index:9000;width:44px;height:44px;border-radius:50%;background:var(--deep);color:var(--gold);border:2px solid var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 6px 20px rgba(0,47,42,.4);opacity:0;transform:translateY(14px) scale(.85);transition:all .32s cubic-bezier(.4,0,.2,1)}
     #backToTop.show{opacity:1;transform:translateY(0) scale(1)}
     #backToTop:hover{background:var(--gold);color:var(--deep);transform:translateY(-3px) scale(1.06)}
-
-    /* ── TOAST ── */
     #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--deep);color:#fff;padding:12px 26px;border-radius:50px;font-size:.9rem;font-weight:700;box-shadow:0 8px 24px rgba(0,47,42,.4);z-index:9200;border:1px solid var(--teal-light);transition:transform .36s cubic-bezier(.34,1.56,.64,1),opacity .36s;opacity:0;display:flex;align-items:center;gap:8px}
     #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
     #toast.error{background:var(--amber)}
-
-    /* ── BUTTONS ── */
+    .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all 0.3s ease}
+    .modal-overlay.active{opacity:1;visibility:visible}
+    .modal-container{background:var(--white);max-width:480px;width:90%;border-radius:var(--r-xl);box-shadow:var(--sh-lg);overflow:hidden;transform:scale(0.95);transition:transform 0.25s cubic-bezier(0.2,0.9,0.4,1.1)}
+    .modal-overlay.active .modal-container{transform:scale(1)}
+    .modal-header{background:var(--deep);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1)}
+    .modal-header h3{color:#fff;font-size:1.2rem;font-weight:700;margin:0;display:flex;align-items:center;gap:8px}
+    .modal-header h3 i{color:var(--gold)}
+    .modal-close{background:none;border:none;color:rgba(255,255,255,0.7);font-size:1.5rem;cursor:pointer;transition:color 0.2s;line-height:1}
+    .modal-close:hover{color:var(--gold)}
+    .modal-body{padding:28px 24px}
+    .modal-body p{color:var(--txt-b);margin-bottom:20px;font-size:0.9rem;line-height:1.6}
+    .modal-input-group{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+    .modal-input-group label{font-weight:600;color:var(--txt);font-size:0.85rem}
+    .modal-input-group input{padding:12px 16px;border:1.5px solid var(--g200);border-radius:var(--r-md);font-family:'Nunito',sans-serif;font-size:0.9rem;transition:border 0.2s;outline:none}
+    .modal-input-group input:focus{border-color:var(--teal)}
+    .modal-btn{width:100%;background:var(--deep);color:#fff;padding:12px;border:none;border-radius:var(--r-md);font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.25s}
+    .modal-btn:hover{background:var(--deep-hover);transform:translateY(-2px)}
+    .modal-note{font-size:0.7rem;color:var(--txt-m);margin-top:12px;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px}
     .btn{display:inline-flex;align-items:center;gap:7px;padding:11px 26px;border-radius:50px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;text-decoration:none;transition:all .25s;font-family:'Poppins',sans-serif}
     .btn-deep{background:var(--deep);color:#fff;box-shadow:0 4px 16px rgba(0,47,42,.3)}
     .btn-deep:hover{background:var(--deep-hover);transform:translateY(-2px)}
@@ -83,8 +56,6 @@
     .btn-outline-d:hover{border-color:var(--deep);color:var(--deep)}
     .btn-lg{padding:14px 36px;font-size:1rem}
     .btn-sm{padding:8px 18px;font-size:.82rem}
-
-    /* ── HEADER ── */
     header{position:sticky;top:0;z-index:1000;background:var(--hdr);box-shadow:0 2px 16px rgba(0,0,0,.22);transition:box-shadow .3s}
     header.scrolled{box-shadow:0 4px 28px rgba(0,0,0,.35)}
     .navbar{display:flex;align-items:center;padding:10px 0;gap:14px;flex-wrap:wrap}
@@ -107,8 +78,6 @@
     .mob-nav a{text-decoration:none;color:rgba(255,255,255,.72);font-weight:600;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.92rem}
     .mob-auth{display:flex;gap:9px;margin-top:13px}
     .mob-auth .btn{flex:1;justify-content:center}
-
-    /* ── HERO ── */
     .hero{position:relative;min-height:90vh;display:flex;flex-direction:column;background:var(--deep);overflow:hidden}
     .hero-bg-hotel{position:absolute;inset:0;background-image:url('hotel-2-fevrier-lome.jpg');background-size:cover;background-position:center 40%;opacity:.135}
     .hero-ov{position:absolute;inset:0;background:linear-gradient(140deg,rgba(0,47,42,.96) 0%,rgba(0,51,51,.92) 50%,rgba(0,61,55,.85) 100%)}
@@ -120,7 +89,6 @@
     .hs1{width:300px;height:300px;background:#fff;top:-60px;right:4%;animation-delay:0s}
     .hs2{width:140px;height:140px;background:var(--gold);bottom:14%;left:2%;animation-delay:2.5s}
     @keyframes hfloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-18px) rotate(5deg)}}
-
     .hero-body{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;padding:8px 0 20px;flex:1}
     .hero-txt{color:#fff}
     .hero-h1{font-size:clamp(1.85rem,3.2vw,2.9rem);font-weight:900;color:#fff;line-height:1.13;margin-bottom:16px}
@@ -132,7 +100,6 @@
     .stat-item .stat-num{font-family:'Poppins',sans-serif;font-size:1.65rem;font-weight:900;color:#fff;line-height:1}
     .stat-item .stat-num span{color:var(--gold)}
     .stat-item .stat-lbl{font-size:.66rem;color:rgba(255,255,255,.58);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
-
     .hero-vis{position:relative}
     .hero-img{border-radius:var(--r-lg);overflow:hidden;box-shadow:0 28px 72px rgba(0,0,0,.42);border:2px solid rgba(26,181,160,.2);aspect-ratio:4/3}
     .hero-img img{width:100%;height:100%;object-fit:cover;display:block}
@@ -144,14 +111,10 @@
     .b1 i{color:var(--teal)}.b2 i{color:var(--gold)}
     .h-badge strong{display:block;font-family:'Poppins',sans-serif;font-size:.82rem;color:var(--txt)}
     .h-badge span{font-size:.68rem;color:var(--txt-m)}
-
-    /* sections communes */
     .sec-hd{text-align:center;margin-bottom:44px}
     .eyebrow{display:inline-block;padding:5px 15px;border-radius:50px;background:var(--deep-pale);color:var(--deep);font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:1.1px;margin-bottom:11px}
     .sec-t{font-size:clamp(1.6rem,2.5vw,2.2rem);color:var(--txt);margin-bottom:11px}
     .sec-s{color:var(--txt-m);font-size:.94rem;max-width:620px;margin:0 auto}
-
-    /* FEATURES */
     .features-bg{background:var(--deep);border-radius:32px;margin:0 auto 48px;padding:56px 40px}
     .features-bg .sec-t{color:white}
     .features-bg .sec-s{color:rgba(255,255,255,0.55)}
@@ -162,8 +125,6 @@
     .fi-teal{background:rgba(26,181,160,0.25)}.fi-amber{background:rgba(232,196,74,0.25)}.fi-purple{background:rgba(123,31,162,0.25)}.fi-coral{background:rgba(216,90,48,0.25)}
     .feature-card h3{color:white;font-size:1.1rem;font-weight:700;margin-bottom:10px}
     .feature-card p{color:rgba(255,255,255,0.55);font-size:.85rem;line-height:1.7}
-
-    /* MISSION */
     .mission{padding:48px 0;background:var(--g100);overflow:hidden}
     .mission-in{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
     .m-vis{position:relative}
@@ -178,8 +139,6 @@
     .m-list{list-style:none;margin:18px 0 24px;display:flex;flex-direction:column;gap:10px}
     .m-list li{display:flex;align-items:flex-start;gap:9px;font-size:.91rem;color:var(--txt-b)}
     .m-list li i{color:var(--teal);margin-top:3px;flex-shrink:0}
-
-    /* POUR QUI */
     .pour-qui{padding:48px 0;background:#fff}
     .pq-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px}
     .pq-card{border-radius:var(--r-lg);padding:28px 22px;border:1.5px solid var(--g200);background:#fff;transition:all .3s;cursor:default;position:relative;overflow:hidden}
@@ -194,8 +153,6 @@
     .pq-list li{font-size:.81rem;color:var(--txt-b);font-weight:500;display:flex;align-items:center;gap:8px}
     .pq-ck{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:900;flex-shrink:0}
     .ck-teal{background:var(--teal-pale);color:var(--teal)}.ck-purple{background:var(--purple-light);color:var(--purple)}.ck-gold{background:#fdf6dc;color:var(--amber)}.ck-coral{background:var(--coral-light);color:var(--coral)}
-
-    /* MATIÈRES */
     .matieres{padding:48px 0;background:var(--g50)}
     .mat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:13px}
     .mat-card{padding:24px 12px;border-radius:var(--r-lg);text-align:center;border:1.5px solid var(--g200);background:#fff;cursor:default;transition:all .26s}
@@ -208,8 +165,97 @@
     .level-pill{padding:10px 24px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;border:2px solid}
     .lp-6{border-color:var(--teal);color:var(--teal);background:var(--teal-pale)}.lp-5{border-color:var(--purple);color:var(--purple);background:var(--purple-light)}.lp-4{border-color:var(--amber);color:var(--amber);background:#fdf6dc}.lp-3{border-color:var(--coral);color:var(--coral);background:var(--coral-light)}
     .level-pill:hover{transform:scale(1.04)}
+    .epreuves{padding:30px 0;background:linear-gradient(160deg,#002622 0%,#002f2a 40%,#003535 100%);position:relative;overflow:hidden}
+    .epreuves::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+    .ep-orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+    .ep-orb-1{width:400px;height:400px;background:rgba(232,196,74,.07);top:-120px;right:-80px}
+    .ep-orb-2{width:280px;height:280px;background:rgba(26,181,160,.08);bottom:-60px;left:-40px}
+    .epreuves .sec-hd{position:relative;z-index:2}
+    .epreuves .eyebrow{background:rgba(232,196,74,.18);color:var(--gold);border:1px solid rgba(232,196,74,.3)}
+    .epreuves .sec-t{color:#fff}
+    .epreuves .sec-s{color:rgba(255,255,255,.6)}
+    .ep-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-bottom:36px}
+    .ep-card{background:#fff;border:1.5px solid var(--g200);border-radius:var(--r-lg);overflow:hidden;transition:all .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;cursor:default;position:relative}
+    .ep-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md);border-color:var(--deep-muted)}
+    .ep-header{display:flex;justify-content:space-between;align-items:center;padding:12px 15px 0 15px;background:#fff}
+    .ep-lv{padding:3px 12px;border-radius:50px;font-size:.7rem;font-weight:800;font-family:'Poppins',sans-serif;background:#fee2e2;color:var(--red);border-left:3px solid var(--red);display:inline-block}
+    .ep-free-badge{background:#27ae60;border-radius:50px;padding:3px 9px;font-size:.62rem;font-weight:700;font-family:'Poppins',sans-serif;color:#fff;letter-spacing:.3px;border-left:3px solid #fff}
+    .ep-body{padding:12px 15px;flex:1;display:flex;flex-direction:column;gap:8px}
+    .ep-title{font-size:.86rem;font-weight:700;color:var(--txt);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
+    .ep-foot{padding:10px 15px;border-top:1px solid var(--g200);display:flex;gap:7px;background:#fff}
+    .ep-dl-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 12px;border-radius:var(--r-sm);font-size:.75rem;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;border:none;transition:all .22s}
+    .ep-dl-main{background:var(--deep);color:#fff}
+    .ep-dl-main:hover{background:var(--deep-hover);transform:translateY(-1px)}
+    .ep-dl-preview{background:var(--g100);color:var(--g600)}
+    .ep-dl-preview:hover{background:var(--g200);color:var(--txt)}
+    .ep-cta-row{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-xl);padding:22px 32px}
+    .ep-cta-txt h3{color:#fff;font-size:1rem;margin-bottom:4px}
+    .ep-cta-txt p{color:rgba(255,255,255,.55);font-size:.83rem}
+    .ep-cta-btns{display:flex;gap:10px;flex-wrap:wrap}
+    .ep-empty{grid-column:1/-1;text-align:center;padding:56px 24px;color:rgba(255,255,255,.45);font-size:.92rem}
+    .ep-empty i{font-size:2.5rem;color:rgba(255,255,255,.15);display:block;margin-bottom:12px}
+    @media(max-width:1200px){.ep-grid{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:992px){.ep-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:768px){.ep-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:576px){.ep-grid{grid-template-columns:1fr}}
 
-    /* TESTIMONIALS */
+    /* =============================================
+       SECTION ACTUALITÉS ÉDUCATION TOGO
+    ============================================= */
+    .actualites{padding:56px 0;background:#fff;position:relative;overflow:hidden}
+    .actualites::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--deep),var(--teal),var(--gold));border-radius:0}
+    .actu-layout{display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start}
+    .actu-featured{border-radius:var(--r-lg);overflow:hidden;border:1.5px solid var(--g200);background:#fff;transition:all .3s;cursor:pointer;display:flex;flex-direction:column;box-shadow:var(--sh-sm)}
+    .actu-featured:hover{transform:translateY(-4px);box-shadow:var(--sh-md);border-color:var(--deep-muted)}
+    .actu-featured-img{position:relative;height:220px;background:linear-gradient(135deg,var(--deep) 0%,var(--deep-mid) 50%,var(--teal) 100%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .actu-featured-img-inner{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:32px 32px}
+    .actu-featured-emoji{font-size:4.5rem;position:relative;z-index:1;filter:drop-shadow(0 8px 24px rgba(0,0,0,.3));animation:floatEmoji 4s ease-in-out infinite}
+    @keyframes floatEmoji{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .actu-featured-tag{position:absolute;top:14px;left:14px;z-index:2}
+    .actu-featured-new{position:absolute;top:14px;right:14px;z-index:2;background:var(--red);color:#fff;font-size:.62rem;font-weight:800;font-family:'Poppins',sans-serif;padding:4px 10px;border-radius:50px;letter-spacing:.4px;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+    .actu-featured-body{padding:20px 22px}
+    .actu-featured-body h3{font-size:1.05rem;font-weight:800;color:var(--txt);margin:8px 0 10px;line-height:1.38}
+    .actu-featured-body p{font-size:.85rem;color:var(--txt-m);line-height:1.72;margin-bottom:14px}
+    .actu-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+    .actu-date{font-size:.72rem;color:var(--txt-m);display:flex;align-items:center;gap:4px}
+    .actu-date i{color:var(--teal);font-size:.65rem}
+    .actu-read-more{font-size:.78rem;font-weight:700;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:4px;margin-left:auto;transition:all .2s}
+    .actu-read-more i{transition:transform .2s;font-size:.7rem}
+    .actu-read-more:hover{color:var(--deep);gap:7px}
+    .actu-read-more:hover i{transform:translateX(3px)}
+    .actu-sidebar{display:flex;flex-direction:column;gap:12px}
+    .actu-ticker{background:var(--deep);border-radius:var(--r-md);padding:10px 16px;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+    .actu-ticker-label{background:var(--gold);color:var(--deep);font-size:.65rem;font-weight:800;font-family:'Poppins',sans-serif;padding:3px 10px;border-radius:50px;white-space:nowrap;letter-spacing:.4px}
+    .actu-ticker-text{font-size:.78rem;color:rgba(255,255,255,.82);font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+    .actu-small{border-radius:var(--r-md);border:1.5px solid var(--g200);background:#fff;padding:14px 16px;cursor:pointer;transition:all .28s;display:flex;gap:13px;align-items:flex-start}
+    .actu-small:hover{border-color:var(--deep-muted);box-shadow:var(--sh-sm);transform:translateX(4px)}
+    .actu-small-ico{width:42px;height:42px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+    .actu-small-body{flex:1;min-width:0}
+    .actu-small-body h4{font-size:.82rem;font-weight:700;color:var(--txt);line-height:1.36;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .actu-small-foot{display:flex;align-items:center;justify-content:space-between;gap:6px}
+    .actu-small-date{font-size:.68rem;color:var(--txt-m);display:flex;align-items:center;gap:3px}
+    .actu-small-date i{color:var(--teal);font-size:.6rem}
+    .tag-examen{background:#fef0f0;color:#c0392b;border:1px solid #f5c6c6;font-size:.65rem;font-weight:700;font-family:'Poppins',sans-serif;padding:3px 9px;border-radius:50px;display:inline-flex;align-items:center;gap:4px}
+    .tag-concours{background:#f0f4fe;color:#2563eb;border:1px solid #bfcffa;font-size:.65rem;font-weight:700;font-family:'Poppins',sans-serif;padding:3px 9px;border-radius:50px;display:inline-flex;align-items:center;gap:4px}
+    .tag-rentree{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;font-size:.65rem;font-weight:700;font-family:'Poppins',sans-serif;padding:3px 9px;border-radius:50px;display:inline-flex;align-items:center;gap:4px}
+    .tag-actu{background:#fdf6dc;color:var(--amber);border:1px solid #f5e090;font-size:.65rem;font-weight:700;font-family:'Poppins',sans-serif;padding:3px 9px;border-radius:50px;display:inline-flex;align-items:center;gap:4px}
+    .tag-bourse{background:var(--purple-light);color:var(--purple);border:1px solid #e0b4f5;font-size:.65rem;font-weight:700;font-family:'Poppins',sans-serif;padding:3px 9px;border-radius:50px;display:inline-flex;align-items:center;gap:4px}
+    .ico-examen{background:#fef0f0}
+    .ico-concours{background:#f0f4fe}
+    .ico-rentree{background:#f0fdf4}
+    .ico-actu{background:#fdf6dc}
+    .ico-bourse{background:var(--purple-light)}
+    .actu-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+    .actu-filter-btn{padding:7px 18px;border-radius:50px;font-size:.78rem;font-weight:700;cursor:pointer;border:1.5px solid var(--g200);background:#fff;color:var(--txt-m);transition:all .2s;font-family:'Poppins',sans-serif}
+    .actu-filter-btn.active,.actu-filter-btn:hover{border-color:var(--deep);background:var(--deep);color:#fff}
+    .actu-footer-row{display:flex;align-items:center;justify-content:space-between;margin-top:28px;padding-top:20px;border-top:1.5px solid var(--g100);flex-wrap:wrap;gap:12px}
+    .actu-footer-row p{font-size:.85rem;color:var(--txt-m)}
+    .actu-footer-row p strong{color:var(--txt)}
+    @media(max-width:1100px){.actu-layout{grid-template-columns:1fr}}
+    @media(max-width:768px){.actu-sidebar{display:grid;grid-template-columns:1fr 1fr;gap:10px}.actu-ticker{grid-column:1/-1}}
+    @media(max-width:576px){.actu-sidebar{grid-template-columns:1fr}}
+
     .testi{padding:48px 0;position:relative;overflow:hidden;background:linear-gradient(150deg,var(--deep) 0%,var(--deep-alt) 55%,var(--deep-mid) 100%)}
     .testi::before{content:'';position:absolute;top:-90px;left:-90px;width:340px;height:340px;border-radius:50%;background:rgba(26,181,160,.06)}
     .testi::after{content:'';position:absolute;bottom:-70px;right:-50px;width:250px;height:250px;border-radius:50%;background:rgba(232,196,74,.05)}
@@ -228,47 +274,45 @@
     .t-dots{display:flex;justify-content:center;gap:8px;margin-top:22px}
     .tdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.28);cursor:pointer;border:none;transition:all .25s}
     .tdot.active{background:var(--gold);transform:scale(1.35)}
-
-    /* ── COURSES – BADGES RÉVISÉS ── */
     .courses{padding:48px 0;background:#fff}
     .c-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:18px}
     .cat-hd{display:flex;align-items:center;gap:10px;margin:0 0 14px;padding:12px 18px;border-radius:var(--r-md)}
     .cat-sc{background:var(--deep-pale);border-left:5px solid var(--deep)}
     .cat-lt{background:var(--teal-pale);border-left:5px solid var(--teal)}
-    .cat-rs{background:linear-gradient(90deg,#002f2a,#003333);border-left:5px solid var(--teal-light);border-radius:var(--r-md)}
-    .cat-hd i{font-size:.95rem}
-    .cat-sc i,.cat-sc h3{color:var(--deep)}.cat-lt i,.cat-lt h3{color:#0a8070}
+    .cat-rs{background:linear-gradient(90deg,#002f2a,#003333);border-left:5px solid var(--teal-light);border-radius:var(--r-md);display:flex;justify-content:space-between;align-items:center}
+    .cat-rs-left{display:flex;align-items:center;gap:10px}
     .cat-rs i,.cat-rs h3{color:rgba(255,255,255,.92)}
-    .cat-hd h3{font-size:.95rem;margin:0}
+    .cat-rs h3{margin:0}
+    .cat-rs-link{color:rgba(255,255,255,.7);text-decoration:none;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:all .25s;padding:8px 16px;border-radius:50px;background:rgba(255,255,255,.1)}
+    .cat-rs-link:hover{color:var(--gold);background:rgba(255,255,255,.2);gap:10px}
+    .cat-rs-link i{transition:transform .2s}
+    .cat-rs-link:hover i{transform:translateX(4px)}
     .rs-wrap{background:linear-gradient(135deg,#002f2a 0%,#003535 100%);border-radius:var(--r-md);padding:14px;margin-bottom:22px}
     .cc{background:#fff;border-radius:var(--r-md);border:1.5px solid var(--g200);overflow:hidden;transition:all .3s;display:flex;flex-direction:column;position:relative}
     .cc:hover{transform:translateY(-4px);box-shadow:var(--sh-md);border-color:var(--deep-muted)}
     .cc-strip{height:4px;background:linear-gradient(90deg,var(--deep),var(--teal))}
     .cc-strip-r{background:linear-gradient(90deg,var(--teal),var(--teal-light))}
     .cc-body{padding:13px;flex:1;display:flex;flex-direction:column}
-
-    /* Rangée badges : niveau à gauche EN ROUGE, offre à droite */
     .cc-badge-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-
-    /* Badge niveau – ROUGE */
-    .badge-lv{display:inline-block;padding:3px 9px;border-radius:50px;font-size:.62rem;font-weight:700;letter-spacing:.2px;font-family:'Poppins',sans-serif;background:#fee2e2;color:#c53030;border-left:3px solid #e74c3c;A}
-
-    /* Badges offre */
+    .badge-lv{display:inline-block;padding:3px 9px;border-radius:50px;font-size:.62rem;font-weight:700;letter-spacing:.2px;font-family:'Poppins',sans-serif;background:#fee2e2;color:#c53030;border-left:3px solid #e74c3c}
     .badge-free{display:inline-block;padding:3px 9px;border-radius:50px;font-size:.62rem;font-weight:700;letter-spacing:.2px;font-family:'Poppins',sans-serif;background:#d4f5e6;color:#27ae60;border-left:3px solid #27ae60}
     .badge-premium{display:inline-block;padding:3px 9px;border-radius:50px;font-size:.62rem;font-weight:700;letter-spacing:.2px;font-family:'Poppins',sans-serif;background:#fef5e6;color:#e8c44a;border-left:3px solid #e8c44a}
     .badge-standard{display:inline-block;padding:3px 9px;border-radius:50px;font-size:.62rem;font-weight:700;letter-spacing:.2px;font-family:'Poppins',sans-serif;background:#e6f0ff;color:#3498db;border-left:3px solid #3498db}
-    .badge-ressource{display:inline-block;padding:3px 9px;border-radius:50px;font-size:.62rem;font-weight:700;letter-spacing:.2px;font-family:'Poppins',sans-serif;background:#fff3e0;color:#f39c12;border-left:3px solid #f39c12;}
-
+    .badge-ressource{display:inline-block;padding:3px 9px;border-radius:50px;font-size:.62rem;font-weight:700;letter-spacing:.2px;font-family:'Poppins',sans-serif;background:#fff3e0;color:#f39c12;border-left:3px solid #f39c12}
     .cc-title{font-size:.86rem;font-weight:700;color:var(--txt);margin:6px 0 4px;line-height:1.32;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
     .cc-sub{font-size:.72rem;color:var(--txt-m);margin-bottom:8px}
     .cc-trow{display:flex;align-items:center;gap:6px;margin-bottom:8px}
     .cc-tav{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--deep),var(--teal));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.65rem;font-family:'Poppins',sans-serif}
     .cc-tnm{font-size:.74rem;font-weight:600;color:var(--txt)}
-    .cc-trl{font-size:.65rem;color:var(--txt-m)}
+    .cc-trl{font-size:.65rem;color:var(--txt-m);display:flex;align-items:center;gap:3px;margin-top:1px}
+    .cc-trl i{color:var(--teal);font-size:.6rem}
+    .rs-wrap .cc-trl{color:rgba(255,255,255,.5)}
+    .rs-wrap .cc-trl i{color:var(--teal-light)}
     .cc-meta{display:flex;justify-content:space-between;align-items:center;margin:4px 0}
     .cc-stars{color:var(--gold);font-size:.7rem}
     .cc-stars span{color:var(--txt-m);font-weight:700}
-    .cc-cnt{font-size:.66rem;color:var(--txt-m)}
+    .cc-type-badge{font-size:.66rem;color:var(--txt-m);display:flex;align-items:center;gap:3px;background:var(--g100);padding:2px 8px;border-radius:12px;width:fit-content}
+    .cc-type-badge i{font-size:.55rem;color:var(--teal)}
     .cc-price{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:800;color:var(--txt);margin:6px 0}
     .cc-price.free{color:var(--teal)}
     .cc-acts{display:flex;gap:5px;margin-top:auto}
@@ -282,7 +326,9 @@
     .more-arrow a:hover{background:var(--deep-pale);border-color:var(--deep);gap:10px}
     .more-arrow a:hover i{transform:translateX(4px)}
 
-    /* ── TEACHERS – statut connexion ── */
+    /* =============================================
+       ENSEIGNANTS — CARTE MODIFIÉE (suppression du badge texte)
+    ============================================= */
     .teachers{padding:48px 0;background:var(--g100)}
     .tc-wrap{position:relative;margin-top:32px}
     .tc-track{display:flex;gap:16px;overflow-x:auto;padding:6px 4px 18px;scrollbar-width:thin;scrollbar-color:var(--deep-muted) var(--g200);scroll-behavior:smooth}
@@ -292,18 +338,16 @@
     .tc-card{min-width:242px;max-width:242px;background:#fff;border-radius:var(--r-md);border:1.5px solid var(--g200);overflow:hidden;flex-shrink:0;transition:all .3s;display:flex;flex-direction:column}
     .tc-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md);border-color:var(--deep-muted)}
     .tc-hd{padding:20px 14px 14px;text-align:center;border-bottom:1px solid var(--g100);background:linear-gradient(180deg,var(--deep-pale) 0%,#fff 100%)}
-    /* wrapper avatar + dot */
     .tc-av-wrap{position:relative;width:60px;margin:0 auto 9px}
     .tc-av{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--deep),var(--deep-mid));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--gold);font-size:1.3rem;font-family:'Poppins',sans-serif;border:4px solid #fff;box-shadow:var(--sh-sm)}
-    /* dot de connexion */
-    .tc-dot{position:absolute;bottom:2px;right:2px;width:13px;height:13px;border-radius:50%;border:2.5px solid #fff;z-index:2}
+    /* Point de présence (en bas à droite de l'avatar) */
+    .tc-dot{position:absolute;bottom:2px;right:2px;width:14px;height:14px;border-radius:50%;border:2.5px solid #fff;z-index:2}
     .tc-dot.online{background:#22c55e}
     .tc-dot.offline{background:#94a3b8}
-    .tc-nm{font-size:.91rem;font-weight:700;color:var(--txt);margin-bottom:2px}
-    /* statut texte sous le nom */
-    .tc-status{font-size:.7rem;font-weight:600;margin-bottom:6px}
-    .tc-status.online{color:#16a34a}
-    .tc-status.offline{color:var(--txt-m)}
+    /* Le badge texte a été SUPPRIMÉ (plus présent dans le HTML) */
+    .tc-nm{font-size:.91rem;font-weight:700;color:var(--txt);margin-bottom:4px}
+    .tc-loc{display:flex;align-items:center;justify-content:center;gap:5px;font-size:.72rem;color:var(--txt-m);font-weight:600;margin-bottom:6px}
+    .tc-loc i{color:var(--teal);font-size:.65rem}
     .tc-rt{color:var(--gold);font-size:.72rem;display:flex;align-items:center;justify-content:center;gap:3px}
     .tc-rt span{color:var(--txt-m);font-weight:700}
     .tc-bd{padding:12px 13px;flex:1;display:flex;flex-direction:column;gap:7px}
@@ -317,7 +361,6 @@
     .snav:hover{color:var(--deep);transform:translateY(-50%) scale(1.2)}
     .snav.pv{left:-28px}.snav.nx{right:-28px}
 
-    /* PROCESSUS */
     .processus{padding:48px 0;background:#fff}
     .proc-tabs{display:flex;gap:6px;background:var(--g100);border-radius:50px;padding:5px;width:fit-content;margin:0 auto 36px;border:1.5px solid var(--g200)}
     .proc-tab-btn{padding:9px 22px;border-radius:50px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--txt-m);transition:all .24s;font-family:'Poppins',sans-serif;white-space:nowrap}
@@ -336,8 +379,6 @@
     .proc-step h3{font-size:.93rem;font-weight:700;color:var(--txt);margin-bottom:8px}
     .proc-step p{font-size:.82rem;color:var(--txt-m);line-height:1.68}
     .proc-note{text-align:center;margin-top:22px;font-size:.82rem;color:var(--txt-m);background:var(--deep-pale);border-radius:var(--r-sm);padding:10px 18px;border-left:4px solid var(--teal);display:inline-block}
-
-    /* ── PARTNERS LOGOS ── */
     .schools{padding:48px 0;background:var(--g100)}
     .mq-wrap{overflow:hidden;margin-top:32px;position:relative}
     .mq-wrap::before,.mq-wrap::after{content:'';position:absolute;top:0;bottom:0;width:68px;z-index:2;pointer-events:none}
@@ -350,8 +391,6 @@
     .sc-chip i{font-size:1.3rem;color:var(--deep)}
     .sc-chip h4{font-size:.8rem;font-weight:700;color:var(--txt);text-align:center}
     .sc-chip p{font-size:.68rem;color:var(--txt-m)}
-
-    /* ── PARTENAIRES LOGOS réels ── */
     .partners{padding:48px 0;background:#fff}
     .pt-wrap{overflow:hidden;margin-top:32px;position:relative}
     .pt-wrap::before{left:0;content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;background:linear-gradient(90deg,#fff,transparent);pointer-events:none}
@@ -362,8 +401,6 @@
     .pt-logo-chip img{height:38px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(30%);transition:filter .26s}
     .pt-logo-chip:hover img{filter:grayscale(0%)}
     .pt-logo-chip span{font-size:.68rem;font-weight:600;color:var(--txt-m);font-family:'Poppins',sans-serif}
-
-    /* NEWSLETTER */
     .nl-section{padding:62px 0;background:linear-gradient(140deg,var(--deep) 0%,var(--deep-alt) 52%,#004040 100%);position:relative;overflow:hidden}
     .nl-section::before{content:'';position:absolute;top:-110px;right:-70px;width:420px;height:420px;border-radius:50%;background:rgba(26,181,160,.07);pointer-events:none}
     .nl-section::after{content:'';position:absolute;bottom:-80px;left:-55px;width:280px;height:280px;border-radius:50%;background:rgba(232,196,74,.07);pointer-events:none}
@@ -387,8 +424,6 @@
     .nl-stats{display:flex;justify-content:center;gap:44px;margin-top:40px;padding-top:32px;border-top:1px solid rgba(255,255,255,.1)}
     .nl-stat strong{display:block;font-family:'Poppins',sans-serif;font-size:1.55rem;font-weight:900;color:var(--gold)}
     .nl-stat span{font-size:.71rem;color:rgba(255,255,255,.52);text-transform:uppercase;letter-spacing:.8px}
-
-    /* FOOTER */
     footer{background:#0a1a18;border-top:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.52);padding:56px 0 24px}
     .ft-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
     .ft-brand p{font-size:.84rem;line-height:1.75;color:rgba(255,255,255,.5);margin:13px 0 16px}
@@ -409,7 +444,6 @@
     .ft-btm p{font-size:.78rem}
     .ft-btm a{color:var(--teal-light);text-decoration:none}
     .ft-btm a:hover{color:#fff}
-
     @media(max-width:1200px){.c-grid{grid-template-columns:repeat(4,1fr)}.ft-grid{grid-template-columns:1fr 1fr}.mat-grid{grid-template-columns:repeat(3,1fr)}.features-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:992px){.hero-body{grid-template-columns:1fr;gap:26px;padding:18px 0 16px}.hero-vis{display:none}.c-grid{grid-template-columns:repeat(3,1fr)}.pq-grid{grid-template-columns:repeat(2,1fr)}.nav-links,.nav-auth{display:none}.menu-toggle{display:flex}.navbar{justify-content:space-between}.nav-search{max-width:none;order:3;width:100%;margin:8px 0 0}.proc-steps{grid-template-columns:repeat(2,1fr)}.proc-steps::before{display:none}.mat-grid{grid-template-columns:repeat(3,1fr)}.proc-tabs{flex-wrap:wrap;border-radius:var(--r-md);width:100%}.nl-stats{gap:22px}.features-grid{grid-template-columns:1fr 1fr}}
     @media(max-width:768px){.c-grid{grid-template-columns:repeat(2,1fr)}.ft-grid{grid-template-columns:1fr}.nl-form{flex-direction:column;border-radius:var(--r-md)}.nl-form button{border-radius:0 0 var(--r-md) var(--r-md)}.mat-grid{grid-template-columns:repeat(2,1fr)}.proc-inner{padding:32px 20px}.features-grid{grid-template-columns:1fr}}
@@ -419,28 +453,28 @@
 <body>
 <button id="backToTop" title="Retour en haut"><i class="fas fa-arrow-up"></i></button>
 <div id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
-
-<!-- HEADER -->
+<div id="notifModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header"><h3><i class="fas fa-bell"></i> Être notifié des nouveautés</h3><button class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body">
+            <p>Recevez les nouvelles épreuves, examens et ressources dès leur publication.</p>
+            <div class="modal-input-group"><label>Adresse email</label><input type="email" id="modalEmail" placeholder="votre@email.tg" autocomplete="email"></div>
+            <button class="modal-btn" id="submitModalBtn"><i class="fas fa-paper-plane"></i> S'abonner gratuitement</button>
+            <div class="modal-note"><i class="fas fa-shield-alt"></i> Vos données sont protégées. Désabonnement en un clic.</div>
+        </div>
+    </div>
+</div>
 <header id="mainHeader">
     <div class="container">
         <nav class="navbar">
-            <a href="index.html" class="logo">
-                <div class="logo-badge">S</div>
-                <div class="logo-text">Suku<span>li</span></div>
-            </a>
+            <a href="index.html" class="logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></a>
             <ul class="nav-links">
-                <li><a href="#cours">Cours</a></li>
-                <li><a href="#matieres">Matières</a></li>
-                <li><a href="#enseignants">Enseignants</a></li>
-                <li><a href="#fonctionnalites">Fonctionnalités</a></li>
-                <li><a href="#ecoles">Écoles</a></li>
-                <li><a href="#processus">Comment ça marche</a></li>
+                <li><a href="#cours">Cours</a></li><li><a href="#matieres">Matières</a></li><li><a href="#epreuves">Épreuves</a></li>
+                <li><a href="#actualites">Actualités</a></li>
+                <li><a href="#enseignants">Enseignants</a></li><li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                <li><a href="#ecoles">Écoles</a></li><li><a href="#processus">Comment ça marche</a></li>
             </ul>
-            <div class="nav-search">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Rechercher un cours, une matière...">
-                <button><i class="fas fa-arrow-right"></i></button>
-            </div>
+            <div class="nav-search"><i class="fas fa-search"></i><input type="text" placeholder="Rechercher un cours, une matière..."><button><i class="fas fa-arrow-right"></i></button></div>
             <div class="nav-auth">
                 <a href="Authentification/auth.html" class="btn btn-outline btn-sm">Connexion</a>
                 <a href="inscription/choix-inscription.html" class="btn btn-teal btn-sm">S'inscrire</a>
@@ -448,7 +482,9 @@
             <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
         </nav>
         <div class="mob-nav" id="mobNav">
-            <a href="#cours">Cours</a><a href="#matieres">Matières</a><a href="#enseignants">Enseignants</a><a href="#ecoles">Écoles</a><a href="#processus">Comment ça marche</a><a href="#temoignages">Témoignages</a><a href="#rejoindre">Newsletter</a>
+            <a href="#cours">Cours</a><a href="#matieres">Matières</a><a href="#epreuves">Épreuves gratuites</a>
+            <a href="#actualites">Actualités éducation</a>
+            <a href="#enseignants">Enseignants</a><a href="#ecoles">Écoles</a><a href="#processus">Comment ça marche</a>
             <div class="mob-auth">
                 <a href="Authentification/auth.html" class="btn btn-outline btn-sm">Connexion</a>
                 <a href="inscription/choix-inscription.html" class="btn btn-teal btn-sm">S'inscrire</a>
@@ -459,14 +495,9 @@
 
 <!-- HERO -->
 <section class="hero" id="accueil">
-    <div class="hero-bg-hotel"></div>
-    <div class="hero-ov"></div>
-    <div class="hero-grid-tex"></div>
-    <div class="glow glow-1"></div>
-    <div class="glow glow-2"></div>
-    <div class="hero-shape hs1"></div>
-    <div class="hero-shape hs2"></div>
-
+    <div class="hero-bg-hotel"></div><div class="hero-ov"></div><div class="hero-grid-tex"></div>
+    <div class="glow glow-1"></div><div class="glow glow-2"></div>
+    <div class="hero-shape hs1"></div><div class="hero-shape hs2"></div>
     <div class="container" style="display:flex;flex-direction:column;width:100%;flex:1">
         <div class="hero-body">
             <div class="hero-txt reveal-left">
@@ -496,101 +527,73 @@
 
 <!-- MISSION -->
 <section class="mission" id="mission">
-    <div class="container">
-        <div class="mission-in">
-            <div class="m-vis reveal-left">
-                <div class="m-img"><img src="imag/img1.png" alt="Enseignant avec des élèves"></div>
-                <div class="m-badge"><strong>98%</strong><span>Taux de<br>satisfaction</span></div>
-            </div>
-            <div class="m-txt reveal-right">
-                <div class="eyebrow">Notre Mission</div>
-                <h2>Transformer l'éducation au Togo</h2>
-                <p>Notre mission est de créer une plateforme éducative innovante qui connecte les élèves du collège avec les meilleurs enseignants du pays. Nous voulons briser les barrières géographiques et économiques.</p>
-                <p>Sukuli a été fondé avec la conviction que chaque élève mérite un accompagnement personnalisé, quel que soit son lieu de résidence ou son milieu social.</p>
-                <ul class="m-list">
-                    <li><i class="fas fa-check-circle"></i>Accès à l'éducation de qualité pour tous les élèves togolais</li>
-                    <li><i class="fas fa-check-circle"></i>Soutien aux enseignants avec des outils pédagogiques modernes</li>
-                    <li><i class="fas fa-check-circle"></i>Préparation efficace au BEPC et aux examens officiels</li>
-                    <li><i class="fas fa-check-circle"></i>Connexion directe entre familles, écoles et enseignants</li>
-                </ul>
-                <a href="inscription/choix-inscription.html" class="btn btn-deep btn-lg"><i class="fas fa-arrow-right"></i>Rejoindre notre mission</a>
-            </div>
+    <div class="container"><div class="mission-in">
+        <div class="m-vis reveal-left">
+            <div class="m-img"><img src="imag/img1.png" alt="Enseignant avec des élèves"></div>
+            <div class="m-badge"><strong>98%</strong><span>Taux de<br>satisfaction</span></div>
         </div>
-    </div>
+        <div class="m-txt reveal-right">
+            <div class="eyebrow">Notre Mission</div>
+            <h2>Transformer l'éducation au Togo</h2>
+            <p>Notre mission est de créer une plateforme éducative innovante qui connecte les élèves du collège avec les meilleurs enseignants du pays. Nous voulons briser les barrières géographiques et économiques.</p>
+            <p>Sukuli a été fondé avec la conviction que chaque élève mérite un accompagnement personnalisé, quel que soit son lieu de résidence ou son milieu social.</p>
+            <ul class="m-list">
+                <li><i class="fas fa-check-circle"></i>Accès à l'éducation de qualité pour tous les élèves togolais</li>
+                <li><i class="fas fa-check-circle"></i>Soutien aux enseignants avec des outils pédagogiques modernes</li>
+                <li><i class="fas fa-check-circle"></i>Préparation efficace au BEPC et aux examens officiels</li>
+                <li><i class="fas fa-check-circle"></i>Connexion directe entre familles, écoles et enseignants</li>
+            </ul>
+            <a href="inscription/choix-inscription.html" class="btn btn-deep btn-lg"><i class="fas fa-arrow-right"></i>Rejoindre notre mission</a>
+        </div>
+    </div></div>
 </section>
 
-<!-- PROCESSUS 4 ONGLETS -->
+<!-- PROCESSUS -->
 <section class="processus" id="processus">
     <div class="container">
-        <div class="sec-hd reveal">
-            <div class="eyebrow">Processus</div>
-            <h2 class="sec-t">Comment ça fonctionne ?</h2>
-            <p class="sec-s">Sélectionnez votre profil pour découvrir les étapes qui vous concernent.</p>
-        </div>
+        <div class="sec-hd reveal"><div class="eyebrow">Processus</div><h2 class="sec-t">Comment ça fonctionne ?</h2><p class="sec-s">Sélectionnez votre profil pour découvrir les étapes qui vous concernent.</p></div>
         <div class="proc-tabs reveal">
             <button class="proc-tab-btn active" onclick="switchProc('eleve')">🎒 Élève</button>
             <button class="proc-tab-btn" onclick="switchProc('parent')">👪 Parent d'élève</button>
             <button class="proc-tab-btn" onclick="switchProc('enseignant')">👨‍🏫 Enseignant</button>
             <button class="proc-tab-btn" onclick="switchProc('ecole')">🏫 École / Institution</button>
         </div>
-        <div class="proc-panel active" id="proc-eleve">
-            <div class="proc-inner">
-                <div class="proc-steps">
-                    <div class="proc-step"><div class="proc-num pn-1">1</div><div class="proc-step-icon">📝</div><h3>Créez votre compte</h3><p>Inscrivez-vous en tant qu'élève en quelques secondes. Complétez votre profil avec votre niveau et vos matières.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-2">2</div><div class="proc-step-icon">🔍</div><h3>Trouvez votre cours</h3><p>Parcourez les cours par matière, niveau, format et tarif. Consultez les avis et les profils certifiés des enseignants.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-3">3</div><div class="proc-step-icon">📅</div><h3>Réservez &amp; confirmez</h3><p>Choisissez vos créneaux, signez le contrat numérique et effectuez le paiement sécurisé en ligne.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-4">4</div><div class="proc-step-icon">🚀</div><h3>Apprenez &amp; progressez</h3><p>Suivez vos séances, évaluez vos progrès et atteignez vos objectifs avec un accompagnement personnalisé.</p></div>
-                </div>
-            </div>
-        </div>
-        <div class="proc-panel" id="proc-parent">
-            <div class="proc-inner">
-                <div class="proc-steps">
-                    <div class="proc-step"><div class="proc-num pn-1">1</div><div class="proc-step-icon">📝</div><h3>Créez votre compte parent</h3><p>Inscrivez-vous en tant que parent d'élève. Renseignez vos informations pour accéder à l'espace famille.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-2">2</div><div class="proc-step-icon">👶</div><h3>Ajoutez vos enfants</h3><p>Recherchez si votre enfant est déjà inscrit sur la plateforme et associez son compte, sinon inscrivez-le directement.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-3">3</div><div class="proc-step-icon">📚</div><h3>Sélectionnez des cours</h3><p>Choisissez les cours adaptés pour chacun de vos enfants selon leur niveau et leurs besoins scolaires.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-4">4</div><div class="proc-step-icon">📊</div><h3>Suivez &amp; payez</h3><p>Consultez les activités et progrès de vos enfants en temps réel, et réglez les factures ou contrats en toute sécurité.</p></div>
-                </div>
-            </div>
-        </div>
-        <div class="proc-panel" id="proc-enseignant">
-            <div class="proc-inner">
-                <div class="proc-steps">
-                    <div class="proc-step"><div class="proc-num pn-1">1</div><div class="proc-step-icon">📄</div><h3>Inscrivez-vous avec vos documents</h3><p>Créez votre profil enseignant et soumettez vos justificatifs : CV, diplômes, et tout document attestant vos compétences.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-2">2</div><div class="proc-step-icon">⏳</div><h3>Attente de validation</h3><p>Notre équipe examine vos informations et documents. Vous êtes informé par email à chaque étape de la vérification.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-3">3</div><div class="proc-step-icon">✅</div><h3>Compte validé</h3><p>Une fois validé, vous recevez accès à votre espace personnel avec un profil certifié visible par les élèves et les parents.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-4">4</div><div class="proc-step-icon">🎓</div><h3>Ajoutez vos services</h3><p>Publiez vos cours, définissez vos tarifs, gérez vos créneaux et développez votre activité pédagogique sur la plateforme.</p></div>
-                </div>
-                <div style="text-align:center;margin-top:18px"><span class="proc-note"><i class="fas fa-info-circle"></i> La validation peut prendre <strong>24 à 72h</strong> selon la complétude de votre dossier.</span></div>
-            </div>
-        </div>
-        <div class="proc-panel" id="proc-ecole">
-            <div class="proc-inner">
-                <div class="proc-steps">
-                    <div class="proc-step"><div class="proc-num pn-1">1</div><div class="proc-step-icon">🏫</div><h3>Inscrivez votre établissement</h3><p>Créez le profil de votre école ou institution et soumettez les documents officiels : agrément, registre légal, informations de contact.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-2">2</div><div class="proc-step-icon">✅</div><h3>Validation du compte</h3><p>Notre équipe vérifie l'authenticité de votre établissement. Après approbation, votre profil institutionnel est activé et certifié.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-3">3</div><div class="proc-step-icon">👥</div><h3>Ajoutez vos tuteurs</h3><p>Constituez et gérez votre équipe pédagogique en ajoutant vos tuteurs à votre espace institutionnel. Vous contrôlez leur accès.</p></div>
-                    <div class="proc-step"><div class="proc-num pn-4">4</div><div class="proc-step-icon">📋</div><h3>Vos tuteurs opèrent</h3><p>Vos tuteurs ajoutent leurs cours sur la plateforme et programment les séances avec les élèves, sous votre supervision.</p></div>
-                </div>
-                <div style="text-align:center;margin-top:18px"><span class="proc-note"><i class="fas fa-info-circle"></i> Votre tableau de bord institution vous donne une vue globale sur <strong>tous vos tuteurs et apprenants</strong>.</span></div>
-            </div>
-        </div>
+        <div class="proc-panel active" id="proc-eleve"><div class="proc-inner"><div class="proc-steps">
+            <div class="proc-step"><div class="proc-num pn-1">1</div><div class="proc-step-icon">📝</div><h3>Créez votre compte</h3><p>Inscrivez-vous en tant qu'élève en quelques secondes.</p></div>
+            <div class="proc-step"><div class="proc-num pn-2">2</div><div class="proc-step-icon">🔍</div><h3>Trouvez votre cours</h3><p>Parcourez les cours par matière, niveau, format et tarif.</p></div>
+            <div class="proc-step"><div class="proc-num pn-3">3</div><div class="proc-step-icon">📅</div><h3>Réservez &amp; confirmez</h3><p>Choisissez vos créneaux et effectuez le paiement sécurisé.</p></div>
+            <div class="proc-step"><div class="proc-num pn-4">4</div><div class="proc-step-icon">🚀</div><h3>Apprenez &amp; progressez</h3><p>Suivez vos séances et atteignez vos objectifs.</p></div>
+        </div></div></div>
+        <div class="proc-panel" id="proc-parent"><div class="proc-inner"><div class="proc-steps">
+            <div class="proc-step"><div class="proc-num pn-1">1</div><div class="proc-step-icon">📝</div><h3>Créez votre compte parent</h3><p>Inscrivez-vous en tant que parent d'élève.</p></div>
+            <div class="proc-step"><div class="proc-num pn-2">2</div><div class="proc-step-icon">👶</div><h3>Ajoutez vos enfants</h3><p>Associez ou inscrivez vos enfants directement.</p></div>
+            <div class="proc-step"><div class="proc-num pn-3">3</div><div class="proc-step-icon">📚</div><h3>Sélectionnez des cours</h3><p>Choisissez les cours adaptés à chacun.</p></div>
+            <div class="proc-step"><div class="proc-num pn-4">4</div><div class="proc-step-icon">📊</div><h3>Suivez &amp; payez</h3><p>Consultez les progrès et réglez les factures.</p></div>
+        </div></div></div>
+        <div class="proc-panel" id="proc-enseignant"><div class="proc-inner"><div class="proc-steps">
+            <div class="proc-step"><div class="proc-num pn-1">1</div><div class="proc-step-icon">📄</div><h3>Inscrivez-vous avec vos documents</h3><p>Soumettez CV et diplômes pour validation.</p></div>
+            <div class="proc-step"><div class="proc-num pn-2">2</div><div class="proc-step-icon">⏳</div><h3>Attente de validation</h3><p>Notre équipe examine vos informations.</p></div>
+            <div class="proc-step"><div class="proc-num pn-3">3</div><div class="proc-step-icon">✅</div><h3>Compte validé</h3><p>Profil certifié visible par les élèves et parents.</p></div>
+            <div class="proc-step"><div class="proc-num pn-4">4</div><div class="proc-step-icon">🎓</div><h3>Ajoutez vos services</h3><p>Publiez vos cours et gérez votre activité.</p></div>
+        </div><div style="text-align:center;margin-top:18px"><span class="proc-note"><i class="fas fa-info-circle"></i> La validation peut prendre <strong>24 à 72h</strong>.</span></div></div></div>
+        <div class="proc-panel" id="proc-ecole"><div class="proc-inner"><div class="proc-steps">
+            <div class="proc-step"><div class="proc-num pn-1">1</div><div class="proc-step-icon">🏫</div><h3>Inscrivez votre établissement</h3><p>Soumettez les documents officiels.</p></div>
+            <div class="proc-step"><div class="proc-num pn-2">2</div><div class="proc-step-icon">✅</div><h3>Validation du compte</h3><p>Profil institutionnel activé et certifié.</p></div>
+            <div class="proc-step"><div class="proc-num pn-3">3</div><div class="proc-step-icon">👥</div><h3>Ajoutez vos tuteurs</h3><p>Gérez votre équipe pédagogique.</p></div>
+            <div class="proc-step"><div class="proc-num pn-4">4</div><div class="proc-step-icon">📋</div><h3>Vos tuteurs opèrent</h3><p>Vos tuteurs ajoutent leurs cours sous votre supervision.</p></div>
+        </div><div style="text-align:center;margin-top:18px"><span class="proc-note"><i class="fas fa-info-circle"></i> Vue globale sur <strong>tous vos tuteurs et apprenants</strong>.</span></div></div></div>
     </div>
 </section>
 
-<!-- FONCTIONNALITÉS -->
+<!-- FONCTIONNALITES -->
 <div class="features-bg container" id="fonctionnalites">
-    <div class="sec-hd reveal">
-        <div class="eyebrow" style="background:rgba(29,158,117,0.2);color:var(--teal-light);">Fonctionnalités</div>
-        <h2 class="sec-t" style="color:white;">Tout ce dont vous avez besoin <span style="color:var(--gold);">pour réussir</span></h2>
-        <p class="sec-s" style="color:rgba(255,255,255,0.55);">Une plateforme complète qui couvre l'ensemble du parcours éducatif : des cours en ligne aux ressources, en passant par la gestion des paiements et le suivi des progrès.</p>
-    </div>
+    <div class="sec-hd reveal"><div class="eyebrow" style="background:rgba(29,158,117,0.2);color:var(--teal-light);">Fonctionnalités</div><h2 class="sec-t" style="color:white;">Tout ce dont vous avez besoin <span style="color:var(--gold);">pour réussir</span></h2><p class="sec-s" style="color:rgba(255,255,255,0.55);">Une plateforme complète qui couvre l'ensemble du parcours éducatif.</p></div>
     <div class="features-grid reveal">
         <div class="feature-card"><div class="feature-icon fi-teal">🎓</div><h3>Cours personnalisés</h3><p>Trouvez des enseignants validés par matière et niveau. Cours individuels ou en groupe, présentiel ou en ligne.</p></div>
-        <div class="feature-card"><div class="feature-icon fi-amber">📚</div><h3>Ressources pédagogiques</h3><p>Achetez des PDF, vidéos, exercices et supports de cours créés par des enseignants certifiés.</p></div>
-        <div class="feature-card"><div class="feature-icon fi-purple">📝</div><h3>Cahier de charge numérique</h3><p>Suivi précis de chaque séance avec objectifs atteints, difficultés rencontrées et compte-rendu détaillé.</p></div>
-        <div class="feature-card"><div class="feature-icon fi-coral">💬</div><h3>Messagerie intégrée</h3><p>Échangez par messages texte ou audio. Passez des appels vidéo directement sur la plateforme.</p></div>
-        <div class="feature-card"><div class="feature-icon fi-teal">💳</div><h3>Paiements sécurisés</h3><p>Gérez les paiements, contrats et revenus. Commission transparente, paiement par les parents inclus.</p></div>
+        <div class="feature-card"><div class="feature-icon fi-amber">📚</div><h3>Ressources pédagogiques</h3><p>Achetez des PDF, vidéos, exercices et supports créés par des enseignants certifiés.</p></div>
+        <div class="feature-card"><div class="feature-icon fi-purple">📝</div><h3>Cahier de charge numérique</h3><p>Suivi précis de chaque séance avec objectifs atteints et compte-rendu détaillé.</p></div>
+        <div class="feature-card"><div class="feature-icon fi-coral">💬</div><h3>Messagerie intégrée</h3><p>Échangez par messages texte ou audio. Appels vidéo directement sur la plateforme.</p></div>
+        <div class="feature-card"><div class="feature-icon fi-teal">💳</div><h3>Paiements sécurisés</h3><p>Gérez les paiements, contrats et revenus. Commission transparente.</p></div>
         <div class="feature-card"><div class="feature-icon fi-amber">⭐</div><h3>Système d'évaluation</h3><p>Évaluez enseignants, cours et ressources. Notes et commentaires pour garantir la qualité.</p></div>
     </div>
 </div>
@@ -598,56 +601,12 @@
 <!-- POUR QUI -->
 <section class="pour-qui" id="pour-qui">
     <div class="container">
-        <div class="sec-hd reveal">
-            <div class="eyebrow">Pour qui ?</div>
-            <h2 class="sec-t">Une plateforme pour tous les acteurs de l'éducation</h2>
-            <p class="sec-s">Élèves, parents, enseignants et écoles — chaque acteur a sa place sur Sukuli avec des outils dédiés.</p>
-        </div>
+        <div class="sec-hd reveal"><div class="eyebrow">Pour qui ?</div><h2 class="sec-t">Une plateforme pour tous les acteurs de l'éducation</h2><p class="sec-s">Élèves, parents, enseignants et écoles — chaque acteur a sa place sur Sukuli avec des outils dédiés.</p></div>
         <div class="pq-grid">
-            <div class="pq-card pq-eleve reveal" style="transition-delay:.04s">
-                <div class="pq-av av-teal">🎒</div>
-                <h3>Élèves</h3>
-                <p>De la 6ème à la 3ème, trouvez le cours et l'enseignant qui correspond à votre rythme et vos objectifs.</p>
-                <ul class="pq-list">
-                    <li><span class="pq-ck ck-teal">✓</span>Inscription aux cours par matière</li>
-                    <li><span class="pq-ck ck-teal">✓</span>Achat de ressources pédagogiques</li>
-                    <li><span class="pq-ck ck-teal">✓</span>Suivi de progression en temps réel</li>
-                    <li><span class="pq-ck ck-teal">✓</span>Évaluation des enseignants</li>
-                </ul>
-            </div>
-            <div class="pq-card pq-enseignant reveal" style="transition-delay:.09s">
-                <div class="pq-av av-purple">👨‍🏫</div>
-                <h3>Enseignants</h3>
-                <p>Créez vos cours, vendez vos ressources et gérez vos élèves depuis un seul tableau de bord intuitif.</p>
-                <ul class="pq-list">
-                    <li><span class="pq-ck ck-purple">✓</span>Création et publication de cours</li>
-                    <li><span class="pq-ck ck-purple">✓</span>Gestion des séances &amp; contrats</li>
-                    <li><span class="pq-ck ck-purple">✓</span>Vente de ressources pédagogiques</li>
-                    <li><span class="pq-ck ck-purple">✓</span>Suivi des revenus et paiements</li>
-                </ul>
-            </div>
-            <div class="pq-card pq-ecole reveal" style="transition-delay:.14s">
-                <div class="pq-av av-gold">🏫</div>
-                <h3>Écoles &amp; Instituts</h3>
-                <p>Gérez vos tuteurs, publiez vos cours et suivez les performances de vos apprenants depuis un espace dédié.</p>
-                <ul class="pq-list">
-                    <li><span class="pq-ck ck-gold">✓</span>Gestion multi-tuteurs</li>
-                    <li><span class="pq-ck ck-gold">✓</span>Profil institutionnel certifié</li>
-                    <li><span class="pq-ck ck-gold">✓</span>Rapport de performance avancé</li>
-                    <li><span class="pq-ck ck-gold">✓</span>Tableau de bord établissement</li>
-                </ul>
-            </div>
-            <div class="pq-card pq-parent reveal" style="transition-delay:.19s">
-                <div class="pq-av av-coral">👪</div>
-                <h3>Parents d'élèves</h3>
-                <p>Supervisez le parcours de votre enfant, approuvez les cours et effectuez les paiements en toute sécurité.</p>
-                <ul class="pq-list">
-                    <li><span class="pq-ck ck-coral">✓</span>Suivi des résultats en direct</li>
-                    <li><span class="pq-ck ck-coral">✓</span>Communication avec les enseignants</li>
-                    <li><span class="pq-ck ck-coral">✓</span>Gestion des paiements &amp; factures</li>
-                    <li><span class="pq-ck ck-coral">✓</span>Alertes de progression</li>
-                </ul>
-            </div>
+            <div class="pq-card pq-eleve reveal" style="transition-delay:.04s"><div class="pq-av av-teal">🎒</div><h3>Élèves</h3><p>De la 6ème à la 3ème, trouvez le cours et l'enseignant qui correspond à votre rythme.</p><ul class="pq-list"><li><span class="pq-ck ck-teal">✓</span>Inscription aux cours par matière</li><li><span class="pq-ck ck-teal">✓</span>Achat de ressources pédagogiques</li><li><span class="pq-ck ck-teal">✓</span>Suivi de progression en temps réel</li><li><span class="pq-ck ck-teal">✓</span>Évaluation des enseignants</li></ul></div>
+            <div class="pq-card pq-enseignant reveal" style="transition-delay:.09s"><div class="pq-av av-purple">👨‍🏫</div><h3>Enseignants</h3><p>Créez vos cours, vendez vos ressources et gérez vos élèves depuis un seul tableau de bord.</p><ul class="pq-list"><li><span class="pq-ck ck-purple">✓</span>Création et publication de cours</li><li><span class="pq-ck ck-purple">✓</span>Gestion des séances &amp; contrats</li><li><span class="pq-ck ck-purple">✓</span>Vente de ressources pédagogiques</li><li><span class="pq-ck ck-purple">✓</span>Suivi des revenus et paiements</li></ul></div>
+            <div class="pq-card pq-ecole reveal" style="transition-delay:.14s"><div class="pq-av av-gold">🏫</div><h3>Écoles &amp; Instituts</h3><p>Gérez vos tuteurs, publiez vos cours et suivez les performances depuis un espace dédié.</p><ul class="pq-list"><li><span class="pq-ck ck-gold">✓</span>Gestion multi-tuteurs</li><li><span class="pq-ck ck-gold">✓</span>Profil institutionnel certifié</li><li><span class="pq-ck ck-gold">✓</span>Rapport de performance avancé</li><li><span class="pq-ck ck-gold">✓</span>Tableau de bord établissement</li></ul></div>
+            <div class="pq-card pq-parent reveal" style="transition-delay:.19s"><div class="pq-av av-coral">👪</div><h3>Parents d'élèves</h3><p>Supervisez le parcours de votre enfant et effectuez les paiements en toute sécurité.</p><ul class="pq-list"><li><span class="pq-ck ck-coral">✓</span>Suivi des résultats en direct</li><li><span class="pq-ck ck-coral">✓</span>Communication avec les enseignants</li><li><span class="pq-ck ck-coral">✓</span>Gestion des paiements &amp; factures</li><li><span class="pq-ck ck-coral">✓</span>Alertes de progression</li></ul></div>
         </div>
     </div>
 </section>
@@ -655,11 +614,7 @@
 <!-- MATIÈRES -->
 <section class="matieres" id="matieres">
     <div class="container">
-        <div class="sec-hd reveal">
-            <div class="eyebrow">Matières</div>
-            <h2 class="sec-t">6 matières pour briller au collège</h2>
-            <p class="sec-s">Des cours disponibles dans toutes les matières fondamentales du collège, avec des enseignants spécialisés et vérifiés.</p>
-        </div>
+        <div class="sec-hd reveal"><div class="eyebrow">Matières</div><h2 class="sec-t">6 matières pour briller au collège</h2><p class="sec-s">Des cours disponibles dans toutes les matières fondamentales du collège.</p></div>
         <div class="mat-grid">
             <div class="mat-card mat-math reveal" style="transition-delay:.04s"><span class="mat-ico">📐</span><div class="mat-name">Mathématiques</div><div class="mat-lv">6ème → 3ème</div></div>
             <div class="mat-card mat-phys reveal" style="transition-delay:.09s"><span class="mat-ico">⚗️</span><div class="mat-name">Physique-Chimie</div><div class="mat-lv">6ème → 3ème</div></div>
@@ -670,93 +625,114 @@
         </div>
         <div style="margin-top:36px">
             <p style="font-size:13px;color:var(--txt-m);margin-bottom:14px;font-weight:600;text-transform:uppercase;letter-spacing:.8px">Niveaux d'étude disponibles :</p>
-            <div class="levels-row">
-                <div class="level-pill lp-6">6ème</div>
-                <div class="level-pill lp-5">5ème</div>
-                <div class="level-pill lp-4">4ème</div>
-                <div class="level-pill lp-3">3ème</div>
-            </div>
+            <div class="levels-row"><div class="level-pill lp-6">6ème</div><div class="level-pill lp-5">5ème</div><div class="level-pill lp-4">4ème</div><div class="level-pill lp-3">3ème</div></div>
         </div>
     </div>
 </section>
 
-<!-- TESTIMONIALS -->
+<!-- TÉMOIGNAGES -->
 <section class="testi" id="temoignages">
     <div class="container">
-        <div class="sec-hd reveal">
-            <div class="eyebrow">Témoignages</div>
-            <h2 class="sec-t">Ce que disent nos utilisateurs</h2>
-            <p class="sec-s">Découvrez les expériences des élèves, parents et enseignants qui utilisent Sukuli</p>
-        </div>
+        <div class="sec-hd reveal"><div class="eyebrow">Témoignages</div><h2 class="sec-t">Ce que disent nos utilisateurs</h2><p class="sec-s">Découvrez les expériences des élèves, parents et enseignants qui utilisent Sukuli</p></div>
         <div class="t-slider"><div class="t-track" id="tTrack"></div></div>
         <div class="t-dots" id="tDots"></div>
     </div>
 </section>
 
-<!-- COURSES -->
+<!-- COURS -->
 <section class="courses" id="cours">
     <div class="container">
-        <div class="sec-hd reveal">
-            <div class="eyebrow">Cours disponibles</div>
-            <h2 class="sec-t">Meilleurs cours par niveau</h2>
-            <p class="sec-s">Découvrez les cours les plus populaires pour chaque niveau du collège</p>
-        </div>
+        <div class="sec-hd reveal"><div class="eyebrow">Cours disponibles</div><h2 class="sec-t">Meilleurs cours par niveau</h2><p class="sec-s">Découvrez les cours les plus populaires pour chaque niveau du collège</p></div>
         <div class="cat-hd cat-sc reveal"><i class="fas fa-flask"></i><h3>Sciences — Mathématiques, Physique, SVT</h3></div>
         <div class="c-grid" id="scGrid"></div>
         <div class="cat-hd cat-lt reveal" style="margin-top:22px"><i class="fas fa-book-open"></i><h3>Littérature &amp; Langues — Français, Anglais, Histoire</h3></div>
         <div class="c-grid" id="ltGrid"></div>
+        <div class="more-arrow reveal"><a href="cours.html"><i class="fas fa-arrow-right"></i> Voir tous les cours</a></div>
         <div style="margin-top:22px">
-            <div class="cat-hd cat-rs reveal"><i class="fas fa-folder-open"></i><h3>Ressources pédagogiques — Fiches, Annales, Exercices corrigés</h3></div>
-            <div class="rs-wrap">
-                <div class="c-grid" id="rsGrid"></div>
+            <div class="cat-hd cat-rs reveal">
+                <div class="cat-rs-left"><i class="fas fa-folder-open"></i><h3>Ressources pédagogiques — Fiches, Annales, Exercices corrigés</h3></div>
+                <a href="ressources-pedagogiques.html" class="cat-rs-link">Voir toutes les ressources <i class="fas fa-arrow-right"></i></a>
             </div>
-        </div>
-        <div class="more-arrow reveal">
-            <a href="cours.html"><i class="fas fa-arrow-right"></i> Voir tous les cours</a>
+            <div class="rs-wrap"><div class="c-grid" id="rsGrid"></div></div>
         </div>
     </div>
 </section>
 
-<!-- TEACHERS -->
-<section class="teachers" id="enseignants">
+<!-- ÉPREUVES -->
+<section class="epreuves" id="epreuves">
+    <div class="ep-orb ep-orb-1"></div><div class="ep-orb ep-orb-2"></div>
+    <div class="container">
+        <div class="sec-hd reveal"><div class="eyebrow"><i class="fas fa-file-pdf" style="margin-right:5px"></i>Épreuves gratuites</div><h2 class="sec-t">Téléchargez vos épreuves <span style="color:var(--gold)">100% gratuitement</span></h2><p class="sec-s">Sukuli vous offre une collection d'épreuves, examens du BEPC et de devoirs pour tous les niveaux du collège.</p></div>
+        <div class="ep-grid" id="epGrid"></div>
+        <div class="ep-cta-row reveal">
+            <div class="ep-cta-txt"><h3>📂 Toute la bibliothèque disponible</h3><p>Plus de <strong style="color:var(--gold)">180 épreuves</strong> classées par niveau, matière et année.</p></div>
+            <div class="ep-cta-btns">
+                <a href="epreuves.html" class="btn btn-gold"><i class="fas fa-folder-open"></i>Voir toutes les épreuves</a>
+                <a href="#" id="openNotifBtn" class="btn btn-outline"><i class="fas fa-bell"></i>Être notifié des nouveautés</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ACTUALITÉS -->
+<section class="actualites" id="actualites">
     <div class="container">
         <div class="sec-hd reveal">
-            <div class="eyebrow">Nos enseignants</div>
-            <h2 class="sec-t">Les mieux notés par nos élèves</h2>
-            <p class="sec-s">Des enseignants passionnés, vérifiés et disponibles pour vous accompagner</p>
+            <div class="eyebrow"><i class="fas fa-newspaper" style="margin-right:5px"></i>Actualités</div>
+            <h2 class="sec-t">L'éducation au Togo <span style="color:var(--teal)">en direct</span></h2>
+            <p class="sec-s">Restez informé des dernières nouvelles sur les examens officiels, concours, rentrées scolaires et toute l'actualité éducative du Togo.</p>
         </div>
+        <div class="actu-filters reveal">
+            <button class="actu-filter-btn active" onclick="filterActu('all', this)">Tout</button>
+            <button class="actu-filter-btn" onclick="filterActu('examen', this)"><i class="fas fa-file-alt" style="font-size:.7rem;margin-right:4px"></i>Examens</button>
+            <button class="actu-filter-btn" onclick="filterActu('concours', this)"><i class="fas fa-trophy" style="font-size:.7rem;margin-right:4px"></i>Concours</button>
+            <button class="actu-filter-btn" onclick="filterActu('rentree', this)"><i class="fas fa-school" style="font-size:.7rem;margin-right:4px"></i>Rentrée scolaire</button>
+            <button class="actu-filter-btn" onclick="filterActu('bourse', this)"><i class="fas fa-hand-holding-usd" style="font-size:.7rem;margin-right:4px"></i>Bourses</button>
+            <button class="actu-filter-btn" onclick="filterActu('actu', this)"><i class="fas fa-bell" style="font-size:.7rem;margin-right:4px"></i>Actualités</button>
+        </div>
+        <div class="actu-layout reveal">
+            <div id="actuFeaturedSlot"></div>
+            <div class="actu-sidebar">
+                <div class="actu-ticker">
+                    <span class="actu-ticker-label">🔴 EN DIRECT</span>
+                    <span class="actu-ticker-text" id="actuTickerText">Résultats BEPC 2024 disponibles sur le portail du MEPSFP — Consultez vos notes en ligne.</span>
+                </div>
+                <div id="actuSidebarSlot"></div>
+            </div>
+        </div>
+        <div class="actu-footer-row reveal">
+            <p><strong>10 nouvelles</strong> publiées ce mois-ci sur l'éducation au Togo.</p>
+            <a href="actualites.html" class="btn btn-outline-d btn-sm"><i class="fas fa-newspaper"></i> Toutes les actualités</a>
+        </div>
+    </div>
+</section>
+
+<!-- ENSEIGNANTS -->
+<section class="teachers" id="enseignants">
+    <div class="container">
+        <div class="sec-hd reveal"><div class="eyebrow">Nos enseignants</div><h2 class="sec-t">Les mieux notés par nos élèves</h2><p class="sec-s">Des enseignants passionnés, vérifiés et disponibles pour vous accompagner</p></div>
         <div class="tc-wrap">
             <button class="snav pv" id="tcPrev"><i class="fas fa-chevron-left"></i></button>
             <div class="tc-track" id="tcTrack"></div>
             <button class="snav nx" id="tcNext"><i class="fas fa-chevron-right"></i></button>
         </div>
-        <div class="more-arrow reveal" style="margin-top:20px">
-            <a href="enseignant.html"><i class="fas fa-arrow-right"></i> Voir tous les enseignants</a>
-        </div>
+        <div class="more-arrow reveal" style="margin-top:20px"><a href="enseignant.html"><i class="fas fa-arrow-right"></i> Voir tous les enseignants</a></div>
     </div>
 </section>
 
-<!-- SCHOOLS -->
+<!-- ÉCOLES -->
 <section class="schools" id="ecoles">
     <div class="container">
-        <div class="sec-hd reveal">
-            <div class="eyebrow">Partenaires scolaires</div>
-            <h2 class="sec-t">Nos écoles et institutions partenaires</h2>
-            <p class="sec-s">Sukuli collabore avec les meilleures écoles du Togo</p>
-        </div>
+        <div class="sec-hd reveal"><div class="eyebrow">Partenaires scolaires</div><h2 class="sec-t">Nos écoles et institutions partenaires</h2><p class="sec-s">Sukuli collabore avec les meilleures écoles du Togo</p></div>
         <div class="mq-wrap"><div class="sc-track" id="scTrack"></div></div>
         <div class="more-arrow reveal"><a href="ecole.html"><i class="fas fa-arrow-right"></i> Voir toutes les écoles</a></div>
     </div>
 </section>
 
-<!-- PARTENAIRES avec vrais logos -->
+<!-- PARTENAIRES -->
 <section class="partners" id="partenaires">
     <div class="container">
-        <div class="sec-hd reveal">
-            <div class="eyebrow">Partenaires &amp; sponsors</div>
-            <h2 class="sec-t">Ils nous font confiance</h2>
-            <p class="sec-s">Des institutions de renom qui soutiennent notre mission d'éducation</p>
-        </div>
+        <div class="sec-hd reveal"><div class="eyebrow">Partenaires &amp; sponsors</div><h2 class="sec-t">Ils nous font confiance</h2><p class="sec-s">Des institutions de renom qui soutiennent notre mission d'éducation</p></div>
         <div class="pt-wrap"><div class="pt-track" id="ptTrack"></div></div>
     </div>
 </section>
@@ -768,7 +744,7 @@
         <div class="nl-inner reveal">
             <div class="eyebrow"><i class="fas fa-bell"></i>&nbsp;Restez informé</div>
             <h2>Ne manquez aucune <span>nouveauté</span></h2>
-            <p>Abonnez-vous à la newsletter Sukuli pour être informé en avant-première des nouvelles fonctionnalités, des cours ajoutés, des promotions et de toutes les évolutions de la plateforme.</p>
+            <p>Abonnez-vous à la newsletter Sukuli pour être informé en avant-première des nouvelles fonctionnalités, cours ajoutés et promotions.</p>
             <div class="nl-tags">
                 <div class="nl-tag"><i class="fas fa-plus-circle"></i>Nouveaux cours</div>
                 <div class="nl-tag"><i class="fas fa-tools"></i>Nouvelles fonctionnalités</div>
@@ -799,78 +775,69 @@
                 <div class="ft-logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></div>
                 <p>La première plateforme éducative dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
                 <div class="soc-row">
-                    <a href="#" class="soc-btn"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="soc-btn"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="soc-btn"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="soc-btn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="soc-btn"><i class="fab fa-facebook-f"></i></a><a href="#" class="soc-btn"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="soc-btn"><i class="fab fa-instagram"></i></a><a href="#" class="soc-btn"><i class="fab fa-linkedin-in"></i></a>
                     <a href="#" class="soc-btn"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
-            <div class="ft-col">
-                <h4>Navigation</h4>
-                <ul class="ft-links">
-                    <li><a href="#accueil"><i class="fas fa-chevron-right"></i>Accueil</a></li>
-                    <li><a href="#cours"><i class="fas fa-chevron-right"></i>Cours</a></li>
-                    <li><a href="#matieres"><i class="fas fa-chevron-right"></i>Matières</a></li>
-                    <li><a href="#enseignants"><i class="fas fa-chevron-right"></i>Enseignants</a></li>
-                    <li><a href="#processus"><i class="fas fa-chevron-right"></i>Processus</a></li>
-                    <li><a href="#rejoindre"><i class="fas fa-chevron-right"></i>Newsletter</a></li>
-                </ul>
-            </div>
-            <div class="ft-col">
-                <h4>Ressources</h4>
-                <ul class="ft-links">
-                    <li><a href="faq.html"><i class="fas fa-chevron-right"></i>FAQ</a></li>
-                    <li><a href="blog.html"><i class="fas fa-chevron-right"></i>Blog</a></li>
-                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i>Contact</a></li>
-                </ul>
-            </div>
-            <div class="ft-col">
-                <h4>Contact</h4>
+            <div class="ft-col"><h4>Navigation</h4><ul class="ft-links">
+                <li><a href="#accueil"><i class="fas fa-chevron-right"></i>Accueil</a></li>
+                <li><a href="#cours"><i class="fas fa-chevron-right"></i>Cours</a></li>
+                <li><a href="#epreuves"><i class="fas fa-chevron-right"></i>Épreuves gratuites</a></li>
+                <li><a href="#actualites"><i class="fas fa-chevron-right"></i>Actualités éducation</a></li>
+                <li><a href="#enseignants"><i class="fas fa-chevron-right"></i>Enseignants</a></li>
+                <li><a href="#processus"><i class="fas fa-chevron-right"></i>Processus</a></li>
+                <li><a href="#rejoindre"><i class="fas fa-chevron-right"></i>Newsletter</a></li>
+            </ul></div>
+            <div class="ft-col"><h4>Ressources</h4><ul class="ft-links">
+                <li><a href="faq.html"><i class="fas fa-chevron-right"></i>FAQ</a></li>
+                <li><a href="blog.html"><i class="fas fa-chevron-right"></i>Blog</a></li>
+                <li><a href="contact.html"><i class="fas fa-chevron-right"></i>Contact</a></li>
+            </ul></div>
+            <div class="ft-col"><h4>Contact</h4>
                 <div class="ft-ci"><i class="fas fa-map-marker-alt"></i><span>Lomé, Togo</span></div>
                 <div class="ft-ci"><i class="fas fa-phone"></i><span>+228 XX XX XX XX</span></div>
                 <div class="ft-ci"><i class="fas fa-envelope"></i><span>contact@sukuli.tg</span></div>
             </div>
         </div>
-        <div class="ft-btm">
-            <p>© 2024 Sukuli. Tous droits réservés.</p>
-            <p><a href="privacy.php">Confidentialité</a> · <a href="terms.php">Conditions</a></p>
-        </div>
+        <div class="ft-btm"><p>© 2024 Sukuli. Tous droits réservés.</p><p><a href="privacy.php">Confidentialité</a> · <a href="terms.php">Conditions</a></p></div>
     </div>
 </footer>
 
 <script>
-/* ── DATA ── */
+/* ===== DONNÉES ===== */
 const coursesData=[
-    {id:1,title:"Mathématiques — Niveau 6ème",sub:"math",lv:"6ème",t:"M. Koffi Agbessi",i:"KA",pr:"Collège Protestant",p:2500,fr:false,r:4.9,n:124,pm:true,cat:"sc"},
-    {id:2,title:"Physique-Chimie — Électricité 4ème",sub:"physics",lv:"4ème",t:"Dr. Yao Akakpo",i:"YA",pr:"Prof. de Physique",p:3500,fr:false,r:4.7,n:92,pm:true,cat:"sc"},
-    {id:3,title:"SVT — Le Monde Vivant 5ème",sub:"svt",lv:"5ème",t:"Mme Fatou Diallo",i:"FD",pr:"Biologiste",p:2800,fr:false,r:4.5,n:76,pm:false,cat:"sc"},
-    {id:4,title:"Sciences — Révision complète 3ème",sub:"physics",lv:"3ème",t:"Dr. Lawson Komla",i:"LK",pr:"Chercheur",p:4500,fr:false,r:4.7,n:124,pm:true,cat:"sc"},
-    {id:5,title:"Mathématiques — Géométrie 5ème",sub:"math",lv:"5ème",t:"Dr. Komla Lawson",i:"KL",pr:"Enseignant expérimenté",p:3000,fr:false,r:4.8,n:87,pm:true,cat:"sc"},
-    {id:7,title:"Français — Grammaire de base 6ème",sub:"french",lv:"6ème",t:"Mme Aïcha Mensah",i:"AM",pr:"Prof. de Français",p:2000,fr:false,r:4.7,n:98,pm:false,cat:"lt"},
-    {id:8,title:"Anglais — Conversation 4ème",sub:"english",lv:"4ème",t:"Mme Sarah Johnson",i:"SJ",pr:"Enseignante bilingue",p:2900,fr:false,r:4.6,n:88,pm:false,cat:"lt"},
-    {id:9,title:"Français — Préparation au Brevet",sub:"french",lv:"4ème",t:"Mme Mariam Konaté",i:"MK",pr:"Prof. de Lettres",p:4000,fr:false,r:4.8,n:105,pm:false,cat:"lt"},
-    {id:10,title:"Initiation à l'Anglais 6ème",sub:"english",lv:"6ème",t:"M. John Smith",i:"JS",pr:"Enseignant natif",p:0,fr:true,r:4.6,n:215,pm:false,cat:"lt"},
-    {id:11,title:"Histoire du Togo 5ème",sub:"history",lv:"5ème",t:"Prof. Kodjo Adjo",i:"KA",pr:"Historien",p:2200,fr:false,r:4.9,n:112,pm:false,cat:"lt"},
+    {id:1,title:"Mathématiques — Niveau 6ème",sub:"math",lv:"6ème",t:"Koffi Agbessi",i:"KA",lieu:"Lomé, Togo",p:2500,fr:false,r:4.9,n:124,pm:true,cat:"sc"},
+    {id:2,title:"Physique-Chimie — Électricité 4ème",sub:"physics",lv:"4ème",t:"Yao Akakpo",i:"YA",lieu:"Kpalimé, Togo",p:3500,fr:false,r:4.7,n:92,pm:true,cat:"sc"},
+    {id:3,title:"SVT — Le Monde Vivant 5ème",sub:"svt",lv:"5ème",t:"Fatou Diallo",i:"FD",lieu:"Sokodé, Togo",p:2800,fr:false,r:4.5,n:76,pm:false,cat:"sc"},
+    {id:4,title:"Sciences — Révision complète 3ème",sub:"physics",lv:"3ème",t:"Komla Lawson",i:"LK",lieu:"Atakpamé, Togo",p:4500,fr:false,r:4.7,n:124,pm:true,cat:"sc"},
+    {id:5,title:"Mathématiques — Géométrie 5ème",sub:"math",lv:"5ème",t:"Komla Lawson",i:"KL",lieu:"Atakpamé, Togo",p:3000,fr:false,r:4.8,n:87,pm:true,cat:"sc"},
+    {id:7,title:"Français — Grammaire de base 6ème",sub:"french",lv:"6ème",t:"Aïcha Mensah",i:"AM",lieu:"Lomé, Togo",p:2000,fr:false,r:4.7,n:98,pm:false,cat:"lt"},
+    {id:8,title:"Anglais — Conversation 4ème",sub:"english",lv:"4ème",t:"Sarah Johnson",i:"SJ",lieu:"Lomé, Togo",p:2900,fr:false,r:4.6,n:88,pm:false,cat:"lt"},
+    {id:9,title:"Français — Préparation au Brevet",sub:"french",lv:"4ème",t:"Mariam Konaté",i:"MK",lieu:"Kara, Togo",p:4000,fr:false,r:4.8,n:105,pm:false,cat:"lt"},
+    {id:10,title:"Initiation à l'Anglais 6ème",sub:"english",lv:"6ème",t:"John Smith",i:"JS",lieu:"Lomé, Togo",p:0,fr:true,r:4.6,n:215,pm:false,cat:"lt"},
+    {id:11,title:"Histoire du Togo 5ème",sub:"history",lv:"5ème",t:"Kodjo Adjo",i:"KA",lieu:"Tsévié, Togo",p:2200,fr:false,r:4.9,n:112,pm:false,cat:"lt"},
 ];
 const rData=[
-    {id:101,title:"Fiches de révision BEPC — Mathématiques",sub:"math",lv:"3ème",t:"Prof. Jean Dupont",i:"JD",pr:"Lycée Français",p:1500,r:4.8,dl:287},
-    {id:102,title:"Annales BEPC corrigées — 2020-2023",sub:"toutes",lv:"3ème",t:"M. Koffi Agbessi",i:"KA",pr:"Collège Protestant",p:3000,r:4.9,dl:412},
-    {id:103,title:"Résumés de cours — Français 4ème",sub:"french",lv:"4ème",t:"Mme Aïcha Mensah",i:"AM",pr:"Prof. de Français",p:1200,r:4.6,dl:156},
-    {id:104,title:"Exercices corrigés — Sciences Physiques 5ème",sub:"physics",lv:"5ème",t:"Dr. Yao Akakpo",i:"YA",pr:"Prof. de Physique",p:1800,r:4.7,dl:198},
-    {id:105,title:"Devoirs surveillés — SVT 4ème",sub:"svt",lv:"4ème",t:"Mme Fatou Diallo",i:"FD",pr:"Biologiste",p:1000,r:4.5,dl:134},
+    {id:101,type:"fiche",title:"Fiches de révision BEPC — Mathématiques",sub:"math",lv:"3ème",t:"Jean Dupont",i:"JD",lieu:"Lomé, Togo",p:1500,r:4.8,dl:287},
+    {id:102,type:"annale",title:"Annales BEPC corrigées — 2020-2023",sub:"toutes",lv:"3ème",t:"Koffi Agbessi",i:"KA",lieu:"Lomé, Togo",p:3000,r:4.9,dl:412},
+    {id:103,type:"resume",title:"Résumés de cours — Français 4ème",sub:"french",lv:"4ème",t:"Aïcha Mensah",i:"AM",lieu:"Lomé, Togo",p:1200,r:4.6,dl:156},
+    {id:104,type:"exercice",title:"Exercices corrigés — Sciences Physiques 5ème",sub:"physics",lv:"5ème",t:"Yao Akakpo",i:"YA",lieu:"Kpalimé, Togo",p:1800,r:4.7,dl:198},
+    {id:105,type:"annale",title:"Devoirs surveillés — SVT 4ème",sub:"svt",lv:"4ème",t:"Fatou Diallo",i:"FD",lieu:"Sokodé, Togo",p:1000,r:4.5,dl:134},
 ];
 
-/* enseignants avec statut en ligne aléatoire */
+/* =============================================================
+   DONNÉES ENSEIGNANTS — champ "lieu" ajouté pour la localisation
+============================================================= */
 const tData=[
-    {id:1,nm:"Koffi Agbessi",subs:["math","physics"],lvs:["6ème","5ème","4ème","3ème"],r:4.9,i:"KA",online:true},
-    {id:2,nm:"Aïcha Mensah",subs:["french"],lvs:["6ème","5ème","3ème"],r:4.7,i:"AM",online:false,lastSeen:"2 min"},
-    {id:3,nm:"John Smith",subs:["english"],lvs:["6ème","5ème","4ème","3ème"],r:4.9,i:"JS",online:true},
-    {id:4,nm:"Komla Lawson",subs:["physics","svt"],lvs:["5ème","4ème","3ème"],r:4.8,i:"KL",online:false,lastSeen:"5 min"},
-    {id:5,nm:"Fatou Diallo",subs:["svt"],lvs:["5ème","3ème"],r:4.6,i:"FD",online:true},
-    {id:6,nm:"Kodjo Adjo",subs:["history"],lvs:["5ème","4ème","3ème"],r:4.9,i:"KA",online:false,lastSeen:"15 min"},
-    {id:7,nm:"Yao Akakpo",subs:["physics"],lvs:["4ème","3ème"],r:4.7,i:"YA",online:true},
-    {id:8,nm:"Mariam Konaté",subs:["french"],lvs:["4ème","3ème"],r:4.8,i:"MK",online:false,lastSeen:"2 min"},
+    {id:1,nm:"Koffi Agbessi",subs:["math","physics"],lvs:["6ème","5ème","4ème","3ème"],r:4.9,i:"KA",online:true,lieu:"Lomé, Togo"},
+    {id:2,nm:"Aïcha Mensah",subs:["french"],lvs:["6ème","5ème","3ème"],r:4.7,i:"AM",online:false,lastSeen:"2 min",lieu:"Lomé, Togo"},
+    {id:3,nm:"John Smith",subs:["english"],lvs:["6ème","5ème","4ème","3ème"],r:4.9,i:"JS",online:true,lieu:"Lomé, Togo"},
+    {id:4,nm:"Komla Lawson",subs:["physics","svt"],lvs:["5ème","4ème","3ème"],r:4.8,i:"KL",online:false,lastSeen:"5 min",lieu:"Atakpamé, Togo"},
+    {id:5,nm:"Fatou Diallo",subs:["svt"],lvs:["5ème","3ème"],r:4.6,i:"FD",online:true,lieu:"Sokodé, Togo"},
+    {id:6,nm:"Kodjo Adjo",subs:["history"],lvs:["5ème","4ème","3ème"],r:4.9,i:"KA",online:false,lastSeen:"15 min",lieu:"Tsévié, Togo"},
+    {id:7,nm:"Yao Akakpo",subs:["physics"],lvs:["4ème","3ème"],r:4.7,i:"YA",online:true,lieu:"Kpalimé, Togo"},
+    {id:8,nm:"Mariam Konaté",subs:["french"],lvs:["4ème","3ème"],r:4.8,i:"MK",online:false,lastSeen:"2 min",lieu:"Kara, Togo"},
 ];
 
 const testiData=[
@@ -881,8 +848,6 @@ const testiData=[
     {c:"Mon fils a repris confiance en lui. Sukuli est la meilleure plateforme adaptée au Togo.",a:"Komlan A.",rl:"Parent",i:"KA"},
 ];
 const schools=[["Lycée de Tokoin","Lomé"],["Collège Protestant","Kpalimé"],["Lycée Scientifique","Lomé"],["Collège Moderne","Sokodé"],["École Internationale","Lomé"],["Lycée du Zio","Tsévié"],["Collège Sacré-Cœur","Atakpamé"],["Lycée de Kara","Kara"],["CEG Dapaong","Dapaong"],["Lycée Technique","Lomé"]];
-
-/* Partenaires avec vrais logos */
 const partners=[
     {name:"UNICEF",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Logo_of_UNICEF.svg/200px-Logo_of_UNICEF.svg.png"},
     {name:"UNESCO",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/UNESCO_logo.svg/200px-UNESCO_logo.svg.png"},
@@ -893,157 +858,193 @@ const partners=[
     {name:"AFD",logo:"https://upload.wikimedia.org/wikipedia/fr/thumb/6/65/Logo_Agence_Fran%C3%A7aise_de_D%C3%A9veloppement.svg/200px-Logo_Agence_Fran%C3%A7aise_de_D%C3%A9veloppement.svg.png"},
     {name:"USAID",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/USAID-Identity.svg/200px-USAID-Identity.svg.png"},
 ];
+const epreuvesData=[
+    {id:1,lv:"6ème",title:"Devoir de Mathématiques — 6ème — Trimestre 1"},
+    {id:2,lv:"6ème",title:"Épreuve de Français — 6ème — Composition"},
+    {id:3,lv:"6ème",title:"SVT — La cellule — Évaluation 6ème"},
+    {id:4,lv:"6ème",title:"English Test — 6ème — Term 2"},
+    {id:5,lv:"5ème",title:"Mathématiques — Algèbre 5ème — DS Corrigé"},
+];
 
-/* ── HELPERS ── */
+/* ===== DONNÉES ACTUALITÉS ===== */
+const actuData=[
+    {id:1,cat:"examen",featured:true,emoji:"📝",tag:'<span class="tag-examen"><i class="fas fa-file-alt"></i> Examen</span>',title:"BEPC 2025 : dates officielles et calendrier des épreuves annoncés par le MEPSFP",desc:"Le Ministère de l'Éducation et de la Promotion Scolaire a publié le calendrier officiel du BEPC 2025. Les épreuves écrites se dérouleront du 16 au 20 juin 2025 sur l'ensemble du territoire togolais. Les inscriptions sont ouvertes jusqu'au 31 mars.",date:"18 mars 2025",isNew:true},
+    {id:2,cat:"concours",featured:false,emoji:"🏆",tag:'<span class="tag-concours"><i class="fas fa-trophy"></i> Concours</span>',title:"Concours d'entrée en 6ème 2025 — Résultats disponibles",desc:"Les résultats du concours d'entrée en 6ème sont officiellement publiés.",date:"12 mars 2025",isNew:true},
+    {id:3,cat:"rentree",featured:false,emoji:"🏫",tag:'<span class="tag-rentree"><i class="fas fa-school"></i> Rentrée</span>',title:"Rentrée scolaire 2025-2026 : date fixée au 15 septembre",desc:"Le gouvernement togolais confirme la date de la prochaine rentrée scolaire.",date:"5 mars 2025",isNew:false},
+    {id:4,cat:"bourse",featured:false,emoji:"🎓",tag:'<span class="tag-bourse"><i class="fas fa-hand-holding-usd"></i> Bourse</span>',title:"Bourses d'excellence ANPE-Togo 2025 : appel à candidatures",desc:"L'ANPE lance un appel à candidatures pour ses bourses d'excellence.",date:"28 fév. 2025",isNew:false},
+    {id:5,cat:"actu",featured:false,emoji:"📢",tag:'<span class="tag-actu"><i class="fas fa-bell"></i> Actualité</span>',title:"Distribution gratuite de manuels scolaires dans les CEG du pays",desc:"Le MEPSFP annonce la distribution de 120 000 manuels scolaires.",date:"20 fév. 2025",isNew:false},
+    {id:6,cat:"concours",featured:false,emoji:"⚖️",tag:'<span class="tag-concours"><i class="fas fa-trophy"></i> Concours</span>',title:"Concours de la Fonction Publique 2025 — Ouverture des inscriptions",desc:"Les inscriptions au concours de la Fonction Publique, filière enseignement, sont ouvertes.",date:"14 fév. 2025",isNew:false},
+];
+
+const tickerMessages=[
+    "Résultats BEPC 2024 disponibles sur le portail du MEPSFP — Consultez vos notes en ligne.",
+    "Calendrier BEPC 2025 publié — Épreuves du 16 au 20 juin sur tout le territoire.",
+    "Bourses d'excellence ANPE 2025 — Dépôt des dossiers avant le 30 avril.",
+    "Rentrée scolaire 2025-2026 fixée au 15 septembre — Inscriptions ouvertes.",
+    "Concours d'entrée en 6ème 2025 — Résultats disponibles sur le portail officiel.",
+];
+let tickerIdx=0;
+function rotateTicker(){
+    tickerIdx=(tickerIdx+1)%tickerMessages.length;
+    const el=document.getElementById('actuTickerText');
+    el.style.opacity='0';
+    setTimeout(()=>{el.textContent=tickerMessages[tickerIdx];el.style.opacity='1';},350);
+}
+setInterval(rotateTicker,5000);
+document.getElementById('actuTickerText').style.transition='opacity .35s';
+
+let currentFilter='all';
+function filterActu(cat,btn){
+    currentFilter=cat;
+    document.querySelectorAll('.actu-filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderActu();
+}
+function renderActu(){
+    const filtered=currentFilter==='all'?actuData:actuData.filter(a=>a.cat===currentFilter);
+    const featured=filtered.find(a=>a.featured)||filtered[0];
+    const others=filtered.filter(a=>a!==featured).slice(0,4);
+    const fs=document.getElementById('actuFeaturedSlot');
+    if(!featured){fs.innerHTML=`<div style="padding:40px;text-align:center;color:var(--txt-m);border:1.5px dashed var(--g200);border-radius:var(--r-lg)"><i class="fas fa-newspaper" style="font-size:2rem;display:block;margin-bottom:10px;opacity:.3"></i>Aucune actualité dans cette catégorie.</div>`;return;}
+    fs.innerHTML=`<div class="actu-featured reveal visible" onclick="showToast('Article complet bientôt disponible')"><div class="actu-featured-img"><div class="actu-featured-img-inner"></div><span class="actu-featured-emoji">${featured.emoji}</span><div class="actu-featured-tag">${featured.tag}</div>${featured.isNew?'<span class="actu-featured-new">NOUVEAU</span>':''}</div><div class="actu-featured-body"><h3>${featured.title}</h3><p>${featured.desc}</p><div class="actu-meta"><span class="actu-date"><i class="fas fa-calendar-alt"></i> ${featured.date}</span><a href="#" class="actu-read-more" onclick="return false;">Lire l'article <i class="fas fa-arrow-right"></i></a></div></div></div>`;
+    const ss=document.getElementById('actuSidebarSlot');
+    if(others.length===0){ss.innerHTML='<p style="font-size:.82rem;color:var(--txt-m);padding:12px 0">Aucune autre actualité dans cette catégorie.</p>';return;}
+    ss.innerHTML=others.map(a=>`<div class="actu-small reveal visible" onclick="showToast('Article complet bientôt disponible')" style="transition-delay:.06s"><div class="actu-small-ico ${icoClass(a.cat)}">${a.emoji}</div><div class="actu-small-body"><h4>${a.title}</h4><div class="actu-small-foot">${a.tag}<span class="actu-small-date"><i class="fas fa-calendar-alt"></i> ${a.date}</span></div></div></div>`).join('');
+}
+function icoClass(cat){return{examen:'ico-examen',concours:'ico-concours',rentree:'ico-rentree',actu:'ico-actu',bourse:'ico-bourse'}[cat]||'ico-actu';}
+
+/* ===== HELPERS ===== */
 function stars(r){let s='';for(let i=1;i<=5;i++){if(i<=Math.floor(r))s+='<i class="fas fa-star"></i>';else if(i-r<1)s+='<i class="fas fa-star-half-alt"></i>';else s+='<i class="far fa-star"></i>';}return s;}
 function subName(s){return{math:'Mathématiques',french:'Français',english:'Anglais',physics:'Physique',svt:'SVT',history:'Histoire',toutes:'Toutes'}[s]||s;}
 function tagCls(s){return{math:'math',french:'french',english:'english',physics:'science',svt:'science',history:'history'}[s]||'default';}
+function typeLabel(t){return{fiche:'Fiche',annale:'Annales',exercice:'Exercices',resume:'Résumés'}[t]||'Ressource';}
 
-/* ── COURSE CARD avec nouveaux badges ── */
+function mkEpreuve(e){
+    const d=document.createElement('div');d.className='ep-card reveal';
+    d.innerHTML=`<div class="ep-header"><span class="ep-lv">${e.lv}</span><span class="ep-free-badge">GRATUIT</span></div><div class="ep-body"><h3 class="ep-title">${e.title}</h3></div><div class="ep-foot"><button class="ep-dl-btn ep-dl-preview" onclick="showToast('Aperçu bientôt disponible')"><i class="fas fa-eye"></i>Aperçu</button><button class="ep-dl-btn ep-dl-main" onclick="showToast('Téléchargement en cours…')"><i class="fas fa-download"></i>Télécharger</button></div>`;
+    return d;
+}
 function mkCourse(c){
-    let d=document.createElement('div');
-    d.className='cc reveal';
-
-    /* badge niveau (rouge) */
+    let d=document.createElement('div');d.className='cc reveal';
     let lvBadge=`<span class="badge-lv">${c.lv}</span>`;
-
-    /* badge offre (extrême droite) */
-    let offerBadge='';
-    if(c.fr) offerBadge=`<span class="badge-free">GRATUIT</span>`;
-    else if(c.pm) offerBadge=`<span class="badge-premium">⭐ PREMIUM</span>`;
-    else offerBadge=`<span class="badge-standard">STANDARD</span>`;
-
+    let offerBadge=c.fr?`<span class="badge-free">GRATUIT</span>`:c.pm?`<span class="badge-premium">⭐ PREMIUM</span>`:`<span class="badge-standard">STANDARD</span>`;
     let pr=c.fr?`<div class="cc-price free">Gratuit</div>`:`<div class="cc-price">${c.p.toLocaleString()} FCFA<small>/h</small></div>`;
-
-    d.innerHTML=`<div class="cc-strip"></div>
-    <div class="cc-body">
-      <div class="cc-badge-row">${lvBadge}${offerBadge}</div>
-      <h3 class="cc-title">${c.title}</h3>
-      <p class="cc-sub">${subName(c.sub)}</p>
-      <div class="cc-trow"><div class="cc-tav">${c.i}</div><div><div class="cc-tnm">${c.t}</div><div class="cc-trl">${c.pr}</div></div></div>
-      <div class="cc-meta"><div class="cc-stars">${stars(c.r)}<span>${c.r}</span></div><div class="cc-cnt">${c.n} élèves</div></div>
-      ${pr}
-      <div class="cc-acts"><button class="ca ca-g"><i class="fas fa-eye"></i> Détails</button><button class="ca ca-d" onclick="location.href='inscription/choix-inscription.html'"><i class="fas fa-user-plus"></i> S'inscrire</button></div>
-    </div>`;
+    d.innerHTML=`<div class="cc-strip"></div><div class="cc-body"><div class="cc-badge-row">${lvBadge}${offerBadge}</div><h3 class="cc-title">${c.title}</h3><p class="cc-sub">${subName(c.sub)}</p><div class="cc-trow"><div class="cc-tav">${c.i}</div><div><div class="cc-tnm">${c.t}</div><div class="cc-trl"><i class="fas fa-map-marker-alt"></i> ${c.lieu||"Lomé, Togo"}</div></div></div><div class="cc-meta"><div class="cc-stars">${stars(c.r)}<span>${c.r}</span></div></div>${pr}<div class="cc-acts"><button class="ca ca-g"><i class="fas fa-eye"></i> Détails</button><button class="ca ca-d" onclick="location.href='inscription/choix-inscription.html'"><i class="fas fa-user-plus"></i> S'inscrire</button></div></div>`;
     return d;
 }
-
-/* ── RESOURCE CARD ── */
 function mkRes(r){
-    let d=document.createElement('div');
-    d.className='cc reveal';
-    d.innerHTML=`<div class="cc-strip cc-strip-r"></div>
-    <div class="cc-body">
-      <div class="cc-badge-row"><span class="badge-lv">${r.lv}</span><span class="badge-ressource">RESSOURCE</span></div>
-      <h3 class="cc-title">${r.title}</h3>
-      <p class="cc-sub">${subName(r.sub)}</p>
-      <div class="cc-trow"><div class="cc-tav">${r.i}</div><div><div class="cc-tnm">${r.t}</div><div class="cc-trl">${r.pr}</div></div></div>
-      <div class="cc-meta"><div class="cc-stars">${stars(r.r)}<span>${r.r}</span></div><div class="cc-cnt">${r.dl} télécharg.</div></div>
-      <div class="cc-price">${r.p.toLocaleString()} FCFA</div>
-      <div class="cc-acts"><button class="ca ca-g"><i class="fas fa-eye"></i> Aperçu</button><button class="ca ca-p"><i class="fas fa-shopping-cart"></i> Acheter</button></div>
-    </div>`;
+    let d=document.createElement('div');d.className='cc reveal';
+    d.innerHTML=`<div class="cc-strip cc-strip-r"></div><div class="cc-body"><div class="cc-badge-row"><span class="badge-lv">${r.lv}</span><span class="badge-ressource">RESSOURCE</span></div><h3 class="cc-title">${r.title}</h3><p class="cc-sub">${subName(r.sub)}</p><div class="cc-trow"><div class="cc-tav">${r.i}</div><div><div class="cc-tnm">${r.t}</div><div class="cc-trl"><i class="fas fa-map-marker-alt"></i> ${r.lieu||"Lomé, Togo"}</div></div></div><div class="cc-meta"><div class="cc-stars">${stars(r.r)}<span> ${r.r}</span></div><div class="cc-type-badge"><i class="fas fa-tag"></i> ${typeLabel(r.type)}</div></div><div class="cc-price">${r.p.toLocaleString()} FCFA</div><div class="cc-acts"><button class="ca ca-g"><i class="fas fa-eye"></i> Aperçu</button><button class="ca ca-p"><i class="fas fa-shopping-cart"></i> Acheter</button></div></div>`;
     return d;
 }
 
-/* ── TEACHER CARD avec statut connexion, sans titre ── */
+/* =============================================================
+   mkTeacher — MODIFIÉE (suppression du badge texte)
+   • Seul le point de connexion (tc-dot) reste visible.
+   • Le badge de statut textuel a été supprimé.
+============================================================= */
 function mkTeacher(t){
-    let d=document.createElement('div');
-    d.className='tc-card';
+    let d=document.createElement('div');d.className='tc-card';
     let tags=t.subs.map(s=>`<span class="tc-tag ${tagCls(s)}">${subName(s)}</span>`).join('');
     let lv=t.lvs.length===4?'Tout le collège':t.lvs.join(', ');
-
-    /* statut connexion */
     let dotCls=t.online?'online':'offline';
-    let statusHtml=t.online
-        ? `<div class="tc-status online"><i class="fas fa-circle" style="font-size:.55rem"></i> En ligne</div>`
-        : `<div class="tc-status offline">Connecté il y a ${t.lastSeen||'quelques min'}</div>`;
+    let lieu=t.lieu||'Lomé, Togo';
+
+    /* Localisation sous le nom */
+    let locHtml=`<div class="tc-loc"><i class="fas fa-map-marker-alt"></i>${lieu}</div>`;
 
     d.innerHTML=`
-    <div class="tc-hd">
-      <div class="tc-av-wrap">
-        <div class="tc-av">${t.i}</div>
-        <div class="tc-dot ${dotCls}"></div>
-      </div>
-      <div class="tc-nm">${t.nm}</div>
-      ${statusHtml}
-      <div class="tc-rt">${stars(t.r)}<span>${t.r}/5</span></div>
-    </div>
-    <div class="tc-bd">
-      <div class="tc-tags">${tags}</div>
-      <div class="tc-lvl"><i class="fas fa-graduation-cap"></i>${lv}</div>
-    </div>
-    <div class="tc-ft">
-      <button class="btn btn-outline-d btn-sm" style="flex:1"><i class="fas fa-user"></i> Profil</button>
-      <button class="btn btn-deep btn-sm" style="flex:1"><i class="fas fa-comment"></i> Contacter</button>
-    </div>`;
+        <div class="tc-hd">
+            <div class="tc-av-wrap">
+                <div class="tc-av">${t.i}</div>
+                <div class="tc-dot ${dotCls}"></div>
+                <!-- badge texte supprimé -->
+            </div>
+            <div class="tc-nm">${t.nm}</div>
+            ${locHtml}
+            <div class="tc-rt">${stars(t.r)}<span>${t.r}/5</span></div>
+        </div>
+        <div class="tc-bd">
+            <div class="tc-tags">${tags}</div>
+            <div class="tc-lvl"><i class="fas fa-graduation-cap"></i>${lv}</div>
+        </div>
+        <div class="tc-ft">
+            <button class="ca ca-g" style="flex:1" onclick="showToast('Profil de ${t.nm}')"><i class="fas fa-user-circle"></i> Profil</button>
+            <button class="ca ca-d" style="flex:1" onclick="showToast('Contacter ${t.nm}')"><i class="fas fa-comment"></i> Contacter</button>
+        </div>`;
     return d;
 }
 
-/* ── TESTIMONIALS ── */
-let tCur=0;
 function initTesti(){
     let tr=document.getElementById('tTrack'),dt=document.getElementById('tDots');
     testiData.forEach((t,i)=>{
-        let c=document.createElement('div');c.className='t-card';c.innerHTML=`<div class="t-inner"><div class="t-q"><i class="fas fa-quote-left"></i></div><p class="t-txt">${t.c}</p><div class="t-auth"><div class="t-av">${t.i}</div><div><div class="t-nm">${t.a}</div><div class="t-rl">${t.rl}</div></div></div></div>`;tr.appendChild(c);
-        let dot=document.createElement('button');dot.className=`tdot${i===0?' active':''}`;dot.addEventListener('click',()=>goTesti(i));dt.appendChild(dot);
+        let c=document.createElement('div');c.className='t-card';
+        c.innerHTML=`<div class="t-inner"><div class="t-q"><i class="fas fa-quote-left"></i></div><p class="t-txt">${t.c}</p><div class="t-auth"><div class="t-av">${t.i}</div><div><div class="t-nm">${t.a}</div><div class="t-rl">${t.rl}</div></div></div></div>`;
+        tr.appendChild(c);
+        let dot=document.createElement('button');dot.className=`tdot${i===0?' active':''}`;
+        dot.addEventListener('click',()=>goTesti(i));dt.appendChild(dot);
     });
 }
+let tCur=0;
 function goTesti(i){tCur=i;document.getElementById('tTrack').style.transform=`translateX(-${i*100}%)`;document.querySelectorAll('.tdot').forEach((d,j)=>d.classList.toggle('active',j===i));}
 setInterval(()=>goTesti((tCur+1)%testiData.length),5500);
 
-/* ── PROCESSUS TABS ── */
-function switchProc(tab){['eleve','parent','enseignant','ecole'].forEach(t=>{let p=document.getElementById('proc-'+t);if(p)p.classList.toggle('active',t===tab);});document.querySelectorAll('.proc-tab-btn').forEach((btn,i)=>{btn.classList.toggle('active',['eleve','parent','enseignant','ecole'][i]===tab);});}
+function switchProc(tab){
+    ['eleve','parent','enseignant','ecole'].forEach(t=>{let p=document.getElementById('proc-'+t);if(p)p.classList.toggle('active',t===tab);});
+    document.querySelectorAll('.proc-tab-btn').forEach((btn,i)=>{btn.classList.toggle('active',['eleve','parent','enseignant','ecole'][i]===tab);});
+}
 
-/* ── NEWSLETTER ── */
-function handleNL(){let inp=document.getElementById('nlEmail'),e=inp.value.trim();if(!e||!/^[^@]+@[^@]+\.[^@]+$/.test(e)){showToast('Email invalide.','error');return;}showToast('🎉 Merci ! Vous êtes abonné.');inp.value='';}
+function handleNL(){
+    let inp=document.getElementById('nlEmail'),e=inp.value.trim();
+    if(!e||!/^[^@]+@[^@]+\.[^@]+$/.test(e)){showToast('Email invalide.','error');return;}
+    showToast('🎉 Merci ! Vous êtes abonné.');inp.value='';
+}
+
+function showToast(msg,type=''){
+    let t=document.getElementById('toast');
+    document.getElementById('toastMsg').textContent=msg;
+    t.className=`show${type?' '+type:''}`;
+    setTimeout(()=>t.className='',3400);
+}
+
+const modal=document.getElementById('notifModal');
+document.getElementById('openNotifBtn').addEventListener('click',(e)=>{e.preventDefault();modal.classList.add('active');});
+document.getElementById('closeModalBtn').addEventListener('click',()=>{modal.classList.remove('active');document.getElementById('modalEmail').value='';});
+document.getElementById('submitModalBtn').addEventListener('click',()=>{
+    let email=document.getElementById('modalEmail').value.trim();
+    if(!email||!/^[^@]+@[^@]+\.[^@]+$/.test(email)){showToast('Veuillez entrer un email valide.','error');return;}
+    showToast('🎉 Merci ! Vous serez notifié des nouvelles épreuves.');
+    modal.classList.remove('active');document.getElementById('modalEmail').value='';
+});
+modal.addEventListener('click',(e)=>{if(e.target===modal){modal.classList.remove('active');document.getElementById('modalEmail').value='';}});
+
 document.getElementById('nlBtn')?.addEventListener('click',handleNL);
 document.getElementById('nlEmail')?.addEventListener('keydown',e=>{if(e.key==='Enter')handleNL();});
 
-/* ── TOAST ── */
-function showToast(msg,type=''){let t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.className=`show${type?' '+type:''}`;setTimeout(()=>t.className='',3400);}
-
-/* ── BACK TO TOP ── */
 let btt=document.getElementById('backToTop');
 window.addEventListener('scroll',()=>{btt.classList.toggle('show',scrollY>300);document.getElementById('mainHeader').classList.toggle('scrolled',scrollY>80);});
 btt.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
-
-/* ── MOBILE MENU ── */
 document.getElementById('menuToggle')?.addEventListener('click',()=>document.getElementById('mobNav').classList.toggle('open'));
-
-/* ── SMOOTH ANCHOR ── */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{let t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();scrollTo({top:t.offsetTop-60,behavior:'smooth'});}});});
 
-/* ── REVEAL ── */
-let obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
 
-/* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
     initTesti();
-
-    /* Courses */
     coursesData.filter(c=>c.cat==='sc').forEach(c=>document.getElementById('scGrid').appendChild(mkCourse(c)));
     coursesData.filter(c=>c.cat==='lt').forEach(c=>document.getElementById('ltGrid').appendChild(mkCourse(c)));
     rData.forEach(r=>document.getElementById('rsGrid').appendChild(mkRes(r)));
-
-    /* Teachers */
     let tcTr=document.getElementById('tcTrack');
     tData.forEach(t=>tcTr.appendChild(mkTeacher(t)));
     document.getElementById('tcPrev').addEventListener('click',()=>tcTr.scrollBy({left:-260,behavior:'smooth'}));
     document.getElementById('tcNext').addEventListener('click',()=>tcTr.scrollBy({left:260,behavior:'smooth'}));
-
-    /* Schools */
     let scTr=document.getElementById('scTrack');
     [...schools,...schools].forEach(s=>{let d=document.createElement('div');d.className='sc-chip';d.innerHTML=`<i class="fas fa-school"></i><h4>${s[0]}</h4><p>${s[1]}</p>`;scTr.appendChild(d);});
-
-    /* Partners avec vrais logos (dupliqués pour boucle infinie) */
     let ptTr=document.getElementById('ptTrack');
-    [...partners,...partners].forEach(p=>{
-        let d=document.createElement('div');
-        d.className='pt-logo-chip';
-        d.innerHTML=`<img src="${p.logo}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.fontWeight='700';this.nextElementSibling.style.fontSize='.85rem';this.nextElementSibling.style.color='var(--txt)'"><span>${p.name}</span>`;
-        ptTr.appendChild(d);
-    });
-
+    [...partners,...partners].forEach(p=>{let d=document.createElement('div');d.className='pt-logo-chip';d.innerHTML=`<img src="${p.logo}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.fontWeight='700';this.nextElementSibling.style.fontSize='.85rem';this.nextElementSibling.style.color='var(--txt)'"><span>${p.name}</span>`;ptTr.appendChild(d);});
+    const epGrid=document.getElementById('epGrid');
+    epreuvesData.forEach((e,idx)=>{const card=mkEpreuve(e);card.style.transitionDelay=`${idx*0.045}s`;epGrid.appendChild(card);});
+    renderActu();
     document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>obs.observe(el));
 });
 </script>

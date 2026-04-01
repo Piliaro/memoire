@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Épreuves Gratuites — Sukuli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+    /* ══════════════════════════════════════════════════
+       TOKENS
+    ══════════════════════════════════════════════════ */
+    :root{
+        --deep:#002f2a; --deep-alt:#003333; --deep-mid:#003d38;
+        --deep-hover:#004d45; --deep-pale:#e5f0ef; --deep-muted:#c2d8d6;
+        --teal:#1ab5a0; --teal-light:#5dcfbe; --teal-pale:#dff5f2;
+        --gold:#e8c44a; --amber:#c9980e;
+        --off-white:#f5faf9;
+        --g50:#f8fafa; --g100:#eef3f2; --g200:#d9e5e4;
+        --g300:#b5cbc9; --g400:#84a8a5; --g500:#5c8885;
+        --hdr:#0a1a18; --txt:#1a3030; --txt-b:#3a5555; --txt-m:#6a8888;
+        --purple:#7B1FA2;
+        --coral:#D85A30;
+        --red:#e74c3c;
+        --green-ok:#22c55e;
+        --sh-sm:0 2px 8px rgba(0,47,42,.12);
+        --sh-md:0 8px 28px rgba(0,47,42,.18);
+        --sh-lg:0 24px 60px rgba(0,47,42,.24);
+        --r-sm:8px; --r-md:14px; --r-lg:22px; --r-xl:32px;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Nunito',sans-serif;background:var(--off-white);color:var(--txt-b);line-height:1.65;overflow-x:hidden}
+    h1,h2,h3,h4{font-family:'Poppins',sans-serif;line-height:1.25;color:var(--txt)}
+    .container{width:100%;max-width:1300px;margin:0 auto;padding:0 30px}
+
+    /* ── REVEAL ── */
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+    .reveal-l{opacity:0;transform:translateX(-30px);transition:opacity .65s,transform .65s}
+    .reveal-r{opacity:0;transform:translateX(30px);transition:opacity .65s,transform .65s}
+    .reveal.vis,.reveal-l.vis,.reveal-r.vis{opacity:1;transform:translate(0)}
+
+    /* ── BTT ── */
+    #btt{position:fixed;bottom:28px;right:28px;z-index:9000;width:46px;height:46px;border-radius:50%;background:var(--deep);color:var(--gold);border:2px solid var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 6px 20px rgba(0,47,42,.4);opacity:0;transform:translateY(14px) scale(.85);transition:all .32s cubic-bezier(.4,0,.2,1)}
+    #btt.show{opacity:1;transform:translateY(0) scale(1)}
+    #btt:hover{background:var(--gold);color:var(--deep);transform:translateY(-3px) scale(1.06)}
+
+    /* ── TOAST ── */
+    #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--deep);color:#fff;padding:12px 28px;border-radius:50px;font-size:.88rem;font-weight:700;box-shadow:0 8px 24px rgba(0,47,42,.4);z-index:9200;border:1px solid var(--teal-light);transition:transform .36s cubic-bezier(.34,1.56,.64,1),opacity .36s;opacity:0;display:flex;align-items:center;gap:9px}
+    #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+    /* ── MODALE ── */
+    .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all 0.3s ease;}
+    .modal-overlay.active{opacity:1;visibility:visible}
+    .modal-container{background:#fff;max-width:480px;width:90%;border-radius:var(--r-xl);box-shadow:var(--sh-lg);overflow:hidden;transform:scale(0.95);transition:transform 0.25s cubic-bezier(0.2,0.9,0.4,1.1);}
+    .modal-overlay.active .modal-container{transform:scale(1)}
+    .modal-header{background:var(--deep);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);}
+    .modal-header h3{color:#fff;font-size:1.2rem;font-weight:700;display:flex;align-items:center;gap:8px;margin:0}
+    .modal-header h3 i{color:var(--gold)}
+    .modal-close{background:none;border:none;color:rgba(255,255,255,0.7);font-size:1.5rem;cursor:pointer;transition:color 0.2s;line-height:1}
+    .modal-close:hover{color:var(--gold)}
+    .modal-body{padding:28px 24px}
+    .modal-body p{color:var(--txt-b);margin-bottom:20px;font-size:0.9rem;line-height:1.6}
+    .modal-input-group{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+    .modal-input-group label{font-weight:600;color:var(--txt);font-size:0.85rem}
+    .modal-input-group input{padding:12px 16px;border:1.5px solid var(--g200);border-radius:var(--r-md);font-family:'Nunito',sans-serif;font-size:0.9rem;transition:border 0.2s;outline:none}
+    .modal-input-group input:focus{border-color:var(--teal)}
+    .modal-btn{width:100%;background:var(--deep);color:#fff;padding:12px;border:none;border-radius:var(--r-md);font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.25s}
+    .modal-btn:hover{background:var(--deep-hover);transform:translateY(-2px)}
+    .modal-note{font-size:0.7rem;color:var(--txt-m);margin-top:12px;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px}
+
+    /* ── BUTTONS ── */
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:11px 26px;border-radius:50px;font-weight:700;font-size:.88rem;cursor:pointer;border:none;text-decoration:none;transition:all .25s;font-family:'Poppins',sans-serif}
+    .btn-deep{background:var(--deep);color:#fff}
+    .btn-deep:hover{background:var(--deep-hover);transform:translateY(-2px)}
+    .btn-teal{background:var(--teal);color:#fff}
+    .btn-teal:hover{background:#138f7d;transform:translateY(-2px)}
+    .btn-gold{background:var(--gold);color:var(--deep)}
+    .btn-gold:hover{background:var(--amber);color:#fff;transform:translateY(-2px)}
+    .btn-outline{background:transparent;border:2px solid rgba(255,255,255,.35);color:#fff}
+    .btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+    .btn-ghost{background:var(--g100);color:var(--txt-b);border:1.5px solid var(--g200)}
+    .btn-ghost:hover{background:var(--deep-pale);border-color:var(--deep-muted);color:var(--deep)}
+    .btn-sm{padding:8px 18px;font-size:.8rem}
+    .btn-lg{padding:14px 38px;font-size:1rem}
+
+    /* HEADER */
+    header{position:sticky;top:0;z-index:1000;background:var(--hdr);box-shadow:0 2px 16px rgba(0,0,0,.22);transition:box-shadow .3s}
+    header.scrolled{box-shadow:0 4px 28px rgba(0,0,0,.38)}
+    .navbar{display:flex;align-items:center;padding:10px 0;gap:14px;flex-wrap:wrap}
+    .logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+    .logo-badge{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--deep-mid),var(--teal));display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:800;color:var(--gold);font-size:.9rem;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+    .logo-text{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.3rem;color:#fff}
+    .logo-text span{color:var(--teal-light)}
+    .nav-search{background:rgba(255,255,255,.1);border-radius:40px;padding:0 8px;display:flex;align-items:center;border:1px solid rgba(255,255,255,.2);margin:0 8px;flex:1;max-width:340px}
+    .nav-search i{color:rgba(255,255,255,.45);font-size:.82rem;padding-left:8px}
+    .nav-search input{background:transparent;border:none;padding:9px 10px;color:#fff;font-size:.84rem;width:100%;outline:none;font-family:'Nunito',sans-serif}
+    .nav-search input::placeholder{color:rgba(255,255,255,.45);font-style:italic}
+    .nav-auth{display:flex;gap:9px;align-items:center;flex-shrink:0}
+    .menu-toggle{display:none;font-size:1.35rem;cursor:pointer;color:rgba(255,255,255,.85);background:none;border:none}
+    .mob-nav{display:none;flex-direction:column;background:var(--hdr);border-top:1px solid rgba(255,255,255,.07);padding:12px 24px 20px}
+    .mob-nav.open{display:flex}
+    .mob-nav a{text-decoration:none;color:rgba(255,255,255,.72);font-weight:600;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.92rem}
+    .mob-auth{display:flex;gap:9px;margin-top:13px}
+    .mob-auth .btn{flex:1;justify-content:center}
+
+    /* HERO */
+    .hero{position:relative;overflow:hidden;background:linear-gradient(160deg,#001a17 0%,#002622 35%,#002f2a 65%,#003535 100%);padding:20px 0 0}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+    .hero-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+    .orb-1{width:420px;height:420px;background:rgba(232,196,74,.07);top:-100px;right:-60px}
+    .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;padding-bottom:48px}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(232,196,74,.14);border:1px solid rgba(232,196,74,.28);color:var(--gold);padding:6px 16px;border-radius:50px;font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
+    .hero-h1{font-size:clamp(2rem,3.5vw,3.2rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:18px}
+    .hero-h1 em{font-style:normal;color:var(--gold)}
+    .hero-desc{font-size:.97rem;color:rgba(255,255,255,.68);line-height:1.82;max-width:540px;margin-bottom:30px}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:42px}
+    .hero-stats{display:flex;gap:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-xl);overflow:hidden;max-width:520px}
+    .hstat{flex:1;padding:16px 20px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+    .hstat:last-child{border-right:none}
+    .hstat-n{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:900;color:#fff;line-height:1;display:block}
+    .hstat-n span{color:var(--gold)}
+    .hstat-l{font-size:.64rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.8px;margin-top:4px;display:block}
+    .hero-vis{position:relative;width:240px;flex-shrink:0}
+    .hero-pdf-icon{width:220px;height:280px;background:linear-gradient(145deg,rgba(255,255,255,.1) 0%,rgba(255,255,255,.04) 100%);border:1.5px solid rgba(255,255,255,.12);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;backdrop-filter:blur(10px);box-shadow:0 32px 80px rgba(0,0,0,.35);animation:pdfFloat 5s ease-in-out infinite;position:relative}
+    @keyframes pdfFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-14px) rotate(1deg)}}
+    .hero-pdf-icon i{font-size:4rem;color:var(--red)}
+    .hero-pdf-icon .pdf-label{font-weight:900;font-size:1rem;color:rgba(255,255,255,.9)}
+    .hf-badge{position:absolute;background:#fff;border-radius:12px;padding:8px 13px;display:flex;align-items:center;gap:8px;box-shadow:0 12px 32px rgba(0,0,0,.22);animation:bdgFloat 4s ease-in-out infinite}
+    @keyframes bdgFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .hf-badge.b1{top:-16px;right:-30px;animation-delay:0s}
+    .hf-badge.b2{bottom:-14px;left:-24px;animation-delay:2s}
+    .hf-badge i{font-size:1.1rem}
+    .hf-badge.b1 i{color:var(--green-ok)}
+    .hf-badge.b2 i{color:var(--gold)}
+    .hf-badge strong{font-family:'Poppins',sans-serif;font-size:.8rem;color:var(--txt);display:block}
+    .hf-badge span{font-size:.65rem;color:var(--txt-m)}
+    .hero-wave svg{display:block;width:100%;height:60px}
+
+    /* INFO RIBBON */
+    .info-ribbon{background:linear-gradient(90deg,var(--deep-pale),var(--teal-pale));border-bottom:2px solid var(--deep-muted);padding:12px 0}
+    .info-ribbon-inner{display:flex;align-items:center;justify-content:center;gap:36px;flex-wrap:wrap}
+    .ir-item{display:flex;align-items:center;gap:8px;font-size:.83rem;font-weight:700;color:var(--deep);font-family:'Poppins',sans-serif}
+    .ir-item i{color:var(--teal)}
+
+    /* ══════════════════════════════════════════════════
+       TOOLBAR — BARRE HORIZONTALE AVEC TOUS LES FILTRES
+    ══════════════════════════════════════════════════ */
+    .toolbar-wrap{
+        background:#fff;
+        border-bottom:1.5px solid var(--g200);
+        position:sticky;top:60px;z-index:800;
+        box-shadow:0 4px 18px rgba(0,47,42,.08);
+    }
+    .toolbar{
+        display:flex;align-items:center;gap:10px;
+        padding:12px 0;flex-wrap:wrap;
+    }
+
+    /* Recherche */
+    .tb-search{
+        display:flex;align-items:center;gap:6px;
+        background:var(--g50);border:1.5px solid var(--g200);
+        border-radius:50px;padding:0 14px;
+        flex:1;min-width:180px;max-width:280px;
+    }
+    .tb-search:focus-within{border-color:var(--teal);background:#fff}
+    .tb-search input{border:none;background:transparent;padding:9px 6px;font-size:.84rem;outline:none;width:100%;font-family:'Nunito',sans-serif}
+    .tb-search button{background:none;border:none;color:var(--teal);cursor:pointer;font-size:.9rem}
+
+    /* Séparateur vertical */
+    .tb-sep{width:1px;height:30px;background:var(--g200);flex-shrink:0}
+
+    /* ─── DROPDOWN FILTRE GÉNÉRIQUE ─── */
+    .tb-filter{position:relative;flex-shrink:0}
+    .tb-filter-btn{
+        display:inline-flex;align-items:center;gap:7px;
+        padding:8px 14px;border-radius:50px;
+        font-weight:700;font-size:.8rem;
+        cursor:pointer;border:1.5px solid var(--g200);
+        background:#fff;color:var(--txt-b);
+        font-family:'Poppins',sans-serif;
+        transition:all .22s;white-space:nowrap;
+    }
+    .tb-filter-btn:hover{border-color:var(--teal);color:var(--teal)}
+    .tb-filter-btn.active{background:var(--deep);color:#fff;border-color:var(--deep)}
+    .tb-filter-btn .tb-filter-ico{font-size:.75rem;opacity:.6;transition:transform .22s}
+    .tb-filter.open .tb-filter-ico{transform:rotate(180deg)}
+    .tb-filter-badge{
+        background:var(--gold);color:var(--deep);
+        border-radius:50%;width:16px;height:16px;
+        font-size:.58rem;font-weight:900;
+        display:inline-flex;align-items:center;justify-content:center;
+    }
+
+    /* Panneau dropdown */
+    .tb-dropdown{
+        position:absolute;top:calc(100% + 8px);left:0;
+        background:#fff;border:1.5px solid var(--g200);
+        border-radius:var(--r-md);
+        box-shadow:0 12px 40px rgba(0,47,42,.18);
+        min-width:200px;z-index:900;
+        opacity:0;visibility:hidden;
+        transform:translateY(-6px) scale(.97);
+        transition:all .2s cubic-bezier(.4,0,.2,1);
+        overflow:hidden;
+    }
+    .tb-filter.open .tb-dropdown{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+    .tb-dd-header{padding:10px 16px 8px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--txt-m);border-bottom:1px solid var(--g100)}
+    .tb-dd-options{padding:8px 0}
+
+    /* Options niveau — pills colorées */
+    .lv-option{
+        display:flex;align-items:center;gap:10px;
+        padding:9px 16px;cursor:pointer;
+        font-size:.84rem;font-weight:600;
+        transition:background .18s;
+    }
+    .lv-option:hover{background:var(--g50)}
+    .lv-option.selected{background:var(--deep-pale)}
+    .lv-option .lv-dot{
+        width:10px;height:10px;border-radius:50%;flex-shrink:0;
+    }
+    .lv-dot.all{background:var(--deep)}
+    .lv-dot.c6{background:var(--teal)}
+    .lv-dot.c5{background:var(--purple)}
+    .lv-dot.c4{background:var(--amber)}
+    .lv-dot.c3{background:var(--coral)}
+    .lv-option .lv-label{flex:1;color:var(--txt)}
+    .lv-option .lv-check{color:var(--teal);font-size:.8rem;opacity:0}
+    .lv-option.selected .lv-check{opacity:1}
+
+    /* Options type — checkboxes */
+    .type-option{
+        display:flex;align-items:center;gap:10px;
+        padding:8px 16px;cursor:pointer;
+        font-size:.82rem;font-weight:600;
+        transition:background .18s;
+    }
+    .type-option:hover{background:var(--g50)}
+    .type-option input[type="checkbox"]{
+        accent-color:var(--teal);width:15px;height:15px;cursor:pointer;flex-shrink:0;
+    }
+    .type-option label{cursor:pointer;color:var(--txt-b)}
+
+    /* Bouton reset dans dropdown */
+    .tb-dd-reset{
+        margin:6px 10px 10px;width:calc(100% - 20px);
+        padding:7px;background:var(--g100);border:1.5px solid var(--g200);
+        border-radius:var(--r-sm);color:var(--txt-m);
+        font-weight:700;font-size:.74rem;cursor:pointer;
+        display:flex;align-items:center;justify-content:center;gap:5px;
+        font-family:'Poppins',sans-serif;transition:all .2s;
+    }
+    .tb-dd-reset:hover{background:var(--deep-pale);border-color:var(--deep-muted);color:var(--deep)}
+
+    /* Compteur + tri à droite - SUPPRIMÉ */
+    /* .tb-right a été supprimé ainsi que son contenu */
+
+    /* Bouton reset global */
+    .tb-reset-all{
+        display:inline-flex;align-items:center;gap:6px;
+        padding:8px 14px;border-radius:50px;
+        font-weight:700;font-size:.76rem;
+        cursor:pointer;border:1.5px solid var(--g200);
+        background:#fff;color:var(--txt-m);
+        font-family:'Poppins',sans-serif;
+        transition:all .22s;white-space:nowrap;
+    }
+    .tb-reset-all:hover{background:var(--deep-pale);border-color:var(--deep-muted);color:var(--deep)}
+
+    /* Active tags row */
+    .active-tags-wrap{
+        padding:8px 0 0;
+        border-top:1px solid var(--g100);
+        display:none;
+    }
+    .active-tags-wrap.has-tags{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .at-lbl{font-size:.74rem;color:var(--txt-m);font-weight:600}
+    .at-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:50px;background:var(--deep-pale);border:1px solid var(--deep-muted);color:var(--deep);font-size:.72rem;font-weight:700}
+    .at-tag button{background:none;border:none;color:var(--deep);cursor:pointer;font-size:.75rem;line-height:1;padding:0 2px}
+    .at-clear{font-size:.72rem;color:var(--txt-m);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:50px}
+    .at-clear:hover{color:var(--red)}
+
+    /* PAGE LAYOUT — Full width, no sidebar */
+    .page-wrap{padding:36px 0 64px}
+
+    /* Breadcrumb */
+    .breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:22px;font-size:.8rem;color:var(--txt-m)}
+    .breadcrumb a{color:var(--teal);text-decoration:none;font-weight:600}
+
+    /* Cat row */
+    .cat-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding:13px 20px;border-radius:var(--r-md);background:linear-gradient(90deg,#001e1b,var(--deep-alt));border-left:5px solid var(--gold)}
+    .cat-row i,.cat-row h3{color:rgba(255,255,255,.9)}
+    .cat-row h3{font-size:.92rem;margin:0}
+    .cat-cnt{padding:3px 10px;border-radius:50px;font-size:.68rem;font-weight:700;background:rgba(232,196,74,.2);color:var(--gold)}
+
+    /* GRILLE ÉPREUVES */
+    .ep-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-bottom:32px}
+    .ep-card{background:#fff;border:1.5px solid var(--g200);border-radius:var(--r-lg);overflow:hidden;transition:all .32s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+    .ep-card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);border-color:var(--deep-muted)}
+    .ep-header{display:flex;justify-content:space-between;align-items:center;padding:12px 15px 0 15px;background:#fff}
+    .ep-lv{padding:3px 12px;border-radius:50px;font-size:.7rem;font-weight:800;font-family:'Poppins',sans-serif;background:#fee2e2;color:var(--red);border-left:3px solid var(--red);display:inline-block}
+    .ep-free-badge{background:#27ae60;border-radius:50px;padding:3px 9px;font-size:.62rem;font-weight:700;color:#fff;letter-spacing:.3px}
+    .ep-body{padding:12px 15px;flex:1;display:flex;flex-direction:column;gap:8px}
+    .ep-title{font-size:.86rem;font-weight:700;color:var(--txt);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
+    .ep-foot{padding:10px 15px;border-top:1px solid var(--g200);display:flex;gap:7px;background:#fff}
+    .ep-dl-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 12px;border-radius:var(--r-sm);font-size:.75rem;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;border:none;transition:all .22s}
+    .ep-dl-main{background:var(--deep);color:#fff}
+    .ep-dl-main:hover{background:var(--deep-hover);transform:translateY(-1px)}
+    .ep-dl-preview{background:var(--g100);color:var(--txt-b);padding:6px 10px;width:auto;flex:0 0 auto;}
+    .ep-dl-preview:hover{background:var(--g200);color:var(--txt)}
+    .ep-empty{grid-column:1/-1;text-align:center;padding:56px 24px;color:var(--txt-m)}
+    .ep-empty i{font-size:3.2rem;opacity:.2;display:block;margin-bottom:14px}
+
+    /* NOTIF PROMO BANNER + CTA SIDE BY SIDE - MODIFICATION 1/4 - 3/4 */
+    .bottom-actions{
+        display:grid;
+        grid-template-columns: 1fr 3fr;  /* 1/4 à gauche (notif) et 3/4 à droite (CTA) */
+        gap:28px;
+        margin-top:48px;
+        margin-bottom:48px;
+        align-items:stretch;
+    }
+    .notif-promo{
+        background:linear-gradient(135deg,var(--deep) 0%,var(--deep-mid) 60%,#004040 100%);
+        border-radius:var(--r-xl);padding:28px 24px;
+        border:1px solid rgba(255,255,255,.08);
+        display:flex;flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+        justify-content:center;
+    }
+    .notif-promo-ico{font-size:2.2rem;flex-shrink:0;margin-bottom:4px}
+    .notif-promo-txt{width:100%}
+    .notif-promo-txt h3{color:#fff;font-size:1rem;margin-bottom:6px;line-height:1.3}
+    .notif-promo-txt p{color:rgba(255,255,255,.55);font-size:.78rem;line-height:1.5}
+    .notif-promo .btn{margin-top:8px;align-self:flex-start}
+    .page-cta{
+        background:linear-gradient(140deg,var(--deep) 0%,var(--deep-alt) 52%,#004040 100%);
+        border-radius:var(--r-xl);padding:28px 32px;
+        display:flex;
+        align-items:center;
+    }
+    .page-cta-in{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:24px;
+        flex-wrap:wrap;
+        width:100%;
+    }
+    .page-cta h2{font-size:1.2rem;color:#fff;font-weight:800;margin-bottom:4px}
+    .page-cta h2 span{color:var(--gold)}
+    .page-cta p{color:rgba(255,255,255,.6);font-size:.8rem;max-width:320px}
+    .page-cta-btns{display:flex;gap:10px;flex-wrap:wrap}
+
+    /* FOOTER */
+    footer{background:#0a1a18;border-top:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.52);padding:56px 0 24px;margin-top:0}
+    .ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+    .ft-brand p{font-size:.84rem;line-height:1.75;color:rgba(255,255,255,.5);margin:13px 0 16px}
+    .ft-logo{display:flex;align-items:center;gap:9px}
+    .ft-logo .logo-badge{background:linear-gradient(135deg,var(--deep-mid),var(--teal))}
+    .ft-logo .logo-text{color:#fff}
+    .soc-row{display:flex;gap:8px}
+    .soc-btn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.48);font-size:.84rem;text-decoration:none;transition:all .24s}
+    .soc-btn:hover{background:var(--deep-mid);color:var(--gold)}
+    .ft-col h4{color:#fff;font-size:.88rem;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .ft-links{list-style:none;display:flex;flex-direction:column;gap:7px}
+    .ft-links a{color:rgba(255,255,255,.46);text-decoration:none;font-size:.82rem;display:flex;align-items:center;gap:5px}
+    .ft-links a:hover{color:var(--teal-light)}
+    .ft-ci{display:flex;align-items:flex-start;gap:9px;font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:8px}
+    .ft-btm{border-top:1px solid rgba(255,255,255,.07);padding-top:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+    .ft-btm p{font-size:.78rem}
+
+    /* RESPONSIVE */
+    @media(max-width:1200px){.ep-grid{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:1000px){.ep-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:900px){
+        .nav-auth{display:none}
+        .menu-toggle{display:flex}
+        .navbar{justify-content:space-between}
+        .nav-search{max-width:none;order:3;width:100%;margin:8px 0 0}
+        .hero-inner{grid-template-columns:1fr}
+        .hero-vis{display:none}
+        .ep-grid{grid-template-columns:repeat(2,1fr)}
+        .bottom-actions{grid-template-columns:1fr;gap:20px}  /* sur mobile, repasse en colonne */
+    }
+    @media(max-width:680px){
+        .ep-grid{grid-template-columns:repeat(2,1fr)}
+        .toolbar{gap:7px}
+    }
+    @media(max-width:460px){.ep-grid{grid-column:1fr}}
+    @media(max-width:640px){
+        .ft-grid{grid-template-columns:1fr 1fr}
+        .ft-brand{grid-column:1/-1}
+    }
+    </style>
+</head>
+<body>
+
+<button id="btt" title="Retour en haut"><i class="fas fa-arrow-up"></i></button>
+<div id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<!-- MODALE NOTIFICATION -->
+<div id="notifModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3><i class="fas fa-bell"></i> Être notifié des nouveautés</h3>
+            <button class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <p>Recevez les nouvelles épreuves, examens et ressources dès leur publication. Restez informé des mises à jour de la bibliothèque gratuite.</p>
+            <div class="modal-input-group">
+                <label>Adresse email</label>
+                <input type="email" id="modalEmail" placeholder="votre@email.tg" autocomplete="email">
+            </div>
+            <button class="modal-btn" id="submitModalBtn"><i class="fas fa-paper-plane"></i> S'abonner gratuitement</button>
+            <div class="modal-note"><i class="fas fa-shield-alt"></i> Vos données sont protégées. Désabonnement en un clic.</div>
+        </div>
+    </div>
+</div>
+
+<!-- HEADER -->
+<header id="mainHeader">
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <div class="logo-badge">S</div>
+                <div class="logo-text">Suku<span>li</span></div>
+            </a>
+            <div class="nav-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="heroSearch" placeholder="Rechercher une épreuve...">
+                <button onclick="applyHeroSearch()"><i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="nav-auth">
+                <a href="Authentification/auth.html" class="btn btn-outline btn-sm">Connexion</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-teal btn-sm">S'inscrire</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+        </nav>
+        <div class="mob-nav" id="mobNav">
+            <div class="mob-auth">
+                <a href="Authentification/auth.html" class="btn btn-outline btn-sm">Connexion</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-teal btn-sm">S'inscrire</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-orb orb-1"></div>
+    <div class="container">
+        <div class="hero-inner">
+            <div class="hero-text reveal-l">
+                <div class="hero-eyebrow"><i class="fas fa-file-pdf"></i>Bibliothèque PDF officielle</div>
+                <h1 class="hero-h1">Toutes vos épreuves<br><em>100 % gratuites</em></h1>
+                <p class="hero-desc">Sukuli vous offre la plus grande collection d'épreuves officielles, devoirs corrigés et annales BEPC pour le collège togolais. Téléchargez sans compte, sans frais, sans limite.</p>
+                <div class="hero-cta">
+                    <a href="#ep-main" class="btn btn-gold btn-lg"><i class="fas fa-download"></i>Télécharger maintenant</a>
+                    <a href="#bepc-section" class="btn btn-outline btn-lg"><i class="fas fa-graduation-cap"></i>Annales BEPC</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hstat"><span class="hstat-n">180<span>+</span></span><span class="hstat-l">Épreuves PDF</span></div>
+                    <div class="hstat"><span class="hstat-n">6</span><span class="hstat-l">Matières</span></div>
+                    <div class="hstat"><span class="hstat-n">4</span><span class="hstat-l">Niveaux</span></div>
+                    <div class="hstat"><span class="hstat-n" style="color:var(--green-ok)">0<span> FCFA</span></span><span class="hstat-l">Coût total</span></div>
+                </div>
+            </div>
+            <div class="hero-vis reveal-r">
+                <div class="hero-pdf-icon"><i class="fas fa-file-pdf"></i><span class="pdf-label">Épreuves PDF</span></div>
+                <div class="hf-badge b1"><i class="fas fa-lock-open"></i><div><strong>Sans inscription</strong><span>Accès libre</span></div></div>
+                <div class="hf-badge b2"><i class="fas fa-star"></i><div><strong>Contenu officiel</strong><span>Vérifié &amp; certifié</span></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path d="M0,60 C360,0 1080,0 1440,60 L1440,60 L0,60 Z" fill="#f5faf9"/></svg></div>
+</section>
+
+<!-- INFO RIBBON -->
+<div class="info-ribbon"><div class="container"><div class="info-ribbon-inner">
+    <div class="ir-item"><i class="fas fa-download"></i>Téléchargement immédiat</div>
+    <div class="ir-item"><i class="fas fa-user-slash"></i>Aucun compte requis</div>
+    <div class="ir-item"><i class="fas fa-file-pdf"></i>Format PDF optimisé</div>
+    <div class="ir-item"><i class="fas fa-sync-alt"></i>Mis à jour chaque année</div>
+</div></div></div>
+
+<!-- ══════════════════════════════════════════
+     BARRE DE FILTRES HORIZONTALE
+══════════════════════════════════════════ -->
+<div class="toolbar-wrap" id="ep-main">
+    <div class="container">
+        <div class="toolbar">
+
+            <!-- Recherche -->
+            <div class="tb-search">
+                <i class="fas fa-search" style="color:var(--txt-m);font-size:.82rem"></i>
+                <input type="text" id="tbSearch" placeholder="Rechercher une épreuve…">
+                <button onclick="renderAll()"><i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="tb-sep"></div>
+
+            <!-- Filtre Niveau scolaire -->
+            <div class="tb-filter" id="filterLv">
+                <button class="tb-filter-btn" id="filterLvBtn" onclick="toggleDropdown('filterLv')">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span id="filterLvLabel">Niveau</span>
+                    <i class="fas fa-chevron-down tb-filter-ico"></i>
+                </button>
+                <div class="tb-dropdown">
+                    <div class="tb-dd-header">Niveau scolaire</div>
+                    <div class="tb-dd-options" id="lvOptions">
+                        <div class="lv-option selected" data-lv="tous" onclick="setLv('tous')">
+                            <span class="lv-dot all"></span><span class="lv-label">Tous les niveaux</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-lv="6ème" onclick="setLv('6ème')">
+                            <span class="lv-dot c6"></span><span class="lv-label">6ème — Entrée au collège</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-lv="5ème" onclick="setLv('5ème')">
+                            <span class="lv-dot c5"></span><span class="lv-label">5ème — 2ème année</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-lv="4ème" onclick="setLv('4ème')">
+                            <span class="lv-dot c4"></span><span class="lv-label">4ème — 3ème année</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-lv="3ème" onclick="setLv('3ème')">
+                            <span class="lv-dot c3"></span><span class="lv-label">3ème — Préparation BEPC</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtre Type d'épreuve -->
+            <div class="tb-filter" id="filterType">
+                <button class="tb-filter-btn" id="filterTypeBtn" onclick="toggleDropdown('filterType')">
+                    <i class="fas fa-layer-group"></i>
+                    <span id="filterTypeLabel">Type d'épreuve</span>
+                    <span id="filterTypeBadge" class="tb-filter-badge" style="display:none">0</span>
+                    <i class="fas fa-chevron-down tb-filter-ico"></i>
+                </button>
+                <div class="tb-dropdown" style="min-width:230px">
+                    <div class="tb-dd-header">Type d'épreuve</div>
+                    <div class="tb-dd-options">
+                        <label class="type-option"><input type="checkbox" class="type-cb" value="Annale BEPC"><label>Annale BEPC (officielle)</label></label>
+                        <label class="type-option"><input type="checkbox" class="type-cb" value="bepc-corr"><label>Annale BEPC corrigée</label></label>
+                        <label class="type-option"><input type="checkbox" class="type-cb" value="Devoir surveillé"><label>Devoir surveillé</label></label>
+                        <label class="type-option"><input type="checkbox" class="type-cb" value="Devoir corrigé"><label>Devoir corrigé</label></label>
+                        <label class="type-option"><input type="checkbox" class="type-cb" value="Composition"><label>Composition</label></label>
+                    </div>
+                    <button class="tb-dd-reset" onclick="resetTypes()"><i class="fas fa-undo"></i> Effacer la sélection</button>
+                </div>
+            </div>
+
+            <!-- Filtre Matière -->
+            <div class="tb-filter" id="filterSub">
+                <button class="tb-filter-btn" id="filterSubBtn" onclick="toggleDropdown('filterSub')">
+                    <i class="fas fa-book"></i>
+                    <span id="filterSubLabel">Matière</span>
+                    <i class="fas fa-chevron-down tb-filter-ico"></i>
+                </button>
+                <div class="tb-dropdown">
+                    <div class="tb-dd-header">Matière</div>
+                    <div class="tb-dd-options" id="subOptions">
+                        <div class="lv-option selected" data-sub="toutes" onclick="setSub('toutes')">
+                            <span style="font-size:.9rem">📚</span><span class="lv-label">Toutes les matières</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-sub="math" onclick="setSub('math')">
+                            <span style="font-size:.9rem">📐</span><span class="lv-label">Mathématiques</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-sub="phys" onclick="setSub('phys')">
+                            <span style="font-size:.9rem">⚗️</span><span class="lv-label">Physique-Chimie</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-sub="svt" onclick="setSub('svt')">
+                            <span style="font-size:.9rem">🌿</span><span class="lv-label">SVT</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-sub="fr" onclick="setSub('fr')">
+                            <span style="font-size:.9rem">📖</span><span class="lv-label">Français</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-sub="en" onclick="setSub('en')">
+                            <span style="font-size:.9rem">🌍</span><span class="lv-label">Anglais</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-sub="hist" onclick="setSub('hist')">
+                            <span style="font-size:.9rem">🗺️</span><span class="lv-label">Histoire-Géo</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtre Année -->
+            <div class="tb-filter" id="filterYr">
+                <button class="tb-filter-btn" id="filterYrBtn" onclick="toggleDropdown('filterYr')">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="filterYrLabel">Année</span>
+                    <i class="fas fa-chevron-down tb-filter-ico"></i>
+                </button>
+                <div class="tb-dropdown" style="min-width:160px">
+                    <div class="tb-dd-header">Année scolaire</div>
+                    <div class="tb-dd-options" id="yrOptions">
+                        <div class="lv-option selected" data-yr="tous" onclick="setYr('tous')">
+                            <i class="fas fa-calendar" style="font-size:.8rem;color:var(--txt-m)"></i><span class="lv-label">Toutes les années</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-yr="2023" onclick="setYr('2023')">
+                            <i class="fas fa-calendar" style="font-size:.8rem;color:var(--txt-m)"></i><span class="lv-label">2023</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-yr="2022" onclick="setYr('2022')">
+                            <i class="fas fa-calendar" style="font-size:.8rem;color:var(--txt-m)"></i><span class="lv-label">2022</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-yr="2021" onclick="setYr('2021')">
+                            <i class="fas fa-calendar" style="font-size:.8rem;color:var(--txt-m)"></i><span class="lv-label">2021</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                        <div class="lv-option" data-yr="2020" onclick="setYr('2020')">
+                            <i class="fas fa-calendar" style="font-size:.8rem;color:var(--txt-m)"></i><span class="lv-label">2020</span><i class="fas fa-check lv-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouton BEPC rapide -->
+            <button class="tb-filter-btn" id="bepcQuickBtn" onclick="filterBepc()" style="border-color:rgba(231,76,60,.4);color:#c0392b">
+                <i class="fas fa-graduation-cap" style="color:#e74c3c"></i> Annales BEPC
+            </button>
+
+            <!-- Reset global -->
+            <button class="tb-reset-all" id="resetAllBtn"><i class="fas fa-undo"></i> Réinitialiser</button>
+
+        </div>
+
+        <!-- Tags actifs -->
+        <div class="active-tags-wrap" id="activeTags"></div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT — full width -->
+<div class="container">
+    <div class="page-wrap">
+
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="cours.html">Cours</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Épreuves gratuites</span>
+        </div>
+
+        <!-- Cat label row -->
+        <div class="cat-row reveal">
+            <i class="fas fa-file-pdf"></i>
+            <h3 id="mainCatLabel">Toutes les épreuves</h3>
+            <span class="cat-cnt" id="mainCatCount">20</span>
+        </div>
+
+        <!-- Grille des épreuves -->
+        <div class="ep-grid" id="epGrid"></div>
+
+        <!-- Double bloc: notification + CTA côte à côte avec proportions 1/4 - 3/4 -->
+        <div class="bottom-actions">
+            <!-- Bloc notif nouveautés (1/4) -->
+            <div class="notif-promo reveal">
+                <div class="notif-promo-ico">🔔</div>
+                <div class="notif-promo-txt">
+                    <h3>Soyez notifié des nouveautés</h3>
+                    <p>Recevez automatiquement les nouvelles épreuves dès leur mise en ligne.</p>
+                </div>
+                <button class="btn btn-gold" id="openNotifBtn"><i class="fas fa-bell"></i>M'alerter</button>
+            </div>
+
+            <!-- Bloc CTA "Vous avez trouvé ce qu'il vous fallait ?" (3/4) -->
+            <div class="page-cta reveal">
+                <div class="page-cta-in">
+                    <div>
+                        <h2>Vous avez trouvé ce qu'il vous fallait ? <span>Passez à la suite.</span></h2>
+                        <p>Complétez votre préparation avec des cours en direct, des enseignants certifiés et des ressources pédagogiques sur mesure.</p>
+                    </div>
+                    <div class="page-cta-btns">
+                        <a href="cours.html" class="btn btn-gold btn-lg"><i class="fas fa-book"></i>Voir les cours</a>
+                        <a href="inscription/choix-inscription.html" class="btn btn-outline btn-lg"><i class="fas fa-user-plus"></i>S'inscrire</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="ft-grid">
+            <div class="ft-brand">
+                <div class="ft-logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></div>
+                <p>La première plateforme éducative dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants au Togo.</p>
+                <div class="soc-row">
+                    <a href="#" class="soc-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="soc-btn"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="soc-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="soc-btn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="ft-col">
+                <h4>Navigation</h4>
+                <ul class="ft-links">
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i>Accueil</a></li>
+                    <li><a href="cours.html"><i class="fas fa-chevron-right"></i>Tous les cours</a></li>
+                    <li><a href="epreuves.html"><i class="fas fa-chevron-right"></i>Épreuves gratuites</a></li>
+                    <li><a href="index.html#processus"><i class="fas fa-chevron-right"></i>Comment ça marche</a></li>
+                </ul>
+            </div>
+            <div class="ft-col">
+                <h4>Épreuves par niveau</h4>
+                <ul class="ft-links">
+                    <li><a href="#" onclick="setLv('6ème');return false"><i class="fas fa-chevron-right"></i>6ème</a></li>
+                    <li><a href="#" onclick="setLv('5ème');return false"><i class="fas fa-chevron-right"></i>5ème</a></li>
+                    <li><a href="#" onclick="setLv('4ème');return false"><i class="fas fa-chevron-right"></i>4ème</a></li>
+                    <li><a href="#" onclick="setLv('3ème');return false"><i class="fas fa-chevron-right"></i>3ème — BEPC</a></li>
+                </ul>
+            </div>
+            <div class="ft-col">
+                <h4>Contact</h4>
+                <div class="ft-ci"><i class="fas fa-map-marker-alt"></i><span>Lomé, Togo</span></div>
+                <div class="ft-ci"><i class="fas fa-envelope"></i><span>contact@sukuli.tg</span></div>
+                <div style="margin-top:14px"><a href="index.html#rejoindre" class="btn btn-teal btn-sm"><i class="fas fa-bell"></i>Newsletter gratuite</a></div>
+            </div>
+        </div>
+        <div class="ft-btm">
+            <p>© 2024 Sukuli. Tous droits réservés — Épreuves gratuites pour tous.</p>
+            <p><a href="privacy.php" style="color:rgba(255,255,255,.46);text-decoration:none">Confidentialité</a> · <a href="terms.php" style="color:rgba(255,255,255,.46);text-decoration:none">Conditions</a></p>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ════════════════════════════════════════
+// DONNÉES (identique à l'original)
+// ════════════════════════════════════════
+const DATA = [
+    {id:1, lv:"6ème", sub:"math", title:"Devoir de Mathématiques — 6ème — Trimestre 1", type:"Devoir surveillé", annee:2023, pages:4, dl:1240, pop:92, file:"epreuves/maths_6eme_t1_2023.pdf"},
+    {id:2, lv:"6ème", sub:"fr", title:"Épreuve de Français — 6ème — Composition 2023", type:"Composition", annee:2023, pages:3, dl:980, pop:85, file:"epreuves/francais_6eme_comp_2023.pdf"},
+    {id:3, lv:"6ème", sub:"svt", title:"SVT — La cellule vivante — Évaluation 6ème", type:"Évaluation", annee:2022, pages:2, dl:720, pop:74, file:"epreuves/svt_6eme_cellule_2022.pdf"},
+    {id:4, lv:"6ème", sub:"en", title:"English Test — 6ème — Term 2 — 2023", type:"Test", annee:2023, pages:2, dl:650, pop:68, file:"epreuves/english_6eme_t2_2023.pdf"},
+    {id:5, lv:"5ème", sub:"math", title:"Mathématiques — Algèbre 5ème — Devoir corrigé", type:"Devoir corrigé", annee:2023, pages:5, dl:1560, pop:96, file:"epreuves/maths_5eme_algebre_2023.pdf"},
+    {id:6, lv:"5ème", sub:"phys", title:"Physique-Chimie — Optique géométrique 5ème", type:"Devoir surveillé", annee:2022, pages:3, dl:890, pop:78, file:"epreuves/physique_5eme_optique_2022.pdf"},
+    {id:7, lv:"5ème", sub:"hist", title:"Histoire-Géo — L'Afrique coloniale 5ème", type:"Composition", annee:2023, pages:4, dl:740, pop:72, file:"epreuves/histgeo_5eme_afrique_2023.pdf"},
+    {id:8, lv:"5ème", sub:"fr", title:"Français — Rédaction & grammaire 5ème", type:"Composition", annee:2022, pages:3, dl:810, pop:80, file:"epreuves/francais_5eme_redac_2022.pdf"},
+    {id:9, lv:"4ème", sub:"math", title:"Mathématiques — Fonctions 4ème — DS N°2", type:"Devoir surveillé", annee:2023, pages:4, dl:1320, pop:90, file:"epreuves/maths_4eme_fonctions_2023.pdf"},
+    {id:10, lv:"4ème", sub:"phys", title:"Physique-Chimie — Électricité 4ème — Corrigé", type:"Devoir corrigé", annee:2023, pages:5, dl:1100, pop:88, file:"epreuves/physique_4eme_elec_2023.pdf"},
+    {id:11, lv:"4ème", sub:"en", title:"English — Grammar & Expression 4ème", type:"Évaluation", annee:2022, pages:3, dl:670, pop:66, file:"epreuves/english_4eme_grammar_2022.pdf"},
+    {id:12, lv:"4ème", sub:"svt", title:"SVT — Reproduction humaine 4ème", type:"Composition", annee:2023, pages:3, dl:920, pop:82, file:"epreuves/svt_4eme_repro_2023.pdf"},
+    {id:13, lv:"3ème", sub:"math", title:"BEPC 2022 — Mathématiques (Sujet officiel)", type:"Annale BEPC", annee:2022, pages:6, dl:3420, pop:100, bepc:true, file:"epreuves/bepc_maths_2022.pdf"},
+    {id:14, lv:"3ème", sub:"fr", title:"BEPC 2023 — Français — Sujet officiel + Corrigé", type:"bepc-corr", annee:2023, pages:8, dl:2980, pop:99, bepc:true, file:"epreuves/bepc_francais_2023.pdf"},
+    {id:15, lv:"3ème", sub:"phys", title:"BEPC 2021 — Physique-Chimie (Sujet officiel)", type:"Annale BEPC", annee:2021, pages:5, dl:2100, pop:94, bepc:true, file:"epreuves/bepc_physique_2021.pdf"},
+    {id:16, lv:"3ème", sub:"svt", title:"BEPC 2023 — SVT — Corrigé détaillé", type:"bepc-corr", annee:2023, pages:6, dl:1880, pop:92, bepc:true, file:"epreuves/bepc_svt_2023.pdf"},
+    {id:17, lv:"3ème", sub:"hist", title:"BEPC 2022 — Histoire-Géographie", type:"Annale BEPC", annee:2022, pages:5, dl:1650, pop:88, bepc:true, file:"epreuves/bepc_histgeo_2022.pdf"},
+    {id:18, lv:"3ème", sub:"en", title:"BEPC 2023 — Anglais (Sujet officiel)", type:"Annale BEPC", annee:2023, pages:4, dl:1410, pop:84, bepc:true, file:"epreuves/bepc_english_2023.pdf"},
+    {id:19, lv:"3ème", sub:"math", title:"Composition Français — Préparation BEPC 3ème", type:"Évaluation", annee:2023, pages:4, dl:1200, pop:80, file:"epreuves/prepa_bepc_francais_2023.pdf"},
+];
+
+let state = {lv:'tous', sub:'toutes', types:[], yr:'tous', search:'', sort:'recent', bepcOnly:false};
+
+// ════════════════════════════════════════
+// DROPDOWNS
+// ════════════════════════════════════════
+function toggleDropdown(id){
+    const el=document.getElementById(id);
+    const isOpen=el.classList.contains('open');
+    document.querySelectorAll('.tb-filter').forEach(f=>f.classList.remove('open'));
+    if(!isOpen) el.classList.add('open');
+}
+document.addEventListener('click',e=>{
+    if(!e.target.closest('.tb-filter')) document.querySelectorAll('.tb-filter').forEach(f=>f.classList.remove('open'));
+});
+
+function subLabel(s){return{math:'Mathématiques',phys:'Physique-Chimie',svt:'SVT',fr:'Français',en:'Anglais',hist:'Histoire-Géo',toutes:'Toutes'}[s]||s;}
+
+function filter(){
+    return DATA.filter(e=>{
+        if(state.bepcOnly && !e.bepc) return false;
+        if(state.lv!=='tous' && e.lv!==state.lv) return false;
+        if(state.sub!=='toutes' && e.sub!==state.sub) return false;
+        if(state.types.length && !state.types.includes(e.type)) return false;
+        if(state.yr!=='tous' && String(e.annee)!==String(state.yr)) return false;
+        if(state.search && !`${e.title} ${e.lv} ${e.type}`.toLowerCase().includes(state.search.toLowerCase())) return false;
+        return true;
+    });
+}
+function sortData(arr){
+    const c=[...arr];
+    if(state.sort==='recent') c.sort((a,b)=>b.annee-a.annee);
+    else if(state.sort==='dl') c.sort((a,b)=>b.dl-a.dl);
+    else if(state.sort==='az') c.sort((a,b)=>a.title.localeCompare(b.title));
+    return c;
+}
+
+function setLv(lv){
+    state.lv=lv; state.bepcOnly=false;
+    document.querySelectorAll('#lvOptions .lv-option').forEach(o=>o.classList.toggle('selected',o.dataset.lv===lv));
+    const label=lv==='tous'?'Niveau':lv;
+    document.getElementById('filterLvLabel').textContent=label;
+    document.getElementById('filterLvBtn').classList.toggle('active',lv!=='tous');
+    document.getElementById('filterLv').classList.remove('open');
+    renderAll();
+}
+function setSub(sub){
+    state.sub=sub; state.bepcOnly=false;
+    document.querySelectorAll('#subOptions .lv-option').forEach(o=>o.classList.toggle('selected',o.dataset.sub===sub));
+    const label=sub==='toutes'?'Matière':subLabel(sub);
+    document.getElementById('filterSubLabel').textContent=label;
+    document.getElementById('filterSubBtn').classList.toggle('active',sub!=='toutes');
+    document.getElementById('filterSub').classList.remove('open');
+    renderAll();
+}
+function setYr(yr){
+    state.yr=yr;
+    document.querySelectorAll('#yrOptions .lv-option').forEach(o=>o.classList.toggle('selected',o.dataset.yr===yr));
+    const label=yr==='tous'?'Année':yr;
+    document.getElementById('filterYrLabel').textContent=label;
+    document.getElementById('filterYrBtn').classList.toggle('active',yr!=='tous');
+    document.getElementById('filterYr').classList.remove('open');
+    renderAll();
+}
+function resetTypes(){
+    state.types=[];
+    document.querySelectorAll('.type-cb').forEach(cb=>cb.checked=false);
+    document.getElementById('filterTypeLabel').textContent="Type d'épreuve";
+    document.getElementById('filterTypeBadge').style.display='none';
+    document.getElementById('filterTypeBtn').classList.remove('active');
+    renderAll();
+}
+function resetAll(){
+    state={lv:'tous',sub:'toutes',types:[],yr:'tous',search:'',sort:'recent',bepcOnly:false};
+    document.getElementById('tbSearch').value='';
+    document.getElementById('filterLvLabel').textContent='Niveau';
+    document.getElementById('filterLvBtn').classList.remove('active');
+    document.getElementById('filterSubLabel').textContent='Matière';
+    document.getElementById('filterSubBtn').classList.remove('active');
+    document.getElementById('filterYrLabel').textContent='Année';
+    document.getElementById('filterYrBtn').classList.remove('active');
+    document.getElementById('filterTypeLabel').textContent="Type d'épreuve";
+    document.getElementById('filterTypeBadge').style.display='none';
+    document.getElementById('filterTypeBtn').classList.remove('active');
+    document.querySelectorAll('#lvOptions .lv-option').forEach(o=>o.classList.toggle('selected',o.dataset.lv==='tous'));
+    document.querySelectorAll('#subOptions .lv-option').forEach(o=>o.classList.toggle('selected',o.dataset.sub==='toutes'));
+    document.querySelectorAll('#yrOptions .lv-option').forEach(o=>o.classList.toggle('selected',o.dataset.yr==='tous'));
+    document.querySelectorAll('.type-cb').forEach(cb=>cb.checked=false);
+    document.getElementById('bepcQuickBtn').classList.remove('active');
+    renderAll();
+    showToast('Filtres réinitialisés');
+}
+function filterBepc(){
+    state.bepcOnly=true; state.lv='3ème'; state.sub='toutes';
+    document.getElementById('filterLvLabel').textContent='3ème';
+    document.getElementById('filterLvBtn').classList.add('active');
+    document.querySelectorAll('#lvOptions .lv-option').forEach(o=>o.classList.toggle('selected',o.dataset.lv==='3ème'));
+    document.getElementById('bepcQuickBtn').classList.add('active');
+    renderAll();
+    document.getElementById('ep-main').scrollIntoView({behavior:'smooth'});
+}
+
+function mkCard(e){
+    const d=document.createElement('div');d.className='ep-card reveal';
+    d.innerHTML=`<div class="ep-header"><span class="ep-lv">${e.lv}</span><span class="ep-free-badge">GRATUIT</span></div><div class="ep-body"><h3 class="ep-title">${e.title}</h3></div><div class="ep-foot"><button class="ep-dl-btn ep-dl-preview" onclick="showToast('Aperçu disponible bientôt')"><i class="fas fa-eye"></i>Aperçu</button><button class="ep-dl-btn ep-dl-main" onclick="dl('${e.file}','${e.title.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')"><i class="fas fa-download"></i>Télécharger</button></div>`;
+    return d;
+}
+function dl(file,title){showToast(`📥 Téléchargement : ${title.substring(0,44)}…`);}
+function showToast(msg){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.className='show';setTimeout(()=>t.className='',3400);}
+
+function renderAll(){
+    state.search=document.getElementById('tbSearch').value.trim();
+    const filtered=sortData(filter());
+    const grid=document.getElementById('epGrid');grid.innerHTML='';
+    document.getElementById('mainCatCount').textContent=filtered.length;
+    let catLabel='Toutes les épreuves';
+    if(state.bepcOnly) catLabel='Annales BEPC — Épreuves officielles';
+    else if(state.lv!=='tous') catLabel=`Épreuves — ${state.lv}`;
+    if(state.sub!=='toutes') catLabel+=' — '+subLabel(state.sub);
+    document.getElementById('mainCatLabel').textContent=catLabel;
+    if(!filtered.length){
+        grid.innerHTML=`<div class="ep-empty"><i class="fas fa-folder-open"></i><h3>Aucune épreuve trouvée</h3><p>Essayez d'autres filtres ou effacez la recherche.</p></div>`;
+        renderActiveTags();return;
+    }
+    filtered.forEach((e,i)=>{const c=mkCard(e);c.style.transitionDelay=`${i*0.04}s`;grid.appendChild(c);});
+    document.querySelectorAll('.ep-card.reveal').forEach(el=>obs.observe(el));
+    renderActiveTags();
+}
+
+function renderActiveTags(){
+    const c=document.getElementById('activeTags');c.innerHTML='';const tags=[];
+    if(state.bepcOnly) tags.push({lbl:'BEPC uniquement',rm:()=>{state.bepcOnly=false;document.getElementById('bepcQuickBtn').classList.remove('active');renderAll();}});
+    if(state.lv!=='tous') tags.push({lbl:state.lv,rm:()=>setLv('tous')});
+    if(state.sub!=='toutes') tags.push({lbl:subLabel(state.sub),rm:()=>setSub('toutes')});
+    state.types.forEach(t=>tags.push({lbl:t,rm:()=>{state.types=state.types.filter(x=>x!==t);document.querySelectorAll('.type-cb').forEach(cb=>{if(cb.value===t)cb.checked=false;});updateTypeBadge();renderAll();}}));
+    if(state.yr!=='tous') tags.push({lbl:state.yr,rm:()=>setYr('tous')});
+    if(state.search) tags.push({lbl:`"${state.search}"`,rm:()=>{state.search='';document.getElementById('tbSearch').value='';renderAll();}});
+    if(!tags.length){c.classList.remove('has-tags');return;}
+    c.classList.add('has-tags');
+    const lbl=document.createElement('span');lbl.className='at-lbl';lbl.textContent='Filtres actifs :';c.appendChild(lbl);
+    tags.forEach(t=>{const s=document.createElement('span');s.className='at-tag';s.innerHTML=`${t.lbl}<button>×</button>`;s.querySelector('button').addEventListener('click',t.rm);c.appendChild(s);});
+    const btn=document.createElement('button');btn.className='at-clear';btn.innerHTML='<i class="fas fa-times"></i> Tout effacer';btn.addEventListener('click',resetAll);c.appendChild(btn);
+}
+
+function updateTypeBadge(){
+    const n=state.types.length;
+    const badge=document.getElementById('filterTypeBadge');
+    badge.textContent=n;
+    badge.style.display=n?'inline-flex':'none';
+    document.getElementById('filterTypeBtn').classList.toggle('active',n>0);
+    document.getElementById('filterTypeLabel').textContent=n?`Type (${n})`:"Type d'épreuve";
+}
+
+function applyHeroSearch(){
+    const v=document.getElementById('heroSearch').value.trim();
+    if(v){state.search=v;document.getElementById('tbSearch').value=v;renderAll();document.getElementById('ep-main').scrollIntoView({behavior:'smooth'});}
+}
+
+// MODALE NOTIFICATION
+const modal=document.getElementById('notifModal');
+const closeBtn=document.getElementById('closeModalBtn');
+const submitBtn=document.getElementById('submitModalBtn');
+const modalEmail=document.getElementById('modalEmail');
+document.getElementById('openNotifBtn').addEventListener('click',e=>{e.preventDefault();modal.classList.add('active');});
+closeBtn.addEventListener('click',()=>{modal.classList.remove('active');modalEmail.value='';});
+submitBtn.addEventListener('click',()=>{
+    let email=modalEmail.value.trim();
+    if(!email||!/^[^@]+@[^@]+\.[^@]+$/.test(email)){showToast('Veuillez entrer un email valide.');return;}
+    showToast('🎉 Merci ! Vous serez notifié des nouvelles épreuves.');
+    modal.classList.remove('active');modalEmail.value='';
+});
+modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('active');modalEmail.value='';}});
+
+// INTERSECTION OBSERVER & INIT
+const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:0.07});
+
+document.addEventListener('DOMContentLoaded',()=>{
+    renderAll();
+
+    document.querySelectorAll('.type-cb').forEach(cb=>cb.addEventListener('change',()=>{
+        state.types=Array.from(document.querySelectorAll('.type-cb:checked')).map(c=>c.value);
+        updateTypeBadge();
+        renderAll();
+    }));
+
+    document.getElementById('tbSearch').addEventListener('input',()=>renderAll());
+    document.getElementById('resetAllBtn').addEventListener('click',resetAll);
+
+    const btt=document.getElementById('btt');
+    window.addEventListener('scroll',()=>{
+        btt.classList.toggle('show',scrollY>350);
+        document.getElementById('mainHeader').classList.toggle('scrolled',scrollY>80);
+    });
+    btt.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+    document.getElementById('menuToggle')?.addEventListener('click',()=>document.getElementById('mobNav').classList.toggle('open'));
+    document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
+});
+</script>
+</body>
+</html>

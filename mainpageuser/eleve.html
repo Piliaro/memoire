@@ -39,10 +39,10 @@
     --txt-b:      #3a5555;
     --txt-m:      #6a8888;
     --purple:     #7B1FA2;
-    --purple-light:#f3e5f5;
     --coral:      #D85A30;
-    --coral-light:#FAECE7;
     --error:      #e53e3e;
+    --red:        #e74c3c;
+    --green-ok:   #22c55e;
     --sh-sm:  0 2px 8px  rgba(0,47,42,.10);
     --sh-md:  0 8px 28px rgba(0,47,42,.14);
     --sh-lg:  0 20px 56px rgba(0,47,42,.20);
@@ -55,23 +55,17 @@
   h1,h2,h3,h4,h5 { font-family:'Poppins',sans-serif; line-height:1.25; color:var(--txt); }
   .container { width:100%; max-width:1320px; margin:0 auto; padding:0 24px; }
 
-  /* ── REVEAL (identique index) ── */
   .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
-  .reveal-left{opacity:0;transform:translateX(-32px);transition:opacity .65s,transform .65s}
-  .reveal-right{opacity:0;transform:translateX(32px);transition:opacity .65s,transform .65s}
-  .reveal.visible,.reveal-left.visible,.reveal-right.visible{opacity:1;transform:translate(0)}
+  .reveal.visible{opacity:1;transform:translate(0)}
 
-  /* ── BACK TO TOP (identique) ── */
   #backToTop{position:fixed;bottom:28px;right:28px;z-index:9000;width:44px;height:44px;border-radius:50%;background:var(--deep);color:var(--gold);border:2px solid var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 6px 20px rgba(0,47,42,.4);opacity:0;transform:translateY(14px) scale(.85);transition:all .32s cubic-bezier(.4,0,.2,1)}
   #backToTop.show{opacity:1;transform:translateY(0) scale(1)}
   #backToTop:hover{background:var(--gold);color:var(--deep);transform:translateY(-3px) scale(1.06)}
 
-  /* ── TOAST (identique) ── */
   #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--deep);color:#fff;padding:12px 26px;border-radius:50px;font-size:.9rem;font-weight:700;box-shadow:0 8px 24px rgba(0,47,42,.4);z-index:9200;border:1px solid var(--teal-light);transition:transform .36s cubic-bezier(.34,1.56,.64,1),opacity .36s;opacity:0;display:flex;align-items:center;gap:8px}
   #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-  #toast.error{background:var(--amber)}
 
-  /* ══════════════════════ HEADER (identique index) ══════════════════════ */
+  /* ═══ HEADER ═══ */
   header { position:sticky; top:0; z-index:1000; background:var(--hdr); box-shadow:0 2px 16px rgba(0,0,0,.22); transition:box-shadow .3s; }
   header.scrolled{box-shadow:0 4px 28px rgba(0,0,0,.35)}
   .navbar { display:flex; align-items:center; padding:10px 0; gap:14px; flex-wrap:wrap; }
@@ -80,35 +74,54 @@
   .logo-text { font-family:'Poppins',sans-serif; font-weight:800; font-size:1.3rem; color:#fff; }
   .logo-text span { color:var(--teal-light); }
 
-  /* search in nav */
-  .nav-search { background:rgba(255,255,255,.1); border-radius:40px; padding:0 8px; display:flex; align-items:center; border:1px solid rgba(255,255,255,.2); margin:0 8px; flex:1; max-width:380px; position:relative; }
-  .nav-search i { color:rgba(255,255,255,.5); font-size:.85rem; padding-left:8px; }
-  .nav-search input { background:transparent; border:none; padding:9px 12px; color:#fff; font-size:.85rem; width:100%; outline:none; font-family:'Nunito',sans-serif; }
-  .nav-search input::placeholder { color:rgba(255,255,255,.45); font-style:italic; }
-  .nav-search-btn { background:none; border:none; color:var(--gold); padding:0 6px; cursor:pointer; font-size:.9rem; }
+  /* ═══ BARRE DE RECHERCHE AVANCEE ═══ */
+  .nav-search-wrap { position:relative; flex:1; max-width:540px; margin:0 auto; }
+  .nav-search { background:rgba(255,255,255,.10); border-radius:40px; padding:4px 4px 4px 16px; display:flex; align-items:center; border:1.5px solid rgba(255,255,255,.18); gap:6px; transition:border-color .22s, background .22s; }
+  .nav-search:focus-within { border-color:var(--teal-light); background:rgba(255,255,255,.14); }
+  .ns-icon { color:rgba(255,255,255,.5); font-size:.85rem; flex-shrink:0; }
+  .nav-search input { background:transparent; border:none; padding:7px 8px; color:#fff; font-size:.85rem; width:100%; outline:none; font-family:'Nunito',sans-serif; }
+  .nav-search input::placeholder { color:rgba(255,255,255,.4); font-style:italic; }
+  .ns-sep { width:1px; height:20px; background:rgba(255,255,255,.2); flex-shrink:0; }
+  .ns-filter-btn { display:flex; align-items:center; gap:5px; background:none; border:none; color:rgba(255,255,255,.72); font-size:.75rem; font-weight:700; font-family:'Poppins',sans-serif; cursor:pointer; padding:6px 12px; border-radius:30px; transition:all .22s; white-space:nowrap; flex-shrink:0; }
+  .ns-filter-btn:hover, .ns-filter-btn.open { color:var(--gold); background:rgba(232,196,74,.14); }
+  .ns-filter-btn i { font-size:.78rem; }
+  .ns-count { background:var(--teal); color:#fff; font-size:.62rem; font-weight:800; min-width:17px; height:17px; border-radius:9px; display:none; align-items:center; justify-content:center; padding:0 4px; }
+  .ns-count.show { display:flex; }
+  .nav-search-btn { background:var(--teal); border:none; color:#fff; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.82rem; flex-shrink:0; transition:all .22s; }
+  .nav-search-btn:hover { background:var(--teal-light); transform:scale(1.08); }
 
-  /* filter panel */
-  .filter-panel { display:none; position:absolute; top:calc(100% + 10px); left:0; right:0; background:#fff; border-radius:var(--r-lg); padding:22px; box-shadow:var(--sh-lg); z-index:500; border:1.5px solid var(--g200); animation:fpIn .25s ease; }
-  @keyframes fpIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
-  .filter-panel.open { display:block; }
-  .fp-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--g200); }
-  .fp-head h4 { font-size:.95rem; color:var(--txt); display:flex; align-items:center; gap:7px; }
-  .fp-head h4 i { color:var(--teal); }
-  .fp-close { background:none; border:none; color:var(--txt-m); cursor:pointer; font-size:1.15rem; transition:color .2s; }
-  .fp-close:hover { color:var(--deep); }
-  .fp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
-  .fp-group label { display:block; font-size:.76rem; font-weight:700; color:var(--txt-b); margin-bottom:5px; font-family:'Poppins',sans-serif; }
-  .fp-group select { width:100%; padding:9px 12px; border:1.5px solid var(--g200); border-radius:var(--r-sm); font-size:.84rem; font-family:'Nunito',sans-serif; color:var(--txt); background:#fff; outline:none; transition:border-color .2s; }
-  .fp-group select:focus { border-color:var(--teal); }
-  .fp-actions { display:flex; gap:9px; justify-content:flex-end; }
+  /* ═══ PANNEAU FILTRES ═══ */
+  .sfp { position:absolute; top:calc(100% + 14px); left:0; right:0; background:var(--hdr); border:1.5px solid rgba(255,255,255,.13); border-radius:var(--r-md); padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.6); z-index:1200; display:none; }
+  .sfp.open { display:block; animation:sfpIn .25s cubic-bezier(.4,0,.2,1); }
+  @keyframes sfpIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .sfp::before { content:''; position:absolute; top:-7px; left:32px; width:14px; height:14px; background:var(--hdr); border-left:1.5px solid rgba(255,255,255,.13); border-top:1.5px solid rgba(255,255,255,.13); transform:rotate(45deg); }
+  .sfp-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,.08); }
+  .sfp-head h4 { color:#fff; font-size:.88rem; font-weight:700; display:flex; align-items:center; gap:8px; font-family:'Poppins',sans-serif; margin:0; }
+  .sfp-head h4 i { color:var(--teal-light); }
+  .sfp-close { background:rgba(255,255,255,.08); border:none; color:rgba(255,255,255,.7); width:28px; height:28px; border-radius:50%; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; line-height:1; flex-shrink:0; }
+  .sfp-close:hover { background:rgba(255,255,255,.2); color:#fff; }
+  .sfp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:16px; }
+  .sfp-group label { display:block; font-size:.7rem; font-weight:700; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.9px; margin-bottom:7px; font-family:'Poppins',sans-serif; }
+  .sfp-sel { width:100%; padding:9px 32px 9px 12px; background:rgba(255,255,255,.07); border:1.5px solid rgba(255,255,255,.11); border-radius:var(--r-sm); color:#fff; font-size:.82rem; font-family:'Nunito',sans-serif; outline:none; cursor:pointer; transition:border-color .2s; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; }
+  .sfp-sel:focus { border-color:var(--teal-light); background-color:rgba(255,255,255,.11); }
+  .sfp-sel option { background:#0a1a18; color:#fff; }
+  .sfp-footer { display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid rgba(255,255,255,.08); gap:12px; flex-wrap:wrap; }
+  .sfp-tags { display:flex; flex-wrap:wrap; gap:6px; flex:1; }
+  .sfp-tag { display:inline-flex; align-items:center; gap:5px; background:rgba(26,181,160,.18); border:1px solid rgba(26,181,160,.35); color:var(--teal-light); padding:3px 10px; border-radius:50px; font-size:.7rem; font-weight:600; }
+  .sfp-tag button { background:none; border:none; color:var(--teal-light); cursor:pointer; font-size:.85rem; line-height:1; padding:0 0 0 2px; opacity:.8; }
+  .sfp-tag button:hover { opacity:1; }
+  .sfp-btns { display:flex; gap:10px; flex-shrink:0; }
+  .sfp-btn { padding:9px 20px; border-radius:50px; font-size:.78rem; font-weight:700; font-family:'Poppins',sans-serif; cursor:pointer; border:none; transition:all .22s; display:flex; align-items:center; gap:6px; }
+  .sfp-reset { background:rgba(255,255,255,.07); border:1.5px solid rgba(255,255,255,.13); color:rgba(255,255,255,.7); }
+  .sfp-reset:hover { background:rgba(255,255,255,.15); color:#fff; }
+  .sfp-apply { background:var(--teal); color:#fff; }
+  .sfp-apply:hover { background:var(--teal-light); transform:translateY(-1px); box-shadow:0 6px 18px rgba(26,181,160,.3); }
 
-  /* nav right actions */
   .nav-right { display:flex; align-items:center; gap:10px; flex-shrink:0; }
-  .icon-btn { position:relative; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:rgba(255,255,255,.78); width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.95rem; transition:all .22s; }
+  .icon-btn { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:rgba(255,255,255,.78); width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.95rem; transition:all .22s; position:relative; }
   .icon-btn:hover { background:rgba(255,255,255,.18); color:#fff; }
   .notif-dot { position:absolute; top:4px; right:4px; width:16px; height:16px; background:var(--coral); border-radius:50%; font-size:.6rem; font-weight:900; color:#fff; display:flex; align-items:center; justify-content:center; border:2px solid var(--hdr); }
 
-  /* profile dropdown */
   .profile-drop { position:relative; }
   .profile-btn { display:flex; align-items:center; gap:9px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); border-radius:10px; padding:7px 12px; cursor:pointer; transition:all .22s; }
   .profile-btn:hover { background:rgba(255,255,255,.16); }
@@ -117,7 +130,7 @@
   .p-role { font-size:.66rem; color:rgba(255,255,255,.55); }
   .p-chev { color:rgba(255,255,255,.5); font-size:.72rem; transition:transform .22s; }
   .profile-btn.open .p-chev { transform:rotate(180deg); }
-  .drop-menu { display:none; position:absolute; top:calc(100% + 10px); right:0; background:#fff; border-radius:var(--r-md); min-width:230px; box-shadow:var(--sh-lg); border:1.5px solid var(--g200); overflow:hidden; z-index:400; animation:fpIn .25s ease; }
+  .drop-menu { display:none; position:absolute; top:calc(100% + 10px); right:0; background:#fff; border-radius:var(--r-md); min-width:230px; box-shadow:var(--sh-lg); border:1.5px solid var(--g200); overflow:hidden; z-index:400; }
   .drop-menu.open { display:block; }
   .dm-head { padding:18px; background:var(--g50); border-bottom:1px solid var(--g200); text-align:center; }
   .dm-av { width:54px; height:54px; border-radius:14px; background:linear-gradient(135deg,var(--deep),var(--teal)); display:flex; align-items:center; justify-content:center; font-weight:900; color:var(--gold); font-size:1.2rem; font-family:'Poppins',sans-serif; margin:0 auto 9px; }
@@ -128,7 +141,6 @@
   .dm-item a:hover { background:var(--deep-pale); color:var(--deep); }
   .dm-item a i { color:var(--teal); width:16px; }
   .dm-item a.logout { color:var(--coral); }
-  .dm-item a.logout i { color:var(--coral); }
 
   .menu-toggle { display:none; background:none; border:none; color:rgba(255,255,255,.85); font-size:1.3rem; cursor:pointer; }
   .mob-nav { display:none; flex-direction:column; background:var(--hdr); border-top:1px solid rgba(255,255,255,.07); padding:12px 24px 18px; }
@@ -136,210 +148,177 @@
   .mob-nav a { color:rgba(255,255,255,.72); text-decoration:none; font-weight:600; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.07); font-size:.9rem; display:flex; align-items:center; gap:9px; }
   .mob-badge { margin-left:auto; background:var(--coral); color:#fff; padding:1px 7px; border-radius:10px; font-size:.7rem; font-weight:700; }
 
-  /* ══════════════════════ SUB-NAV ══════════════════════ */
   .sub-nav { position:sticky; top:60px; z-index:900; background:var(--deep); border-bottom:1px solid rgba(255,255,255,.07); }
-  .sn-inner { display:flex; align-items:center; justify-content:space-between; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  .sn-inner { display:flex; align-items:center; gap:8px; overflow-x:auto; scrollbar-width:none; }
   .sn-inner::-webkit-scrollbar { display:none; }
   .sn-item { display:flex; align-items:center; gap:7px; padding:13px 18px; color:rgba(255,255,255,.65); text-decoration:none; font-weight:600; font-size:.82rem; white-space:nowrap; border-bottom:3px solid transparent; transition:all .22s; flex-shrink:0; }
   .sn-item:hover { color:#fff; background:rgba(255,255,255,.06); }
   .sn-item.active { color:#fff; border-bottom-color:var(--gold); }
   .sn-badge { background:var(--coral); color:#fff; padding:1px 7px; border-radius:10px; font-size:.66rem; font-weight:800; margin-left:2px; }
 
-  /* ══════════════════════ MAIN CONTENT ══════════════════════ */
-  .main { padding:28px 0 60px; }
+  .main { padding:2px 0 50px; }
 
-  /* welcome banner (dégradé comme dans index) */
-  .welcome-bar { background:linear-gradient(135deg,var(--deep) 0%,var(--deep-mid) 55%,#004040 100%); border-radius:var(--r-lg); padding:22px 28px; margin-bottom:28px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; position:relative; overflow:hidden; }
-  .welcome-bar::before { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px); background-size:40px 40px; pointer-events:none; }
-  .welcome-bar::after { content:''; position:absolute; top:-60px; right:-60px; width:200px; height:200px; border-radius:50%; background:rgba(26,181,160,.08); filter:blur(60px); pointer-events:none; }
-  .wb-txt { position:relative; z-index:1; }
-  .wb-txt h1 { font-size:1.35rem; font-weight:900; color:#fff; margin-bottom:4px; }
-  .wb-txt h1 span { color:var(--gold); }
-  .wb-txt p { color:rgba(255,255,255,.6); font-size:.86rem; }
-  .wb-stats { display:flex; gap:18px; position:relative; z-index:1; }
-  .wb-stat { text-align:center; }
-  .wb-stat strong { display:block; font-family:'Poppins',sans-serif; font-size:1.3rem; font-weight:900; color:var(--gold); line-height:1; }
-  .wb-stat span { font-size:.64rem; color:rgba(255,255,255,.48); text-transform:uppercase; letter-spacing:.7px; }
+  .welcome-hero { position:relative; background:linear-gradient(135deg,var(--deep) 0%,var(--deep-mid) 45%,#005a4e 100%); border-radius:var(--r-lg); overflow:hidden; margin-bottom:22px; padding:5px 36px 5px; box-shadow:var(--sh-lg); }
+  .welcome-hero::before { content:''; position:absolute; top:-60px; right:-60px; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle,rgba(26,181,160,.18) 0%,transparent 70%); pointer-events:none; }
+  .welcome-hero::after { content:''; position:absolute; bottom:-80px; left:20%; width:320px; height:320px; border-radius:50%; background:radial-gradient(circle,rgba(232,196,74,.08) 0%,transparent 70%); pointer-events:none; }
+  .welcome-inner { position:relative; z-index:1; display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+  .welcome-text { flex:1; min-width:220px; }
+  .welcome-greeting { font-size:.78rem; font-weight:700; color:var(--teal-light); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+  .wave-icon { display:inline-block; animation:wave 1.8s ease-in-out infinite; transform-origin:70% 70%; }
+  @keyframes wave { 0%,100%{transform:rotate(0deg)} 20%{transform:rotate(18deg)} 40%{transform:rotate(-8deg)} 60%{transform:rotate(18deg)} 80%{transform:rotate(-4deg)} }
+  .welcome-name { font-family:'Poppins',sans-serif; font-size:1.55rem; font-weight:800; color:#fff; line-height:1.2; margin-bottom:8px; }
+  .welcome-name em { color:var(--gold); font-style:normal; }
+  .welcome-desc { font-size:.85rem; color:rgba(255,255,255,.68); max-width:6000px; line-height:1.6; }
+  .welcome-steps { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
+  .ws-item { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:50px; padding:7px 14px; font-size:.78rem; font-weight:700; color:rgba(255,255,255,.82); transition:all .22s; cursor:default; }
+  .ws-item i { color:var(--teal-light); font-size:.82rem; }
+  .ws-item .ws-num { width:20px; height:20px; border-radius:50%; background:var(--teal); color:#fff; font-size:.66rem; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .welcome-stats { display:flex; flex-direction:column; gap:10px; flex-shrink:0; }
+  .wstat { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.13); border-radius:var(--r-md); padding:2px 2px; text-align:center; min-width:90px; }
+  .wstat-val { font-family:'Poppins',sans-serif; font-size:0.9rem; font-weight:800; color:var(--gold); line-height:1; }
+  .wstat-lbl { font-size:.68rem; color:rgba(255,255,255,.5); font-weight:600; margin-top:2px; }
 
-  /* section header */
   .sec-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
-  .sec-bar-left h2 { font-size:1.15rem; font-weight:800; color:var(--txt); }
+  .sec-bar-left h2 { font-size:1.15rem; font-weight:800; color:var(--txt); display:flex; align-items:center; gap:8px; }
   .sec-bar-left p { font-size:.82rem; color:var(--txt-m); }
-  .see-all { display:inline-flex; align-items:center; gap:6px; background:var(--g100); color:var(--deep); padding:8px 18px; border-radius:50px; font-weight:700; font-size:.82rem; text-decoration:none; border:1.5px solid var(--g300); transition:all .22s; }
-  .see-all i { transition:transform .22s; }
+  .see-all { display:inline-flex; align-items:center; gap:1px; background:var(--g100); color:var(--deep); padding:5px 8px; border-radius:70px; font-weight:700; font-size:.82rem; text-decoration:none; border:1.5px solid var(--g300); transition:all .22s; }
   .see-all:hover { background:var(--deep-pale); border-color:var(--deep); gap:9px; }
-  .see-all:hover i { transform:translateX(3px); }
 
-  /* category tabs */
-  .cat-tabs { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:18px; }
-  .cat-tab { padding:7px 16px; border-radius:50px; font-size:.78rem; font-weight:700; cursor:pointer; border:1.8px solid var(--g200); background:#fff; color:var(--txt-m); transition:all .22s; font-family:'Poppins',sans-serif; display:flex; align-items:center; gap:6px; }
-  .cat-tab:hover { border-color:var(--teal); color:var(--teal); }
-  .cat-tab.active { background:var(--deep); border-color:var(--deep); color:#fff; }
+  .see-all-bottom { display: flex; justify-content: flex-end; margin-top: 16px; }
 
-  /* ── COURSE CARDS (style exact index) ── */
-  .course-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
-  .cc { background:#fff; border-radius:var(--r-md); border:1.5px solid var(--g200); overflow:hidden; transition:all .28s; display:flex; flex-direction:column; position:relative; }
+  .ep-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:18px; margin-bottom:16px; }
+  .ep-card { background:#fff; border:1.5px solid var(--g200); border-radius:var(--r-lg); overflow:hidden; transition:all .32s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; }
+  .ep-card:hover { transform:translateY(-4px); box-shadow:var(--sh-lg); border-color:var(--deep-muted); }
+  .ep-header { display:flex; justify-content:space-between; align-items:center; padding:12px 15px 0 15px; background:#fff; }
+  .ep-lv { padding:3px 12px; border-radius:50px; font-size:.7rem; font-weight:800; font-family:'Poppins',sans-serif; background:#fee2e2; color:var(--red); border-left:3px solid var(--red); display:inline-block; }
+  .ep-free-badge { background:#27ae60; border-radius:50px; padding:3px 9px; font-size:.62rem; font-weight:700; color:#fff; letter-spacing:.3px; }
+  .ep-body { padding:12px 15px; flex:1; display:flex; flex-direction:column; gap:8px; }
+  .ep-title { font-size:.86rem; font-weight:700; color:var(--txt); line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:38px; }
+  .ep-foot { padding:8px 3px; border-top:1px solid var(--g200); display:flex; gap:3px; background:#fff; }
+  .ep-dl-btn { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:6px 6px; border-radius:var(--r-sm); font-size:.75rem; font-weight:700; font-family:'Poppins',sans-serif; cursor:pointer; border:none; transition:all .22s; }
+  .ep-dl-main { background:var(--deep); color:#fff; }
+  .ep-dl-main:hover { background:var(--deep-hover); transform:translateY(-1px); }
+  .ep-dl-preview { background:var(--g100); color:var(--txt-b); flex:0 0 auto; width:auto; padding:6px 10px; }
+  .ep-dl-preview:hover { background:var(--g200); }
+
+  .course-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:16px; }
+  .cc { background:#fff; border-radius:var(--r-md); border:1.5px solid var(--g200); overflow:hidden; transition:all .28s; display:flex; flex-direction:column; }
   .cc:hover { transform:translateY(-4px); box-shadow:var(--sh-md); border-color:var(--deep-muted); }
   .cc-strip { height:4px; background:linear-gradient(90deg,var(--deep),var(--teal)); }
   .cc-strip.free { background:linear-gradient(90deg,var(--teal),var(--teal-light)); }
-  .cc-strip.std { background:linear-gradient(90deg,var(--deep),var(--deep-mid)); }
-  .cc-strip.pm { background:linear-gradient(90deg,var(--gold),var(--amber)); }
-  .cc-body { padding:14px; flex:1; display:flex; flex-direction:column; }
-  .badge { display:inline-block; padding:2px 9px; border-radius:50px; font-size:.62rem; font-weight:800; letter-spacing:.3px; font-family:'Poppins',sans-serif; }
-  .b-free { background:var(--teal-pale); color:var(--teal); border:1px solid rgba(26,181,160,.3); }
-  .b-std  { background:var(--deep-pale); color:var(--deep); border:1px solid rgba(0,47,42,.18); }
-  .b-pm   { background:#fdf6dc; color:var(--amber); border:1px solid rgba(201,152,14,.25); }
-  .b-lv   { background:var(--g100); color:var(--g600); border:1px solid var(--g200); }
-  .cc-title { font-size:.88rem; font-weight:700; color:var(--txt); margin:7px 0 4px; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:36px; }
-  .cc-sub { font-size:.74rem; color:var(--txt-m); margin-bottom:10px; }
-  .cc-teacher { display:flex; align-items:center; gap:8px; margin-bottom:9px; }
-  .tc-av { width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--deep),var(--teal)); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--gold); font-size:.65rem; font-family:'Poppins',sans-serif; flex-shrink:0; }
-  .tc-nm { font-size:.76rem; font-weight:700; color:var(--txt); }
-  .tc-rl { font-size:.66rem; color:var(--txt-m); }
-  .cc-loc { display:flex; align-items:center; gap:5px; font-size:.72rem; color:var(--txt-m); margin-bottom:9px; }
-  .cc-loc i { color:var(--teal); font-size:.66rem; }
-  .cc-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:9px; }
-  .stars { color:var(--gold); font-size:.68rem; }
-  .stars span { color:var(--txt-m); font-weight:700; font-size:.72rem; }
-  .cc-cnt { font-size:.68rem; color:var(--txt-m); }
-  .cc-price { font-family:'Poppins',sans-serif; font-size:1rem; font-weight:800; color:var(--txt); margin-bottom:9px; }
+  .cc-body { padding:13px; flex:1; display:flex; flex-direction:column; }
+  .cc-badge-row { display:flex; justify-content:space-between; margin-bottom:6px; flex-wrap:wrap; gap:5px; }
+  .badge-lv { padding:3px 9px; border-radius:50px; font-size:.62rem; font-weight:700; background:#fee2e2; color:#c53030; border-left:3px solid #e74c3c; }
+  .badge-free { padding:3px 9px; border-radius:50px; font-size:.62rem; font-weight:700; background:#d4f5e6; color:#27ae60; border-left:3px solid #27ae60; }
+  .badge-standard { padding:3px 9px; border-radius:50px; font-size:.62rem; font-weight:700; background:#e6f0ff; color:#3498db; border-left:3px solid #3498db; }
+  .badge-premium { padding:3px 9px; border-radius:50px; font-size:.62rem; font-weight:700; background:#fef5e6; color:#e8c44a; border-left:3px solid #e8c44a; }
+  .cc-title { font-size:.86rem; font-weight:700; color:var(--txt); margin:6px 0 4px; line-height:1.32; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:34px; }
+  .cc-sub { font-size:.72rem; color:var(--txt-m); margin-bottom:8px; }
+  .cc-trow { display:flex; align-items:center; gap:6px; margin-bottom:8px; }
+  .cc-tav { width:26px; height:26px; border-radius:50%; background:linear-gradient(135deg,var(--deep),var(--teal)); display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:.65rem; }
+  .cc-tnm { font-size:.74rem; font-weight:600; color:var(--txt); }
+  .cc-trl { font-size:.65rem; color:var(--txt-m); display:flex; align-items:center; gap:3px; }
+  .cc-trl i { color:var(--teal); font-size:.6rem; }
+  .cc-meta { display:flex; justify-content:space-between; align-items:center; margin:4px 0; }
+  .cc-stars { color:var(--gold); font-size:.7rem; }
+  .cc-stars span { color:var(--txt-m); font-weight:700; }
+  .cc-price { font-family:'Poppins',sans-serif; font-size:1rem; font-weight:800; color:var(--txt); margin:6px 0; }
   .cc-price.free { color:var(--teal); }
-  .cc-price small { font-size:.7rem; font-weight:500; color:var(--txt-m); }
-  .cc-acts { display:flex; gap:6px; margin-top:auto; }
-  .ca { flex:1; padding:7px 4px; text-align:center; border-radius:var(--r-sm); font-size:.73rem; font-weight:700; cursor:pointer; border:none; transition:all .2s; font-family:'Poppins',sans-serif; }
-  .ca-ghost { background:var(--g100); color:var(--g500); }
-  .ca-ghost:hover { background:var(--g200); }
-  .ca-deep { background:var(--deep); color:#fff; }
-  .ca-deep:hover { background:var(--deep-hover); }
+  .cc-acts { display:flex; gap:5px; margin-top:auto; }
+  .ca { flex:1; padding:6px 3px; text-align:center; border-radius:var(--r-sm); font-size:.72rem; font-weight:700; cursor:pointer; border:none; transition:all .2s; font-family:'Poppins',sans-serif; }
+  .ca-g { background:var(--g100); color:var(--g500); }
+  .ca-g:hover { background:var(--g200); }
+  .ca-d { background:var(--deep); color:#fff; }
+  .ca-d:hover { background:var(--deep-hover); }
   .ca-teal { background:var(--teal); color:#fff; }
   .ca-teal:hover { background:#138f7d; }
 
-  /* ── TEACHER CARDS (style index) ── */
-  .teacher-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
-  .tc-card { background:#fff; border-radius:var(--r-md); border:1.5px solid var(--g200); overflow:hidden; transition:all .28s; display:flex; flex-direction:column; }
+  /* =============================================
+     ENSEIGNANTS — CARTE MODIFIÉE (identique à la page précédente)
+     • Point de connexion uniquement
+     • Localisation sous le nom
+     • Pas de badge texte de statut
+  ============================================= */
+  .teacher-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:16px; }
+  .tc-card { background:#fff; border-radius:var(--r-md); border:1.5px solid var(--g200); overflow:hidden; transition:all 0.3s; display:flex; flex-direction:column; }
   .tc-card:hover { transform:translateY(-4px); box-shadow:var(--sh-md); border-color:var(--deep-muted); }
-  .tc-hd { padding:20px 14px 14px; text-align:center; background:linear-gradient(180deg,var(--deep-pale),#fff); border-bottom:1px solid var(--g100); }
-  .tc-avatar { width:58px; height:58px; border-radius:50%; background:linear-gradient(135deg,var(--deep),var(--deep-mid)); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--gold); font-size:1.2rem; font-family:'Poppins',sans-serif; margin:0 auto 9px; border:3px solid #fff; box-shadow:var(--sh-sm); }
-  .tc-name { font-size:.9rem; font-weight:700; color:var(--txt); margin-bottom:2px; }
-  .tc-title { font-size:.74rem; color:var(--deep); font-weight:600; margin-bottom:6px; }
-  .tc-stars { color:var(--gold); font-size:.7rem; display:flex; align-items:center; justify-content:center; gap:2px; }
-  .tc-stars span { color:var(--txt-m); font-weight:700; font-size:.74rem; }
-  .tc-body { padding:12px 13px; flex:1; display:flex; flex-direction:column; gap:8px; }
+  .tc-hd { padding:20px 14px 14px; text-align:center; border-bottom:1px solid var(--g100); background:linear-gradient(180deg,var(--deep-pale) 0%,#fff 100%); }
+  .tc-av-wrap { position:relative; width:60px; margin:0 auto 9px; }
+  .tc-av { width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,var(--deep),var(--deep-mid)); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--gold); font-size:1.3rem; font-family:'Poppins',sans-serif; border:4px solid #fff; box-shadow:var(--sh-sm); }
+  /* Point de présence (en bas à droite de l'avatar) */
+  .tc-dot { position:absolute; bottom:2px; right:2px; width:14px; height:14px; border-radius:50%; border:2.5px solid #fff; z-index:2; }
+  .tc-dot.online { background:#22c55e; }
+  .tc-dot.offline { background:#94a3b8; }
+  /* Pas de badge texte — supprimé */
+  .tc-nm { font-size:.91rem; font-weight:700; color:var(--txt); margin-bottom:4px; }
+  /* Localisation sous le nom */
+  .tc-loc { display:flex; align-items:center; justify-content:center; gap:5px; font-size:.72rem; color:var(--txt-m); font-weight:600; margin-bottom:6px; }
+  .tc-loc i { color:var(--teal); font-size:.65rem; }
+  .tc-rt { color:var(--gold); font-size:.72rem; display:flex; align-items:center; justify-content:center; gap:3px; }
+  .tc-rt span { color:var(--txt-m); font-weight:700; }
+  .tc-bd { padding:12px 13px; flex:1; display:flex; flex-direction:column; gap:7px; }
   .tc-tags { display:flex; flex-wrap:wrap; gap:4px; }
-  .tc-tag { padding:2px 8px; border-radius:50px; font-size:.66rem; font-weight:600; }
-  .tag-math    { background:#FFEBEE; color:#C62828; }
-  .tag-french  { background:var(--deep-pale); color:var(--deep); }
-  .tag-english { background:#fdf6dc; color:var(--amber); }
-  .tag-science { background:var(--teal-pale); color:var(--teal); }
-  .tag-history { background:#f3e5f5; color:#6A1B9A; }
-  .tag-default { background:var(--g100); color:var(--g500); }
-  .tc-lvl { font-size:.72rem; color:var(--txt-m); display:flex; align-items:center; gap:5px; }
+  .tc-tag { padding:2px 9px; border-radius:50px; font-size:.66rem; font-weight:600; }
+  .tc-tag.math { background:#FFEBEE; color:#C62828; }
+  .tc-tag.french { background:var(--deep-pale); color:var(--deep); }
+  .tc-tag.english { background:#fdf6dc; color:var(--amber); }
+  .tc-tag.science { background:var(--teal-pale); color:var(--teal); }
+  .tc-tag.history { background:#f3e5f5; color:#6A1B9A; }
+  .tc-tag.default { background:var(--g100); color:var(--g500); }
+  .tc-lvl { font-size:.71rem; color:var(--txt-m); display:flex; align-items:center; gap:5px; }
   .tc-lvl i { color:var(--teal); }
   .tc-ft { padding:9px 13px 13px; display:flex; gap:6px; }
+  .ca-ghost { flex:1; padding:6px 3px; text-align:center; border-radius:var(--r-sm); font-size:.72rem; font-weight:700; cursor:pointer; border:none; transition:all .2s; font-family:'Poppins',sans-serif; background:var(--g100); color:var(--g500); }
+  .ca-ghost:hover { background:var(--g200); }
+  .ca-deep { flex:1; padding:6px 3px; text-align:center; border-radius:var(--r-sm); font-size:.72rem; font-weight:700; cursor:pointer; border:none; transition:all .2s; font-family:'Poppins',sans-serif; background:var(--deep); color:#fff; }
+  .ca-deep:hover { background:var(--deep-hover); }
 
-  /* ── SCHOOL CARDS (style index) ── */
-  .school-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-  .sc-card { background:#fff; border-radius:var(--r-md); border:1.5px solid var(--g200); overflow:hidden; transition:all .28s; display:flex; flex-direction:column; }
-  .sc-card:hover { transform:translateY(-4px); box-shadow:var(--sh-md); border-color:var(--deep-muted); }
-  .sc-card.featured { border-color:var(--gold); box-shadow:0 4px 18px rgba(232,196,74,.18); }
-  .sc-hd { padding:18px; border-bottom:1px solid var(--g100); }
-  .sc-hd-row { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
-  .sc-logo { width:52px; height:52px; border-radius:12px; background:linear-gradient(135deg,var(--deep),var(--teal)); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--gold); font-size:1.1rem; font-family:'Poppins',sans-serif; flex-shrink:0; }
-  .sc-name { font-size:.9rem; font-weight:700; color:var(--txt); line-height:1.3; margin-bottom:3px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .sc-city { font-size:.74rem; color:var(--teal); font-weight:600; display:flex; align-items:center; gap:4px; }
-  .sc-stars { color:var(--gold); font-size:.7rem; display:flex; align-items:center; gap:2px; margin-bottom:6px; }
-  .sc-stars span { color:var(--txt-m); font-size:.74rem; font-weight:700; }
-  .sc-since { font-size:.72rem; color:var(--txt-m); display:flex; align-items:center; gap:5px; }
-  .sc-since i { color:var(--teal); }
-  .sc-body { padding:12px 14px 14px; flex:1; display:flex; flex-direction:column; }
-  .sc-acts { display:flex; gap:7px; margin-top:auto; }
+  .ressources-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin-bottom:16px; }
+  .rs-card { background:#fff; border-radius:var(--r-md); border:1.5px solid var(--g200); overflow:hidden; transition:all .3s; display:flex; flex-direction:column; position:relative; }
+  .rs-card:hover { transform:translateY(-4px); box-shadow:var(--sh-md); border-color:var(--deep-muted); }
+  .rs-strip { height:4px; background:linear-gradient(90deg,var(--teal),var(--teal-light)); }
+  .rs-body { padding:13px; flex:1; display:flex; flex-direction:column; }
+  .rs-badge-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+  .badge-ressource { display:inline-block; padding:3px 9px; border-radius:50px; font-size:.62rem; font-weight:700; letter-spacing:.2px; font-family:'Poppins',sans-serif; background:#fff3e0; color:#f39c12; border-left:3px solid #f39c12; }
+  .rs-title { font-size:.86rem; font-weight:700; color:var(--txt); margin:6px 0 4px; line-height:1.32; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:34px; }
+  .rs-sub { font-size:.72rem; color:var(--txt-m); margin-bottom:8px; }
+  .rs-meta { display:flex; justify-content:space-between; align-items:center; margin:4px 0; }
+  .rs-stars { color:var(--gold); font-size:.7rem; }
+  .rs-stars span { color:var(--txt-m); font-weight:700; }
+  .rs-type-badge { font-size:.66rem; color:var(--txt-m); display:flex; align-items:center; gap:3px; background:var(--g100); padding:2px 8px; border-radius:12px; width:fit-content; }
+  .rs-type-badge i { font-size:.55rem; color:var(--teal); }
+  .rs-price { font-family:'Poppins',sans-serif; font-size:1rem; font-weight:800; color:var(--txt); margin:6px 0; }
+  .rs-acts { display:flex; gap:5px; margin-top:auto; }
 
-  /* show more */
-  .show-more { text-align:center; margin-top:18px; }
-  .btn-more { display:inline-flex; align-items:center; gap:7px; padding:9px 22px; border-radius:50px; background:var(--g100); border:1.5px solid var(--g300); color:var(--deep); font-family:'Poppins',sans-serif; font-size:.84rem; font-weight:700; cursor:pointer; transition:all .22s; }
-  .btn-more i { transition:transform .3s; }
-  .btn-more:hover { background:var(--deep-pale); border-color:var(--deep); }
-  .btn-more.expanded i { transform:rotate(180deg); }
-
-  /* section wrapper */
   .section-box { background:#fff; border-radius:var(--r-lg); padding:24px 26px; margin-bottom:24px; box-shadow:var(--sh-sm); border:1.5px solid var(--g200); }
+  .btn-more { display:inline-flex; align-items:center; gap:7px; padding:9px 22px; border-radius:50px; background:var(--g100); border:1.5px solid var(--g300); color:var(--deep); font-family:'Poppins',sans-serif; font-size:.84rem; font-weight:700; cursor:pointer; transition:all .22s; }
+  .btn-more:hover { background:var(--deep-pale); border-color:var(--deep); }
 
-  /* ── MODALS (identique index) ── */
   .modal-overlay{position:fixed;inset:0;background:rgba(0,18,16,.65);display:none;align-items:center;justify-content:center;z-index:9100;backdrop-filter:blur(8px)}
-  .modal-overlay.active{display:flex;animation:fIn .25s ease}
-  @keyframes fIn{from{opacity:0}to{opacity:1}}
-  .modal-box{background:#fff;border-radius:var(--r-lg);width:92%;max-width:880px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 40px 100px rgba(0,0,0,.28);animation:sUp .38s cubic-bezier(.34,1.56,.64,1)}
-  @keyframes sUp{from{opacity:0;transform:translateY(44px)}to{opacity:1;transform:translateY(0)}}
-  .modal-head{padding:26px 32px;text-align:center;position:relative;background:linear-gradient(135deg,var(--deep) 0%,var(--deep-alt) 55%,var(--deep-mid) 100%);color:#fff}
-  .modal-head h3{font-size:1.5rem;margin-bottom:5px;color:#fff}
-  .modal-head p{opacity:.82;font-size:.93rem}
-  .modal-close{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:background .2s}
-  .modal-close:hover{background:rgba(255,255,255,.3)}
-  .modal-body{padding:28px 32px;overflow-y:auto}
+  .modal-overlay.active{display:flex}
+  .modal-box{background:#fff;border-radius:var(--r-lg);width:92%;max-width:550px;overflow:hidden;max-height:80vh;display:flex;flex-direction:column}
+  .modal-head{padding:20px 24px;background:linear-gradient(135deg,var(--deep),var(--deep-mid));color:#fff;display:flex;justify-content:space-between;align-items:center}
+  .modal-head h3{color:#fff;margin:0}
+  .modal-close{background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;line-height:1}
+  .modal-body{padding:24px;overflow-y:auto;flex:1}
+  .notif-item{background:var(--g50);border-left:4px solid var(--teal);padding:12px 16px;margin-bottom:12px;border-radius:12px;transition:all 0.2s}
+  .notif-item:hover{background:var(--deep-pale);transform:translateX(4px)}
+  .notif-title{font-weight:800;font-size:.9rem;color:var(--deep)}
+  .notif-desc{font-size:.8rem;color:var(--txt-m);margin:4px 0}
+  .notif-date{font-size:.65rem;color:var(--g400);display:flex;align-items:center;gap:4px}
+  .modal-actions{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+  .modal-actions .btn-more{margin:0}
 
-  /* notif modal adaptation */
-  .notif-item { display:flex; align-items:flex-start; gap:12px; padding:14px 0; border-bottom:1px solid var(--g100); }
-  .notif-item:last-child { border-bottom:none; }
-  .notif-ico { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:.9rem; flex-shrink:0; }
-  .ni-info    { background:var(--deep-pale); color:var(--deep); }
-  .ni-success { background:var(--teal-pale); color:var(--teal); }
-  .ni-warn    { background:#fdf6dc; color:var(--amber); }
-  .notif-item h4 { font-size:.84rem; font-weight:700; color:var(--txt); margin-bottom:3px; }
-  .notif-item p  { font-size:.78rem; color:var(--txt-m); line-height:1.5; }
-  .notif-item time { font-size:.7rem; color:var(--g400); margin-top:4px; display:block; }
-  .notif-unread { background:var(--deep-pale); border-radius:var(--r-sm); }
-
-  /* auth modal steps */
-  .auth-step { display:none; }
-  .auth-step.active { display:block; animation:stepIn .3s ease; }
-  @keyframes stepIn { from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)} }
-  .auth-opts { display:flex; flex-direction:column; gap:10px; margin-bottom:6px; }
-  .auth-opt { display:flex; align-items:center; gap:12px; padding:14px; border:1.8px solid var(--g200); border-radius:var(--r-md); cursor:pointer; transition:all .22s; }
-  .auth-opt:hover { border-color:var(--teal); background:var(--teal-pale); }
-  .auth-opt.selected { border-color:var(--deep); background:var(--deep-pale); }
-  .ao-ico { width:38px; height:38px; border-radius:10px; background:var(--deep-pale); color:var(--deep); display:flex; align-items:center; justify-content:center; font-size:.95rem; flex-shrink:0; }
-  .ao-ico.teal { background:var(--teal-pale); color:var(--teal); }
-  .auth-opt h4 { font-size:.88rem; font-weight:700; color:var(--txt); margin-bottom:2px; }
-  .auth-opt p  { font-size:.76rem; color:var(--txt-m); }
-  .profile-opts { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .profile-opt { border:1.8px solid var(--g200); border-radius:var(--r-md); padding:16px 12px; cursor:pointer; text-align:center; transition:all .22s; }
-  .profile-opt:hover { border-color:var(--teal); transform:translateY(-2px); box-shadow:var(--sh-sm); }
-  .profile-opt.selected { border-color:var(--deep); background:var(--deep-pale); }
-  .po-ico { width:44px; height:44px; border-radius:12px; background:var(--deep-pale); color:var(--deep); display:flex; align-items:center; justify-content:center; font-size:1.1rem; margin:0 auto 9px; }
-  .profile-opt h4 { font-size:.84rem; font-weight:700; color:var(--txt); margin-bottom:3px; }
-  .profile-opt p  { font-size:.72rem; color:var(--txt-m); }
-  .modal-acts { display:flex; gap:9px; margin-top:20px; }
-  .btn-cancel { flex:0 0 auto; padding:11px 20px; border:1.8px solid var(--g200); border-radius:var(--r-sm); background:#fff; color:var(--txt-m); font-family:'Poppins',sans-serif; font-size:.86rem; font-weight:700; cursor:pointer; transition:all .22s; }
-  .btn-cancel:hover { border-color:var(--deep); color:var(--deep); }
-  .btn-continue { flex:1; padding:12px; border:none; border-radius:var(--r-sm); background:var(--deep); color:#fff; font-family:'Poppins',sans-serif; font-size:.88rem; font-weight:800; cursor:pointer; transition:all .22s; display:flex; align-items:center; justify-content:center; gap:7px; box-shadow:0 4px 14px rgba(0,47,42,.22); }
-  .btn-continue:hover { background:var(--deep-hover); transform:translateY(-1px); }
-  .btn-continue:disabled { opacity:.5; cursor:not-allowed; transform:none; }
-  .btn-markread { padding:7px 14px; border:1.5px solid var(--g200); border-radius:50px; background:#fff; color:var(--txt-m); font-size:.76rem; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; transition:all .2s; }
-  .btn-markread:hover { border-color:var(--teal); color:var(--teal); }
-
-  /* ── FOOTER (identique index) ── */
-  footer { background:#0a1a18; border-top:1px solid rgba(255,255,255,.06); color:rgba(255,255,255,.5); padding:48px 0 22px; }
+  footer { background:#0a1a18; border-top:1px solid rgba(255,255,255,.06); color:rgba(255,255,255,.5); padding:48px 0 22px; margin-top:20px; }
   .ft-grid { display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:36px; margin-bottom:36px; }
-  .ft-brand p { font-size:.82rem; line-height:1.75; color:rgba(255,255,255,.48); margin:12px 0 14px; }
-  .soc-row { display:flex; gap:8px; }
-  .soc-btn { width:32px; height:32px; border-radius:8px; background:rgba(255,255,255,.07); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.45); font-size:.8rem; text-decoration:none; transition:all .22s; }
-  .soc-btn:hover { background:var(--deep-mid); color:var(--gold); transform:translateY(-2px); }
-  .ft-col h4 { color:#fff; font-size:.86rem; margin-bottom:13px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,.08); }
   .ft-links { list-style:none; display:flex; flex-direction:column; gap:7px; }
-  .ft-links a { color:rgba(255,255,255,.44); text-decoration:none; font-size:.8rem; transition:color .2s; display:flex; align-items:center; gap:5px; }
-  .ft-links a:hover { color:var(--teal-light); }
-  .ft-links a i { font-size:.62rem; color:var(--teal); }
-  .ft-ci { display:flex; align-items:flex-start; gap:8px; font-size:.8rem; color:rgba(255,255,255,.48); margin-bottom:7px; }
-  .ft-ci i { color:var(--teal-light); margin-top:2px; flex-shrink:0; }
-  .ft-btm { border-top:1px solid rgba(255,255,255,.07); padding-top:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; font-size:.76rem; }
-  .ft-btm a { color:var(--teal-light); text-decoration:none; }
-  .ft-btm a:hover { color:#fff; }
+  .ft-links a { color:rgba(255,255,255,.44); text-decoration:none; font-size:.8rem; }
+  .ft-btm { border-top:1px solid rgba(255,255,255,.07); padding-top:16px; display:flex; justify-content:space-between; font-size:.76rem; }
 
-  /* ── RESPONSIVE (identique index) ── */
-  @media(max-width:1200px) { .course-grid,.teacher-grid{grid-template-columns:repeat(4,1fr)} .school-grid{grid-template-columns:repeat(3,1fr)} }
-  @media(max-width:992px)  { .course-grid,.teacher-grid{grid-template-columns:repeat(3,1fr)} .school-grid{grid-template-columns:repeat(2,1fr)} .nav-search{max-width:none;order:3;width:100%;margin:8px 0 0} .menu-toggle{display:flex} .profile-btn .p-name,.profile-btn .p-role{display:none} .fp-grid{grid-template-columns:1fr 1fr} .ft-grid{grid-template-columns:1fr 1fr} }
-  @media(max-width:768px)  { .course-grid,.teacher-grid{grid-template-columns:repeat(2,1fr)} .school-grid{grid-template-columns:1fr 1fr} .wb-stats{display:none} .ft-grid{grid-template-columns:1fr} }
-  @media(max-width:576px)  { .course-grid,.teacher-grid,.school-grid{grid-template-columns:1fr} .fp-grid{grid-template-columns:1fr} }
+  @media(max-width:1200px){ .ep-grid,.course-grid,.teacher-grid,.ressources-grid{grid-template-columns:repeat(4,1fr)} .quick-links-row{grid-template-columns:repeat(2,1fr)} .sfp-grid{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:992px){ .ep-grid,.course-grid,.teacher-grid,.ressources-grid{grid-template-columns:repeat(3,1fr)} .menu-toggle{display:flex} .profile-btn .p-name,.profile-btn .p-role{display:none} .welcome-stats{flex-direction:row} .sfp-grid{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:768px){ .ep-grid,.course-grid,.teacher-grid,.ressources-grid{grid-template-columns:repeat(2,1fr)} .quick-links-row{grid-template-columns:repeat(2,1fr)} .welcome-hero{padding:22px 20px 20px} .welcome-name{font-size:1.2rem} .sfp-grid{grid-template-columns:1fr} }
+  @media(max-width:576px){ .ep-grid,.course-grid,.teacher-grid,.ressources-grid{grid-template-columns:1fr} .quick-links-row{grid-template-columns:1fr 1fr} .ns-filter-btn span{display:none} }
   </style>
 </head>
 <body>
@@ -347,169 +326,153 @@
 <button id="backToTop" title="Retour en haut"><i class="fas fa-arrow-up"></i></button>
 <div id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
 
-<!-- ══════════════ MODAL NOTIFICATIONS ══════════════ -->
-<div class="modal-overlay" id="notifModal">
-  <div class="modal-box">
-    <div class="modal-head">
-      <h3><i class="fas fa-bell" style="color:var(--gold);margin-right:7px"></i>Notifications</h3>
-      <p>Vos dernières activités et alertes</p>
-      <button class="modal-close" onclick="closeModal('notifModal')">&times;</button>
-    </div>
-    <div class="modal-body" id="notifList"></div>
-  </div>
-</div>
-
-<!-- ══════════════ MODAL AUTH / INSCRIPTION ══════════════ -->
+<!-- MODAL AUTH (connexion) -->
 <div class="modal-overlay" id="authModal">
   <div class="modal-box">
-    <div class="modal-head">
-      <h3 id="authTitle">Avant de continuer</h3>
-      <p id="authSub">Connectez-vous ou créez votre compte</p>
-      <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
-    </div>
+    <div class="modal-head"><h3>Connexion requise</h3><button class="modal-close" onclick="closeModal('authModal')">&times;</button></div>
+    <div class="modal-body"><p>Connectez-vous pour accéder aux épreuves et aux cours.</p><button class="btn-more" style="width:100%;margin-top:16px" onclick="window.location.href='../Authentification/auth.html'">Se connecter</button></div>
+  </div>
+</div>
+
+<!-- MODAL NOTIFICATIONS (cloche) -->
+<div class="modal-overlay" id="notifModal">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fas fa-bell"></i> Notifications (3)</h3><button class="modal-close" onclick="closeModal('notifModal')">&times;</button></div>
     <div class="modal-body">
-
-      <!-- step 1 -->
-      <div class="auth-step active" id="authStep1">
-        <p style="font-size:.86rem;color:var(--txt-m);margin-bottom:16px;line-height:1.6">Pour vous inscrire à ce cours, vous devez être connecté à un compte Sukuli.</p>
-        <div class="auth-opts">
-          <div class="auth-opt" data-action="login" onclick="selectAuthOpt(this)">
-            <div class="ao-ico"><i class="fas fa-sign-in-alt"></i></div>
-            <div><h4>J'ai déjà un compte</h4><p>Se connecter avec mes identifiants</p></div>
-          </div>
-          <div class="auth-opt" data-action="register" onclick="selectAuthOpt(this)">
-            <div class="ao-ico teal"><i class="fas fa-user-plus"></i></div>
-            <div><h4>Créer un compte</h4><p>Rejoindre Sukuli gratuitement</p></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- step 2 register -->
-      <div class="auth-step" id="authStep2r">
-        <p style="font-size:.86rem;color:var(--txt-m);margin-bottom:14px">Choisissez votre profil pour finaliser l'inscription :</p>
-        <div class="profile-opts">
-          <div class="profile-opt" data-profile="eleve" onclick="selectProfile(this)">
-            <div class="po-ico"><i class="fas fa-user-graduate"></i></div>
-            <h4>Élève</h4><p>Je suis un élève du collège</p>
-          </div>
-          <div class="profile-opt" data-profile="parent" onclick="selectProfile(this)">
-            <div class="po-ico"><i class="fas fa-heart"></i></div>
-            <h4>Parent</h4><p>Je gère la scolarité de mon enfant</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- step 2 login -->
-      <div class="auth-step" id="authStep2l">
-        <div style="background:var(--deep-pale);border-radius:var(--r-sm);padding:14px 16px;border-left:4px solid var(--teal);font-size:.85rem;color:var(--txt-b)">
-          <i class="fas fa-info-circle" style="color:var(--teal);margin-right:6px"></i>
-          Vous allez être redirigé vers la page de connexion Sukuli.
-        </div>
-      </div>
-
-      <div class="modal-acts">
-        <button class="btn-cancel" id="authCancel" onclick="cancelAuth()">Annuler</button>
-        <button class="btn-continue" id="authContinue" disabled onclick="nextAuth()">
-          <i class="fas fa-arrow-right"></i>Continuer
-        </button>
+      <div class="notif-item"><div class="notif-title"><i class="fas fa-chalkboard-user"></i> Nouveaux cours disponibles</div><div class="notif-desc">3 nouveaux cours de maths et physique viennent d'être ajoutés pour la 3ème.</div><div class="notif-date"><i class="far fa-clock"></i> il y a 2 heures</div></div>
+      <div class="notif-item"><div class="notif-title"><i class="fas fa-file-alt"></i> Épreuves gratuites BEPC 2024</div><div class="notif-desc">Les annales BEPC 2024 sont disponibles en téléchargement gratuit.</div><div class="notif-date"><i class="far fa-clock"></i> hier</div></div>
+      <div class="notif-item"><div class="notif-title"><i class="fas fa-graduation-cap"></i> Webinaire : Réussir son BEPC</div><div class="notif-desc">Inscrivez-vous au webinaire du samedi 15 juin avec nos meilleurs enseignants.</div><div class="notif-date"><i class="far fa-clock"></i> 2 jours</div></div>
+      <div class="modal-actions">
+        <button class="btn-more" id="voirPlusCoursBtn"><i class="fas fa-book-open"></i> Voir plus de cours</button>
+        <button class="btn-more" onclick="closeModal('notifModal');showToast('Toutes les notifications marquées comme lues');"><i class="fas fa-check-double"></i> Marquer comme lues</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════ HEADER ══════════════ -->
+<!-- HEADER -->
 <header id="mainHdr">
   <div class="container">
     <nav class="navbar">
-      <a href="../index.html" class="logo">
-        <div class="logo-badge">S</div>
-        <div class="logo-text">Suku<span>li</span></div>
-      </a>
+      <a href="../index.html" class="logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></a>
 
-      <!-- SEARCH -->
-      <div class="nav-search" id="navSearch">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" placeholder="Rechercher cours, matières, enseignants…">
-        <button class="nav-search-btn" id="filterToggle" title="Filtres"><i class="fas fa-sliders-h"></i></button>
-        <button class="nav-search-btn" onclick="doSearch()"><i class="fas fa-arrow-right"></i></button>
+      <!-- BARRE DE RECHERCHE AVANCÉE -->
+      <div class="nav-search-wrap">
+        <div class="nav-search">
+          <i class="fas fa-search ns-icon"></i>
+          <input type="text" id="searchInput" placeholder="Rechercher cours, matières, épreuves...">
+          <div class="ns-sep"></div>
+          <button class="ns-filter-btn" id="filterToggleBtn">
+            <i class="fas fa-filter"></i>
+            <span>Filtres</span>
+            <span class="ns-count" id="filterCount"></span>
+          </button>
+          <button class="nav-search-btn" onclick="doSearch()"><i class="fas fa-search"></i></button>
+        </div>
 
-        <!-- Filter panel -->
-        <div class="filter-panel" id="filterPanel">
-          <div class="fp-head">
-            <h4><i class="fas fa-filter"></i>Filtres de recherche</h4>
-            <button class="fp-close" id="fpClose">&times;</button>
+        <!-- PANNEAU FILTRES AVANCÉS -->
+        <div class="sfp" id="sfp">
+          <div class="sfp-head">
+            <h4><i class="fas fa-sliders-h"></i> Filtres de recherche avancés</h4>
+            <button class="sfp-close" id="sfpClose">&times;</button>
           </div>
-          <div class="fp-grid">
-            <div class="fp-group"><label>Type</label><select id="fType"><option value="all">Tout</option><option value="teachers">Enseignants</option><option value="schools">Écoles</option><option value="subjects">Matières</option></select></div>
-            <div class="fp-group"><label>Niveau</label><select id="fLevel"><option value="all">Tous</option><option value="6eme">6ème</option><option value="5eme">5ème</option><option value="4eme">4ème</option><option value="3eme">3ème</option></select></div>
-            <div class="fp-group"><label>Matière</label><select id="fSubject"><option value="all">Toutes</option><option value="math">Mathématiques</option><option value="french">Français</option><option value="english">Anglais</option><option value="science">Sciences</option><option value="hist">Histoire-Géo</option></select></div>
-            <div class="fp-group"><label>Tarif max</label><select id="fPrice"><option value="all">Tous</option><option value="free">Gratuit</option><option value="2500">≤ 2 500 FCFA</option><option value="5000">≤ 5 000 FCFA</option><option value="10000">≤ 10 000 FCFA</option></select></div>
-            <div class="fp-group"><label>Note min</label><select id="fRating"><option value="0">Toutes</option><option value="4">4★ et +</option><option value="4.5">4.5★ et +</option></select></div>
-            <div class="fp-group"><label>Ville</label><select id="fCity"><option value="all">Toutes</option><option value="lome">Lomé</option><option value="kara">Kara</option><option value="sokode">Sokodé</option><option value="online">En ligne</option></select></div>
+          <div class="sfp-grid">
+            <div class="sfp-group">
+              <label>Type de recherche</label>
+              <select class="sfp-sel" id="fType">
+                <option value="">Tout (cours, épreuves, ressources)</option>
+                <option value="epreuves">Épreuves uniquement</option>
+                <option value="cours">Cours uniquement</option>
+                <option value="enseignants">Enseignants</option>
+                <option value="ressources">Ressources pédagogiques</option>
+              </select>
+            </div>
+            <div class="sfp-group">
+              <label>Niveau scolaire</label>
+              <select class="sfp-sel" id="fLevel">
+                <option value="">Tous les niveaux</option>
+                <option value="6eme">6ème</option>
+                <option value="5eme">5ème</option>
+                <option value="4eme">4ème</option>
+                <option value="3eme">3ème · BEPC</option>
+              </select>
+            </div>
+            <div class="sfp-group">
+              <label>Matière</label>
+              <select class="sfp-sel" id="fSubject">
+                <option value="">Toutes les matières</option>
+                <option value="math">Mathématiques</option>
+                <option value="french">Français</option>
+                <option value="english">Anglais</option>
+                <option value="physics">Physique-Chimie</option>
+                <option value="svt">SVT</option>
+                <option value="history">Histoire-Géographie</option>
+              </select>
+            </div>
+            <div class="sfp-group">
+              <label>Tarif maximum (FCFA)</label>
+              <select class="sfp-sel" id="fPrice">
+                <option value="">Tous les tarifs</option>
+                <option value="free">Gratuit uniquement</option>
+                <option value="1000">≤ 1 000 FCFA</option>
+                <option value="2500">≤ 2 500 FCFA</option>
+                <option value="5000">≤ 5 000 FCFA</option>
+              </select>
+            </div>
+            <div class="sfp-group">
+              <label>Note minimum</label>
+              <select class="sfp-sel" id="fRating">
+                <option value="">Toutes les notes</option>
+                <option value="3">3 étoiles et plus</option>
+                <option value="4">4 étoiles et plus</option>
+                <option value="4.5">4.5 étoiles et plus</option>
+              </select>
+            </div>
+            <div class="sfp-group">
+              <label>Ville</label>
+              <select class="sfp-sel" id="fCity">
+                <option value="">Toutes les villes</option>
+                <option value="lome">Lomé</option>
+                <option value="kara">Kara</option>
+                <option value="sokode">Sokodé</option>
+                <option value="palime">Kpalimé</option>
+                <option value="dapaong">Dapaong</option>
+                <option value="online">En ligne uniquement</option>
+              </select>
+            </div>
           </div>
-          <div class="fp-actions">
-            <button class="btn-cancel" onclick="resetFilters()">Réinitialiser</button>
-            <button class="btn-continue" style="flex:0 0 auto;padding:10px 20px" onclick="doSearch()"><i class="fas fa-search"></i>Rechercher</button>
+          <div class="sfp-footer">
+            <div class="sfp-tags" id="sfpTags"></div>
+            <div class="sfp-btns">
+              <button class="sfp-btn sfp-reset" id="sfpReset"><i class="fas fa-undo"></i> Réinitialiser</button>
+              <button class="sfp-btn sfp-apply" id="sfpApply"><i class="fas fa-search"></i> Appliquer les filtres</button>
+            </div>
           </div>
         </div>
       </div>
+      <!-- FIN BARRE DE RECHERCHE -->
 
       <div class="nav-right">
-        <!-- Notifications -->
-        <button class="icon-btn" id="notifBtn" onclick="openNotif()" title="Notifications">
-          <i class="fas fa-bell"></i>
-          <span class="notif-dot">3</span>
-        </button>
-
-        <!-- Profile -->
-        <div class="profile-drop">
-          <button class="profile-btn" id="profileToggle">
-            <div class="p-av">KA</div>
-            <div>
-              <div class="p-name">Koffi Agbessi</div>
-              <div class="p-role">Élève — 3ème</div>
-            </div>
-            <i class="fas fa-chevron-down p-chev"></i>
-          </button>
-          <div class="drop-menu" id="dropMenu">
-            <div class="dm-head">
-              <div class="dm-av">KA</div>
-              <div class="dm-name">Koffi Agbessi</div>
-              <div class="dm-email">koffi.agbessi@sukuli.tg</div>
-            </div>
-            <ul class="dm-list">
-              <li class="dm-item"><a href="#"><i class="fas fa-user-circle"></i>Mon profil</a></li>
-              <li class="dm-item"><a href="#"><i class="fas fa-chart-line"></i>Mes progrès</a></li>
-              <li class="dm-item"><a href="#"><i class="fas fa-cog"></i>Paramètres</a></li>
-              <li class="dm-item"><a href="../Authentification/auth.html" class="logout"><i class="fas fa-sign-out-alt"></i>Déconnexion</a></li>
-            </ul>
-          </div>
-        </div>
-
+        <button class="icon-btn" id="notifBtn"><i class="fas fa-bell"></i><span class="notif-dot">3</span></button>
+        <div class="profile-drop"><button class="profile-btn" id="profileToggle"><div class="p-av">KA</div><div><div class="p-name">Koffi Agbessi</div><div class="p-role">Élève — 3ème</div></div><i class="fas fa-chevron-down p-chev"></i></button><div class="drop-menu" id="dropMenu"><div class="dm-head"><div class="dm-av">KA</div><div class="dm-name">Koffi Agbessi</div><div class="dm-email">koffi@sukuli.tg</div></div><ul class="dm-list"><li class="dm-item"><a href="#"><i class="fas fa-user-circle"></i>Mon profil</a></li><li class="dm-item"><a href="../Authentification/auth.html" class="logout"><i class="fas fa-sign-out-alt"></i>Déconnexion</a></li></ul></div></div>
         <button class="menu-toggle" id="menuTog"><i class="fas fa-bars"></i></button>
       </div>
     </nav>
-
-    <!-- Mobile nav -->
     <div class="mob-nav" id="mobNav">
       <a href="#dashboard"><i class="fas fa-home"></i>Tableau de bord</a>
-      <a href="#cours"><i class="fas fa-book-open"></i>Mes cours<span class="mob-badge">4</span></a>
-      <a href="#enseignants"><i class="fas fa-chalkboard-teacher"></i>Mes enseignants</a>
-      <a href="#contrats"><i class="fas fa-file-contract"></i>Mes contrats</a>
-      <a href="#calendrier"><i class="fas fa-calendar-alt"></i>Emploi du temps</a>
-      <a href="#messages"><i class="fas fa-comments"></i>Messages<span class="mob-badge">2</span></a>
-      <a href="#" onclick="openNotif();return false"><i class="fas fa-bell"></i>Notifications<span class="mob-badge">3</span></a>
+      <a href="#cours"><i class="fas fa-book-open"></i>Mes cours</a>
+      <a href="#enseignants"><i class="fas fa-chalkboard-teacher"></i>Enseignants</a>
     </div>
   </div>
 </header>
 
-<!-- ══════════════ SUB-NAV ══════════════ -->
+<!-- SUB-NAV -->
 <nav class="sub-nav">
   <div class="container">
     <div class="sn-inner">
-      <a href="#dashboard" class="sn-item active"><i class="fas fa-home"></i>Tableau de bord</a>
-      <a href="#cours" class="sn-item"><i class="fas fa-book-open"></i>Mes cours<span class="sn-badge">4</span></a>
-      <a href="#enseignants" class="sn-item"><i class="fas fa-chalkboard-teacher"></i>Mes enseignants</a>
+      <a href="../mainpageuser/eleve.html" class="sn-item active"><i class="fas fa-home"></i>Tableau de bord</a>
+      <a href="../eleve/cours.html" class="sn-item"><i class="fas fa-book-open"></i>Mes cours<span class="sn-badge">4</span></a>
+      <a href="../eleve/enseignant.html" class="sn-item"><i class="fas fa-chalkboard-teacher"></i>Mes enseignants</a>
       <a href="#contrats" class="sn-item"><i class="fas fa-file-contract"></i>Mes contrats</a>
       <a href="#calendrier" class="sn-item"><i class="fas fa-calendar-alt"></i>Emploi du temps</a>
       <a href="#messages" class="sn-item"><i class="fas fa-comments"></i>Messages<span class="sn-badge">2</span></a>
@@ -518,593 +481,313 @@
   </div>
 </nav>
 
-<!-- ══════════════ MAIN ══════════════ -->
 <main class="main" id="dashboard">
   <div class="container">
 
-    <!-- Welcome -->
-    <div class="welcome-bar reveal">
-      <div class="wb-txt">
-        <h1>Bonjour, <span>Koffi</span> 👋</h1>
-        <p>Voici vos cours suggérés et nos enseignants disponibles pour vous aujourd'hui.</p>
-      </div>
-      <div class="wb-stats">
-        <div class="wb-stat"><strong>4</strong><span>Cours actifs</span></div>
-        <div class="wb-stat"><strong>12</strong><span>Séances ce mois</span></div>
-        <div class="wb-stat"><strong>4.7★</strong><span>Note moy.</span></div>
+    <div class="welcome-hero reveal">
+      <div class="welcome-inner">
+        <div class="welcome-text">
+          <div class="welcome-greeting">
+            <span class="wave-icon">👋</span> Bon retour sur Sukuli <div class="welcome-name"><em>Koffi Agbessi</em></div>
+          </div>
+          <p class="welcome-desc">
+            Votre espace d'apprentissage est prêt. Téléchargez des épreuves gratuites,
+            inscrivez-vous à des cours adaptés à votre niveau,
+            découvrez nos enseignants qualifiés et explorez les ressources pédagogiques.
+          </p>
+          <div class="welcome-steps">
+            <span class="ws-item"><span class="ws-num">1</span><i class="fas fa-file-pdf"></i> Téléchargez une épreuve gratuite</span>
+            <span class="ws-item"><span class="ws-num">2</span><i class="fas fa-book-open"></i> Inscrivez-vous à un cours</span>
+            <span class="ws-item"><span class="ws-num">3</span><i class="fas fa-chalkboard-teacher"></i> Contactez un enseignant</span>
+            <span class="ws-item"><span class="ws-num">4</span><i class="fas fa-star"></i> Consultez vos ressources</span>
+          </div>
+        </div>
+        <div class="welcome-stats">
+          <div class="wstat"><div class="wstat-val">8</div><div class="wstat-lbl">Épreuves dispo</div></div>
+          <div class="wstat"><div class="wstat-val">5</div><div class="wstat-lbl">Cours suggérés</div></div>
+          <div class="wstat"><div class="wstat-val">8</div><div class="wstat-lbl">Enseignants</div></div>
+        </div>
       </div>
     </div>
 
-    <!-- ══ SECTION COURS ══ -->
-    <div class="section-box reveal" id="cours">
+    <!-- ═══ SECTION ÉPREUVES ═══ -->
+    <div class="section-box reveal">
+      <div class="sec-bar">
+        <div class="sec-bar-left">
+          <h2><i class="fas fa-file-pdf" style="color:var(--teal);"></i> Épreuves gratuites</h2>
+          <p>Annales BEPC, devoirs et examens officiels — Téléchargement immédiat</p>
+        </div>
+      </div>
+      <div class="ep-grid" id="epGrid"></div>
+      <div class="see-all-bottom">
+        <a href="../epreuves.html" class="see-all">Voir toutes les épreuves <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION COURS ═══ -->
+    <div class="section-box reveal" id="coursSection">
       <div class="sec-bar">
         <div class="sec-bar-left">
           <h2>Suggestions de cours pour vous</h2>
           <p>Les cours les plus populaires selon votre niveau</p>
         </div>
-        <a href="../eleve/cours.html" class="see-all">Voir tous les cours <i class="fas fa-arrow-right"></i></a>
       </div>
-
-      <div class="cat-tabs" id="catTabs">
-        <button class="cat-tab active" data-cat="all"><i class="fas fa-th-large"></i>Toutes</button>
-        <button class="cat-tab" data-cat="math"><i class="fas fa-calculator"></i>Maths</button>
-        <button class="cat-tab" data-cat="science"><i class="fas fa-flask"></i>Sciences</button>
-        <button class="cat-tab" data-cat="lang"><i class="fas fa-language"></i>Langues</button>
-        <button class="cat-tab" data-cat="free"><i class="fas fa-gift"></i>Gratuits</button>
-      </div>
-
       <div class="course-grid" id="courseGrid"></div>
-
-      <div class="show-more">
-        <button class="btn-more" id="moreCoursesBtn"><span>Voir plus de cours</span><i class="fas fa-chevron-down"></i></button>
+      <div class="see-all-bottom">
+        <a href="#" class="see-all">Voir tous les cours <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
 
-    <!-- ══ SECTION ENSEIGNANTS ══ -->
-    <div class="section-box reveal" id="enseignants">
+    <!-- ═══ SECTION ENSEIGNANTS (style identique à la page précédente) ═══ -->
+    <div class="section-box reveal" id="teacherSection">
       <div class="sec-bar">
         <div class="sec-bar-left">
-          <h2>Nos meilleurs enseignants</h2>
-          <p>Les enseignants les mieux notés par nos élèves</p>
+          <h2><i class="fas fa-chalkboard-teacher" style="color:var(--teal);"></i> Nos enseignants</h2>
+          <p>Les mieux notés par nos élèves — Des passionnés vérifiés</p>
         </div>
-        <a href="../eleve/enseignant.html" class="see-all">Voir tous <i class="fas fa-arrow-right"></i></a>
       </div>
-
-      <div class="teacher-grid" id="teacherGrid"></div>
-
-      <div class="show-more">
-        <button class="btn-more" id="moreTeachersBtn"><span>Voir plus d'enseignants</span><i class="fas fa-chevron-down"></i></button>
+      <div class="teacher-grid" id="teacherGridHomeStyle"></div>
+      <div class="see-all-bottom">
+        <a href="#" class="see-all">Voir tous les enseignants <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
 
-    <!-- ══ SECTION ÉCOLES ══ -->
-    <div class="section-box reveal" id="ecoles">
+    <!-- ═══ SECTION RESSOURCES ═══ -->
+    <div class="section-box reveal">
       <div class="sec-bar">
         <div class="sec-bar-left">
-          <h2>Écoles &amp; institutions recommandées</h2>
-          <p>Les établissements partenaires de Sukuli</p>
+          <h2><i class="fas fa-book" style="color:var(--purple);"></i> Ressources pédagogiques</h2>
+          <p>Fiches de révision, exercices corrigés et résumés de cours</p>
         </div>
-        <a href="../ecole.html" class="see-all">Voir toutes <i class="fas fa-arrow-right"></i></a>
       </div>
-
-      <div class="school-grid" id="schoolGrid"></div>
-
-      <div class="show-more">
-        <button class="btn-more" id="moreSchoolsBtn"><span>Voir plus d'écoles</span><i class="fas fa-chevron-down"></i></button>
+      <div class="ressources-grid" id="ressourcesGrid"></div>
+      <div class="see-all-bottom">
+        <a href="ressources.html" class="see-all">Voir toutes les ressources <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
 
   </div>
 </main>
 
-<!-- ══════════════ FOOTER ══════════════ -->
 <footer>
   <div class="container">
     <div class="ft-grid">
-      <div class="ft-brand">
-        <div class="logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></div>
-        <p>La première plateforme éducative dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
-        <div class="soc-row">
-          <a href="#" class="soc-btn"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="soc-btn"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="soc-btn"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="soc-btn"><i class="fab fa-whatsapp"></i></a>
-        </div>
-      </div>
-      <div class="ft-col">
-        <h4>Navigation</h4>
-        <ul class="ft-links">
-          <li><a href="#dashboard"><i class="fas fa-chevron-right"></i>Tableau de bord</a></li>
-          <li><a href="#cours"><i class="fas fa-chevron-right"></i>Mes cours</a></li>
-          <li><a href="#enseignants"><i class="fas fa-chevron-right"></i>Enseignants</a></li>
-          <li><a href="#ecoles"><i class="fas fa-chevron-right"></i>Écoles</a></li>
-        </ul>
-      </div>
-      <div class="ft-col">
-        <h4>Matières</h4>
-        <ul class="ft-links">
-          <li><a href="#"><i class="fas fa-chevron-right"></i>Mathématiques</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i>Français</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i>Anglais</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i>Sciences</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i>Prépa BEPC</a></li>
-        </ul>
-      </div>
-      <div class="ft-col">
-        <h4>Contact</h4>
-        <div class="ft-ci"><i class="fas fa-map-marker-alt"></i><span>Lomé, Togo</span></div>
-        <div class="ft-ci"><i class="fas fa-phone"></i><span>+228 XX XX XX XX</span></div>
-        <div class="ft-ci"><i class="fas fa-envelope"></i><span>contact@sukuli.tg</span></div>
-        <div class="ft-ci"><i class="fas fa-clock"></i><span>Lun – Ven : 8h – 18h</span></div>
-      </div>
+      <div class="ft-brand"><div class="logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></div><p>La plateforme éducative dédiée aux élèves du collège.</p></div>
+      <div class="ft-col"><h4>Navigation</h4><ul class="ft-links"><li><a href="#dashboard">Tableau de bord</a></li><li><a href="#cours">Cours</a></li><li><a href="#epreuves">Épreuves gratuites</a></li><li><a href="#ressources">Ressources pédagogiques</a></li></ul></div>
+      <div class="ft-col"><h4>Contact</h4><div><i class="fas fa-envelope"></i> contact@sukuli.tg</div></div>
     </div>
-    <div class="ft-btm">
-      <p>© 2024 Sukuli. Tous droits réservés.</p>
-      <p><a href="#">Confidentialité</a> · <a href="#">Conditions</a></p>
-    </div>
+    <div class="ft-btm"><p>© 2024 Sukuli. Tous droits réservés.</p></div>
   </div>
 </footer>
 
 <script>
-/* ════════════════════════════════
-   DATA
-════════════════════════════════ */
+const EPREUVES_DATA = [
+  {id:1,lv:"6ème",title:"Devoir de Mathématiques — 6ème — Trimestre 1",type:"Devoir surveillé",annee:2023,file:"epreuves/maths_6eme_t1_2023.pdf"},
+  {id:2,lv:"6ème",title:"Épreuve de Français — 6ème — Composition 2023",type:"Composition",annee:2023,file:"epreuves/francais_6eme_comp_2023.pdf"},
+  {id:3,lv:"5ème",title:"Mathématiques — Algèbre 5ème — Devoir corrigé",type:"Devoir corrigé",annee:2023,file:"epreuves/maths_5eme_algebre_2023.pdf"},
+  {id:4,lv:"5ème",title:"Physique-Chimie — Optique géométrique 5ème",type:"Devoir surveillé",annee:2022,file:"epreuves/physique_5eme_optique_2022.pdf"},
+  {id:5,lv:"4ème",title:"Mathématiques — Fonctions 4ème — DS N°2",type:"Devoir surveillé",annee:2023,file:"epreuves/maths_4eme_fonctions_2023.pdf"},
+  {id:6,lv:"4ème",title:"Physique-Chimie — Électricité 4ème — Corrigé",type:"Devoir corrigé",annee:2023,file:"epreuves/physique_4eme_elec_2023.pdf"},
+  {id:7,lv:"3ème",title:"BEPC 2022 — Mathématiques (Sujet officiel)",type:"Annale BEPC",annee:2022,bepc:true,file:"epreuves/bepc_maths_2022.pdf"},
+  {id:8,lv:"3ème",title:"BEPC 2023 — Français — Sujet officiel + Corrigé",type:"Annale BEPC",annee:2023,bepc:true,file:"epreuves/bepc_francais_2023.pdf"},
+];
 const COURSES = [
-  {id:1,title:"Mathématiques — Niveau 3ème",sub:"Mathématiques",lv:"3ème • BEPC",teacher:"Jean Dupont",init:"JD",role:"Enseignant certifié",loc:"Lomé",r:4.8,n:85,price:0,type:"free",cat:"math"},
-  {id:2,title:"Physique-Chimie 3ème",sub:"Sciences Physiques",lv:"3ème • BEPC",teacher:"Dr. Lawson",init:"DL",role:"Expert Sciences",loc:"Kara",r:4.7,n:64,price:3800,type:"std",cat:"science"},
-  {id:3,title:"Anglais Conversation 4ème",sub:"Anglais",lv:"4ème–3ème",teacher:"John Smith",init:"JS",role:"Enseignant natif",loc:"Lomé",r:4.9,n:120,price:2900,type:"std",cat:"lang"},
-  {id:4,title:"Initiation à la Programmation",sub:"Informatique",lv:"Tous niveaux",teacher:"Thomas Kodjo",init:"TK",role:"Développeur",loc:"En ligne",r:4.6,n:210,price:0,type:"free",cat:"free"},
-  {id:5,title:"Préparation intensive BEPC",sub:"Mathématiques",lv:"3ème",teacher:"Prof. Adjo",init:"PA",role:"Spécialiste examens",loc:"Lomé",r:5.0,n:156,price:5000,type:"pm",cat:"math"},
-  {id:6,title:"SVT — Biologie Cellulaire 4ème",sub:"Sciences de la Vie",lv:"4ème",teacher:"Marie Biologiste",init:"MB",role:"Doctorante en Biologie",loc:"Kpalimé",r:4.5,n:92,price:3200,type:"std",cat:"science"},
-  {id:7,title:"Français — Perfectionnement 3ème",sub:"Français",lv:"3ème • BEPC",teacher:"François Dubois",init:"FD",role:"Littéraire certifié",loc:"Lomé",r:5.0,n:178,price:4800,type:"pm",cat:"lang"},
-  {id:8,title:"Initiation aux Mathématiques 6ème",sub:"Mathématiques",lv:"6ème–5ème",teacher:"Koffi Mathieu",init:"KM",role:"Professeur de collège",loc:"En ligne",r:4.4,n:156,price:0,type:"free",cat:"free"},
-  {id:9,title:"Chimie — Acides et Bases 5ème",sub:"Chimie",lv:"5ème",teacher:"Paul Mensah",init:"PM",role:"Chimiste industriel",loc:"Lomé",r:4.6,n:78,price:2500,type:"std",cat:"science"},
-  {id:10,title:"Anglais — Vocabulaire de base",sub:"Anglais",lv:"6ème–3ème",teacher:"Amélie Brown",init:"AB",role:"Enseignante bilingue",loc:"En ligne",r:4.8,n:245,price:0,type:"free",cat:"lang"},
+  {id:1,title:"Mathématiques — Niveau 3ème",sub:"Mathématiques",lv:"3ème • BEPC",teacher:"Jean Dupont",init:"JD",loc:"Lomé",r:4.8,price:0,type:"free"},
+  {id:2,title:"Physique-Chimie 3ème",sub:"Sciences Physiques",lv:"3ème • BEPC",teacher:"Dr. Lawson",init:"DL",loc:"Kara",r:4.7,price:3800,type:"std"},
+  {id:3,title:"Anglais Conversation 4ème",sub:"Anglais",lv:"4ème–3ème",teacher:"John Smith",init:"JS",loc:"Lomé",r:4.9,price:2900,type:"std"},
+  {id:4,title:"Initiation à la Programmation",sub:"Informatique",lv:"Tous niveaux",teacher:"Thomas Kodjo",init:"TK",loc:"En ligne",r:4.6,price:0,type:"free"},
+  {id:5,title:"Préparation intensive BEPC",sub:"Mathématiques",lv:"3ème",teacher:"Prof. Adjo",init:"PA",loc:"Lomé",r:5.0,price:5000,type:"pm"},
 ];
 
-const TEACHERS = [
-  {id:1,nm:"Jean Dupont",tt:"Prof. de Mathématiques",subs:["math","science"],lvl:"Tout le collège",r:4.8},
-  {id:2,nm:"Marie Dubois",tt:"Prof. de Français",subs:["french","french","french"],lvl:"6ème, 5ème, 3ème",r:5.0},
-  {id:3,nm:"Dr. Lawson",tt:"Expert Sciences",subs:["science","science","science"],lvl:"5ème, 4ème, 3ème",r:4.9},
-  {id:4,nm:"John Smith",tt:"Prof. d'Anglais",subs:["english","english","english"],lvl:"Tout le collège",r:4.9},
-  {id:5,nm:"Koffi Agbessi",tt:"Prof. de Mathématiques",subs:["math","math","math"],lvl:"Tout le collège",r:4.7},
-  {id:6,nm:"Paul Martin",tt:"Prof. de Physique",subs:["science","science","science"],lvl:"4ème, 3ème",r:4.8},
-  {id:7,nm:"Sophie Gakou",tt:"Prof. de Français",subs:["french","french","french"],lvl:"6ème, 5ème, 3ème",r:4.9},
+/* =============================================================
+   DONNÉES ENSEIGNANTS — avec champ "lieu" pour la localisation
+   (identique à la page précédente)
+============================================================= */
+const TEACHERS_HOME_STYLE = [
+  {id:1,nm:"Koffi Agbessi",subs:["math","physics"],lvs:["6ème","5ème","4ème","3ème"],r:4.9,i:"KA",online:true,lieu:"Lomé, Togo"},
+  {id:2,nm:"Aïcha Mensah",subs:["french"],lvs:["6ème","5ème","3ème"],r:4.7,i:"AM",online:false,lieu:"Lomé, Togo"},
+  {id:3,nm:"John Smith",subs:["english"],lvs:["6ème","5ème","4ème","3ème"],r:4.9,i:"JS",online:true,lieu:"Lomé, Togo"},
+  {id:4,nm:"Komla Lawson",subs:["physics","svt"],lvs:["5ème","4ème","3ème"],r:4.8,i:"KL",online:false,lieu:"Atakpamé, Togo"},
+  {id:5,nm:"Fatou Diallo",subs:["svt"],lvs:["5ème","3ème"],r:4.6,i:"FD",online:true,lieu:"Sokodé, Togo"},
+  {id:6,nm:"Kodjo Adjo",subs:["history"],lvs:["5ème","4ème","3ème"],r:4.9,i:"KA",online:false,lieu:"Tsévié, Togo"},
+  {id:7,nm:"Yao Akakpo",subs:["physics"],lvs:["4ème","3ème"],r:4.7,i:"YA",online:true,lieu:"Kpalimé, Togo"},
+  {id:8,nm:"Mariam Konaté",subs:["french"],lvs:["4ème","3ème"],r:4.8,i:"MK",online:false,lieu:"Kara, Togo"},
 ];
 
-const SCHOOLS = [
-  {id:1,nm:"Lycée Français de Lomé",city:"Lomé, Tokoin",r:4.8,since:"2020",featured:true},
-  {id:2,nm:"Collège Protestant de Lomé",city:"Lomé, Centre-ville",r:5.0,since:"2019",featured:false},
-  {id:3,nm:"International Academy of Togo",city:"Kara, Togo",r:4.9,since:"2022",featured:false},
-  {id:4,nm:"Collège Saint-Augustin",city:"Atakpamé",r:4.8,since:"2018",featured:false},
-  {id:5,nm:"Collège Moderne de Tsévié",city:"Tsévié",r:4.7,since:"2021",featured:false},
-  {id:6,nm:"Lycée de Sokodé",city:"Sokodé",r:4.9,since:"2020",featured:false},
+const RESSOURCES_DATA = [
+  {id:1,type:"annale",sub:"math",lv:"3ème",title:"Annales BEPC Mathématiques — 2019 à 2023 corrigées",teacher:"Koffi Agbessi",init:"KA",lieu:"Lomé, Togo",price:3000,rating:4.9,downloads:412},
+  {id:2,type:"fiche",sub:"math",lv:"6ème",title:"Fiches de révision — Mathématiques 6ème complet",teacher:"Koffi Agbessi",init:"KA",lieu:"Lomé, Togo",price:1500,rating:4.8,downloads:287},
+  {id:3,type:"exercice",sub:"physics",lv:"5ème",title:"Exercices corrigés — Physique-Chimie 5ème",teacher:"Yao Akakpo",init:"YA",lieu:"Kpalimé, Togo",price:1800,rating:4.7,downloads:198},
+  {id:4,type:"resume",sub:"french",lv:"4ème",title:"Résumés de cours — Français 4ème complet",teacher:"Aïcha Mensah",init:"AM",lieu:"Lomé, Togo",price:1200,rating:4.6,downloads:156},
+  {id:5,type:"fiche",sub:"svt",lv:"4ème",title:"Fiches SVT — La reproduction chez les êtres vivants",teacher:"Fatou Diallo",init:"FD",lieu:"Sokodé, Togo",price:800,rating:4.5,downloads:134},
+  {id:6,type:"annale",sub:"french",lv:"3ème",title:"Annales BEPC Français — Corrigés types et méthodes",teacher:"Aïcha Mensah",init:"AM",lieu:"Lomé, Togo",price:2500,rating:4.9,downloads:322},
+  {id:7,type:"fiche",sub:"english",lv:"6ème",title:"Fiches d'anglais — Vocabulaire et grammaire 6ème",teacher:"John Smith",init:"JS",lieu:"Lomé, Togo",price:900,rating:4.6,downloads:167},
+  {id:8,type:"resume",sub:"history",lv:"5ème",title:"Résumés Histoire-Géo — L'Afrique précoloniale 5ème",teacher:"Kodjo Adjo",init:"KA",lieu:"Tsévié, Togo",price:1000,rating:4.9,downloads:203},
+  {id:9,type:"exercice",sub:"svt",lv:"3ème",title:"Exercices SVT — Reproduction et génétique 3ème",teacher:"Fatou Diallo",init:"FD",lieu:"Sokodé, Togo",price:1500,rating:4.8,downloads:178},
+  {id:10,type:"annale",sub:"physics",lv:"3ème",title:"Annales BEPC Physique-Chimie — 2018 à 2022",teacher:"Yao Akakpo",init:"YA",lieu:"Kpalimé, Togo",price:2800,rating:4.7,downloads:245},
 ];
 
-const NOTIFS = [
-  {type:"info",title:"Rappel de cours",msg:"Cours de Mathématiques avec M. Dupont demain à 15h",time:"Il y a 2 heures",read:false},
-  {type:"success",title:"Devoir noté",msg:"Votre devoir de Français a été noté : 16/20",time:"Il y a 1 jour",read:false},
-  {type:"warn",title:"Nouveau message",msg:"Mme Dubois vous a envoyé un message",time:"Il y a 2 jours",read:true},
-];
+function stars(r){ let s=''; for(let i=1;i<=5;i++){ if(i<=Math.floor(r)) s+='<i class="fas fa-star"></i>'; else if(i-r<1) s+='<i class="fas fa-star-half-alt"></i>'; else s+='<i class="far fa-star"></i>'; } return s; }
+function fmtPrice(p){ return p===0?'<span class="free">Gratuit</span>':`${p.toLocaleString('fr-FR')} FCFA`; }
+function getPriceBadge(type){ if(type==='free') return '<span class="badge-free">GRATUIT</span>'; if(type==='pm') return '<span class="badge-premium">⭐ PREMIUM</span>'; return '<span class="badge-standard">STANDARD</span>'; }
+function subLabel(s){ return {math:'Mathématiques',french:'Français',english:'Anglais',physics:'Physique-Chimie',svt:'SVT',history:'Histoire-Géo'}[s]||s; }
+function typeLabel(t){ return {fiche:'Fiche',annale:'Annales',exercice:'Exercices',resume:'Résumés'}[t]||t; }
+function getSubjectName(sub){ return {math:'Mathématiques',french:'Français',english:'Anglais',physics:'Physique-Chimie',svt:'SVT',history:'Histoire-Géo'}[sub]||sub; }
+function getTagClass(sub){ return {math:'math',french:'french',english:'english',physics:'science',svt:'science',history:'history'}[sub]||'default'; }
 
-/* ════════════════════════════════
-   HELPERS
-════════════════════════════════ */
-function stars(r){
-  let s='';
-  for(let i=1;i<=5;i++){
-    if(i<=Math.floor(r)) s+='<i class="fas fa-star"></i>';
-    else if(i-r<1) s+='<i class="fas fa-star-half-alt"></i>';
-    else s+='<i class="far fa-star"></i>';
-  }
-  return s;
+function renderEpreuves(){
+  const grid=document.getElementById('epGrid'); if(!grid) return; grid.innerHTML='';
+  EPREUVES_DATA.forEach(e=>{
+    const card=document.createElement('div'); card.className='ep-card reveal';
+    card.innerHTML=`<div class="ep-header"><span class="ep-lv">${e.lv}</span><span class="ep-free-badge">GRATUIT</span></div><div class="ep-body"><h3 class="ep-title">${e.title}</h3></div><div class="ep-foot"><button class="ep-dl-btn ep-dl-preview" onclick="showToast('Aperçu disponible bientôt')"><i class="fas fa-eye"></i> Aperçu</button><button class="ep-dl-btn ep-dl-main" onclick="showToast('Téléchargement en cours…')"><i class="fas fa-download"></i> Télécharger</button></div>`;
+    grid.appendChild(card);
+  });
 }
-function initials(nm){ return nm.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
-function fmtPrice(p){ return p===0?'<span class="free">Gratuit</span>':`${p.toLocaleString('fr-FR')} FCFA<small>/h</small>`; }
-function stripClass(t){ return t==='free'?'free':t==='pm'?'pm':'std'; }
-function badgeClass(t){ return t==='free'?'b-free':t==='pm'?'b-pm':'b-std'; }
-function badgeLabel(t){ return t==='free'?'GRATUIT':t==='pm'?'PREMIUM':'STANDARD'; }
-function tagClass(s){ 
-  if(s==='math') return 'tag-math';
-  if(s==='french') return 'tag-french';
-  if(s==='english') return 'tag-english';
-  if(s==='science') return 'tag-science';
-  if(s==='history') return 'tag-history';
-  return 'tag-default';
-}
-function tagLabel(s){ 
-  if(s==='math') return 'Mathématiques';
-  if(s==='french') return 'Français';
-  if(s==='english') return 'Anglais';
-  if(s==='science') return 'Sciences';
-  if(s==='history') return 'Histoire';
-  return s;
-}
-
-/* ════════════════════════════════
-   RENDER COURSES
-════════════════════════════════ */
-let showAllCourses = false;
-let currentCat = 'all';
 
 function renderCourses(){
-  const grid = document.getElementById('courseGrid');
-  grid.innerHTML = '';
-  const filtered = currentCat === 'all' ? COURSES : COURSES.filter(c => c.cat === currentCat);
-  const toShow = showAllCourses ? filtered : filtered.slice(0,5);
-  toShow.forEach(c => {
-    const el = document.createElement('div');
-    el.className = 'cc reveal';
-    el.innerHTML = `
-      <div class="cc-strip ${stripClass(c.type)}"></div>
-      <div class="cc-body">
-        <div style="display:flex;gap:4px;flex-wrap:wrap">
-          <span class="badge b-lv">${c.lv}</span>
-          <span class="badge ${badgeClass(c.type)}">${badgeLabel(c.type)}</span>
-        </div>
-        <h3 class="cc-title">${c.title}</h3>
-        <p class="cc-sub">${c.sub}</p>
-        <div class="cc-teacher">
-          <div class="tc-av">${c.init}</div>
-          <div><div class="tc-nm">${c.teacher}</div><div class="tc-rl">${c.role}</div></div>
-        </div>
-        <div class="cc-loc"><i class="fas fa-map-marker-alt"></i>${c.loc}</div>
-        <div class="cc-meta">
-          <div class="stars">${stars(c.r)}<span>${c.r}</span></div>
-          <div class="cc-cnt">${c.n} élèves</div>
-        </div>
-        <div class="cc-price ${c.type==='free'?'free':''}">${fmtPrice(c.price)}</div>
-        <div class="cc-acts">
-          <button class="ca ca-ghost" onclick="showToast('Détails du cours #${c.id}')"><i class="fas fa-eye"></i> Détails</button>
-          <button class="ca ca-deep" onclick="openAuth(${c.id})"><i class="fas fa-user-plus"></i> S'inscrire</button>
-        </div>
-      </div>`;
+  const grid=document.getElementById('courseGrid'); if(!grid) return; grid.innerHTML='';
+  COURSES.forEach(c=>{
+    const el=document.createElement('div'); el.className='cc reveal';
+    el.innerHTML=`<div class="cc-strip ${c.type==='free'?'free':'std'}"></div><div class="cc-body"><div class="cc-badge-row"><span class="badge-lv">${c.lv}</span>${getPriceBadge(c.type)}</div><h3 class="cc-title">${c.title}</h3><p class="cc-sub">${c.sub}</p><div class="cc-trow"><div class="cc-tav">${c.init}</div><div><div class="cc-tnm">${c.teacher}</div><div class="cc-trl"><i class="fas fa-map-marker-alt"></i> ${c.loc}</div></div></div><div class="cc-meta"><div class="cc-stars">${stars(c.r)}<span> ${c.r}</span></div></div><div class="cc-price ${c.type==='free'?'free':''}">${fmtPrice(c.price)}</div><div class="cc-acts"><button class="ca ca-g" onclick="showToast('Détails du cours')"><i class="fas fa-eye"></i> Détails</button><button class="ca ca-d" onclick="openAuth()"><i class="fas fa-user-plus"></i> S\'inscrire</button></div></div>`;
     grid.appendChild(el);
   });
-  observeReveal();
-  const btn = document.getElementById('moreCoursesBtn');
-  btn.querySelector('span').textContent = showAllCourses ? 'Voir moins' : 'Voir plus de cours';
-  btn.classList.toggle('expanded', showAllCourses);
 }
 
-/* ════════════════════════════════
-   RENDER TEACHERS
-════════════════════════════════ */
-let showAllTeachers = false;
-
-function renderTeachers(){
-  const grid = document.getElementById('teacherGrid');
-  grid.innerHTML = '';
-  const list = showAllTeachers ? TEACHERS : TEACHERS.slice(0,5);
-  list.forEach(t => {
-    const el = document.createElement('div');
-    el.className = 'tc-card reveal';
-    const tags = t.subs.map(s=>`<span class="tc-tag ${tagClass(s)}">${tagLabel(s)}</span>`).join('');
-    el.innerHTML = `
+/* =============================================================
+   renderTeachersHomeStyle — MODIFIÉE (identique à la page précédente)
+   • Point de connexion uniquement (tc-dot)
+   • Localisation sous le nom (tc-loc)
+   • Pas de badge texte de statut
+============================================================= */
+function renderTeachersHomeStyle(){
+  const grid=document.getElementById('teacherGridHomeStyle'); if(!grid) return; grid.innerHTML='';
+  TEACHERS_HOME_STYLE.forEach(teacher=>{
+    const card=document.createElement('div'); card.className='tc-card reveal';
+    const tags=teacher.subs.map(sub=>`<span class="tc-tag ${getTagClass(sub)}">${getSubjectName(sub)}</span>`).join('');
+    const lvText=teacher.lvs.length===4?'Tout le collège':teacher.lvs.join(', ');
+    const dotClass=teacher.online?'online':'offline';
+    const lieu=teacher.lieu||'Lomé, Togo';
+    
+    card.innerHTML=`
       <div class="tc-hd">
-        <div class="tc-avatar">${initials(t.nm)}</div>
-        <div class="tc-name">${t.nm}</div>
-        <div class="tc-title">${t.tt}</div>
-        <div class="tc-stars">${stars(t.r)}<span>${t.r}/5</span></div>
+        <div class="tc-av-wrap">
+          <div class="tc-av">${teacher.i}</div>
+          <div class="tc-dot ${dotClass}"></div>
+        </div>
+        <div class="tc-nm">${teacher.nm}</div>
+        <div class="tc-loc"><i class="fas fa-map-marker-alt"></i>${lieu}</div>
+        <div class="tc-rt">${stars(teacher.r)}<span>${teacher.r}/5</span></div>
       </div>
-      <div class="tc-body">
+      <div class="tc-bd">
         <div class="tc-tags">${tags}</div>
-        <div class="tc-lvl"><i class="fas fa-graduation-cap"></i>${t.lvl}</div>
+        <div class="tc-lvl"><i class="fas fa-graduation-cap"></i>${lvText}</div>
       </div>
       <div class="tc-ft">
-        <button class="ca ca-ghost" style="flex:1" onclick="showToast('Profil de ${t.nm}')"><i class="fas fa-user-circle"></i> Profil</button>
-        <button class="ca ca-deep" style="flex:1" onclick="showToast('Contacter ${t.nm}')"><i class="fas fa-comment"></i> Contacter</button>
+        <button class="ca-ghost" onclick="showToast('Profil de ${teacher.nm}')"><i class="fas fa-user-circle"></i> Profil</button>
+        <button class="ca-deep" onclick="showToast('Contacter ${teacher.nm}')"><i class="fas fa-comment"></i> Contacter</button>
       </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function renderRessources(){
+  const grid=document.getElementById('ressourcesGrid'); if(!grid) return; grid.innerHTML='';
+  RESSOURCES_DATA.forEach(r=>{
+    const el=document.createElement('div'); el.className='rs-card reveal';
+    el.innerHTML=`<div class="rs-strip"></div><div class="rs-body"><div class="rs-badge-row"><span class="badge-lv">${r.lv}</span><span class="badge-ressource">RESSOURCE</span></div><h3 class="rs-title">${r.title}</h3><p class="rs-sub">${subLabel(r.sub)}</p><div class="cc-trow"><div class="cc-tav">${r.init}</div><div><div class="cc-tnm">${r.teacher}</div><div class="cc-trl"><i class="fas fa-map-marker-alt"></i> ${r.lieu}</div></div></div><div class="rs-meta"><div class="rs-stars">${stars(r.rating)}<span> ${r.rating}</span></div><div class="rs-type-badge"><i class="fas fa-tag"></i> ${typeLabel(r.type)}</div></div><div class="rs-price">${r.price.toLocaleString('fr-FR')} FCFA</div><div class="rs-acts"><button class="ca ca-g" onclick="showToast('Aperçu de la ressource')"><i class="fas fa-eye"></i> Aperçu</button><button class="ca ca-teal" onclick="showToast('🛒 Ajouté au panier !')"><i class="fas fa-shopping-cart"></i> Acheter</button></div></div>`;
     grid.appendChild(el);
   });
-  observeReveal();
-  const btn = document.getElementById('moreTeachersBtn');
-  btn.querySelector('span').textContent = showAllTeachers ? 'Voir moins' : 'Voir plus d\'enseignants';
-  btn.classList.toggle('expanded', showAllTeachers);
 }
 
-/* ════════════════════════════════
-   RENDER SCHOOLS
-════════════════════════════════ */
-let showAllSchools = false;
+function showToast(msg){ const t=document.getElementById('toast'); if(t){ document.getElementById('toastMsg').textContent=msg; t.className='show'; setTimeout(()=>t.className='',3400); } }
+function openAuth(){ openModal('authModal'); }
+function openModal(id){ const modal=document.getElementById(id); if(modal){ modal.classList.add('active'); document.body.style.overflow='hidden'; } }
+function closeModal(id){ const modal=document.getElementById(id); if(modal){ modal.classList.remove('active'); document.body.style.overflow=''; } }
+function scrollToSection(id){ const el=document.getElementById(id); if(el){ setTimeout(()=>{ el.scrollIntoView({behavior:'smooth',block:'start'}); },100); } }
+function voirPlusCours(){ closeModal('notifModal'); const coursSection=document.getElementById('coursSection'); if(coursSection){ coursSection.scrollIntoView({behavior:'smooth',block:'start'}); coursSection.style.transition='background 0.4s'; coursSection.style.backgroundColor='var(--teal-pale)'; setTimeout(()=>{ coursSection.style.backgroundColor=''; },800); showToast('✨ Découvrez plus de cours ci-dessous'); } }
 
-function renderSchools(){
-  const grid = document.getElementById('schoolGrid');
-  grid.innerHTML = '';
-  const list = showAllSchools ? SCHOOLS : SCHOOLS.slice(0,4);
-  list.forEach(s => {
-    const el = document.createElement('div');
-    el.className = `sc-card reveal${s.featured?' featured':''}`;
-    el.innerHTML = `
-      <div class="sc-hd">
-        <div class="sc-hd-row">
-          <div class="sc-logo">${s.nm.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
-          <div>
-            <div class="sc-name">${s.nm}</div>
-            <div class="sc-city"><i class="fas fa-map-marker-alt"></i>${s.city}</div>
-          </div>
-        </div>
-        <div class="sc-stars">${stars(s.r)}<span>${s.r}/5</span></div>
-        <div class="sc-since"><i class="fas fa-calendar-alt"></i>Partenaire depuis ${s.since}</div>
-      </div>
-      <div class="sc-body">
-        <div class="sc-acts">
-          <button class="ca ca-ghost" style="flex:1" onclick="showToast('Détails de ${s.nm}')"><i class="fas fa-info-circle"></i> Détails</button>
-          <button class="ca ca-deep" style="flex:1" onclick="showToast('Contacter ${s.nm}')"><i class="fas fa-comment"></i> Contacter</button>
-        </div>
-      </div>`;
-    grid.appendChild(el);
-  });
-  observeReveal();
-  const btn = document.getElementById('moreSchoolsBtn');
-  btn.querySelector('span').textContent = showAllSchools ? 'Voir moins' : 'Voir plus d\'écoles';
-  btn.classList.toggle('expanded', showAllSchools);
-}
+function doSearch(){ const q=document.getElementById('searchInput').value.trim(); showToast(q?`🔍 Recherche : "${q}"`:'Écrire un terme puis appuyer Entrée'); }
 
-/* ════════════════════════════════
-   NOTIFICATIONS
-════════════════════════════════ */
-function renderNotifs(){
-  const list = document.getElementById('notifList');
-  list.innerHTML = '';
-  NOTIFS.forEach(n => {
-    const d = document.createElement('div');
-    d.className = `notif-item${n.read?'':' notif-unread'}`;
-    const icoMap = {info:'ni-info',success:'ni-success',warn:'ni-warn'};
-    const faMap  = {info:'info-circle',success:'check-circle',warn:'exclamation-triangle'};
-    d.innerHTML = `
-      <div class="notif-ico ${icoMap[n.type]}"><i class="fas fa-${faMap[n.type]}"></i></div>
-      <div><h4>${n.title}</h4><p>${n.msg}</p><time>${n.time}</time></div>`;
-    list.appendChild(d);
-  });
-}
+function setupSearchFilters(){
+  const btn=document.getElementById('filterToggleBtn');
+  const panel=document.getElementById('sfp');
+  const closeBtn=document.getElementById('sfpClose');
+  const resetBtn=document.getElementById('sfpReset');
+  const applyBtn=document.getElementById('sfpApply');
+  const countEl=document.getElementById('filterCount');
+  const tagsEl=document.getElementById('sfpTags');
+  const fids=['fType','fLevel','fSubject','fPrice','fRating','fCity'];
+  const flabels={fType:'Type',fLevel:'Niveau',fSubject:'Matière',fPrice:'Tarif',fRating:'Note',fCity:'Ville'};
 
-function openNotif(){
-  renderNotifs();
-  openModal('notifModal');
-}
-
-document.getElementById('markReadBtn')?.addEventListener('click', () => {
-  NOTIFS.forEach(n => n.read = true);
-  renderNotifs();
-  document.querySelector('.notif-dot').style.display = 'none';
-  showToast('Toutes les notifications marquées comme lues');
-});
-
-/* ════════════════════════════════
-   AUTH MODAL
-════════════════════════════════ */
-let authAction = null;
-let authProfile = null;
-let authStep = 1;
-
-function openAuth(courseId){
-  authAction = null; authProfile = null; authStep = 1;
-  resetAuthModal();
-  openModal('authModal');
-}
-
-function selectAuthOpt(el){
-  document.querySelectorAll('.auth-opt').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-  authAction = el.dataset.action;
-  updateAuthContinue();
-}
-
-function selectProfile(el){
-  document.querySelectorAll('.profile-opt').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-  authProfile = el.dataset.profile;
-  updateAuthContinue();
-}
-
-function updateAuthContinue(){
-  const btn = document.getElementById('authContinue');
-  if(authStep === 1) { btn.disabled = !authAction; }
-  else if(authStep === 2){
-    if(authAction === 'register') btn.disabled = !authProfile;
-    else btn.disabled = false;
+  function getActive(){ return fids.filter(id=>{ const el=document.getElementById(id); return el&&el.value; }); }
+  function updateCount(){
+    const n=getActive().length;
+    countEl.textContent=n||'';
+    countEl.classList.toggle('show',n>0);
   }
-}
-
-function nextAuth(){
-  if(authStep === 1){
-    authStep = 2;
-    document.getElementById('authStep1').classList.remove('active');
-    if(authAction === 'login'){
-      document.getElementById('authStep2l').classList.add('active');
-      document.getElementById('authTitle').textContent = 'Connexion';
-      document.getElementById('authSub').textContent   = 'Redirection vers la page de connexion';
-    } else {
-      document.getElementById('authStep2r').classList.add('active');
-      document.getElementById('authTitle').textContent = 'Inscription';
-      document.getElementById('authSub').textContent   = 'Choisissez votre profil';
-    }
-    updateAuthContinue();
-  } else {
-    if(authAction === 'login'){
-      window.location.href = '../Authentification/auth.html';
-    } else {
-      const routes = {eleve:'../inscription/eleve.html',parent:'../inscription/parent.html'};
-      window.location.href = routes[authProfile] || '../inscription/inscription.html';
-    }
-    closeModal('authModal');
+  function renderTags(){
+    tagsEl.innerHTML='';
+    getActive().forEach(id=>{
+      const el=document.getElementById(id);
+      const t=document.createElement('span'); t.className='sfp-tag';
+      t.innerHTML=`${flabels[id]}: <strong>${el.selectedOptions[0].text}</strong> <button onclick="clearFilter('${id}')">&#x2715;</button>`;
+      tagsEl.appendChild(t);
+    });
   }
-}
+  window.clearFilter=function(id){ const el=document.getElementById(id); if(el) el.value=''; updateCount(); renderTags(); };
 
-function cancelAuth(){
-  if(authStep === 2){
-    authStep = 1;
-    document.querySelectorAll('.auth-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('authStep1').classList.add('active');
-    document.getElementById('authTitle').textContent = 'Avant de continuer';
-    document.getElementById('authSub').textContent   = 'Connectez-vous ou créez votre compte';
-    authAction = null; authProfile = null;
-    document.querySelectorAll('.auth-opt').forEach(o => o.classList.remove('selected'));
-    updateAuthContinue();
-  } else {
-    closeModal('authModal');
-  }
-}
+  function openPanel(){ panel.classList.add('open'); btn.classList.add('open'); }
+  function closePanel(){ panel.classList.remove('open'); btn.classList.remove('open'); }
 
-function resetAuthModal(){
-  authStep = 1;
-  document.querySelectorAll('.auth-step').forEach(s => s.classList.remove('active'));
-  document.getElementById('authStep1').classList.add('active');
-  document.getElementById('authTitle').textContent = 'Avant de continuer';
-  document.getElementById('authSub').textContent   = 'Connectez-vous ou créez votre compte';
-  document.querySelectorAll('.auth-opt').forEach(o => o.classList.remove('selected'));
-  document.querySelectorAll('.profile-opt').forEach(o => o.classList.remove('selected'));
-  document.getElementById('authContinue').disabled = true;
-}
+  btn.addEventListener('click',e=>{ e.stopPropagation(); panel.classList.contains('open')?closePanel():openPanel(); });
+  closeBtn.addEventListener('click',closePanel);
+  document.addEventListener('click',e=>{ if(!document.querySelector('.nav-search-wrap').contains(e.target)) closePanel(); });
 
-document.getElementById('authContinue').addEventListener('click', nextAuth);
-
-/* ════════════════════════════════
-   MODAL HELPERS
-════════════════════════════════ */
-function openModal(id){ document.getElementById(id).classList.add('active'); document.body.style.overflow='hidden'; }
-function closeModal(id){ document.getElementById(id).classList.remove('active'); document.body.style.overflow=''; }
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', e => { if(e.target === m) closeModal(m.id); });
-});
-document.addEventListener('keydown', e => { if(e.key==='Escape') document.querySelectorAll('.modal-overlay.active').forEach(m=>closeModal(m.id)); });
-
-/* ════════════════════════════════
-   CATEGORY TABS
-════════════════════════════════ */
-document.getElementById('catTabs').addEventListener('click', e => {
-  const tab = e.target.closest('.cat-tab');
-  if(!tab) return;
-  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-  tab.classList.add('active');
-  currentCat = tab.dataset.cat;
-  showAllCourses = false;
-  renderCourses();
-});
-
-/* ════════════════════════════════
-   SHOW MORE BUTTONS
-════════════════════════════════ */
-document.getElementById('moreCoursesBtn').addEventListener('click', () => {
-  showAllCourses = !showAllCourses;
-  renderCourses();
-  if(!showAllCourses) document.getElementById('cours').scrollIntoView({behavior:'smooth',block:'start'});
-});
-document.getElementById('moreTeachersBtn').addEventListener('click', () => {
-  showAllTeachers = !showAllTeachers;
-  renderTeachers();
-  if(!showAllTeachers) document.getElementById('enseignants').scrollIntoView({behavior:'smooth',block:'start'});
-});
-document.getElementById('moreSchoolsBtn').addEventListener('click', () => {
-  showAllSchools = !showAllSchools;
-  renderSchools();
-  if(!showAllSchools) document.getElementById('ecoles').scrollIntoView({behavior:'smooth',block:'start'});
-});
-
-/* ════════════════════════════════
-   SEARCH + FILTERS
-════════════════════════════════ */
-document.getElementById('filterToggle').addEventListener('click', e => {
-  e.stopPropagation();
-  document.getElementById('filterPanel').classList.toggle('open');
-});
-document.getElementById('fpClose').addEventListener('click', () => document.getElementById('filterPanel').classList.remove('open'));
-document.addEventListener('click', e => {
-  const fp = document.getElementById('filterPanel');
-  if(!fp.contains(e.target) && !document.getElementById('filterToggle').contains(e.target))
-    fp.classList.remove('open');
-});
-
-document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') doSearch(); });
-
-function doSearch(){
-  const q = document.getElementById('searchInput').value.trim();
-  document.getElementById('filterPanel').classList.remove('open');
-  showToast(`🔍 Recherche : "${q || 'tous'}"`);
-}
-
-function resetFilters(){
-  ['fType','fLevel','fSubject','fPrice','fRating','fCity'].forEach(id => {
-    document.getElementById(id).selectedIndex = 0;
+  resetBtn.addEventListener('click',()=>{
+    fids.forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    document.getElementById('searchInput').value='';
+    updateCount(); renderTags();
+    showToast('Filtres réinitialisés');
   });
-  document.getElementById('searchInput').value = '';
-  showToast('Filtres réinitialisés');
-}
 
-/* ════════════════════════════════
-   PROFILE DROPDOWN
-════════════════════════════════ */
-document.getElementById('profileToggle').addEventListener('click', e => {
-  e.stopPropagation();
-  const m = document.getElementById('dropMenu');
-  const b = document.getElementById('profileToggle');
-  m.classList.toggle('open');
-  b.classList.toggle('open');
-});
-document.addEventListener('click', () => {
-  document.getElementById('dropMenu').classList.remove('open');
-  document.getElementById('profileToggle').classList.remove('open');
-});
-
-/* ════════════════════════════════
-   MOBILE MENU
-════════════════════════════════ */
-document.getElementById('menuTog').addEventListener('click', () => {
-  document.getElementById('mobNav').classList.toggle('open');
-});
-
-/* ════════════════════════════════
-   BACK TO TOP
-════════════════════════════════ */
-const btt = document.getElementById('backToTop');
-window.addEventListener('scroll', () => btt.classList.toggle('show', scrollY > 300));
-btt.addEventListener('click', () => scrollTo({top:0,behavior:'smooth'}));
-
-/* ════════════════════════════════
-   TOAST
-════════════════════════════════ */
-function showToast(msg, type=''){
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  t.className = `show${type==='error'?' error':''}`;
-  setTimeout(() => t.className = '', 3400);
-}
-
-/* ════════════════════════════════
-   REVEAL OBSERVER
-════════════════════════════════ */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, {threshold:0.07});
-
-function observeReveal(){
-  document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
-}
-
-/* ════════════════════════════════
-   SUB-NAV ACTIVE STATE ON SCROLL
-════════════════════════════════ */
-const sections = ['dashboard','cours','enseignants','ecoles'];
-window.addEventListener('scroll', () => {
-  let active = 'dashboard';
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if(el && el.getBoundingClientRect().top < 120) active = id;
+  applyBtn.addEventListener('click',()=>{
+    renderTags();
+    const af=getActive();
+    const parts=[];
+    const q=document.getElementById('searchInput').value.trim();
+    if(q) parts.push(`"${q}"`);
+    af.forEach(id=>{ const el=document.getElementById(id); if(el) parts.push(el.selectedOptions[0].text); });
+    closePanel();
+    showToast(parts.length?`🔍 ${parts.join(' · ')}`:'Aucun filtre sélectionné');
+    updateCount();
   });
-  document.querySelectorAll('.sn-item').forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#'+active);
-  });
-});
 
-/* ════════════════════════════════
-   INIT
-════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('searchInput').addEventListener('keypress',e=>{ if(e.key==='Enter') doSearch(); });
+  fids.forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener('change',updateCount); });
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderEpreuves();
   renderCourses();
-  renderTeachers();
-  renderSchools();
-  observeReveal();
+  renderTeachersHomeStyle();
+  renderRessources();
+  setupSearchFilters();
+
+  const observer=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }); },{threshold:0.07});
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el=>observer.observe(el));
+
+  document.getElementById('notifBtn')?.addEventListener('click',()=>{ openModal('notifModal'); });
+  document.getElementById('voirPlusCoursBtn')?.addEventListener('click',voirPlusCours);
+  document.getElementById('profileToggle')?.addEventListener('click',e=>{ e.stopPropagation(); document.getElementById('dropMenu')?.classList.toggle('open'); document.getElementById('profileToggle')?.classList.toggle('open'); });
+  document.addEventListener('click',()=>{ document.getElementById('dropMenu')?.classList.remove('open'); document.getElementById('profileToggle')?.classList.remove('open'); });
+  document.getElementById('menuTog')?.addEventListener('click',()=>{ document.getElementById('mobNav')?.classList.toggle('open'); });
+
+  const btt=document.getElementById('backToTop');
+  window.addEventListener('scroll',()=>{
+    btt?.classList.toggle('show',scrollY>300);
+    document.getElementById('mainHdr')?.classList.toggle('scrolled',scrollY>50);
+  });
+  btt?.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
 });
 </script>
 </body>

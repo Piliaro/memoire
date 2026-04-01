@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ressources pédagogiques — Sukuli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    :root{
+        --deep:#002f2a;--deep-alt:#003333;--deep-mid:#003d38;--deep-hover:#004d45;
+        --deep-pale:#e5f0ef;--deep-muted:#c2d8d6;
+        --teal:#1ab5a0;--teal-light:#5dcfbe;--teal-pale:#dff5f2;
+        --gold:#e8c44a;--amber:#c9980e;
+        --white:#ffffff;--off-white:#f5faf9;
+        --g50:#f8fafa;--g100:#eef3f2;--g200:#d9e5e4;--g300:#b5cbc9;
+        --g400:#84a8a5;--g500:#5c8885;--g600:#3c6360;
+        --hdr:#0a1a18;--txt:#1a3030;--txt-b:#3a5555;--txt-m:#6a8888;
+        --purple:#7B1FA2;--purple-light:#f3e5f5;
+        --coral:#D85A30;--coral-light:#FAECE7;
+        --red:#e74c3c;
+        --sh-sm:0 2px 8px rgba(0,47,42,.12);
+        --sh-md:0 8px 28px rgba(0,47,42,.16);
+        --sh-lg:0 20px 56px rgba(0,47,42,.22);
+        --r-sm:8px;--r-md:14px;--r-lg:22px;--r-xl:32px;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Nunito',sans-serif;background:var(--off-white);color:var(--txt-b);line-height:1.65;overflow-x:hidden}
+    h1,h2,h3,h4,h5{font-family:'Poppins',sans-serif;line-height:1.25;color:var(--txt)}
+    .container{width:100%;max-width:1280px;margin:0 auto;padding:0 24px}
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .55s,transform .55s}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* Back to top & toast */
+    #backToTop{position:fixed;bottom:28px;right:28px;z-index:9000;width:44px;height:44px;border-radius:50%;background:var(--deep);color:var(--gold);border:2px solid var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 6px 20px rgba(0,47,42,.4);opacity:0;transform:translateY(14px) scale(.85);transition:all .32s}
+    #backToTop.show{opacity:1;transform:translateY(0) scale(1)}
+    #backToTop:hover{background:var(--gold);color:var(--deep)}
+    #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--deep);color:#fff;padding:12px 26px;border-radius:50px;font-size:.9rem;font-weight:700;box-shadow:0 8px 24px rgba(0,47,42,.4);z-index:9200;border:1px solid var(--teal-light);transition:transform .36s cubic-bezier(.34,1.56,.64,1),opacity .36s;opacity:0;display:flex;align-items:center;gap:8px}
+    #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:11px 26px;border-radius:50px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;text-decoration:none;transition:all .25s;font-family:'Poppins',sans-serif}
+    .btn-teal{background:var(--teal);color:#fff;box-shadow:0 4px 14px rgba(26,181,160,.28)}
+    .btn-teal:hover{background:#138f7d;transform:translateY(-2px)}
+    .btn-outline{background:transparent;border:2px solid rgba(255,255,255,.35);color:#fff}
+    .btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+    .btn-outline-d{background:transparent;border:2px solid var(--g300);color:var(--txt-b)}
+    .btn-outline-d:hover{border-color:var(--deep);color:var(--deep)}
+    .btn-sm{padding:8px 18px;font-size:.82rem}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:1000;background:var(--hdr);box-shadow:0 2px 16px rgba(0,0,0,.22);transition:box-shadow .3s}
+    header.scrolled{box-shadow:0 4px 28px rgba(0,0,0,.35)}
+    .navbar{display:flex;align-items:center;padding:10px 0;gap:14px;flex-wrap:wrap}
+    .logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+    .logo-badge{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--deep-mid) 0%,var(--teal) 100%);display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:800;color:var(--gold);font-size:.9rem;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+    .logo-text{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.3rem;color:#fff}
+    .logo-text span{color:var(--teal-light)}
+    .nav-links{display:flex;gap:2px;list-style:none;margin-left:auto}
+    .nav-links a{text-decoration:none;color:rgba(255,255,255,.7);font-weight:600;font-size:.82rem;padding:6px 10px;border-radius:50px;transition:all .2s}
+    .nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.1);color:#fff}
+    .nav-search{background:rgba(255,255,255,.1);border-radius:40px;padding:0 8px;display:flex;align-items:center;border:1px solid rgba(255,255,255,.2);margin:0 8px;flex:1;max-width:340px}
+    .nav-search i{color:rgba(255,255,255,.5);font-size:.85rem;padding-left:8px}
+    .nav-search input{background:transparent;border:none;padding:9px 12px;color:#fff;font-size:.85rem;width:100%;outline:none;font-family:'Nunito',sans-serif}
+    .nav-search input::placeholder{color:rgba(255,255,255,.5);font-style:italic}
+    .nav-auth{display:flex;gap:9px;align-items:center;flex-shrink:0}
+    .menu-toggle{display:none;font-size:1.35rem;cursor:pointer;color:rgba(255,255,255,.85);background:none;border:none}
+    .mob-nav{display:none;flex-direction:column;background:var(--hdr);border-top:1px solid rgba(255,255,255,.07);padding:12px 24px 20px}
+    .mob-nav.open{display:flex}
+    .mob-nav a{text-decoration:none;color:rgba(255,255,255,.72);font-weight:600;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.92rem}
+    .mob-auth{display:flex;gap:9px;margin-top:13px}
+    .mob-auth .btn{flex:1;justify-content:center}
+
+    /* Hero */
+    .rs-hero{background:linear-gradient(135deg,#002622 0%,#002f2a 45%,#003d38 100%);padding:52px 0 44px;position:relative;overflow:hidden}
+    .rs-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+    .rs-hero-orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+    .rs-hero-orb-1{width:420px;height:420px;background:rgba(26,181,160,.08);top:-140px;right:-80px}
+    .rs-hero-orb-2{width:260px;height:260px;background:rgba(232,196,74,.07);bottom:-80px;left:-40px}
+    .rs-hero-inner{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+    .rs-hero-txt h1{font-size:clamp(1.65rem,2.8vw,2.5rem);font-weight:900;color:#fff;margin-bottom:10px;line-height:1.2}
+    .rs-hero-txt h1 span{color:var(--gold)}
+    .rs-hero-txt p{color:rgba(255,255,255,.65);font-size:.95rem;max-width:560px;line-height:1.75;margin-bottom:20px}
+    .rs-hero-chips{display:flex;flex-wrap:wrap;gap:8px}
+    .rs-hero-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:50px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.78);font-size:.76rem;font-weight:600}
+    .rs-hero-chip i{color:var(--gold);font-size:.7rem}
+    .rs-hero-stats{display:flex;gap:28px;flex-wrap:wrap}
+    .rs-stat{text-align:center}
+    .rs-stat strong{display:block;font-family:'Poppins',sans-serif;font-size:1.75rem;font-weight:900;color:var(--gold);line-height:1}
+    .rs-stat span{font-size:.68rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.8px;margin-top:3px;display:block}
+
+    /* Breadcrumb */
+    .breadcrumb-bar{padding:14px 0;background:var(--g100);border-bottom:1px solid var(--g200)}
+    .breadcrumb-inner{display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--txt-m)}
+    .breadcrumb-inner a{color:var(--txt-m);text-decoration:none;transition:color .2s}
+    .breadcrumb-inner a:hover{color:var(--deep)}
+    .breadcrumb-inner i{font-size:.65rem}
+
+    /* ── NEW TOOLBAR (from cours.html) ── */
+    .toolbar-wrap{background:#fff;border-bottom:1.5px solid var(--g200);position:sticky;top:60px;z-index:800;box-shadow:0 4px 16px rgba(0,47,42,.07)}
+    .toolbar{display:flex;align-items:center;gap:12px;padding:12px 0;flex-wrap:wrap}
+    .tb-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .filter-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:50px;border:1.5px solid var(--g200);background:#fff;font-size:.8rem;font-weight:700;color:var(--txt-m);cursor:pointer;transition:all .22s;font-family:'Poppins',sans-serif}
+    .filter-pill:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-pale)}
+    .filter-pill select{border:none;background:transparent;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;color:inherit;outline:none;cursor:pointer;padding:0}
+    .filter-pill.has-value{border-color:var(--deep);color:var(--deep);background:var(--deep-pale)}
+    .filter-pill.has-value select{color:var(--deep)}
+    .view-toggle{display:flex;gap:4px;background:var(--g100);border-radius:var(--r-sm);padding:4px;margin-left:auto}
+    .view-btn{width:34px;height:34px;border:none;background:transparent;border-radius:6px;cursor:pointer;color:var(--g400);font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+    .view-btn.active{background:#fff;color:var(--deep);box-shadow:var(--sh-sm)}
+    .active-filters{display:flex;gap:6px;flex-wrap:wrap;padding:8px 0 12px;align-items:center}
+    .active-filters:empty{display:none}
+    .af-label{font-size:.76rem;color:var(--txt-m);font-weight:600}
+    .af-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:50px;background:var(--deep-pale);border:1px solid var(--deep-muted);color:var(--deep);font-size:.74rem;font-weight:700}
+    .af-tag button{background:none;border:none;color:var(--deep);cursor:pointer;font-size:.75rem;padding:0;line-height:1;margin-left:2px}
+    .af-clear{font-size:.74rem;color:var(--txt-m);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:50px;transition:all .2s}
+    .af-clear:hover{background:var(--g100);color:var(--deep)}
+
+    /* Main area */
+    .rs-main{padding:28px 0 60px}
+    .rs-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+    .rs-count{font-size:.88rem;color:var(--txt-m)}
+    .rs-count strong{color:var(--txt);font-weight:700}
+
+    /* Cards */
+    .rs-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:32px}
+    .rs-grid.list-view{grid-template-columns:1fr}
+    .cc{background:#fff;border-radius:var(--r-md);border:1.5px solid var(--g200);overflow:hidden;transition:all .3s;display:flex;flex-direction:column;position:relative}
+    .cc:hover{transform:translateY(-4px);box-shadow:var(--sh-md);border-color:var(--deep-muted)}
+    .cc-strip{height:4px;background:linear-gradient(90deg,var(--teal),var(--teal-light))}
+    .cc-body{padding:13px;flex:1;display:flex;flex-direction:column}
+    .cc-badge-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+    .badge-lv{display:inline-block;padding:3px 9px;border-radius:50px;font-size:.62rem;font-weight:700;letter-spacing:.2px;font-family:'Poppins',sans-serif;background:#fee2e2;color:#c53030;border-left:3px solid #e74c3c}
+    .badge-ressource{display:inline-block;padding:3px 9px;border-radius:50px;font-size:.62rem;font-weight:700;letter-spacing:.2px;font-family:'Poppins',sans-serif;background:#fff3e0;color:#f39c12;border-left:3px solid #f39c12}
+    .cc-title{font-size:.86rem;font-weight:700;color:var(--txt);margin:6px 0 4px;line-height:1.32;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
+    .cc-sub{font-size:.72rem;color:var(--txt-m);margin-bottom:8px}
+    .cc-trow{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+    .cc-tav{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--deep),var(--teal));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.65rem;font-family:'Poppins',sans-serif}
+    .cc-tnm{font-size:.74rem;font-weight:600;color:var(--txt)}
+    .cc-trl{font-size:.65rem;color:var(--txt-m);display:flex;align-items:center;gap:3px;margin-top:1px}
+    .cc-trl i{color:var(--teal);font-size:.6rem}
+    .cc-meta{display:flex;justify-content:space-between;align-items:center;margin:4px 0}
+    .cc-stars{color:var(--gold);font-size:.7rem}
+    .cc-stars span{color:var(--txt-m);font-weight:700}
+    .cc-type-badge{font-size:.66rem;color:var(--txt-m);display:flex;align-items:center;gap:3px;background:var(--g100);padding:2px 8px;border-radius:12px;width:fit-content}
+    .cc-type-badge i{font-size:.55rem;color:var(--teal)}
+    .cc-price{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:800;color:var(--txt);margin:6px 0}
+    .cc-acts{display:flex;gap:5px;margin-top:auto}
+    .ca{flex:1;padding:6px 3px;text-align:center;border-radius:var(--r-sm);font-size:.72rem;font-weight:700;cursor:pointer;border:none;transition:all .2s;font-family:'Poppins',sans-serif}
+    .ca-g{background:var(--g100);color:var(--g500)}.ca-g:hover{background:var(--g200)}
+    .ca-teal{background:var(--teal);color:#fff}.ca-teal:hover{background:#138f7d}
+    .rs-grid.list-view .cc{flex-direction:row;align-items:stretch}
+    .rs-grid.list-view .cc-strip{width:4px;height:auto;flex-shrink:0}
+    .rs-grid.list-view .cc-body{flex:1}
+
+    /* Pagination */
+    .pagination{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:20px}
+    .pg-btn{width:36px;height:36px;border-radius:var(--r-sm);border:1.5px solid var(--g200);background:#fff;color:var(--txt-b);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.84rem;font-weight:600;transition:all .2s;font-family:'Poppins',sans-serif}
+    .pg-btn:hover{border-color:var(--deep);color:var(--deep)}
+    .pg-btn.active{background:var(--deep);color:#fff;border-color:var(--deep)}
+    .pg-btn.disabled{opacity:.4;cursor:not-allowed}
+    .pg-dots{color:var(--txt-m);padding:0 4px}
+
+    /* Empty state */
+    .empty-state{text-align:center;padding:64px 24px;color:var(--txt-m);grid-column:1/-1}
+    .empty-state i{font-size:3rem;color:var(--g300);display:block;margin-bottom:16px}
+    .empty-state h3{font-size:1.1rem;color:var(--txt);margin-bottom:8px}
+    .empty-state p{font-size:.88rem;max-width:380px;margin:0 auto 20px}
+
+    /* Footer */
+    footer{background:#0a1a18;border-top:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.52);padding:48px 0 24px}
+    .ft-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px}
+    .ft-brand p{font-size:.84rem;line-height:1.75;color:rgba(255,255,255,.5);margin:12px 0 14px}
+    .ft-logo{display:flex;align-items:center;gap:9px}
+    .ft-logo .logo-badge{background:linear-gradient(135deg,var(--deep-mid),var(--teal))}
+    .ft-logo .logo-text{color:#fff}
+    .soc-row{display:flex;gap:8px}
+    .soc-btn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.48);font-size:.84rem;text-decoration:none;transition:all .24s}
+    .soc-btn:hover{background:var(--deep-mid);color:var(--gold);transform:translateY(-3px)}
+    .ft-col h4{color:#fff;font-size:.88rem;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .ft-links{list-style:none;display:flex;flex-direction:column;gap:7px}
+    .ft-links a{color:rgba(255,255,255,.46);text-decoration:none;font-size:.82rem;transition:color .2s;display:flex;align-items:center;gap:5px}
+    .ft-links a:hover{color:var(--teal-light)}
+    .ft-links a i{font-size:.65rem;color:var(--teal)}
+    .ft-ci{display:flex;align-items:flex-start;gap:9px;font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:8px}
+    .ft-ci i{color:var(--teal-light);margin-top:3px;flex-shrink:0}
+    .ft-btm{border-top:1px solid rgba(255,255,255,.07);padding-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+    .ft-btm p{font-size:.78rem}
+    .ft-btm a{color:var(--teal-light);text-decoration:none}
+
+    /* Responsive */
+    @media(max-width:1200px){.rs-grid{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:900px){
+        .rs-grid{grid-template-columns:repeat(3,1fr)}
+        .nav-links,.nav-auth{display:none}
+        .menu-toggle{display:flex}
+        .navbar{justify-content:space-between}
+        .nav-search{max-width:none;order:3;width:100%;margin:8px 0 0}
+        .ft-grid{grid-template-columns:1fr 1fr}
+        .toolbar{flex-direction:column;align-items:stretch}
+        .view-toggle{margin-left:0;align-self:center}
+        .tb-filters{justify-content:center}
+    }
+    @media(max-width:600px){
+        .rs-grid{grid-template-columns:repeat(2,1fr)}
+        .ft-grid{grid-template-columns:1fr}
+        .rs-hero-inner{flex-direction:column}
+    }
+    @media(max-width:420px){.rs-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+
+<button id="backToTop" title="Retour en haut"><i class="fas fa-arrow-up"></i></button>
+<div id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<header id="mainHeader">
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html" class="logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></a>
+            <ul class="nav-links">
+                <li><a href="index.html#cours">Cours</a></li>
+                <li><a href="index.html#matieres">Matières</a></li>
+                <li><a href="epreuves.html">Épreuves</a></li>
+                <li><a href="ressources.html" class="active">Ressources</a></li>
+                <li><a href="index.html#enseignants">Enseignants</a></li>
+                <li><a href="index.html#ecoles">Écoles</a></li>
+            </ul>
+            <div class="nav-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="headerSearch" placeholder="Rechercher une ressource…">
+            </div>
+            <div class="nav-auth">
+                <a href="Authentification/auth.html" class="btn btn-outline btn-sm">Connexion</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-teal btn-sm">S'inscrire</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+        </nav>
+        <div class="mob-nav" id="mobNav">
+            <a href="index.html#cours">Cours</a>
+            <a href="epreuves.html">Épreuves gratuites</a>
+            <a href="ressources.html">Ressources</a>
+            <a href="index.html#enseignants">Enseignants</a>
+            <a href="index.html#ecoles">Écoles</a>
+            <div class="mob-auth">
+                <a href="Authentification/auth.html" class="btn btn-outline btn-sm">Connexion</a>
+                <a href="inscription/choix-inscription.html" class="btn btn-teal btn-sm">S'inscrire</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="rs-hero">
+    <div class="rs-hero-orb rs-hero-orb-1"></div>
+    <div class="rs-hero-orb rs-hero-orb-2"></div>
+    <div class="container">
+        <div class="rs-hero-inner">
+            <div class="rs-hero-txt">
+                <h1>Ressources <span>pédagogiques</span></h1>
+                <p>Fiches de révision, annales corrigées, exercices et résumés de cours — tout ce qu'il vous faut pour progresser au collège, créé par des enseignants certifiés.</p>
+                <div class="rs-hero-chips">
+                    <div class="rs-hero-chip"><i class="fas fa-file-alt"></i>Fiches de révision</div>
+                    <div class="rs-hero-chip"><i class="fas fa-history"></i>Annales BEPC</div>
+                    <div class="rs-hero-chip"><i class="fas fa-pencil-alt"></i>Exercices corrigés</div>
+                    <div class="rs-hero-chip"><i class="fas fa-book"></i>Résumés de cours</div>
+                </div>
+            </div>
+            <div class="rs-hero-stats">
+                <div class="rs-stat"><strong>340+</strong><span>Ressources</span></div>
+                <div class="rs-stat"><strong>28</strong><span>Enseignants</span></div>
+                <div class="rs-stat"><strong>4.7★</strong><span>Note moy.</span></div>
+                <div class="rs-stat"><strong>12K+</strong><span>Téléchargements</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+    <div class="container">
+        <div class="breadcrumb-inner">
+            <a href="index.html">Accueil</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Ressources pédagogiques</span>
+        </div>
+    </div>
+</div>
+
+<!-- ── NEW TOOLBAR ── -->
+<div class="toolbar-wrap">
+    <div class="container">
+        <div class="toolbar">
+            <div class="tb-filters">
+
+                <!-- Matière -->
+                <div class="filter-pill" id="pillMatiere">
+                    <i class="fas fa-book"></i>
+                    <select id="filterMatiere">
+                        <option value="all">Toutes matières</option>
+                        <option value="math">Mathématiques</option>
+                        <option value="physics">Physique-Chimie</option>
+                        <option value="svt">SVT</option>
+                        <option value="french">Français</option>
+                        <option value="english">Anglais</option>
+                        <option value="history">Histoire-Géo</option>
+                    </select>
+                </div>
+
+                <!-- Niveau -->
+                <div class="filter-pill" id="pillLevel">
+                    <i class="fas fa-graduation-cap"></i>
+                    <select id="filterLevel">
+                        <option value="all">Tous niveaux</option>
+                        <option value="6ème">6ème</option>
+                        <option value="5ème">5ème</option>
+                        <option value="4ème">4ème</option>
+                        <option value="3ème">3ème</option>
+                    </select>
+                </div>
+
+                <!-- Type -->
+                <div class="filter-pill" id="pillType">
+                    <i class="fas fa-tag"></i>
+                    <select id="filterType">
+                        <option value="all">Tous types</option>
+                        <option value="fiche">Fiches</option>
+                        <option value="annale">Annales</option>
+                        <option value="exercice">Exercices</option>
+                        <option value="resume">Résumés</option>
+                    </select>
+                </div>
+
+                <!-- Prix -->
+                <div class="filter-pill" id="pillPrice">
+                    <i class="fas fa-coins"></i>
+                    <select id="filterPrice">
+                        <option value="all">Tout tarif</option>
+                        <option value="1500">≤ 1 500 F</option>
+                        <option value="2500">≤ 2 500 F</option>
+                        <option value="3500">≤ 3 500 F</option>
+                    </select>
+                </div>
+
+                <!-- Tri -->
+                <div class="filter-pill" id="pillSort">
+                    <i class="fas fa-sort-amount-down"></i>
+                    <select id="sortSelect">
+                        <option value="popular">Plus populaires</option>
+                        <option value="recent">Plus récents</option>
+                        <option value="price-asc">Prix croissant</option>
+                        <option value="price-desc">Prix décroissant</option>
+                        <option value="rating">Mieux notés</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- View toggle -->
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid" title="Grille"><i class="fas fa-th"></i></button>
+                <button class="view-btn" data-view="list" title="Liste"><i class="fas fa-list"></i></button>
+            </div>
+        </div>
+
+        <!-- Active filter tags -->
+        <div class="active-filters" id="activeFilters"></div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="rs-main">
+    <div class="container">
+        <div class="rs-toolbar">
+            <div class="rs-count"><strong id="countDisplay">0</strong> ressources trouvées</div>
+        </div>
+        <div class="rs-grid" id="rsGrid"></div>
+        <div class="pagination" id="pagination"></div>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="ft-grid">
+            <div class="ft-brand">
+                <div class="ft-logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></div>
+                <p>La première plateforme éducative dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
+                <div class="soc-row">
+                    <a href="#" class="soc-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="soc-btn"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="soc-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="soc-btn"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="ft-col">
+                <h4>Navigation</h4>
+                <ul class="ft-links">
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i>Accueil</a></li>
+                    <li><a href="cours.html"><i class="fas fa-chevron-right"></i>Cours</a></li>
+                    <li><a href="epreuves.html"><i class="fas fa-chevron-right"></i>Épreuves gratuites</a></li>
+                    <li><a href="ressources.html"><i class="fas fa-chevron-right"></i>Ressources</a></li>
+                    <li><a href="enseignant.html"><i class="fas fa-chevron-right"></i>Enseignants</a></li>
+                </ul>
+            </div>
+            <div class="ft-col">
+                <h4>Ressources</h4>
+                <ul class="ft-links">
+                    <li><a href="faq.html"><i class="fas fa-chevron-right"></i>FAQ</a></li>
+                    <li><a href="blog.html"><i class="fas fa-chevron-right"></i>Blog</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i>Contact</a></li>
+                </ul>
+            </div>
+            <div class="ft-col">
+                <h4>Contact</h4>
+                <div class="ft-ci"><i class="fas fa-map-marker-alt"></i><span>Lomé, Togo</span></div>
+                <div class="ft-ci"><i class="fas fa-phone"></i><span>+228 XX XX XX XX</span></div>
+                <div class="ft-ci"><i class="fas fa-envelope"></i><span>contact@sukuli.tg</span></div>
+            </div>
+        </div>
+        <div class="ft-btm">
+            <p>© 2024 Sukuli. Tous droits réservés.</p>
+            <p><a href="privacy.php">Confidentialité</a> · <a href="terms.php">Conditions</a></p>
+        </div>
+    </div>
+</footer>
+
+<script>
+/* ── DATA ── */
+const ressources = [
+    {id:1,type:"annale",sub:"math",lv:"3ème",title:"Annales BEPC Mathématiques — 2019 à 2023 corrigées",t:"Koffi Agbessi",i:"KA",lieu:"Lomé, Togo",p:3000,r:4.9,dl:412},
+    {id:2,type:"fiche",sub:"math",lv:"6ème",title:"Fiches de révision — Mathématiques 6ème complet",t:"Koffi Agbessi",i:"KA",lieu:"Lomé, Togo",p:1500,r:4.8,dl:287},
+    {id:3,type:"exercice",sub:"physics",lv:"5ème",title:"Exercices corrigés — Physique-Chimie 5ème",t:"Yao Akakpo",i:"YA",lieu:"Kpalimé, Togo",p:1800,r:4.7,dl:198},
+    {id:4,type:"resume",sub:"french",lv:"4ème",title:"Résumés de cours — Français 4ème complet",t:"Aïcha Mensah",i:"AM",lieu:"Lomé, Togo",p:1200,r:4.6,dl:156},
+    {id:5,type:"fiche",sub:"svt",lv:"4ème",title:"Fiches SVT — La reproduction chez les êtres vivants",t:"Fatou Diallo",i:"FD",lieu:"Sokodé, Togo",p:800,r:4.5,dl:134},
+    {id:6,type:"annale",sub:"french",lv:"3ème",title:"Annales BEPC Français — Corrigés types et méthodes",t:"Aïcha Mensah",i:"AM",lieu:"Lomé, Togo",p:2500,r:4.9,dl:322},
+    {id:8,type:"fiche",sub:"english",lv:"6ème",title:"Fiches d'anglais — Vocabulaire et grammaire 6ème",t:"John Smith",i:"JS",lieu:"Lomé, Togo",p:900,r:4.6,dl:167},
+    {id:9,type:"resume",sub:"history",lv:"5ème",title:"Résumés Histoire-Géo — L'Afrique précoloniale 5ème",t:"Kodjo Adjo",i:"KA",lieu:"Tsévié, Togo",p:1000,r:4.9,dl:203},
+    {id:10,type:"exercice",sub:"svt",lv:"3ème",title:"Exercices SVT — Reproduction et génétique 3ème",t:"Fatou Diallo",i:"FD",lieu:"Sokodé, Togo",p:1500,r:4.8,dl:178},
+    {id:11,type:"annale",sub:"physics",lv:"3ème",title:"Annales BEPC Physique-Chimie — 2018 à 2022",t:"Yao Akakpo",i:"YA",lieu:"Kpalimé, Togo",p:2800,r:4.7,dl:245},
+    {id:13,type:"resume",sub:"physics",lv:"6ème",title:"Résumés Physique — Les états de la matière 6ème",t:"Yao Akakpo",i:"YA",lieu:"Kpalimé, Togo",p:700,r:4.4,dl:112},
+    {id:15,type:"annale",sub:"math",lv:"3ème",title:"Annales Mathématiques Régional — Togo 2015 à 2023",t:"Koffi Agbessi",i:"KA",lieu:"Lomé, Togo",p:3500,r:5.0,dl:521},
+    {id:16,type:"fiche",sub:"history",lv:"4ème",title:"Fiches Histoire — La colonisation de l'Afrique 4ème",t:"Kodjo Adjo",i:"KA",lieu:"Tsévié, Togo",p:1100,r:4.7,dl:143},
+    {id:17,type:"exercice",sub:"english",lv:"5ème",title:"Exercices d'Anglais — Reading & Writing 5ème",t:"John Smith",i:"JS",lieu:"Lomé, Togo",p:1200,r:4.5,dl:132},
+];
+
+/* ── STATE ── */
+let state = { search:'', sub:'all', lv:'all', type:'all', maxPrice:99999, sort:'popular', view:'grid' };
+let currentPage = 1;
+const PER_PAGE = 18;
+
+/* ── HELPERS ── */
+function subLabel(s){return{math:'Mathématiques',french:'Français',english:'Anglais',physics:'Physique-Chimie',svt:'SVT',history:'Histoire-Géo'}[s]||s;}
+function typeLabel(t){return{fiche:'Fiche',annale:'Annales',exercice:'Exercices',resume:'Résumés'}[t]||t;}
+function stars(r){let s='';for(let i=1;i<=5;i++){if(i<=Math.floor(r))s+='<i class="fas fa-star"></i>';else if(i-r<1)s+='<i class="fas fa-star-half-alt"></i>';else s+='<i class="far fa-star"></i>';}return s;}
+
+/* ── FILTER ── */
+function getFiltered(){
+    let arr = [...ressources];
+    // sort first
+    if(state.sort==='popular') arr.sort((a,b)=>b.dl-a.dl);
+    else if(state.sort==='recent') arr.sort((a,b)=>b.id-a.id);
+    else if(state.sort==='price-asc') arr.sort((a,b)=>a.p-b.p);
+    else if(state.sort==='price-desc') arr.sort((a,b)=>b.p-a.p);
+    else if(state.sort==='rating') arr.sort((a,b)=>b.r-a.r);
+    return arr.filter(r=>{
+        if(state.sub!=='all' && r.sub!==state.sub) return false;
+        if(state.lv!=='all' && r.lv!==state.lv) return false;
+        if(state.type!=='all' && r.type!==state.type) return false;
+        if(r.p > state.maxPrice) return false;
+        if(state.search){
+            const q=state.search.toLowerCase();
+            if(![r.title,r.t,subLabel(r.sub)].join(' ').toLowerCase().includes(q)) return false;
+        }
+        return true;
+    });
+}
+
+/* ── CARD ── */
+function mkCard(r){
+    const d=document.createElement('div');
+    d.className='cc reveal';
+    d.innerHTML=`
+      <div class="cc-strip"></div>
+      <div class="cc-body">
+        <div class="cc-badge-row">
+          <span class="badge-lv">${r.lv}</span>
+          <span class="badge-ressource">RESSOURCE</span>
+        </div>
+        <h3 class="cc-title">${r.title}</h3>
+        <p class="cc-sub">${subLabel(r.sub)}</p>
+        <div class="cc-trow">
+          <div class="cc-tav">${r.i}</div>
+          <div>
+            <div class="cc-tnm">${r.t}</div>
+            <div class="cc-trl"><i class="fas fa-map-marker-alt"></i> ${r.lieu}</div>
+          </div>
+        </div>
+        <div class="cc-meta">
+          <div class="cc-stars">${stars(r.r)}<span> ${r.r}</span></div>
+          <div class="cc-type-badge"><i class="fas fa-tag"></i> ${typeLabel(r.type)}</div>
+        </div>
+        <div class="cc-price">${r.p.toLocaleString('fr-FR')} FCFA</div>
+        <div class="cc-acts">
+          <button class="ca ca-g"><i class="fas fa-eye"></i> Aperçu</button>
+          <button class="ca ca-teal" onclick="showToast('🛒 Ajouté au panier !')"><i class="fas fa-shopping-cart"></i> Acheter</button>
+        </div>
+      </div>`;
+    return d;
+}
+
+/* ── RENDER ── */
+const obs = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible');});},{threshold:0.06});
+
+function render(){
+    const filtered = getFiltered();
+    const total = filtered.length;
+    document.getElementById('countDisplay').textContent = total;
+
+    const totalPages = Math.ceil(total/PER_PAGE);
+    currentPage = Math.min(currentPage, totalPages||1);
+    const slice = filtered.slice((currentPage-1)*PER_PAGE, currentPage*PER_PAGE);
+
+    const grid = document.getElementById('rsGrid');
+    grid.innerHTML='';
+    grid.className = 'rs-grid' + (state.view==='list' ? ' list-view' : '');
+
+    if(!slice.length){
+        grid.innerHTML=`<div class="empty-state"><i class="fas fa-search"></i><h3>Aucune ressource trouvée</h3><p>Essayez de modifier vos filtres ou votre recherche.</p><button class="btn btn-outline-d" onclick="resetFilters()"><i class="fas fa-undo"></i> Réinitialiser</button></div>`;
+    } else {
+        slice.forEach((r,i)=>{const card=mkCard(r);card.style.transitionDelay=`${i*0.04}s`;grid.appendChild(card);});
+        grid.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+    }
+    renderPagination(total, totalPages);
+    renderActiveFilters();
+    updatePillStates();
+}
+
+function renderPagination(total, totalPages){
+    const pg=document.getElementById('pagination');pg.innerHTML='';
+    if(totalPages<=1) return;
+    const prev=document.createElement('button');prev.className='pg-btn'+(currentPage===1?' disabled':'');prev.innerHTML='<i class="fas fa-chevron-left"></i>';
+    prev.onclick=()=>{if(currentPage>1){currentPage--;render();scrollTo({top:0,behavior:'smooth'});}};pg.appendChild(prev);
+    for(let i=1;i<=totalPages;i++){
+        if(i===1||i===totalPages||Math.abs(i-currentPage)<=1){
+            const btn=document.createElement('button');btn.className='pg-btn'+(i===currentPage?' active':'');btn.textContent=i;
+            btn.onclick=((p)=>()=>{currentPage=p;render();scrollTo({top:0,behavior:'smooth'});})(i);pg.appendChild(btn);
+        } else if(Math.abs(i-currentPage)===2){const dots=document.createElement('span');dots.className='pg-dots';dots.textContent='…';pg.appendChild(dots);}
+    }
+    const next=document.createElement('button');next.className='pg-btn'+(currentPage===totalPages?' disabled':'');next.innerHTML='<i class="fas fa-chevron-right"></i>';
+    next.onclick=()=>{if(currentPage<totalPages){currentPage++;render();scrollTo({top:0,behavior:'smooth'});}};pg.appendChild(next);
+}
+
+/* ── ACTIVE FILTER TAGS ── */
+function renderActiveFilters(){
+    const container=document.getElementById('activeFilters');container.innerHTML='';
+    const tags=[];
+    if(state.search) tags.push({label:`"${state.search}"`,clear:()=>{state.search='';document.getElementById('headerSearch').value='';currentPage=1;render();}});
+    if(state.sub!=='all') tags.push({label:subLabel(state.sub),clear:()=>{state.sub='all';document.getElementById('filterMatiere').value='all';currentPage=1;render();}});
+    if(state.lv!=='all') tags.push({label:state.lv,clear:()=>{state.lv='all';document.getElementById('filterLevel').value='all';currentPage=1;render();}});
+    if(state.type!=='all') tags.push({label:typeLabel(state.type),clear:()=>{state.type='all';document.getElementById('filterType').value='all';currentPage=1;render();}});
+    if(state.maxPrice<99999) tags.push({label:`≤ ${state.maxPrice.toLocaleString('fr-FR')} FCFA`,clear:()=>{state.maxPrice=99999;document.getElementById('filterPrice').value='all';currentPage=1;render();}});
+    if(!tags.length) return;
+    const lbl=document.createElement('span');lbl.className='af-label';lbl.textContent='Filtres actifs :';container.appendChild(lbl);
+    tags.forEach(tg=>{const span=document.createElement('span');span.className='af-tag';span.innerHTML=`${tg.label}<button title="Retirer">×</button>`;span.querySelector('button').addEventListener('click',tg.clear);container.appendChild(span);});
+    const clear=document.createElement('button');clear.className='af-clear';clear.innerHTML='<i class="fas fa-times"></i> Tout effacer';clear.addEventListener('click',resetFilters);container.appendChild(clear);
+}
+
+/* ── PILL HIGHLIGHT when active ── */
+function updatePillStates(){
+    const map = {
+        pillMatiere: state.sub!=='all',
+        pillLevel:   state.lv!=='all',
+        pillType:    state.type!=='all',
+        pillPrice:   state.maxPrice<99999,
+    };
+    Object.entries(map).forEach(([id,active])=>{
+        document.getElementById(id)?.classList.toggle('has-value', active);
+    });
+}
+
+/* ── RESET ── */
+function resetFilters(){
+    state={...state,search:'',sub:'all',lv:'all',type:'all',maxPrice:99999};
+    document.getElementById('headerSearch').value='';
+    document.getElementById('filterMatiere').value='all';
+    document.getElementById('filterLevel').value='all';
+    document.getElementById('filterType').value='all';
+    document.getElementById('filterPrice').value='all';
+    currentPage=1;render();
+    showToast('Filtres réinitialisés');
+}
+window.resetFilters=resetFilters;
+
+/* ── TOAST ── */
+function showToast(msg){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.className='show';setTimeout(()=>t.className='',3400);}
+window.showToast=showToast;
+
+/* ── EVENT LISTENERS ── */
+document.getElementById('filterMatiere').addEventListener('change',e=>{state.sub=e.target.value;currentPage=1;render();});
+document.getElementById('filterLevel').addEventListener('change',e=>{state.lv=e.target.value;currentPage=1;render();});
+document.getElementById('filterType').addEventListener('change',e=>{state.type=e.target.value;currentPage=1;render();});
+document.getElementById('filterPrice').addEventListener('change',e=>{
+    const v=e.target.value;
+    state.maxPrice = v==='all' ? 99999 : parseInt(v);
+    currentPage=1;render();
+});
+document.getElementById('sortSelect').addEventListener('change',e=>{state.sort=e.target.value;currentPage=1;render();});
+
+document.getElementById('headerSearch').addEventListener('input',e=>{state.search=e.target.value.trim();currentPage=1;render();});
+
+document.querySelectorAll('.view-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        state.view=btn.dataset.view;
+        render();
+    });
+});
+
+/* ── SCROLL / MOBILE ── */
+const btt=document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{btt.classList.toggle('show',scrollY>300);document.getElementById('mainHeader').classList.toggle('scrolled',scrollY>80);});
+btt.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+document.getElementById('menuToggle')?.addEventListener('click',()=>document.getElementById('mobNav').classList.toggle('open'));
+
+/* ── INIT ── */
+render();
+</script>
+</body>
+</html>

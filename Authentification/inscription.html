@@ -69,15 +69,15 @@
     scrollbar-color: var(--deep-muted) transparent;
   }
   .panel-left::-webkit-scrollbar { width: 4px; }
-  .panel-left::-webkit-scrollbar-thumb { background: var(--deep-muted); border-radius: 4px; }
+  .panel-left::-webkit-scrollbar-thumb { background: var(--deep-muted); border-radius: 1px; }
 
   .form-shell {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 32px 44px 40px;
-    max-width: 560px;
-    width: 100%;
+    padding: 15px 10px;
+    max-width: 590px;
+    width: 110%;
     margin: 0 auto;
   }
 
@@ -105,12 +105,6 @@
     font-weight: 800; font-size: 1.35rem; color: var(--txt);
   }
   .brand-name span { color: var(--teal); }
-  .login-link {
-    font-size: .84rem; color: var(--txt-m); font-weight: 600;
-    text-decoration: none; display: flex; align-items: center; gap: 5px;
-    transition: color .2s;
-  }
-  .login-link:hover { color: var(--deep); }
 
   /* ══ AVERTISSEMENT ══ */
   .warn-banner {
@@ -118,7 +112,7 @@
     background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
     border: 2px solid var(--warn-bdr);
     border-radius: 14px;
-    padding: 14px 18px 14px 56px;
+    padding: 10px 10px 10px 55px;
     margin-bottom: 26px;
     overflow: hidden;
     animation: warnPulse 3s ease-in-out infinite;
@@ -178,7 +172,7 @@
     0%,100% { opacity: 1; } 50% { opacity: .6; }
   }
   .warn-body {
-    font-size: .84rem;
+    font-size: .75rem;
     color: #78350f;
     line-height: 1.55;
   }
@@ -248,7 +242,7 @@
   .role-card {
     border: 2px solid var(--g200);
     border-radius: 14px;
-    padding: 18px 14px;
+    padding: 3px 14px;
     cursor: pointer;
     transition: all .26s;
     background: #fff;
@@ -574,29 +568,12 @@
     height: 100%; display: flex; flex-direction: column;
     padding: 36px 40px;
   }
-  .rc-top {
-    display: flex; align-items: center; gap: 10px;
-    text-decoration: none; margin-bottom: auto;
+  .login-link {
+    font-size: .84rem; color: var(--txt-m); font-weight: 600;
+    text-decoration: none; display: flex; align-items: center; gap: 5px;
+    transition: color .2s;
   }
-  .rc-badge {
-    width: 40px; height: 40px; border-radius: 11px;
-    background: rgba(255,255,255,.12); backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,.2);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Poppins', sans-serif; font-weight: 800; color: var(--gold); font-size: 1rem;
-  }
-  .rc-name { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.25rem; color: #fff; }
-  .rc-name span { color: var(--teal-light); }
-
-  .location-chip {
-    position: absolute; top: 36px; right: 36px;
-    display: flex; align-items: center; gap: 7px;
-    background: rgba(255,255,255,.12); backdrop-filter: blur(14px);
-    border: 1px solid rgba(255,255,255,.2); border-radius: 50px;
-    padding: 7px 14px; font-size: .78rem;
-    color: rgba(255,255,255,.85); font-weight: 700;
-  }
-  .location-chip i { color: var(--gold); }
+  .login-link:hover { color: var(--deep); }
 
   .rc-mid { display: flex; flex-direction: column; justify-content: center; flex: 1; }
   .city-label {
@@ -822,7 +799,6 @@
         <div class="brand-badge">S</div>
         <div class="brand-name">Suku<span>li</span></div>
       </a>
-      <a href="auth.html" class="login-link"><i class="fas fa-sign-in-alt"></i>Déjà inscrit ?</a>
     </div>
 
     <!-- Avertissement -->
@@ -1274,11 +1250,7 @@
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="right-content">
-    <a href="index.html" class="rc-top">
-      <div class="rc-badge">S</div>
-      <div class="rc-name">Suku<span>li</span></div>
-    </a>
-    <div class="location-chip"><i class="fas fa-map-marker-alt"></i>Lomé, Togo</div>
+    <a href="auth.html" class="login-link"><i class="fas fa-sign-in-alt"></i>Connexion</a>
     <div class="rc-mid">
       <p class="city-label">La capitale du Togo</p>
       <h2 class="rc-headline">Rejoignez la communauté<br>éducative de <span class="hl">Lomé</span></h2>

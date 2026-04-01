@@ -9,9 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-    /* ══════════════════════════════════════════
-       DESIGN TOKENS — Sukuli System
-    ══════════════════════════════════════════ */
     :root{
         --deep:#002f2a; --deep-alt:#003333; --deep-mid:#003d38;
         --deep-hover:#004d45; --deep-light:#005a52; --deep-pale:#e5f0ef;
@@ -34,24 +31,16 @@
     html{scroll-behavior:smooth}
     body{font-family:'Nunito',sans-serif;background:var(--off-white);color:var(--txt-b);line-height:1.65;overflow-x:hidden}
     h1,h2,h3,h4,h5{font-family:'Poppins',sans-serif;line-height:1.25;color:var(--txt)}
-    .container{width:100%;max-width:1280px;margin:0 auto;padding:0 24px}
-
-    /* ── REVEAL ── */
+    .container{width:100%;max-width:1400px;margin:0 auto;padding:0 24px}
     .reveal{opacity:0;transform:translateY(20px);transition:opacity .55s,transform .55s}
     .reveal-left{opacity:0;transform:translateX(-28px);transition:opacity .6s,transform .6s}
     .reveal-right{opacity:0;transform:translateX(28px);transition:opacity .6s,transform .6s}
     .reveal.visible,.reveal-left.visible,.reveal-right.visible{opacity:1;transform:translate(0)}
-
-    /* ── BACK TO TOP ── */
     #backToTop{position:fixed;bottom:28px;right:28px;z-index:9000;width:44px;height:44px;border-radius:50%;background:var(--deep);color:var(--gold);border:2px solid var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 6px 20px rgba(0,47,42,.4);opacity:0;transform:translateY(14px) scale(.85);transition:all .32s cubic-bezier(.4,0,.2,1)}
     #backToTop.show{opacity:1;transform:translateY(0) scale(1)}
     #backToTop:hover{background:var(--gold);color:var(--deep);transform:translateY(-3px) scale(1.06)}
-
-    /* ── TOAST ── */
     #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--deep);color:#fff;padding:12px 26px;border-radius:50px;font-size:.9rem;font-weight:700;box-shadow:0 8px 24px rgba(0,47,42,.4);z-index:9200;border:1px solid var(--teal-light);transition:transform .36s cubic-bezier(.34,1.56,.64,1),opacity .36s;opacity:0;display:flex;align-items:center;gap:8px}
     #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-
-    /* ── BUTTONS ── */
     .btn{display:inline-flex;align-items:center;gap:7px;padding:11px 26px;border-radius:50px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;text-decoration:none;transition:all .25s;font-family:'Poppins',sans-serif}
     .btn-deep{background:var(--deep);color:#fff;box-shadow:0 4px 16px rgba(0,47,42,.3)}
     .btn-deep:hover{background:var(--deep-hover);transform:translateY(-2px)}
@@ -65,10 +54,6 @@
     .btn-outline-d:hover{border-color:var(--deep);color:var(--deep)}
     .btn-lg{padding:14px 36px;font-size:1rem}
     .btn-sm{padding:8px 18px;font-size:.82rem}
-
-    /* ══════════════════════════════════════════
-       HEADER
-    ══════════════════════════════════════════ */
     header{position:sticky;top:0;z-index:1000;background:var(--hdr);box-shadow:0 2px 16px rgba(0,0,0,.22);transition:box-shadow .3s}
     header.scrolled{box-shadow:0 4px 28px rgba(0,0,0,.35)}
     .navbar{display:flex;align-items:center;padding:10px 0;gap:14px;flex-wrap:wrap}
@@ -91,14 +76,7 @@
     .mob-nav a{text-decoration:none;color:rgba(255,255,255,.72);font-weight:600;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.92rem}
     .mob-auth{display:flex;gap:9px;margin-top:13px}
     .mob-auth .btn{flex:1;justify-content:center}
-
-    /* ══════════════════════════════════════════
-       PAGE HERO — Cours
-    ══════════════════════════════════════════ */
-    .page-hero{
-        position:relative;background:var(--deep);overflow:hidden;
-        padding:52px 0 40px;
-    }
+    .page-hero{position:relative;background:var(--deep);overflow:hidden;padding:52px 0 40px}
     .ph-ov{position:absolute;inset:0;background:linear-gradient(130deg,rgba(0,47,42,.98) 0%,rgba(0,61,55,.9) 55%,rgba(0,77,69,.85) 100%)}
     .ph-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:52px 52px}
     .ph-glow{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
@@ -117,32 +95,16 @@
     .ph-stat i{color:var(--teal-light);font-size:.85rem}
     .ph-stat strong{font-family:'Poppins',sans-serif;font-size:.92rem;font-weight:800;color:#fff}
     .ph-stat span{font-size:.74rem;color:rgba(255,255,255,.5)}
-
-    /* ══════════════════════════════════════════
-       TOOLBAR (search + filters + sort)
-    ══════════════════════════════════════════ */
-    .toolbar-wrap{
-        background:#fff;border-bottom:1.5px solid var(--g200);
-        position:sticky;top:60px;z-index:800;
-        box-shadow:0 4px 16px rgba(0,47,42,.07);
-    }
+    .toolbar-wrap{background:#fff;border-bottom:1.5px solid var(--g200);position:sticky;top:60px;z-index:800;box-shadow:0 4px 16px rgba(0,47,42,.07)}
     .toolbar{display:flex;align-items:center;gap:12px;padding:12px 0;flex-wrap:wrap}
-    /* filter pills */
     .tb-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
     .filter-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:50px;border:1.5px solid var(--g200);background:#fff;font-size:.8rem;font-weight:700;color:var(--txt-m);cursor:pointer;transition:all .22s;font-family:'Poppins',sans-serif}
     .filter-pill:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-pale)}
     .filter-pill.active{background:var(--deep);color:#fff;border-color:var(--deep)}
     .filter-pill select{border:none;background:transparent;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;color:inherit;outline:none;cursor:pointer;padding:0}
-    /* sort */
-    .tb-sort{display:flex;align-items:center;gap:8px;margin-left:auto}
-    .tb-sort-label{font-size:.78rem;color:var(--txt-m);font-weight:600;white-space:nowrap}
-    .tb-sort select{padding:8px 14px;border:1.5px solid var(--g200);border-radius:var(--r-sm);font-size:.82rem;background:#fff;font-family:'Poppins',sans-serif;color:var(--txt-b);outline:none;cursor:pointer;transition:border-color .2s}
-    .tb-sort select:focus{border-color:var(--teal)}
-    /* view toggle */
-    .view-toggle{display:flex;gap:4px;background:var(--g100);border-radius:var(--r-sm);padding:4px}
+    .view-toggle{display:flex;gap:4px;background:var(--g100);border-radius:var(--r-sm);padding:4px;margin-left:auto}
     .view-btn{width:34px;height:34px;border:none;background:transparent;border-radius:6px;cursor:pointer;color:var(--g400);font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
     .view-btn.active{background:#fff;color:var(--deep);box-shadow:var(--sh-sm)}
-    /* active filters display */
     .active-filters{display:flex;gap:6px;flex-wrap:wrap;padding:8px 0 12px;align-items:center}
     .active-filters:empty{display:none}
     .af-label{font-size:.76rem;color:var(--txt-m);font-weight:600}
@@ -150,73 +112,15 @@
     .af-tag button{background:none;border:none;color:var(--deep);cursor:pointer;font-size:.75rem;padding:0;line-height:1;margin-left:2px}
     .af-clear{font-size:.74rem;color:var(--txt-m);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:50px;transition:all .2s}
     .af-clear:hover{background:var(--g100);color:var(--deep)}
-
-    /* ══════════════════════════════════════════
-       MAIN LAYOUT (sidebar + content)
-    ══════════════════════════════════════════ */
-    .page-layout{display:grid;grid-template-columns:260px 1fr;gap:28px;padding:32px 0 56px}
-
-    /* SIDEBAR */
-    .sidebar{position:sticky;top:120px;height:fit-content;display:flex;flex-direction:column;gap:16px}
-    .sb-card{background:#fff;border-radius:var(--r-lg);border:1.5px solid var(--g200);overflow:hidden}
-    .sb-head{padding:14px 18px;background:var(--deep);color:#fff;display:flex;align-items:center;justify-content:space-between}
-    .sb-head h3{font-size:.88rem;font-weight:700;color:#fff}
-    .sb-head i{color:var(--teal-light);font-size:.85rem}
-    .sb-body{padding:16px 18px}
-    /* matière filter */
-    .mat-list{list-style:none;display:flex;flex-direction:column;gap:2px}
-    .mat-item{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:var(--r-sm);cursor:pointer;transition:all .2s}
-    .mat-item:hover{background:var(--deep-pale)}
-    .mat-item.active{background:var(--deep);color:#fff}
-    .mat-item.active .mat-ico{color:var(--gold)}
-    .mat-item.active .mat-count{background:rgba(255,255,255,.2);color:#fff}
-    .mat-lft{display:flex;align-items:center;gap:8px}
-    .mat-ico{font-size:.95rem;width:18px;text-align:center}
-    .mat-name{font-size:.84rem;font-weight:600;color:var(--txt)}
-    .mat-item.active .mat-name{color:#fff}
-    .mat-count{background:var(--g100);color:var(--txt-m);padding:2px 8px;border-radius:50px;font-size:.68rem;font-weight:700;font-family:'Poppins',sans-serif}
-    /* level filter */
-    .lv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .lv-btn{padding:9px 6px;border:2px solid var(--g200);border-radius:var(--r-sm);text-align:center;cursor:pointer;font-size:.82rem;font-weight:700;font-family:'Poppins',sans-serif;color:var(--txt-m);background:#fff;transition:all .22s}
-    .lv-btn:hover{border-color:var(--teal);color:var(--teal)}
-    .lv-btn.active{background:var(--deep);color:#fff;border-color:var(--deep)}
-    /* price range */
-    .pr-range{display:flex;flex-direction:column;gap:8px}
-    .pr-row{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--txt-m)}
-    .pr-row strong{font-family:'Poppins',sans-serif;color:var(--deep);font-size:.84rem}
-    input[type=range].pr-slider{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--teal) var(--v,50%),var(--g200) var(--v,50%));outline:none;cursor:pointer}
-    input[type=range].pr-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--deep);border:2px solid var(--teal-light);box-shadow:0 2px 8px rgba(0,47,42,.2)}
-    /* type filter */
-    .type-list{display:flex;flex-direction:column;gap:6px}
-    .type-item{display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 0}
-    .type-item input[type=checkbox]{accent-color:var(--teal);width:15px;height:15px;cursor:pointer}
-    .type-item label{font-size:.84rem;font-weight:600;color:var(--txt-b);cursor:pointer}
-    /* reset */
-    .sb-reset{width:100%;padding:10px;background:var(--g100);border:1.5px solid var(--g200);border-radius:var(--r-sm);color:var(--txt-m);font-weight:700;font-size:.82rem;cursor:pointer;transition:all .22s;font-family:'Poppins',sans-serif}
-    .sb-reset:hover{background:var(--deep-pale);border-color:var(--deep-muted);color:var(--deep)}
-
-    /* ══════════════════════════════════════════
-       CONTENT AREA
-    ══════════════════════════════════════════ */
-    .content-area{min-width:0}
-    /* results info */
-    .results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px}
-    .results-count{font-size:.88rem;color:var(--txt-m);font-weight:600}
-    .results-count strong{color:var(--deep);font-family:'Poppins',sans-serif;font-size:1rem}
-
-    /* ── CATEGORY BLOCK ── */
+    .page-layout{display:block;padding:32px 0 56px}
     .cat-block{margin-bottom:38px}
     .cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding:14px 20px;border-radius:var(--r-md);background:var(--deep-pale);border-left:5px solid var(--deep)}
     .cat-header-l{display:flex;align-items:center;gap:10px}
     .cat-ico{font-size:.95rem;color:var(--deep)}
     .cat-header h3{font-size:.95rem;margin:0;color:var(--deep)}
     .cat-count{font-size:.75rem;font-weight:700;padding:3px 9px;border-radius:50px;background:rgba(0,47,42,.1);color:var(--deep)}
-
-    /* ── GRID + LIST MODES ── */
-    .courses-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .courses-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
     .courses-grid.list-mode{grid-template-columns:1fr}
-
-    /* ── COURSE CARD ── */
     .cc{background:#fff;border-radius:var(--r-md);border:1.5px solid var(--g200);overflow:hidden;transition:all .3s;display:flex;flex-direction:column;position:relative}
     .cc:hover{transform:translateY(-4px);box-shadow:var(--sh-md);border-color:var(--deep-muted)}
     .cc-strip{height:4px;background:linear-gradient(90deg,var(--deep),var(--teal))}
@@ -226,13 +130,12 @@
     .b-lv{background:var(--deep-pale);color:var(--deep)}.b-fr{background:var(--teal-pale);color:var(--teal)}.b-pm{background:#fdf6dc;color:var(--amber)}.b-st{background:var(--g100);color:var(--g500)}.b-rs{background:rgba(26,181,160,.15);color:var(--teal-light)}.b-new{background:#fff3e0;color:#e65100}
     .cc-title{font-size:.86rem;font-weight:700;color:var(--txt);margin:6px 0 4px;line-height:1.32;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
     .cc-sub{font-size:.72rem;color:var(--txt-m);margin-bottom:8px}
-    .cc-trow{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+    .cc-trow{display:flex;align-items:center;gap:6px;margin-bottom:4px}
     .cc-tav{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--deep),var(--teal));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.65rem;font-family:'Poppins',sans-serif}
     .cc-tnm{font-size:.74rem;font-weight:600;color:var(--txt)}
-    .cc-trl{font-size:.65rem;color:var(--txt-m)}
-    .cc-loc{font-size:.69rem;color:var(--txt-m);display:flex;align-items:center;gap:4px;margin-bottom:8px}
-    .cc-loc i{color:var(--teal);font-size:.65rem}
-    .cc-meta{display:flex;justify-content:space-between;align-items:center;margin:4px 0}
+    .cc-trl{font-size:.65rem;color:var(--txt-m);display:flex;align-items:center;gap:3px;margin-top:1px}
+    .cc-trl i{color:var(--teal);font-size:.6rem}
+    .cc-meta{display:flex;justify-content:space-between;align-items:center;margin:6px 0 4px}
     .cc-stars{color:var(--gold);font-size:.7rem}
     .cc-stars span{color:var(--txt-m);font-weight:700}
     .cc-cnt{font-size:.66rem;color:var(--txt-m)}
@@ -245,41 +148,16 @@
     .ca-d{background:var(--deep);color:#fff}.ca-d:hover{background:var(--deep-hover)}
     .ca-p{background:var(--teal);color:#fff}.ca-p:hover{background:#138f7d}
     .ca-gld{background:var(--gold);color:var(--deep)}.ca-gld:hover{background:var(--amber);color:#fff}
-
-    /* LIST MODE card */
     .list-mode .cc{flex-direction:row}
     .list-mode .cc-strip{width:4px;height:auto;background:linear-gradient(180deg,var(--deep),var(--teal))}
     .list-mode .cc-body{flex-direction:row;gap:16px;align-items:flex-start;padding:16px}
     .list-mode .cc-main{flex:1;min-width:0}
     .list-mode .cc-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;min-width:140px}
     .list-mode .cc-acts{flex-direction:column;width:100%}
-
-    /* RESOURCE CARD in dark wrapper */
-    .rs-wrap{background:linear-gradient(135deg,#002a25 0%,#003535 100%);border-radius:var(--r-md);padding:14px}
-    .rs-wrap .cc{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.05)}
-    .rs-wrap .cc:hover{border-color:var(--teal-light);background:rgba(255,255,255,.09)}
-    .rs-wrap .cc-title{color:rgba(255,255,255,.9)}
-    .rs-wrap .cc-sub{color:rgba(255,255,255,.5)}
-    .rs-wrap .cc-tnm{color:rgba(255,255,255,.82)}
-    .rs-wrap .cc-trl{color:rgba(255,255,255,.45)}
-    .rs-wrap .cc-loc{color:rgba(255,255,255,.4)}
-    .rs-wrap .cc-loc i{color:var(--teal-light)}
-    .rs-wrap .cc-stars{color:var(--gold)}
-    .rs-wrap .cc-cnt,.rs-wrap .cc-stars span{color:rgba(255,255,255,.45)}
-    .rs-wrap .cc-price{color:rgba(255,255,255,.9)}
-    .rs-wrap .cc-price.free{color:var(--teal-light)}
-    .rs-wrap .ca-g{background:rgba(255,255,255,.1);color:rgba(255,255,255,.6)}
-    .rs-wrap .ca-g:hover{background:rgba(255,255,255,.18)}
-
-    /* EMPTY STATE */
     .empty-state{text-align:center;padding:60px 20px;color:var(--txt-m)}
     .empty-state i{font-size:3rem;opacity:.3;display:block;margin-bottom:14px}
     .empty-state h3{font-size:1.1rem;color:var(--txt);margin-bottom:6px}
     .empty-state p{font-size:.88rem}
-
-    /* ══════════════════════════════════════════
-       MODAL
-    ══════════════════════════════════════════ */
     .modal-overlay{position:fixed;inset:0;background:rgba(0,18,16,.65);display:none;align-items:center;justify-content:center;z-index:9100;backdrop-filter:blur(8px)}
     .modal-overlay.active{display:flex;animation:fIn .25s ease}
     @keyframes fIn{from{opacity:0}to{opacity:1}}
@@ -303,10 +181,6 @@
     .role-desc{font-size:.7rem;color:var(--txt-m);line-height:1.45}
     .modal-info{background:var(--deep-pale);border-radius:var(--r-sm);padding:12px 16px;border-left:4px solid var(--deep);font-size:.86rem;color:var(--txt-b)}
     .modal-info a{color:var(--deep);font-weight:700;text-decoration:none}
-
-    /* ══════════════════════════════════════════
-       FOOTER
-    ══════════════════════════════════════════ */
     footer{background:#0a1a18;border-top:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.52);padding:56px 0 24px}
     .ft-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
     .ft-brand p{font-size:.84rem;line-height:1.75;color:rgba(255,255,255,.5);margin:13px 0 16px}
@@ -326,39 +200,26 @@
     .ft-btm{border-top:1px solid rgba(255,255,255,.07);padding-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
     .ft-btm p{font-size:.78rem}
     .ft-btm a{color:var(--teal-light);text-decoration:none}
-
-    /* ══════════════════════════════════════════
-       PAGINATION
-    ══════════════════════════════════════════ */
     .pagination{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:32px}
     .pg-btn{width:36px;height:36px;border-radius:var(--r-sm);border:1.5px solid var(--g200);background:#fff;color:var(--txt-m);font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:'Poppins',sans-serif}
     .pg-btn:hover,.pg-btn.active{background:var(--deep);color:#fff;border-color:var(--deep)}
     .pg-btn:disabled{opacity:.4;cursor:not-allowed}
     .pg-btn:disabled:hover{background:#fff;color:var(--txt-m);border-color:var(--g200)}
-
-    /* ══════════════════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════════════════ */
-    @media(max-width:1100px){
-        .courses-grid{grid-template-columns:repeat(3,1fr)}
-        .page-layout{grid-template-columns:220px 1fr}
-    }
+    @media(max-width:1200px){.courses-grid{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:1000px){.courses-grid{grid-template-columns:repeat(3,1fr)}}
     @media(max-width:900px){
-        .page-layout{grid-template-columns:1fr}
-        .sidebar{position:static;display:grid;grid-template-columns:repeat(2,1fr)}
-        .sb-card:last-child{grid-column:1/-1}
         .nav-links,.nav-auth{display:none}
         .menu-toggle{display:flex}
         .navbar{justify-content:space-between}
         .nav-search{max-width:none;order:3;width:100%;margin:8px 0 0}
-        .courses-grid{grid-template-columns:repeat(3,1fr)}
+        .toolbar{flex-direction:column;align-items:stretch}
+        .view-toggle{margin-left:0;align-self:center}
+        .tb-filters{justify-content:center}
     }
-    @media(max-width:680px){
+    @media(max-width:750px){
         .courses-grid{grid-template-columns:repeat(2,1fr)}
         .role-grid{grid-template-columns:repeat(2,1fr)}
         .ft-grid{grid-template-columns:1fr}
-        .sidebar{grid-template-columns:1fr}
-        .toolbar{flex-wrap:wrap}
     }
     @media(max-width:480px){
         .courses-grid{grid-template-columns:1fr}
@@ -372,7 +233,6 @@
 <button id="backToTop" title="Retour en haut"><i class="fas fa-arrow-up"></i></button>
 <div id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
 
-<!-- ── MODAL INSCRIPTION ── -->
 <div class="modal-overlay" id="signupModal">
     <div class="modal-box">
         <div class="modal-head">
@@ -395,9 +255,6 @@
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     HEADER
-══════════════════════════════════════════ -->
 <header id="mainHeader">
     <div class="container">
         <nav class="navbar">
@@ -438,9 +295,6 @@
     </div>
 </header>
 
-<!-- ══════════════════════════════════════════
-     PAGE HERO
-══════════════════════════════════════════ -->
 <section class="page-hero">
     <div class="ph-ov"></div>
     <div class="ph-grid"></div>
@@ -457,20 +311,27 @@
         <div class="ph-stats-row reveal">
             <div class="ph-stat"><i class="fas fa-book"></i><strong>500+</strong><span>Cours</span></div>
             <div class="ph-stat"><i class="fas fa-chalkboard-teacher"></i><strong>120+</strong><span>Enseignants</span></div>
-            <div class="ph-stat"><i class="fas fa-folder-open"></i><strong>200+</strong><span>Ressources</span></div>
             <div class="ph-stat"><i class="fas fa-star"></i><strong>4.8 ★</strong><span>Note moyenne</span></div>
         </div>
     </div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     TOOLBAR
-══════════════════════════════════════════ -->
 <div class="toolbar-wrap">
     <div class="container">
         <div class="toolbar">
-            <!-- Filter pills -->
             <div class="tb-filters">
+                <div class="filter-pill" id="pillMatiere">
+                    <i class="fas fa-book"></i>
+                    <select id="filterMatiere">
+                        <option value="all">Toutes matières</option>
+                        <option value="math">Mathématiques</option>
+                        <option value="physics">Physique-Chimie</option>
+                        <option value="svt">SVT</option>
+                        <option value="french">Français</option>
+                        <option value="english">Anglais</option>
+                        <option value="history">Histoire-Géo</option>
+                    </select>
+                </div>
                 <div class="filter-pill" id="pillLevel">
                     <i class="fas fa-graduation-cap"></i>
                     <select id="filterLevel">
@@ -481,14 +342,13 @@
                         <option value="3ème">3ème</option>
                     </select>
                 </div>
-                <div class="filter-pill" id="pillType">
-                    <i class="fas fa-layer-group"></i>
-                    <select id="filterType">
-                        <option value="all">Tous types</option>
-                        <option value="individuel">Individuel</option>
-                        <option value="groupe">Groupe</option>
-                        <option value="en-ligne">En ligne</option>
-                        <option value="intensif">Intensif</option>
+                <div class="filter-pill" id="pillFormula">
+                    <i class="fas fa-crown"></i>
+                    <select id="filterFormula">
+                        <option value="all">Toutes formules</option>
+                        <option value="gratuit">Gratuit</option>
+                        <option value="standard">Standard</option>
+                        <option value="premium">Premium</option>
                     </select>
                 </div>
                 <div class="filter-pill" id="pillPrice">
@@ -500,127 +360,33 @@
                         <option value="5000">≤ 5 000 F</option>
                     </select>
                 </div>
-            </div>
-            <!-- Sort + view -->
-            <div class="tb-sort">
-                <span class="tb-sort-label">Trier :</span>
-                <select id="sortBy">
-                    <option value="popular">Popularité</option>
-                    <option value="rating">Meilleures notes</option>
-                    <option value="price-low">Prix ↑</option>
-                    <option value="price-high">Prix ↓</option>
-                    <option value="newest">Nouveautés</option>
-                </select>
-                <div class="view-toggle">
-                    <button class="view-btn active" data-view="grid" title="Grille"><i class="fas fa-th"></i></button>
-                    <button class="view-btn" data-view="list" title="Liste"><i class="fas fa-list"></i></button>
+                <div class="filter-pill" id="pillVille">
+                    <i class="fas fa-city"></i>
+                    <select id="filterVille">
+                        <option value="all">Toutes villes</option>
+                        <option value="Lomé">Lomé</option>
+                        <option value="Kara">Kara</option>
+                        <option value="Sokodé">Sokodé</option>
+                        <option value="Kpalimé">Kpalimé</option>
+                        <option value="Dapaong">Dapaong</option>
+                    </select>
                 </div>
             </div>
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid" title="Grille"><i class="fas fa-th"></i></button>
+                <button class="view-btn" data-view="list" title="Liste"><i class="fas fa-list"></i></button>
+            </div>
         </div>
-        <!-- Active filters tags -->
         <div class="active-filters" id="activeFilters"></div>
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     PAGE LAYOUT
-══════════════════════════════════════════ -->
 <div class="container">
     <div class="page-layout">
-
-        <!-- ── SIDEBAR ── -->
-        <aside class="sidebar" id="sidebar">
-
-            <!-- Matières -->
-            <div class="sb-card">
-                <div class="sb-head">
-                    <h3>Matières</h3><i class="fas fa-book-open"></i>
-                </div>
-                <div class="sb-body">
-                    <ul class="mat-list" id="matList">
-                        <li class="mat-item active" data-sub="all">
-                            <div class="mat-lft"><span class="mat-ico">📚</span><span class="mat-name">Toutes les matières</span></div>
-                            <span class="mat-count" id="countAll">25</span>
-                        </li>
-                        <li class="mat-item" data-sub="math">
-                            <div class="mat-lft"><span class="mat-ico">📐</span><span class="mat-name">Mathématiques</span></div>
-                            <span class="mat-count" id="countMath">5</span>
-                        </li>
-                        <li class="mat-item" data-sub="physics">
-                            <div class="mat-lft"><span class="mat-ico">⚗️</span><span class="mat-name">Physique-Chimie</span></div>
-                            <span class="mat-count" id="countPhysics">5</span>
-                        </li>
-                        <li class="mat-item" data-sub="svt">
-                            <div class="mat-lft"><span class="mat-ico">🌿</span><span class="mat-name">SVT</span></div>
-                            <span class="mat-count" id="countSvt">3</span>
-                        </li>
-                        <li class="mat-item" data-sub="french">
-                            <div class="mat-lft"><span class="mat-ico">📖</span><span class="mat-name">Français</span></div>
-                            <span class="mat-count" id="countFrench">5</span>
-                        </li>
-                        <li class="mat-item" data-sub="english">
-                            <div class="mat-lft"><span class="mat-ico">🌍</span><span class="mat-name">Anglais</span></div>
-                            <span class="mat-count" id="countEnglish">5</span>
-                        </li>
-                        <li class="mat-item" data-sub="history">
-                            <div class="mat-lft"><span class="mat-ico">🗺️</span><span class="mat-name">Histoire-Géo</span></div>
-                            <span class="mat-count" id="countHistory">2</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Niveaux -->
-            <div class="sb-card">
-                <div class="sb-head"><h3>Niveau scolaire</h3><i class="fas fa-graduation-cap"></i></div>
-                <div class="sb-body">
-                    <div class="lv-grid">
-                        <button class="lv-btn active" data-lv="all">Tous</button>
-                        <button class="lv-btn" data-lv="6ème">6ème</button>
-                        <button class="lv-btn" data-lv="5ème">5ème</button>
-                        <button class="lv-btn" data-lv="4ème">4ème</button>
-                        <button class="lv-btn" data-lv="3ème">3ème</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Prix -->
-            <div class="sb-card">
-                <div class="sb-head"><h3>Budget maximum</h3><i class="fas fa-tag"></i></div>
-                <div class="sb-body">
-                    <div class="pr-range">
-                        <div class="pr-row"><span>0 FCFA</span><strong id="priceLabel">5 000 FCFA</strong></div>
-                        <input type="range" class="pr-slider" id="priceSlider" min="0" max="6000" step="500" value="6000">
-                        <div class="pr-row" style="justify-content:center;font-size:.73rem;color:var(--txt-m);margin-top:2px"><i class="fas fa-info-circle" style="color:var(--teal)"></i>&nbsp;Glissez pour filtrer</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Format -->
-            <div class="sb-card">
-                <div class="sb-head"><h3>Format du cours</h3><i class="fas fa-layer-group"></i></div>
-                <div class="sb-body">
-                    <div class="type-list">
-                        <label class="type-item"><input type="checkbox" class="type-cb" value="individuel"> <span>Individuel</span></label>
-                        <label class="type-item"><input type="checkbox" class="type-cb" value="groupe"> <span>Groupe</span></label>
-                        <label class="type-item"><input type="checkbox" class="type-cb" value="en-ligne"> <span>En ligne</span></label>
-                        <label class="type-item"><input type="checkbox" class="type-cb" value="intensif"> <span>Intensif</span></label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Réinitialiser -->
-            <button class="sb-reset" id="resetAll"><i class="fas fa-undo"></i> Réinitialiser les filtres</button>
-
-        </aside>
-
-        <!-- ── CONTENT ── -->
         <main class="content-area">
             <div class="results-bar">
                 <p class="results-count"><strong id="totalCount">25</strong> cours trouvés</p>
             </div>
-
-            <!-- COURS DISPONIBLES (fusionné Sciences + Littérature) -->
             <div class="cat-block" id="blockCourses">
                 <div class="cat-header">
                     <div class="cat-header-l">
@@ -631,31 +397,11 @@
                 </div>
                 <div class="courses-grid" id="coursesGrid"></div>
             </div>
-
-            <!-- RESSOURCES PÉDAGOGIQUES (distinct) -->
-            <div class="cat-block" id="blockRes">
-                <div class="cat-header cat-rs" style="background:linear-gradient(90deg,#002f2a,#003535);border-left:5px solid var(--teal-light);">
-                    <div class="cat-header-l">
-                        <i class="fas fa-folder-open cat-ico" style="color:rgba(255,255,255,.9);"></i>
-                        <h3 style="color:rgba(255,255,255,.9);">Ressources pédagogiques — Fiches, Annales, Exercices</h3>
-                        <span class="cat-count" id="ccRs" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);">5</span>
-                    </div>
-                </div>
-                <div class="rs-wrap">
-                    <div class="courses-grid" id="rsGrid"></div>
-                </div>
-            </div>
-
-            <!-- Pagination -->
             <div class="pagination" id="pagination"></div>
         </main>
+    </div>
+</div>
 
-    </div><!-- .page-layout -->
-</div><!-- .container -->
-
-<!-- ══════════════════════════════════════════
-     FOOTER
-══════════════════════════════════════════ -->
 <footer id="contact">
     <div class="container">
         <div class="ft-grid">
@@ -703,52 +449,33 @@
 </footer>
 
 <script>
-/* ══════════════════════════════════════════
-   DATA
-══════════════════════════════════════════ */
 const ALL_COURSES = [
-    // Sciences
-    {id:1,title:"Mathématiques — Niveau 6ème",sub:"math",lv:"6ème",t:"M. Koffi Agbessi",i:"KA",pr:"Collège Protestant",loc:"Lomé",p:2500,fr:false,r:4.9,n:124,type:"individuel",pm:true,isNew:false},
-    {id:2,title:"Physique-Chimie — Électricité 4ème",sub:"physics",lv:"4ème",t:"Dr. Yao Akakpo",i:"YA",pr:"Prof. de Physique",loc:"Kara",p:3500,fr:false,r:4.7,n:92,type:"individuel",pm:true,isNew:false},
-    {id:3,title:"SVT — Le Monde Vivant 5ème",sub:"svt",lv:"5ème",t:"Mme Fatou Diallo",i:"FD",pr:"Biologiste",loc:"Sokodé",p:2800,fr:false,r:4.5,n:76,type:"groupe",pm:false,isNew:true},
-    {id:4,title:"Sciences — Révision complète 3ème",sub:"physics",lv:"3ème",t:"Dr. Lawson Komla",i:"LK",pr:"Chercheur",loc:"Lomé",p:4500,fr:false,r:4.7,n:124,type:"groupe",pm:true,isNew:false},
-    {id:5,title:"Mathématiques — Géométrie 5ème",sub:"math",lv:"5ème",t:"Dr. Komla Lawson",i:"KL",pr:"Enseignant expérimenté",loc:"Dapaong",p:3000,fr:false,r:4.8,n:87,type:"individuel",pm:true,isNew:false},
-    {id:6,title:"Chimie — Initiation 4ème",sub:"physics",lv:"4ème",t:"M. Amah Agbeko",i:"AA",pr:"Étudiant 3ème an. Chimie",loc:"Lomé",p:2000,fr:false,r:4.4,n:58,type:"groupe",pm:false,isNew:true},
-    {id:7,title:"Biologie — Anatomie 3ème",sub:"svt",lv:"3ème",t:"Mme Awa Touré",i:"AT",pr:"Infirmière diplômée",loc:"Kpalimé",p:3200,fr:false,r:4.6,n:72,type:"individuel",pm:false,isNew:false},
-    {id:8,title:"Mathématiques — Préparation BEPC",sub:"math",lv:"3ème",t:"Prof. Jean Dupont",i:"JD",pr:"Lycée Français",loc:"Lomé",p:5000,fr:false,r:4.9,n:156,type:"intensif",pm:true,isNew:false},
-    {id:9,title:"Physique — Mécanique 4ème",sub:"physics",lv:"4ème",t:"M. Kodjo Mensah",i:"KM",pr:"Ingénieur Génie Civil",loc:"Kara",p:3800,fr:false,r:4.7,n:64,type:"individuel",pm:false,isNew:true},
-    {id:10,title:"SVT — Écologie 5ème",sub:"svt",lv:"5ème",t:"Dr. Akouété Sossou",i:"AS",pr:"Enseignant-Chercheur",loc:"Lomé",p:2900,fr:false,r:4.8,n:81,type:"groupe",pm:true,isNew:false},
-    // Littérature
-    {id:11,title:"Français — Grammaire de base 6ème",sub:"french",lv:"6ème",t:"Mme Aïcha Mensah",i:"AM",pr:"Prof. de Français",loc:"Lomé",p:2000,fr:false,r:4.7,n:98,type:"groupe",pm:false,isNew:true},
-    {id:12,title:"Anglais — Conversation 4ème",sub:"english",lv:"4ème",t:"Mme Sarah Johnson",i:"SJ",pr:"Enseignante bilingue",loc:"Lomé",p:2900,fr:false,r:4.6,n:88,type:"groupe",pm:false,isNew:false},
-    {id:13,title:"Français — Préparation au Brevet",sub:"french",lv:"4ème",t:"Mme Mariam Konaté",i:"MK",pr:"Prof. de Lettres",loc:"Kara",p:4000,fr:false,r:4.8,n:105,type:"intensif",pm:false,isNew:true},
-    {id:14,title:"Initiation à l'Anglais 6ème",sub:"english",lv:"6ème",t:"M. John Smith",i:"JS",pr:"Enseignant natif",loc:"Lomé",p:0,fr:true,r:4.6,n:215,type:"en-ligne",pm:false,isNew:false},
-    {id:15,title:"Histoire du Togo 5ème",sub:"history",lv:"5ème",t:"Prof. Kodjo Adjo",i:"KA",pr:"Historien",loc:"Sokodé",p:2200,fr:false,r:4.9,n:112,type:"intensif",pm:false,isNew:false},
-    {id:16,title:"Philosophie — Initiation 3ème",sub:"history",lv:"3ème",t:"M. Mensah Yao",i:"MY",pr:"Prof. de Philosophie",loc:"Lomé",p:3200,fr:false,r:4.8,n:67,type:"individuel",pm:false,isNew:true},
-    {id:17,title:"Français — Rédaction 5ème",sub:"french",lv:"5ème",t:"Mme Abla Gbedo",i:"AG",pr:"Journaliste et Enseignante",loc:"Lomé",p:2700,fr:false,r:4.7,n:93,type:"groupe",pm:false,isNew:false},
-    {id:18,title:"Anglais — Grammaire avancée 3ème",sub:"english",lv:"3ème",t:"M. David Wilson",i:"DW",pr:"British Council",loc:"Lomé",p:4200,fr:false,r:4.9,n:78,type:"individuel",pm:true,isNew:false},
-    {id:19,title:"Français — Littérature africaine 3ème",sub:"french",lv:"3ème",t:"Dr. Kossi Akpabli",i:"KA",pr:"Écrivain et Professeur",loc:"Kpalimé",p:3800,fr:false,r:4.8,n:61,type:"groupe",pm:false,isNew:true},
-    {id:20,title:"Anglais — Préparation BEPC",sub:"english",lv:"3ème",t:"Mme Grace Thompson",i:"GT",pr:"Enseignante expérimentée",loc:"Lomé",p:4600,fr:false,r:4.9,n:134,type:"intensif",pm:true,isNew:false},
-];
-const ALL_RES = [
-    {id:101,title:"Fiches de révision BEPC — Mathématiques",sub:"math",lv:"3ème",t:"Prof. Jean Dupont",i:"JD",pr:"Lycée Français",loc:"Lomé",p:1500,r:4.8,dl:287},
-    {id:102,title:"Annales BEPC corrigées — 2020-2023",sub:"toutes",lv:"3ème",t:"M. Koffi Agbessi",i:"KA",pr:"Collège Protestant",loc:"Lomé",p:3000,r:4.9,dl:412},
-    {id:103,title:"Résumés de cours — Français 4ème",sub:"french",lv:"4ème",t:"Mme Aïcha Mensah",i:"AM",pr:"Prof. de Français",loc:"Lomé",p:1200,r:4.6,dl:156},
-    {id:104,title:"Exercices corrigés — Sciences Physiques 5ème",sub:"physics",lv:"5ème",t:"Dr. Yao Akakpo",i:"YA",pr:"Prof. de Physique",loc:"Kara",p:1800,r:4.7,dl:198},
-    {id:105,title:"Devoirs surveillés — SVT 4ème",sub:"svt",lv:"4ème",t:"Mme Fatou Diallo",i:"FD",pr:"Biologiste",loc:"Sokodé",p:1000,r:4.5,dl:134},
+    {id:1,title:"Mathématiques — Niveau 6ème",sub:"math",lv:"6ème",t:"M. Koffi Agbessi",i:"KA",loc:"Lomé",p:2500,fr:false,r:4.9,n:124,type:"individuel",pm:true,isNew:false,formula:"premium"},
+    {id:2,title:"Physique-Chimie — Électricité 4ème",sub:"physics",lv:"4ème",t:"Dr. Yao Akakpo",i:"YA",loc:"Kara",p:3500,fr:false,r:4.7,n:92,type:"individuel",pm:true,isNew:false,formula:"premium"},
+    {id:3,title:"SVT — Le Monde Vivant 5ème",sub:"svt",lv:"5ème",t:"Mme Fatou Diallo",i:"FD",loc:"Sokodé",p:2800,fr:false,r:4.5,n:76,type:"groupe",pm:false,isNew:true,formula:"standard"},
+    {id:4,title:"Sciences — Révision complète 3ème",sub:"physics",lv:"3ème",t:"Dr. Lawson Komla",i:"LK",loc:"Lomé",p:4500,fr:false,r:4.7,n:124,type:"groupe",pm:true,isNew:false,formula:"premium"},
+    {id:5,title:"Mathématiques — Géométrie 5ème",sub:"math",lv:"5ème",t:"Dr. Komla Lawson",i:"KL",loc:"Dapaong",p:3000,fr:false,r:4.8,n:87,type:"individuel",pm:true,isNew:false,formula:"premium"},
+    {id:6,title:"Chimie — Initiation 4ème",sub:"physics",lv:"4ème",t:"M. Amah Agbeko",i:"AA",loc:"Lomé",p:2000,fr:false,r:4.4,n:58,type:"groupe",pm:false,isNew:true,formula:"standard"},
+    {id:7,title:"Biologie — Anatomie 3ème",sub:"svt",lv:"3ème",t:"Mme Awa Touré",i:"AT",loc:"Kpalimé",p:3200,fr:false,r:4.6,n:72,type:"individuel",pm:false,isNew:false,formula:"standard"},
+    {id:8,title:"Mathématiques — Préparation BEPC",sub:"math",lv:"3ème",t:"Prof. Jean Dupont",i:"JD",loc:"Lomé",p:5000,fr:false,r:4.9,n:156,type:"intensif",pm:true,isNew:false,formula:"premium"},
+    {id:9,title:"Physique — Mécanique 4ème",sub:"physics",lv:"4ème",t:"M. Kodjo Mensah",i:"KM",loc:"Kara",p:3800,fr:false,r:4.7,n:64,type:"individuel",pm:false,isNew:true,formula:"standard"},
+    {id:10,title:"SVT — Écologie 5ème",sub:"svt",lv:"5ème",t:"Dr. Akouété Sossou",i:"AS",loc:"Lomé",p:2900,fr:false,r:4.8,n:81,type:"groupe",pm:true,isNew:false,formula:"premium"},
+    {id:11,title:"Français — Grammaire de base 6ème",sub:"french",lv:"6ème",t:"Mme Aïcha Mensah",i:"AM",loc:"Lomé",p:2000,fr:false,r:4.7,n:98,type:"groupe",pm:false,isNew:true,formula:"standard"},
+    {id:12,title:"Anglais — Conversation 4ème",sub:"english",lv:"4ème",t:"Mme Sarah Johnson",i:"SJ",loc:"Lomé",p:2900,fr:false,r:4.6,n:88,type:"groupe",pm:false,isNew:false,formula:"standard"},
+    {id:13,title:"Français — Préparation au Brevet",sub:"french",lv:"4ème",t:"Mme Mariam Konaté",i:"MK",loc:"Kara",p:4000,fr:false,r:4.8,n:105,type:"intensif",pm:false,isNew:true,formula:"standard"},
+    {id:14,title:"Initiation à l'Anglais 6ème",sub:"english",lv:"6ème",t:"M. John Smith",i:"JS",loc:"Lomé",p:0,fr:true,r:4.6,n:215,type:"en-ligne",pm:false,isNew:false,formula:"gratuit"},
+    {id:15,title:"Histoire du Togo 5ème",sub:"history",lv:"5ème",t:"Prof. Kodjo Adjo",i:"KA",loc:"Sokodé",p:2200,fr:false,r:4.9,n:112,type:"intensif",pm:false,isNew:false,formula:"standard"},
+    {id:16,title:"Philosophie — Initiation 3ème",sub:"history",lv:"3ème",t:"M. Mensah Yao",i:"MY",loc:"Lomé",p:3200,fr:false,r:4.8,n:67,type:"individuel",pm:false,isNew:true,formula:"standard"},
+    {id:17,title:"Français — Rédaction 5ème",sub:"french",lv:"5ème",t:"Mme Abla Gbedo",i:"AG",loc:"Lomé",p:2700,fr:false,r:4.7,n:93,type:"groupe",pm:false,isNew:false,formula:"standard"},
+    {id:18,title:"Anglais — Grammaire avancée 3ème",sub:"english",lv:"3ème",t:"M. David Wilson",i:"DW",loc:"Lomé",p:4200,fr:false,r:4.9,n:78,type:"individuel",pm:true,isNew:false,formula:"premium"},
+    {id:19,title:"Français — Littérature africaine 3ème",sub:"french",lv:"3ème",t:"Dr. Kossi Akpabli",i:"KA",loc:"Kpalimé",p:3800,fr:false,r:4.8,n:61,type:"groupe",pm:false,isNew:true,formula:"standard"},
+    {id:20,title:"Anglais — Préparation BEPC",sub:"english",lv:"3ème",t:"Mme Grace Thompson",i:"GT",loc:"Lomé",p:4600,fr:false,r:4.9,n:134,type:"intensif",pm:true,isNew:false,formula:"premium"},
 ];
 
-/* ══════════════════════════════════════════
-   STATE
-══════════════════════════════════════════ */
 let state = {
-    search:'', sub:'all', lv:'all', type:[], maxPrice:6000, sort:'popular',
-    view:'grid'
+    search:'', sub:'all', lv:'all', formula:'all', ville:'all', maxPrice:6000, view:'grid'
 };
 
-/* ══════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════ */
 function stars(r){
     let s='';
     for(let i=1;i<=5;i++){
@@ -763,40 +490,27 @@ function subName(s){
            physics:'Physique-Chimie',svt:'SVT',history:'Histoire-Géo',
            toutes:'Toutes matières'}[s]||s;
 }
-function fmt(n){return n===0?'Gratuit':n.toLocaleString('fr-FR')+' FCFA';}
 
-/* ══════════════════════════════════════════
-   FILTER
-══════════════════════════════════════════ */
 function applyFilters(arr){
     return arr.filter(c=>{
         if(state.search && ![c.title,c.t,subName(c.sub)].join(' ').toLowerCase().includes(state.search.toLowerCase())) return false;
         if(state.sub!=='all' && c.sub!==state.sub) return false;
         if(state.lv!=='all' && c.lv!==state.lv) return false;
-        if(state.type.length && !state.type.includes(c.type)) return false;
+        if(state.ville!=='all' && c.loc!==state.ville) return false;
+        if(state.formula!=='all' && c.formula!==state.formula) return false;
         if(state.maxPrice<6000 && !c.fr && c.p>state.maxPrice) return false;
         if(state.maxPrice===0 && !c.fr) return false;
         return true;
     });
 }
-function sortArr(arr){
-    const copy=[...arr];
-    if(state.sort==='popular') copy.sort((a,b)=>b.n-a.n);
-    else if(state.sort==='rating') copy.sort((a,b)=>b.r-a.r);
-    else if(state.sort==='price-low') copy.sort((a,b)=>a.p-b.p);
-    else if(state.sort==='price-high') copy.sort((a,b)=>b.p-a.p);
-    else if(state.sort==='newest') copy.sort((a,b)=>b.isNew-a.isNew);
-    return copy;
-}
 
-/* ══════════════════════════════════════════
-   RENDER
-══════════════════════════════════════════ */
-function mkCourse(c, inDark=false){
+function mkCourse(c){
     const el=document.createElement('div');
     el.className='cc reveal';
-    const badge=c.fr?'<span class="badge b-fr">GRATUIT</span>':
-                 c.pm?'<span class="badge b-pm">PREMIUM</span>':'<span class="badge b-st">STANDARD</span>';
+    let badge = '';
+    if(c.fr) badge = '<span class="badge b-fr">GRATUIT</span>';
+    else if(c.formula === 'premium') badge = '<span class="badge b-pm">PREMIUM</span>';
+    else badge = '<span class="badge b-st">STANDARD</span>';
     const newBadge=c.isNew?'<span class="badge b-new">NOUVEAU</span>':'';
     const priceHtml=c.fr?`<div class="cc-price free">Gratuit</div>`:
                        `<div class="cc-price">${c.p.toLocaleString('fr-FR')} FCFA<small>/h</small></div>`;
@@ -812,12 +526,14 @@ function mkCourse(c, inDark=false){
             <p class="cc-sub">${subName(c.sub)}</p>
             <div class="cc-trow">
               <div class="cc-tav">${c.i}</div>
-              <div><div class="cc-tnm">${c.t}</div><div class="cc-trl">${c.pr}</div></div>
+              <div>
+                <div class="cc-tnm">${c.t}</div>
+                <div class="cc-trl"><i class="fas fa-map-marker-alt"></i> ${c.loc}</div>
+              </div>
             </div>
-            <div class="cc-loc"><i class="fas fa-map-marker-alt"></i>${c.loc}</div>
           </div>
           <div class="cc-side">
-            <div class="cc-meta"><div class="cc-stars">${stars(c.r)}<span>${c.r}</span></div><div class="cc-cnt">${c.n} élèves</div></div>
+            <div class="cc-meta"><div class="cc-stars">${stars(c.r)}<span>${c.r}</span></div></div>
             ${priceHtml}
             <div class="cc-acts">
               <button class="ca ca-g"><i class="fas fa-eye"></i> Détails</button>
@@ -832,12 +548,13 @@ function mkCourse(c, inDark=false){
             <p class="cc-sub">${subName(c.sub)}</p>
             <div class="cc-trow">
               <div class="cc-tav">${c.i}</div>
-              <div><div class="cc-tnm">${c.t}</div><div class="cc-trl">${c.pr}</div></div>
+              <div>
+                <div class="cc-tnm">${c.t}</div>
+                <div class="cc-trl"><i class="fas fa-map-marker-alt"></i> ${c.loc}</div>
+              </div>
             </div>
-            <div class="cc-loc"><i class="fas fa-map-marker-alt"></i>${c.loc}</div>
             <div class="cc-meta">
               <div class="cc-stars">${stars(c.r)}<span>${c.r}</span></div>
-              <div class="cc-cnt">${c.n} élèves</div>
             </div>
             ${priceHtml}
             <div class="cc-acts">
@@ -845,34 +562,6 @@ function mkCourse(c, inDark=false){
               <button class="ca ca-d" onclick="enroll(${c.id})"><i class="fas fa-user-plus"></i> S'inscrire</button>
             </div>
           `}
-        </div>`;
-    return el;
-}
-function mkRes(r){
-    const el=document.createElement('div');
-    el.className='cc reveal';
-    el.innerHTML=`
-        <div class="cc-strip cc-strip-r"></div>
-        <div class="cc-body">
-          <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px">
-            <span class="badge b-lv">${r.lv}</span><span class="badge b-rs">RESSOURCE</span>
-          </div>
-          <h3 class="cc-title">${r.title}</h3>
-          <p class="cc-sub">${subName(r.sub)}</p>
-          <div class="cc-trow">
-            <div class="cc-tav">${r.i}</div>
-            <div><div class="cc-tnm">${r.t}</div><div class="cc-trl">${r.pr}</div></div>
-          </div>
-          <div class="cc-loc"><i class="fas fa-map-marker-alt"></i>${r.loc}</div>
-          <div class="cc-meta">
-            <div class="cc-stars">${stars(r.r)}<span>${r.r}</span></div>
-            <div class="cc-cnt"><i class="fas fa-download"></i> ${r.dl}</div>
-          </div>
-          <div class="cc-price">${r.p.toLocaleString('fr-FR')} FCFA</div>
-          <div class="cc-acts">
-            <button class="ca ca-g"><i class="fas fa-eye"></i> Aperçu</button>
-            <button class="ca ca-p"><i class="fas fa-shopping-cart"></i> Acheter</button>
-          </div>
         </div>`;
     return el;
 }
@@ -886,53 +575,29 @@ function empty(msg){
 }
 
 function render(){
-    const filtered = sortArr(applyFilters(ALL_COURSES));
+    const filtered = applyFilters(ALL_COURSES);
     const total = filtered.length;
-
     document.getElementById('totalCount').textContent=total;
     document.getElementById('ccCourses').textContent=total;
-    document.getElementById('ccRs').textContent=ALL_RES.length;
-
-    // grid mode
     const g = document.getElementById('coursesGrid');
     g.className = state.view==='list'?'courses-grid list-mode':'courses-grid';
-
     g.innerHTML='';
     if(filtered.length) filtered.forEach(c=>g.appendChild(mkCourse(c)));
     else g.appendChild(empty('Aucun cours ne correspond à vos filtres.'));
-
-    const rs = document.getElementById('rsGrid');
-    rs.className = state.view==='list'?'courses-grid list-mode':'courses-grid';
-    rs.innerHTML='';
-    ALL_RES.forEach(r=>rs.appendChild(mkRes(r)));
-
     document.querySelectorAll('.reveal:not(.visible)').forEach(el=>obs.observe(el));
-
-    updateSidebarCounts();
     renderActiveFilters();
 }
 
-function updateSidebarCounts(){
-    const all=ALL_COURSES;
-    document.getElementById('countAll').textContent=all.length;
-    ['math','physics','svt','french','english','history'].forEach(s=>{
-        const el=document.getElementById('count'+s.charAt(0).toUpperCase()+s.slice(1));
-        if(el) el.textContent=all.filter(c=>c.sub===s).length;
-    });
-}
-
-/* ══════════════════════════════════════════
-   ACTIVE FILTERS TAG BAR
-══════════════════════════════════════════ */
 function renderActiveFilters(){
     const container=document.getElementById('activeFilters');
     container.innerHTML='';
     const tags=[];
     if(state.search) tags.push({label:`Recherche : "${state.search}"`,clear:()=>{state.search='';document.getElementById('navSearch').value='';render();}});
-    if(state.sub!=='all') tags.push({label:subName(state.sub),clear:()=>{state.sub='all';document.querySelectorAll('.mat-item').forEach(i=>i.classList.toggle('active',i.dataset.sub==='all'));render();}});
-    if(state.lv!=='all') tags.push({label:state.lv,clear:()=>{state.lv='all';document.querySelectorAll('.lv-btn').forEach(b=>b.classList.toggle('active',b.dataset.lv==='all'));render();}});
-    state.type.forEach(t=>tags.push({label:t,clear:()=>{state.type=state.type.filter(x=>x!==t);document.querySelectorAll('.type-cb').forEach(cb=>{if(cb.value===t)cb.checked=false;});render();}}));
-    if(state.maxPrice<6000) tags.push({label:`≤ ${state.maxPrice.toLocaleString()} FCFA`,clear:()=>{state.maxPrice=6000;document.getElementById('priceSlider').value=6000;updateSlider();render();}});
+    if(state.sub!=='all') tags.push({label:subName(state.sub),clear:()=>{state.sub='all';document.getElementById('filterMatiere').value='all';render();}});
+    if(state.lv!=='all') tags.push({label:state.lv,clear:()=>{state.lv='all';document.getElementById('filterLevel').value='all';render();}});
+    if(state.formula!=='all') tags.push({label:state.formula==='gratuit'?'Gratuit':state.formula==='standard'?'Standard':'Premium',clear:()=>{state.formula='all';document.getElementById('filterFormula').value='all';render();}});
+    if(state.ville!=='all') tags.push({label:state.ville,clear:()=>{state.ville='all';document.getElementById('filterVille').value='all';render();}});
+    if(state.maxPrice<6000) tags.push({label:`≤ ${state.maxPrice.toLocaleString()} FCFA`,clear:()=>{state.maxPrice=6000;document.getElementById('filterPrice').value='all';render();}});
     if(!tags.length) return;
     const lbl=document.createElement('span');lbl.className='af-label';lbl.textContent='Filtres actifs :';
     container.appendChild(lbl);
@@ -947,51 +612,28 @@ function renderActiveFilters(){
     container.appendChild(clear);
 }
 
-/* ══════════════════════════════════════════
-   PRICE SLIDER
-══════════════════════════════════════════ */
-function updateSlider(){
-    const sl=document.getElementById('priceSlider');
-    const v=parseInt(sl.value);
-    const pct=v/6000*100;
-    sl.style.setProperty('--v',pct+'%');
-    document.getElementById('priceLabel').textContent=v>=6000?'Tout prix':v.toLocaleString('fr-FR')+' FCFA';
-}
-
-/* ══════════════════════════════════════════
-   RESET
-══════════════════════════════════════════ */
 function resetFilters(){
-    state={...state,search:'',sub:'all',lv:'all',type:[],maxPrice:6000};
+    state={...state,search:'',sub:'all',lv:'all',formula:'all',ville:'all',maxPrice:6000};
     document.getElementById('navSearch').value='';
+    document.getElementById('filterMatiere').value='all';
     document.getElementById('filterLevel').value='all';
-    document.getElementById('filterType').value='all';
+    document.getElementById('filterFormula').value='all';
+    document.getElementById('filterVille').value='all';
     document.getElementById('filterPrice').value='all';
-    document.getElementById('priceSlider').value=6000;
-    updateSlider();
-    document.querySelectorAll('.mat-item').forEach(i=>i.classList.toggle('active',i.dataset.sub==='all'));
-    document.querySelectorAll('.lv-btn').forEach(b=>b.classList.toggle('active',b.dataset.lv==='all'));
-    document.querySelectorAll('.type-cb').forEach(cb=>cb.checked=false);
     render();
     showToast('Filtres réinitialisés');
 }
 
-/* ══════════════════════════════════════════
-   ENROLL MODAL
-══════════════════════════════════════════ */
 function enroll(id){
     const c=ALL_COURSES.find(x=>x.id===id);
     if(!c) return;
-    document.querySelector('#signupModal .modal-head h3').textContent='S\'inscrire au cours';
+    document.querySelector('#signupModal .modal-head h3').textContent="S'inscrire au cours";
     document.querySelector('#signupModal .modal-head p').textContent=c.title;
     document.getElementById('signupModal').classList.add('active');
     document.body.style.overflow='hidden';
 }
 window.enroll=enroll;
 
-/* ══════════════════════════════════════════
-   TOAST
-══════════════════════════════════════════ */
 function showToast(msg){
     const t=document.getElementById('toast');
     document.getElementById('toastMsg').textContent=msg;
@@ -999,94 +641,29 @@ function showToast(msg){
     setTimeout(()=>t.className='',3200);
 }
 
-/* ══════════════════════════════════════════
-   SYNC NAV SEARCH → MAIN
-══════════════════════════════════════════ */
 function syncSearch(){
     const v=document.getElementById('navSearch').value.trim();
     if(v){ state.search=v; render(); }
 }
 window.syncSearch=syncSearch;
 
-/* ══════════════════════════════════════════
-   INTERSECTION OBSERVER (reveal)
-══════════════════════════════════════════ */
 const obs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
 },{threshold:0.07});
 
-/* ══════════════════════════════════════════
-   INIT
-══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded',()=>{
     render();
-
-    // Sidebar — matières
-    document.querySelectorAll('.mat-item').forEach(item=>{
-        item.addEventListener('click',()=>{
-            state.sub=item.dataset.sub;
-            document.querySelectorAll('.mat-item').forEach(i=>i.classList.remove('active'));
-            item.classList.add('active');
-            render();
-        });
-    });
-
-    // Sidebar — niveaux
-    document.querySelectorAll('.lv-btn').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-            state.lv=btn.dataset.lv;
-            document.querySelectorAll('.lv-btn').forEach(b=>b.classList.remove('active'));
-            btn.classList.add('active');
-            render();
-        });
-    });
-
-    // Sidebar — price slider
-    const sl=document.getElementById('priceSlider');
-    updateSlider();
-    sl.addEventListener('input',()=>{state.maxPrice=parseInt(sl.value);updateSlider();render();});
-
-    // Sidebar — type checkboxes
-    document.querySelectorAll('.type-cb').forEach(cb=>{
-        cb.addEventListener('change',()=>{
-            state.type=Array.from(document.querySelectorAll('.type-cb:checked')).map(c=>c.value);
-            render();
-        });
-    });
-
-    // Reset
-    document.getElementById('resetAll').addEventListener('click',resetFilters);
-
-    // Nav search
-    const navS=document.getElementById('navSearch');
-    navS.addEventListener('input',()=>{state.search=navS.value;render();});
-
-    // Toolbar filter pills selects
-    document.getElementById('filterLevel').addEventListener('change',e=>{
-        state.lv=e.target.value;
-        document.querySelectorAll('.lv-btn').forEach(b=>b.classList.toggle('active',b.dataset.lv===state.lv));
-        render();
-    });
-    document.getElementById('filterType').addEventListener('change',e=>{
-        const v=e.target.value;
-        if(v==='all'){state.type=[];document.querySelectorAll('.type-cb').forEach(cb=>cb.checked=false);}
-        else{state.type=[v];document.querySelectorAll('.type-cb').forEach(cb=>cb.checked=cb.value===v);}
-        render();
-    });
+    document.getElementById('filterMatiere').addEventListener('change',e=>{state.sub=e.target.value;render();});
+    document.getElementById('filterLevel').addEventListener('change',e=>{state.lv=e.target.value;render();});
+    document.getElementById('filterFormula').addEventListener('change',e=>{state.formula=e.target.value;render();});
+    document.getElementById('filterVille').addEventListener('change',e=>{state.ville=e.target.value;render();});
     document.getElementById('filterPrice').addEventListener('change',e=>{
         const v=e.target.value;
         if(v==='all') state.maxPrice=6000;
         else if(v==='free') state.maxPrice=0;
         else state.maxPrice=parseInt(v);
-        document.getElementById('priceSlider').value=Math.min(state.maxPrice,6000);
-        updateSlider();
         render();
     });
-
-    // Sort
-    document.getElementById('sortBy').addEventListener('change',e=>{state.sort=e.target.value;render();});
-
-    // View toggle
     document.querySelectorAll('.view-btn').forEach(btn=>{
         btn.addEventListener('click',()=>{
             document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
@@ -1095,14 +672,13 @@ document.addEventListener('DOMContentLoaded',()=>{
             render();
         });
     });
-
-    // Modal
+    const navS=document.getElementById('navSearch');
+    navS.addEventListener('input',()=>{state.search=navS.value;render();});
     document.getElementById('openModal')?.addEventListener('click',()=>{document.getElementById('signupModal').classList.add('active');document.body.style.overflow='hidden';});
     document.getElementById('openModalMob')?.addEventListener('click',()=>{document.getElementById('signupModal').classList.add('active');document.body.style.overflow='hidden';});
     document.getElementById('closeModal')?.addEventListener('click',()=>{document.getElementById('signupModal').classList.remove('active');document.body.style.overflow='';});
     document.getElementById('signupModal')?.addEventListener('click',e=>{if(e.target===document.getElementById('signupModal')){document.getElementById('signupModal').classList.remove('active');document.body.style.overflow='';}});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('signupModal').classList.remove('active');document.body.style.overflow='';}});
-
     const roleUrls={eleve:'inscription/eleve.html',enseignant:'inscription/enseignant.html',parent:'inscription/parent.html',ecole:'inscription/ecole.html'};
     document.querySelectorAll('.role-card').forEach(c=>{
         c.addEventListener('click',()=>{
@@ -1110,19 +686,13 @@ document.addEventListener('DOMContentLoaded',()=>{
             setTimeout(()=>location.href=roleUrls[c.dataset.role],900);
         });
     });
-
-    // Back to top
     const btt=document.getElementById('backToTop');
     window.addEventListener('scroll',()=>{
         btt.classList.toggle('show',scrollY>300);
         document.getElementById('mainHeader').classList.toggle('scrolled',scrollY>80);
     });
     btt.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
-
-    // Mobile menu
     document.getElementById('menuToggle')?.addEventListener('click',()=>document.getElementById('mobNav').classList.toggle('open'));
-
-    // Reveal initial elements
     document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>obs.observe(el));
 });
 </script>

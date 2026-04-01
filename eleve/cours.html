@@ -1,3781 +1,1602 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord Élève - EduTogoConnect</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Variables de couleurs - Drapeau togolais */
-        :root {
-            --jaune-principal: #FFD700;
-            --rouge-principal: #EF3340;
-            --vert-principal: #00A651;
-            --blanc-principal: #FFFFFF;
-            --gris-fonce: #333333;
-            --gris-moyen: #666666;
-            --gris-clair: #F5F5F5;
-            --orange-cours: #FF9800;
-            --cyan-suggestion: #00BCD4;
-            --violet-premium: #9C27B0;
-            --bleu-prof: #2196F3;
-            --badge-premium-bg: rgba(255,215,0,0.15);
-            --badge-standard-bg: rgba(0,166,81,0.15);
-            --badge-gratuit-bg: rgba(33,150,243,0.15);
-            --cours-en-cours: rgba(76,175,80,0.1);
-            --cours-termine: rgba(158,158,158,0.1);
-            --cours-prochain: rgba(255,152,0,0.1);
-            --violet-autres: #7B1FA2;
-            --bleu-sciences: #2196F3;
-            --vert-litterature: #4CAF50;
-        }
-
-        /* Reset et styles généraux */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--gris-clair);
-            color: var(--gris-fonce);
-            line-height: 1.6;
-        }
-
-        /* Flèche retour en haut */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--blanc-principal);
-            font-size: 1.8rem;
-            cursor: pointer;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px) scale(0.8);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            border: 3px solid var(--blanc-principal);
-            overflow: hidden;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-
-        .back-to-top:hover {
-            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(239, 51, 64, 0.4);
-        }
-
-        /* Header Principal */
-        .main-header {
-            background-color: var(--blanc-principal);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--gris-fonce);
-        }
-
-        .logo-icon {
-            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
-            color: var(--gris-fonce);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .logo-text span {
-            color: var(--vert-principal);
-        }
-
-        /* Barre de navigation horizontale */
-        .horizontal-nav {
-            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 80px;
-            z-index: 999;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .student-quick-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 10px 0;
-        }
-
-        .student-avatar-small {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--blanc-principal);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--vert-principal);
-            border: 2px solid var(--blanc-principal);
-        }
-
-        .student-name {
-            font-weight: 600;
-            color: var(--blanc-principal);
-        }
-
-        .badge-status {
-            display: inline-block;
-            padding: 3px 10px;
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* Navigation horizontale */
-        .horizontal-menu {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            color: var(--blanc-principal);
-            text-decoration: none;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .nav-item:hover {
-            background-color: rgba(255,255,255,0.2);
-            border-bottom-color: var(--blanc-principal);
-        }
-
-        .nav-item.active {
-            background-color: rgba(255,255,255,0.3);
-            border-bottom-color: var(--jaune-principal);
-            font-weight: 600;
-        }
-
-        .nav-item i {
-            font-size: 1rem;
-        }
-
-        .nav-badge {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 5px;
-        }
-
-        /* Actions header */
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        /* Barre de recherche */
-        .search-bar-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background-color: var(--blanc-principal);
-            border-radius: 30px;
-            padding: 8px 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .search-bar:focus-within {
-            border-color: var(--jaune-principal);
-            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
-        }
-
-        .search-bar input {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 8px 10px;
-            font-size: 0.95rem;
-            background: transparent;
-        }
-
-        .search-filters-btn {
-            background: none;
-            border: none;
-            color: var(--gris-moyen);
-            cursor: pointer;
-            padding: 5px 10px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            border-left: 1px solid var(--gris-clair);
-            margin-left: 10px;
-        }
-
-        .search-btn {
-            background-color: var(--jaune-principal);
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--gris-fonce);
-            transition: all 0.3s;
-        }
-
-        .search-btn:hover {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            transform: scale(1.05);
-        }
-
-        /* Panneau de filtres */
-        .search-filters-panel {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            margin-top: 10px;
-            display: none;
-            z-index: 1001;
-        }
-
-        .search-filters-panel.active {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .filters-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .filters-title {
-            font-weight: 600;
-            color: var(--gris-fonce);
-        }
-
-        .close-filters {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--gris-moyen);
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
-        .filters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .filter-group {
-            margin-bottom: 15px;
-        }
-
-        .filter-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--gris-fonce);
-            font-size: 0.9rem;
-        }
-
-        .filter-select {
-            width: 100%;
-            padding: 10px 15px;
-            border: 2px solid var(--gris-clair);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            background-color: var(--blanc-principal);
-            transition: border-color 0.3s;
-        }
-
-        .filter-select:focus {
-            outline: none;
-            border-color: var(--jaune-principal);
-        }
-
-        .filter-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            padding-top: 15px;
-            border-top: 1px solid var(--gris-clair);
-        }
-
-        /* Bouton notification */
-        .notification-btn {
-            position: relative;
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            color: var(--gris-fonce);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .notification-btn:hover {
-            background-color: var(--gris-clair);
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            font-size: 0.7rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        /* Menu déroulant profil */
-        .profile-dropdown {
-            position: relative;
-        }
-
-        .profile-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-        }
-
-        .profile-btn:hover {
-            background-color: var(--gris-clair);
-        }
-
-        .profile-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: var(--blanc-principal);
-            min-width: 250px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            border-radius: 10px;
-            overflow: hidden;
-            z-index: 1001;
-            margin-top: 10px;
-        }
-
-        .profile-menu.active {
-            display: block;
-        }
-
-        .profile-menu-header {
-            padding: 20px;
-            background-color: var(--gris-clair);
-            text-align: center;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .profile-menu-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            color: var(--blanc-principal);
-            font-weight: bold;
-        }
-
-        .profile-menu-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .profile-menu-email {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-        }
-
-        .profile-menu-list {
-            list-style: none;
-        }
-
-        .profile-menu-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--gris-clair);
-            transition: background-color 0.3s;
-        }
-
-        .profile-menu-item:last-child {
-            border-bottom: none;
-        }
-
-        .profile-menu-item:hover {
-            background-color: var(--gris-clair);
-        }
-
-        .profile-menu-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--gris-fonce);
-            text-decoration: none;
-        }
-
-        .profile-menu-link i {
-            width: 20px;
-            color: var(--gris-moyen);
-        }
-
-        .profile-menu-link.logout {
-            color: var(--rouge-principal);
-        }
-
-        .profile-menu-link.logout i {
-            color: var(--rouge-principal);
-        }
-
-        /* Boutons */
-        .btn {
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-primary:hover {
-            background-color: #008c45;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,166,81,0.2);
-        }
-
-        .btn-secondary {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--gris-fonce);
-            color: var(--blanc-principal);
-        }
-
-        /* Contenu principal */
-        .main-content {
-            padding: 30px 0;
-        }
-
-        /* Header du tableau de bord */
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .header-title h1 {
-            color: var(--gris-fonce);
-            font-size: 1.8rem;
-        }
-
-        .header-title p {
-            color: var(--gris-moyen);
-            margin-top: 5px;
-        }
-
-        /* Statistiques élève */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background-color: var(--blanc-principal);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: transform 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .stat-icon.blue {
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
-        }
-
-        .stat-icon.green {
-            background-color: rgba(239,51,64,0.1);
-            color: var(--rouge-principal);
-        }
-
-        .stat-icon.yellow {
-            background-color: rgba(255,215,0,0.1);
-            color: var(--jaune-principal);
-        }
-
-        .stat-icon.orange {
-            background-color: rgba(255,152,0,0.1);
-            color: var(--orange-cours);
-        }
-
-        .stat-info h3 {
-            font-size: 1.8rem;
-            color: var(--gris-fonce);
-            margin-bottom: 5px;
-        }
-
-        .stat-info p {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-        }
-
-        /* Section Mes Cours Suivis */
-        .current-courses-section {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            color: var(--gris-fonce);
-            font-size: 1.5rem;
-        }
-
-        .section-subtitle {
-            color: var(--gris-moyen);
-            margin-top: 5px;
-        }
-
-        /* Onglets pour filtrer les cours */
-        .courses-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--gris-clair);
-            padding-bottom: 15px;
-        }
-
-        .course-tab {
-            padding: 10px 20px;
-            background-color: var(--gris-clair);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            color: var(--gris-moyen);
-        }
-
-        .course-tab.active {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-        }
-
-        .course-tab:hover:not(.active) {
-            background-color: rgba(0, 166, 81, 0.1);
-        }
-
-        /* Grille des cours - 5 colonnes */
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-        }
-
-        /* Carte de cours */
-        .course-card {
-            background-color: var(--blanc-principal);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--gris-clair);
-            transition: all 0.3s;
-            position: relative;
-            height: 350px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            border-color: var(--vert-principal);
-        }
-
-        .course-card.premium {
-            border: 1px solid var(--jaune-principal);
-            box-shadow: 0 4px 15px rgba(255,215,0,0.15);
-        }
-
-        .course-header {
-            padding: 15px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Badge pour les cours */
-        .course-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            z-index: 2;
-        }
-
-        .badge-premium {
-            background-color: rgba(255,215,0,0.15);
-            color: var(--gris-fonce);
-            border: 1px solid var(--jaune-principal);
-        }
-
-        .badge-standard {
-            background-color: rgba(0,166,81,0.15);
-            color: var(--vert-principal);
-            border: 1px solid var(--vert-principal);
-        }
-
-        .badge-gratuit {
-            background-color: rgba(33,150,243,0.15);
-            color: #2196F3;
-            border: 1px solid #2196F3;
-        }
-
-        .course-level {
-            display: inline-block;
-            padding: 4px 10px;
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            width: fit-content;
-        }
-
-        .course-title {
-            font-size: 1rem;
-            color: var(--gris-fonce);
-            font-weight: 600;
-            margin-bottom: 8px;
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: 40px;
-        }
-
-        .course-subject {
-            color: var(--gris-moyen);
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-        }
-
-        .course-teacher {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .teacher-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--blanc-principal);
-            font-size: 0.8rem;
-            flex-shrink: 0;
-        }
-
-        .teacher-info h4 {
-            font-size: 0.85rem;
-            color: var(--gris-fonce);
-            margin-bottom: 2px;
-        }
-
-        .teacher-info p {
-            font-size: 0.75rem;
-            color: var(--gris-moyen);
-            line-height: 1.3;
-        }
-
-        .course-location {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.75rem;
-            color: var(--gris-moyen);
-            margin-bottom: 12px;
-        }
-
-        .course-location i {
-            font-size: 0.7rem;
-        }
-
-        .course-meta {
-            display: flex;
-            justify-content: space-between;
-            color: var(--gris-moyen);
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-
-        .course-rating {
-            color: var(--jaune-principal);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 1px;
-        }
-
-        .course-price-section {
-            padding: 0px 15px 10px;
-            background-color: rgba(0,0,0,0.02);
-            border-top: 1px solid var(--gris-clair);
-        }
-
-        .course-price {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2px;
-        }
-
-        .price-amount {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--gris-fonce);
-        }
-
-        .price-period {
-            font-size: 0.8rem;
-            color: var(--gris-moyen);
-            font-weight: normal;
-        }
-
-        .price-free {
-            color: var(--vert-principal);
-        }
-
-        .course-actions {
-            display: flex;
-            gap: 8px;
-            padding: 10px 15px;
-            border-top: 1px solid var(--gris-clair);
-        }
-
-        .btn-course {
-            flex: 1;
-            padding: 5px;
-            text-align: center;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-            font-size: 0.85rem;
-        }
-
-        .btn-continue {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-continue:hover {
-            background-color: #008c45;
-            transform: translateY(-2px);
-        }
-
-        .btn-review {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-        }
-
-        .btn-review:hover {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-        }
-
-        /* Section Suggestions de cours */
-        .suggestions-section {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-
-        .suggestions-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .suggestions-title {
-            color: var(--gris-fonce);
-            font-size: 1.5rem;
-        }
-
-        .suggestions-subtitle {
-            color: var(--gris-moyen);
-            margin-top: 5px;
-        }
-
-        /* NOUVEAUX FILTRES Suggestions: cours de sciences, cours de litterature, standard, premium */
-        .suggestions-categories {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .category-btn {
-            padding: 10px 20px;
-            background-color: var(--blanc-principal);
-            border: 2px solid var(--gris-clair);
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .category-btn.active {
-            color: var(--blanc-principal);
-            border-color: transparent;
-        }
-
-        .category-btn[data-category="all"].active {
-            background: linear-gradient(90deg, var(--vert-principal), var(--jaune-principal));
-        }
-
-        .category-btn[data-category="sciences"].active {
-            background-color: var(--bleu-sciences);
-        }
-
-        .category-btn[data-category="litterature"].active {
-            background-color: var(--vert-litterature);
-        }
-
-        .category-btn[data-category="standard"].active {
-            background-color: var(--vert-principal);
-        }
-
-        .category-btn[data-category="premium"].active {
-            background-color: var(--jaune-principal);
-        }
-
-        .category-btn:hover:not(.active) {
-            background-color: var(--gris-clair);
-        }
-
-        /* Grille de suggestions - 5 colonnes */
-        .suggestions-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-        }
-
-        /* Suggestion Card compacte */
-        .suggestion-card {
-            background-color: var(--blanc-principal);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--gris-clair);
-            transition: all 0.3s;
-            position: relative;
-            height: 350px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .suggestion-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            border-color: var(--vert-principal);
-        }
-
-        .suggestion-card.premium {
-            border: 1px solid var(--jaune-principal);
-            box-shadow: 0 4px 15px rgba(255,215,0,0.15);
-        }
-
-        .suggestion-header {
-            padding: 15px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Badges pour les suggestions */
-        .suggestion-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            z-index: 2;
-        }
-
-        /* Style pour le niveau */
-        .course-level-suggestion {
-            display: inline-block;
-            padding: 4px 10px;
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            width: fit-content;
-        }
-
-        /* Style pour le titre */
-        .suggestion-card-title {
-            font-size: 1rem;
-            color: var(--gris-fonce);
-            font-weight: 600;
-            margin-bottom: 8px;
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: 40px;
-        }
-
-        /* Style pour le sujet */
-        .suggestion-card-subject {
-            color: var(--gris-moyen);
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-        }
-
-        /* Style pour l'enseignant */
-        .suggestion-card-teacher {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .teacher-mini-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--blanc-principal);
-            font-size: 0.8rem;
-        }
-
-        .teacher-mini-info h4 {
-            font-size: 0.85rem;
-            color: var(--gris-fonce);
-            margin-bottom: 2px;
-        }
-
-        .teacher-mini-info p {
-            font-size: 0.75rem;
-            color: var(--gris-moyen);
-        }
-
-        /* Style pour la localisation */
-        .suggestion-card-location {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.75rem;
-            color: var(--gris-moyen);
-            margin-bottom: 12px;
-        }
-
-        /* Style pour les métadonnées */
-        .suggestion-card-meta {
-            display: flex;
-            justify-content: space-between;
-            color: var(--gris-moyen);
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-
-        .suggestion-card-rating {
-            color: var(--jaune-principal);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        /* Style pour la section prix */
-        .suggestion-card-price {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .suggestion-price-amount {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--gris-fonce);
-        }
-
-        .price-period {
-            font-size: 0.8rem;
-            color: var(--gris-moyen);
-            font-weight: normal;
-        }
-
-        .price-free {
-            color: var(--vert-principal);
-        }
-
-        /* Style pour les actions */
-        .suggestion-card-actions {
-            display: flex;
-            gap: 8px;
-            padding: 10px 0 0;
-        }
-
-        .btn-suggestion {
-            flex: 1;
-            padding: 5px;
-            text-align: center;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-            font-size: 0.85rem;
-        }
-
-        .btn-suggestion-details {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-        }
-
-        .btn-suggestion-details:hover {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-        }
-
-        .btn-suggestion-enroll {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-suggestion-enroll:hover {
-            background-color: #008c45;
-            transform: translateY(-2px);
-        }
-
-        /* NOUVELLE SECTION: Autres cours - Ressources pédagogiques */
-        .autres-cours-section {
-            background: linear-gradient(135deg, rgba(123, 31, 162, 0.05) 0%, rgba(156, 39, 176, 0.05) 100%);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 40px;
-            border: 2px solid rgba(123, 31, 162, 0.1);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-
-        .autres-cours-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .autres-cours-title {
-            color: var(--violet-autres);
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .autres-cours-subtitle {
-            color: var(--gris-moyen);
-            margin-top: 5px;
-        }
-
-        /* NOUVEAUX FILTRES Ressources: sciences, litterature */
-        .autres-cours-filters {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .resource-filter-btn {
-            padding: 10px 20px;
-            background-color: var(--blanc-principal);
-            border: 2px solid var(--gris-clair);
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .resource-filter-btn.active {
-            color: var(--blanc-principal);
-            border-color: transparent;
-        }
-
-        .resource-filter-btn[data-filter="all"].active {
-            background: linear-gradient(90deg, var(--violet-autres), var(--jaune-principal));
-        }
-
-        .resource-filter-btn[data-filter="sciences"].active {
-            background-color: var(--bleu-sciences);
-        }
-
-        .resource-filter-btn[data-filter="litterature"].active {
-            background-color: var(--vert-litterature);
-        }
-
-        .resource-filter-btn:hover:not(.active) {
-            background-color: var(--gris-clair);
-        }
-
-        /* Niveau d'étude pour les ressources */
-        .resource-level {
-            display: inline-block;
-            padding: 4px 10px;
-            background-color: rgba(123, 31, 162, 0.1);
-            color: var(--violet-autres);
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            width: fit-content;
-        }
-
-        /* Actions pour les ressources */
-        .resource-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .btn-preview {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-        }
-
-        .btn-preview:hover {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-        }
-
-        .btn-achat {
-            background-color: var(--violet-autres);
-            color: var(--blanc-principal);
-        }
-
-        .btn-achat:hover {
-            background-color: #6a1b9a;
-            transform: translateY(-2px);
-        }
-
-        /* Grille des ressources - 5 colonnes */
-        .autres-cours-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-        }
-
-        /* Carte de ressource */
-        .resource-card {
-            background-color: var(--blanc-principal);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--gris-clair);
-            transition: all 0.3s;
-            position: relative;
-            height: 320px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .resource-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            border-color: var(--violet-autres);
-        }
-
-        .resource-header {
-            padding: 15px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Meta des ressources */
-        .resource-meta {
-            display: flex;
-            justify-content: space-between;
-            color: var(--gris-moyen);
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            align-items: center;
-            margin-top: auto;
-        }
-
-        /* Modal pour l'achat de ressources */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1002;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            overflow: hidden;
-            animation: slideUp 0.4s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, var(--violet-autres) 0%, var(--jaune-principal) 100%);
-            color: var(--blanc-principal);
-            padding: 25px;
-            text-align: center;
-            position: relative;
-        }
-
-        .modal-header h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .modal-header p {
-            font-size: 0.95rem;
-            opacity: 0.9;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--blanc-principal);
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .close-modal:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
-
-        .modal-body {
-            padding: 30px;
-        }
-
-        .resource-preview {
-            background-color: rgba(0,166,81,0.05);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-            border-left: 4px solid var(--vert-principal);
-        }
-
-        .resource-preview h4 {
-            color: var(--gris-fonce);
-            margin-bottom: 10px;
-            font-size: 1rem;
-        }
-
-        .resource-preview ul {
-            padding-left: 20px;
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-        }
-
-        .resource-preview li {
-            margin-bottom: 5px;
-        }
-
-        .purchase-options {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .purchase-option {
-            flex: 1;
-            border: 2px solid var(--gris-clair);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .purchase-option:hover {
-            border-color: var(--jaune-principal);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255,215,0,0.1);
-        }
-
-        .purchase-option.selected {
-            border-color: var(--jaune-principal);
-            background-color: rgba(255,215,0,0.05);
-        }
-
-        .purchase-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--gris-fonce);
-            margin: 10px 0;
-        }
-
-        .purchase-period {
-            font-size: 0.85rem;
-            color: var(--gris-moyen);
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 25px;
-        }
-
-        .modal-btn {
-            flex: 1;
-            padding: 14px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-        }
-
-        .modal-btn-secondary {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-        }
-
-        .modal-btn-secondary:hover {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-        }
-
-        .modal-btn-primary {
-            background-color: var(--violet-autres);
-            color: var(--blanc-principal);
-        }
-
-        .modal-btn-primary:hover {
-            background-color: #6a1b9a;
-            transform: translateY(-2px);
-        }
-
-        .modal-btn-disabled {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .modal-btn-disabled:hover {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-            transform: none;
-        }
-
-        /* Footer */
-        .main-footer {
-            background-color: var(--gris-fonce);
-            color: var(--gris-clair);
-            padding: 60px 0 30px;
-            margin-top: 60px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col h3 {
-            color: var(--blanc-principal);
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-col h3:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 2px;
-            background-color: var(--jaune-principal);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: var(--gris-clair);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--jaune-principal);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.9rem;
-            color: var(--gris-clair);
-        }
-
-        /* Menu mobile toggle */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gris-fonce);
-            cursor: pointer;
-        }
-
-        /* Menu Mobile */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 80px;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
-            z-index: 1000;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        }
-
-        .mobile-nav.active {
-            display: block;
-        }
-
-        .mobile-menu {
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-        }
-
-        /* Responsive */
-        @media (max-width: 1600px) {
-            .courses-grid, .suggestions-grid, .autres-cours-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        @media (max-width: 1400px) {
-            .courses-grid, .suggestions-grid, .autres-cours-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 1200px) {
-            .courses-grid, .suggestions-grid, .autres-cours-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .search-bar-container {
-                max-width: 400px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .horizontal-nav {
-                display: none;
-            }
-            
-            .menu-toggle {
-                display: block;
-            }
-            
-            .search-bar-container {
-                order: 3;
-                max-width: 100%;
-                margin-top: 15px;
-            }
-            
-            .courses-grid, .suggestions-grid, .autres-cours-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .courses-grid, .suggestions-grid, .autres-cours-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .header-actions {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .suggestions-categories, .courses-tabs, .autres-cours-filters {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .course-actions, .suggestion-card-actions, .resource-actions {
-                flex-direction: column;
-            }
-            
-            .course-card, .suggestion-card, .resource-card {
-                max-width: 400px;
-                margin: 0 auto;
-                width: 100%;
-            }
-
-            .purchase-options {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 10px;
-            }
-            
-            .current-courses-section, .suggestions-section, .autres-cours-section {
-                padding: 20px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .course-card, .suggestion-card, .resource-card {
-                height: auto;
-            }
-            
-            .suggestion-card, .resource-card {
-                max-width: 100%;
-            }
-            
-            .btn-suggestion, .btn-course {
-                width: 100%;
-            }
-            
-            .search-bar {
-                padding: 6px 10px;
-            }
-            
-            .search-bar input {
-                font-size: 0.9rem;
-                padding: 6px 8px;
-            }
-            
-            .search-filters-btn span {
-                display: none;
-            }
-
-            .modal-content {
-                width: 95%;
-                margin: 10px;
-            }
-
-            .modal-header {
-                padding: 20px 15px;
-            }
-            
-            .modal-body {
-                padding: 20px;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes Cours — Sukuli</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700;800&family=Crimson+Pro:ital,wght@0,600;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --deep: #002f2a;
+      --deep-alt: #003333;
+      --deep-mid: #003d38;
+      --deep-hover: #004d45;
+      --deep-light: #005a52;
+      --deep-pale: #e5f0ef;
+      --deep-muted: #c2d8d6;
+      --teal: #1ab5a0;
+      --teal-light: #5dcfbe;
+      --teal-pale: #dff5f2;
+      --gold: #e8c44a;
+      --amber: #c9980e;
+      --white: #ffffff;
+      --off-white: #f5faf9;
+      --g50: #f8fafa;
+      --g100: #eef3f2;
+      --g200: #d9e5e4;
+      --g300: #b5cbc9;
+      --g400: #84a8a5;
+      --g500: #5c8885;
+      --g600: #3c6360;
+      --hdr: #0a1a18;
+      --txt: #1a3030;
+      --txt-b: #3a5555;
+      --txt-m: #6a8888;
+      --purple: #7B1FA2;
+      --coral: #D85A30;
+      --red: #e74c3c;
+      --green-ok: #22c55e;
+      --sh-sm: 0 2px 8px rgba(0, 47, 42, .10);
+      --sh-md: 0 8px 28px rgba(0, 47, 42, .14);
+      --sh-lg: 0 20px 56px rgba(0, 47, 42, .20);
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 22px;
+      --r-xl: 32px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--off-white);
+      color: var(--txt-b);
+      line-height: 1.65;
+      overflow-x: hidden
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.25;
+      color: var(--txt)
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .6s, transform .6s
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translate(0)
+    }
+
+    /* ── Back to top ── */
+    #backToTop {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9000;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--deep);
+      color: var(--gold);
+      border: 2px solid var(--gold);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      box-shadow: 0 6px 20px rgba(0, 47, 42, .4);
+      opacity: 0;
+      transform: translateY(14px) scale(.85);
+      transition: all .32s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    #backToTop.show {
+      opacity: 1;
+      transform: translateY(0) scale(1)
+    }
+
+    #backToTop:hover {
+      background: var(--gold);
+      color: var(--deep);
+      transform: translateY(-3px) scale(1.06)
+    }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: var(--deep);
+      color: #fff;
+      padding: 12px 26px;
+      border-radius: 50px;
+      font-size: .9rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0, 47, 42, .4);
+      z-index: 9200;
+      border: 1px solid var(--teal-light);
+      transition: transform .36s cubic-bezier(.34, 1.56, .64, 1), opacity .36s;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1
+    }
+
+    /* ── Header ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--hdr);
+      box-shadow: 0 2px 16px rgba(0, 0, 0, .22);
+      transition: box-shadow .3s
+    }
+
+    header.scrolled {
+      box-shadow: 0 4px 28px rgba(0, 0, 0, .35)
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      gap: 14px;
+      flex-wrap: wrap
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      flex-shrink: 0
+    }
+
+    .logo-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--deep-mid) 0%, var(--teal) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      color: var(--gold);
+      font-size: .9rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3)
+    }
+
+    .logo-text {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #fff
+    }
+
+    .logo-text span {
+      color: var(--teal-light)
+    }
+
+    .nav-search-wrap {
+      position: relative;
+      flex: 1;
+      max-width: 540px;
+      margin: 0 auto
+    }
+
+    .nav-search {
+      background: rgba(255, 255, 255, .10);
+      border-radius: 40px;
+      padding: 4px 4px 4px 16px;
+      display: flex;
+      align-items: center;
+      border: 1.5px solid rgba(255, 255, 255, .18);
+      gap: 6px;
+      transition: border-color .22s, background .22s
+    }
+
+    .nav-search:focus-within {
+      border-color: var(--teal-light);
+      background: rgba(255, 255, 255, .14)
+    }
+
+    .ns-icon {
+      color: rgba(255, 255, 255, .5);
+      font-size: .85rem;
+      flex-shrink: 0
+    }
+
+    .nav-search input {
+      background: transparent;
+      border: none;
+      padding: 7px 8px;
+      color: #fff;
+      font-size: .85rem;
+      width: 100%;
+      outline: none;
+      font-family: 'Nunito', sans-serif
+    }
+
+    .nav-search input::placeholder {
+      color: rgba(255, 255, 255, .4);
+      font-style: italic
+    }
+
+    .ns-sep {
+      width: 1px;
+      height: 20px;
+      background: rgba(255, 255, 255, .2);
+      flex-shrink: 0
+    }
+
+    .ns-filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, .72);
+      font-size: .75rem;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 30px;
+      transition: all .22s;
+      white-space: nowrap;
+      flex-shrink: 0
+    }
+
+    .ns-filter-btn:hover,
+    .ns-filter-btn.open {
+      color: var(--gold);
+      background: rgba(232, 196, 74, .14)
+    }
+
+    .ns-count {
+      background: var(--teal);
+      color: #fff;
+      font-size: .62rem;
+      font-weight: 800;
+      min-width: 17px;
+      height: 17px;
+      border-radius: 9px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px
+    }
+
+    .ns-count.show {
+      display: flex
+    }
+
+    .nav-search-btn {
+      background: var(--teal);
+      border: none;
+      color: #fff;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: .82rem;
+      flex-shrink: 0;
+      transition: all .22s
+    }
+
+    .nav-search-btn:hover {
+      background: var(--teal-light);
+      transform: scale(1.08)
+    }
+
+    .sfp {
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 0;
+      right: 0;
+      background: var(--hdr);
+      border: 1.5px solid rgba(255, 255, 255, .13);
+      border-radius: var(--r-md);
+      padding: 22px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .6);
+      z-index: 1200;
+      display: none
+    }
+
+    .sfp.open {
+      display: block
+    }
+
+    .sfp::before {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 32px;
+      width: 14px;
+      height: 14px;
+      background: var(--hdr);
+      border-left: 1.5px solid rgba(255, 255, 255, .13);
+      border-top: 1.5px solid rgba(255, 255, 255, .13);
+      transform: rotate(45deg)
+    }
+
+    .sfp-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, .08)
+    }
+
+    .sfp-head h4 {
+      color: #fff;
+      font-size: .88rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Poppins', sans-serif;
+      margin: 0
+    }
+
+    .sfp-close {
+      background: rgba(255, 255, 255, .08);
+      border: none;
+      color: rgba(255, 255, 255, .7);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .sfp-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 16px
+    }
+
+    .sfp-group label {
+      display: block;
+      font-size: .7rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, .5);
+      text-transform: uppercase;
+      letter-spacing: .9px;
+      margin-bottom: 7px;
+      font-family: 'Poppins', sans-serif
+    }
+
+    .sfp-sel {
+      width: 100%;
+      padding: 9px 32px 9px 12px;
+      background: rgba(255, 255, 255, .07);
+      border: 1.5px solid rgba(255, 255, 255, .11);
+      border-radius: var(--r-sm);
+      color: #fff;
+      font-size: .82rem;
+      font-family: 'Nunito', sans-serif;
+      outline: none;
+      cursor: pointer
+    }
+
+    .sfp-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .sfp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      flex: 1
+    }
+
+    .sfp-btns {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0
+    }
+
+    .sfp-btn {
+      padding: 9px 20px;
+      border-radius: 50px;
+      font-size: .78rem;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: all .22s;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .sfp-reset {
+      background: rgba(255, 255, 255, .07);
+      border: 1.5px solid rgba(255, 255, 255, .13);
+      color: rgba(255, 255, 255, .7)
+    }
+
+    .sfp-apply {
+      background: var(--teal);
+      color: #fff
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0
+    }
+
+    .icon-btn {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .14);
+      color: rgba(255, 255, 255, .78);
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: .95rem;
+      transition: all .22s;
+      position: relative
+    }
+
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, .18);
+      color: #fff
+    }
+
+    .notif-dot {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 16px;
+      height: 16px;
+      background: var(--coral);
+      border-radius: 50%;
+      font-size: .6rem;
+      font-weight: 900;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--hdr)
+    }
+
+    .profile-drop {
+      position: relative
+    }
+
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 10px;
+      padding: 7px 12px;
+      cursor: pointer;
+      transition: all .22s
+    }
+
+    .profile-btn:hover {
+      background: rgba(255, 255, 255, .16)
+    }
+
+    .p-av {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--deep-mid), var(--teal));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: var(--gold);
+      font-size: .72rem;
+      font-family: 'Poppins', sans-serif
+    }
+
+    .p-name {
+      font-size: .8rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1
+    }
+
+    .p-role {
+      font-size: .66rem;
+      color: rgba(255, 255, 255, .55)
+    }
+
+    .p-chev {
+      color: rgba(255, 255, 255, .5);
+      font-size: .72rem;
+      transition: transform .22s
+    }
+
+    .profile-btn.open .p-chev {
+      transform: rotate(180deg)
+    }
+
+    .drop-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: #fff;
+      border-radius: var(--r-md);
+      min-width: 230px;
+      box-shadow: var(--sh-lg);
+      border: 1.5px solid var(--g200);
+      overflow: hidden;
+      z-index: 400
+    }
+
+    .drop-menu.open {
+      display: block
+    }
+
+    .dm-head {
+      padding: 18px;
+      background: var(--g50);
+      border-bottom: 1px solid var(--g200);
+      text-align: center
+    }
+
+    .dm-av {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--deep), var(--teal));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      color: var(--gold);
+      font-size: 1.2rem;
+      font-family: 'Poppins', sans-serif;
+      margin: 0 auto 9px
+    }
+
+    .dm-name {
+      font-size: .92rem;
+      font-weight: 700;
+      color: var(--txt)
+    }
+
+    .dm-email {
+      font-size: .74rem;
+      color: var(--txt-m)
+    }
+
+    .dm-list {
+      list-style: none
+    }
+
+    .dm-item a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      color: var(--txt-b);
+      text-decoration: none;
+      font-size: .84rem;
+      font-weight: 600;
+      transition: all .2s;
+      border-bottom: 1px solid var(--g100)
+    }
+
+    .dm-item a:hover {
+      background: var(--deep-pale);
+      color: var(--deep)
+    }
+
+    .dm-item a i {
+      color: var(--teal);
+      width: 16px
+    }
+
+    .dm-item a.logout {
+      color: var(--coral)
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, .85);
+      font-size: 1.3rem;
+      cursor: pointer
+    }
+
+    .mob-nav {
+      display: none;
+      flex-direction: column;
+      background: var(--hdr);
+      border-top: 1px solid rgba(255, 255, 255, .07);
+      padding: 12px 24px 18px
+    }
+
+    .mob-nav.open {
+      display: flex
+    }
+
+    .mob-nav a {
+      color: rgba(255, 255, 255, .72);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .07);
+      font-size: .9rem;
+      display: flex;
+      align-items: center;
+      gap: 9px
+    }
+
+    /* ── Sous-nav ── */
+    .sub-nav {
+      position: sticky;
+      top: 60px;
+      z-index: 900;
+      background: var(--deep);
+      border-bottom: 1px solid rgba(255, 255, 255, .07)
+    }
+
+    .sn-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none
+    }
+
+    .sn-inner::-webkit-scrollbar {
+      display: none
+    }
+
+    .sn-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 13px 18px;
+      color: rgba(255, 255, 255, .65);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .82rem;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      transition: all .22s;
+      flex-shrink: 0
+    }
+
+    .sn-item:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, .06)
+    }
+
+    .sn-item.active {
+      color: #fff;
+      border-bottom-color: var(--gold)
+    }
+
+    .sn-badge {
+      background: var(--coral);
+      color: #fff;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-size: .66rem;
+      font-weight: 800;
+      margin-left: 2px
+    }
+
+    /* ── Main ── */
+    .main {
+      padding: 28px 0 60px
+    }
+
+    .page-header {
+      margin-bottom: 28px
+    }
+
+    .page-header h1 {
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    /* ── Sections ── */
+    .sec-box {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 28px 30px;
+      margin-bottom: 32px;
+      box-shadow: var(--sh-sm);
+      border: 1.5px solid var(--g200)
+    }
+
+    .sec-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .sec-hd-l h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--txt);
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .sec-hd-l p {
+      font-size: .82rem;
+      color: var(--txt-m);
+      margin-top: 3px
+    }
+
+    /* ── Onglets ── */
+    .courses-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--g200);
+      padding-bottom: 14px
+    }
+
+    .course-tab {
+      background: none;
+      border: none;
+      padding: 8px 22px;
+      border-radius: 40px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: .82rem;
+      cursor: pointer;
+      transition: all .2s;
+      color: var(--txt-m)
+    }
+
+    .course-tab:hover {
+      background: var(--g100);
+      color: var(--deep)
+    }
+
+    .course-tab.active {
+      background: var(--deep);
+      color: #fff
+    }
+
+    /* ── Grilles ── */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px
+    }
+
+    .suggestions-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px
+    }
+
+    /* ════════════════════════════════════════════
+       CARTES — Style identique à la page référence
+       (sans hauteur fixe, badges inline, cc-badge-row)
+    ════════════════════════════════════════════ */
+    .cc {
+      background: #fff;
+      border-radius: var(--r-md);
+      border: 1.5px solid var(--g200);
+      overflow: hidden;
+      transition: all .3s;
+      display: flex;
+      flex-direction: column;
+      position: relative
+    }
+
+    .cc:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--sh-md);
+      border-color: var(--deep-muted)
+    }
+
+    /* Bande colorée */
+    .cc-strip {
+      height: 4px;
+      background: linear-gradient(90deg, var(--deep), var(--teal))
+    }
+
+    .cc-strip-free {
+      background: linear-gradient(90deg, var(--teal), var(--teal-light))
+    }
+
+    /* Corps */
+    .cc-body {
+      padding: 13px;
+      flex: 1;
+      display: flex;
+      flex-direction: column
+    }
+
+    /* ── Rangée badges (inline, pas absolute) ── */
+    .cc-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px
+    }
+
+    /* Badges — copie exacte de la page référence */
+    .badge-lv {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 50px;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-family: 'Poppins', sans-serif;
+      background: #fee2e2;
+      color: #c53030;
+      border-left: 3px solid #e74c3c
+    }
+
+    .badge-free {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 50px;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-family: 'Poppins', sans-serif;
+      background: #d4f5e6;
+      color: #27ae60;
+      border-left: 3px solid #27ae60
+    }
+
+    .badge-premium {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 50px;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-family: 'Poppins', sans-serif;
+      background: #fef5e6;
+      color: #e8c44a;
+      border-left: 3px solid #e8c44a
+    }
+
+    .badge-standard {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 50px;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-family: 'Poppins', sans-serif;
+      background: #e6f0ff;
+      color: #3498db;
+      border-left: 3px solid #3498db
+    }
+
+    /* Titre & matière */
+    .cc-title {
+      font-size: .86rem;
+      font-weight: 700;
+      color: var(--txt);
+      margin: 6px 0 4px;
+      line-height: 1.32;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 34px
+    }
+
+    .cc-sub {
+      font-size: .72rem;
+      color: var(--txt-m);
+      margin-bottom: 8px
+    }
+
+    /* Rangée enseignant + lieu directement en dessous */
+    .cc-trow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px
+    }
+
+    .cc-tav {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--deep), var(--teal));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: .65rem;
+      font-family: 'Poppins', sans-serif
+    }
+
+    .cc-tnm {
+      font-size: .74rem;
+      font-weight: 600;
+      color: var(--txt)
+    }
+
+    /* Lieu placé directement sous le nom, sans titre/profession */
+    .cc-trl {
+      font-size: .65rem;
+      color: var(--txt-m);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-top: 1px
+    }
+
+    .cc-trl i {
+      color: var(--teal);
+      font-size: .6rem
+    }
+
+    /* Étoiles */
+    .cc-meta {
+      display: flex;
+      align-items: center;
+      margin: 4px 0
+    }
+
+    .cc-stars {
+      color: var(--gold);
+      font-size: .7rem
+    }
+
+    .cc-stars span {
+      color: var(--txt-m);
+      font-weight: 700
+    }
+
+    /* Prix */
+    .cc-price {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--txt);
+      margin: 6px 0
+    }
+
+    .cc-price.free {
+      color: var(--teal)
+    }
+
+    /* Boutons */
+    .cc-acts {
+      display: flex;
+      gap: 5px;
+      margin-top: auto
+    }
+
+    .ca {
+      flex: 1;
+      padding: 6px 3px;
+      text-align: center;
+      border-radius: var(--r-sm);
+      font-size: .72rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all .2s;
+      font-family: 'Poppins', sans-serif
+    }
+
+    .ca-g {
+      background: var(--g100);
+      color: var(--g500)
+    }
+
+    .ca-g:hover {
+      background: var(--g200)
+    }
+
+    .ca-d {
+      background: var(--deep);
+      color: #fff
+    }
+
+    .ca-d:hover {
+      background: var(--deep-hover)
+    }
+
+    .ca-p {
+      background: var(--teal);
+      color: #fff
+    }
+
+    .ca-p:hover {
+      background: #138f7d
+    }
+
+    /* Catégories suggestions */
+    .suggestions-cats {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 22px;
+      flex-wrap: wrap
+    }
+
+    .cat-btn {
+      background: var(--g100);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--txt-m)
+    }
+
+    .cat-btn.active {
+      background: var(--deep);
+      color: #fff
+    }
+
+    .cat-btn:hover:not(.active) {
+      background: var(--g200)
+    }
+
+    /* see-all bas droite */
+    .see-all-bottom {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 18px
+    }
+
+    .see-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--g100);
+      color: var(--deep);
+      padding: 7px 16px;
+      border-radius: 70px;
+      font-weight: 700;
+      font-size: .82rem;
+      text-decoration: none;
+      border: 1.5px solid var(--g300);
+      transition: all .22s
+    }
+
+    .see-all:hover {
+      background: var(--deep-pale);
+      border-color: var(--deep);
+      gap: 9px
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: #0a1a18;
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      color: rgba(255, 255, 255, .5);
+      padding: 48px 0 22px;
+      margin-top: 20px
+    }
+
+    .ft-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 36px
+    }
+
+    .ft-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px
+    }
+
+    .ft-links a {
+      color: rgba(255, 255, 255, .44);
+      text-decoration: none;
+      font-size: .8rem
+    }
+
+    .ft-btm {
+      border-top: 1px solid rgba(255, 255, 255, .07);
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      font-size: .76rem
+    }
+
+    /* ── Responsive ── */
+    @media(max-width:1200px) {
+
+      .courses-grid,
+      .suggestions-grid {
+        grid-template-columns: repeat(4, 1fr)
+      }
+    }
+
+    @media(max-width:992px) {
+
+      .courses-grid,
+      .suggestions-grid {
+        grid-template-columns: repeat(3, 1fr)
+      }
+
+      .menu-toggle {
+        display: flex
+      }
+    }
+
+    @media(max-width:768px) {
+
+      .courses-grid,
+      .suggestions-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media(max-width:576px) {
+
+      .courses-grid,
+      .suggestions-grid {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <!-- Flèche retour en haut -->
-    <div class="back-to-top" id="backToTopBtn" title="Retour en haut">
-        <i class="fas fa-chevron-up"></i>
+
+  <button id="backToTop" title="Retour en haut"><i class="fas fa-arrow-up"></i></button>
+  <div id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+  <!-- ═══ HEADER ═══ -->
+  <header id="mainHdr">
+    <div class="container">
+      <nav class="navbar">
+        <a href="../index.html" class="logo">
+          <div class="logo-badge">S</div>
+          <div class="logo-text">Suku<span>li</span></div>
+        </a>
+        <div class="nav-search-wrap">
+          <div class="nav-search">
+            <i class="fas fa-search ns-icon"></i>
+            <input type="text" id="searchInput" placeholder="Rechercher un cours, un enseignant...">
+            <div class="ns-sep"></div>
+            <button class="ns-filter-btn" id="filterToggleBtn"><i class="fas fa-filter"></i><span>Filtres</span><span
+                class="ns-count" id="filterCount"></span></button>
+            <button class="nav-search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+          </div>
+          <div class="sfp" id="sfp">
+            <div class="sfp-head">
+              <h4><i class="fas fa-sliders-h"></i> Filtres</h4><button class="sfp-close" id="sfpClose">&times;</button>
+            </div>
+            <div class="sfp-grid">
+              <div class="sfp-group"><label>Type</label><select id="fType" class="sfp-sel">
+                  <option value="">Tout</option>
+                  <option value="cours">Cours uniquement</option>
+                </select></div>
+              <div class="sfp-group"><label>Niveau</label><select id="fLevel" class="sfp-sel">
+                  <option value="">Tous</option>
+                  <option value="6eme">6ème</option>
+                  <option value="5eme">5ème</option>
+                  <option value="4eme">4ème</option>
+                  <option value="3eme">3ème</option>
+                </select></div>
+              <div class="sfp-group"><label>Tarif</label><select id="fPrice" class="sfp-sel">
+                  <option value="">Tous</option>
+                  <option value="free">Gratuit</option>
+                  <option value="paid">Payant</option>
+                </select></div>
+            </div>
+            <div class="sfp-footer">
+              <div class="sfp-tags" id="sfpTags"></div>
+              <div class="sfp-btns"><button class="sfp-btn sfp-reset" id="sfpReset">Réinitialiser</button><button
+                  class="sfp-btn sfp-apply" id="sfpApply">Appliquer</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-right">
+          <button class="icon-btn" id="notifBtn"><i class="fas fa-bell"></i><span class="notif-dot">3</span></button>
+          <div class="profile-drop">
+            <button class="profile-btn" id="profileToggle">
+              <div class="p-av">KA</div>
+              <div>
+                <div class="p-name">Koffi Agbessi</div>
+                <div class="p-role">Élève — 3ème</div>
+              </div>
+              <i class="fas fa-chevron-down p-chev"></i>
+            </button>
+            <div class="drop-menu" id="dropMenu">
+              <div class="dm-head">
+                <div class="dm-av">KA</div>
+                <div class="dm-name">Koffi Agbessi</div>
+                <div class="dm-email">koffi@sukuli.tg</div>
+              </div>
+              <ul class="dm-list">
+                <li class="dm-item"><a href="#"><i class="fas fa-user-circle"></i>Mon profil</a></li>
+                <li class="dm-item"><a href="../Authentification/auth.html" class="logout"><i
+                      class="fas fa-sign-out-alt"></i>Déconnexion</a></li>
+              </ul>
+            </div>
+          </div>
+          <button class="menu-toggle" id="menuTog"><i class="fas fa-bars"></i></button>
+        </div>
+      </nav>
+      <div class="mob-nav" id="mobNav">
+        <a href="eleve.html"><i class="fas fa-home"></i>Tableau de bord</a>
+        <a href="cours.html"><i class="fas fa-book-open"></i>Mes cours</a>
+        <a href="enseignant.html"><i class="fas fa-chalkboard-teacher"></i>Enseignants</a>
+      </div>
     </div>
+  </header>
 
-    <!-- Header Principal -->
-    <header class="main-header">
-        <div class="container">
-            <nav class="navbar">
-                <a href="../index.html" class="logo">
-                    <div class="logo-icon">ET</div>
-                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
-                </a>
-
-                <!-- Barre de recherche -->
-                <div class="search-bar-container">
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="mainSearchInput" placeholder="Rechercher des enseignants, écoles, matières...">
-                        <button class="search-filters-btn" id="searchFiltersBtn">
-                            <i class="fas fa-filter"></i>
-                            <span>Filtres</span>
-                        </button>
-                        <button class="search-btn" id="searchBtn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    
-                    <!-- Panneau de filtres -->
-                    <div class="search-filters-panel" id="searchFiltersPanel">
-                        <div class="filters-header">
-                            <h3 class="filters-title">Filtres de recherche avancés</h3>
-                            <button class="close-filters" id="closeFiltersBtn">&times;</button>
-                        </div>
-                        
-                        <div class="filters-grid">
-                            <div class="filter-group">
-                                <label class="filter-label">Type de recherche</label>
-                                <select class="filter-select" id="searchType">
-                                    <option value="all">Tout (enseignants, écoles, matières)</option>
-                                    <option value="teachers">Enseignants uniquement</option>
-                                    <option value="schools">Écoles & Institutions</option>
-                                    <option value="subjects">Par matière</option>
-                                </select>
-                            </div>
-                            
-                            <div class="filter-group">
-                                <label class="filter-label">Niveau scolaire</label>
-                                <select class="filter-select" id="searchLevel">
-                                    <option value="all">Tous les niveaux</option>
-                                    <option value="6eme">6ème</option>
-                                    <option value="5eme">5ème</option>
-                                    <option value="4eme">4ème</option>
-                                    <option value="3eme">3ème</option>
-                                </select>
-                            </div>
-                            
-                            <div class="filter-group">
-                                <label class="filter-label">Matière</label>
-                                <select class="filter-select" id="searchSubject">
-                                    <option value="all">Toutes les matières</option>
-                                    <option value="math">Mathématiques</option>
-                                    <option value="french">Français</option>
-                                    <option value="english">Anglais</option>
-                                    <option value="history">Histoire-Géographie</option>
-                                    <option value="physics">Sciences Physiques</option>
-                                    <option value="svt">SVT</option>
-                                </select>
-                            </div>
-                            
-                            <div class="filter-group">
-                                <label class="filter-label">Tarif maximum (FCFA/heure)</label>
-                                <select class="filter-select" id="searchPrice">
-                                    <option value="all">Tous les tarifs</option>
-                                    <option value="free">Gratuit uniquement</option>
-                                    <option value="1000">≤ 1.000 FCFA</option>
-                                    <option value="2500">≤ 2.500 FCFA</option>
-                                    <option value="5000">≤ 5.000 FCFA</option>
-                                    <option value="10000">≤ 10.000 FCFA</option>
-                                </select>
-                            </div>
-                            
-                            <div class="filter-group">
-                                <label class="filter-label">Note minimum</label>
-                                <select class="filter-select" id="searchRating">
-                                    <option value="0">Toutes les notes</option>
-                                    <option value="3">3 étoiles et plus</option>
-                                    <option value="4">4 étoiles et plus</option>
-                                    <option value="4.5">4.5 étoiles et plus</option>
-                                </select>
-                            </div>
-                            
-                            <div class="filter-group">
-                                <label class="filter-label">Ville</label>
-                                <select class="filter-select" id="searchCity">
-                                    <option value="all">Toutes les villes</option>
-                                    <option value="lome">Lomé</option>
-                                    <option value="kara">Kara</option>
-                                    <option value="sokode">Sokodé</option>
-                                    <option value="palime">Palimé</option>
-                                    <option value="dapaong">Dapaong</option>
-                                    <option value="online">En ligne uniquement</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="filter-actions">
-                            <button class="btn btn-secondary" id="resetFiltersBtn">Réinitialiser</button>
-                            <button class="btn btn-primary" id="applyFiltersBtn">Appliquer les filtres</button>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="menu-toggle" id="mobileNavToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <div class="header-actions">
-                    <!-- Bouton notifications -->
-                    <button class="notification-btn" id="notificationBtn">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
-                    </button>
-                    
-                    <!-- Menu déroulant profil -->
-                    <div class="profile-dropdown">
-                        <button class="profile-btn" id="profileBtn">
-                            <div class="student-avatar-small">KA</div>
-                            <div>
-                                <div class="student-name">Koffi Agbessi</div>
-                                <span class="badge-status">Élève - 3ème</span>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        
-                        <div class="profile-menu" id="profileMenu">
-                            <div class="profile-menu-header">
-                                <div class="profile-menu-avatar">KA</div>
-                                <div class="profile-menu-name">Koffi Agbessi</div>
-                                <div class="profile-menu-email">koffi.agbessi@edutogoconnect.tg</div>
-                            </div>
-                            
-                            <ul class="profile-menu-list">
-                                <li class="profile-menu-item">
-                                    <a href="student_profile.html" class="profile-menu-link">
-                                        <i class="fas fa-user-circle"></i>
-                                        <span>Mon profil</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="student_settings.html" class="profile-menu-link">
-                                        <i class="fas fa-cog"></i>
-                                        <span>Paramètres</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="student_progress.html" class="profile-menu-link">
-                                        <i class="fas fa-chart-line"></i>
-                                        <span>Mes progrès</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="login.html" class="profile-menu-link logout">
-                                        <i class="fas fa-sign-out-alt"></i>
-                                        <span>Déconnexion</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Barre de Navigation Horizontale -->
-    <nav class="horizontal-nav">
-        <div class="container">
-            <div class="nav-container">
-                <!-- Menu de navigation horizontal -->
-                <div class="horizontal-menu">
-                    <a href="../mainpageuser/eleve.html" class="nav-item">
-                        <i class="fas fa-home"></i>
-                        <span>Tableau de bord</span>
-                    </a>
-                    <a href="../eleve/cours.html" class="nav-item active">
-                        <i class="fas fa-book-open"></i>
-                        <span>Mes cours</span>
-                        <span class="nav-badge">4</span>
-                    </a>
-                    <a href="../eleve/enseignant.html" class="nav-item">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                        <span>Mes enseignants</span>
-                    </a>
-                    <a href="../eleve/contrat.html" class="nav-item">
-                        <i class="fas fa-file-contract"></i>
-                        <span>Mes contrats</span>
-                    </a>
-                    <a href="../eleve/calendrier.html" class="nav-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Emploi du temps</span>
-                    </a>
-                    <a href="../eleve/messagerie.html" class="nav-item">
-                        <i class="fas fa-comments"></i>
-                        <span>Messages</span>
-                        <span class="nav-badge">2</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Menu Mobile -->
-    <div class="mobile-nav" id="mobileNav">
-        <div class="mobile-menu">
-            <a href="student_dashboard.html" class="mobile-nav-item active">
-                <i class="fas fa-home"></i>
-                <span>Tableau de bord</span>
-            </a>
-            <a href="../eleve/cours.html" class="mobile-nav-item">
-                <i class="fas fa-book-open"></i>
-                <span>Mes cours</span>
-                <span class="mobile-nav-badge">4</span>
-            </a>
-            <a href="../eleve/enseignant.html" class="mobile-nav-item">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <span>Mes enseignants</span>
-            </a>
-            <a href="../eleve/contrat.html" class="mobile-nav-item">
-                <i class="fas fa-file-contract"></i>
-                <span>Mes contrats</span>
-            </a>
-            <a href="../eleve/calendrier.html" class="mobile-nav-item">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Emploi du temps</span>
-            </a>
-            <a href="../eleve/messagerie.html" class="mobile-nav-item">
-                <i class="fas fa-comments"></i>
-                <span>Messages</span>
-                <span class="mobile-nav-badge">2</span>
-            </a>
-            <a href="#" class="mobile-nav-item" id="notificationNavBtnMobile">
-                <i class="fas fa-bell"></i>
-                <span>Notifications</span>
-                <span class="mobile-nav-badge">3</span>
-            </a>
-            <a href="student_settings.html" class="mobile-nav-item">
-                <i class="fas fa-cog"></i>
-                <span>Paramètres</span>
-            </a>
-        </div>
+  <!-- ═══ SOUS-NAV ═══ -->
+  <nav class="sub-nav">
+    <div class="container">
+      <div class="sn-inner">
+        <a href="../mainpageuser/eleve.html" class="sn-item"><i class="fas fa-home"></i>Tableau de bord</a>
+        <a href="../eleve/cours.html" class="sn-item active"><i class="fas fa-book-open"></i>Mes cours<span
+            class="sn-badge">5</span></a>
+        <a href="enseignant.html" class="sn-item"><i class="fas fa-chalkboard-teacher"></i>Mes enseignants</a>
+        <a href="contrat.html" class="sn-item"><i class="fas fa-file-contract"></i>Mes contrats</a>
+        <a href="calendrier.html" class="sn-item"><i class="fas fa-calendar-alt"></i>Emploi du temps</a>
+        <a href="messagerie.html" class="sn-item"><i class="fas fa-comments"></i>Messages<span
+            class="sn-badge">2</span></a>
+        <a href="#rapport" class="sn-item"><i class="fas fa-chart-line"></i>Rapport</a>
+      </div>
     </div>
+  </nav>
 
-    <!-- Contenu principal -->
-    <main class="main-content">
-        <div class="container">
+  <!-- ═══ MAIN ═══ -->
+  <main class="main">
+    <div class="container">
 
-            <!-- Section 1: Mes Cours Suivis -->
-            <section class="current-courses-section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">Mes cours suivis</h2>
-                        <p class="section-subtitle">Continuez votre apprentissage</p>
-                    </div>
-                </div>
+      <div class="page-header reveal">
+        <h1><i class="fas fa-book-open" style="color:var(--teal);"></i> Mes cours suivis</h1>
+      </div>
 
-                <!-- Onglets de filtrage corrigés -->
-                <div class="courses-tabs">
-                    <button class="course-tab active" data-filter="all">Tous les cours</button>
-                    <button class="course-tab" data-filter="gratuit">Gratuit</button>
-                    <button class="course-tab" data-filter="standard">Standard</button>
-                    <button class="course-tab" data-filter="premium">Premium</button>
-                </div>
-
-                <!-- Grille des cours -->
-                <div class="courses-grid" id="coursesGrid">
-                    <!-- Cours 1 - En cours -->
-                    <div class="course-card premium" data-type="premium" data-status="en-cours">
-                        <div class="course-header">
-                            <div class="course-badge badge-premium">PREMIUM</div>
-                            <div class="course-level">3ème</div>
-                            <div class="course-title">Mathématiques - 3ème</div>
-                            <div class="course-subject">Mathématiques</div>
-                            <div class="course-teacher">
-                                <div class="teacher-avatar">JD</div>
-                                <div class="teacher-info">
-                                    <h4>Jean Dupont</h4>
-                                    <p>Enseignant au Lycée Français</p>
-                                </div>
-                            </div>
-                            
-                            <div class="course-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="course-meta">
-                                <div class="course-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.8/5
-                                </div>
-                                <div>124 élèves</div>
-                            </div>
-                            
-                            <div class="course-price">
-                                <div class="price-amount">5.000 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                        </div>
-                        
-                        <div class="course-actions">
-                            <button class="btn-course btn-continue" onclick="continueCourse(1)">
-                                <i class="fas fa-play-circle"></i> Continuer
-                            </button>
-                            <button class="btn-course btn-review" onclick="reviewCourse(1)">
-                                <i class="fas fa-eye"></i> Détails
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Cours 2 - En cours -->
-                    <div class="course-card" data-type="standard" data-status="en-cours">
-                        <div class="course-header">
-                            <div class="course-badge badge-standard">STANDARD</div>
-                            <div class="course-level">4ème</div>
-                            <div class="course-title">Français - 4ème</div>
-                            <div class="course-subject">Français</div>
-                            <div class="course-teacher">
-                                <div class="teacher-avatar">MD</div>
-                                <div class="teacher-info">
-                                    <h4>Marie Dubois</h4>
-                                    <p>Professeure de Français</p>
-                                </div>
-                            </div>
-                            
-                            <div class="course-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="course-meta">
-                                <div class="course-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.7/5
-                                </div>
-                                <div>98 élèves</div>
-                            </div>
-                            
-                            <div class="course-price">
-                                <div class="price-amount">2.000 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                        </div>
-                        
-                        <div class="course-actions">
-                            <button class="btn-course btn-continue" onclick="continueCourse(2)">
-                                <i class="fas fa-play-circle"></i> Continuer
-                            </button>
-                            <button class="btn-course btn-review" onclick="reviewCourse(2)">
-                                <i class="fas fa-eye"></i> Détails
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Cours 3 - Terminé -->
-                    <div class="course-card" data-type="standard" data-status="termines">
-                        <div class="course-header">
-                            <div class="course-badge badge-standard">STANDARD</div>
-                            <div class="course-level">3ème</div>
-                            <div class="course-title">SVT - 3ème</div>
-                            <div class="course-subject">SVT</div>
-                            <div class="course-teacher">
-                                <div class="teacher-avatar">DA</div>
-                                <div class="teacher-info">
-                                    <h4>Dr. Akakpo</h4>
-                                    <p>Expert Sciences</p>
-                                </div>
-                            </div>
-                            
-                            <div class="course-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="course-meta">
-                                <div class="course-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i> 4.9/5
-                                </div>
-                                <div>112 élèves</div>
-                            </div>
-                            
-                            <div class="course-price">
-                                <div class="price-amount">2.200 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                        </div>
-                        
-                        <div class="course-actions">
-                            <button class="btn-course btn-continue" onclick="continueCourse(3)">
-                                <i class="fas fa-play-circle"></i> Continuer
-                            </button>
-                            <button class="btn-course btn-review" onclick="reviewCourse(3)">
-                                <i class="fas fa-eye"></i> Détails
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Cours 4 - À venir -->
-                    <div class="course-card premium" data-type="premium" data-status="prochains">
-                        <div class="course-header">
-                            <div class="course-badge badge-premium">PREMIUM</div>
-                            <div class="course-level">3ème</div>
-                            <div class="course-title">Physique-Chimie - 3ème</div>
-                            <div class="course-subject">Sciences Physiques</div>
-                            <div class="course-teacher">
-                                <div class="teacher-avatar">DL</div>
-                                <div class="teacher-info">
-                                    <h4>Dr. Lawson</h4>
-                                    <p>Chercheur en Sciences</p>
-                                </div>
-                            </div>
-                            
-                            <div class="course-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="course-meta">
-                                <div class="course-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i> 4.7/5
-                                </div>
-                                <div>124 élèves</div>
-                            </div>
-                            
-                            <div class="course-price">
-                                <div class="price-amount">4.500 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                        </div>
-                        
-                        <div class="course-actions">
-                            <button class="btn-course btn-continue" onclick="continueCourse(4)">
-                                <i class="fas fa-play-circle"></i> Continuer
-                            </button>
-                            <button class="btn-course btn-review" onclick="reviewCourse(4)">
-                                <i class="fas fa-eye"></i> Détails
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Cours 5 - En cours -->
-                    <div class="course-card premium" data-type="premium" data-status="en-cours">
-                        <div class="course-header">
-                            <div class="course-badge badge-premium">PREMIUM</div>
-                            <div class="course-level">3ème</div>
-                            <div class="course-title">Anglais - Préparation BEPC</div>
-                            <div class="course-subject">Anglais</div>
-                            <div class="course-teacher">
-                                <div class="teacher-avatar">GT</div>
-                                <div class="teacher-info">
-                                    <h4>Grace Thompson</h4>
-                                    <p>Enseignante expérimentée</p>
-                                </div>
-                            </div>
-                            
-                            <div class="course-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="course-meta">
-                                <div class="course-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i> 4.9/5
-                                </div>
-                                <div>134 élèves</div>
-                            </div>
-                            
-                            <div class="course-price">
-                                <div class="price-amount">4.600 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                        </div>
-                        
-                        <div class="course-actions">
-                            <button class="btn-course btn-continue" onclick="continueCourse(5)">
-                                <i class="fas fa-play-circle"></i> Continuer
-                            </button>
-                            <button class="btn-course btn-review" onclick="reviewCourse(5)">
-                                <i class="fas fa-eye"></i> Détails
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section 2: Suggestions de cours -->
-            <section class="suggestions-section">
-                <div class="suggestions-header">
-                    <div>
-                        <h2 class="suggestions-title">Suggestions de cours pour vous</h2>
-                        <p class="suggestions-subtitle">Découvrez les cours les plus populaires selon votre niveau</p>
-                    </div>
-                </div>
-
-                <!-- NOUVEAUX FILTRES: cours de sciences, cours de litterature, standard, premium -->
-                <div class="suggestions-categories">
-                    <button class="category-btn active" data-category="all">
-                        <i class="fas fa-th"></i>
-                        <span>Tous les cours</span>
-                    </button>
-                    <button class="category-btn" data-category="sciences">
-                        <i class="fas fa-flask"></i>
-                        <span>Cours de Sciences</span>
-                    </button>
-                    <button class="category-btn" data-category="litterature">
-                        <i class="fas fa-book-open"></i>
-                        <span>Cours de Littérature</span>
-                    </button>
-                    <button class="category-btn" data-category="standard">
-                        <i class="fas fa-star"></i>
-                        <span>Standard</span>
-                    </button>
-                    <button class="category-btn" data-category="premium">
-                        <i class="fas fa-crown"></i>
-                        <span>Premium</span>
-                    </button>
-                </div>
-
-                <!-- Grille de suggestions -->
-                <div class="suggestions-grid" id="suggestionsGrid">
-                    <!-- Suggestion 1 - GRATUIT - SCIENCES -->
-                    <div class="suggestion-card" data-category="sciences" data-type="standard">
-                        <div class="suggestion-header">
-                            <div class="suggestion-badge badge-gratuit">GRATUIT</div>
-                            <div class="course-level-suggestion">3ème • BEPC</div>
-                            <h3 class="suggestion-card-title">Mathématiques Avancées</h3>
-                            <p class="suggestion-card-subject">Mathématiques</p>
-                            
-                            <div class="suggestion-card-teacher">
-                                <div class="teacher-mini-avatar">JD</div>
-                                <div class="teacher-mini-info">
-                                    <h4>Jean Dupont</h4>
-                                    <p>Enseignant au Lycée Français</p>
-                                </div>
-                            </div>
-                            
-                            <div class="suggestion-card-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="suggestion-card-meta">
-                                <div class="suggestion-card-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.8/5
-                                </div>
-                                <div>124 élèves</div>
-                            </div>
-                            
-                            <div class="suggestion-card-price">
-                                <div class="suggestion-price-amount price-free">Gratuit<span class="price-period">/cours</span></div>
-                            </div>
-                            
-                            <div class="suggestion-card-actions">
-                                <button class="btn-suggestion btn-suggestion-details" onclick="viewSuggestion(1)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-suggestion btn-suggestion-enroll" onclick="enrollCourse(1)">
-                                    <i class="fas fa-user-plus"></i> S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Suggestion 2 - STANDARD - SCIENCES -->
-                    <div class="suggestion-card" data-category="sciences" data-type="standard">
-                        <div class="suggestion-header">
-                            <div class="suggestion-badge badge-standard">STANDARD</div>
-                            <div class="course-level-suggestion">3ème • BEPC</div>
-                            <h3 class="suggestion-card-title">Physique-Chimie 3ème</h3>
-                            <p class="suggestion-card-subject">Sciences Physiques</p>
-                            
-                            <div class="suggestion-card-teacher">
-                                <div class="teacher-mini-avatar">YA</div>
-                                <div class="teacher-mini-info">
-                                    <h4>Dr. Yao Akakpo</h4>
-                                    <p>Professeur de Physique</p>
-                                </div>
-                            </div>
-                            
-                            <div class="suggestion-card-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Kara</span>
-                            </div>
-                            
-                            <div class="suggestion-card-meta">
-                                <div class="suggestion-card-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i> 4.7/5
-                                </div>
-                                <div>92 élèves</div>
-                            </div>
-                            
-                            <div class="suggestion-card-price">
-                                <div class="suggestion-price-amount">3.500 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                            
-                            <div class="suggestion-card-actions">
-                                <button class="btn-suggestion btn-suggestion-details" onclick="viewSuggestion(2)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-suggestion btn-suggestion-enroll" onclick="enrollCourse(2)">
-                                    <i class="fas fa-shopping-cart"></i> S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Suggestion 3 - STANDARD - LITTERATURE -->
-                    <div class="suggestion-card" data-category="litterature" data-type="standard">
-                        <div class="suggestion-header">
-                            <div class="suggestion-badge badge-standard">STANDARD</div>
-                            <div class="course-level-suggestion">4ème-3ème</div>
-                            <h3 class="suggestion-card-title">Anglais Conversation</h3>
-                            <p class="suggestion-card-subject">Anglais</p>
-                            
-                            <div class="suggestion-card-teacher">
-                                <div class="teacher-mini-avatar">SJ</div>
-                                <div class="teacher-mini-info">
-                                    <h4>Sarah Johnson</h4>
-                                    <p>Enseignante bilingue</p>
-                                </div>
-                            </div>
-                            
-                            <div class="suggestion-card-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="suggestion-card-meta">
-                                <div class="suggestion-card-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i> 4.6/5
-                                </div>
-                                <div>88 élèves</div>
-                            </div>
-                            
-                            <div class="suggestion-card-price">
-                                <div class="suggestion-price-amount">2.900 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                            
-                            <div class="suggestion-card-actions">
-                                <button class="btn-suggestion btn-suggestion-details" onclick="viewSuggestion(3)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-suggestion btn-suggestion-enroll" onclick="enrollCourse(3)">
-                                    <i class="fas fa-shopping-cart"></i> S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Suggestion 4 - GRATUIT - SCIENCES -->
-                    <div class="suggestion-card" data-category="sciences" data-type="standard">
-                        <div class="suggestion-header">
-                            <div class="suggestion-badge badge-gratuit">GRATUIT</div>
-                            <div class="course-level-suggestion">Tous niveaux</div>
-                            <h3 class="suggestion-card-title">Initiation à la Programmation</h3>
-                            <p class="suggestion-card-subject">Informatique</p>
-                            
-                            <div class="suggestion-card-teacher">
-                                <div class="teacher-mini-avatar">TK</div>
-                                <div class="teacher-mini-info">
-                                    <h4>Thomas Kodjo</h4>
-                                    <p>Développeur</p>
-                                </div>
-                            </div>
-                            
-                            <div class="suggestion-card-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>En ligne</span>
-                            </div>
-                            
-                            <div class="suggestion-card-meta">
-                                <div class="suggestion-card-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.6/5
-                                </div>
-                                <div>215 élèves</div>
-                            </div>
-                            
-                            <div class="suggestion-card-price">
-                                <div class="suggestion-price-amount price-free">Gratuit<span class="price-period">/cours</span></div>
-                            </div>
-                            
-                            <div class="suggestion-card-actions">
-                                <button class="btn-suggestion btn-suggestion-details" onclick="viewSuggestion(4)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-suggestion btn-suggestion-enroll" onclick="enrollCourse(4)">
-                                    <i class="fas fa-user-plus"></i> S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Suggestion 5 - PREMIUM - SCIENCES -->
-                    <div class="suggestion-card premium" data-category="sciences" data-type="premium">
-                        <div class="suggestion-header">
-                            <div class="suggestion-badge badge-premium">PREMIUM</div>
-                            <div class="course-level-suggestion">3ème</div>
-                            <h3 class="suggestion-card-title">Préparation intensive BEPC</h3>
-                            <p class="suggestion-card-subject">Toutes matières</p>
-                            
-                            <div class="suggestion-card-teacher">
-                                <div class="teacher-mini-avatar">PA</div>
-                                <div class="teacher-mini-info">
-                                    <h4>Prof. Adjo</h4>
-                                    <p>Spécialiste examens</p>
-                                </div>
-                            </div>
-                            
-                            <div class="suggestion-card-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="suggestion-card-meta">
-                                <div class="suggestion-card-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i> 5.0/5
-                                </div>
-                                <div>156 élèves</div>
-                            </div>
-                            
-                            <div class="suggestion-card-price">
-                                <div class="suggestion-price-amount">5.000 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                            
-                            <div class="suggestion-card-actions">
-                                <button class="btn-suggestion btn-suggestion-details" onclick="viewSuggestion(5)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-suggestion btn-suggestion-enroll" onclick="enrollCourse(5)">
-                                    <i class="fas fa-shopping-cart"></i> S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Suggestion 6 - STANDARD - SCIENCES -->
-                    <div class="suggestion-card" data-category="sciences" data-type="standard">
-                        <div class="suggestion-header">
-                            <div class="suggestion-badge badge-standard">STANDARD</div>
-                            <div class="course-level-suggestion">4ème</div>
-                            <h3 class="suggestion-card-title">SVT - Biologie Cellulaire</h3>
-                            <p class="suggestion-card-subject">SVT</p>
-                            
-                            <div class="suggestion-card-teacher">
-                                <div class="teacher-mini-avatar">MB</div>
-                                <div class="teacher-mini-info">
-                                    <h4>Marie Biologiste</h4>
-                                    <p>Doctorante en Biologie</p>
-                                </div>
-                            </div>
-                            
-                            <div class="suggestion-card-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Kpalimé</span>
-                            </div>
-                            
-                            <div class="suggestion-card-meta">
-                                <div class="suggestion-card-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.5/5
-                                </div>
-                                <div>92 élèves</div>
-                            </div>
-                            
-                            <div class="suggestion-card-price">
-                                <div class="suggestion-price-amount">3.200 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                            
-                            <div class="suggestion-card-actions">
-                                <button class="btn-suggestion btn-suggestion-details" onclick="viewSuggestion(6)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-suggestion btn-suggestion-enroll" onclick="enrollCourse(6)">
-                                    <i class="fas fa-shopping-cart"></i> S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Suggestion 7 - STANDARD - LITTERATURE -->
-                    <div class="suggestion-card" data-category="litterature" data-type="standard">
-                        <div class="suggestion-header">
-                            <div class="suggestion-badge badge-standard">STANDARD</div>
-                            <div class="course-level-suggestion">5ème</div>
-                            <h3 class="suggestion-card-title">Français - Rédaction 5ème</h3>
-                            <p class="suggestion-card-subject">Français</p>
-                            
-                            <div class="suggestion-card-teacher">
-                                <div class="teacher-mini-avatar">AG</div>
-                                <div class="teacher-mini-info">
-                                    <h4>Abla Gbedo</h4>
-                                    <p>Journaliste et Enseignante</p>
-                                </div>
-                            </div>
-                            
-                            <div class="suggestion-card-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="suggestion-card-meta">
-                                <div class="suggestion-card-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.7/5
-                                </div>
-                                <div>93 élèves</div>
-                            </div>
-                            
-                            <div class="suggestion-card-price">
-                                <div class="suggestion-price-amount">2.700 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                            
-                            <div class="suggestion-card-actions">
-                                <button class="btn-suggestion btn-suggestion-details" onclick="viewSuggestion(7)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-suggestion btn-suggestion-enroll" onclick="enrollCourse(7)">
-                                    <i class="fas fa-shopping-cart"></i> S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Suggestion 8 - STANDARD - SCIENCES -->
-                    <div class="suggestion-card" data-category="sciences" data-type="standard">
-                        <div class="suggestion-header">
-                            <div class="suggestion-badge badge-standard">STANDARD</div>
-                            <div class="course-level-suggestion">5ème</div>
-                            <h3 class="suggestion-card-title">SVT - Écologie 5ème</h3>
-                            <p class="suggestion-card-subject">SVT</p>
-                            
-                            <div class="suggestion-card-teacher">
-                                <div class="teacher-mini-avatar">AS</div>
-                                <div class="teacher-mini-info">
-                                    <h4>Dr. Akouété Sossou</h4>
-                                    <p>Enseignant-Chercheur</p>
-                                </div>
-                            </div>
-                            
-                            <div class="suggestion-card-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="suggestion-card-meta">
-                                <div class="suggestion-card-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i> 4.8/5
-                                </div>
-                                <div>81 élèves</div>
-                            </div>
-                            
-                            <div class="suggestion-card-price">
-                                <div class="suggestion-price-amount">2.900 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                            
-                            <div class="suggestion-card-actions">
-                                <button class="btn-suggestion btn-suggestion-details" onclick="viewSuggestion(8)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-suggestion btn-suggestion-enroll" onclick="enrollCourse(8)">
-                                    <i class="fas fa-shopping-cart"></i> S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Suggestion 9 - GRATUIT - LITTERATURE -->
-                    <div class="suggestion-card" data-category="litterature" data-type="standard">
-                        <div class="suggestion-header">
-                            <div class="suggestion-badge badge-gratuit">GRATUIT</div>
-                            <div class="course-level-suggestion">6ème</div>
-                            <h3 class="suggestion-card-title">Initiation à l'Anglais 6ème</h3>
-                            <p class="suggestion-card-subject">Anglais</p>
-                            
-                            <div class="suggestion-card-teacher">
-                                <div class="teacher-mini-avatar">JS</div>
-                                <div class="teacher-mini-info">
-                                    <h4>John Smith</h4>
-                                    <p>Enseignant natif anglophone</p>
-                                </div>
-                            </div>
-                            
-                            <div class="suggestion-card-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="suggestion-card-meta">
-                                <div class="suggestion-card-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.6/5
-                                </div>
-                                <div>215 élèves</div>
-                            </div>
-                            
-                            <div class="suggestion-card-price">
-                                <div class="suggestion-price-amount price-free">Gratuit<span class="price-period">/cours</span></div>
-                            </div>
-                            
-                            <div class="suggestion-card-actions">
-                                <button class="btn-suggestion btn-suggestion-details" onclick="viewSuggestion(9)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-suggestion btn-suggestion-enroll" onclick="enrollCourse(9)">
-                                    <i class="fas fa-user-plus"></i> S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Suggestion 10 - PREMIUM - SCIENCES -->
-                    <div class="suggestion-card premium" data-category="sciences" data-type="premium">
-                        <div class="suggestion-header">
-                            <div class="suggestion-badge badge-premium">PREMIUM</div>
-                            <div class="course-level-suggestion">6ème</div>
-                            <h3 class="suggestion-card-title">Mathématiques - Niveau 6ème</h3>
-                            <p class="suggestion-card-subject">Mathématiques</p>
-                            
-                            <div class="suggestion-card-teacher">
-                                <div class="teacher-mini-avatar">KA</div>
-                                <div class="teacher-mini-info">
-                                    <h4>Koffi Agbessi</h4>
-                                    <p>Enseignant au Collège Protestant</p>
-                                </div>
-                            </div>
-                            
-                            <div class="suggestion-card-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Lomé</span>
-                            </div>
-                            
-                            <div class="suggestion-card-meta">
-                                <div class="suggestion-card-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.9/5
-                                </div>
-                                <div>124 élèves</div>
-                            </div>
-                            
-                            <div class="suggestion-card-price">
-                                <div class="suggestion-price-amount">2.500 FCFA<span class="price-period">/heure</span></div>
-                            </div>
-                            
-                            <div class="suggestion-card-actions">
-                                <button class="btn-suggestion btn-suggestion-details" onclick="viewSuggestion(10)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-suggestion btn-suggestion-enroll" onclick="enrollCourse(10)">
-                                    <i class="fas fa-shopping-cart"></i> S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- NOUVELLE SECTION: Autres Cours - Ressources pédagogiques -->
-            <section class="autres-cours-section">
-                <div class="autres-cours-header">
-                    <div>
-                        <h2 class="autres-cours-title">
-                            <i class="fas fa-book"></i> Autres Cours - Ressources pédagogiques
-                        </h2>
-                        <p class="autres-cours-subtitle">Documents, exercices, annales et autres ressources éducatives</p>
-                    </div>
-                </div>
-
-                <!-- NOUVEAUX FILTRES: sciences, litterature -->
-                <div class="autres-cours-filters">
-                    <button class="resource-filter-btn active" data-filter="all">
-                        <i class="fas fa-th"></i>
-                        <span>Toutes les ressources</span>
-                    </button>
-                    <button class="resource-filter-btn" data-filter="sciences">
-                        <i class="fas fa-flask"></i>
-                        <span>Sciences</span>
-                    </button>
-                    <button class="resource-filter-btn" data-filter="litterature">
-                        <i class="fas fa-book-open"></i>
-                        <span>Littérature</span>
-                    </button>
-                </div>
-
-                <!-- Grille des ressources -->
-                <div class="autres-cours-grid" id="autresCoursGrid">
-                    <!-- Les ressources pédagogiques seront ajoutées dynamiquement -->
-                </div>
-            </section>
+      <!-- Section Mes cours suivis -->
+      <div class="sec-box reveal">
+        <div class="sec-hd">
+          <div class="sec-hd-l">
+            <h2><i class="fas fa-graduation-cap" style="color:var(--teal)"></i> Mes cours suivis</h2>
+            <p>Continuez votre apprentissage</p>
+          </div>
         </div>
-    </main>
 
-    <!-- Modal pour l'achat de ressources -->
-    <div class="modal-overlay" id="purchaseModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="purchaseTitle">Acheter une ressource</h3>
-                <p id="purchaseSubtitle"></p>
-                <button class="close-modal" id="closePurchaseModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="purchaseStep1">
-                    <div class="resource-preview">
-                        <h4 id="resourceTitle"></h4>
-                        <p id="resourceDescription"></p>
-                        <p><strong>Type:</strong> <span id="resourceType"></span></p>
-                        <p><strong>Format:</strong> <span id="resourceFormat"></span></p>
-                        <p><strong>Niveau:</strong> <span id="resourceLevel"></span></p>
-                        <p><strong>Contenu:</strong></p>
-                        <ul id="resourceContent"></ul>
-                    </div>
-
-                    <div class="purchase-options">
-                        <div class="purchase-option" data-price="gratuit">
-                            <h4>Gratuit</h4>
-                            <div class="purchase-price price-free">0 FCFA</div>
-                            <div class="purchase-period">Accès immédiat</div>
-                            <p>Version limitée</p>
-                        </div>
-                        <div class="purchase-option" data-price="standard">
-                            <h4>Standard</h4>
-                            <div class="purchase-price" id="standardPrice"></div>
-                            <div class="purchase-period">Accès complet</div>
-                            <p>Téléchargement PDF</p>
-                        </div>
-                        <div class="purchase-option" data-price="premium">
-                            <h4>Premium</h4>
-                            <div class="purchase-price" id="premiumPrice"></div>
-                            <div class="purchase-period">Accès complet + bonus</div>
-                            <p>PDF + corrigés détaillés</p>
-                        </div>
-                    </div>
-
-                    <div class="modal-actions">
-                        <button class="modal-btn modal-btn-secondary" id="cancelPurchaseBtn">Annuler</button>
-                        <button class="modal-btn modal-btn-primary" id="confirmPurchaseBtn" disabled>Acheter maintenant</button>
-                    </div>
-                </div>
-            </div>
+        <div class="courses-tabs">
+          <button class="course-tab active" data-filter="all">Tous les cours</button>
+          <button class="course-tab" data-filter="gratuit">Gratuit</button>
+          <button class="course-tab" data-filter="standard">Standard</button>
+          <button class="course-tab" data-filter="premium">Premium</button>
         </div>
+
+        <div class="courses-grid" id="coursesGrid"></div>
+
+        <div class="see-all-bottom">
+          <a href="#" class="see-all">Voir tous mes cours <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Section Suggestions -->
+      <div class="sec-box reveal">
+        <div class="sec-hd">
+          <div class="sec-hd-l">
+            <h2><i class="fas fa-lightbulb" style="color:var(--gold)"></i> Suggestions pour vous</h2>
+            <p>Basées sur votre niveau (3ème) et vos matières préférées</p>
+          </div>
+        </div>
+
+        <div class="suggestions-cats">
+          <button class="cat-btn active" data-cat="all">Toutes</button>
+          <button class="cat-btn" data-cat="sciences">Sciences</button>
+          <button class="cat-btn" data-cat="litterature">Lettres</button>
+          <button class="cat-btn" data-cat="premium">Premium</button>
+        </div>
+
+        <div class="suggestions-grid" id="suggestionsGrid"></div>
+
+        <div class="see-all-bottom">
+          <a href="#" class="see-all">Voir tous les cours <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
     </div>
+  </main>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <a href="../index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
-                        <div class="logo-icon">ET</div>
-                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
-                    </a>
-                    <p style="color: var(--gris-clair);">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Liens rapides</h3>
-                    <ul class="footer-links">
-                        <li><a href="../index.html">Accueil</a></li>
-                        <li><a href="cours.html">Tous les cours</a></li>
-                        <li><a href="enseignant.html">Nos enseignants</a></li>
-                        <li><a href="../Authentification/auth.html">Connexion</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Catégories</h3>
-                    <ul class="footer-links">
-                        <li><a href="cours.html?subject=math">Mathématiques</a></li>
-                        <li><a href="cours.html?subject=french">Français</a></li>
-                        <li><a href="cours.html?subject=english">Anglais</a></li>
-                        <li><a href="cours.html?subject=science">Sciences</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Contact</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
-                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
-                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="copyright">
-                <p>&copy; 2023 EduTogoConnect. Tous droits réservés.</p>
-            </div>
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="container">
+      <div class="ft-grid">
+        <div>
+          <div class="logo" style="margin-bottom:12px">
+            <div class="logo-badge">S</div>
+            <div class="logo-text">Suku<span>li</span></div>
+          </div>
+          <p>La plateforme éducative dédiée aux élèves du collège.</p>
         </div>
-    </footer>
+        <div>
+          <h4 style="color:#fff;margin-bottom:12px;font-size:.9rem">Navigation</h4>
+          <ul class="ft-links">
+            <li><a href="eleve.html">Tableau de bord</a></li>
+            <li><a href="cours.html">Mes cours</a></li>
+            <li><a href="enseignant.html">Enseignants</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:#fff;margin-bottom:12px;font-size:.9rem">Contact</h4>
+          <p style="font-size:.82rem"><i class="fas fa-envelope" style="color:var(--teal);margin-right:6px"></i>
+            contact@sukuli.tg</p>
+        </div>
+      </div>
+      <div class="ft-btm">
+        <p>© 2025 Sukuli. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
 
-    <script>
-        // Données des ressources pédagogiques
-        const resourcesData = [
-            {
-                id: 101,
-                title: "Fiches de révision BEPC - Mathématiques",
-                type: "fiche_revision",
-                subject: "math",
-                category: "sciences",
-                level: "3ème",
-                description: "Fiches complètes de révision pour le BEPC en mathématiques",
-                format: "PDF",
-                pages: 45,
-                price: 1500,
-                premiumPrice: 2500,
-                rating: 4.8,
-                downloads: 287,
-                content: [
-                    "Algèbre: Calcul littéral, équations",
-                    "Géométrie: Théorèmes, calculs d'aires",
-                    "Statistiques et probabilités",
-                    "Exercices types BEPC corrigés"
-                ],
-                teacher: "Prof. Jean Dupont",
-                teacherInitials: "JD",
-                profession: "Enseignant au Lycée Français",
-                location: "Lomé"
-            },
-            {
-                id: 102,
-                title: "Annales BEPC corrigées - 2020-2023",
-                type: "epreuve_examen",
-                subject: "toutes",
-                category: "sciences",
-                level: "3ème",
-                description: "Sujets officiels des dernières sessions avec corrigés détaillés",
-                format: "PDF + Vidéo",
-                pages: 120,
-                price: 3000,
-                premiumPrice: 4500,
-                rating: 4.9,
-                downloads: 412,
-                content: [
-                    "Sujets complets de toutes les matières",
-                    "Corrigés détaillés pas à pas",
-                    "Conseils de méthodologie",
-                    "Grilles d'évaluation officielles"
-                ],
-                teacher: "M. Koffi Agbessi",
-                teacherInitials: "KA",
-                profession: "Enseignant au Collège Protestant",
-                location: "Lomé"
-            },
-            {
-                id: 103,
-                title: "Résumés de cours - Français 4ème",
-                type: "cours_resume",
-                subject: "french",
-                category: "litterature",
-                level: "4ème",
-                description: "Synthèse complète du programme de français 4ème",
-                format: "PDF",
-                pages: 35,
-                price: 1200,
-                premiumPrice: 2000,
-                rating: 4.6,
-                downloads: 156,
-                content: [
-                    "Grammaire et conjugaison",
-                    "Figures de style et analyse littéraire",
-                    "Méthodologie de la rédaction",
-                    "Liste d'œuvres au programme"
-                ],
-                teacher: "Mme Aïcha Mensah",
-                teacherInitials: "AM",
-                profession: "Professeure de Français",
-                location: "Lomé"
-            },
-            {
-                id: 104,
-                title: "Exercices corrigés - Sciences Physiques 5ème",
-                type: "exercice_corrige",
-                subject: "physics",
-                category: "sciences",
-                level: "5ème",
-                description: "Banque d'exercices avec corrections détaillées",
-                format: "PDF",
-                pages: 60,
-                price: 1800,
-                premiumPrice: 2800,
-                rating: 4.7,
-                downloads: 198,
-                content: [
-                    "Électricité: Circuits, loi d'Ohm",
-                    "Mécanique: Forces, mouvement",
-                    "Chimie: Atomes, molécules",
-                    "Optique: Lumière, miroirs"
-                ],
-                teacher: "Dr. Yao Akakpo",
-                teacherInitials: "YA",
-                profession: "Professeur de Physique",
-                location: "Kara"
-            },
-            {
-                id: 105,
-                title: "Devoirs surveillés - SVT 4ème",
-                type: "devoir",
-                subject: "svt",
-                category: "sciences",
-                level: "4ème",
-                description: "Série de devoirs type contrôle avec barème",
-                format: "PDF",
-                pages: 40,
-                price: 1000,
-                premiumPrice: 1800,
-                rating: 4.5,
-                downloads: 134,
-                content: [
-                    "6 devoirs complets",
-                    "Barème de correction",
-                    "Fiches de révision associées",
-                    "Conseils pour réussir"
-                ],
-                teacher: "Mme Fatou Diallo",
-                teacherInitials: "FD",
-                profession: "Biologiste",
-                location: "Sokodé"
-            },
-            {
-                id: 106,
-                title: "Kit de révision - Histoire-Géographie 3ème",
-                type: "kit_revision",
-                subject: "history",
-                category: "litterature",
-                level: "3ème",
-                description: "Kit complet pour réviser l'histoire-géographie",
-                format: "PDF + Audio",
-                pages: 55,
-                price: 2200,
-                premiumPrice: 3500,
-                rating: 4.8,
-                downloads: 189,
-                content: [
-                    "Frises chronologiques",
-                    "Cartes géographiques",
-                    "Quiz interactifs",
-                    "Enregistrements audio des leçons"
-                ],
-                teacher: "Prof. Kodjo Adjo",
-                teacherInitials: "KA",
-                profession: "Historien",
-                location: "Sokodé"
-            },
-            {
-                id: 107,
-                title: "Méthodologie - Dissertation Philosophie",
-                type: "methode",
-                subject: "philo",
-                category: "litterature",
-                level: "3ème",
-                description: "Guide complet pour réussir la dissertation",
-                format: "PDF",
-                pages: 30,
-                price: 800,
-                premiumPrice: 1500,
-                rating: 4.6,
-                downloads: 97,
-                content: [
-                    "Structure type d'une dissertation",
-                    "Exemples de sujets analysés",
-                    "Vocabulaire philosophique",
-                    "Erreurs à éviter"
-                ],
-                teacher: "M. Mensah Yao",
-                teacherInitials: "MY",
-                profession: "Enseignant de Philosophie",
-                location: "Lomé"
-            },
-            {
-                id: 108,
-                title: "Cahier d'activités - Anglais 6ème",
-                type: "cahier_activites",
-                subject: "english",
-                category: "litterature",
-                level: "6ème",
-                description: "Cahier d'exercices progressifs avec corrigés",
-                format: "PDF imprimable",
-                pages: 50,
-                price: 900,
-                premiumPrice: 1600,
-                rating: 4.4,
-                downloads: 112,
-                content: [
-                    "Vocabulaire thématique",
-                    "Exercices de grammaire",
-                    "Dialogues à compléter",
-                    "Jeux éducatifs en anglais"
-                ],
-                teacher: "M. John Smith",
-                teacherInitials: "JS",
-                profession: "Enseignant natif anglophone",
-                location: "Lomé"
-            },
-            {
-                id: 109,
-                title: "Pack révision intensive - BEPC complet",
-                type: "pack_revision",
-                subject: "toutes",
-                category: "sciences",
-                level: "3ème",
-                description: "Pack complet pour une révision intensive avant l'examen",
-                format: "PDF + Vidéo + Audio",
-                pages: 200,
-                price: 5000,
-                premiumPrice: 7500,
-                rating: 4.9,
-                downloads: 324,
-                content: [
-                    "Toutes les matières du programme",
-                    "Planning de révision sur 30 jours",
-                    "Tests d'auto-évaluation",
-                    "Cours en vidéo des points difficiles"
-                ],
-                teacher: "Dr. Lawson Komla",
-                teacherInitials: "LK",
-                profession: "Chercheur en Sciences",
-                location: "Lomé"
-            },
-            {
-                id: 110,
-                title: "Formulaire gratuit - Mathématiques 3ème",
-                type: "formulaire",
-                subject: "math",
-                category: "sciences",
-                level: "3ème",
-                description: "Formulaire des principales formules de mathématiques",
-                format: "PDF",
-                pages: 15,
-                price: 0,
-                premiumPrice: 0,
-                rating: 4.7,
-                downloads: 543,
-                content: [
-                    "Formules de géométrie",
-                    "Identités remarquables",
-                    "Tableaux de conversion",
-                    "Règles de calcul"
-                ],
-                teacher: "Dr. Komla Lawson",
-                teacherInitials: "KL",
-                profession: "Enseignant expérimenté",
-                location: "Dapaong"
-            }
-        ];
+  <script>
+    /* ===== DONNÉES ===== */
+    const myCourses = [
+      { id: 1, title: "Mathématiques — 3ème", subject: "Mathématiques", level: "3ème", teacher: "Jean Dupont", init: "JD", location: "Lomé, Togo", rating: 4.8, price: 5000, type: "premium", status: "en-cours" },
+      { id: 2, title: "Français — 4ème", subject: "Français", level: "4ème", teacher: "Marie Dubois", init: "MD", location: "Lomé, Togo", rating: 4.7, price: 2000, type: "standard", status: "en-cours" },
+      { id: 3, title: "SVT — 3ème", subject: "SVT", level: "3ème", teacher: "Dr. Akakpo", init: "DA", location: "Lomé, Togo", rating: 4.9, price: 2200, type: "standard", status: "termines" },
+      { id: 4, title: "Physique-Chimie — 3ème", subject: "Sciences Physiques", level: "3ème", teacher: "Dr. Lawson", init: "DL", location: "Lomé, Togo", rating: 4.7, price: 4500, type: "premium", status: "en-cours" },
+      { id: 5, title: "Anglais Conversation", subject: "Anglais", level: "4ème-3ème", teacher: "Sarah Johnson", init: "SJ", location: "En ligne", rating: 4.6, price: 0, type: "gratuit", status: "en-cours" }
+    ];
 
-        // Éléments DOM
-        const backToTopBtn = document.getElementById('backToTopBtn');
-        const searchFiltersBtn = document.getElementById('searchFiltersBtn');
-        const searchFiltersPanel = document.getElementById('searchFiltersPanel');
-        const closeFiltersBtn = document.getElementById('closeFiltersBtn');
-        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
-        const applyFiltersBtn = document.getElementById('applyFiltersBtn');
-        const searchBtn = document.getElementById('searchBtn');
-        const mainSearchInput = document.getElementById('mainSearchInput');
-        const mobileNavToggle = document.getElementById('mobileNavToggle');
-        const mobileNav = document.getElementById('mobileNav');
-        const notificationBtn = document.getElementById('notificationBtn');
-        const profileBtn = document.getElementById('profileBtn');
-        const profileMenu = document.getElementById('profileMenu');
-        const autresCoursGrid = document.getElementById('autresCoursGrid');
-        
-        // Éléments du modal d'achat
-        const purchaseModal = document.getElementById('purchaseModal');
-        const closePurchaseModal = document.getElementById('closePurchaseModal');
-        const cancelPurchaseBtn = document.getElementById('cancelPurchaseBtn');
-        const confirmPurchaseBtn = document.getElementById('confirmPurchaseBtn');
-        const purchaseOptions = document.querySelectorAll('.purchase-option');
+    const suggestions = [
+      { id: 101, title: "Mathématiques Avancées", subject: "Mathématiques", level: "3ème • BEPC", teacher: "Jean Dupont", init: "JD", location: "Lomé, Togo", rating: 4.8, price: 5000, type: "premium", category: "sciences" },
+      { id: 102, title: "Physique-Chimie 3ème", subject: "Sciences Physiques", level: "3ème", teacher: "Dr. Yao Akakpo", init: "YA", location: "Kara, Togo", rating: 4.7, price: 3800, type: "standard", category: "sciences" },
+      { id: 103, title: "Anglais Conversation", subject: "Anglais", level: "4ème — 3ème", teacher: "John Smith", init: "JS", location: "Lomé, Togo", rating: 4.9, price: 2900, type: "standard", category: "litterature" },
+      { id: 104, title: "Initiation à la Programmation", subject: "Informatique", level: "Tous niveaux", teacher: "Thomas Kodjo", init: "TK", location: "En ligne", rating: 4.6, price: 0, type: "gratuit", category: "sciences" },
+      { id: 105, title: "Préparation intensive BEPC", subject: "Mathématiques", level: "3ème", teacher: "Prof. Adjo", init: "PA", location: "Lomé, Togo", rating: 5.0, price: 5000, type: "premium", category: "sciences" },
+      { id: 106, title: "Français — Rédaction 4ème", subject: "Français", level: "4ème", teacher: "Aïcha Mensah", init: "AM", location: "Lomé, Togo", rating: 4.7, price: 2000, type: "standard", category: "litterature" },
+      { id: 107, title: "SVT — Biologie Cellulaire", subject: "SVT", level: "4ème", teacher: "Marie Biologiste", init: "MB", location: "Kpalimé, Togo", rating: 4.5, price: 3200, type: "standard", category: "sciences" },
+      { id: 108, title: "Anglais — Grammaire 6ème", subject: "Anglais", level: "6ème", teacher: "John Smith", init: "JS", location: "Lomé, Togo", rating: 4.6, price: 0, type: "gratuit", category: "litterature" },
+      { id: 109, title: "Mathématiques — Géométrie 6ème", subject: "Mathématiques", level: "6ème", teacher: "Koffi Agbessi", init: "KA", location: "Lomé, Togo", rating: 4.9, price: 2500, type: "premium", category: "sciences" },
+      { id: 110, title: "Histoire-Géo — Afrique précoloniale", subject: "Histoire", level: "5ème", teacher: "Kodjo Adjo", init: "KA", location: "Sokodé, Togo", rating: 4.8, price: 1800, type: "standard", category: "litterature" }
+    ];
 
-        // Variables d'état
-        let hasAppeared = false;
-        let selectedResource = null;
-        let selectedPriceOption = null;
+    /* ===== HELPERS ===== */
+    function stars(r) {
+      let s = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(r)) s += '<i class="fas fa-star"></i>';
+        else if (i - r < 1) s += '<i class="fas fa-star-half-alt"></i>';
+        else s += '<i class="far fa-star"></i>';
+      }
+      return s;
+    }
 
-        // Fonction pour gérer la visibilité de la flèche
-        function toggleBackToTopButton() {
-            const scrollPosition = window.scrollY;
-            
-            if (scrollPosition > 300) {
-                backToTopBtn.classList.add('visible');
-                
-                if (!hasAppeared) {
-                    backToTopBtn.classList.add('first-appear');
-                    hasAppeared = true;
-                    
-                    setTimeout(() => {
-                        backToTopBtn.classList.remove('first-appear');
-                    }, 800);
-                }
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
-        }
+    function getBadgeClass(type) {
+      if (type === 'premium') return 'badge-premium';
+      if (type === 'gratuit') return 'badge-free';
+      return 'badge-standard';
+    }
+    function getBadgeText(type) {
+      if (type === 'premium') return '⭐ PREMIUM';
+      if (type === 'gratuit') return 'GRATUIT';
+      return 'STANDARD';
+    }
 
-        // Fonction pour remonter en haut
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
+    /* ─── Carte cours suivis ─── */
+    function mkCourseCard(c) {
+      const stripCls = c.type === 'gratuit' ? 'cc-strip cc-strip-free' : 'cc-strip';
+      const priceHtml = c.price === 0
+        ? `<div class="cc-price free">Gratuit</div>`
+        : `<div class="cc-price">${c.price.toLocaleString('fr-FR')} FCFA<small style="font-size:.65rem;font-weight:400;color:var(--txt-m)">/h</small></div>`;
+      const actionBtns = c.status === 'termines'
+        ? `<button class="ca ca-g" onclick="showToast('Revoir le cours')"><i class="fas fa-redo"></i> Revoir</button>
+       <button class="ca ca-g" onclick="showToast('📄 Attestation téléchargée')"><i class="fas fa-certificate"></i> Attestation</button>`
+        : `<button class="ca ca-g" onclick="showToast('Détails du cours')"><i class="fas fa-eye"></i> Détails</button>
+       <button class="ca ca-d" onclick="showToast('▶ Reprise — ${c.title}')"><i class="fas fa-play-circle"></i> Continuer</button>`;
 
-        // Événements pour la flèche retour en haut
-        window.addEventListener('scroll', toggleBackToTopButton);
-        backToTopBtn.addEventListener('click', scrollToTop);
+      return `
+    <div class="cc" data-type="${c.type}" data-status="${c.status}">
+      <div class="${stripCls}"></div>
+      <div class="cc-body">
 
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(toggleBackToTopButton, 100);
-            setupCourseTabs();
-            setupSuggestionsFiltering();
-            setupMenuEvents();
-            renderResources();
-            setupPurchaseModal();
-            setupResourcesFiltering();
-        });
+        <!-- Badges inline (style page référence) -->
+        <div class="cc-badge-row">
+          <span class="badge-lv">${c.level}</span>
+          <span class="${getBadgeClass(c.type)}">${getBadgeText(c.type)}</span>
+        </div>
 
-        // Configuration des onglets de cours
-        function setupCourseTabs() {
-            const courseTabs = document.querySelectorAll('.course-tab');
-            
-            courseTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    courseTabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    
-                    const filter = tab.dataset.filter;
-                    filterCourses(filter);
-                });
-            });
-        }
+        <h3 class="cc-title">${c.title}</h3>
+        <p class="cc-sub">${c.subject}</p>
 
-        // Filtrer les cours par type
-        function filterCourses(filter) {
-            const courseCards = document.querySelectorAll('.course-card');
-            
-            courseCards.forEach(card => {
-                if (filter === 'all' || card.dataset.type === filter) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
+        <!-- Enseignant + lieu directement en dessous (sans titre/profession) -->
+        <div class="cc-trow">
+          <div class="cc-tav">${c.init}</div>
+          <div>
+            <div class="cc-tnm">${c.teacher}</div>
+            <div class="cc-trl"><i class="fas fa-map-marker-alt"></i> ${c.location}</div>
+          </div>
+        </div>
 
-        // Configuration du filtrage des suggestions
-        function setupSuggestionsFiltering() {
-            const categoryBtns = document.querySelectorAll('.category-btn');
-            
-            categoryBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    categoryBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    const category = btn.dataset.category;
-                    filterSuggestions(category);
-                });
-            });
-        }
+        <!-- Note (sans nb d'élèves) -->
+        <div class="cc-meta">
+          <div class="cc-stars">${stars(c.rating)}<span> ${c.rating}</span></div>
+        </div>
 
-        function filterSuggestions(category) {
-            const suggestionCards = document.querySelectorAll('.suggestion-card');
-            
-            suggestionCards.forEach(card => {
-                const cardCategory = card.dataset.category;
-                const cardType = card.dataset.type;
-                
-                if (category === 'all') {
-                    card.style.display = 'flex';
-                } else if (category === 'sciences' || category === 'litterature') {
-                    // Filtrer par catégorie (sciences ou littérature)
-                    if (cardCategory === category) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                } else if (category === 'standard' || category === 'premium') {
-                    // Filtrer par type (standard ou premium)
-                    if (cardType === category) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                }
-            });
-        }
+        ${priceHtml}
+        <div class="cc-acts">${actionBtns}</div>
+      </div>
+    </div>`;
+    }
 
-        // Configuration du filtrage des ressources
-        function setupResourcesFiltering() {
-            const filterBtns = document.querySelectorAll('.resource-filter-btn');
-            
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    const filter = btn.dataset.filter;
-                    filterResources(filter);
-                });
-            });
-        }
+    /* ─── Carte suggestion (même structure) ─── */
+    function mkSugCard(s) {
+      const stripCls = s.type === 'gratuit' ? 'cc-strip cc-strip-free' : 'cc-strip';
+      const priceHtml = s.price === 0
+        ? `<div class="cc-price free">Gratuit</div>`
+        : `<div class="cc-price">${s.price.toLocaleString('fr-FR')} FCFA<small style="font-size:.65rem;font-weight:400;color:var(--txt-m)">/h</small></div>`;
 
-        function filterResources(filter) {
-            const resourceCards = document.querySelectorAll('.resource-card');
-            
-            resourceCards.forEach(card => {
-                const cardCategory = card.dataset.category;
-                
-                if (filter === 'all') {
-                    card.style.display = 'flex';
-                } else if (cardCategory === filter) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
+      return `
+    <div class="cc" data-category="${s.category}" data-type="${s.type}">
+      <div class="${stripCls}"></div>
+      <div class="cc-body">
+        <div class="cc-badge-row">
+          <span class="badge-lv">${s.level}</span>
+          <span class="${getBadgeClass(s.type)}">${getBadgeText(s.type)}</span>
+        </div>
+        <h3 class="cc-title">${s.title}</h3>
+        <p class="cc-sub">${s.subject}</p>
+        <div class="cc-trow">
+          <div class="cc-tav">${s.init}</div>
+          <div>
+            <div class="cc-tnm">${s.teacher}</div>
+            <div class="cc-trl"><i class="fas fa-map-marker-alt"></i> ${s.location}</div>
+          </div>
+        </div>
+        <div class="cc-meta">
+          <div class="cc-stars">${stars(s.rating)}<span> ${s.rating}</span></div>
+        </div>
+        ${priceHtml}
+        <div class="cc-acts">
+          <button class="ca ca-g" onclick="showToast('Détails du cours')"><i class="fas fa-eye"></i> Détails</button>
+          <button class="ca ca-d" onclick="showToast('✅ Inscription — ${s.title}')"><i class="fas fa-user-plus"></i> S\'inscrire</button>
+        </div>
+      </div>
+    </div>`;
+    }
 
-        // Afficher les ressources pédagogiques
-        function renderResources() {
-            autresCoursGrid.innerHTML = '';
-            
-            resourcesData.forEach(resource => {
-                const resourceCard = createResourceCard(resource);
-                autresCoursGrid.appendChild(resourceCard);
-            });
-        }
+    /* ===== RENDER ===== */
+    function renderMyCourses(filter = 'all') {
+      const grid = document.getElementById('coursesGrid');
+      if (!grid) return;
+      const data = filter === 'all' ? myCourses : myCourses.filter(c => c.type === filter);
+      grid.innerHTML = data.map(mkCourseCard).join('');
+    }
 
-        // Créer une carte de ressource
-        function createResourceCard(resource) {
-            const card = document.createElement('div');
-            card.className = 'resource-card';
-            card.dataset.category = resource.category;
-            
-            // Formater le prix
-            let priceHTML = '';
-            if (resource.price === 0) {
-                priceHTML = `
-                    <div class="price-amount price-free">Gratuit</div>
-                `;
-            } else {
-                priceHTML = `
-                    <div class="price-amount">${resource.price.toLocaleString()} FCFA</div>
-                `;
-            }
-            
-            // Étoiles de notation
-            const stars = Math.floor(resource.rating);
-            const hasHalfStar = resource.rating % 1 >= 0.5;
-            let starsHTML = '';
-            for (let i = 0; i < stars; i++) {
-                starsHTML += '<i class="fas fa-star"></i>';
-            }
-            if (hasHalfStar) {
-                starsHTML += '<i class="fas fa-star-half-alt"></i>';
-            }
-            
-            card.innerHTML = `
-                <div class="resource-header">
-                    <div class="resource-level">${resource.level}</div>
-                    <h3 class="course-title">${resource.title}</h3>
-                    <p class="course-subject">${getSubjectName(resource.subject)}</p>
-                    
-                    <!-- Section enseignant -->
-                    <div class="course-teacher">
-                        <div class="teacher-avatar">${resource.teacherInitials}</div>
-                        <div class="teacher-info">
-                            <h4>${resource.teacher}</h4>
-                            <p>${resource.profession}</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Localisation -->
-                    <div class="course-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>${resource.location}</span>
-                    </div>
-                    
-                    <div class="resource-meta">
-                        <div class="course-rating">
-                            ${starsHTML} ${resource.rating}/5
-                        </div>
-                        <div>${resource.downloads} téléchargements</div>
-                    </div>
-                    
-                    <div class="course-price">
-                        ${priceHTML}
-                    </div>
-                    
-                    <div class="resource-actions">
-                        <button class="btn-course btn-preview" onclick="previewResource(${resource.id})">
-                            <i class="fas fa-eye"></i> Aperçu
-                        </button>
-                        <button class="btn-course btn-achat" onclick="openPurchaseModal(${resource.id})">
-                            <i class="fas fa-shopping-cart"></i> Acheter
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            return card;
-        }
+    function renderSuggestions(cat = 'all') {
+      const grid = document.getElementById('suggestionsGrid');
+      if (!grid) return;
+      let data = [...suggestions];
+      if (cat === 'premium') data = data.filter(s => s.type === 'premium');
+      else if (cat !== 'all') data = data.filter(s => s.category === cat);
+      grid.innerHTML = data.map(mkSugCard).join('');
+    }
 
-        // Obtenir le nom du type de ressource
-        function getResourceTypeName(type) {
-            const types = {
-                'fiche_revision': 'Fiche de révision',
-                'epreuve_examen': 'Épreuve d\'examen',
-                'cours_resume': 'Cours résumé',
-                'exercice_corrige': 'Exercice corrigé',
-                'devoir': 'Devoir',
-                'kit_revision': 'Kit de révision',
-                'methode': 'Méthodologie',
-                'cahier_activites': 'Cahier d\'activités',
-                'pack_revision': 'Pack révision',
-                'formulaire': 'Formulaire'
-            };
-            return types[type] || type;
-        }
+    /* ===== TOAST ===== */
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      if (t) { document.getElementById('toastMsg').textContent = msg; t.className = 'show'; setTimeout(() => t.className = '', 3200); }
+    }
 
-        // Obtenir le nom de la matière
-        function getSubjectName(subject) {
-            const subjects = {
-                'math': 'Mathématiques',
-                'french': 'Français',
-                'english': 'Anglais',
-                'physics': 'Sciences Physiques',
-                'svt': 'SVT',
-                'history': 'Histoire-Géographie',
-                'philo': 'Philosophie',
-                'toutes': 'Toutes matières',
-                'other': 'Autre matière'
-            };
-            return subjects[subject] || subject;
-        }
+    /* ===== ÉVÉNEMENTS ===== */
+    document.querySelectorAll('.course-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.course-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderMyCourses(tab.dataset.filter);
+      });
+    });
 
-        // Aperçu d'une ressource
-        window.previewResource = function(resourceId) {
-            const resource = resourcesData.find(r => r.id === resourceId);
-            if (resource) {
-                openPurchaseModal(resourceId);
-            }
-        };
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderSuggestions(btn.dataset.cat);
+      });
+    });
 
-        // Configuration du modal d'achat
-        function setupPurchaseModal() {
-            // Fermer le modal
-            closePurchaseModal.addEventListener('click', closePurchaseModalFunc);
-            cancelPurchaseBtn.addEventListener('click', closePurchaseModalFunc);
-            
-            // Fermer le modal en cliquant à l'extérieur
-            purchaseModal.addEventListener('click', (e) => {
-                if (e.target === purchaseModal) {
-                    closePurchaseModalFunc();
-                }
-            });
-            
-            // Sélection d'option d'achat
-            purchaseOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    purchaseOptions.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedPriceOption = option.dataset.price;
-                    updatePurchaseButton();
-                });
-            });
-            
-            // Bouton de confirmation d'achat
-            confirmPurchaseBtn.addEventListener('click', () => {
-                if (selectedResource && selectedPriceOption) {
-                    processPurchase();
-                }
-            });
-        }
+    const btt = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => { btt?.classList.toggle('show', scrollY > 300); document.getElementById('mainHdr')?.classList.toggle('scrolled', scrollY > 50); });
+    btt?.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('profileToggle')?.addEventListener('click', e => { e.stopPropagation(); document.getElementById('dropMenu')?.classList.toggle('open'); document.getElementById('profileToggle')?.classList.toggle('open'); });
+    document.addEventListener('click', () => { document.getElementById('dropMenu')?.classList.remove('open'); document.getElementById('profileToggle')?.classList.remove('open'); });
+    document.getElementById('menuTog')?.addEventListener('click', () => document.getElementById('mobNav')?.classList.toggle('open'));
+    document.getElementById('notifBtn')?.addEventListener('click', () => showToast('🔔 Vous avez 3 nouvelles notifications.'));
+    document.getElementById('searchBtn')?.addEventListener('click', () => { const q = document.getElementById('searchInput').value.trim(); showToast(q ? `🔍 Recherche : "${q}"` : 'Saisissez un terme'); });
+    document.getElementById('filterToggleBtn')?.addEventListener('click', () => document.getElementById('sfp')?.classList.toggle('open'));
+    document.getElementById('sfpClose')?.addEventListener('click', () => document.getElementById('sfp')?.classList.remove('open'));
+    document.getElementById('sfpReset')?.addEventListener('click', () => { document.querySelectorAll('#sfp select').forEach(s => s.value = ''); showToast('Filtres réinitialisés'); });
+    document.getElementById('sfpApply')?.addEventListener('click', () => { document.getElementById('sfp')?.classList.remove('open'); showToast('Filtres appliqués'); });
 
-        // Ouvrir le modal d'achat
-        window.openPurchaseModal = function(resourceId) {
-            selectedResource = resourcesData.find(r => r.id === resourceId);
-            
-            if (selectedResource) {
-                // Mettre à jour les informations du modal
-                document.getElementById('purchaseTitle').textContent = selectedResource.title;
-                document.getElementById('purchaseSubtitle').textContent = selectedResource.description;
-                document.getElementById('resourceTitle').textContent = selectedResource.title;
-                document.getElementById('resourceDescription').textContent = selectedResource.description;
-                document.getElementById('resourceType').textContent = getResourceTypeName(selectedResource.type);
-                document.getElementById('resourceFormat').textContent = selectedResource.format;
-                document.getElementById('resourceLevel').textContent = selectedResource.level;
-                
-                // Mettre à jour la liste de contenu
-                const contentList = document.getElementById('resourceContent');
-                contentList.innerHTML = '';
-                selectedResource.content.forEach(item => {
-                    const li = document.createElement('li');
-                    li.textContent = item;
-                    contentList.appendChild(li);
-                });
-                
-                // Mettre à jour les prix
-                document.getElementById('standardPrice').textContent = 
-                    selectedResource.price === 0 ? 'Gratuit' : selectedResource.price.toLocaleString() + ' FCFA';
-                document.getElementById('premiumPrice').textContent = 
-                    selectedResource.premiumPrice === 0 ? 'Gratuit' : selectedResource.premiumPrice.toLocaleString() + ' FCFA';
-                
-                // Réinitialiser les sélections
-                selectedPriceOption = null;
-                purchaseOptions.forEach(opt => opt.classList.remove('selected'));
-                updatePurchaseButton();
-                
-                // Ouvrir le modal
-                purchaseModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        };
+    const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.07 });
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
 
-        // Fermer le modal d'achat
-        function closePurchaseModalFunc() {
-            purchaseModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            selectedResource = null;
-            selectedPriceOption = null;
-        }
-
-        // Mettre à jour le bouton d'achat
-        function updatePurchaseButton() {
-            if (!selectedPriceOption) {
-                confirmPurchaseBtn.disabled = true;
-                confirmPurchaseBtn.textContent = 'Sélectionnez une option';
-                confirmPurchaseBtn.className = 'modal-btn modal-btn-disabled';
-                return;
-            }
-            
-            confirmPurchaseBtn.disabled = false;
-            
-            if (selectedPriceOption === 'gratuit') {
-                confirmPurchaseBtn.textContent = 'Télécharger gratuitement';
-            } else {
-                confirmPurchaseBtn.textContent = 'Procéder au paiement';
-            }
-            
-            confirmPurchaseBtn.className = 'modal-btn modal-btn-primary';
-        }
-
-        // Traiter l'achat
-        function processPurchase() {
-            if (!selectedResource || !selectedPriceOption) return;
-            
-            let price = 0;
-            let optionName = '';
-            
-            switch (selectedPriceOption) {
-                case 'gratuit':
-                    price = 0;
-                    optionName = 'Gratuit';
-                    break;
-                case 'standard':
-                    price = selectedResource.price;
-                    optionName = 'Standard';
-                    break;
-                case 'premium':
-                    price = selectedResource.premiumPrice;
-                    optionName = 'Premium';
-                    break;
-            }
-            
-            // Simuler l'achat
-            alert(`Achat en cours...\n\nRessource: ${selectedResource.title}\nOption: ${optionName}\nPrix: ${price === 0 ? 'Gratuit' : price.toLocaleString() + ' FCFA'}\n\nVous allez être redirigé vers le paiement.`);
-            
-            // Fermer le modal après un délai
-            setTimeout(() => {
-                closePurchaseModalFunc();
-                
-                // Redirection vers la page de paiement (simulée)
-                if (price > 0) {
-                    console.log(`Redirection vers le paiement pour la ressource ${selectedResource.id}, option ${selectedPriceOption}`);
-                } else {
-                    // Pour les ressources gratuites, téléchargement direct
-                    alert('Téléchargement en cours...');
-                }
-            }, 1000);
-        }
-
-        // Configuration des événements du menu
-        function setupMenuEvents() {
-            // Ouvrir/fermer les filtres de recherche
-            searchFiltersBtn.addEventListener('click', () => {
-                searchFiltersPanel.classList.toggle('active');
-            });
-
-            closeFiltersBtn.addEventListener('click', () => {
-                searchFiltersPanel.classList.remove('active');
-            });
-
-            // Fermer les filtres en cliquant à l'extérieur
-            document.addEventListener('click', (e) => {
-                if (!searchFiltersPanel.contains(e.target) && 
-                    !searchFiltersBtn.contains(e.target) && 
-                    searchFiltersPanel.classList.contains('active')) {
-                    searchFiltersPanel.classList.remove('active');
-                }
-            });
-
-            // Réinitialiser les filtres
-            resetFiltersBtn.addEventListener('click', () => {
-                document.getElementById('searchType').value = 'all';
-                document.getElementById('searchLevel').value = 'all';
-                document.getElementById('searchSubject').value = 'all';
-                document.getElementById('searchPrice').value = 'all';
-                document.getElementById('searchRating').value = '0';
-                document.getElementById('searchCity').value = 'all';
-                mainSearchInput.value = '';
-            });
-
-            // Appliquer les filtres et lancer la recherche
-            applyFiltersBtn.addEventListener('click', performSearch);
-            searchBtn.addEventListener('click', performSearch);
-
-            mainSearchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-
-            function performSearch() {
-                const searchType = document.getElementById('searchType').value;
-                const searchLevel = document.getElementById('searchLevel').value;
-                const searchSubject = document.getElementById('searchSubject').value;
-                const searchPrice = document.getElementById('searchPrice').value;
-                const searchRating = document.getElementById('searchRating').value;
-                const searchCity = document.getElementById('searchCity').value;
-                const searchQuery = mainSearchInput.value.trim();
-                
-                searchFiltersPanel.classList.remove('active');
-                
-                if (searchQuery || searchType !== 'all' || searchLevel !== 'all' || 
-                    searchSubject !== 'all' || searchPrice !== 'all' || searchRating !== '0' || searchCity !== 'all') {
-                    
-                    alert(`Recherche avec les filtres:\n
-                        Type: ${document.getElementById('searchType').selectedOptions[0].text}\n
-                        Niveau: ${document.getElementById('searchLevel').selectedOptions[0].text}\n
-                        Matière: ${document.getElementById('searchSubject').selectedOptions[0].text}\n
-                        Prix: ${document.getElementById('searchPrice').selectedOptions[0].text}\n
-                        Note: ${document.getElementById('searchRating').selectedOptions[0].text}\n
-                        Ville: ${document.getElementById('searchCity').selectedOptions[0].text}\n
-                        Recherche: "${searchQuery}"`);
-                }
-            }
-
-            // Gestion menu mobile
-            mobileNavToggle.addEventListener('click', () => {
-                mobileNav.classList.toggle('active');
-            });
-
-            // Fermer menu mobile en cliquant à l'extérieur
-            document.addEventListener('click', (e) => {
-                if (!mobileNav.contains(e.target) && !mobileNavToggle.contains(e.target)) {
-                    mobileNav.classList.remove('active');
-                }
-            });
-
-            // Gestion menu déroulant profil
-            profileBtn.addEventListener('click', () => {
-                profileMenu.classList.toggle('active');
-            });
-
-            // Fermer le menu déroulant en cliquant à l'extérieur
-            document.addEventListener('click', (e) => {
-                if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
-                    profileMenu.classList.remove('active');
-                }
-            });
-        }
-
-        // Fonctions de gestion des cours
-        function continueCourse(courseId) {
-            alert(`Continuer le cours #${courseId}\n\nVous allez être redirigé vers la page du cours.`);
-        }
-
-        function reviewCourse(courseId) {
-            alert(`Voir les détails du cours #${courseId}\n\nCette fonctionnalité affichera tous les détails du cours.`);
-        }
-
-        // Fonctions de gestion des suggestions
-        function viewSuggestion(suggestionId) {
-            alert(`Voir les détails de la suggestion #${suggestionId}\n\nToutes les informations sur ce cours seront affichées.`);
-        }
-
-        function enrollCourse(suggestionId) {
-            alert(`S'inscrire au cours #${suggestionId}\n\nVous allez être redirigé vers le processus d'inscription.`);
-        }
-
-        // Gestion responsive
-        function checkWindowSize() {
-            if (window.innerWidth <= 992) {
-                document.querySelector('.menu-toggle').style.display = 'block';
-            } else {
-                document.querySelector('.menu-toggle').style.display = 'none';
-                mobileNav.classList.remove('active');
-            }
-        }
-        
-        window.addEventListener('resize', checkWindowSize);
-        checkWindowSize();
-    </script>
+    renderMyCourses('all');
+    renderSuggestions('all');
+  </script>
 </body>
+
 </html>
