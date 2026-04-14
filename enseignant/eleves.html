@@ -68,7 +68,7 @@
   #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(60px); background:var(--deep); color:#fff; padding:12px 26px; border-radius:50px; font-size:.9rem; font-weight:700; box-shadow:0 8px 24px rgba(0,47,42,.4); z-index:9200; border:1px solid var(--teal-light); transition:transform .36s cubic-bezier(.34,1.56,.64,1), opacity .36s; opacity:0; display:flex; align-items:center; gap:8px; }
   #toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
 
-  /* ═══ HEADER ═══ */
+  /* HEADER */
   header { position:sticky; top:0; z-index:1000; background:var(--hdr); box-shadow:0 2px 16px rgba(0,0,0,.22); transition:box-shadow .3s; }
   header.scrolled { box-shadow:0 4px 28px rgba(0,0,0,.35); }
   .navbar { display:flex; align-items:center; padding:10px 0; gap:14px; flex-wrap:wrap; }
@@ -77,7 +77,6 @@
   .logo-text { font-family:'Poppins',sans-serif; font-weight:800; font-size:1.3rem; color:#fff; }
   .logo-text span { color:var(--teal-light); }
 
-  /* BARRE DE RECHERCHE */
   .nav-search-wrap { position:relative; flex:1; max-width:540px; margin:0 auto; }
   .nav-search { background:rgba(255,255,255,.10); border-radius:40px; padding:4px 4px 4px 16px; display:flex; align-items:center; border:1.5px solid rgba(255,255,255,.18); gap:6px; transition:border-color .22s, background .22s; }
   .nav-search:focus-within { border-color:var(--teal-light); background:rgba(255,255,255,.14); }
@@ -90,7 +89,6 @@
   .nav-search-btn { background:var(--teal); border:none; color:#fff; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.82rem; flex-shrink:0; transition:all .22s; }
   .nav-search-btn:hover { background:var(--teal-light); transform:scale(1.08); }
 
-  /* PANNEAU FILTRES */
   .sfp { position:absolute; top:calc(100% + 14px); left:0; right:0; background:var(--hdr); border:1.5px solid rgba(255,255,255,.13); border-radius:var(--r-md); padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.6); z-index:1200; display:none; }
   .sfp.open { display:block; animation:sfpIn .25s cubic-bezier(.4,0,.2,1); }
   @keyframes sfpIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
@@ -192,11 +190,11 @@
   .sc-hd { padding:18px 16px 12px; text-align:center; position:relative; border-bottom:1px solid var(--g100); }
   .sc-lv { position:absolute; top:12px; left:12px; padding:3px 10px; border-radius:50px; font-size:.66rem; font-weight:800; font-family:'Poppins',sans-serif; background:#fee2e2; color:var(--red); border-left:3px solid var(--red); }
   .sc-sessions { position:absolute; top:12px; right:12px; padding:3px 10px; border-radius:50px; font-size:.66rem; font-weight:700; background:rgba(26,181,160,.15); color:var(--teal); border:1px solid rgba(26,181,160,.3); }
-  .sc-av { width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,var(--deep),var(--teal)); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--gold); font-size:1.3rem; font-family:'Poppins',sans-serif; border:3px solid #fff; box-shadow:var(--sh-sm); margin:10px auto 10px; }
+  .avatar-wrapper { position:relative; display:inline-block; margin:10px auto 10px; }
+  .sc-av { width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,var(--deep),var(--teal)); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--gold); font-size:1.3rem; font-family:'Poppins',sans-serif; border:3px solid #fff; box-shadow:var(--sh-sm); }
+  .status-dot { position:absolute; bottom:2px; right:2px; width:16px; height:16px; background:var(--green-ok); border-radius:50%; border:2px solid #fff; box-shadow:0 0 0 1px rgba(0,0,0,.05); }
+  .status-dot.offline { background:var(--g400); }
   .sc-nm { font-size:.95rem; font-weight:700; color:var(--txt); margin-bottom:4px; }
-  .sc-subj { font-size:.75rem; font-weight:700; color:var(--teal); margin-bottom:6px; }
-  .sc-stars { color:var(--gold); font-size:.7rem; display:flex; align-items:center; justify-content:center; gap:3px; }
-  .sc-stars span { color:var(--txt-m); font-weight:700; }
 
   .sc-bd { padding:14px 16px; flex:1; display:flex; flex-direction:column; gap:10px; }
   .sc-session-box { background:var(--g50); border-radius:var(--r-sm); padding:10px 12px; border:1px solid var(--g200); }
@@ -205,25 +203,8 @@
   .sc-srow i { color:var(--teal); font-size:.72rem; margin-top:3px; flex-shrink:0; }
   .sc-slbl { font-size:.68rem; color:var(--txt-m); font-weight:600; text-transform:uppercase; letter-spacing:.5px; line-height:1.2; }
   .sc-sval { font-size:.78rem; color:var(--txt); font-weight:700; line-height:1.2; }
-
-  .sc-meta-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-  .sc-meta-item { background:var(--g50); border-radius:8px; padding:8px 10px; border:1px solid var(--g100); }
-  .sc-meta-lbl { font-size:.63rem; color:var(--txt-m); font-weight:700; text-transform:uppercase; letter-spacing:.5px; margin-bottom:2px; }
-  .sc-meta-val { font-size:.8rem; color:var(--txt); font-weight:700; }
-
-  /* Progress bar */
-  .sc-progress-wrap { margin-top:2px; }
-  .sc-prog-lbl { font-size:.68rem; color:var(--txt-m); font-weight:600; margin-bottom:4px; display:flex; justify-content:space-between; }
-  .sc-prog-bar { height:6px; background:var(--g200); border-radius:10px; overflow:hidden; }
-  .sc-prog-fill { height:100%; border-radius:10px; background:linear-gradient(90deg,var(--teal),var(--teal-light)); transition:width .8s cubic-bezier(.4,0,.2,1); }
-  .sc-prog-fill.high { background:linear-gradient(90deg,var(--green-ok),#86efac); }
-  .sc-prog-fill.low  { background:linear-gradient(90deg,var(--coral),#f4a582); }
-
-  /* Status badge inside card */
-  .sc-status { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:50px; font-size:.68rem; font-weight:700; }
-  .sc-status.active   { background:rgba(34,197,94,.12); color:#16a34a; }
-  .sc-status.inactive { background:rgba(148,163,184,.15); color:#64748b; }
-  .sc-status.archived { background:rgba(232,196,74,.15); color:var(--amber); }
+  .progress-bar-mini { background:var(--g200); border-radius:20px; height:6px; margin:8px 0 4px; overflow:hidden; }
+  .progress-fill { background:var(--teal); height:100%; border-radius:20px; width:0%; transition:width .3s; }
 
   .sc-ft { padding:10px 16px 14px; display:flex; gap:8px; background:#fff; border-top:1px solid var(--g100); }
   .sc-btn { flex:1; padding:8px 6px; text-align:center; border-radius:var(--r-sm); font-size:.75rem; font-weight:700; cursor:pointer; border:none; transition:all .22s; font-family:'Poppins',sans-serif; display:flex; align-items:center; justify-content:center; gap:5px; }
@@ -254,6 +235,7 @@
   .t-stat { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:50px; font-size:.7rem; font-weight:700; }
   .t-stat.active   { background:rgba(34,197,94,.12); color:#16a34a; }
   .t-stat.inactive { background:rgba(148,163,184,.15); color:#64748b; }
+  .t-stat.archived { background:rgba(232,196,74,.12); color:var(--amber); }
   .t-acts { display:flex; gap:6px; }
   .t-btn { padding:5px 11px; border-radius:6px; border:none; font-size:.73rem; font-weight:700; cursor:pointer; transition:all .2s; font-family:'Poppins',sans-serif; display:flex; align-items:center; gap:4px; }
   .t-btn-view { background:var(--g100); color:var(--txt-m); }
@@ -262,6 +244,17 @@
   .t-btn-msg:hover  { background:#138f7d; }
   .t-btn-del  { background:rgba(215,90,48,.1); color:var(--coral); }
   .t-btn-del:hover  { background:rgba(215,90,48,.2); }
+  .t-btn-archive { background:rgba(148,163,184,.12); color:#64748b; }
+  .t-btn-archive:hover { background:rgba(148,163,184,.25); }
+
+  /* ARCHIVED SECTION */
+  .archived-toggle { background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:8px; font-size:.82rem; font-weight:700; color:var(--txt-m); font-family:'Poppins',sans-serif; transition:color .22s; padding:4px 0; }
+  .archived-toggle:hover { color:var(--teal); }
+  .archived-toggle i { transition:transform .3s; }
+  .archived-toggle.open i.chevron { transform:rotate(180deg); }
+  .archived-body { max-height:0; overflow:hidden; transition:max-height .5s ease; }
+  .archived-body.open { max-height:2000px; margin-top:18px; }
+  .archived-section { margin-top:24px; border-top:1.5px solid var(--g100); padding-top:20px; }
 
   /* ACTION BAR */
   .action-bar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-bottom:20px; }
@@ -292,10 +285,12 @@
   .ft-btm { border-top:1px solid rgba(255,255,255,.07); padding-top:16px; display:flex; justify-content:space-between; font-size:.76rem; }
 
   .hidden { display:none !important; }
+  .session-detail { background:var(--g50); border-radius:10px; padding:12px; margin-top:12px; border-left:3px solid var(--teal); }
+  .session-detail p { font-size:.8rem; margin:6px 0; display:flex; gap:10px; align-items:center; }
 
   @media(max-width:1200px) { .students-grid{grid-template-columns:repeat(3,1fr)} .sfp-grid{grid-template-columns:repeat(2,1fr)} }
   @media(max-width:992px)  { .students-grid{grid-template-columns:repeat(2,1fr)} .menu-toggle{display:flex} .ft-grid{grid-template-columns:1fr 1fr} }
-  @media(max-width:576px)  { .students-grid{grid-template-columns:1fr} .ft-grid{grid-template-columns:1fr} .sfp-grid{grid-template-columns:1fr} .welcome-stats{flex-direction:row;flex-wrap:wrap} }
+  @media(max-width:576px)  { .students-grid{grid-template-columns:1fr} .ft-grid{grid-template-columns:1fr} .sfp-grid{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
@@ -327,63 +322,38 @@
 <header id="mainHdr">
   <div class="container">
     <nav class="navbar">
-      <a href="../index.html" class="logo">
+      <a href="#" class="logo">
         <div class="logo-badge">S</div>
         <div class="logo-text">Suku<span>li</span></div>
       </a>
 
-      <!-- BARRE DE RECHERCHE -->
       <div class="nav-search-wrap">
         <div class="nav-search">
           <i class="fas fa-search ns-icon"></i>
           <input type="text" id="searchInput" placeholder="Rechercher un élève, un niveau, une matière...">
           <div class="ns-sep"></div>
-          <button class="ns-filter-btn" id="filterToggleBtn">
-            <i class="fas fa-filter"></i>
-            <span>Filtres</span>
-          </button>
+          <button class="ns-filter-btn" id="filterToggleBtn"><i class="fas fa-filter"></i><span>Filtres</span></button>
           <button class="nav-search-btn" onclick="doSearch()"><i class="fas fa-search"></i></button>
         </div>
-        <!-- PANNEAU FILTRES -->
         <div class="sfp" id="sfp">
-          <div class="sfp-head">
-            <h4><i class="fas fa-sliders-h"></i> Filtres de recherche avancés</h4>
-            <button class="sfp-close" id="sfpClose">&times;</button>
-          </div>
+          <div class="sfp-head"><h4><i class="fas fa-sliders-h"></i> Filtres avancés</h4><button class="sfp-close" id="sfpClose">&times;</button></div>
           <div class="sfp-grid">
             <div class="sfp-group"><label>Statut</label><select class="sfp-sel" id="fStatus"><option value="">Tous</option><option value="active">Actif</option><option value="inactive">Inactif</option><option value="archived">Archivé</option></select></div>
-            <div class="sfp-group"><label>Niveau scolaire</label><select class="sfp-sel" id="fLevel"><option value="">Tous les niveaux</option><option value="6ème">6ème</option><option value="5ème">5ème</option><option value="4ème">4ème</option><option value="3ème">3ème</option></select></div>
+            <div class="sfp-group"><label>Niveau</label><select class="sfp-sel" id="fLevel"><option value="">Tous</option><option value="6ème">6ème</option><option value="5ème">5ème</option><option value="4ème">4ème</option><option value="3ème">3ème</option></select></div>
             <div class="sfp-group"><label>Matière</label><select class="sfp-sel" id="fSubject"><option value="">Toutes</option><option value="Mathématiques">Mathématiques</option><option value="Français">Français</option><option value="Anglais">Anglais</option><option value="Sciences Physiques">Sciences Physiques</option><option value="SVT">SVT</option></select></div>
-            <div class="sfp-group"><label>Type de service</label><select class="sfp-sel" id="fType"><option value="">Tous</option><option value="gratuit">Gratuit</option><option value="standard">Standard</option><option value="premium">Premium</option></select></div>
-            <div class="sfp-group"><label>Trier par</label><select class="sfp-sel" id="fSort"><option value="recent">Plus récent</option><option value="name">Nom A–Z</option><option value="progress">Progression</option><option value="sessions">Séances</option></select></div>
-            <div class="sfp-group"><label>Date d'inscription</label><select class="sfp-sel" id="fDate"><option value="">Toutes</option><option value="month">Ce mois</option><option value="3months">3 derniers mois</option><option value="year">Cette année</option></select></div>
+            <div class="sfp-group"><label>Type</label><select class="sfp-sel" id="fType"><option value="">Tous</option><option value="gratuit">Gratuit</option><option value="standard">Standard</option><option value="premium">Premium</option></select></div>
+            <div class="sfp-group"><label>Trier par</label><select class="sfp-sel" id="fSort"><option value="recent">Plus récent</option><option value="name">Nom A–Z</option></select></div>
+            <div class="sfp-group"><label>Date</label><select class="sfp-sel" id="fDate"><option value="">Toutes</option><option value="month">Ce mois</option></select></div>
           </div>
-          <div class="sfp-footer">
-            <div class="sfp-btns">
-              <button class="sfp-btn sfp-reset" id="sfpReset"><i class="fas fa-undo"></i> Réinitialiser</button>
-              <button class="sfp-btn sfp-apply" id="sfpApply"><i class="fas fa-search"></i> Appliquer</button>
-            </div>
-          </div>
+          <div class="sfp-footer"><div class="sfp-btns"><button class="sfp-btn sfp-reset" id="sfpReset"><i class="fas fa-undo"></i> Réinitialiser</button><button class="sfp-btn sfp-apply" id="sfpApply"><i class="fas fa-search"></i> Appliquer</button></div></div>
         </div>
       </div>
 
       <div class="nav-right">
         <button class="icon-btn" id="notifBtn"><i class="fas fa-bell"></i><span class="notif-dot">3</span></button>
         <div class="profile-drop">
-          <button class="profile-btn" id="profileToggle">
-            <div class="p-av">JD</div>
-            <div><div class="p-name">Jean Dupont</div><div class="p-role">Enseignant</div></div>
-            <i class="fas fa-chevron-down p-chev"></i>
-          </button>
-          <div class="drop-menu" id="dropMenu">
-            <div class="dm-head"><div class="dm-av">JD</div><div class="dm-name">Jean Dupont</div><div class="dm-email">jean.dupont@sukuli.tg</div></div>
-            <ul class="dm-list">
-              <li class="dm-item"><a href="#"><i class="fas fa-user-circle"></i>Mon profil</a></li>
-              <li class="dm-item"><a href="#"><i class="fas fa-cog"></i>Paramètres</a></li>
-              <li class="dm-item"><a href="#"><i class="fas fa-edit"></i>Modifier le profil</a></li>
-              <li class="dm-item"><a href="#" class="logout"><i class="fas fa-sign-out-alt"></i>Déconnexion</a></li>
-            </ul>
-          </div>
+          <button class="profile-btn" id="profileToggle"><div class="p-av">JD</div><div><div class="p-name">Jean Dupont</div><div class="p-role">Enseignant</div></div><i class="fas fa-chevron-down p-chev"></i></button>
+          <div class="drop-menu" id="dropMenu"><div class="dm-head"><div class="dm-av">JD</div><div class="dm-name">Jean Dupont</div><div class="dm-email">jean.dupont@sukuli.tg</div></div><ul class="dm-list"><li class="dm-item"><a href="#"><i class="fas fa-user-circle"></i>Mon profil</a></li><li class="dm-item"><a href="#"><i class="fas fa-cog"></i>Paramètres</a></li><li class="dm-item"><a href="#" class="logout"><i class="fas fa-sign-out-alt"></i>Déconnexion</a></li></ul></div>
         </div>
         <button class="menu-toggle" id="menuTog"><i class="fas fa-bars"></i></button>
       </div>
@@ -397,7 +367,6 @@
   </div>
 </header>
 
-<!-- SUB-NAV -->
 <nav class="sub-nav">
   <div class="container">
     <div class="sn-inner">
@@ -407,16 +376,12 @@
       <a href="#" class="sn-item"><i class="fas fa-file-contract"></i>Mes contrats</a>
       <a href="#" class="sn-item"><i class="fas fa-calendar-alt"></i>Calendrier</a>
       <a href="#" class="sn-item"><i class="fas fa-comments"></i>Messages<span class="sn-badge">3</span></a>
-      <a href="#" class="sn-item"><i class="fas fa-chart-line"></i>Rapport</a>
     </div>
   </div>
 </nav>
 
-<!-- MAIN -->
 <main class="main">
   <div class="container">
-
-    <!-- SECTION ÉLÈVES -->
     <div class="section-box reveal">
       <div class="sec-bar">
         <div class="sec-bar-left">
@@ -424,17 +389,11 @@
           <p>Consultez et gérez l'ensemble de vos élèves inscrits</p>
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <button class="btn-cta btn-cta-teal" onclick="showToast('💬 Messagerie de groupe ouverte')">
-            <i class="fas fa-paper-plane"></i> Envoyer un message
-          </button>
-          <div class="view-toggle">
-            <button class="vtg-btn active" id="vtgGrid" onclick="switchView('grid')"><i class="fas fa-th-large"></i> Grille</button>
-            <button class="vtg-btn" id="vtgTable" onclick="switchView('table')"><i class="fas fa-list"></i> Tableau</button>
-          </div>
+          <button class="btn-cta btn-cta-teal" onclick="showToast('💬 Messagerie de groupe ouverte')"><i class="fas fa-paper-plane"></i> Envoyer un message</button>
+          <div class="view-toggle"><button class="vtg-btn active" id="vtgGrid" onclick="switchView('grid')"><i class="fas fa-th-large"></i> Grille</button><button class="vtg-btn" id="vtgTable" onclick="switchView('table')"><i class="fas fa-list"></i> Tableau</button></div>
         </div>
       </div>
 
-      <!-- FILTER PILLS -->
       <div class="action-bar">
         <div class="filter-pills" id="filterPills">
           <button class="pill active" data-filter="all"><i class="fas fa-th"></i> Tous</button>
@@ -445,128 +404,171 @@
         </div>
       </div>
 
-      <!-- GRID VIEW -->
-      <div id="gridView">
-        <div class="students-grid" id="studentsGrid"></div>
-      </div>
+      <div id="gridView"><div class="students-grid" id="studentsGrid"></div></div>
+      <div id="tableView" class="hidden"><div class="students-table-wrap"><table class="students-table"><thead><tr><th>Élève</th><th>Niveau</th><th>Cours / Type</th><th>Inscription</th><th>Séances</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="studentsTableBody"></tbody></table></div></div>
 
-      <!-- TABLE VIEW -->
-      <div id="tableView" class="hidden">
-        <div class="students-table-wrap">
-          <table class="students-table">
-            <thead>
-              <tr>
-                <th>Élève</th><th>Niveau</th><th>Cours / Type</th><th>Inscription</th><th>Séances</th><th>Statut</th><th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="studentsTableBody"></tbody>
-          </table>
+      <!-- SECTION ARCHIVÉS -->
+      <div class="archived-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0">
+          <h3 style="font-size:1rem;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:8px"><i class="fas fa-archive" style="color:var(--g400)"></i> Élèves archivés <span class="sec-badge" id="archivedCount">1</span></h3>
+          <button class="archived-toggle" id="archiveToggle"><span>Voir les élèves archivés</span><i class="fas fa-chevron-down chevron"></i></button>
+        </div>
+        <div class="archived-body" id="archiveBody">
+          <div class="students-grid" id="archivedGrid"></div>
         </div>
       </div>
     </div>
-
   </div>
 </main>
 
-<!-- FOOTER -->
 <footer>
   <div class="container">
-    <div class="ft-grid">
-      <div>
-        <div class="logo" style="margin-bottom:14px"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></div>
-        <p style="font-size:.82rem">La première plateforme éducative togolaise dédiée aux élèves du collège et à leurs enseignants.</p>
-      </div>
-      <div><h4 style="color:#fff;margin-bottom:14px;font-family:'Poppins',sans-serif">Navigation</h4><ul class="ft-links"><li><a href="#">Accueil</a></li><li><a href="#">Mes services</a></li><li><a href="#">Mes élèves</a></li><li><a href="#">Calendrier</a></li></ul></div>
-      <div><h4 style="color:#fff;margin-bottom:14px;font-family:'Poppins',sans-serif">Compte</h4><ul class="ft-links"><li><a href="#">Mon profil</a></li><li><a href="#">Paramètres</a></li><li><a href="#">Rapport financier</a></li></ul></div>
-      <div><h4 style="color:#fff;margin-bottom:14px;font-family:'Poppins',sans-serif">Contact</h4><ul class="ft-links"><li><a href="#"><i class="fas fa-map-marker-alt" style="margin-right:6px"></i>Lomé, Togo</a></li><li><a href="#"><i class="fas fa-envelope" style="margin-right:6px"></i>contact@sukuli.tg</a></li><li><a href="#"><i class="fas fa-clock" style="margin-right:6px"></i>Lun–Ven : 8h–18h</a></li></ul></div>
-    </div>
-    <div class="ft-btm"><p>© 2024 Sukuli. Tous droits réservés.</p><p><a href="#" style="color:var(--teal-light);text-decoration:none">Politique de confidentialité</a></p></div>
+    <div class="ft-grid"><div><div class="logo" style="margin-bottom:14px"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></div><p style="font-size:.82rem">La première plateforme éducative togolaise dédiée aux élèves du collège.</p></div><div><h4 style="color:#fff;margin-bottom:14px">Navigation</h4><ul class="ft-links"><li><a href="#">Accueil</a></li><li><a href="#">Mes services</a></li><li><a href="#">Mes élèves</a></li></ul></div><div><h4 style="color:#fff;margin-bottom:14px">Compte</h4><ul class="ft-links"><li><a href="#">Mon profil</a></li><li><a href="#">Paramètres</a></li></ul></div><div><h4 style="color:#fff;margin-bottom:14px">Contact</h4><ul class="ft-links"><li><a href="#"><i class="fas fa-map-marker-alt" style="margin-right:6px"></i>Lomé, Togo</a></li><li><a href="#"><i class="fas fa-envelope"></i> contact@sukuli.tg</a></li></ul></div></div>
+    <div class="ft-btm"><p>© 2024 Sukuli. Tous droits réservés.</p></div>
   </div>
 </footer>
 
 <script>
-const STUDENTS = [
-  {id:1,  init:"KA", fn:"Koffi",    ln:"Agbessi",  email:"koffi.agbessi@email.tg",    lv:"3ème", subj:"Mathématiques",    type:"premium",  date:"15/03/2024", sessions:12, status:"active",   rating:4.8, progress:85,  lastSession:"Mar 16h–17h",   nextSession:"Jeu 16h–17h"},
-  {id:2,  init:"AM", fn:"Aïcha",    ln:"Mensah",   email:"aicha.mensah@email.tg",     lv:"4ème", subj:"Français",         type:"standard", date:"10/02/2024", sessions:8,  status:"active",   rating:4.7, progress:65,  lastSession:"Lun 14h–15h30", nextSession:"Ven 14h–15h30"},
-  {id:3,  init:"KA", fn:"Komlan",   ln:"Adjobo",   email:"komlan.adjobo@email.tg",    lv:"6ème", subj:"Anglais",          type:"gratuit",  date:"05/01/2024", sessions:4,  status:"active",   rating:4.5, progress:40,  lastSession:"Mar 16h–17h",   nextSession:"Jeu 16h–17h"},
-  {id:4,  init:"BD", fn:"Binta",    ln:"Diallo",   email:"binta.diallo@email.tg",     lv:"3ème", subj:"Sciences Physiques",type:"standard",date:"20/02/2024", sessions:6,  status:"active",   rating:4.6, progress:60,  lastSession:"Mer 10h–12h",   nextSession:"Sam 10h–12h"},
-  {id:5,  init:"SA", fn:"Sena",     ln:"Akakpo",   email:"sena.akakpo@email.tg",      lv:"5ème", subj:"SVT",              type:"premium",  date:"01/04/2024", sessions:0,  status:"inactive", rating:4.7, progress:0,   lastSession:"Aucune",        nextSession:"À programmer"},
-  {id:6,  init:"TD", fn:"Tchéou",   ln:"Djibril",  email:"tcheou.djibril@email.tg",   lv:"5ème", subj:"Technologie",      type:"standard", date:"15/12/2023", sessions:10, status:"archived", rating:4.8, progress:100, lastSession:"Mer 10h–12h",   nextSession:"Terminé"},
-  {id:7,  init:"KM", fn:"Kossi",    ln:"Mensah",   email:"kossi.mensah@email.tg",     lv:"4ème", subj:"Histoire-Géographie",type:"standard",date:"10/03/2024",sessions:5,  status:"active",   rating:4.6, progress:50,  lastSession:"Lun 14h–15h30", nextSession:"Ven 14h–15h30"},
-  {id:8,  init:"AD", fn:"Awa",      ln:"Dossou",   email:"awa.dossou@email.tg",       lv:"3ème", subj:"Français",         type:"premium",  date:"22/02/2024", sessions:7,  status:"active",   rating:5.0, progress:70,  lastSession:"Mar 16h–17h",   nextSession:"Jeu 16h–17h"},
+// Données élèves (actifs + archivés) avec progression (séances effectuées / total)
+const STUDENTS_ACTIVE = [
+  {id:1, init:"KA", fn:"Koffi", ln:"Agbessi", email:"koffi.agbessi@email.tg", lv:"3ème", subj:"Mathématiques", type:"premium", date:"15/03/2024", sessions:12, sessionsDone:9, status:"active", rating:4.8, progress:85, lastSession:"Mar 16h–17h", nextSession:"Jeu 16h–17h", online:true},
+  {id:2, init:"AM", fn:"Aïcha", ln:"Mensah", email:"aicha.mensah@email.tg", lv:"4ème", subj:"Français", type:"standard", date:"10/02/2024", sessions:8, sessionsDone:3, status:"active", rating:4.7, progress:65, lastSession:"Lun 14h–15h30", nextSession:"Ven 14h–15h30", online:false},
+  {id:3, init:"KA", fn:"Komlan", ln:"Adjobo", email:"komlan.adjobo@email.tg", lv:"6ème", subj:"Anglais", type:"gratuit", date:"05/01/2024", sessions:10, sessionsDone:4, status:"active", rating:4.5, progress:40, lastSession:"Mar 16h–17h", nextSession:"Jeu 16h–17h", online:true},
+  {id:4, init:"BD", fn:"Binta", ln:"Diallo", email:"binta.diallo@email.tg", lv:"3ème", subj:"Sciences Physiques", type:"standard", date:"20/02/2024", sessions:12, sessionsDone:7, status:"active", rating:4.6, progress:60, lastSession:"Mer 10h–12h", nextSession:"Sam 10h–12h", online:false},
+  {id:5, init:"SA", fn:"Sena", ln:"Akakpo", email:"sena.akakpo@email.tg", lv:"5ème", subj:"SVT", type:"premium", date:"01/04/2024", sessions:12, sessionsDone:0, status:"inactive", rating:4.7, progress:0, lastSession:"Aucune", nextSession:"À programmer", online:false}
 ];
 
-function stars(r){ let s=''; for(let i=1;i<=5;i++){ if(i<=Math.floor(r)) s+='<i class="fas fa-star"></i>'; else if(r-i>-1) s+='<i class="fas fa-star-half-alt"></i>'; else s+='<i class="far fa-star"></i>'; } return s; }
+const STUDENTS_ARCHIVED = [
+  {id:6, init:"TD", fn:"Tchéou", ln:"Djibril", email:"tcheou.djibril@email.tg", lv:"5ème", subj:"Technologie", type:"standard", date:"15/12/2023", sessions:12, sessionsDone:12, status:"archived", rating:4.8, progress:100, lastSession:"Mer 10h–12h", nextSession:"Terminé", online:false}
+];
+
 function stripClass(type){ return type==='gratuit'?'free':type==='premium'?'pm':'std'; }
 function statusLabel(s){ return {active:'Actif',inactive:'Inactif',archived:'Archivé'}[s]||s; }
+function getProgressPercent(s){ return Math.round((s.sessionsDone / s.sessions) * 100); }
 
-function renderCards(data){
-  const grid = document.getElementById('studentsGrid');
+function renderCards(data, containerId){
+  const grid = document.getElementById(containerId);
+  if(!grid) return;
   grid.innerHTML = '';
   data.forEach(s=>{
     const sc = document.createElement('div');
     sc.className = 'sc reveal';
-    sc.dataset.level = s.lv;
-    const prog = s.progress;
-    const progClass = prog>=80?'high':prog<30?'low':'';
-    const typeLabel = s.type==='premium'?'⭐ PREMIUM':s.type==='gratuit'?'GRATUIT':'STANDARD';
+    const percent = getProgressPercent(s);
     sc.innerHTML = `
       <div class="sc-strip ${stripClass(s.type)}"></div>
       <div class="sc-hd">
         <div class="sc-lv">${s.lv}</div>
-        <div class="sc-sessions">${s.sessions} séance${s.sessions!==1?'s':''}</div>
-        <div class="sc-av">${s.init}</div>
+        <div class="sc-sessions">${s.sessionsDone}/${s.sessions} séances</div>
+        <div class="avatar-wrapper">
+          <div class="sc-av">${s.init}</div>
+          <div class="status-dot ${s.online ? '' : 'offline'}"></div>
+        </div>
         <div class="sc-nm">${s.fn} ${s.ln}</div>
-        <div class="sc-subj">${s.subj}</div>
-        <div class="sc-stars">${stars(s.rating)}<span>${s.rating}/5</span></div>
       </div>
       <div class="sc-bd">
         <div class="sc-session-box">
+          <div class="sc-srow"><i class="fas fa-book-open"></i><div><div class="sc-slbl">COURS</div><div class="sc-sval">${s.subj} — ${s.lv}</div></div></div>
+          <div class="sc-srow"><i class="fas fa-chart-line"></i><div><div class="sc-slbl">PROGRESSION</div><div class="sc-sval">${s.sessionsDone}/${s.sessions} séances (${percent}%)</div></div></div>
+          <div class="progress-bar-mini"><div class="progress-fill" style="width:${percent}%"></div></div>
           <div class="sc-srow"><i class="fas fa-history"></i><div><div class="sc-slbl">Séance passée</div><div class="sc-sval">${s.lastSession}</div></div></div>
           <div class="sc-srow"><i class="fas fa-calendar-check"></i><div><div class="sc-slbl">Prochaine séance</div><div class="sc-sval">${s.nextSession}</div></div></div>
-        </div>
-        <div class="sc-meta-grid">
-          <div class="sc-meta-item"><div class="sc-meta-lbl">Inscription</div><div class="sc-meta-val">${s.date}</div></div>
-          <div class="sc-meta-item"><div class="sc-meta-lbl">Type</div><div class="sc-meta-val">${typeLabel}</div></div>
-          <div class="sc-meta-item"><div class="sc-meta-lbl">Note</div><div class="sc-meta-val">${s.rating}/5</div></div>
-          <div class="sc-meta-item"><div class="sc-meta-lbl">Statut</div><div class="sc-meta-val"><span class="sc-status ${s.status}">${statusLabel(s.status)}</span></div></div>
-        </div>
-        <div class="sc-progress-wrap">
-          <div class="sc-prog-lbl"><span>Progression</span><span>${prog}%</span></div>
-          <div class="sc-prog-bar"><div class="sc-prog-fill ${progClass}" style="width:${prog}%"></div></div>
         </div>
       </div>
       <div class="sc-ft">
         <button class="sc-btn sc-btn-ghost" onclick="openDetail(${s.id})"><i class="fas fa-eye"></i> Détails</button>
         <button class="sc-btn sc-btn-teal" onclick="msgStudent(${s.id})"><i class="fas fa-comment"></i> Contacter</button>
+        ${s.status !== 'archived' ? `<button class="sc-btn sc-btn-deep" onclick="archiveStudent(${s.id})"><i class="fas fa-archive"></i> Archiver</button>` : `<button class="sc-btn sc-btn-deep" onclick="restoreStudent(${s.id})"><i class="fas fa-trash-restore"></i> Restaurer</button>`}
       </div>`;
     grid.appendChild(sc);
   });
-  // Trigger reveals
-  setTimeout(()=>{
-    document.querySelectorAll('#studentsGrid .sc.reveal').forEach(el=>el.classList.add('visible'));
-  },60);
+  setTimeout(()=>{ document.querySelectorAll(`#${containerId} .sc.reveal`).forEach(el=>el.classList.add('visible')); },60);
 }
 
-function renderTable(data){
+function renderTable(data, isArchivedTable = false){
   const tbody = document.getElementById('studentsTableBody');
+  if(!tbody) return;
   tbody.innerHTML = '';
   data.forEach(s=>{
+    const percent = getProgressPercent(s);
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><div class="t-stud"><div class="t-av">${s.init}</div><div><div class="t-nm">${s.fn} ${s.ln}</div><div class="t-em">${s.email}</div></div></div></td>
       <td><span class="t-lv">${s.lv}</span></td>
       <td><div class="t-subj">${s.subj}</div><div class="t-type">${s.type.charAt(0).toUpperCase()+s.type.slice(1)}</div></td>
       <td>${s.date}</td>
-      <td class="t-sess">${s.sessions} séance${s.sessions!==1?'s':''}</td>
+      <td class="t-sess">${s.sessionsDone}/${s.sessions} séances (${percent}%)</td>
       <td><span class="t-stat ${s.status}">${statusLabel(s.status)}</span></td>
       <td><div class="t-acts">
         <button class="t-btn t-btn-view" onclick="openDetail(${s.id})"><i class="fas fa-eye"></i> Voir</button>
         <button class="t-btn t-btn-msg" onclick="msgStudent(${s.id})"><i class="fas fa-comment"></i></button>
-        ${s.status==='inactive'?`<button class="t-btn t-btn-del" onclick="deleteStudent(${s.id})"><i class="fas fa-trash"></i></button>`:''}
+        ${s.status !== 'archived' ? `<button class="t-btn t-btn-archive" onclick="archiveStudent(${s.id})"><i class="fas fa-archive"></i> Archiver</button>` : `<button class="t-btn t-btn-archive" onclick="restoreStudent(${s.id})"><i class="fas fa-trash-restore"></i> Restaurer</button>`}
       </div></td>`;
     tbody.appendChild(tr);
   });
+}
+
+function openDetail(id){
+  const allStudents = [...STUDENTS_ACTIVE, ...STUDENTS_ARCHIVED];
+  const s = allStudents.find(x=>x.id===id);
+  if(!s) return;
+  const percent = getProgressPercent(s);
+  document.getElementById('detailTitle').textContent = `${s.fn} ${s.ln}`;
+  document.getElementById('detailBody').innerHTML = `
+    <div style="text-align:center;margin-bottom:18px">
+      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--deep),var(--teal));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--gold);font-size:1.4rem;font-family:'Poppins',sans-serif;margin:0 auto 10px;border:3px solid var(--g200)">${s.init}</div>
+      <div style="font-size:1.05rem;font-weight:700;color:var(--txt)">${s.fn} ${s.ln}</div>
+      <div style="font-size:.82rem;color:var(--txt-m)">${s.email}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:.83rem">
+      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Niveau</div><div style="font-weight:700;color:var(--txt)">${s.lv}</div></div>
+      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Matière</div><div style="font-weight:700;color:var(--txt)">${s.subj}</div></div>
+      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Inscription</div><div style="font-weight:700;color:var(--txt)">${s.date}</div></div>
+      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Type</div><div style="font-weight:700;color:var(--txt)">${s.type.charAt(0).toUpperCase()+s.type.slice(1)}</div></div>
+      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Séances</div><div style="font-weight:700;color:var(--teal)">${s.sessionsDone}/${s.sessions} (${percent}%)</div></div>
+      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Progression</div><div style="font-weight:700;color:var(--txt)">${percent}%</div></div>
+      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Statut</div><div><span class="t-stat ${s.status}">${statusLabel(s.status)}</span></div></div>
+    </div>
+    <div class="session-detail">
+      <p><i class="fas fa-history" style="color:var(--teal); width:20px;"></i> <strong>Séance passée :</strong> ${s.lastSession}</p>
+      <p><i class="fas fa-calendar-check" style="color:var(--teal); width:20px;"></i> <strong>Prochaine séance :</strong> ${s.nextSession}</p>
+      <div class="progress-bar-mini" style="margin-top:10px;"><div class="progress-fill" style="width:${percent}%"></div></div>
+      <p style="margin-top:6px; font-size:.75rem; color:var(--txt-m); text-align:center;">${s.sessionsDone}/${s.sessions} séances réalisées (${percent}%)</p>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:8px">
+      <button class="sc-btn sc-btn-teal" style="flex:1;padding:10px" onclick="msgStudent(${s.id});closeModal('detailModal')"><i class="fas fa-comment"></i> Contacter</button>
+    </div>`;
+  openModal('detailModal');
+}
+
+function archiveStudent(id){
+  const idx = STUDENTS_ACTIVE.findIndex(s=>s.id===id);
+  if(idx !== -1){
+    const archivedStudent = {...STUDENTS_ACTIVE[idx], status:'archived', online:false};
+    STUDENTS_ACTIVE.splice(idx,1);
+    STUDENTS_ARCHIVED.push(archivedStudent);
+    refreshAll();
+    showToast(`📦 ${archivedStudent.fn} ${archivedStudent.ln} a été archivé`);
+  }
+}
+
+function restoreStudent(id){
+  const idx = STUDENTS_ARCHIVED.findIndex(s=>s.id===id);
+  if(idx !== -1){
+    const restored = {...STUDENTS_ARCHIVED[idx], status:'active'};
+    STUDENTS_ARCHIVED.splice(idx,1);
+    STUDENTS_ACTIVE.push(restored);
+    refreshAll();
+    showToast(`♻️ ${restored.fn} ${restored.ln} a été restauré`);
+  }
+}
+
+function refreshAll(){
+  const filter = currentFilter;
+  let filtered = filter==='all' ? STUDENTS_ACTIVE : STUDENTS_ACTIVE.filter(s=>s.lv===filter);
+  renderCards(filtered, 'studentsGrid');
+  renderTable(STUDENTS_ACTIVE);
+  renderCards(STUDENTS_ARCHIVED, 'archivedGrid');
+  document.getElementById('archivedCount').innerText = STUDENTS_ARCHIVED.length;
 }
 
 let currentView = 'grid';
@@ -582,50 +584,23 @@ function switchView(v){
 
 function applyFilter(f){
   currentFilter = f;
-  const filtered = f==='all' ? STUDENTS : STUDENTS.filter(s=>s.lv===f);
-  renderCards(filtered);
-  renderTable(filtered);
-}
-
-function openDetail(id){
-  const s = STUDENTS.find(x=>x.id===id);
-  if(!s) return;
-  document.getElementById('detailTitle').textContent = `${s.fn} ${s.ln}`;
-  document.getElementById('detailBody').innerHTML = `
-    <div style="text-align:center;margin-bottom:18px">
-      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--deep),var(--teal));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--gold);font-size:1.4rem;font-family:'Poppins',sans-serif;margin:0 auto 10px;border:3px solid var(--g200)">${s.init}</div>
-      <div style="font-size:1.05rem;font-weight:700;color:var(--txt)">${s.fn} ${s.ln}</div>
-      <div style="font-size:.82rem;color:var(--txt-m)">${s.email}</div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:.83rem">
-      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Niveau</div><div style="font-weight:700;color:var(--txt)">${s.lv}</div></div>
-      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Matière</div><div style="font-weight:700;color:var(--txt)">${s.subj}</div></div>
-      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Séances</div><div style="font-weight:700;color:var(--teal)">${s.sessions}</div></div>
-      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Progression</div><div style="font-weight:700;color:var(--txt)">${s.progress}%</div></div>
-      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Note</div><div style="font-weight:700;color:var(--amber)">${s.rating}/5</div></div>
-      <div style="background:var(--g50);border-radius:10px;padding:10px 12px"><div style="color:var(--txt-m);font-size:.68rem;text-transform:uppercase;font-weight:700;margin-bottom:2px">Statut</div><div><span class="sc-status ${s.status}">${statusLabel(s.status)}</span></div></div>
-    </div>
-    <div style="margin-top:14px;display:flex;gap:8px">
-      <button class="sc-btn sc-btn-teal" style="flex:1;padding:10px" onclick="msgStudent(${s.id});closeModal('detailModal')"><i class="fas fa-comment"></i> Contacter</button>
-    </div>`;
-  openModal('detailModal');
+  const filtered = f==='all' ? STUDENTS_ACTIVE : STUDENTS_ACTIVE.filter(s=>s.lv===f);
+  renderCards(filtered, 'studentsGrid');
+  renderTable(STUDENTS_ACTIVE);
 }
 
 function msgStudent(id){
-  const s = STUDENTS.find(x=>x.id===id);
+  const all = [...STUDENTS_ACTIVE, ...STUDENTS_ARCHIVED];
+  const s = all.find(x=>x.id===id);
   if(s) showToast(`💬 Message envoyé à ${s.fn} ${s.ln}`);
-}
-
-function deleteStudent(id){
-  if(confirm('Supprimer cet élève ? Cette action est irréversible.'))
-    showToast('🗑️ Élève supprimé');
 }
 
 function doSearch(){
   const q = document.getElementById('searchInput').value.trim().toLowerCase();
   if(!q) return showToast('Saisissez un terme de recherche');
-  const filtered = STUDENTS.filter(s=>(s.fn+' '+s.ln+' '+s.subj+' '+s.lv).toLowerCase().includes(q));
-  renderCards(filtered); renderTable(filtered);
+  const filtered = STUDENTS_ACTIVE.filter(s=>(s.fn+' '+s.ln+' '+s.subj+' '+s.lv).toLowerCase().includes(q));
+  renderCards(filtered, 'studentsGrid');
+  renderTable(STUDENTS_ACTIVE);
   showToast(`🔍 ${filtered.length} résultat(s) pour "${q}"`);
 }
 
@@ -645,11 +620,12 @@ function setupFilters(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  renderCards(STUDENTS);
-  renderTable(STUDENTS);
+  renderCards(STUDENTS_ACTIVE, 'studentsGrid');
+  renderCards(STUDENTS_ARCHIVED, 'archivedGrid');
+  renderTable(STUDENTS_ACTIVE);
   setupFilters();
+  document.getElementById('archivedCount').innerText = STUDENTS_ARCHIVED.length;
 
-  // Filter pills
   document.getElementById('filterPills').addEventListener('click',e=>{
     const btn = e.target.closest('.pill');
     if(!btn) return;
@@ -658,22 +634,21 @@ document.addEventListener('DOMContentLoaded',()=>{
     applyFilter(btn.dataset.filter);
   });
 
-  // Reveal observer
+  document.getElementById('archiveToggle').addEventListener('click', function(){
+    const body = document.getElementById('archiveBody');
+    this.classList.toggle('open');
+    body.classList.toggle('open');
+    const span = this.querySelector('span');
+    span.textContent = body.classList.contains('open') ? 'Masquer les élèves archivés' : 'Voir les élèves archivés';
+  });
+
   const obs = new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }),{threshold:.07});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-  // Notification modal
   document.getElementById('notifBtn').addEventListener('click',()=>openModal('notifModal'));
   document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) closeModal(m.id); }));
-
-  // Profile dropdown
   document.getElementById('profileToggle').addEventListener('click',e=>{ e.stopPropagation(); document.getElementById('dropMenu').classList.toggle('open'); document.getElementById('profileToggle').classList.toggle('open'); });
   document.addEventListener('click',()=>{ document.getElementById('dropMenu').classList.remove('open'); document.getElementById('profileToggle').classList.remove('open'); });
-
-  // Mobile nav
   document.getElementById('menuTog').addEventListener('click',()=>document.getElementById('mobNav').classList.toggle('open'));
-
-  // Back to top
   const btt = document.getElementById('backToTop');
   window.addEventListener('scroll',()=>{ btt.classList.toggle('show',scrollY>300); document.getElementById('mainHdr').classList.toggle('scrolled',scrollY>50); });
   btt.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));

@@ -3,2047 +3,524 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes Enfants - EduTogoConnect</title>
+    <title>Mes Enfants - Sukuli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Variables de couleurs - Drapeau togolais */
         :root {
-            --jaune-principal: #FFD700; /* Jaune du drapeau */
-            --rouge-principal: #EF3340; /* Rouge du drapeau */
-            --vert-principal: #00A651; /* Vert du drapeau */
-            --blanc-principal: #FFFFFF; /* Blanc du drapeau */
-            --gris-fonce: #333333;
-            --gris-moyen: #666666;
-            --gris-clair: #F5F5F5;
-            --orange-cours: #FF9800;
-            --cyan-suggestion: #00BCD4;
-            --violet-premium: #9C27B0;
-            --badge-premium-bg: rgba(255,215,0,0.15);
-            --badge-standard-bg: rgba(0,166,81,0.15);
-            --badge-gratuit-bg: rgba(33,150,243,0.15);
-            --bleu-prof: #2196F3;
-            --violet-autres: #7B1FA2;
-            --vert-badge: #4CAF50;
-            --jaune-badge: #FFC107;
-            --rouge-badge: #F44336;
-            --bleu-clair: #E3F2FD;
-        }
-
-        /* Reset et styles généraux */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--gris-clair);
-            color: var(--gris-fonce);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Header Principal */
-        .main-header {
-            background-color: var(--blanc-principal);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--gris-fonce);
-        }
-
-        .logo-icon {
-            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
-            color: var(--gris-fonce);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .logo-text span {
-            color: var(--vert-principal);
-        }
-
-        /* Barre de navigation horizontale */
-        .horizontal-nav {
-            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 80px;
-            z-index: 999;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .parent-quick-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 10px 0;
-        }
-
-        .parent-avatar-small {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--blanc-principal);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--violet-premium);
-            border: 2px solid var(--blanc-principal);
-        }
-
-        .parent-name {
-            font-weight: 600;
-            color: var(--blanc-principal);
-        }
-
-        .badge-status {
-            display: inline-block;
-            padding: 3px 10px;
-            background-color: var(--violet-premium);
-            color: var(--blanc-principal);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* Navigation horizontale */
-        .horizontal-menu {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            color: var(--blanc-principal);
-            text-decoration: none;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .nav-item:hover {
-            background-color: rgba(255,255,255,0.2);
-            border-bottom-color: var(--blanc-principal);
-        }
-
-        .nav-item.active {
-            background-color: rgba(255,255,255,0.3);
-            border-bottom-color: var(--jaune-principal);
-            font-weight: 600;
-        }
-
-        .nav-item i {
-            font-size: 1rem;
-        }
-
-        .nav-badge {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 5px;
-        }
-
-        /* Barre de recherche */
-        .search-bar-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background-color: var(--blanc-principal);
-            border-radius: 30px;
-            padding: 8px 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .search-bar:focus-within {
-            border-color: var(--jaune-principal);
-            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
-        }
-
-        .search-bar input {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 8px 10px;
-            font-size: 0.95rem;
-            background: transparent;
-        }
-
-        .search-btn {
-            background-color: var(--jaune-principal);
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--gris-fonce);
-            transition: all 0.3s;
-        }
-
-        .search-btn:hover {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            transform: scale(1.05);
-        }
-
-        /* Menu déroulant profil */
-        .profile-dropdown {
-            position: relative;
-        }
-
-        .profile-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-        }
-
-        .profile-btn:hover {
-            background-color: var(--gris-clair);
-        }
-
-        .profile-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: var(--blanc-principal);
-            min-width: 250px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            border-radius: 10px;
-            overflow: hidden;
-            z-index: 1001;
-            margin-top: 10px;
-        }
-
-        .profile-menu.active {
-            display: block;
-        }
-
-        .profile-menu-header {
-            padding: 20px;
-            background-color: var(--gris-clair);
-            text-align: center;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .profile-menu-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--violet-premium), var(--rouge-principal));
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            color: var(--blanc-principal);
-            font-weight: bold;
-        }
-
-        .profile-menu-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .profile-menu-email {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-        }
-
-        .profile-menu-list {
-            list-style: none;
-        }
-
-        .profile-menu-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--gris-clair);
-            transition: background-color 0.3s;
-        }
-
-        .profile-menu-item:last-child {
-            border-bottom: none;
-        }
-
-        .profile-menu-item:hover {
-            background-color: var(--gris-clair);
-        }
-
-        .profile-menu-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--gris-fonce);
-            text-decoration: none;
-        }
-
-        .profile-menu-link i {
-            width: 20px;
-            color: var(--gris-moyen);
-        }
-
-        .profile-menu-link.logout {
-            color: var(--rouge-principal);
-        }
-
-        .profile-menu-link.logout i {
-            color: var(--rouge-principal);
-        }
-
-        /* Boutons généraux */
-        .btn {
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-primary:hover {
-            background-color: #008c45;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,166,81,0.2);
-        }
-
-        .btn-secondary {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--gris-fonce);
-            color: var(--blanc-principal);
-        }
-
-        .btn-success {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-success:hover {
-            background-color: #008c45;
-        }
-
-        .btn-warning {
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
-        }
-
-        .btn-warning:hover {
-            background-color: #e6c200;
-        }
-
-        .btn-danger {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-danger:hover {
-            background-color: #d32f2f;
-        }
-
-        .btn-info {
-            background-color: var(--bleu-prof);
-            color: var(--blanc-principal);
-        }
-
-        .btn-info:hover {
-            background-color: #0b7dda;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--vert-principal);
-            border: 2px solid var(--vert-principal);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-violet {
-            background-color: var(--violet-premium);
-            color: var(--blanc-principal);
-        }
-
-        .btn-violet:hover {
-            background-color: #7b1fa2;
-        }
-
-        .btn-logout {
-            background-color: rgba(239,51,64,0.1);
-            color: var(--rouge-principal);
-            border: 2px solid var(--rouge-principal);
-        }
-
-        .btn-logout:hover {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-sm {
-            padding: 5px 12px;
-            font-size: 0.85rem;
-        }
-
-        /* Contenu principal */
-        .main-content {
-            padding: 30px 0;
-            flex: 1;
-        }
-
-        /* Header de la page */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .page-title h1 {
-            color: var(--gris-fonce);
-            font-size: 1.8rem;
-        }
-
-        .page-title p {
-            color: var(--gris-moyen);
-            margin-top: 5px;
-        }
-
-        /* Section principale des enfants */
-        .children-section {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            color: var(--gris-fonce);
-            font-size: 1.5rem;
-        }
-
-        .section-subtitle {
-            color: var(--gris-moyen);
-            margin-top: 5px;
-        }
-
-        /* Badges de présence en ligne/hors ligne */
-        .online-status-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: var(--vert-badge);
-            color: var(--blanc-principal);
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 2;
-        }
-
-        .offline-status-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 2;
-        }
-
-        /* Vue tableau des enfants */
-        .children-table-view {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: none;
-        }
-
-        .children-table-view th {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 3px solid var(--jaune-principal);
-        }
-
-        .children-table-view td {
-            padding: 15px;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .children-table-view tr:hover {
-            background-color: var(--gris-clair);
-        }
-
-        .avatar-cell {
-            width: 60px;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .status-active {
-            background-color: rgba(76, 175, 80, 0.1);
-            color: var(--vert-badge);
-        }
-
-        .status-pending {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: var(--jaune-badge);
-        }
-
-        .status-inactive {
-            background-color: rgba(244, 67, 54, 0.1);
-            color: var(--rouge-badge);
-        }
-
-        /* Grille des enfants - MODIFIÉE (5 colonnes) */
-        .students-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .student-card {
-            background-color: var(--blanc-principal);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 2px solid var(--gris-clair);
-            transition: all 0.3s;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            height: 250px;
-        }
-
-        .student-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-color: var(--vert-principal);
-        }
-
-        .student-header {
-            padding: 15px 10px 10px 10px;
-            background-color: var(--vert-principal);
-            border-bottom: 1px solid var(--gris-clair);
-            position: relative;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        /* Badge niveau en haut à gauche */
-        .student-level-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            z-index: 2;
-        }
-
-        .student-avatar-large {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            margin: 5px auto 10px;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--blanc-principal);
-            font-weight: bold;
-            font-size: 1.5rem;
-            border: 4px solid var(--blanc-principal);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 1;
-        }
-
-        .student-name {
-            font-size: 1.1rem;
-            color: var(--blanc-principal);
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        /* Contenu simplifié du corps de la carte */
-        .student-body {
-            padding: 15px;
-            flex: 1;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .student-info-item {
-            display: none; /* Cacher les informations détaillées */
-        }
-
-        .student-footer {
-            padding: 12px;
-            background-color: var(--gris-clair);
-            border-top: 1px solid var(--gris-moyen);
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-student-action {
-            flex: 1;
-            padding: 8px;
-            text-align: center;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        /* Boutons Détails et Contacter pour les cartes élèves */
-        .btn-student-action.btn-details {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-        }
-
-        .btn-student-action.btn-details:hover {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-student-action.btn-contact {
-            background-color: var(--bleu-prof);
-            color: var(--blanc-principal);
-        }
-
-        .btn-student-action.btn-contact:hover {
-            background-color: #0b7dda;
-            transform: translateY(-2px);
-        }
-
-        /* Section historique des inscriptions */
-        .history-section {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-
-        .history-timeline {
-            margin-top: 20px;
-        }
-
-        .timeline-item {
-            display: flex;
-            gap: 15px;
-            padding: 15px;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .timeline-item:last-child {
-            border-bottom: none;
-        }
-
-        .timeline-date {
-            min-width: 100px;
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-        }
-
-        .timeline-content {
-            flex: 1;
-        }
-
-        .timeline-title {
-            font-weight: 600;
-            color: var(--gris-fonce);
-            margin-bottom: 5px;
-        }
-
-        .timeline-description {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-        }
-
-        /* Menu mobile */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gris-fonce);
-            cursor: pointer;
-        }
-
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 80px;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
-            z-index: 1000;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        }
-
-        .mobile-nav.active {
-            display: block;
-        }
-
-        .mobile-menu {
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-        }
-
-        .mobile-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            color: var(--blanc-principal);
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .mobile-nav-item:last-child {
-            border-bottom: none;
-        }
-
-        .mobile-nav-item.active {
-            background-color: rgba(255,255,255,0.2);
-            font-weight: 600;
-        }
-
-        /* Modals */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            max-width: 90%;
-            max-height: 90vh;
-            overflow: auto;
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--gris-clair);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            color: var(--gris-fonce);
-            font-size: 1.5rem;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gris-moyen);
-            cursor: pointer;
-        }
-
-        .modal-body {
-            padding: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--gris-fonce);
-        }
-
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--gris-clair);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: var(--vert-principal);
-        }
-
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
-        /* Bouton notification */
-        .notification-btn {
-            position: relative;
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            color: var(--gris-fonce);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .notification-btn:hover {
-            background-color: var(--gris-clair);
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            font-size: 0.7rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        /* Responsive */
-        @media (max-width: 1400px) {
-            .students-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        @media (max-width: 1200px) {
-            .students-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 992px) {
-            .horizontal-nav {
-                display: none;
-            }
-            
-            .menu-toggle {
-                display: block;
-            }
-            
-            .search-bar-container {
-                order: 3;
-                max-width: 100%;
-                margin-top: 15px;
-            }
-            
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .students-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .students-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .student-footer {
-                flex-direction: column;
-            }
-            
-            .btn-student-action {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 10px;
-            }
-            
-            .children-section, .history-section {
-                padding: 20px;
-            }
-            
-            .student-card {
-                height: auto;
-                min-height: 300px;
-            }
-        }
+            --deep: #002f2a;
+            --deep-alt: #003333;
+            --deep-mid: #003d38;
+            --deep-hover: #004d45;
+            --deep-light: #005a52;
+            --deep-pale: #e5f0ef;
+            --deep-muted: #c2d8d6;
+            --teal: #1ab5a0;
+            --teal-light: #5dcfbe;
+            --teal-pale: #dff5f2;
+            --gold: #e8c44a;
+            --amber: #c9980e;
+            --white: #ffffff;
+            --off-white: #f5faf9;
+            --g50: #f8fafa;
+            --g100: #eef3f2;
+            --g200: #d9e5e4;
+            --g300: #b5cbc9;
+            --g400: #84a8a5;
+            --g500: #5c8885;
+            --g600: #3c6360;
+            --g700: #264545;
+            --g800: #152f2f;
+            --g900: #0a1e1e;
+            --hdr: #0a1a18;
+            --txt: #1a3030;
+            --txt-b: #3a5555;
+            --txt-m: #6a8888;
+            --coral: #D85A30;
+            --red: #e74c3c;
+            --green-ok: #22c55e;
+            --sh-sm: 0 2px 8px rgba(0,47,42,.10);
+            --sh-md: 0 8px 28px rgba(0,47,42,.14);
+            --sh-lg: 0 20px 56px rgba(0,47,42,.20);
+            --r-sm: 8px;
+            --r-md: 14px;
+            --r-lg: 22px;
+            --r-xl: 32px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--off-white); color: var(--txt-b); line-height: 1.65; overflow-x: hidden; }
+        h1, h2, h3, h4, h5 { font-family: 'Poppins', sans-serif; line-height: 1.25; color: var(--txt); }
+        .container { width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 24px; }
+
+        .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s, transform .6s; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        #backToTop { position: fixed; bottom: 28px; right: 28px; z-index: 9000; width: 44px; height: 44px; border-radius: 50%; background: var(--deep); color: var(--gold); border: 2px solid var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: .9rem; box-shadow: 0 6px 20px rgba(0,47,42,.4); opacity: 0; transform: translateY(14px) scale(.85); transition: all .32s cubic-bezier(.4,0,.2,1); }
+        #backToTop.show { opacity: 1; transform: translateY(0) scale(1); }
+        #backToTop:hover { background: var(--gold); color: var(--deep); transform: translateY(-3px) scale(1.06); }
+
+        #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--deep); color: #fff; padding: 12px 26px; border-radius: 50px; font-size: .9rem; font-weight: 700; box-shadow: 0 8px 24px rgba(0,47,42,.4); z-index: 9200; border: 1px solid var(--teal-light); transition: transform .36s cubic-bezier(.34,1.56,.64,1), opacity .36s; opacity: 0; display: flex; align-items: center; gap: 8px; }
+        #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        /* HEADER */
+        header { position: sticky; top: 0; z-index: 1000; background: var(--hdr); box-shadow: 0 2px 16px rgba(0,0,0,.22); transition: box-shadow .3s; }
+        header.scrolled { box-shadow: 0 4px 28px rgba(0,0,0,.35); }
+        .navbar { display: flex; align-items: center; padding: 10px 0; gap: 14px; flex-wrap: wrap; }
+        .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; flex-shrink: 0; }
+        .logo-badge { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--deep-mid) 0%, var(--teal) 100%); display: flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif; font-weight: 800; color: var(--gold); font-size: .9rem; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+        .logo-text { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.3rem; color: #fff; }
+        .logo-text span { color: var(--teal-light); }
+
+        .nav-search-wrap { position: relative; flex: 1; max-width: 540px; margin: 0 auto; }
+        .nav-search { background: rgba(255,255,255,.10); border-radius: 40px; padding: 4px 4px 4px 16px; display: flex; align-items: center; border: 1.5px solid rgba(255,255,255,.18); gap: 6px; transition: border-color .22s, background .22s; }
+        .nav-search:focus-within { border-color: var(--teal-light); background: rgba(255,255,255,.14); }
+        .ns-icon { color: rgba(255,255,255,.5); font-size: .85rem; flex-shrink: 0; }
+        .nav-search input { background: transparent; border: none; padding: 7px 8px; color: #fff; font-size: .85rem; width: 100%; outline: none; font-family: 'Nunito', sans-serif; }
+        .nav-search input::placeholder { color: rgba(255,255,255,.4); font-style: italic; }
+        .ns-sep { width: 1px; height: 20px; background: rgba(255,255,255,.2); flex-shrink: 0; }
+        .ns-filter-btn { display: flex; align-items: center; gap: 5px; background: none; border: none; color: rgba(255,255,255,.72); font-size: .75rem; font-weight: 700; font-family: 'Poppins', sans-serif; cursor: pointer; padding: 6px 12px; border-radius: 30px; transition: all .22s; white-space: nowrap; flex-shrink: 0; }
+        .ns-filter-btn:hover, .ns-filter-btn.open { color: var(--gold); background: rgba(232,196,74,.14); }
+        .nav-search-btn { background: var(--teal); border: none; color: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: .82rem; flex-shrink: 0; transition: all .22s; }
+        .nav-search-btn:hover { background: var(--teal-light); transform: scale(1.08); }
+
+        .nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .icon-btn { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.78); width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: .95rem; transition: all .22s; position: relative; }
+        .icon-btn:hover { background: rgba(255,255,255,.18); color: #fff; }
+        .notif-dot { position: absolute; top: 4px; right: 4px; width: 16px; height: 16px; background: var(--coral); border-radius: 50%; font-size: .6rem; font-weight: 900; color: #fff; display: flex; align-items: center; justify-content: center; border: 2px solid var(--hdr); }
+        .profile-drop { position: relative; }
+        .profile-btn { display: flex; align-items: center; gap: 9px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); border-radius: 10px; padding: 7px 12px; cursor: pointer; transition: all .22s; }
+        .profile-btn:hover { background: rgba(255,255,255,.16); }
+        .p-av { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--deep-mid), var(--teal)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--gold); font-size: .72rem; font-family: 'Poppins', sans-serif; }
+        .p-name { font-size: .8rem; font-weight: 700; color: #fff; line-height: 1; }
+        .p-role { font-size: .66rem; color: rgba(255,255,255,.55); }
+        .p-chev { color: rgba(255,255,255,.5); font-size: .72rem; transition: transform .22s; }
+        .profile-btn.open .p-chev { transform: rotate(180deg); }
+        .drop-menu { display: none; position: absolute; top: calc(100% + 10px); right: 0; background: #fff; border-radius: var(--r-md); min-width: 230px; box-shadow: var(--sh-lg); border: 1.5px solid var(--g200); overflow: hidden; z-index: 400; }
+        .drop-menu.open { display: block; }
+        .dm-head { padding: 18px; background: var(--g50); border-bottom: 1px solid var(--g200); text-align: center; }
+        .dm-av { width: 54px; height: 54px; border-radius: 14px; background: linear-gradient(135deg, var(--deep), var(--teal)); display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--gold); font-size: 1.2rem; font-family: 'Poppins', sans-serif; margin: 0 auto 9px; }
+        .dm-name { font-size: .92rem; font-weight: 700; color: var(--txt); }
+        .dm-email { font-size: .74rem; color: var(--txt-m); }
+        .dm-list { list-style: none; }
+        .dm-item a { display: flex; align-items: center; gap: 10px; padding: 12px 18px; color: var(--txt-b); text-decoration: none; font-size: .84rem; font-weight: 600; transition: all .2s; border-bottom: 1px solid var(--g100); }
+        .dm-item a:hover { background: var(--deep-pale); color: var(--deep); }
+        .dm-item a i { color: var(--teal); width: 16px; }
+        .dm-item a.logout { color: var(--coral); }
+
+        .menu-toggle { display: none; background: none; border: none; color: rgba(255,255,255,.85); font-size: 1.3rem; cursor: pointer; }
+        .mob-nav { display: none; flex-direction: column; background: var(--hdr); border-top: 1px solid rgba(255,255,255,.07); padding: 12px 24px 18px; }
+        .mob-nav.open { display: flex; }
+        .mob-nav a { color: rgba(255,255,255,.72); text-decoration: none; font-weight: 600; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.07); font-size: .9rem; display: flex; align-items: center; gap: 9px; }
+
+        .sub-nav { position: sticky; top: 60px; z-index: 900; background: var(--deep); border-bottom: 1px solid rgba(255,255,255,.07); overflow-x: auto; }
+        .sn-inner { display: flex; align-items: center; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+        .sn-inner::-webkit-scrollbar { display: none; }
+        .sn-item { display: flex; align-items: center; gap: 7px; padding: 13px 18px; color: rgba(255,255,255,.65); text-decoration: none; font-weight: 600; font-size: .82rem; white-space: nowrap; border-bottom: 3px solid transparent; transition: all .22s; flex-shrink: 0; }
+        .sn-item:hover { color: #fff; background: rgba(255,255,255,.06); }
+        .sn-item.active { color: #fff; border-bottom-color: var(--gold); }
+        .sn-badge { background: var(--coral); color: #fff; padding: 1px 7px; border-radius: 10px; font-size: .66rem; font-weight: 800; margin-left: 2px; }
+
+        .main { padding: 2px 0 50px; }
+
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 15px; }
+        .page-title h1 { font-size: 1.5rem; color: var(--txt); }
+        .page-title p { color: var(--txt-m); font-size: .85rem; margin-top: 4px; }
+
+        .section-box { background: #fff; border-radius: var(--r-lg); padding: 24px 26px; margin-bottom: 24px; box-shadow: var(--sh-sm); border: 1.5px solid var(--g200); }
+        .sec-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+        .sec-bar-left h2 { font-size: 1.15rem; font-weight: 800; color: var(--txt); display: flex; align-items: center; gap: 8px; }
+        .sec-bar-left p { font-size: .82rem; color: var(--txt-m); }
+        .see-all { display: inline-flex; align-items: center; gap: 5px; background: var(--g100); color: var(--deep); padding: 5px 12px; border-radius: 70px; font-weight: 700; font-size: .82rem; text-decoration: none; border: 1.5px solid var(--g300); transition: all .22s; cursor: pointer; }
+        .see-all:hover { background: var(--deep-pale); border-color: var(--deep); gap: 8px; }
+
+        /* ── STUDENT CARDS (dashboard style) ── */
+        .students-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 16px; }
+        .sc { background: #fff; border-radius: var(--r-lg); border: 1.5px solid var(--g200); overflow: hidden; transition: all .32s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; position: relative; }
+        .sc:hover { transform: translateY(-5px); box-shadow: var(--sh-lg); border-color: var(--deep-muted); }
+        .sc-strip { height: 4px; background: linear-gradient(90deg, var(--deep), var(--teal)); }
+        .sc-hd { padding: 18px 16px 12px; text-align: center; position: relative; border-bottom: 1px solid var(--g100); }
+        .sc-lv { position: absolute; top: 12px; left: 12px; padding: 3px 10px; border-radius: 50px; font-size: .66rem; font-weight: 800; font-family: 'Poppins', sans-serif; background: #fee2e2; color: var(--red); border-left: 3px solid var(--red); }
+        .sc-sessions { position: absolute; top: 12px; right: 12px; padding: 3px 10px; border-radius: 50px; font-size: .66rem; font-weight: 700; background: rgba(26,181,160,.15); color: var(--teal); border: 1px solid rgba(26,181,160,.3); }
+        .avatar-wrapper { position: relative; display: inline-block; margin: 10px auto 10px; }
+        .sc-av { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--deep), var(--teal)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--gold); font-size: 1.3rem; font-family: 'Poppins', sans-serif; border: 3px solid #fff; box-shadow: var(--sh-sm); }
+        .sc-nm { font-size: .95rem; font-weight: 700; color: var(--txt); margin-bottom: 4px; }
+        .sc-bd { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+        .sc-session-box { background: var(--g50); border-radius: var(--r-sm); padding: 10px 12px; border: 1px solid var(--g200); }
+        .sc-srow { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+        .sc-srow:last-child { margin-bottom: 0; }
+        .sc-srow i { color: var(--teal); font-size: .72rem; margin-top: 3px; flex-shrink: 0; }
+        .sc-slbl { font-size: .68rem; color: var(--txt-m); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; line-height: 1.2; }
+        .sc-sval { font-size: .78rem; color: var(--txt); font-weight: 700; line-height: 1.2; }
+        .progress-bar-mini { background: var(--g200); border-radius: 20px; height: 6px; margin: 8px 0 4px; overflow: hidden; }
+        .progress-fill { background: var(--teal); height: 100%; border-radius: 20px; width: 0%; transition: width .6s ease; }
+        .sc-ft { padding: 10px 16px 14px; display: flex; gap: 8px; background: #fff; border-top: 1px solid var(--g100); }
+        .sc-btn { flex: 1; padding: 8px 6px; text-align: center; border-radius: var(--r-sm); font-size: .75rem; font-weight: 700; cursor: pointer; border: none; transition: all .22s; font-family: 'Poppins', sans-serif; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .sc-btn-ghost { background: var(--g100); color: var(--txt-m); }
+        .sc-btn-ghost:hover { background: var(--g200); color: var(--txt); }
+        .sc-btn-teal  { background: var(--teal); color: #fff; }
+        .sc-btn-teal:hover  { background: #138f7d; transform: translateY(-1px); }
+        .sc-btn-deep  { background: var(--deep); color: #fff; }
+        .sc-btn-deep:hover  { background: var(--deep-hover); }
+        .add-card-new { background: linear-gradient(135deg, var(--teal-pale), #fff); border: 2px dashed var(--teal); cursor: pointer; }
+
+        /* TABLE VIEW */
+        .table-view { overflow-x: auto; border-radius: var(--r-md); border: 1.5px solid var(--g200); background: #fff; }
+        .children-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        .children-table th { background: linear-gradient(90deg, var(--deep), var(--deep-mid)); color: rgba(255,255,255,.85); padding: 14px 16px; text-align: left; font-weight: 700; font-family: 'Poppins', sans-serif; font-size: .75rem; text-transform: uppercase; }
+        .children-table td { padding: 14px 16px; border-bottom: 1px solid var(--g100); color: var(--txt-b); vertical-align: middle; }
+        .children-table tr:hover { background: var(--deep-pale); }
+        .table-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--deep), var(--teal)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--gold); font-size: .8rem; flex-shrink: 0; }
+        .table-actions { display: flex; gap: 8px; }
+        .table-btn { padding: 6px 12px; border-radius: var(--r-sm); font-size: .72rem; font-weight: 700; cursor: pointer; border: none; transition: all .2s; }
+        .table-btn-view { background: var(--g100); color: var(--g600); }
+        .table-btn-view:hover { background: var(--g200); }
+        .table-btn-contact { background: var(--teal); color: #fff; }
+        .table-btn-contact:hover { background: #138f7d; }
+        .tbl-progress { display: flex; align-items: center; gap: 8px; }
+        .tbl-bar { flex: 1; background: var(--g200); border-radius: 20px; height: 5px; overflow: hidden; min-width: 60px; }
+        .tbl-fill { background: var(--teal); height: 100%; border-radius: 20px; }
+
+        /* HISTORY SECTION */
+        .history-timeline { margin-top: 20px; }
+        .timeline-item { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid var(--g200); }
+        .timeline-item:last-child { border-bottom: none; }
+        .timeline-date { min-width: 110px; color: var(--txt-m); font-size: .85rem; font-weight: 600; }
+        .timeline-title { font-weight: 700; color: var(--txt); margin-bottom: 5px; }
+        .timeline-desc { color: var(--txt-m); font-size: .85rem; }
+
+        /* MODAL */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,18,16,.85); display: none; align-items: center; justify-content: center; z-index: 9100; backdrop-filter: blur(8px); }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: #fff; border-radius: var(--r-lg); width: 92%; max-width: 550px; max-height: 85vh; overflow: auto; }
+        .modal-head { padding: 20px 24px; background: linear-gradient(135deg, var(--deep), var(--deep-mid)); color: #fff; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; }
+        .modal-head h3 { color: #fff; margin: 0; font-size: 1.2rem; }
+        .modal-close { background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .search-input-group { display: flex; gap: 12px; margin-bottom: 20px; }
+        .search-input { flex: 1; padding: 12px 16px; border: 2px solid var(--g200); border-radius: var(--r-md); font-size: .9rem; outline: none; transition: border-color .2s; }
+        .search-input:focus { border-color: var(--teal); }
+        .info-note { font-size: .75rem; color: var(--txt-m); margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+        .search-results-list { max-height: 350px; overflow-y: auto; border: 1px solid var(--g200); border-radius: var(--r-md); margin-top: 20px; }
+        .student-result { display: flex; align-items: center; gap: 15px; padding: 15px; border-bottom: 1px solid var(--g200); transition: background .2s; }
+        .student-result:hover { background: var(--g100); }
+        .student-avatar-sm { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--deep), var(--teal)); display: flex; align-items: center; justify-content: center; color: var(--gold); font-weight: bold; font-size: 1.1rem; flex-shrink: 0; }
+        .student-info { flex: 1; }
+        .student-name-result { font-weight: 700; color: var(--txt); }
+        .student-detail { font-size: .75rem; color: var(--txt-m); }
+        .no-results { padding: 40px; text-align: center; color: var(--txt-m); }
+        .instructions-box { background: var(--g100); border-radius: var(--r-md); padding: 20px; margin-top: 20px; }
+        .instructions-box h4 { color: var(--deep); margin-bottom: 12px; }
+        .instructions-box ol { margin-left: 20px; margin-bottom: 15px; }
+        .btn-group { display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end; }
+
+        footer { background: #0a1a18; border-top: 1px solid rgba(255,255,255,.06); color: rgba(255,255,255,.5); padding: 48px 0 22px; margin-top: 20px; }
+        .ft-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 36px; }
+
+        @media (max-width: 1200px) { .students-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 992px) { .students-grid { grid-template-columns: repeat(2, 1fr); } .menu-toggle { display: flex; } }
+        @media (max-width: 768px) { .students-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <!-- Header Principal -->
-    <header class="main-header">
-        <div class="container">
-            <nav class="navbar">
-                <a href="index.html" class="logo">
-                    <div class="logo-icon">ET</div>
-                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
-                </a>
 
-                <!-- Barre de recherche -->
-                <div class="search-bar-container">
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="mainSearchInput" placeholder="Rechercher un enfant, un cours...">
-                        <button class="search-btn" id="searchBtn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
+<button id="backToTop"><i class="fas fa-arrow-up"></i></button>
+<div id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
 
-                <button class="menu-toggle" id="mobileNavToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <div class="header-actions" style="display: flex; align-items: center; gap: 15px;">
-                    <div class="parent-quick-info">
-                        <span class="badge-status">3 enfants inscrits</span>
-                    </div>
-                    
-                    <!-- Bouton notifications -->
-                    <button class="notification-btn" id="notificationBtn">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge">2</span>
-                    </button>
-                    
-                    <!-- Menu déroulant profil -->
-                    <div class="profile-dropdown">
-                        <button class="profile-btn" id="profileBtn">
-                            <div class="parent-avatar-small">MA</div>
-                            <div>
-                                <div class="parent-name">M. Adjo</div>
-                                <span class="badge-status">Parent</span>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        
-                        <div class="profile-menu" id="profileMenu">
-                            <div class="profile-menu-header">
-                                <div class="profile-menu-avatar">MA</div>
-                                <div class="profile-menu-name">M. Adjo</div>
-                                <div class="profile-menu-email">parent.adjo@edutogoconnect.tg</div>
-                            </div>
-                            
-                            <ul class="profile-menu-list">
-                                <li class="profile-menu-item">
-                                    <a href="parent_profile.html" class="profile-menu-link">
-                                        <i class="fas fa-user-circle"></i>
-                                        <span>Mon profil</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="parent_settings.html" class="profile-menu-link">
-                                        <i class="fas fa-cog"></i>
-                                        <span>Paramètres</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="parent_finance.html" class="profile-menu-link">
-                                        <i class="fas fa-money-bill"></i>
-                                        <span>Gestion financière</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="login.html" class="profile-menu-link logout">
-                                        <i class="fas fa-sign-out-alt"></i>
-                                        <span>Déconnexion</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+<header id="mainHdr">
+    <div class="container">
+        <nav class="navbar">
+            <a href="#" class="logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></a>
+            <div class="nav-search-wrap">
+                <div class="nav-search"><i class="fas fa-search ns-icon"></i><input type="text" id="searchInput" placeholder="Rechercher un enfant, un cours..."><div class="ns-sep"></div><button class="ns-filter-btn" id="filterToggleBtn"><i class="fas fa-filter"></i><span>Filtres</span></button><button class="nav-search-btn" onclick="showToast('Recherche en développement')"><i class="fas fa-search"></i></button></div>
+            </div>
+            <div class="nav-right">
+                <button class="icon-btn" id="notifBtn"><i class="fas fa-bell"></i><span class="notif-dot">2</span></button>
+                <div class="profile-drop"><button class="profile-btn" id="profileToggle"><div class="p-av">MA</div><div><div class="p-name">M. Adjo</div><div class="p-role">Parent</div></div><i class="fas fa-chevron-down p-chev"></i></button><div class="drop-menu" id="dropMenu"><div class="dm-head"><div class="dm-av">MA</div><div class="dm-name">M. Adjo</div><div class="dm-email">parent@sukuli.tg</div></div><ul class="dm-list"><li class="dm-item"><a href="#"><i class="fas fa-user-circle"></i>Mon profil</a></li><li class="dm-item"><a href="#" class="logout"><i class="fas fa-sign-out-alt"></i>Déconnexion</a></li></ul></div></div>
+                <button class="menu-toggle" id="menuTog"><i class="fas fa-bars"></i></button>
+            </div>
+        </nav>
+        <div class="mob-nav" id="mobNav"><a href="#"><i class="fas fa-home"></i>Tableau de bord</a><a href="#" class="active"><i class="fas fa-child"></i>Mes enfants</a><a href="#"><i class="fas fa-book-open"></i>Cours</a><a href="#"><i class="fas fa-chalkboard-teacher"></i>Enseignants</a></div>
+    </div>
+</header>
+
+<nav class="sub-nav"><div class="container"><div class="sn-inner"><a href="#" class="sn-item"><i class="fas fa-home"></i>Tableau de bord</a><a href="#" class="sn-item active"><i class="fas fa-child"></i>Mes enfants</a><a href="#" class="sn-item"><i class="fas fa-book-open"></i>Cours<span class="sn-badge">6</span></a><a href="#" class="sn-item"><i class="fas fa-chalkboard-teacher"></i>Enseignants</a><a href="#" class="sn-item"><i class="fas fa-file-contract"></i>Contrats</a><a href="#" class="sn-item"><i class="fas fa-calendar-alt"></i>Programmation</a><a href="#" class="sn-item"><i class="fas fa-comments"></i>Messagerie<span class="sn-badge">3</span></a><a href="#" class="sn-item"><i class="fas fa-chart-line"></i>Rapport</a></div></div></nav>
+
+<main class="main"><div class="container">
+    <div class="page-header reveal">
+        <div class="page-title"><h1>Mes Enfants</h1><p>Gérez les informations, les cours et le suivi de vos enfants</p></div>
+        <button class="see-all" id="addChildBtn"><i class="fas fa-plus"></i> Ajouter un enfant</button>
+    </div>
+
+    <div class="section-box reveal">
+        <div class="sec-bar">
+            <div class="sec-bar-left"><h2><i class="fas fa-child"></i> Tous mes enfants</h2><p>Consultez et gérez l'ensemble de vos enfants inscrits</p></div>
+            <button class="see-all" id="toggleViewBtn"><i class="fas fa-list"></i> Vue tableau</button>
         </div>
-    </header>
 
-    <!-- Barre de Navigation Horizontale -->
-    <nav class="horizontal-nav">
-        <div class="container">
-            <div class="nav-container">
-                <!-- Menu de navigation horizontal -->
-                <div class="horizontal-menu">
-                    <a href="../mainpageuser/parent.html" class="nav-item">
-                        <i class="fas fa-home"></i>
-                        <span>Tableau de bord</span>
-                    </a>
-                    <a href="../parent/enfant.html" class="nav-item active">
-                        <i class="fas fa-child"></i>
-                        <span>Mes enfants</span>
-                    </a>
-                    <a href="../parent/cours.html" class="nav-item">
+        <!-- Vue Grille -->
+        <div id="gridView"><div class="students-grid" id="studentsGrid"></div></div>
+
+        <!-- Vue Tableau -->
+        <div id="tableView" style="display: none;"><div class="table-view"><table class="children-table"><thead><tr><th>Élève</th><th>Niveau</th><th>Cours suivis</th><th>Progression</th><th>Prochaine séance</th><th>Actions</th></tr></thead><tbody id="tableViewBody"></tbody></table></div></div>
+    </div>
+
+    <div class="section-box reveal">
+        <div class="sec-bar"><div class="sec-bar-left"><h2><i class="fas fa-history"></i> Historique des inscriptions</h2><p>Suivi des inscriptions et des modifications apportées à vos enfants</p></div></div>
+        <div class="history-timeline" id="historyTimeline"></div>
+    </div>
+</div></main>
+
+<footer><div class="container"><div class="ft-grid"><div class="ft-brand"><div class="logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></div><p>La première plateforme éducative togolaise</p></div><div class="ft-col"><h4>Liens rapides</h4><ul class="ft-links" style="list-style:none"><li><a href="#">Tableau de bord</a></li><li><a href="#">Mes enfants</a></li><li><a href="#">Cours</a></li></ul></div><div class="ft-col"><h4>Contact</h4><div><i class="fas fa-envelope"></i> contact@sukuli.tg</div></div></div><div class="ft-btm" style="text-align:center; padding-top:16px; border-top:1px solid rgba(255,255,255,.07)"><p>© 2024 Sukuli. Tous droits réservés.</p></div></div></footer>
+
+<!-- MODAL AJOUTER ENFANT -->
+<div class="modal-overlay" id="addChildModal">
+    <div class="modal-box">
+        <div class="modal-head"><h3><i class="fas fa-child"></i> Ajouter un enfant</h3><button class="modal-close" id="closeModalBtn">&times;</button></div>
+        <div class="modal-body">
+            <div class="search-input-group">
+                <input type="text" class="search-input" id="studentSearchInput" placeholder="Nom ou email de l'élève...">
+                <button class="see-all" id="searchStudentBtn" style="margin:0"><i class="fas fa-search"></i> Rechercher</button>
+            </div>
+            <div class="info-note"><i class="fas fa-info-circle"></i> Vous ne pouvez ajouter que des élèves déjà inscrits sur la plateforme.</div>
+            <div id="searchResultsContainer" class="search-results-list"></div>
+            <div id="noResultMsg" class="no-results" style="display:none"><i class="fas fa-user-slash"></i><p>Aucun élève trouvé</p><p style="font-size:.8rem">Cet élève n'est pas encore inscrit.</p><button class="see-all" id="showInstructionsBtn" style="margin-top:12px"><i class="fas fa-graduation-cap"></i> Comment inscrire mon enfant ?</button></div>
+            <div id="instructionsBox" class="instructions-box" style="display:none"><h4><i class="fas fa-info-circle"></i> Instructions d'inscription</h4><ol><li>Rendez-vous sur <strong>Sukuli.tg</strong></li><li>Cliquez sur "S'inscrire" en tant qu'<strong>Élève</strong></li><li>Remplissez le formulaire</li><li>Confirmez l'adresse email</li><li>Une fois activé, vous pourrez l'ajouter ici</li></ol><button class="see-all" id="closeInstructionsBtn">Fermer</button></div>
+            <div class="btn-group"><button class="see-all" id="cancelModalBtn" style="background:var(--g200);color:var(--txt)">Annuler</button></div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showToast(msg){ const t=document.getElementById('toast'); if(t){ document.getElementById('toastMsg').textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); } }
+
+// Données des enfants (enrichies avec séances et progression)
+let children = [
+    {id:1, name:"Koffi Agbessi", init:"KA", level:"3ème", courses:5, sessionsDone:8, sessionsTotal:12, lastSession:"Mercredi 14h-16h", nextSession:"Vendredi 14h-16h", progress:67},
+    {id:2, name:"Afi Adjo", init:"AA", level:"5ème", courses:3, sessionsDone:4, sessionsTotal:8, lastSession:"Mardi 10h-11h30", nextSession:"Jeudi 10h-11h30", progress:50},
+    {id:3, name:"Komla Mensah", init:"KM", level:"4ème", courses:2, sessionsDone:2, sessionsTotal:6, lastSession:"Lundi 16h-17h", nextSession:"Mercredi 16h-17h", progress:33}
+];
+
+// Historique
+const historyData = [
+    {date:"15 Oct. 2024", title:"Nouveau cours ajouté", desc:"Cours de Mathématiques avancées ajouté pour Koffi Agbessi"},
+    {date:"10 Oct. 2024", title:"Inscription confirmée", desc:"Komla Mensah a été ajouté à vos enfants"},
+    {date:"05 Oct. 2024", title:"Bulletin trimestriel", desc:"Bulletin du 1er trimestre disponible pour Afi Adjo"}
+];
+
+// Élèves disponibles pour ajout
+const availableStudents = [
+    {id:101, name:"Sarah Lawson", email:"sarah.lawson@sukuli.tg", init:"SL", level:"3ème", school:"International Academy", alreadyAdded:false},
+    {id:102, name:"Yao Akakpo", email:"yao.akakpo@sukuli.tg", init:"YA", level:"6ème", school:"École Primaire Les Étoiles", alreadyAdded:false},
+    {id:103, name:"Amina Diallo", email:"amina.diallo@sukuli.tg", init:"AD", level:"4ème", school:"Collège Moderne", alreadyAdded:false}
+];
+
+// ── Rendu des cartes enfants (style tableau de bord) ──
+function renderGrid(){
+    const grid = document.getElementById('studentsGrid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    children.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'sc reveal';
+        card.innerHTML = `
+            <div class="sc-strip"></div>
+            <div class="sc-hd">
+                <div class="sc-lv">${s.level}</div>
+                <div class="sc-sessions">${s.sessionsDone}/${s.sessionsTotal} séances</div>
+                <div class="avatar-wrapper"><div class="sc-av">${s.init}</div></div>
+                <div class="sc-nm">${s.name}</div>
+            </div>
+            <div class="sc-bd">
+                <div class="sc-session-box">
+                    <div class="sc-srow">
                         <i class="fas fa-book-open"></i>
-                        <span>Cours</span>
-                    </a>
-                    <a href="../parent/enseignant.html" class="nav-item">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                        <span>Enseignants</span>
-                    </a>
-                    <a href="../parent/contrat.html" class="nav-item">
-                        <i class="fas fa-file-contract"></i>
-                        <span>Contrats</span>
-                    </a>
-                    <a href="../parent/calendrier.html" class="nav-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Programmation</span>
-                        <span class="nav-badge">8 cours</span>
-                    </a>
-                    <a href="../parent/message.html" class="nav-item">
-                        <i class="fas fa-comments"></i>
-                        <span>Messagerie</span>
-                        <span class="nav-badge">2</span>
-                    </a>
-                    <a href="parent_finance.html" class="nav-item">
+                        <div><div class="sc-slbl">COURS SUIVIS</div><div class="sc-sval">${s.courses} cours actifs</div></div>
+                    </div>
+                    <div class="sc-srow">
                         <i class="fas fa-chart-line"></i>
-                        <span>Rapport</span>
-                    </a>
+                        <div><div class="sc-slbl">PROGRESSION</div><div class="sc-sval">${s.sessionsDone}/${s.sessionsTotal} séances (${s.progress}%)</div></div>
+                    </div>
+                    <div class="progress-bar-mini"><div class="progress-fill" style="width:${s.progress}%"></div></div>
+                    <div class="sc-srow">
+                        <i class="fas fa-history"></i>
+                        <div><div class="sc-slbl">Dernière séance</div><div class="sc-sval">${s.lastSession}</div></div>
+                    </div>
+                    <div class="sc-srow">
+                        <i class="fas fa-calendar-check"></i>
+                        <div><div class="sc-slbl">Prochaine séance</div><div class="sc-sval">${s.nextSession}</div></div>
+                    </div>
                 </div>
             </div>
+            <div class="sc-ft">
+                <button class="sc-btn sc-btn-ghost" onclick="viewDetails(${s.id})"><i class="fas fa-eye"></i> Détails</button>
+                <button class="sc-btn sc-btn-teal" onclick="contactStudent(${s.id})"><i class="fas fa-comment"></i> Contacter</button>
+                <button class="sc-btn sc-btn-deep" onclick="viewCourses(${s.id})"><i class="fas fa-graduation-cap"></i> Cours</button>
+            </div>`;
+        grid.appendChild(card);
+    });
+    // Carte Ajouter
+    const addCard = document.createElement('div');
+    addCard.className = 'sc add-card-new';
+    addCard.innerHTML = `
+        <div class="sc-strip"></div>
+        <div class="sc-hd" style="padding: 30px 16px;">
+            <div class="avatar-wrapper">
+                <div class="sc-av" style="background:linear-gradient(135deg,var(--teal),var(--teal-light));color:#fff;">
+                    <i class="fas fa-plus" style="font-size:1.8rem;"></i>
+                </div>
+            </div>
+            <div class="sc-nm" style="color:var(--teal); margin-top:8px;">Ajouter un enfant</div>
         </div>
-    </nav>
+        <div class="sc-ft">
+            <button class="sc-btn sc-btn-teal" id="addNewChildCardBtn"><i class="fas fa-plus"></i> Ajouter</button>
+        </div>`;
+    grid.appendChild(addCard);
+    document.getElementById('addNewChildCardBtn')?.addEventListener('click', () => openModal());
 
-    <!-- Menu Mobile (caché par défaut) -->
-    <div class="mobile-nav" id="mobileNav">
-        <div class="mobile-menu">
-            <a href="parent_dashboard.html" class="mobile-nav-item">
-                <i class="fas fa-home"></i>
-                <span>Tableau de bord</span>
-            </a>
-            <a href="parent_children.html" class="mobile-nav-item active">
-                <i class="fas fa-child"></i>
-                <span>Mes enfants</span>
-            </a>
-            <a href="parent_courses.html" class="mobile-nav-item">
-                <i class="fas fa-book-open"></i>
-                <span>Cours</span>
-                <span class="nav-badge">6</span>
-            </a>
-            <a href="parent_teachers.html" class="mobile-nav-item">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <span>Enseignants</span>
-            </a>
-            <a href="parent_contracts.html" class="mobile-nav-item">
-                <i class="fas fa-file-contract"></i>
-                <span>Contrats</span>
-            </a>
-            <a href="parent_schedule.html" class="mobile-nav-item">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Programmation</span>
-            </a>
-            <a href="parent_messages.html" class="mobile-nav-item">
-                <i class="fas fa-comments"></i>
-                <span>Messagerie</span>
-                <span class="nav-badge">3</span>
-            </a>
-            <a href="parent_finance.html" class="mobile-nav-item">
-                <i class="fas fa-chart-line"></i>
-                <span>Rapport</span>
-            </a>
-            <a href="#" class="mobile-nav-item" id="notificationNavBtnMobile">
-                <i class="fas fa-bell"></i>
-                <span>Notifications</span>
-                <span class="nav-badge">2</span>
-            </a>
-            <a href="parent_settings.html" class="mobile-nav-item">
-                <i class="fas fa-cog"></i>
-                <span>Paramètres</span>
-            </a>
-        </div>
-    </div>
+    // Observer pour les nouvelles cartes
+    const observer = new IntersectionObserver(e => { e.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); }); }, {threshold: 0.07});
+    grid.querySelectorAll('.sc').forEach(el => observer.observe(el));
+}
 
-    <!-- Contenu principal -->
-    <main class="main-content">
-        <div class="container">
-            <!-- Header de la page -->
-            <header class="page-header">
-                <div class="page-title">
-                    <h1>Mes Enfants</h1>
-                    <p>Gérez les informations, les cours et le suivi de vos enfants</p>
+// Rendu de la vue tableau (enrichie)
+function renderTableView(){
+    const tbody = document.getElementById('tableViewBody');
+    if(!tbody) return;
+    tbody.innerHTML = '';
+    children.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><div style="display:flex;align-items:center;gap:10px;"><div class="table-avatar">${s.init}</div><strong>${s.name}</strong></div></td>
+            <td><span class="sc-lv" style="position:relative;top:0;left:0;display:inline-block;">${s.level}</span></td>
+            <td>${s.courses} cours</td>
+            <td>
+                <div class="tbl-progress">
+                    <div class="tbl-bar"><div class="tbl-fill" style="width:${s.progress}%"></div></div>
+                    <span style="font-size:.75rem;font-weight:700;color:var(--teal);white-space:nowrap;">${s.progress}%</span>
                 </div>
-                <button class="btn btn-violet" id="addChildBtn">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>Ajouter un enfant</span>
-                </button>
-            </header>
-
-            <!-- Section principale des enfants -->
-            <section class="children-section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">Tous mes enfants</h2>
-                        <p class="section-subtitle">Consultez et gérez l'ensemble de vos enfants inscrits</p>
-                    </div>
-                    
-                    <button class="btn btn-secondary" id="toggleViewBtn">
-                        <i class="fas fa-list"></i> Vue tableau
-                    </button>
+            </td>
+            <td style="font-size:.82rem;font-weight:600;">${s.nextSession}</td>
+            <td>
+                <div class="table-actions">
+                    <button class="table-btn table-btn-view" onclick="viewDetails(${s.id})"><i class="fas fa-eye"></i> Détails</button>
+                    <button class="table-btn table-btn-contact" onclick="contactStudent(${s.id})"><i class="fas fa-comment"></i> Contacter</button>
                 </div>
+            </td>`;
+        tbody.appendChild(tr);
+    });
+}
 
-                <!-- Tableau des enfants (caché par défaut) -->
-                <table class="children-table-view" id="childrenTableView">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Niveau</th>
-                            <th>Cours suivis</th>
-                            <th>Statut</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; color: var(--blanc-principal); font-weight: bold; font-size: 1rem;">KA</div>
-                                    <div>Koffi Agbessi</div>
-                                </div>
-                            </td>
-                            <td><span class="status-badge status-active">3ème</span></td>
-                            <td>5 cours</td>
-                            <td><span class="status-badge status-active">En ligne</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-outline" onclick="viewStudentDetails(1)">Détails</button>
-                                <button class="btn btn-sm btn-info" onclick="contactStudent(1)">Contacter</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; color: var(--blanc-principal); font-weight: bold; font-size: 1rem;">AA</div>
-                                    <div>Afi Adjo</div>
-                                </div>
-                            </td>
-                            <td><span class="status-badge status-active">5ème</span></td>
-                            <td>3 cours</td>
-                            <td><span class="status-badge status-inactive">Hors ligne</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-outline" onclick="viewStudentDetails(2)">Détails</button>
-                                <button class="btn btn-sm btn-info" onclick="contactStudent(2)">Contacter</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; color: var(--blanc-principal); font-weight: bold; font-size: 1rem;">KM</div>
-                                    <div>Komla Mensah</div>
-                                </div>
-                            </td>
-                            <td><span class="status-badge status-active">4ème</span></td>
-                            <td>2 cours</td>
-                            <td><span class="status-badge status-active">En ligne</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-outline" onclick="viewStudentDetails(3)">Détails</button>
-                                <button class="btn btn-sm btn-info" onclick="contactStudent(3)">Contacter</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+// Rendu de l'historique
+function renderHistory(){
+    const container = document.getElementById('historyTimeline');
+    if(!container) return;
+    container.innerHTML = '';
+    historyData.forEach(h => {
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+        item.innerHTML = `<div class="timeline-date">${h.date}</div><div class="timeline-content"><div class="timeline-title">${h.title}</div><div class="timeline-desc">${h.desc}</div></div>`;
+        container.appendChild(item);
+    });
+}
 
-                <!-- Grille des enfants (affichée par défaut) - 5 COLONNES -->
-                <div class="students-grid" id="studentsGrid">
-                    <!-- Carte élève 1 -->
-                    <div class="student-card" data-level="3eme">
-                        <!-- Badge niveau en haut à gauche -->
-                        <div class="student-level-badge">3ème</div>
-                        
-                        <!-- Badge de présence en haut à droite -->
-                        <div class="online-status-badge">En ligne</div>
-                        
-                        <div class="student-header">
-                            <div class="student-avatar-large">KA</div>
-                            <div class="student-name">Koffi Agbessi</div>
-                        </div>
-                        <div class="student-body">
-                            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;">
-                                <span style="background-color: rgba(0, 166, 81, 0.1); color: var(--vert-principal); padding: 3px 10px; border-radius: 12px; font-size: 0.9rem;">
-                                    5 cours ajoutés
-                                </span>
-                            </div>
-                        </div>
-                        <!-- Boutons Détails et Contacter -->
-                        <div class="student-footer">
-                            <button class="btn-student-action btn-details" onclick="viewStudentDetails(1)">
-                                <i class="fas fa-eye"></i> Détails
-                            </button>
-                            <button class="btn-student-action btn-contact" onclick="contactStudent(1)">
-                                <i class="fas fa-comment-dots"></i> Contacter
-                            </button>
-                        </div>
-                    </div>
+// Basculer vue grille / tableau
+let isGridView = true;
+function toggleView(){
+    isGridView = !isGridView;
+    const gridView = document.getElementById('gridView');
+    const tableView = document.getElementById('tableView');
+    const toggleBtn = document.getElementById('toggleViewBtn');
+    if(isGridView){
+        gridView.style.display = 'block'; tableView.style.display = 'none';
+        toggleBtn.innerHTML = '<i class="fas fa-list"></i> Vue tableau';
+        renderGrid();
+    } else {
+        gridView.style.display = 'none'; tableView.style.display = 'block';
+        toggleBtn.innerHTML = '<i class="fas fa-th-large"></i> Vue grille';
+        renderTableView();
+    }
+}
 
-                    <!-- Carte élève 2 -->
-                    <div class="student-card" data-level="5eme">
-                        <!-- Badge niveau en haut à gauche -->
-                        <div class="student-level-badge">5ème</div>
-                        
-                        <!-- Badge de présence en haut à droite -->
-                        <div class="offline-status-badge">Hors ligne</div>
-                        
-                        <div class="student-header">
-                            <div class="student-avatar-large">AA</div>
-                            <div class="student-name">Afi Adjo</div>
-                        </div>
-                        <div class="student-body">
-                            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;">
-                                <span style="background-color: rgba(0, 166, 81, 0.1); color: var(--vert-principal); padding: 3px 10px; border-radius: 12px; font-size: 0.9rem;">
-                                    3 cours ajoutés
-                                </span>
-                            </div>
-                        </div>
-                        <!-- Boutons Détails et Contacter -->
-                        <div class="student-footer">
-                            <button class="btn-student-action btn-details" onclick="viewStudentDetails(2)">
-                                <i class="fas fa-eye"></i> Détails
-                            </button>
-                            <button class="btn-student-action btn-contact" onclick="contactStudent(2)">
-                                <i class="fas fa-comment-dots"></i> Contacter
-                            </button>
-                        </div>
-                    </div>
+function viewDetails(id){ const c=children.find(x=>x.id===id); if(c) showToast(`📊 Détails de ${c.name} — ${c.progress}% de progression`); }
+function contactStudent(id){ const c=children.find(x=>x.id===id); if(c) showToast(`💬 Ouverture de la messagerie avec ${c.name}`); }
+function viewCourses(id){ const c=children.find(x=>x.id===id); if(c) showToast(`📚 Cours de ${c.name} — ${c.courses} cours actifs`); }
 
-                    <!-- Carte élève 3 -->
-                    <div class="student-card" data-level="4eme">
-                        <!-- Badge niveau en haut à gauche -->
-                        <div class="student-level-badge">4ème</div>
-                        
-                        <!-- Badge de présence en haut à droite -->
-                        <div class="online-status-badge">En ligne</div>
-                        
-                        <div class="student-header">
-                            <div class="student-avatar-large">KM</div>
-                            <div class="student-name">Komla Mensah</div>
-                        </div>
-                        <div class="student-body">
-                            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;">
-                                <span style="background-color: rgba(0, 166, 81, 0.1); color: var(--vert-principal); padding: 3px 10px; border-radius: 12px; font-size: 0.9rem;">
-                                    2 cours ajoutés
-                                </span>
-                            </div>
-                        </div>
-                        <!-- Boutons Détails et Contacter -->
-                        <div class="student-footer">
-                            <button class="btn-student-action btn-details" onclick="viewStudentDetails(3)">
-                                <i class="fas fa-eye"></i> Détails
-                            </button>
-                            <button class="btn-student-action btn-contact" onclick="contactStudent(3)">
-                                <i class="fas fa-comment-dots"></i> Contacter
-                            </button>
-                        </div>
-                    </div>
+// MODAL
+const modal = document.getElementById('addChildModal');
+function openModal(){ modal.classList.add('active'); document.body.style.overflow='hidden'; resetModal(); }
+function closeModal(){ modal.classList.remove('active'); document.body.style.overflow='auto'; }
+function resetModal(){
+    const inp=document.getElementById('studentSearchInput'); if(inp) inp.value='';
+    const cont=document.getElementById('searchResultsContainer'); if(cont) cont.innerHTML='';
+    const no=document.getElementById('noResultMsg'); if(no) no.style.display='none';
+    const instr=document.getElementById('instructionsBox'); if(instr) instr.style.display='none';
+}
 
-                    <!-- Carte pour ajouter un nouvel enfant -->
-                    <div class="student-card" style="border-style: dashed; border-color: var(--violet-premium); background: transparent; text-align: center; height: 250px;">
-                        <div class="student-header" style="background: transparent; padding: 40px 20px;">
-                            <i class="fas fa-plus-circle" style="font-size: 3rem; color: var(--violet-premium); margin-bottom: 15px;"></i>
-                            <div class="student-name" style="color: var(--violet-premium);">Rechercher tes enfants</div>
-                        </div>
-                        <div class="student-footer" style="justify-content: center;">
-                            <button class="btn-student-action btn-contact" id="addNewChildBtn" style="background-color: var(--violet-premium);">
-                                <i class="fas fa-plus"></i> Ajouter un enfant
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+function searchStudent(){
+    const query=document.getElementById('studentSearchInput')?.value.trim().toLowerCase();
+    if(!query){ showToast('Veuillez entrer un nom ou email'); return; }
+    const results=availableStudents.filter(s=>!s.alreadyAdded&&(s.name.toLowerCase().includes(query)||s.email.toLowerCase().includes(query)));
+    const container=document.getElementById('searchResultsContainer');
+    const noResult=document.getElementById('noResultMsg');
+    if(!container) return;
+    container.innerHTML='';
+    if(results.length===0){ if(noResult) noResult.style.display='block'; return; }
+    if(noResult) noResult.style.display='none';
+    results.forEach(s=>{
+        const div=document.createElement('div'); div.className='student-result';
+        div.innerHTML=`<div class="student-avatar-sm">${s.init}</div><div class="student-info"><div class="student-name-result">${s.name}</div><div class="student-detail">${s.level} • ${s.school}<br>${s.email}</div></div><button class="see-all" style="margin:0" onclick="addChild(${s.id})"><i class="fas fa-plus"></i> Ajouter</button>`;
+        container.appendChild(div);
+    });
+}
 
-            <!-- Section historique des inscriptions -->
-            <section class="history-section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">Historique des inscriptions</h2>
-                        <p class="section-subtitle">Suivi des inscriptions et des modifications apportées à vos enfants</p>
-                    </div>
-                </div>
+window.addChild = function(id){
+    const student=availableStudents.find(s=>s.id===id);
+    if(student&&!student.alreadyAdded){
+        student.alreadyAdded=true;
+        const newChild={id:children.length+1, name:student.name, init:student.init, level:student.level, courses:0, sessionsDone:0, sessionsTotal:0, lastSession:"Aucune séance", nextSession:"À programmer", progress:0};
+        children.push(newChild);
+        if(isGridView){ renderGrid(); } else { renderTableView(); }
+        closeModal();
+        showToast(`${student.name} a été ajouté à vos enfants !`);
+    }
+};
 
-                <div class="history-timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-date">15 Oct. 2024</div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Nouveau cours ajouté</div>
-                            <div class="timeline-description">Cours de Mathématiques avancées ajouté pour Koffi Agbessi</div>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">10 Oct. 2024</div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Inscription confirmée</div>
-                            <div class="timeline-description">Komla Mensah a été ajouté à vos enfants</div>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">05 Oct. 2024</div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Bulletin trimestriel</div>
-                            <div class="timeline-description">Bulletin du 1er trimestre disponible pour Afi Adjo</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
+// Event listeners
+document.getElementById('addChildBtn')?.addEventListener('click', openModal);
+document.getElementById('closeModalBtn')?.addEventListener('click', closeModal);
+document.getElementById('cancelModalBtn')?.addEventListener('click', closeModal);
+document.getElementById('searchStudentBtn')?.addEventListener('click', searchStudent);
+document.getElementById('studentSearchInput')?.addEventListener('keypress', e=>{ if(e.key==='Enter') searchStudent(); });
+document.getElementById('showInstructionsBtn')?.addEventListener('click', ()=>{
+    document.getElementById('noResultMsg').style.display='none';
+    document.getElementById('instructionsBox').style.display='block';
+});
+document.getElementById('closeInstructionsBtn')?.addEventListener('click', ()=>{
+    document.getElementById('instructionsBox').style.display='none';
+    document.getElementById('noResultMsg').style.display='block';
+});
+modal?.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
+document.getElementById('toggleViewBtn')?.addEventListener('click', toggleView);
 
-    <!-- Pied de page -->
-    <footer style="background-color: #212121; color: #666666; padding: 60px 0 30px;">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
-                <div>
-                    <a href="index.html" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: #FFFFFF; text-decoration: none;">
-                        <div style="background: linear-gradient(45deg, #00A651 25%, #FFD700 25%, #FFD700 50%, #EF3340 50%, #EF3340 75%, #FFFFFF 75%); color: #333333; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px;">ET</div>
-                        <div style="font-size: 24px; font-weight: 700;">Edu<span style="color: #00A651;">Togo</span>Connect</div>
-                    </a>
-                    <p style="color: #666666; line-height: 1.6; margin-bottom: 20px;">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
-                    <div style="display: flex; gap: 15px;">
-                        <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #FFFFFF; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#FFD700'; this.style.color='#212121'; this.style.transform='translateY(-3px)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; this.style.transform='translateY(0)'">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #FFFFFF; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#FFD700'; this.style.color='#212121'; this.style.transform='translateY(-3px)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; this.style.transform='translateY(0)'">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #FFFFFF; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#FFD700'; this.style.color='#212121'; this.style.transform='translateY(-3px)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; this.style.transform='translateY(0)'">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #FFFFFF; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#FFD700'; this.style.color='#212121'; this.style.transform='translateY(-3px)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; this.style.transform='translateY(0)'">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 style="color: #FFFFFF; font-size: 1.3rem; margin-bottom: 20px; position: relative; padding-bottom: 10px;">Liens rapides</h3>
-                    <ul style="list-style: none;">
-                        <li style="margin-bottom: 12px;"><a href="#accueil" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Accueil</a></li>
-                        <li style="margin-bottom: 12px;"><a href="#fonctionnalites" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Fonctionnalités</a></li>
-                        <li style="margin-bottom: 12px;"><a href="#mission" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Notre Mission</a></li>
-                        <li style="margin-bottom: 12px;"><a href="#niveaux" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Niveaux</a></li>
-                        <li style="margin-bottom: 12px;"><a href="#cours" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Meilleurs Cours</a></li>
-                        <li style="margin-bottom: 12px;"><a href="#ressources" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Ressources</a></li>
-                        <li style="margin-bottom: 12px;"><a href="#enseignants" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Nos Enseignants</a></li>
-                        <li style="margin-bottom: 12px;"><a href="#ecoles" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Nos Écoles</a></li>
-                        <li style="margin-bottom: 12px;"><a href="#partenaires" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Nos Partenaires</a></li>
-                        <li style="margin-bottom: 12px;"><a href="#temoignages" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Témoignages</a></li>
-                        <li style="margin-bottom: 12px;"><a href="faq.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">FAQ</a></li>
-                        <li style="margin-bottom: 12px;"><a href="blog.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Blog</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 style="color: #FFFFFF; font-size: 1.3rem; margin-bottom: 20px; position: relative; padding-bottom: 10px;">Pour les enseignants</h3>
-                    <ul style="list-style: none;">
-                        <li style="margin-bottom: 12px;"><a href="teacher-guide.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Guide des enseignants</a></li>
-                        <li style="margin-bottom: 12px;"><a href="verification.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Processus de vérification</a></li>
-                        <li style="margin-bottom: 12px;"><a href="premium.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Formule Premium</a></li>
-                        <li style="margin-bottom: 12px;"><a href="pricing.php" style="color: #666666; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#666666'">Tarifs et commissions</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 style="color: #FFFFFF; font-size: 1.3rem; margin-bottom: 20px; position: relative; padding-bottom: 10px;">Contact</h3>
-                    <ul style="list-style: none;">
-                        <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #666666;"><i class="fas fa-map-marker-alt"></i> Lomé, Togo</li>
-                        <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #666666;"><i class="fas fa-phone"></i> +228 XX XX XX XX</li>
-                        <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #666666;"><i class="fas fa-envelope"></i> contact@edutogoconnect.tg</li>
-                        <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #666666;"><i class="fas fa-clock"></i> Lundi - Vendredi: 8h-18h</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div style="text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: #666666;">
-                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.php" style="color: #FFD700; text-decoration: none;">Politique de confidentialité</a> | <a href="terms.php" style="color: #FFD700; text-decoration: none;">Conditions d'utilisation</a></p>
-            </div>
-        </div>
-    </footer>
+// UI Interactions
+document.getElementById('profileToggle')?.addEventListener('click',e=>{ e.stopPropagation(); document.getElementById('dropMenu')?.classList.toggle('open'); document.getElementById('profileToggle')?.classList.toggle('open'); });
+document.addEventListener('click',()=>{ document.getElementById('dropMenu')?.classList.remove('open'); document.getElementById('profileToggle')?.classList.remove('open'); });
+document.getElementById('menuTog')?.addEventListener('click',()=>{ document.getElementById('mobNav')?.classList.toggle('open'); });
+document.getElementById('notifBtn')?.addEventListener('click',()=>showToast("Notifications (2 nouvelles)"));
 
-    <!-- Modal Ajouter un enfant -->
-    <div class="modal-overlay" id="addChildModal">
-        <div class="modal" style="max-width: 600px;">
-            <div class="modal-header">
-                <h2 class="modal-title">Ajouter un enfant</h2>
-                <button class="modal-close" id="closeAddChildModalBtn">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Rechercher un élève déjà inscrit</label>
-                    <div class="search-bar" style="margin-bottom: 10px;">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="studentSearchInput" placeholder="Tapez le nom ou l'email de l'élève...">
-                        <button class="search-btn" id="studentSearchBtn" style="width: 40px; height: 40px;">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    <p style="font-size: 0.9rem; color: var(--gris-moyen); margin-top: 5px;">
-                        Vous ne pouvez ajouter que des élèves déjà inscrits sur la plateforme.
-                    </p>
-                </div>
-                
-                <div id="studentSearchResults" class="student-search-results" style="max-height: 300px; overflow-y: auto; border: 2px solid var(--gris-clair); border-radius: 8px;">
-                    <div class="no-results-message" id="initialSearchMessage" style="padding: 30px; text-align: center; color: var(--gris-moyen);">
-                        <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 15px;"></i>
-                        <p>Recherchez un élève par son nom ou son adresse email</p>
-                    </div>
-                </div>
-                
-                <div id="noStudentFoundMessage" style="display: none; padding: 30px; text-align: center; color: var(--gris-moyen);">
-                    <i class="fas fa-user-slash" style="font-size: 2rem; margin-bottom: 15px; color: var(--rouge-principal);"></i>
-                    <h3 style="color: var(--rouge-principal); margin-bottom: 10px;">Aucun élève trouvé</h3>
-                    <p style="margin-bottom: 20px;">Cet élève n'est pas encore inscrit sur la plateforme.</p>
-                    <p style="font-size: 0.9rem; color: var(--gris-moyen);">
-                        <strong>Note importante:</strong> Seul l'enfant peut créer son compte élève. 
-                        Demandez à votre enfant de s'inscrire sur la plateforme, puis vous pourrez l'ajouter ici.
-                    </p>
-                    <button class="btn-enroll-child" onclick="showEnrollmentInstructions()" style="background-color: var(--rouge-principal); color: var(--blanc-principal); border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 8px; margin-top: 20px; width: 100%; justify-content: center;">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Comment mon enfant peut-il s'inscrire?</span>
-                    </button>
-                </div>
-                
-                <div id="enrollmentInstructions" style="display: none; margin-top: 20px; padding: 20px; background-color: var(--gris-clair); border-radius: 10px;">
-                    <h3 style="color: var(--vert-principal); margin-bottom: 15px;">Instructions d'inscription pour votre enfant</h3>
-                    <ol style="margin-left: 20px; margin-bottom: 20px;">
-                        <li>Demandez à votre enfant de se rendre sur <strong>EduTogoConnect.tg</strong></li>
-                        <li>Cliquer sur "S'inscrire" en tant qu'<strong>Élève</strong></li>
-                        <li>Remplir le formulaire d'inscription avec ses informations</li>
-                        <li>Confirmer son adresse email</li>
-                        <li>Une fois son compte activé, vous pourrez le rechercher ici et l'ajouter</li>
-                    </ol>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn btn-secondary" onclick="hideEnrollmentInstructions()">Fermer</button>
-                        <a href="student_signup.html" class="btn btn-primary" target="_blank">
-                            <i class="fas fa-external-link-alt"></i>
-                            <span>Lien d'inscription élève</span>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelAddChildBtn">Annuler</button>
-                </div>
-            </div>
-        </div>
-    </div>
+const btt=document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{ btt?.classList.toggle('show',scrollY>300); document.getElementById('mainHdr')?.classList.toggle('scrolled',scrollY>50); });
+btt?.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
 
-    <!-- Modal Détails d'un enfant -->
-    <div class="modal-overlay" id="childDetailsModal">
-        <div class="modal" style="max-width: 700px;">
-            <div class="modal-header">
-                <h2 class="modal-title" id="childDetailsTitle">Détails de l'enfant</h2>
-                <button class="modal-close" id="closeChildDetailsModalBtn">&times;</button>
-            </div>
-            <div class="modal-body" id="childDetailsContent">
-                <!-- Contenu chargé dynamiquement -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Notifications -->
-    <div class="modal-overlay" id="notificationModal">
-        <div class="modal" style="max-width: 500px;">
-            <div class="modal-header">
-                <h2 class="modal-title">Notifications</h2>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <button class="btn btn-secondary" id="markAllReadBtn" style="padding: 5px 10px; font-size: 0.8rem;">Tout marquer comme lu</button>
-                    <button class="modal-close" id="closeNotificationModalBtn">&times;</button>
-                </div>
-            </div>
-            <div class="modal-body" id="notificationList">
-                <!-- Les notifications seront ajoutées dynamiquement -->
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Données simulées pour la page "Mes Enfants"
-        const childrenData = {
-            parent: {
-                fullName: "M. Adjo",
-                email: "parent.adjo@edutogoconnect.tg",
-                status: "Parent",
-                childrenCount: 3
-            },
-            
-            // Enfants actuels
-            children: [
-                {
-                    id: 1,
-                    name: "Koffi Agbessi",
-                    initials: "KA",
-                    level: "3ème",
-                    school: "Lycée Français de Lomé",
-                    birthDate: "15/08/2010",
-                    email: "koffi.agbessi@edutogoconnect.tg",
-                    phone: "+228 90 12 34 56",
-                    address: "Lomé, Togo",
-                    status: "online",
-                    registrationDate: "01/09/2024",
-                    courses: 5,
-                    teachers: 3,
-                    lastActivity: "Aujourd'hui, 14:30",
-                    lastLogin: "Aujourd'hui, 14:30",
-                    notes: "Excellent en mathématiques, besoin de soutien en français."
-                },
-                {
-                    id: 2,
-                    name: "Afi Adjo",
-                    initials: "AA",
-                    level: "5ème",
-                    school: "Collège Protestant de Lomé",
-                    birthDate: "22/03/2012",
-                    email: "afi.adjo@edutogoconnect.tg",
-                    phone: "+228 91 23 45 67",
-                    address: "Lomé, Togo",
-                    status: "offline",
-                    registrationDate: "10/09/2024",
-                    courses: 3,
-                    teachers: 2,
-                    lastActivity: "Hier, 16:45",
-                    lastLogin: "Hier, 16:45",
-                    notes: "Très bonne en sciences, participe activement aux cours."
-                },
-                {
-                    id: 3,
-                    name: "Komla Mensah",
-                    initials: "KM",
-                    level: "4ème",
-                    school: "Collège Moderne de Lomé",
-                    birthDate: "05/11/2011",
-                    email: "komla.mensah@edutogoconnect.tg",
-                    phone: "+228 92 34 56 78",
-                    address: "Lomé, Togo",
-                    status: "online",
-                    registrationDate: "15/09/2024",
-                    courses: 2,
-                    teachers: 1,
-                    lastActivity: "Il y a 2 jours, 10:15",
-                    lastLogin: "Il y a 2 jours, 10:15",
-                    notes: "Excellents résultats en littérature, travailleur et assidu."
-                }
-            ],
-            
-            // Notifications
-            notifications: [
-                {
-                    id: 1,
-                    type: "info",
-                    title: "Nouveau bulletin disponible",
-                    message: "Le bulletin de Koffi pour le 1er trimestre est disponible",
-                    time: "Il y a 2 heures",
-                    read: false
-                },
-                {
-                    id: 2,
-                    type: "warning",
-                    title: "Réunion parents-professeurs",
-                    message: "Rappel: Réunion le 25 octobre à 16h pour Afi",
-                    time: "Il y a 1 jour",
-                    read: false
-                }
-            ]
-        };
-
-        // Éléments DOM
-        const mobileNavToggle = document.getElementById('mobileNavToggle');
-        const mobileNav = document.getElementById('mobileNav');
-        const notificationBtn = document.getElementById('notificationBtn');
-        const notificationModal = document.getElementById('notificationModal');
-        const closeNotificationModalBtn = document.getElementById('closeNotificationModalBtn');
-        const markAllReadBtn = document.getElementById('markAllReadBtn');
-        const notificationNavBtnMobile = document.getElementById('notificationNavBtnMobile');
-        const profileBtn = document.getElementById('profileBtn');
-        const profileMenu = document.getElementById('profileMenu');
-        
-        // Éléments spécifiques à la page
-        const addChildBtn = document.getElementById('addChildBtn');
-        const addNewChildBtn = document.getElementById('addNewChildBtn');
-        const addChildModal = document.getElementById('addChildModal');
-        const closeAddChildModalBtn = document.getElementById('closeAddChildModalBtn');
-        const cancelAddChildBtn = document.getElementById('cancelAddChildBtn');
-        
-        const toggleViewBtn = document.getElementById('toggleViewBtn');
-        const studentsGrid = document.getElementById('studentsGrid');
-        const childrenTableView = document.getElementById('childrenTableView');
-        
-        const childDetailsModal = document.getElementById('childDetailsModal');
-        const closeChildDetailsModalBtn = document.getElementById('closeChildDetailsModalBtn');
-        const childDetailsContent = document.getElementById('childDetailsContent');
-        const childDetailsTitle = document.getElementById('childDetailsTitle');
-        
-        // Variables d'état
-        let isTableView = false;
-        let selectedChildId = null;
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialiser les notifications
-            initNotifications();
-            updateNotificationBadge();
-            
-            // Gestion responsive
-            function checkWindowSize() {
-                if (window.innerWidth <= 992) {
-                    document.querySelector('.menu-toggle').style.display = 'block';
-                } else {
-                    document.querySelector('.menu-toggle').style.display = 'none';
-                    mobileNav.classList.remove('active');
-                }
-            }
-            
-            window.addEventListener('resize', checkWindowSize);
-            checkWindowSize();
-            
-            // Initialiser les événements
-            initializeEvents();
-        });
-
-        function initializeEvents() {
-            // Bouton Ajouter un enfant (dans l'en-tête)
-            addChildBtn.addEventListener('click', () => {
-                addChildModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            });
-
-            // Bouton Ajouter un enfant (dans la grille)
-            addNewChildBtn.addEventListener('click', () => {
-                addChildModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            });
-
-            // Fermer le modal Ajouter un enfant
-            closeAddChildModalBtn.addEventListener('click', closeAddChildModal);
-            cancelAddChildBtn.addEventListener('click', closeAddChildModal);
-            addChildModal.addEventListener('click', (e) => {
-                if (e.target === addChildModal) {
-                    closeAddChildModal();
-                }
-            });
-
-            // Basculer entre vue grille et tableau
-            toggleViewBtn.addEventListener('click', toggleChildrenView);
-
-            // Recherche d'élève dans le modal
-            document.getElementById('studentSearchBtn').addEventListener('click', searchStudent);
-            document.getElementById('studentSearchInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    searchStudent();
-                }
-            });
-        }
-
-        function closeAddChildModal() {
-            addChildModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function showEnrollmentInstructions() {
-            document.getElementById('enrollmentInstructions').style.display = 'block';
-            document.getElementById('noStudentFoundMessage').style.display = 'none';
-        }
-
-        function hideEnrollmentInstructions() {
-            document.getElementById('enrollmentInstructions').style.display = 'none';
-        }
-
-        function searchStudent() {
-            const searchTerm = document.getElementById('studentSearchInput').value.toLowerCase();
-            const resultsContainer = document.getElementById('studentSearchResults');
-            const noStudentFound = document.getElementById('noStudentFoundMessage');
-            const initialMessage = document.getElementById('initialSearchMessage');
-            
-            // Simuler une recherche (dans une vraie application, ce serait une requête AJAX)
-            if (searchTerm.trim() === '') {
-                resultsContainer.innerHTML = '';
-                resultsContainer.appendChild(initialMessage.cloneNode(true));
-                noStudentFound.style.display = 'none';
-                return;
-            }
-            
-            // Simulation: aucun élève trouvé (pour démo)
-            initialMessage.style.display = 'none';
-            resultsContainer.innerHTML = '';
-            noStudentFound.style.display = 'block';
-        }
-
-        // Basculer entre vue grille et tableau
-        function toggleChildrenView() {
-            isTableView = !isTableView;
-            
-            if (isTableView) {
-                toggleViewBtn.innerHTML = '<i class="fas fa-th-large"></i> Vue grille';
-                studentsGrid.style.display = 'none';
-                childrenTableView.style.display = 'table';
-            } else {
-                toggleViewBtn.innerHTML = '<i class="fas fa-list"></i> Vue tableau';
-                studentsGrid.style.display = 'grid';
-                childrenTableView.style.display = 'none';
-            }
-        }
-
-        // Fonctions pour les boutons d'action
-        function viewStudentDetails(childId) {
-            const child = childrenData.children.find(c => c.id === childId);
-            if (!child) return;
-            
-            selectedChildId = childId;
-            
-            childDetailsTitle.textContent = `Détails de ${child.name}`;
-            
-            childDetailsContent.innerHTML = `
-                <div style="display: flex; gap: 20px; margin-bottom: 30px;">
-                    <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; color: var(--blanc-principal); font-weight: bold; font-size: 2rem;">
-                        ${child.initials}
-                    </div>
-                    <div style="flex: 1;">
-                        <h3 style="margin-bottom: 10px; color: var(--gris-fonce);">${child.name}</h3>
-                        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                            <span style="background-color: rgba(0, 166, 81, 0.1); color: var(--vert-principal); padding: 4px 12px; border-radius: 15px; font-size: 0.9rem; font-weight: 600;">${child.level}</span>
-                            <span style="background-color: ${child.status === 'online' ? 'rgba(76, 175, 80, 0.1)' : 'rgba(102, 102, 102, 0.1)'}; color: ${child.status === 'online' ? 'var(--vert-badge)' : 'var(--gris-moyen)'}; padding: 4px 12px; border-radius: 15px; font-size: 0.9rem; font-weight: 600;">
-                                ${child.status === 'online' ? 'En ligne' : 'Hors ligne'}
-                            </span>
-                        </div>
-                        <div style="color: var(--gris-moyen);">
-                            <div><i class="fas fa-envelope"></i> ${child.email}</div>
-                            <div><i class="fas fa-phone"></i> ${child.phone}</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
-                    <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 8px;">
-                        <div style="font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 5px;">École</div>
-                        <div style="font-weight: 600;">${child.school}</div>
-                    </div>
-                    <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 8px;">
-                        <div style="font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 5px;">Date de naissance</div>
-                        <div style="font-weight: 600;">${child.birthDate}</div>
-                    </div>
-                    <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 8px;">
-                        <div style="font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 5px;">Cours suivis</div>
-                        <div style="font-weight: 600;">${child.courses} cours</div>
-                    </div>
-                    <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 8px;">
-                        <div style="font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 5px;">Date d'inscription</div>
-                        <div style="font-weight: 600;">${child.registrationDate}</div>
-                    </div>
-                </div>
-                
-                <div style="margin-bottom: 30px;">
-                    <h4 style="margin-bottom: 15px; color: var(--gris-fonce);">Notes</h4>
-                    <div style="background-color: var(--gris-clair); padding: 15px; border-radius: 8px;">
-                        ${child.notes}
-                    </div>
-                </div>
-                
-                <div style="display: flex; gap: 10px; margin-top: 30px;">
-                    <button class="btn btn-secondary" id="editChildBtn">
-                        <i class="fas fa-edit"></i> Modifier
-                    </button>
-                    <button class="btn btn-primary" onclick="contactStudent(${child.id})">
-                        <i class="fas fa-comment"></i> Contacter
-                    </button>
-                </div>
-            `;
-            
-            // Ajouter l'événement pour le bouton Modifier
-            document.getElementById('editChildBtn').addEventListener('click', () => {
-                alert('Fonctionnalité de modification à implémenter');
-            });
-            
-            childDetailsModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function contactStudent(childId) {
-            const child = childrenData.children.find(c => c.id === childId);
-            if (child) {
-                alert(`Ouverture de la messagerie avec ${child.name}`);
-                // Dans une vraie application: window.location.href = `parent_messages.html?child=${childId}`;
-            }
-        }
-
-        // Gestion du modal Détails de l'enfant
-        function closeChildDetailsModal() {
-            childDetailsModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            selectedChildId = null;
-        }
-
-        closeChildDetailsModalBtn.addEventListener('click', closeChildDetailsModal);
-        childDetailsModal.addEventListener('click', (e) => {
-            if (e.target === childDetailsModal) {
-                closeChildDetailsModal();
-            }
-        });
-
-        // Gestion des notifications
-        function openNotificationModal() {
-            notificationModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            initNotifications();
-        }
-
-        function closeNotificationModal() {
-            notificationModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function initNotifications() {
-            const notificationList = document.getElementById('notificationList');
-            notificationList.innerHTML = '';
-            
-            childrenData.notifications.forEach(notification => {
-                const notificationItem = document.createElement('div');
-                notificationItem.style.padding = '15px';
-                notificationItem.style.borderBottom = '1px solid var(--gris-clair)';
-                notificationItem.style.display = 'flex';
-                notificationItem.style.alignItems = 'flex-start';
-                notificationItem.style.gap = '15px';
-                notificationItem.style.backgroundColor = notification.read ? 'transparent' : 'rgba(0,166,81,0.05)';
-                
-                let iconClass = '';
-                let icon = '';
-                switch(notification.type) {
-                    case 'success':
-                        iconClass = 'success';
-                        icon = 'check-circle';
-                        break;
-                    case 'warning':
-                        iconClass = 'warning';
-                        icon = 'exclamation-triangle';
-                        break;
-                    case 'info':
-                        iconClass = 'info';
-                        icon = 'info-circle';
-                        break;
-                }
-                
-                notificationItem.innerHTML = `
-                    <div style="color: var(--${iconClass === 'success' ? 'vert-principal' : iconClass === 'warning' ? 'jaune-principal' : 'rouge-principal'}); font-size: 1.2rem;">
-                        <i class="fas fa-${icon}"></i>
-                    </div>
-                    <div style="flex: 1;">
-                        <h4 style="margin: 0 0 5px 0; color: var(--gris-fonce);">${notification.title}</h4>
-                        <p style="margin: 0 0 5px 0; color: var(--gris-moyen); font-size: 0.9rem;">${notification.message}</p>
-                        <div style="font-size: 0.8rem; color: var(--gris-moyen);">${notification.time}</div>
-                    </div>
-                `;
-                
-                notificationItem.addEventListener('click', () => {
-                    notification.read = true;
-                    updateNotificationBadge();
-                    initNotifications();
-                });
-                
-                notificationList.appendChild(notificationItem);
-            });
-            
-            if (childrenData.notifications.length === 0) {
-                const emptyMsg = document.createElement('div');
-                emptyMsg.style.padding = '30px';
-                emptyMsg.style.textAlign = 'center';
-                emptyMsg.style.color = 'var(--gris-moyen)';
-                emptyMsg.innerHTML = `
-                    <i class="fas fa-bell-slash" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
-                    <p>Aucune notification</p>
-                `;
-                notificationList.appendChild(emptyMsg);
-            }
-        }
-
-        function updateNotificationBadge() {
-            const unreadCount = childrenData.notifications.filter(n => !n.read).length;
-            const badge = document.querySelector('.notification-badge');
-            if (badge) {
-                badge.textContent = unreadCount;
-                if (unreadCount === 0) {
-                    badge.style.display = 'none';
-                } else {
-                    badge.style.display = 'flex';
-                }
-            }
-        }
-
-        // Marquer toutes les notifications comme lues
-        markAllReadBtn.addEventListener('click', () => {
-            childrenData.notifications.forEach(notification => {
-                notification.read = true;
-            });
-            updateNotificationBadge();
-            initNotifications();
-        });
-
-        // Événements pour les notifications
-        notificationBtn.addEventListener('click', openNotificationModal);
-        notificationNavBtnMobile.addEventListener('click', () => {
-            openNotificationModal();
-            mobileNav.classList.remove('active');
-        });
-
-        closeNotificationModalBtn.addEventListener('click', closeNotificationModal);
-        notificationModal.addEventListener('click', (e) => {
-            if (e.target === notificationModal) {
-                closeNotificationModal();
-            }
-        });
-
-        // Gestion menu mobile
-        mobileNavToggle.addEventListener('click', () => {
-            mobileNav.classList.toggle('active');
-        });
-
-        // Fermer menu mobile en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (!mobileNav.contains(e.target) && !mobileNavToggle.contains(e.target)) {
-                mobileNav.classList.remove('active');
-            }
-        });
-
-        // Gestion menu déroulant profil
-        profileBtn.addEventListener('click', () => {
-            profileMenu.classList.toggle('active');
-        });
-
-        // Fermer le menu déroulant en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
-                profileMenu.classList.remove('active');
-            }
-        });
-    </script>
+document.addEventListener('DOMContentLoaded',()=>{
+    renderGrid();
+    renderHistory();
+    const observer=new IntersectionObserver(e=>{ e.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add('visible'); }); },{threshold:0.07});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+});
+</script>
 </body>
 </html>
