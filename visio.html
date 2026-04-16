@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Salon Virtuel · Sukuli Visioconférence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep: #002f2a;
+            --deep-alt: #003333;
+            --deep-mid: #003d38;
+            --deep-hover: #004d45;
+            --deep-light: #005a52;
+            --deep-pale: #e5f0ef;
+            --teal: #1ab5a0;
+            --teal-light: #5dcfbe;
+            --teal-pale: #dff5f2;
+            --gold: #e8c44a;
+            --amber: #c9980e;
+            --white: #ffffff;
+            --off-white: #f5faf9;
+            --g50: #f8fafa;
+            --g100: #eef3f2;
+            --g200: #d9e5e4;
+            --g300: #b5cbc9;
+            --g400: #84a8a5;
+            --g500: #5c8885;
+            --g600: #3c6360;
+            --g700: #264545;
+            --g800: #152f2f;
+            --hdr: #0a1a18;
+            --txt: #1a3030;
+            --txt-b: #3a5555;
+            --txt-m: #6a8888;
+            --coral: #D85A30;
+            --red: #e74c3c;
+            --green-ok: #22c55e;
+            --blue: #2980b9;
+            --dark-overlay: rgba(0,0,0,0.7);
+            --sh-lg: 0 20px 56px rgba(0,47,42,.22);
+            --r-lg: 22px;
+            --r-md: 14px;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #0a0e0e;
+            color: var(--txt-b);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .meet-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: #1a1f1f;
+        }
+
+        .meet-header {
+            background: var(--hdr);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            z-index: 100;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--deep-mid), var(--teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--gold);
+        }
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+        }
+        .logo-text span { color: var(--teal-light); }
+        .meeting-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.08);
+            padding: 8px 18px;
+            border-radius: 40px;
+        }
+        .meeting-code {
+            font-family: monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+        .copy-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .copy-btn:hover { color: var(--teal); }
+        .participant-count {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+        }
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .header-btn {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .header-btn:hover {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+        .end-call-btn {
+            background: var(--red);
+            color: white;
+            width: auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .end-call-btn:hover {
+            background: #c0392b;
+            transform: scale(1.02);
+        }
+        .share-link-btn {
+            background: var(--teal);
+            color: white;
+            width: auto;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .share-link-btn:hover {
+            background: var(--teal-light);
+        }
+
+        .meet-main {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .video-grid-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            height: 100%;
+        }
+        .video-card {
+            background: #2a2f2f;
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+        .video-card.active-speaker {
+            border-color: var(--teal);
+            box-shadow: 0 0 20px rgba(26,181,160,0.3);
+        }
+        .video-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #1a1f1f;
+        }
+        .video-element {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #2a2f2f, #1a1f1f);
+        }
+        .avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--deep-mid), var(--teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+        .participant-name {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.6);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: white;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+        }
+        .participant-audio-status {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.6);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+        .participant-audio-status.muted { color: var(--red); }
+        .participant-audio-status.unmuted { color: var(--green-ok); }
+
+        .meet-sidebar {
+            width: 320px;
+            background: #1a1f1f;
+            border-left: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-tab {
+            flex: 1;
+            padding: 14px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .sidebar-tab.active {
+            color: var(--teal);
+            border-bottom: 2px solid var(--teal);
+        }
+        .chat-panel, .participants-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .chat-message {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--deep-mid);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+        .chat-message-content {
+            flex: 1;
+        }
+        .chat-message-name {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--teal-light);
+            margin-bottom: 3px;
+        }
+        .chat-message-text {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        .chat-message-time {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 3px;
+        }
+        .chat-input-area {
+            padding: 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px;
+            padding: 10px 16px;
+            color: white;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .chat-input:focus {
+            border-color: var(--teal);
+        }
+        .chat-send-btn {
+            background: var(--teal);
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .chat-send-btn:hover {
+            background: var(--teal-light);
+            transform: scale(1.05);
+        }
+        .participants-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+        .participant-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: var(--r-md);
+            transition: 0.2s;
+        }
+        .participant-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        .participant-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--deep-mid), var(--teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        .participant-details {
+            flex: 1;
+        }
+        .participant-details h4 {
+            font-size: 0.85rem;
+            color: white;
+            margin-bottom: 2px;
+        }
+        .participant-details p {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+        }
+        .participant-controls {
+            display: flex;
+            gap: 8px;
+        }
+        .participant-control {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+        }
+        .participant-control:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .meet-controls {
+            background: var(--hdr);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .control-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .control-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        .control-btn.active {
+            background: var(--teal);
+            color: white;
+        }
+        .control-btn.danger {
+            background: var(--red);
+        }
+        .control-btn.danger:hover {
+            background: #c0392b;
+        }
+        .screen-share-active {
+            background: var(--coral);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--deep);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            z-index: 2000;
+            transition: 0.3s;
+            opacity: 0;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal {
+            background: #1a1f1f;
+            border-radius: var(--r-lg);
+            max-width: 500px;
+            width: 90%;
+            padding: 32px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .modal h3 {
+            color: white;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+        }
+        .modal input, .modal select {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--r-md);
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .modal-btn {
+            padding: 12px 28px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .modal-btn-primary {
+            background: var(--teal);
+            color: white;
+        }
+        .modal-btn-primary:hover {
+            background: var(--teal-light);
+            transform: scale(1.02);
+        }
+        .modal-btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .modal-btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .invite-link-area {
+            background: rgba(0,0,0,0.4);
+            padding: 12px;
+            border-radius: 12px;
+            margin: 16px 0;
+            word-break: break-all;
+            font-size: 0.8rem;
+            color: var(--teal-light);
+        }
+
+        @media (max-width: 768px) {
+            .meet-sidebar {
+                position: absolute;
+                right: -320px;
+                top: 0;
+                height: 100%;
+                z-index: 200;
+            }
+            .meet-sidebar.open {
+                right: 0;
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            .control-btn span {
+                display: none;
+            }
+            .control-btn {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="toast" id="toastMsg"><span id="toastText"></span></div>
+
+<!-- Modal création de salon -->
+<div class="modal-overlay" id="createRoomModal">
+    <div class="modal">
+        <i class="fas fa-chalkboard-user" style="font-size: 3rem; color: var(--teal); margin-bottom: 16px;"></i>
+        <h3>Créer un salon virtuel</h3>
+        <input type="text" id="roomNameInput" placeholder="Nom du salon (ex: Réunion commerciale)" value="Salon Sukuli">
+        <input type="text" id="creatorNameInput" placeholder="Votre nom" value="Hôte">
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-primary" onclick="createNewRoom()">Créer le salon</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal rejoindre avec lien -->
+<div class="modal-overlay" id="joinWithLinkModal">
+    <div class="modal">
+        <i class="fas fa-link" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 16px;"></i>
+        <h3>Rejoindre un salon</h3>
+        <input type="text" id="inviteLinkInput" placeholder="Collez le lien d'invitation">
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-primary" onclick="joinRoomFromLink()">Rejoindre</button>
+            <button class="modal-btn modal-btn-secondary" onclick="showCreateRoomModal()">← Créer un salon</button>
+        </div>
+    </div>
+</div>
+
+<div class="meet-container" style="display: none;" id="meetContainer">
+    <header class="meet-header">
+        <div class="logo-area">
+            <div class="logo-icon">S</div>
+            <div class="logo-text">Suku<span>li</span> · <span id="roomDisplayName">Salon</span></div>
+        </div>
+        <div class="meeting-info">
+            <i class="fas fa-link"></i>
+            <span class="meeting-code" id="meetingCode">---</span>
+            <button class="copy-btn" onclick="copyMeetingCode()"><i class="fas fa-copy"></i></button>
+            <button class="header-btn share-link-btn" onclick="shareRoomLink()"><i class="fas fa-share-alt"></i> Inviter</button>
+            <div class="participant-count" id="participantCount">1 participant</div>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn" onclick="toggleSidebar()"><i class="fas fa-comments"></i></button>
+            <button class="header-btn end-call-btn" onclick="leaveMeeting()"><i class="fas fa-phone-slash"></i> <span>Quitter</span></button>
+        </div>
+    </header>
+
+    <div class="meet-main">
+        <div class="video-grid-container">
+            <div class="video-grid" id="videoGrid"></div>
+        </div>
+
+        <div class="meet-sidebar" id="sidebar">
+            <div class="sidebar-tabs">
+                <button class="sidebar-tab active" data-tab="chat"><i class="fas fa-comment-dots"></i> Chat</button>
+                <button class="sidebar-tab" data-tab="participants"><i class="fas fa-users"></i> Participants</button>
+            </div>
+            <div class="chat-panel" id="chatPanel">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-message system">
+                        <div class="chat-message-content">
+                            <div class="chat-message-text" style="color: var(--teal-light); text-align: center;">Bienvenue dans le salon virtuel !</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Écrivez un message...">
+                    <button class="chat-send-btn" onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+            <div class="participants-panel" id="participantsPanel" style="display: none;">
+                <div class="participants-list" id="participantsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="meet-controls">
+        <button class="control-btn" id="toggleAudioBtn" onclick="toggleAudio()"><i class="fas fa-microphone"></i> <span>Micro</span></button>
+        <button class="control-btn" id="toggleVideoBtn" onclick="toggleVideo()"><i class="fas fa-video"></i> <span>Caméra</span></button>
+        <button class="control-btn" id="shareScreenBtn" onclick="toggleScreenShare()"><i class="fas fa-desktop"></i> <span>Partager écran</span></button>
+        <button class="control-btn" onclick="showParticipants()"><i class="fas fa-users"></i> <span>Participants</span></button>
+        <button class="control-btn danger" onclick="leaveMeeting()"><i class="fas fa-phone-slash"></i> <span>Quitter</span></button>
+    </div>
+</div>
+
+<script>
+    // Gestion des salons et liens
+    let currentRoom = null;
+    let currentUser = null;
+    let participants = [];
+    let chatMessages = [];
+    let isScreenSharing = false;
+    let screenStream = null;
+
+    // Générer un ID de salon unique
+    function generateRoomId() {
+        return 'room_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    }
+
+    // Créer un nouveau salon
+    function createNewRoom() {
+        const roomName = document.getElementById('roomNameInput').value.trim() || 'Salon Sukuli';
+        const creatorName = document.getElementById('creatorNameInput').value.trim() || 'Hôte';
+        
+        const roomId = generateRoomId();
+        const roomCode = 'SUK-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        
+        currentRoom = {
+            id: roomId,
+            name: roomName,
+            code: roomCode,
+            createdAt: Date.now(),
+            hostName: creatorName
+        };
+        
+        // Sauvegarder en sessionStorage pour simulation multi-onglets
+        const roomData = {
+            roomId: roomId,
+            roomName: roomName,
+            roomCode: roomCode,
+            hostName: creatorName
+        };
+        sessionStorage.setItem('sukuli_current_room', JSON.stringify(roomData));
+        
+        // Générer le lien complet
+        const inviteLink = generateInviteLink(roomId, roomCode);
+        
+        // Démarrer la réunion avec l'hôte
+        startMeeting(creatorName, true, inviteLink);
+    }
+    
+    // Rejoindre depuis un lien
+    function joinRoomFromLink() {
+        const linkInput = document.getElementById('inviteLinkInput').value.trim();
+        if (!linkInput) {
+            showToast('Veuillez entrer un lien valide');
+            return;
+        }
+        
+        // Extraire les paramètres du lien
+        let roomId = null;
+        let roomCode = null;
+        
+        try {
+            const url = new URL(linkInput);
+            roomId = url.searchParams.get('roomId');
+            roomCode = url.searchParams.get('code');
+        } catch(e) {
+            // Si c'est juste un code ou un format simplifié
+            if (linkInput.includes('roomId=')) {
+                const match = linkInput.match(/roomId=([^&]+)/);
+                if (match) roomId = match[1];
+                const codeMatch = linkInput.match(/code=([^&]+)/);
+                if (codeMatch) roomCode = codeMatch[1];
+            } else {
+                // Sinon considérer comme code simple
+                roomCode = linkInput;
+            }
+        }
+        
+        if (!roomId && !roomCode) {
+            showToast('Lien invalide. Utilisez un lien d\'invitation valide.');
+            return;
+        }
+        
+        // Simuler la récupération des infos du salon
+        // En conditions réelles, on ferait un appel API
+        let roomName = 'Salon invité';
+        if (roomCode) {
+            roomName = `Salon ${roomCode}`;
+        }
+        
+        currentRoom = {
+            id: roomId || 'room_' + Date.now(),
+            name: roomName,
+            code: roomCode || 'INVITE',
+            isJoined: true
+        };
+        
+        // Demander le nom du participant
+        const participantName = prompt('Entrez votre nom pour rejoindre le salon:', 'Invité');
+        if (!participantName) return;
+        
+        startMeeting(participantName, false, linkInput);
+    }
+    
+    function generateInviteLink(roomId, roomCode) {
+        const baseUrl = window.location.href.split('?')[0];
+        return `${baseUrl}?roomId=${roomId}&code=${roomCode}`;
+    }
+    
+    function startMeeting(userName, isHost, inviteLink) {
+        // Initialiser l'utilisateur courant
+        currentUser = {
+            id: 'user_' + Date.now(),
+            name: userName,
+            initials: userName.substring(0,2).toUpperCase(),
+            audioEnabled: true,
+            videoEnabled: true,
+            screenSharing: false,
+            isLocal: true
+        };
+        
+        // Participants simulés (dans une vraie app via WebRTC)
+        const demoParticipants = [
+            { id: 'p1', name: 'Jean Dupont', initials: 'JD', audioEnabled: true, videoEnabled: true, isLocal: false },
+            { id: 'p2', name: 'Marie Akakpo', initials: 'MA', audioEnabled: false, videoEnabled: true, isLocal: false }
+        ];
+        
+        participants = [currentUser, ...demoParticipants];
+        
+        // Afficher le conteneur de réunion
+        document.getElementById('createRoomModal').style.display = 'none';
+        document.getElementById('joinWithLinkModal').style.display = 'none';
+        document.getElementById('meetContainer').style.display = 'flex';
+        
+        // Mettre à jour l'interface
+        document.getElementById('roomDisplayName').innerText = currentRoom.name;
+        document.getElementById('meetingCode').innerText = currentRoom.code || 'LIVE';
+        
+        updateParticipantCount();
+        renderParticipantsList();
+        renderVideoGrid();
+        
+        // Stocker le lien d'invitation dans un attribut data
+        document.getElementById('meetContainer').dataset.inviteLink = inviteLink;
+        
+        showToast(`Bienvenue ${userName} dans "${currentRoom.name}"`);
+        addSystemMessage(`${userName} a rejoint le salon`);
+        
+        // Simuler l'arrivée d'autres participants après quelques secondes
+        setTimeout(() => {
+            addSystemMessage("Un participant rejoint via le lien d'invitation...");
+            const newParticipant = { id: 'p_new', name: 'Nouvel Invité', initials: 'NI', audioEnabled: true, videoEnabled: false, isLocal: false };
+            if (!participants.find(p => p.id === 'p_new')) {
+                participants.push(newParticipant);
+                updateParticipantCount();
+                renderParticipantsList();
+                renderVideoGrid();
+                addSystemMessage("Nouvel Invité a rejoint le salon");
+            }
+        }, 5000);
+    }
+    
+    function renderVideoGrid() {
+        const grid = document.getElementById('videoGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        
+        const localCard = createVideoCard(currentUser, true);
+        grid.appendChild(localCard);
+        
+        participants.forEach(p => {
+            if (!p.isLocal && p.id !== currentUser.id) {
+                const card = createVideoCard(p, false);
+                grid.appendChild(card);
+            }
+        });
+    }
+    
+    function createVideoCard(participant, isLocal) {
+        const card = document.createElement('div');
+        card.className = 'video-card';
+        card.dataset.userId = participant.id;
+        
+        const container = document.createElement('div');
+        container.className = 'video-container';
+        
+        if (participant.videoEnabled && (isLocal || participant.videoEnabled)) {
+            const videoElem = document.createElement('div');
+            videoElem.className = 'video-placeholder';
+            videoElem.innerHTML = `
+                <div class="avatar-large">${participant.initials || '??'}</div>
+                <div style="position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: rgba(255,255,255,0.5);">
+                    <i class="fas fa-video"></i> Caméra active
+                </div>
+            `;
+            container.appendChild(videoElem);
+        } else {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'video-placeholder';
+            placeholder.innerHTML = `<div class="avatar-large">${participant.initials || '??'}</div>`;
+            container.appendChild(placeholder);
+        }
+        
+        const nameTag = document.createElement('div');
+        nameTag.className = 'participant-name';
+        nameTag.innerHTML = `${participant.name} ${isLocal ? '(Vous)' : ''}`;
+        container.appendChild(nameTag);
+        
+        const audioStatus = document.createElement('div');
+        audioStatus.className = `participant-audio-status ${participant.audioEnabled ? 'unmuted' : 'muted'}`;
+        audioStatus.innerHTML = participant.audioEnabled ? '<i class="fas fa-microphone"></i>' : '<i class="fas fa-microphone-slash"></i>';
+        container.appendChild(audioStatus);
+        
+        card.appendChild(container);
+        return card;
+    }
+    
+    function shareRoomLink() {
+        const inviteLink = document.getElementById('meetContainer').dataset.inviteLink;
+        if (inviteLink) {
+            navigator.clipboard.writeText(inviteLink);
+            showToast('Lien d\'invitation copié ! Partagez-le avec vos invités.');
+            
+            // Afficher aussi une boîte avec le lien
+            alert(`Lien d'invitation :\n${inviteLink}\n\nCopiez ce lien et envoyez-le à vos participants.`);
+        } else {
+            const link = generateInviteLink(currentRoom.id, currentRoom.code);
+            navigator.clipboard.writeText(link);
+            showToast('Lien copié !');
+        }
+    }
+    
+    function copyMeetingCode() {
+        const code = document.getElementById('meetingCode').innerText;
+        const inviteLink = document.getElementById('meetContainer').dataset.inviteLink;
+        if (inviteLink) {
+            navigator.clipboard.writeText(inviteLink);
+            showToast('Lien d\'invitation copié !');
+        } else {
+            navigator.clipboard.writeText(code);
+            showToast('Code copié !');
+        }
+    }
+    
+    function showCreateRoomModal() {
+        document.getElementById('joinWithLinkModal').style.display = 'none';
+        document.getElementById('createRoomModal').style.display = 'flex';
+    }
+    
+    // Toutes les autres fonctions UI
+    function toggleAudio() {
+        currentUser.audioEnabled = !currentUser.audioEnabled;
+        const btn = document.getElementById('toggleAudioBtn');
+        if (currentUser.audioEnabled) {
+            btn.innerHTML = '<i class="fas fa-microphone"></i> <span>Micro</span>';
+            btn.classList.remove('active');
+            showToast('Microphone activé');
+        } else {
+            btn.innerHTML = '<i class="fas fa-microphone-slash"></i> <span>Micro</span>';
+            btn.classList.add('active');
+            showToast('Microphone désactivé');
+        }
+        updateParticipantInList(currentUser.id, { audioEnabled: currentUser.audioEnabled });
+        renderVideoGrid();
+    }
+    
+    function toggleVideo() {
+        currentUser.videoEnabled = !currentUser.videoEnabled;
+        const btn = document.getElementById('toggleVideoBtn');
+        if (currentUser.videoEnabled) {
+            btn.innerHTML = '<i class="fas fa-video"></i> <span>Caméra</span>';
+            btn.classList.remove('active');
+            showToast('Caméra activée');
+        } else {
+            btn.innerHTML = '<i class="fas fa-video-slash"></i> <span>Caméra</span>';
+            btn.classList.add('active');
+            showToast('Caméra désactivée');
+        }
+        updateParticipantInList(currentUser.id, { videoEnabled: currentUser.videoEnabled });
+        renderVideoGrid();
+    }
+    
+    async function toggleScreenShare() {
+        if (!isScreenSharing) {
+            try {
+                showToast('Partage d\'écran démarré (simulation)');
+                isScreenSharing = true;
+                const btn = document.getElementById('shareScreenBtn');
+                btn.innerHTML = '<i class="fas fa-stop"></i> <span>Arrêter partage</span>';
+                btn.classList.add('screen-share-active');
+                addSystemMessage(`${currentUser.name} partage son écran`);
+            } catch (err) {
+                showToast('Erreur: ' + err.message);
+            }
+        } else {
+            if (screenStream) {
+                screenStream.getTracks().forEach(track => track.stop());
+                screenStream = null;
+            }
+            isScreenSharing = false;
+            const btn = document.getElementById('shareScreenBtn');
+            btn.innerHTML = '<i class="fas fa-desktop"></i> <span>Partager écran</span>';
+            btn.classList.remove('screen-share-active');
+            showToast('Partage d\'écran arrêté');
+            addSystemMessage(`${currentUser.name} a arrêté le partage`);
+        }
+    }
+    
+    function sendChatMessage() {
+        const input = document.getElementById('chatInput');
+        const text = input.value.trim();
+        if (!text) return;
+        
+        const message = {
+            id: Date.now(),
+            userId: currentUser.id,
+            userName: currentUser.name,
+            userInitials: currentUser.initials,
+            text: text,
+            time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+        };
+        chatMessages.push(message);
+        addChatMessage(message);
+        input.value = '';
+        
+        setTimeout(() => {
+            const autoReply = {
+                id: Date.now() + 1,
+                userId: 'p1',
+                userName: 'Jean Dupont',
+                userInitials: 'JD',
+                text: 'Merci pour votre message !',
+                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+            };
+            chatMessages.push(autoReply);
+            addChatMessage(autoReply);
+        }, 2000);
+    }
+    
+    function addChatMessage(message) {
+        const container = document.getElementById('chatMessages');
+        if (!container) return;
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-message';
+        msgDiv.innerHTML = `
+            <div class="chat-message-avatar">${escapeHtml(message.userInitials)}</div>
+            <div class="chat-message-content">
+                <div class="chat-message-name">${escapeHtml(message.userName)}</div>
+                <div class="chat-message-text">${escapeHtml(message.text)}</div>
+                <div class="chat-message-time">${message.time}</div>
+            </div>
+        `;
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+    }
+    
+    function addSystemMessage(text) {
+        const container = document.getElementById('chatMessages');
+        if (!container) return;
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-message';
+        msgDiv.innerHTML = `
+            <div class="chat-message-content">
+                <div class="chat-message-text" style="color: var(--teal-light); font-style: italic; text-align: center;">✨ ${escapeHtml(text)}</div>
+            </div>
+        `;
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+    }
+    
+    function renderParticipantsList() {
+        const container = document.getElementById('participantsList');
+        if (!container) return;
+        container.innerHTML = '';
+        participants.forEach(p => {
+            const item = document.createElement('div');
+            item.className = 'participant-item';
+            item.innerHTML = `
+                <div class="participant-avatar">${p.initials || p.name.substring(0,2).toUpperCase()}</div>
+                <div class="participant-details">
+                    <h4>${escapeHtml(p.name)} ${p.isLocal ? '(Vous)' : ''}</h4>
+                    <p>${p.audioEnabled ? 'Micro actif' : 'Micro coupé'}</p>
+                </div>
+                <div class="participant-controls">
+                    <button class="participant-control" onclick="toggleRemoteAudio('${p.id}')" title="Micro">
+                        <i class="fas ${p.audioEnabled ? 'fa-microphone' : 'fa-microphone-slash'}"></i>
+                    </button>
+                </div>
+            `;
+            container.appendChild(item);
+        });
+    }
+    
+    function updateParticipantInList(userId, updates) {
+        const participant = participants.find(p => p.id === userId);
+        if (participant) {
+            Object.assign(participant, updates);
+            renderParticipantsList();
+            renderVideoGrid();
+        }
+    }
+    
+    function updateParticipantCount() {
+        const count = participants.length;
+        const countSpan = document.getElementById('participantCount');
+        if (countSpan) countSpan.innerHTML = `${count} participant${count > 1 ? 's' : ''}`;
+    }
+    
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) sidebar.classList.toggle('open');
+    }
+    
+    function showParticipants() {
+        const tab = document.querySelector('.sidebar-tab[data-tab="participants"]');
+        if (tab) tab.click();
+        toggleSidebar();
+    }
+    
+    function leaveMeeting() {
+        if (confirm('Voulez-vous vraiment quitter la réunion ?')) {
+            showToast('Vous avez quitté le salon');
+            setTimeout(() => location.reload(), 800);
+        }
+    }
+    
+    function showToast(message) {
+        const toast = document.getElementById('toastMsg');
+        document.getElementById('toastText').innerText = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    
+    function toggleRemoteAudio(userId) {
+        const participant = participants.find(p => p.id === userId);
+        if (participant && !participant.isLocal) {
+            participant.audioEnabled = !participant.audioEnabled;
+            renderParticipantsList();
+            renderVideoGrid();
+            showToast(`${participant.name} ${participant.audioEnabled ? 'a activé son micro' : 'a coupé son micro'}`);
+        }
+    }
+    
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+    
+    // Setup des événements
+    function setupEventListeners() {
+        document.querySelectorAll('.sidebar-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const tabName = tab.dataset.tab;
+                const chatPanel = document.getElementById('chatPanel');
+                const participantsPanel = document.getElementById('participantsPanel');
+                if (chatPanel) chatPanel.style.display = tabName === 'chat' ? 'flex' : 'none';
+                if (participantsPanel) participantsPanel.style.display = tabName === 'participants' ? 'flex' : 'none';
+            });
+        });
+        
+        const chatInput = document.getElementById('chatInput');
+        if (chatInput) {
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+        }
+    }
+    
+    // Vérifier s'il y a un paramètre de lien dans l'URL
+    function checkUrlForInvite() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomId = urlParams.get('roomId');
+        const code = urlParams.get('code');
+        
+        if (roomId || code) {
+            // Afficher le modal de rejoindre avec lien pré-rempli
+            document.getElementById('createRoomModal').style.display = 'none';
+            document.getElementById('joinWithLinkModal').style.display = 'flex';
+            if (roomId && code) {
+                document.getElementById('inviteLinkInput').value = window.location.href;
+            }
+        } else {
+            document.getElementById('createRoomModal').style.display = 'flex';
+        }
+    }
+    
+    // Initialisation
+    function init() {
+        setupEventListeners();
+        checkUrlForInvite();
+    }
+    
+    init();
+</script>
+</body>
+</html>

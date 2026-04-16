@@ -3,1187 +3,755 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails du Cours - EduTogoConnect</title>
+    <title>Détails du Cours — Sukuli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Variables de couleurs - Drapeau togolais */
-        :root {
-            --jaune-principal: #FFD700;
-            --rouge-principal: #EF3340;
-            --vert-principal: #00A651;
-            --blanc-principal: #FFFFFF;
-            --gris-fonce: #333333;
-            --gris-moyen: #666666;
-            --gris-clair: #F5F5F5;
-            --orange-cours: #FF9800;
-            --cyan-suggestion: #00BCD4;
-            --violet-premium: #9C27B0;
-        }
-
-        /* Reset et styles généraux */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--gris-clair);
-            color: var(--gris-fonce);
-            line-height: 1.6;
+            font-family: 'Nunito', sans-serif;
+            background: #f5faf9;
+            color: #1a3030;
+            line-height: 1.5;
+        }
+
+        h1, h2, h3, h4, .btn, .logo-text, .nav-links a, .stat-label {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --deep: #002f2a;
+            --deep-light: #005a52;
+            --teal: #1ab5a0;
+            --teal-pale: #dff5f2;
+            --gold: #e8c44a;
+            --gold-deep: #c9980e;
+            --white: #ffffff;
+            --off-white: #f5faf9;
+            --gris-fonce: #1a3030;
+            --gris-moyen: #5c8885;
+            --gris-clair: #eef3f2;
+            --shadow-sm: 0 4px 14px rgba(0,47,42,0.08);
+            --shadow-md: 0 12px 28px rgba(0,47,42,0.12);
+            --radius-lg: 22px;
+            --radius-md: 14px;
         }
 
         .container {
-            width: 100%;
-            max-width: 1400px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
-        /* Header */
+        /* HEADER Sukuli */
         .main-header {
-            background-color: var(--blanc-principal);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: #0a1a18;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
-
         .navbar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            justify-content: space-between;
+            padding: 12px 0;
+            flex-wrap: wrap;
+            gap: 16px;
         }
-
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: var(--gris-fonce);
         }
-
-        .logo-icon {
-            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
-            color: var(--gris-fonce);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+        .logo-badge {
+            background: linear-gradient(135deg, #003d38, #1ab5a0);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--gold);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-
         .logo-text {
-            font-size: 24px;
-            font-weight: 700;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: white;
         }
-
         .logo-text span {
-            color: var(--vert-principal);
+            color: #5dcfbe;
         }
-
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 6px;
             list-style: none;
         }
-
         .nav-links a {
             text-decoration: none;
-            color: var(--gris-fonce);
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: var(--jaune-principal);
-        }
-
-        .nav-links a:hover::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--jaune-principal);
-        }
-
-        .auth-buttons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn {
-            padding: 10px 25px;
-            border-radius: 30px;
+            color: rgba(255,255,255,0.7);
             font-weight: 600;
-            cursor: pointer;
+            font-size: 0.82rem;
+            padding: 8px 14px;
+            border-radius: 40px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+        .nav-search {
+            background: rgba(255,255,255,0.1);
+            border-radius: 40px;
+            padding: 0 8px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            flex: 1;
+            max-width: 360px;
+        }
+        .nav-search i {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            padding-left: 8px;
+        }
+        .nav-search input {
+            background: transparent;
             border: none;
-            transition: all 0.3s;
+            padding: 9px 12px;
+            color: #fff;
+            font-size: 0.85rem;
+            width: 100%;
+            outline: none;
+        }
+        .nav-search input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        .nav-search button {
+            background: none;
+            border: none;
+            color: var(--gold);
+            cursor: pointer;
+        }
+        .nav-auth {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
             text-decoration: none;
-            display: inline-block;
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        .btn-login {
-            background-color: transparent;
-            border: 2px solid var(--gris-moyen);
-            color: var(--gris-fonce);
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid rgba(255,255,255,0.35);
+            color: white;
         }
-
-        .btn-login:hover {
-            background-color: var(--gris-clair);
-            border-color: var(--gris-fonce);
+        .btn-teal {
+            background: var(--teal);
+            color: white;
         }
-
-        .btn-signup {
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
-        }
-
-        .btn-signup:hover {
-            background-color: #e6c200;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        .btn-teal:hover {
+            background: #138f7d;
         }
 
         /* Breadcrumb */
         .breadcrumb {
-            padding: 15px 0;
-            background-color: rgba(0,166,81,0.05);
-            margin-bottom: 30px;
+            background: var(--teal-pale);
+            padding: 12px 0;
+            margin-bottom: 32px;
         }
-
         .breadcrumb-links {
+            font-size: 0.85rem;
             display: flex;
+            gap: 8px;
             align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
+            flex-wrap: wrap;
         }
-
         .breadcrumb-links a {
             color: var(--gris-moyen);
             text-decoration: none;
-            transition: color 0.3s;
         }
-
-        .breadcrumb-links a:hover {
-            color: var(--vert-principal);
-        }
-
-        .breadcrumb-links .separator {
-            color: var(--gris-moyen);
-        }
-
         .breadcrumb-links .current {
-            color: var(--vert-principal);
-            font-weight: 600;
+            color: var(--deep);
+            font-weight: 700;
         }
 
-        /* Contenu principal de la page de détails */
+        /* layout principal */
         .course-detail-container {
             display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 30px;
-            margin-bottom: 50px;
+            grid-template-columns: 1fr 360px;
+            gap: 32px;
+            margin-bottom: 56px;
         }
-
-        @media (max-width: 992px) {
+        @media (max-width: 1000px) {
             .course-detail-container {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Section principale (gauche) */
+        /* section principale */
         .course-main-section {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.03);
         }
 
-        /* En-tête du cours */
+        /* en-tête cours */
         .course-detail-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 25px;
+            margin-bottom: 28px;
             padding-bottom: 20px;
-            border-bottom: 2px solid var(--gris-clair);
+            border-bottom: 1px solid #d9e5e4;
         }
-
-        .course-header-left {
-            flex: 1;
-        }
-
         .course-type-badge {
             display: inline-block;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-bottom: 14px;
         }
-
         .badge-premium {
-            background-color: rgba(255,215,0,0.15);
-            color: var(--gris-fonce);
-            border: 1px solid var(--jaune-principal);
+            background: #fef5e6;
+            color: #e8c44a;
+            border-left: 3px solid #e8c44a;
         }
-
         .badge-standard {
-            background-color: rgba(0,166,81,0.15);
-            color: var(--vert-principal);
-            border: 1px solid var(--vert-principal);
+            background: #e6f0ff;
+            color: #3498db;
+            border-left: 3px solid #3498db;
         }
-
         .badge-gratuit {
-            background-color: rgba(33,150,243,0.15);
-            color: #2196F3;
-            border: 1px solid #2196F3;
+            background: #d4f5e6;
+            color: #27ae60;
+            border-left: 3px solid #27ae60;
         }
-
         .course-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
+            font-weight: 800;
             color: var(--gris-fonce);
-            margin-bottom: 10px;
-            line-height: 1.2;
+            margin-bottom: 12px;
+            line-height: 1.25;
         }
-
         .course-meta-info {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 20px;
             color: var(--gris-moyen);
-            font-size: 0.9rem;
-            margin-top: 15px;
+            font-size: 0.85rem;
         }
-
         .course-meta-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
         }
-
         .course-meta-item i {
-            color: var(--vert-principal);
+            color: var(--teal);
+            width: 16px;
         }
 
-        /* Informations principales */
-        .course-main-info {
-            margin-bottom: 30px;
-        }
-
+        /* sections d'info */
         .info-section {
-            margin-bottom: 25px;
+            margin-bottom: 32px;
         }
-
         .section-title {
-            font-size: 1.3rem;
-            color: var(--gris-fonce);
-            margin-bottom: 15px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--deep);
+            margin-bottom: 16px;
             padding-bottom: 8px;
-            border-bottom: 2px solid var(--vert-principal);
+            border-bottom: 2px solid var(--teal);
             display: inline-block;
         }
-
         .course-description {
             line-height: 1.7;
-            color: var(--gris-fonce);
-            font-size: 1.05rem;
+            color: var(--gris-moyen);
+            font-size: 0.95rem;
+        }
+        .course-description p {
+            margin-bottom: 14px;
+        }
+        .course-description ul {
+            padding-left: 24px;
+            margin: 12px 0;
+        }
+        .course-description li {
+            margin-bottom: 6px;
         }
 
-        /* Objectifs du cours */
         .course-objectives {
-            background-color: rgba(0,166,81,0.03);
-            border-radius: 10px;
-            padding: 20px;
-            border-left: 4px solid var(--vert-principal);
+            background: #f0f7f5;
+            border-radius: 16px;
+            padding: 22px;
+            border-left: 4px solid var(--teal);
         }
-
         .objectives-list {
             list-style: none;
-            margin-top: 15px;
+            margin-top: 14px;
         }
-
         .objectives-list li {
-            margin-bottom: 12px;
             display: flex;
             align-items: flex-start;
             gap: 12px;
+            margin-bottom: 14px;
+            font-size: 0.9rem;
+            color: var(--gris-moyen);
         }
-
         .objectives-list li i {
-            color: var(--vert-principal);
-            margin-top: 3px;
+            color: var(--teal);
+            margin-top: 2px;
             flex-shrink: 0;
         }
 
-        .objectives-list li span {
-            color: var(--gris-fonce);
-        }
-
-        /* Section latérale (droite) */
+        /* sidebar */
         .course-sidebar {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #d9e5e4;
             position: sticky;
             top: 100px;
             height: fit-content;
         }
 
-        /* Profil enseignant */
+        /* profil enseignant */
         .teacher-profile {
             text-align: center;
             padding-bottom: 20px;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--gris-clair);
+            margin-bottom: 20px;
+            border-bottom: 1px solid #d9e5e4;
         }
-
         .teacher-avatar-large {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
+            background: linear-gradient(135deg, #002f2a, #1ab5a0);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--blanc-principal);
-            font-weight: bold;
+            font-weight: 800;
             font-size: 2rem;
-            margin: 0 auto 15px;
+            color: var(--gold);
+            margin: 0 auto 14px;
+            border: 3px solid white;
+            box-shadow: var(--shadow-sm);
         }
-
         .teacher-name {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
+            font-weight: 700;
             color: var(--gris-fonce);
+            margin-bottom: 4px;
+        }
+        .teacher-profession {
+            font-size: 0.75rem;
+            color: var(--gris-moyen);
             margin-bottom: 8px;
         }
-
-        .teacher-profession {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
         .teacher-location {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
+            font-size: 0.75rem;
             color: var(--gris-moyen);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
         }
-
         .teacher-location i {
-            color: var(--rouge-principal);
+            color: var(--teal);
         }
 
-        /* Statistiques du cours */
+        /* stats */
         .course-stats {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             padding-bottom: 20px;
-            border-bottom: 1px solid var(--gris-clair);
+            border-bottom: 1px solid #d9e5e4;
         }
-
         .stats-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
         }
-
         .stats-label {
+            font-size: 0.85rem;
             color: var(--gris-moyen);
-            font-size: 0.95rem;
         }
-
         .stats-value {
+            font-weight: 700;
             color: var(--gris-fonce);
-            font-weight: 600;
-            font-size: 1rem;
         }
-
         .rating-stars {
-            color: var(--jaune-principal);
-            display: flex;
-            align-items: center;
-            gap: 2px;
+            color: var(--gold);
+            font-size: 0.75rem;
         }
 
-        /* Niveau et détails */
+        /* détails cours */
         .course-details {
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
-
         .detail-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
         }
-
         .detail-label {
-            color: var(--gris-moyen);
-            font-size: 0.95rem;
-        }
-
-        .detail-value {
-            color: var(--gris-fonce);
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .level-badge {
-            display: inline-block;
-            padding: 5px 15px;
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
-            border-radius: 15px;
             font-size: 0.85rem;
+            color: var(--gris-moyen);
+        }
+        .detail-value {
             font-weight: 600;
+            color: var(--gris-fonce);
+        }
+        .level-badge {
+            background: #eef3f2;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--deep);
         }
 
-        /* Prix et inscription */
+        /* prix et inscription */
         .course-pricing {
-            padding-top: 20px;
-            border-top: 1px solid var(--gris-clair);
+            padding-top: 16px;
+            border-top: 1px solid #d9e5e4;
         }
-
         .price-container {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
-
         .price-amount {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--gris-fonce);
-            margin-bottom: 5px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--deep);
         }
-
+        .price-amount.free {
+            color: var(--teal);
+        }
         .price-period {
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             color: var(--gris-moyen);
-            margin-bottom: 15px;
         }
-
-        .price-free {
-            color: var(--vert-principal);
-        }
-
         .btn-enroll-large {
             display: block;
             width: 100%;
-            padding: 16px;
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
+            padding: 14px;
+            background: var(--teal);
+            color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             text-align: center;
-            text-decoration: none;
         }
-
         .btn-enroll-large:hover {
-            background-color: #008c45;
+            background: #138f7d;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,166,81,0.3);
         }
-
         .btn-premium {
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
+            background: var(--gold);
+            color: var(--deep);
         }
-
         .btn-premium:hover {
-            background-color: #e6c200;
+            background: var(--gold-deep);
+            color: white;
         }
 
-        /* Footer */
+        /* footer */
         .main-footer {
-            background-color: var(--gris-fonce);
-            color: var(--gris-clair);
-            padding: 40px 0 20px;
-            margin-top: 50px;
+            background: #0a1a18;
+            color: rgba(255,255,255,0.7);
+            padding: 40px 0 24px;
+            margin-top: 48px;
         }
-
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+            gap: 32px;
+            margin-bottom: 32px;
         }
-
         .footer-col h3 {
-            color: var(--blanc-principal);
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            position: relative;
-            padding-bottom: 8px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 16px;
         }
-
-        .footer-col h3:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--jaune-principal);
-        }
-
         .footer-links {
             list-style: none;
         }
-
         .footer-links li {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
-
         .footer-links a {
-            color: var(--gris-clair);
+            color: rgba(255,255,255,0.6);
             text-decoration: none;
-            transition: color 0.3s;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
-
-        .footer-links a:hover {
-            color: var(--jaune-principal);
-        }
-
         .social-links {
             display: flex;
             gap: 12px;
-            margin-top: 15px;
+            margin-top: 14px;
         }
-
         .social-icon {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.08);
             border-radius: 50%;
-            background-color: rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--blanc-principal);
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 0.9rem;
+            color: white;
         }
-
-        .social-icon:hover {
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
-            transform: translateY(-2px);
-        }
-
         .copyright {
             text-align: center;
-            padding-top: 20px;
+            font-size: 0.7rem;
             border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.85rem;
-            color: var(--gris-clair);
+            padding-top: 20px;
         }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .container {
-                max-width: 1000px;
-            }
+        @media (max-width: 760px) {
+            .course-title { font-size: 1.5rem; }
+            .course-main-section { padding: 20px; }
+            .course-sidebar { padding: 20px; }
+            .nav-links, .nav-auth { display: none; }
+            .teacher-avatar-large { width: 70px; height: 70px; font-size: 1.5rem; }
         }
-
-        @media (max-width: 992px) {
-            .course-detail-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .course-sidebar {
-                position: static;
-                max-width: 500px;
-                margin: 0 auto;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .auth-buttons {
-                display: none;
-            }
+        .fade-in {
+            animation: fadeIn 0.4s ease;
         }
-
-        @media (max-width: 768px) {
-            .course-detail-header {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .course-title {
-                font-size: 1.7rem;
-            }
-            
-            .course-meta-info {
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            
-            .course-main-section {
-                padding: 20px;
-            }
-            
-            .course-sidebar {
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .course-title {
-                font-size: 1.5rem;
-            }
-            
-            .price-amount {
-                font-size: 2rem;
-            }
-            
-            .teacher-avatar-large {
-                width: 80px;
-                height: 80px;
-                font-size: 1.5rem;
-            }
-            
-            .breadcrumb-links {
-                font-size: 0.8rem;
-                flex-wrap: wrap;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 15px;
-            }
-            
-            .course-main-section {
-                padding: 15px;
-            }
-            
-            .course-sidebar {
-                padding: 15px;
-            }
-            
-            .btn-enroll-large {
-                padding: 14px;
-                font-size: 1rem;
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="main-header">
-        <div class="container">
-            <nav class="navbar">
-                <a href="index.html" class="logo">
-                    <div class="logo-icon">ET</div>
-                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
-                </a>
-
-                <ul class="nav-links">
-                    <li><a href="cours.html">Cours</a></li>
-                    <li><a href="#niveaux">Niveaux</a></li>
-                    <li><a href="#enseignants">Enseignants</a></li>
-                    <li><a href="#ecoles">Ecoles</a></li>
-                    <li><a href="#partenaires">Partenaires</a></li>
-                    <li><a href="#temoignages">Témoignages</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-
-                <div class="auth-buttons">
-                    <a href="Authentification/auth.html" class="btn btn-login">Connexion</a>
-                    <a href="#inscription" class="btn btn-signup" id="openSignupModal">S'inscrire</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Breadcrumb -->
-    <div class="breadcrumb">
-        <div class="container">
-            <div class="breadcrumb-links">
-                <a href="index.html">Accueil</a>
-                <span class="separator">›</span>
-                <a href="cours.html">Cours</a>
-                <span class="separator">›</span>
-                <a href="cours.html#sciences">Sciences</a>
-                <span class="separator">›</span>
-                <span class="current">Détails du cours</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Contenu principal -->
+<header class="main-header">
     <div class="container">
-        <div class="course-detail-container">
-            <!-- Section principale (gauche) -->
-            <div class="course-main-section">
-                <!-- En-tête du cours -->
-                <div class="course-detail-header">
-                    <div class="course-header-left">
-                        <div class="course-type-badge badge-premium" id="courseBadge">PREMIUM</div>
-                        <h1 class="course-title" id="courseTitle">Mathématiques - Niveau 6ème</h1>
-                        <div class="course-meta-info">
-                            <div class="course-meta-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span id="courseDate">Mis à jour: 15 novembre 2023</span>
-                            </div>
-                            <div class="course-meta-item">
-                                <i class="fas fa-clock"></i>
-                                <span id="courseDuration">Durée: 20 heures</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <nav class="navbar">
+            <a href="#" class="logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></a>
+            <ul class="nav-links">
+                <li><a href="#">Cours</a></li><li><a href="#">Matières</a></li><li><a href="#">Enseignants</a></li>
+                <li><a href="#">Écoles</a></li><li><a href="#">Messagerie</a></li><li><a href="#">Contrats</a></li>
+            </ul>
+            <div class="nav-search"><i class="fas fa-search"></i><input type="text" placeholder="Rechercher un cours..."><button><i class="fas fa-arrow-right"></i></button></div>
+            <div class="nav-auth">
+                <a href="#" class="btn btn-outline">Connexion</a>
+                <a href="#" class="btn btn-teal">S'inscrire</a>
+            </div>
+        </nav>
+    </div>
+</header>
 
-                <!-- Description du cours -->
-                <div class="course-main-info">
-                    <div class="info-section">
-                        <h2 class="section-title">Description du cours</h2>
-                        <div class="course-description" id="courseDescription">
-                            <p>Ce cours de mathématiques niveau 6ème est spécialement conçu pour les élèves du collège au Togo. Il couvre l'ensemble du programme officiel avec une approche pédagogique adaptée au contexte togolais.</p>
-                            
-                            <p>Le cours aborde les fondamentaux des mathématiques nécessaires pour une bonne progression scolaire :</p>
-                            
-                            <p><strong>Contenu principal :</strong></p>
-                            <ul>
-                                <li>Nombres entiers et décimaux : lecture, écriture, comparaison</li>
-                                <li>Opérations fondamentales : addition, soustraction, multiplication, division</li>
-                                <li>Géométrie de base : figures planes, périmètres, aires</li>
-                                <li>Initiation aux fractions et pourcentages</li>
-                                <li>Problèmes mathématiques appliqués à la vie quotidienne</li>
-                            </ul>
-                            
-                            <p>Notre méthode d'enseignement privilégie l'apprentissage par la pratique avec des exercices concrets et des exemples tirés du quotidien des élèves togolais. Chaque notion est expliquée de manière simple et progressive, avec des supports visuels adaptés.</p>
-                            
-                            <p>Ce cours est idéal pour les élèves qui souhaitent renforcer leurs bases en mathématiques ou combler des lacunes accumulées. Il prépare également aux exigences des classes supérieures et aux évaluations scolaires.</p>
-                        </div>
-                    </div>
+<div class="breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-links">
+            <a href="#">Accueil</a> <span>›</span> <a href="#">Cours</a> <span>›</span> <a href="#">Mathématiques</a> <span>›</span> <span class="current">Détails du cours</span>
+        </div>
+    </div>
+</div>
 
-                    <!-- Objectifs du cours -->
-                    <div class="info-section">
-                        <h2 class="section-title">Objectifs du cours</h2>
-                        <div class="course-objectives">
-                            <p>À la fin de ce cours, l'élève sera capable de :</p>
-                            <ul class="objectives-list">
-                                <li>
-                                    <i class="fas fa-check-circle"></i>
-                                    <span id="objective1">Maîtriser les opérations fondamentales sur les nombres entiers et décimaux</span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-check-circle"></i>
-                                    <span id="objective2">Résoudre des problèmes mathématiques de la vie courante</span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-check-circle"></i>
-                                    <span id="objective3">Identifier et construire les figures géométriques de base</span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-check-circle"></i>
-                                    <span id="objective4">Appliquer les notions de périmètre et d'aire dans des situations pratiques</span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-check-circle"></i>
-                                    <span id="objective5">Développer un raisonnement logique et une méthodologie de résolution de problèmes</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+<div class="container">
+    <div class="course-detail-container fade-in">
+        <div class="course-main-section">
+            <div class="course-detail-header">
+                <div class="course-type-badge badge-premium" id="courseBadge">PREMIUM</div>
+                <h1 class="course-title" id="courseTitle">Mathématiques — Niveau 6ème</h1>
+                <div class="course-meta-info">
+                    <div class="course-meta-item"><i class="fas fa-calendar-alt"></i><span id="courseDate">Mis à jour: 15 novembre 2023</span></div>
+                    <div class="course-meta-item"><i class="fas fa-clock"></i><span id="courseDuration">Durée: 20 heures</span></div>
                 </div>
             </div>
 
-            <!-- Section latérale (droite) -->
-            <div class="course-sidebar">
-                <!-- Profil enseignant -->
-                <div class="teacher-profile">
-                    <div class="teacher-avatar-large" id="teacherAvatar">KA</div>
-                    <h3 class="teacher-name" id="teacherName">M. Koffi Agbessi</h3>
-                    <p class="teacher-profession" id="teacherProfession">Enseignant au Collège Protestant</p>
-                    <div class="teacher-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span id="teacherLocation">Lomé, Togo</span>
-                    </div>
+            <div class="info-section">
+                <h2 class="section-title">Description du cours</h2>
+                <div class="course-description" id="courseDescription">
+                    <p>Ce cours de mathématiques niveau 6ème est spécialement conçu pour les élèves du collège au Togo. Il couvre l'ensemble du programme officiel avec une approche pédagogique adaptée au contexte togolais.</p>
+                    <p><strong>Contenu principal :</strong></p>
+                    <ul>
+                        <li>Nombres entiers et décimaux : lecture, écriture, comparaison</li>
+                        <li>Opérations fondamentales : addition, soustraction, multiplication, division</li>
+                        <li>Géométrie de base : figures planes, périmètres, aires</li>
+                        <li>Initiation aux fractions et pourcentages</li>
+                        <li>Problèmes mathématiques appliqués à la vie quotidienne</li>
+                    </ul>
+                    <p>Notre méthode d'enseignement privilégie l'apprentissage par la pratique avec des exercices concrets et des exemples tirés du quotidien des élèves togolais. Chaque notion est expliquée de manière simple et progressive, avec des supports visuels adaptés.</p>
                 </div>
+            </div>
 
-                <!-- Statistiques du cours -->
-                <div class="course-stats">
-                    <div class="stats-item">
-                        <span class="stats-label">Note moyenne</span>
-                        <div class="stats-value">
-                            <div class="rating-stars" id="courseRating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span style="margin-left: 5px;">4.8/5</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stats-item">
-                        <span class="stats-label">Élèves inscrits</span>
-                        <span class="stats-value" id="studentsCount">124 élèves</span>
-                    </div>
+            <div class="info-section">
+                <h2 class="section-title">Objectifs du cours</h2>
+                <div class="course-objectives">
+                    <p>À la fin de ce cours, l'élève sera capable de :</p>
+                    <ul class="objectives-list">
+                        <li><i class="fas fa-check-circle"></i><span id="objective1">Maîtriser les opérations fondamentales sur les nombres entiers et décimaux</span></li>
+                        <li><i class="fas fa-check-circle"></i><span id="objective2">Résoudre des problèmes mathématiques de la vie courante</span></li>
+                        <li><i class="fas fa-check-circle"></i><span id="objective3">Identifier et construire les figures géométriques de base</span></li>
+                        <li><i class="fas fa-check-circle"></i><span id="objective4">Appliquer les notions de périmètre et d'aire dans des situations pratiques</span></li>
+                        <li><i class="fas fa-check-circle"></i><span id="objective5">Développer un raisonnement logique et une méthodologie de résolution de problèmes</span></li>
+                    </ul>
                 </div>
+            </div>
+        </div>
 
-                <!-- Détails du cours -->
-                <div class="course-details">
-                    <div class="detail-item">
-                        <span class="detail-label">Niveau scolaire</span>
-                        <span class="detail-value">
-                            <span class="level-badge" id="courseLevel">6ème</span>
-                        </span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Type de cours</span>
-                        <span class="detail-value" id="courseType">Individuel</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Matière</span>
-                        <span class="detail-value" id="courseSubject">Mathématiques</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Support</span>
-                        <span class="detail-value" id="courseSupport">PDF, Vidéos, Exercices</span>
-                    </div>
-                </div>
+        <div class="course-sidebar">
+            <div class="teacher-profile">
+                <div class="teacher-avatar-large" id="teacherAvatar">KA</div>
+                <h3 class="teacher-name" id="teacherName">Koffi Agbessi</h3>
+                <p class="teacher-profession" id="teacherProfession">Enseignant au Collège Protestant</p>
+                <div class="teacher-location"><i class="fas fa-map-marker-alt"></i><span id="teacherLocation">Lomé, Togo</span></div>
+            </div>
 
-                <!-- Prix et inscription -->
-                <div class="course-pricing">
-                    <div class="price-container">
-                        <div class="price-amount" id="coursePrice">2.500 FCFA</div>
-                        <div class="price-period" id="pricePeriod">par heure de cours</div>
-                    </div>
-                    
-                    <button class="btn-enroll-large" id="enrollBtn">
-                        <i class="fas fa-shopping-cart"></i> Soumettre mon inscription
-                    </button>
-                </div>
+            <div class="course-stats">
+                <div class="stats-item"><span class="stats-label">Note moyenne</span><div class="stats-value"><div class="rating-stars" id="courseRating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span style="margin-left:5px;">4.8/5</span></div></div></div>
+                <div class="stats-item"><span class="stats-label">Élèves inscrits</span><span class="stats-value" id="studentsCount">124 élèves</span></div>
+            </div>
+
+            <div class="course-details">
+                <div class="detail-item"><span class="detail-label">Niveau scolaire</span><span class="detail-value"><span class="level-badge" id="courseLevel">6ème</span></span></div>
+                <div class="detail-item"><span class="detail-label">Type de cours</span><span class="detail-value" id="courseType">Individuel</span></div>
+                <div class="detail-item"><span class="detail-label">Matière</span><span class="detail-value" id="courseSubject">Mathématiques</span></div>
+                <div class="detail-item"><span class="detail-label">Support</span><span class="detail-value" id="courseSupport">PDF, Vidéos, Exercices</span></div>
+            </div>
+
+            <div class="course-pricing">
+                <div class="price-container"><div class="price-amount" id="coursePrice">2.500 FCFA</div><div class="price-period" id="pricePeriod">par heure de cours</div></div>
+                <button class="btn-enroll-large" id="enrollBtn"><i class="fas fa-shopping-cart"></i> Soumettre mon inscription</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <a href="index.html" class="logo" style="margin-bottom: 15px; display: inline-flex;">
-                        <div class="logo-icon">ET</div>
-                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
-                    </a>
-                    <p style="color: var(--gris-clair); font-size: 0.9rem;">La plateforme éducative togolaise pour les élèves du collège (6ème à 3ème).</p>
-                    <div class="social-links">
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Liens rapides</h3>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="all_courses.html">Tous les cours</a></li>
-                        <li><a href="all_teachers.html">Nos enseignants</a></li>
-                        <li><a href="#inscription">S'inscrire</a></li>
-                        <li><a href="Authentification/auth.html">Connexion</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Catégories</h3>
-                    <ul class="footer-links">
-                        <li><a href="#math">Mathématiques</a></li>
-                        <li><a href="#french">Français</a></li>
-                        <li><a href="#english">Anglais</a></li>
-                        <li><a href="#science">Sciences</a></li>
-                        <li><a href="#brevet">Préparation BEPC</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Contact</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Lomé, Togo</li>
-                        <li><i class="fas fa-phone" style="margin-right: 8px;"></i> +228 XX XX XX XX</li>
-                        <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> contact@edutogoconnect.tg</li>
-                        <li><i class="fas fa-clock" style="margin-right: 8px;"></i> Lundi - Vendredi: 8h-18h</li>
-                    </ul>
-                </div>
+<footer class="main-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom:10px;"><div class="logo-badge">S</div><div class="logo-text" style="color:white;">Suku<span>li</span></div></div>
+                <p style="font-size:0.75rem;">Plateforme éducative togolaise collège (6ème-3ème).</p>
+                <div class="social-links"><a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a><a href="#" class="social-icon"><i class="fab fa-instagram"></i></a></div>
             </div>
-
-            <div class="copyright">
-                <p>&copy; 2023 EduTogoConnect. Tous droits réservés.</p>
-            </div>
+            <div class="footer-col"><h3>Liens</h3><ul class="footer-links"><li><a href="#">Accueil</a></li><li><a href="#">Cours</a></li><li><a href="#">Enseignants</a></li></ul></div>
+            <div class="footer-col"><h3>Contact</h3><ul class="footer-links"><li>Lomé, Togo</li><li>contact@sukuli.tg</li></ul></div>
         </div>
-    </footer>
+        <div class="copyright"><p>© 2025 Sukuli — Tous droits réservés</p></div>
+    </div>
+</footer>
 
-    <script>
-        // Données du cours (simulation d'un cours récupéré depuis une base de données)
-        const courseData = {
-            id: 1,
-            title: "Mathématiques - Niveau 6ème",
-            subject: "math",
-            level: "6ème",
-            teacher: "M. Koffi Agbessi",
-            teacherInitials: "KA",
-            profession: "Enseignant au Collège Protestant",
-            location: "Lomé, Togo",
-            price: 2500,
-            isFree: false,
-            rating: 4.8,
-            students: 124,
-            type: "individuel",
-            isNew: false,
-            isPremium: true,
-            category: "sciences",
-            description: "Ce cours de mathématiques niveau 6ème est spécialement conçu pour les élèves du collège au Togo. Il couvre l'ensemble du programme officiel avec une approche pédagogique adaptée au contexte togolais. Le cours aborde les fondamentaux des mathématiques nécessaires pour une bonne progression scolaire. Notre méthode d'enseignement privilégie l'apprentissage par la pratique avec des exercices concrets et des exemples tirés du quotidien des élèves togolais. Chaque notion est expliquée de manière simple et progressive, avec des supports visuels adaptés. Ce cours est idéal pour les élèves qui souhaitent renforcer leurs bases en mathématiques ou combler des lacunes accumulées. Il prépare également aux exigences des classes supérieures et aux évaluations scolaires.",
-            objectives: [
-                "Maîtriser les opérations fondamentales sur les nombres entiers et décimaux",
-                "Résoudre des problèmes mathématiques de la vie courante",
-                "Identifier et construire les figures géométriques de base",
-                "Appliquer les notions de périmètre et d'aire dans des situations pratiques",
-                "Développer un raisonnement logique et une méthodologie de résolution de problèmes"
-            ],
-            updateDate: "15 novembre 2023",
-            duration: "20 heures",
-            support: "PDF, Vidéos, Exercices"
-        };
+<script>
+    const courseData = {
+        id: 1,
+        title: "Mathématiques — Niveau 6ème",
+        subject: "math",
+        level: "6ème",
+        teacher: "Koffi Agbessi",
+        teacherInitials: "KA",
+        profession: "Enseignant au Collège Protestant",
+        location: "Lomé, Togo",
+        price: 2500,
+        isFree: false,
+        rating: 4.8,
+        students: 124,
+        type: "individuel",
+        isPremium: true,
+        updateDate: "15 novembre 2023",
+        duration: "20 heures",
+        support: "PDF, Vidéos, Exercices",
+        objectives: [
+            "Maîtriser les opérations fondamentales sur les nombres entiers et décimaux",
+            "Résoudre des problèmes mathématiques de la vie courante",
+            "Identifier et construire les figures géométriques de base",
+            "Appliquer les notions de périmètre et d'aire dans des situations pratiques",
+            "Développer un raisonnement logique et une méthodologie de résolution de problèmes"
+        ]
+    };
 
-        // Éléments DOM
-        const courseBadge = document.getElementById('courseBadge');
-        const courseTitle = document.getElementById('courseTitle');
-        const courseDate = document.getElementById('courseDate');
-        const courseDuration = document.getElementById('courseDuration');
-        const courseDescription = document.getElementById('courseDescription');
-        const teacherAvatar = document.getElementById('teacherAvatar');
-        const teacherName = document.getElementById('teacherName');
-        const teacherProfession = document.getElementById('teacherProfession');
-        const teacherLocation = document.getElementById('teacherLocation');
-        const courseRating = document.getElementById('courseRating');
-        const studentsCount = document.getElementById('studentsCount');
-        const courseLevel = document.getElementById('courseLevel');
-        const courseType = document.getElementById('courseType');
-        const courseSubject = document.getElementById('courseSubject');
-        const courseSupport = document.getElementById('courseSupport');
-        const coursePrice = document.getElementById('coursePrice');
-        const pricePeriod = document.getElementById('pricePeriod');
-        const enrollBtn = document.getElementById('enrollBtn');
-        const objectiveElements = [
-            document.getElementById('objective1'),
-            document.getElementById('objective2'),
-            document.getElementById('objective3'),
-            document.getElementById('objective4'),
-            document.getElementById('objective5')
-        ];
+    function getSubjectName(subject) {
+        const subjects = {math:'Mathématiques', french:'Français', english:'Anglais', physics:'Physique', svt:'SVT', history:'Histoire'};
+        return subjects[subject] || subject;
+    }
 
-        // Initialisation de la page
-        document.addEventListener('DOMContentLoaded', () => {
-            // Récupérer l'ID du cours depuis l'URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const courseId = urlParams.get('id') || 1; // Par défaut, cours ID 1
-            
-            // Charger les données du cours (ici on utilise les données statiques)
-            loadCourseData(courseData);
-            setupEventListeners();
+    function loadCourseData() {
+        // Badge
+        const badgeEl = document.getElementById('courseBadge');
+        if (courseData.isPremium) {
+            badgeEl.className = 'course-type-badge badge-premium';
+            badgeEl.textContent = 'PREMIUM';
+            document.getElementById('enrollBtn').classList.add('btn-premium');
+        } else if (courseData.isFree) {
+            badgeEl.className = 'course-type-badge badge-gratuit';
+            badgeEl.textContent = 'GRATUIT';
+            document.getElementById('enrollBtn').innerHTML = '<i class="fas fa-user-plus"></i> S\'inscrire gratuitement';
+        } else {
+            badgeEl.className = 'course-type-badge badge-standard';
+            badgeEl.textContent = 'STANDARD';
+        }
+
+        document.getElementById('courseTitle').textContent = courseData.title;
+        document.getElementById('courseDate').textContent = `Mis à jour: ${courseData.updateDate}`;
+        document.getElementById('courseDuration').textContent = `Durée: ${courseData.duration}`;
+        document.getElementById('teacherAvatar').textContent = courseData.teacherInitials;
+        document.getElementById('teacherName').textContent = courseData.teacher;
+        document.getElementById('teacherProfession').textContent = courseData.profession;
+        document.getElementById('teacherLocation').textContent = courseData.location;
+        document.getElementById('studentsCount').textContent = `${courseData.students} élèves`;
+        document.getElementById('courseLevel').textContent = courseData.level;
+        document.getElementById('courseType').textContent = courseData.type === 'individuel' ? 'Individuel' : 'Groupe';
+        document.getElementById('courseSubject').textContent = getSubjectName(courseData.subject);
+        document.getElementById('courseSupport').textContent = courseData.support;
+
+        // Prix
+        const priceEl = document.getElementById('coursePrice');
+        if (courseData.isFree) {
+            priceEl.textContent = 'Gratuit';
+            priceEl.classList.add('free');
+            document.getElementById('pricePeriod').textContent = 'Accès complet';
+        } else {
+            priceEl.textContent = `${courseData.price.toLocaleString()} FCFA`;
+            document.getElementById('pricePeriod').textContent = 'par heure de cours';
+        }
+
+        // Étoiles
+        const stars = Math.floor(courseData.rating);
+        const hasHalf = courseData.rating % 1 >= 0.5;
+        let starsHtml = '';
+        for(let i=0; i<stars; i++) starsHtml += '<i class="fas fa-star"></i>';
+        if(hasHalf) starsHtml += '<i class="fas fa-star-half-alt"></i>';
+        for(let i=stars+(hasHalf?1:0); i<5; i++) starsHtml += '<i class="far fa-star"></i>';
+        document.getElementById('courseRating').innerHTML = `${starsHtml} <span style="margin-left:5px;">${courseData.rating}/5</span>`;
+
+        // Objectifs
+        courseData.objectives.forEach((obj, idx) => {
+            const el = document.getElementById(`objective${idx+1}`);
+            if(el) el.textContent = obj;
         });
+    }
 
-        // Charger les données du cours
-        function loadCourseData(course) {
-            // Type de badge
-            if (course.isPremium) {
-                courseBadge.className = 'course-type-badge badge-premium';
-                courseBadge.textContent = 'PREMIUM';
-                enrollBtn.classList.add('btn-premium');
-            } else if (course.isFree) {
-                courseBadge.className = 'course-type-badge badge-gratuit';
-                courseBadge.textContent = 'GRATUIT';
-                enrollBtn.innerHTML = '<i class="fas fa-user-plus"></i> S\'inscrire gratuitement';
-            } else {
-                courseBadge.className = 'course-type-badge badge-standard';
-                courseBadge.textContent = 'STANDARD';
-            }
+    document.getElementById('enrollBtn').addEventListener('click', () => {
+        alert(`Inscription au cours: ${courseData.title}\n\nPrix: ${courseData.isFree ? 'Gratuit' : courseData.price.toLocaleString() + ' FCFA/heure'}\n\nRedirection vers le processus d'inscription...`);
+    });
 
-            // Informations principales
-            courseTitle.textContent = course.title;
-            courseDate.textContent = `Mis à jour: ${course.updateDate}`;
-            courseDuration.textContent = `Durée: ${course.duration}`;
-            
-            // Description (on peut utiliser la description complète)
-            courseDescription.innerHTML = `
-                <p>${course.description}</p>
-                
-                <p><strong>Contenu principal :</strong></p>
-                <ul>
-                    <li>Nombres entiers et décimaux : lecture, écriture, comparaison</li>
-                    <li>Opérations fondamentales : addition, soustraction, multiplication, division</li>
-                    <li>Géométrie de base : figures planes, périmètres, aires</li>
-                    <li>Initiation aux fractions et pourcentages</li>
-                    <li>Problèmes mathématiques appliqués à la vie quotidienne</li>
-                </ul>
-                
-                <p>Notre méthode d'enseignement privilégie l'apprentissage par la pratique avec des exercices concrets et des exemples tirés du quotidien des élèves togolais. Chaque notion est expliquée de manière simple et progressive, avec des supports visuels adaptés.</p>
-                
-                <p>Ce cours est idéal pour les élèves qui souhaitent renforcer leurs bases en mathématiques ou combler des lacunes accumulées. Il prépare également aux exigences des classes supérieures et aux évaluations scolaires.</p>
-            `;
-
-            // Objectifs
-            course.objectives.forEach((objective, index) => {
-                if (objectiveElements[index]) {
-                    objectiveElements[index].textContent = objective;
-                }
-            });
-
-            // Profil enseignant
-            teacherAvatar.textContent = course.teacherInitials;
-            teacherName.textContent = course.teacher;
-            teacherProfession.textContent = course.profession;
-            teacherLocation.textContent = course.location;
-
-            // Notation
-            const stars = Math.floor(course.rating);
-            const hasHalfStar = course.rating % 1 >= 0.5;
-            let starsHTML = '';
-            
-            for (let i = 0; i < stars; i++) {
-                starsHTML += '<i class="fas fa-star"></i>';
-            }
-            if (hasHalfStar) {
-                starsHTML += '<i class="fas fa-star-half-alt"></i>';
-            }
-            
-            courseRating.innerHTML = `${starsHTML} <span style="margin-left: 5px;">${course.rating}/5</span>`;
-
-            // Statistiques
-            studentsCount.textContent = `${course.students} élèves`;
-
-            // Détails
-            courseLevel.textContent = course.level;
-            courseType.textContent = getCourseTypeName(course.type);
-            courseSubject.textContent = getSubjectName(course.subject);
-            courseSupport.textContent = course.support;
-
-            // Prix
-            if (course.isFree) {
-                coursePrice.textContent = 'Gratuit';
-                coursePrice.classList.add('price-free');
-                pricePeriod.textContent = 'Accès complet';
-            } else {
-                coursePrice.textContent = `${course.price.toLocaleString()} FCFA`;
-                pricePeriod.textContent = 'par heure de cours';
-            }
-        }
-
-        // Obtenir le nom du type de cours
-        function getCourseTypeName(type) {
-            const types = {
-                'individuel': 'Individuel',
-                'groupe': 'Groupe',
-                'en-ligne': 'En ligne',
-                'intensif': 'Intensif'
-            };
-            return types[type] || type;
-        }
-
-        // Obtenir le nom de la matière
-        function getSubjectName(subject) {
-            const subjects = {
-                'math': 'Mathématiques',
-                'french': 'Français',
-                'english': 'Anglais',
-                'physics': 'Sciences Physiques',
-                'svt': 'SVT',
-                'history': 'Histoire-Géographie',
-                'philo': 'Philosophie',
-                'other': 'Autre matière'
-            };
-            return subjects[subject] || subject;
-        }
-
-        // Configurer les événements
-        function setupEventListeners() {
-            // Bouton d'inscription
-            enrollBtn.addEventListener('click', () => {
-                // Ouvrir la modal d'inscription
-                openEnrollModal(courseData.id);
-            });
-
-            // Lien "S'inscrire" dans le header
-            const openSignupModalBtn = document.getElementById('openSignupModal');
-            if (openSignupModalBtn) {
-                openSignupModalBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    openAuthModal();
-                });
-            }
-        }
-
-        // Fonction pour ouvrir la modal d'inscription (à intégrer avec votre modal existante)
-        function openEnrollModal(courseId) {
-            // Cette fonction devrait ouvrir votre modal d'inscription existante
-            // Pour l'instant, on simule avec un alert
-            alert(`Inscription au cours: ${courseData.title}\n\nPrix: ${courseData.isFree ? 'Gratuit' : courseData.price.toLocaleString() + ' FCFA/heure'}\n\nRedirection vers le processus d'inscription...`);
-            
-            // Dans votre code réel, vous devriez appeler votre fonction existante:
-            // window.openEnrollModal(courseId);
-        }
-
-        // Fonction pour ouvrir la modal d'authentification générale
-        function openAuthModal() {
-            // Cette fonction devrait ouvrir votre modal d'authentification existante
-            alert('Ouverture de la modal d\'authentification...');
-            // Dans votre code réel, vous devriez appeler votre fonction existante
-        }
-
-        // Fonction pour générer des étoiles de notation
-        function generateRatingStars(rating) {
-            const fullStars = Math.floor(rating);
-            const hasHalfStar = rating % 1 >= 0.5;
-            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-            
-            let starsHTML = '';
-            
-            // Étoiles pleines
-            for (let i = 0; i < fullStars; i++) {
-                starsHTML += '<i class="fas fa-star"></i>';
-            }
-            
-            // Demi-étoile
-            if (hasHalfStar) {
-                starsHTML += '<i class="fas fa-star-half-alt"></i>';
-            }
-            
-            // Étoiles vides
-            for (let i = 0; i < emptyStars; i++) {
-                starsHTML += '<i class="far fa-star"></i>';
-            }
-            
-            return starsHTML;
-        }
-    </script>
+    document.addEventListener('DOMContentLoaded', loadCourseData);
+</script>
 </body>
 </html>

@@ -3,2059 +3,1038 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Enseignant - EduTogoConnect</title>
+    <title>Profil Enseignant — Sukuli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Variables de couleurs - Drapeau togolais */
-        :root {
-            --jaune-principal: #FFD700;
-            --rouge-principal: #EF3340;
-            --vert-principal: #00A651;
-            --blanc-principal: #FFFFFF;
-            --gris-fonce: #333333;
-            --gris-moyen: #666666;
-            --gris-clair: #F5F5F5;
-            --orange-cours: #FF9800;
-            --cyan-suggestion: #00BCD4;
-            --violet-premium: #9C27B0;
-            --vert-clair: #E8F5E9;
-            --orange-clair: #FFF3E0;
-        }
-
-        /* Reset et styles généraux */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--gris-clair);
-            color: var(--gris-fonce);
-            line-height: 1.6;
+            font-family: 'Nunito', sans-serif;
+            background: #f5faf9;
+            color: #1a3030;
+            line-height: 1.5;
+        }
+
+        h1, h2, h3, h4, .btn, .logo-text, .nav-links a, .stat-label {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --deep: #002f2a;
+            --deep-light: #005a52;
+            --teal: #1ab5a0;
+            --teal-pale: #dff5f2;
+            --gold: #e8c44a;
+            --gold-deep: #c9980e;
+            --white: #ffffff;
+            --off-white: #f5faf9;
+            --gris-fonce: #1a3030;
+            --gris-moyen: #5c8885;
+            --gris-clair: #eef3f2;
+            --shadow-sm: 0 4px 14px rgba(0,47,42,0.08);
+            --shadow-md: 0 12px 28px rgba(0,47,42,0.12);
+            --radius-lg: 22px;
+            --radius-md: 14px;
         }
 
         .container {
-            width: 100%;
-            max-width: 1400px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
-        /* Header */
+        /* HEADER Sukuli */
         .main-header {
-            background-color: var(--blanc-principal);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: #0a1a18;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
-
         .navbar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            justify-content: space-between;
+            padding: 12px 0;
+            flex-wrap: wrap;
+            gap: 16px;
         }
-
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: var(--gris-fonce);
         }
-
-        .logo-icon {
-            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
-            color: var(--gris-fonce);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+        .logo-badge {
+            background: linear-gradient(135deg, #003d38, #1ab5a0);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--gold);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-
         .logo-text {
-            font-size: 24px;
-            font-weight: 700;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: white;
         }
-
         .logo-text span {
-            color: var(--vert-principal);
+            color: #5dcfbe;
         }
-
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 6px;
             list-style: none;
         }
-
         .nav-links a {
             text-decoration: none;
-            color: var(--gris-fonce);
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: var(--jaune-principal);
-        }
-
-        .nav-links a:hover::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--jaune-principal);
-        }
-
-        .auth-buttons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn {
-            padding: 10px 25px;
-            border-radius: 30px;
+            color: rgba(255,255,255,0.7);
             font-weight: 600;
-            cursor: pointer;
+            font-size: 0.82rem;
+            padding: 8px 14px;
+            border-radius: 40px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+        .nav-search {
+            background: rgba(255,255,255,0.1);
+            border-radius: 40px;
+            padding: 0 8px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            flex: 1;
+            max-width: 360px;
+        }
+        .nav-search i {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            padding-left: 8px;
+        }
+        .nav-search input {
+            background: transparent;
             border: none;
-            transition: all 0.3s;
+            padding: 9px 12px;
+            color: #fff;
+            font-size: 0.85rem;
+            width: 100%;
+            outline: none;
+        }
+        .nav-search input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        .nav-search button {
+            background: none;
+            border: none;
+            color: var(--gold);
+            cursor: pointer;
+        }
+        .nav-auth {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
             text-decoration: none;
-            display: inline-block;
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        .btn-login {
-            background-color: transparent;
-            border: 2px solid var(--gris-moyen);
-            color: var(--gris-fonce);
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid rgba(255,255,255,0.35);
+            color: white;
         }
-
-        .btn-login:hover {
-            background-color: var(--gris-clair);
-            border-color: var(--gris-fonce);
+        .btn-teal {
+            background: var(--teal);
+            color: white;
         }
-
-        .btn-signup {
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
-        }
-
-        .btn-signup:hover {
-            background-color: #e6c200;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        .btn-teal:hover {
+            background: #138f7d;
         }
 
         /* Breadcrumb */
         .breadcrumb {
-            padding: 15px 0;
-            background-color: rgba(0,166,81,0.05);
-            margin-bottom: 30px;
+            background: var(--teal-pale);
+            padding: 12px 0;
+            margin-bottom: 32px;
         }
-
         .breadcrumb-links {
+            font-size: 0.85rem;
             display: flex;
+            gap: 8px;
             align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
+            flex-wrap: wrap;
         }
-
         .breadcrumb-links a {
             color: var(--gris-moyen);
             text-decoration: none;
-            transition: color 0.3s;
         }
-
-        .breadcrumb-links a:hover {
-            color: var(--vert-principal);
-        }
-
-        .breadcrumb-links .separator {
-            color: var(--gris-moyen);
-        }
-
         .breadcrumb-links .current {
-            color: var(--vert-principal);
-            font-weight: 600;
+            color: var(--deep);
+            font-weight: 700;
         }
 
-        /* Conteneur principal du profil */
+        /* layout principal */
         .teacher-profile-container {
             display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 30px;
-            margin-bottom: 50px;
+            grid-template-columns: 1fr 340px;
+            gap: 32px;
+            margin-bottom: 56px;
         }
-
-        @media (max-width: 1200px) {
+        @media (max-width: 1000px) {
             .teacher-profile-container {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Section principale (gauche) */
+        /* carte principale */
         .teacher-main-section {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 28px 32px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.03);
         }
 
-        /* En-tête du profil */
+        /* en-tête profil */
         .teacher-profile-header {
             display: flex;
             align-items: center;
-            gap: 30px;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--gris-clair);
+            gap: 32px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
         }
-
-        @media (max-width: 768px) {
-            .teacher-profile-header {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
         .teacher-avatar-container {
             position: relative;
         }
-
         .teacher-avatar-large {
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(145deg, var(--deep), var(--deep-light));
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--blanc-principal);
-            font-weight: bold;
+            font-weight: 800;
             font-size: 2.5rem;
+            color: var(--gold);
+            box-shadow: var(--shadow-md);
+            border: 3px solid white;
         }
-
         .teacher-badge {
             position: absolute;
-            bottom: 0;
-            right: 0;
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
-            width: 40px;
-            height: 40px;
+            bottom: 4px;
+            right: 4px;
+            background: var(--gold);
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            border: 3px solid var(--blanc-principal);
+            border: 3px solid white;
+            color: var(--deep);
+            font-size: 0.9rem;
         }
-
         .teacher-header-info {
             flex: 1;
         }
-
         .teacher-name {
-            font-size: 2rem;
+            font-size: 1.8rem;
+            font-weight: 800;
             color: var(--gris-fonce);
-            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
-
+        .status-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 40px;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
         .teacher-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--gris-moyen);
-            margin-bottom: 15px;
+            margin: 6px 0 12px;
         }
-
         .teacher-meta-info {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 10px;
+            gap: 20px;
         }
-
         .teacher-meta-item {
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 0.85rem;
             color: var(--gris-moyen);
-            font-size: 0.9rem;
         }
-
         .teacher-meta-item i {
-            color: var(--vert-principal);
+            color: var(--teal);
+            width: 18px;
         }
 
-        /* Statistiques enseignant */
+        /* stats */
         .teacher-stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(4,1fr);
+            gap: 20px;
+            margin-bottom: 40px;
         }
-
         .stat-card {
-            background-color: var(--gris-clair);
-            border-radius: 10px;
-            padding: 10px;
+            background: var(--off-white);
+            border-radius: var(--radius-md);
+            padding: 18px 12px;
             text-align: center;
-            transition: transform 0.3s;
+            border: 1px solid #d9e5e4;
+            transition: all 0.2s;
         }
-
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
         }
-
         .stat-icon {
-            font-size: 2rem;
-            color: var(--vert-principal);
-            margin-bottom: 5px;
+            font-size: 1.6rem;
+            color: var(--teal);
+            margin-bottom: 8px;
         }
-
         .stat-value {
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: var(--gris-fonce);
-            margin-bottom: 2px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--deep);
         }
-
         .stat-label {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-        }
-
-        .rating-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background-color: rgba(255,215,0,0.15);
-            padding: 8px 15px;
-            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
-        }
-
-        .rating-stars {
-            color: var(--jaune-principal);
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
-
-        /* Offres de cours */
-        .teacher-courses-section {
-            margin-top: 30px;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            color: var(--gris-fonce);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--vert-principal);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .section-title span {
-            font-size: 1rem;
             color: var(--gris-moyen);
-            font-weight: normal;
+        }
+        .rating-stars {
+            justify-content: center;
+            margin-top: 6px;
+            color: var(--gold);
+            font-size: 0.8rem;
         }
 
-        .courses-grid {
+        /* sections */
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--deep);
+            margin: 32px 0 20px 0;
+            border-left: 4px solid var(--gold);
+            padding-left: 14px;
+        }
+        .courses-grid, .resources-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            margin-top: 20px;
+        }
+        @media (max-width: 900px) {
+            .courses-grid, .resources-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .courses-grid, .resources-grid { grid-template-columns: 1fr; }
         }
 
-        @media (max-width: 1200px) {
-            .courses-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        @media (max-width: 992px) {
-            .courses-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .courses-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 576px) {
-            .courses-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .course-card {
-            background-color: var(--blanc-principal);
-            border-radius: 12px;
+        /* Cartes style Sukuli "cc" */
+        .cc {
+            background: #fff;
+            border-radius: 14px;
+            border: 1.5px solid #d9e5e4;
             overflow: hidden;
-            border: 1px solid var(--gris-clair);
             transition: all 0.3s;
-            position: relative;
-            height: 250px;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
-
-        .course-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            border-color: var(--vert-principal);
+        .cc:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0,47,42,0.12);
+            border-color: #84a8a5;
         }
-
-        .course-card.premium {
-            border: 1px solid var(--jaune-principal);
-            box-shadow: 0 4px 15px rgba(255,215,0,0.15);
+        .cc-strip {
+            height: 4px;
+            background: linear-gradient(90deg, #002f2a, #1ab5a0);
         }
-
-        .course-header {
-            padding: 15px;
+        .cc-strip-resource {
+            background: linear-gradient(90deg, #1ab5a0, #5dcfbe);
+        }
+        .cc-body {
+            padding: 13px;
             flex: 1;
             display: flex;
             flex-direction: column;
         }
-
-        .course-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            z-index: 2;
+        .cc-badge-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
-
-        .badge-premium {
-            background-color: rgba(255,215,0,0.15);
-            color: var(--gris-fonce);
-            border: 1px solid var(--jaune-principal);
-        }
-
-        .badge-standard {
-            background-color: rgba(0,166,81,0.15);
-            color: var(--vert-principal);
-            border: 1px solid var(--vert-principal);
-        }
-
-        .badge-gratuit {
-            background-color: rgba(33,150,243,0.15);
-            color: #2196F3;
-            border: 1px solid #2196F3;
-        }
-
-        .course-level {
+        .badge-lv {
             display: inline-block;
-            padding: 4px 10px;
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            width: fit-content;
+            padding: 3px 9px;
+            border-radius: 50px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            background: #fee2e2;
+            color: #c53030;
+            border-left: 3px solid #e74c3c;
         }
-
-        .course-title {
-            font-size: 1rem;
-            color: var(--gris-fonce);
-            font-weight: 600;
-            margin-bottom: 8px;
-            line-height: 1.3;
+        .badge-free {
+            background: #d4f5e6;
+            color: #27ae60;
+            border-left: 3px solid #27ae60;
+        }
+        .badge-premium {
+            background: #fef5e6;
+            color: #e8c44a;
+            border-left: 3px solid #e8c44a;
+        }
+        .badge-standard {
+            background: #e6f0ff;
+            color: #3498db;
+            border-left: 3px solid #3498db;
+        }
+        .badge-ressource {
+            background: #fff3e0;
+            color: #f39c12;
+            border-left: 3px solid #f39c12;
+        }
+        .cc-title {
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: #1a3030;
+            margin: 6px 0 4px;
+            line-height: 1.32;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            min-height: 40px;
+            min-height: 34px;
         }
-
-        .course-subject {
-            color: var(--gris-moyen);
-            font-size: 0.85rem;
-            margin-bottom: 12px;
+        .cc-sub {
+            font-size: 0.72rem;
+            color: #5c8885;
+            margin-bottom: 8px;
         }
-
-        .course-meta {
-            display: flex;
-            justify-content: space-between;
-            color: var(--gris-moyen);
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-
-        .course-rating {
-            color: var(--jaune-principal);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 1px;
-        }
-
-        .course-price-section {
-            padding: 0px 18px;
-            background-color: rgba(0,0,0,0.02);
-            border-top: 1px solid var(--gris-clair);
-        }
-
-        .course-price {
+        .cc-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2px;
+            margin: 4px 0;
         }
-
-        .price-amount {
-            font-size: 1.3rem;
+        .cc-stars {
+            color: var(--gold);
+            font-size: 0.7rem;
+        }
+        .cc-stars span {
+            color: #5c8885;
             font-weight: 700;
-            color: var(--gris-fonce);
         }
-
-        .price-period {
-            font-size: 0.8rem;
-            color: var(--gris-moyen);
-            font-weight: normal;
-        }
-
-        .price-free {
-            color: var(--vert-principal);
-        }
-
-        .course-actions {
+        .cc-type-badge {
+            font-size: 0.66rem;
+            color: #5c8885;
             display: flex;
-            gap: 8px;
+            align-items: center;
+            gap: 3px;
+            background: #eef3f2;
+            padding: 2px 8px;
+            border-radius: 12px;
         }
-
-        .btn-course {
+        .cc-price {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #1a3030;
+            margin: 6px 0;
+        }
+        .cc-price.free {
+            color: #1ab5a0;
+        }
+        .cc-acts {
+            display: flex;
+            gap: 5px;
+            margin-top: auto;
+        }
+        .ca {
             flex: 1;
-            padding: 5px;
+            padding: 6px 3px;
             text-align: center;
-            border-radius: 6px;
-            font-weight: 600;
+            border-radius: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
             cursor: pointer;
             border: none;
-            transition: all 0.3s;
-            font-size: 0.85rem;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .ca-g {
+            background: #eef3f2;
+            color: #5c8885;
+        }
+        .ca-g:hover {
+            background: #d9e5e4;
+        }
+        .ca-d {
+            background: #002f2a;
+            color: #fff;
+        }
+        .ca-d:hover {
+            background: #004d45;
+        }
+        .ca-p {
+            background: #1ab5a0;
+            color: #fff;
+        }
+        .ca-p:hover {
+            background: #138f7d;
         }
 
-        .btn-details {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-        }
-
-        .btn-details:hover {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-        }
-
-        .btn-enroll {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-enroll:hover {
-            background-color: #008c45;
-            transform: translateY(-2px);
-        }
-
-        .btn-premium {
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
-        }
-
-        .btn-premium:hover {
-            background-color: #e6c200;
-            transform: translateY(-2px);
-        }
-
-        /* Section latérale (droite) */
+        /* sidebar */
         .teacher-sidebar {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #d9e5e4;
             position: sticky;
             top: 100px;
             height: fit-content;
         }
-
         .sidebar-section {
-            margin-bottom: 30px;
+            margin-bottom: 28px;
+            border-bottom: 1px solid #d9e5e4;
             padding-bottom: 20px;
-            border-bottom: 1px solid var(--gris-clair);
         }
-
         .sidebar-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
+            border: none;
             padding-bottom: 0;
         }
-
         .sidebar-title {
-            font-size: 1.2rem;
-            color: var(--gris-fonce);
-            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--deep);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            margin-bottom: 14px;
         }
-
-        .sidebar-title i {
-            color: var(--vert-principal);
-        }
-
-        /* À propos */
-        .teacher-about {
-            line-height: 1.7;
-            color: var(--gris-moyen);
-        }
-
         .teacher-about p {
-            margin-bottom: 15px;
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+            line-height: 1.6;
         }
-
-        /* Spécialités */
-        .specialties-list {
-            list-style: none;
-        }
-
-        .specialties-list li {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .specialties-list li i {
-            color: var(--vert-principal);
-        }
-
         .specialty-badge {
             display: inline-block;
-            padding: 5px 10px;
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
-            border-radius: 15px;
-            font-size: 0.85rem;
-            margin-right: 5px;
-            margin-bottom: 5px;
-        }
-
-        /* Contact simplifié */
-        .contact-info {
-            list-style: none;
-        }
-
-        .contact-info li {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .contact-info li i {
-            color: var(--vert-principal);
-            margin-top: 3px;
-            flex-shrink: 0;
-        }
-
-        .contact-label {
-            display: block;
-            color: var(--gris-moyen);
-            font-size: 0.85rem;
-            margin-bottom: 3px;
-        }
-
-        .contact-value {
-            color: var(--gris-fonce);
-            font-weight: 500;
-        }
-
-        .btn-contact {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
-            border: none;
-            border-radius: 10px;
+            background: var(--teal-pale);
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            text-decoration: none;
-            margin-top: 20px;
+            color: var(--deep);
+            margin: 0 6px 8px 0;
         }
-
-        .btn-contact:hover {
-            background-color: #e6c200;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
-        }
-
-        /* Certifications */
         .certifications-list {
             list-style: none;
         }
-
         .certifications-list li {
+            font-size: 0.8rem;
             margin-bottom: 10px;
-            padding-left: 20px;
+            padding-left: 18px;
             position: relative;
         }
-
         .certifications-list li:before {
-            content: "•";
-            color: var(--vert-principal);
+            content: "✓";
+            color: var(--teal);
             font-weight: bold;
             position: absolute;
             left: 0;
         }
+        .btn-contact {
+            width: 100%;
+            background: var(--teal);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 12px;
+        }
+        .btn-contact:hover {
+            background: #138f7d;
+        }
 
-        /* Modal pour l'inscription/authentification */
+        /* modal */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            top:0;left:0;width:100%;height:100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1002;
+            z-index: 1100;
         }
-
         .modal-overlay.active {
             display: flex;
-            animation: fadeIn 0.3s ease-out;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         .modal-content {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
+            background: white;
+            max-width: 460px;
             width: 90%;
-            max-width: 500px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border-radius: 28px;
             overflow: hidden;
-            animation: slideUp 0.4s ease-out;
+            box-shadow: var(--shadow-md);
         }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .modal-header {
-            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
-            color: var(--blanc-principal);
-            padding: 25px;
+            background: linear-gradient(135deg, #002f2a, #005a52);
+            padding: 18px 22px;
             text-align: center;
+            color: white;
             position: relative;
         }
-
         .modal-header h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
         }
-
-        .modal-header p {
-            font-size: 0.95rem;
-            opacity: 0.9;
+        .modal-icon {
+            font-size: 2rem;
+            margin: 8px 0;
         }
-
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 20px;
+            top: 14px;
+            right: 18px;
             background: none;
             border: none;
-            color: var(--blanc-principal);
-            font-size: 1.5rem;
+            color: white;
+            font-size: 1.3rem;
             cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
         }
-
-        .close-modal:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
-
         .modal-body {
-            padding: 30px;
+            padding: 22px;
         }
-
-        .profile-selection {
-            margin-bottom: 25px;
+        .course-info-confirmation {
+            background: #f0f7f5;
+            padding: 14px;
+            border-radius: 16px;
+            margin: 16px 0;
+            border-left: 3px solid #1ab5a0;
         }
-
-        .profile-title {
-            font-size: 1.1rem;
-            color: var(--gris-fonce);
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .profile-options {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .profile-option {
-            flex: 1;
-            max-width: 180px;
-            border: 2px solid var(--gris-clair);
-            border-radius: 10px;
-            padding: 20px 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .profile-option:hover {
-            border-color: var(--vert-principal);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .profile-option.selected {
-            border-color: var(--vert-principal);
-            background-color: rgba(0,166,81,0.05);
-        }
-
-        .profile-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--jaune-principal) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--blanc-principal);
-            font-size: 1.5rem;
-        }
-
-        .profile-name {
-            font-weight: 600;
-            color: var(--gris-fonce);
-            font-size: 1rem;
-        }
-
-        .profile-description {
-            font-size: 0.85rem;
-            color: var(--gris-moyen);
-            line-height: 1.4;
-        }
-
-        .auth-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .auth-title {
-            font-size: 1.1rem;
-            color: var(--gris-fonce);
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .auth-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-            border: 2px solid var(--gris-clair);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .auth-option:hover {
-            border-color: var(--vert-principal);
-            background-color: rgba(0,166,81,0.05);
-        }
-
-        .auth-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(0,166,81,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--vert-principal);
-            font-size: 1.2rem;
-        }
-
-        .auth-info h4 {
-            font-size: 1rem;
-            color: var(--gris-fonce);
-            margin-bottom: 5px;
-        }
-
-        .auth-info p {
-            font-size: 0.85rem;
-            color: var(--gris-moyen);
-        }
-
-        .course-info-modal {
-            background-color: rgba(0,166,81,0.05);
-            border-radius: 10px;
-            padding: 15px;
+        .next-steps {
+            background: #fef8e7;
+            padding: 14px;
+            border-radius: 16px;
             margin-bottom: 20px;
-            border-left: 4px solid var(--vert-principal);
         }
-
-        .course-info-modal h4 {
-            color: var(--gris-fonce);
-            margin-bottom: 8px;
-            font-size: 1rem;
+        .next-steps ol {
+            padding-left: 20px;
+            font-size: 0.75rem;
         }
-
-        .course-info-modal p {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-
         .modal-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 25px;
+            gap: 12px;
         }
-
         .modal-btn {
             flex: 1;
-            padding: 14px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
+            padding: 10px;
+            border-radius: 40px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.8rem;
             border: none;
-            transition: all 0.3s;
-            font-size: 0.95rem;
+            cursor: pointer;
         }
-
-        .modal-btn-secondary {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-        }
-
-        .modal-btn-secondary:hover {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-        }
-
         .modal-btn-primary {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
+            background: #002f2a;
+            color: white;
+        }
+        .modal-btn-secondary {
+            background: #eef3f2;
+            color: #5c8885;
         }
 
-        .modal-btn-primary:hover {
-            background-color: #008c45;
-            transform: translateY(-2px);
-        }
-
-        .modal-btn-disabled {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .modal-btn-disabled:hover {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
-            transform: none;
-        }
-
-        /* Footer */
+        /* footer */
         .main-footer {
-            background-color: var(--gris-fonce);
-            color: var(--gris-clair);
-            padding: 40px 0 20px;
-            margin-top: 50px;
+            background: #0a1a18;
+            color: rgba(255,255,255,0.7);
+            padding: 40px 0 24px;
+            margin-top: 48px;
         }
-
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+            gap: 32px;
+            margin-bottom: 32px;
         }
-
         .footer-col h3 {
-            color: var(--blanc-principal);
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            position: relative;
-            padding-bottom: 8px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 16px;
         }
-
-        .footer-col h3:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--jaune-principal);
-        }
-
         .footer-links {
             list-style: none;
         }
-
         .footer-links li {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
-
         .footer-links a {
-            color: var(--gris-clair);
+            color: rgba(255,255,255,0.6);
             text-decoration: none;
-            transition: color 0.3s;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
-
-        .footer-links a:hover {
-            color: var(--jaune-principal);
-        }
-
         .social-links {
             display: flex;
             gap: 12px;
-            margin-top: 15px;
+            margin-top: 14px;
         }
-
         .social-icon {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.08);
             border-radius: 50%;
-            background-color: rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--blanc-principal);
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 0.9rem;
+            color: white;
         }
-
-        .social-icon:hover {
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
-            transform: translateY(-2px);
-        }
-
         .copyright {
             text-align: center;
-            padding-top: 20px;
+            font-size: 0.7rem;
             border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.85rem;
-            color: var(--gris-clair);
+            padding-top: 20px;
         }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .container {
-                max-width: 1000px;
-            }
+        @media (max-width: 760px) {
+            .teacher-stats-grid { grid-template-columns: 1fr 1fr; }
+            .teacher-profile-header { flex-direction: column; text-align: center; }
+            .teacher-meta-info { justify-content: center; }
+            .nav-links, .nav-auth { display: none; }
         }
-
-        @media (max-width: 992px) {
-            .teacher-profile-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .teacher-sidebar {
-                position: static;
-                max-width: 700px;
-                margin: 0 auto;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .auth-buttons {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .teacher-profile-header {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-            
-            .teacher-meta-info {
-                justify-content: center;
-            }
-            
-            .teacher-main-section {
-                padding: 20px;
-            }
-            
-            .teacher-sidebar {
-                padding: 20px;
-            }
-            
-            .teacher-stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .section-title {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .teacher-name {
-                font-size: 1.7rem;
-            }
-            
-            .teacher-stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stat-value {
-                font-size: 1.7rem;
-            }
-            
-            .teacher-avatar-large {
-                width: 100px;
-                height: 100px;
-                font-size: 2rem;
-            }
-            
-            .breadcrumb-links {
-                font-size: 0.8rem;
-                flex-wrap: wrap;
-            }
-            
-            .course-card {
-                max-width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 15px;
-            }
-            
-            .teacher-main-section {
-                padding: 15px;
-            }
-            
-            .teacher-sidebar {
-                padding: 15px;
-            }
-            
-            .btn-contact {
-                padding: 14px;
-                font-size: 1rem;
-            }
-        }
-
-        /* Animation de chargement */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .fade-in {
-            animation: fadeIn 0.5s ease-out;
+            animation: fadeIn 0.4s ease;
         }
-
-        /* Badges de statut */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-left: 10px;
-        }
-
-        .status-online {
-            background-color: rgba(0,166,81,0.1);
-            color: var(--vert-principal);
-        }
-
-        .status-offline {
-            background-color: rgba(239,51,64,0.1);
-            color: var(--rouge-principal);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="main-header">
-        <div class="container">
-            <nav class="navbar">
-                <a href="index.html" class="logo">
-                    <div class="logo-icon">ET</div>
-                    <div class="logo-text">Edu<span>Togo</span>Connect</div>
-                </a>
-
-                <ul class="nav-links">
-                    <li><a href="cours.html">Cours</a></li>
-                    <li><a href="#niveaux">Niveaux</a></li>
-                    <li><a href="#enseignants">Enseignants</a></li>
-                    <li><a href="#ecoles">Ecoles</a></li>
-                    <li><a href="#partenaires">Partenaires</a></li>
-                    <li><a href="#temoignages">Témoignages</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-
-                <div class="auth-buttons">
-                    <a href="Authentification/auth.html" class="btn btn-login">Connexion</a>
-                    <a href="#inscription" class="btn btn-signup" id="openSignupModal">S'inscrire</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Breadcrumb -->
-    <div class="breadcrumb">
-        <div class="container">
-            <div class="breadcrumb-links">
-                <a href="index.html">Accueil</a>
-                <span class="separator">›</span>
-                <a href="all_teachers.html">Enseignants</a>
-                <span class="separator">›</span>
-                <span class="current">Profil de l'enseignant</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Contenu principal -->
+<header class="main-header">
     <div class="container">
-        <div class="teacher-profile-container fade-in">
-            <!-- Section principale (gauche) -->
-            <div class="teacher-main-section">
-                <!-- En-tête du profil -->
-                <div class="teacher-profile-header">
-                    <div class="teacher-avatar-container">
-                        <div class="teacher-avatar-large" id="teacherAvatar">KA</div>
-                        <div class="teacher-badge">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                    </div>
-                    <div class="teacher-header-info">
-                        <h1 class="teacher-name" id="teacherName">
-                            Koffi Agbessi
-                            <span class="status-badge status-online">
-                                <i class="fas fa-circle"></i> En ligne
-                            </span>
-                        </h1>
-                        <p class="teacher-title" id="teacherProfession">Enseignant de Mathématiques</p>
-                        <div class="teacher-meta-info">
-                            <div class="teacher-meta-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span id="teacherLocation">Lomé, Togo</span>
-                            </div>
-                            <div class="teacher-meta-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span id="teacherJoinDate">Membre depuis: Mars 2022</span>
-                            </div>
-                            <div class="teacher-meta-item">
-                                <i class="fas fa-graduation-cap"></i>
-                                <span id="teacherEducation">Licence en Mathématiques Appliquées</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Statistiques enseignant -->
-                <div class="teacher-stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="stat-value" id="teacherRating">4.8</div>
-                        <div class="stat-label">Note moyenne</div>
-                        <div class="rating-stars" id="ratingStars" style="justify-content: center; margin-top: 10px;">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-value" id="studentsCount">147</div>
-                        <div class="stat-label">Élèves formés</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <div class="stat-value" id="coursesCount">8</div>
-                        <div class="stat-label">Cours actifs</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-value" id="experienceYears">3 ans</div>
-                        <div class="stat-label">Expérience d'enseignement</div>
-                    </div>
-                </div>
-
-                <!-- Offres de cours actifs -->
-                <div class="teacher-courses-section">
-                    <h2 class="section-title">
-                        Cours actifs <span id="activeCoursesCount">(8 cours disponibles)</span>
-                    </h2>
-                    
-                    <div class="courses-grid" id="coursesGrid">
-                        <!-- Les cours seront chargés dynamiquement ici -->
-                    </div>
-                </div>
+        <nav class="navbar">
+            <a href="#" class="logo"><div class="logo-badge">S</div><div class="logo-text">Suku<span>li</span></div></a>
+            <ul class="nav-links">
+                <li><a href="#">Cours</a></li><li><a href="#">Matières</a></li><li><a href="#">Enseignants</a></li>
+                <li><a href="#">Écoles</a></li><li><a href="#">Messagerie</a></li><li><a href="#">Contrats</a></li>
+            </ul>
+            <div class="nav-search"><i class="fas fa-search"></i><input type="text" placeholder="Rechercher un cours..."><button><i class="fas fa-arrow-right"></i></button></div>
+            <div class="nav-auth">
+                <a href="#" class="btn btn-outline">Connexion</a>
+                <a href="#" class="btn btn-teal">S'inscrire</a>
             </div>
+        </nav>
+    </div>
+</header>
 
-            <!-- Section latérale (droite) -->
-            <div class="teacher-sidebar">
-                <!-- À propos -->
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">
-                        <i class="fas fa-user"></i> À propos
-                    </h3>
-                    <div class="teacher-about" id="teacherAbout">
-                        <p>Enseignant passionné de mathématiques avec plus de 3 ans d'expérience dans l'enseignement au collège. Diplômé en Mathématiques Appliquées de l'Université de Lomé.</p>
-                        <p>Ma pédagogie est centrée sur l'apprenant, avec une approche pratique et adaptée au contexte togolais. Je crois fermement que chaque élève peut exceller en mathématiques avec le bon encadrement.</p>
-                    </div>
-                </div>
+<div class="breadcrumb"><div class="container"><div class="breadcrumb-links"><a href="#">Accueil</a> <span>›</span> <a href="#">Enseignants</a> <span>›</span> <span class="current">Profil enseignant</span></div></div></div>
 
-                <!-- Spécialités -->
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">
-                        <i class="fas fa-tags"></i> Spécialités
-                    </h3>
-                    <div id="teacherSpecialties">
-                        <span class="specialty-badge">Mathématiques</span>
-                        <span class="specialty-badge">Algèbre</span>
-                        <span class="specialty-badge">Géométrie</span>
-                        <span class="specialty-badge">Calcul mental</span>
-                        <span class="specialty-badge">Préparation BEPC</span>
-                        <span class="specialty-badge">Soutien scolaire</span>
-                    </div>
-                </div>
+<div class="container">
+    <div class="teacher-profile-container fade-in">
+        <div class="teacher-main-section">
+            <div class="teacher-profile-header">
+                <div class="teacher-avatar-container"><div class="teacher-avatar-large" id="teacherAvatar">KA</div><div class="teacher-badge"><i class="fas fa-graduation-cap"></i></div></div>
+                <div class="teacher-header-info"><h1 class="teacher-name">Koffi Agbessi <span class="status-badge"><i class="fas fa-circle"></i> En ligne</span></h1><p class="teacher-title">Enseignant de Mathématiques</p><div class="teacher-meta-info"><div class="teacher-meta-item"><i class="fas fa-map-marker-alt"></i> Lomé, Togo</div><div class="teacher-meta-item"><i class="fas fa-calendar-alt"></i> Membre depuis Mars 2022</div><div class="teacher-meta-item"><i class="fas fa-graduation-cap"></i> Licence Maths Appliquées</div></div></div>
+            </div>
+            <div class="teacher-stats-grid">
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-star"></i></div><div class="stat-value" id="teacherRating">4.8</div><div class="stat-label">Note moyenne</div><div class="rating-stars" id="ratingStars"></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-value" id="studentsCount">147</div><div class="stat-label">Élèves formés</div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-book-open"></i></div><div class="stat-value" id="coursesCount">8</div><div class="stat-label">Cours actifs</div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-value" id="experienceYears">3 ans</div><div class="stat-label">Expérience</div></div>
+            </div>
+            
+            <!-- SECTION COURS ACTIFS (8 cartes) -->
+            <div class="teacher-courses-section">
+                <h2 class="section-title">Cours actifs <span id="activeCoursesCount">(8 disponibles)</span></h2>
+                <div class="courses-grid" id="coursesGrid"></div>
+            </div>
+            
+            <!-- SECTION RESSOURCES PÉDAGOGIQUES (5 cartes) -->
+            <div class="teacher-resources-section">
+                <h2 class="section-title">Ressources pédagogiques <span id="resourcesCount">(5 disponibles)</span></h2>
+                <div class="resources-grid" id="resourcesGrid"></div>
+            </div>
+        </div>
 
-                <!-- Certifications -->
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">
-                        <i class="fas fa-award"></i> Certifications
-                    </h3>
-                    <div id="teacherCertifications">
-                        <ul class="certifications-list">
-                            <li>Certifié EduTogoConnect - Niveau Expert</li>
-                            <li>Formation en pédagogie active - Ministère de l'Éducation</li>
-                            <li>Certificat en enseignement numérique</li>
-                        </ul>
-                    </div>
-                </div>
+        <aside class="teacher-sidebar">
+            <div class="sidebar-section"><h3 class="sidebar-title"><i class="fas fa-user"></i> À propos</h3><div class="teacher-about"><p>Enseignant passionné avec plus de 3 ans d'expérience au collège. Pédagogie centrée sur l'apprenant, adaptée au programme togolais.</p></div></div>
+            <div class="sidebar-section"><h3 class="sidebar-title"><i class="fas fa-tags"></i> Spécialités</h3><div id="teacherSpecialties"><span class="specialty-badge">Mathématiques</span><span class="specialty-badge">Algèbre</span><span class="specialty-badge">Géométrie</span><span class="specialty-badge">Prépa BEPC</span><span class="specialty-badge">Soutien scolaire</span><span class="specialty-badge">Calcul mental</span></div></div>
+            <div class="sidebar-section"><h3 class="sidebar-title"><i class="fas fa-award"></i> Certifications</h3><ul class="certifications-list"><li>Certifié Sukuli Expert</li><li>Formation pédagogie active - Ministère de l'Éducation</li><li>Certificat en enseignement numérique</li></ul></div>
+            <button class="btn-contact" id="contactBtn"><i class="fas fa-comments"></i> Contacter l'enseignant</button>
+        </aside>
+    </div>
+</div>
 
-                <!-- Bouton Contact -->
-                <button class="btn-contact" id="contactBtn">
-                    <i class="fas fa-comments"></i> Contacter l'enseignant
-                </button>
+<div class="modal-overlay" id="confirmationModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Demande soumise</h3>
+            <div class="modal-icon"><i class="fas fa-check-circle"></i></div>
+            <p>Votre demande a été ajoutée à vos contrats</p>
+            <button class="close-modal" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="course-info-confirmation">
+                <h4 id="courseTitleConfirmation">Mathématiques - 6ème</h4>
+                <p id="courseTeacherConfirmation">Enseignant : Koffi Agbessi</p>
+                <p id="coursePriceConfirmation">Prix : 2.500 FCFA / heure</p>
+            </div>
+            <div class="next-steps">
+                <h4><i class="fas fa-list-check"></i> Prochaines étapes</h4>
+                <ol>
+                    <li>L'enseignant examine votre demande</li>
+                    <li>Validation & notification de paiement</li>
+                    <li>Accès au cours après confirmation</li>
+                </ol>
+            </div>
+            <div class="modal-actions">
+                <a href="#" class="modal-btn modal-btn-primary">Voir mes contrats</a>
+                <button class="modal-btn modal-btn-secondary" id="closeConfirmationBtn">Fermer</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal pour l'inscription/authentification -->
-    <div class="modal-overlay" id="authModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">Contacter l'enseignant</h3>
-                <p id="modalSubtitle">Veuillez vous connecter ou vous inscrire</p>
-                <button class="close-modal" id="closeModal">&times;</button>
+<footer class="main-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom:10px;"><div class="logo-badge">S</div><div class="logo-text" style="color:white;">Suku<span>li</span></div></div>
+                <p style="font-size:0.75rem;">Plateforme éducative togolaise collège (6ème-3ème).</p>
+                <div class="social-links"><a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a><a href="#" class="social-icon"><i class="fab fa-instagram"></i></a></div>
             </div>
-            <div class="modal-body">
-                <!-- Étape 1: Choix entre "J'ai un compte" et "S'inscrire" -->
-                <div id="step1" class="initial-step">
-                    <p class="step-message">Pour contacter l'enseignant, vous devez avoir un compte.</p>
-                    
-                    <div class="auth-options">
-                        <div class="auth-option" data-action="login">
-                            <div class="auth-icon">
-                                <i class="fas fa-sign-in-alt"></i>
-                            </div>
-                            <div class="auth-info">
-                                <h4>J'ai un compte</h4>
-                                <p>Je me connecte avec mes identifiants</p>
-                            </div>
-                        </div>
-                        
-                        <div class="auth-option" data-action="register">
-                            <div class="auth-icon">
-                                <i class="fas fa-user-plus"></i>
-                            </div>
-                            <div class="auth-info">
-                                <h4>S'inscrire</h4>
-                                <p>Je crée un nouveau compte</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Étape 2a: Sélection du type de compte pour l'inscription -->
-                <div id="step2Register" style="display: none;">
-                    <div class="profile-selection">
-                        <div class="profile-title">Je m'inscris en tant que :</div>
-                        <div class="profile-options">
-                            <div class="profile-option" data-profile="eleve">
-                                <div class="profile-icon">
-                                    <i class="fas fa-graduation-cap"></i>
-                                </div>
-                                <div class="profile-name">Élève</div>
-                                <div class="profile-description">Je suis un élève du collège</div>
-                            </div>
-                            <div class="profile-option" data-profile="parent">
-                                <div class="profile-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="profile-name">Parent</div>
-                                <div class="profile-description">Je suis parent d'un élève</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Étape 2b: Information pour la connexion -->
-                <div id="step2Login" style="display: none;">
-                    <div class="course-info-modal">
-                        <h4>Connexion requise</h4>
-                        <p>Vous allez être redirigé vers la page de connexion pour accéder à votre compte.</p>
-                    </div>
-                </div>
-
-                <!-- Actions -->
-                <div class="modal-actions">
-                    <button class="modal-btn modal-btn-secondary" id="cancelBtn">Annuler</button>
-                    <button class="modal-btn modal-btn-primary" id="continueBtn" disabled>Continuer</button>
-                </div>
-            </div>
+            <div class="footer-col"><h3>Liens</h3><ul class="footer-links"><li><a href="#">Accueil</a></li><li><a href="#">Cours</a></li><li><a href="#">Enseignants</a></li></ul></div>
+            <div class="footer-col"><h3>Contact</h3><ul class="footer-links"><li>Lomé, Togo</li><li>contact@sukuli.tg</li></ul></div>
         </div>
+        <div class="copyright"><p>© 2025 Sukuli — Tous droits réservés</p></div>
     </div>
+</footer>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <a href="index.html" class="logo" style="margin-bottom: 15px; display: inline-flex;">
-                        <div class="logo-icon">ET</div>
-                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
-                    </a>
-                    <p style="color: var(--gris-clair); font-size: 0.9rem;">La plateforme éducative togolaise pour les élèves du collège (6ème à 3ème).</p>
-                    <div class="social-links">
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
+<script>
+    // ========== DONNÉES DES CARTES ==========
+    
+    // Cours actifs (8 cartes)
+    const teacherCourses = [
+        {id:1, title:"Mathématiques — Niveau 6ème", type:"premium", price:2500, level:"6ème", rating:4.9, students:124},
+        {id:2, title:"Algèbre fondamentale — 5ème", type:"standard", price:2000, level:"5ème", rating:4.7, students:89},
+        {id:3, title:"Géométrie pratique — 4ème", type:"premium", price:2800, level:"4ème", rating:4.8, students:67},
+        {id:4, title:"Préparation intensive BEPC", type:"premium", price:3500, level:"3ème", rating:4.9, students:95},
+        {id:5, title:"Calcul mental rapide", type:"gratuit", price:0, level:"Tous niveaux", rating:4.6, students:203},
+        {id:6, title:"Résolution de problèmes — 6ème/5ème", type:"standard", price:2200, level:"6ème/5ème", rating:4.5, students:76},
+        {id:7, title:"Mathématiques financières", type:"premium", price:3000, level:"4ème/3ème", rating:4.7, students:54},
+        {id:8, title:"Révision générale — Vacances", type:"standard", price:1800, level:"Tous niveaux", rating:4.6, students:112}
+    ];
+    
+    // Ressources pédagogiques (5 cartes)
+    const teacherResources = [
+        {id:101, type:"fiche", title:"Fiches de révision BEPC — Mathématiques", level:"3ème", price:1500, rating:4.8, downloads:287},
+        {id:102, type:"annale", title:"Annales BEPC corrigées — 2020-2023", level:"3ème", price:3000, rating:4.9, downloads:412},
+        {id:103, type:"resume", title:"Résumés de cours — Mathématiques 4ème", level:"4ème", price:1200, rating:4.6, downloads:156},
+        {id:104, type:"exercice", title:"Exercices corrigés — Algèbre 5ème", level:"5ème", price:1800, rating:4.7, downloads:198},
+        {id:105, type:"annale", title:"Devoirs surveillés — Géométrie 4ème", level:"4ème", price:1000, rating:4.5, downloads:134}
+    ];
+    
+    const teacherData = {
+        name: "Koffi Agbessi", initials: "KA", rating: 4.8, studentsCount: 147, coursesCount: 8, experienceYears: "3 ans"
+    };
+    
+    // ========== FONCTIONS UTILITAIRES ==========
+    
+    function starsHtml(rating) {
+        let s = '';
+        for(let i=1; i<=5; i++) {
+            if(i <= Math.floor(rating)) s += '<i class="fas fa-star"></i>';
+            else if(i - rating < 0.5 && rating % 1 !== 0) s += '<i class="fas fa-star-half-alt"></i>';
+            else s += '<i class="far fa-star"></i>';
+        }
+        return s;
+    }
+    
+    function getTypeLabel(type) {
+        const types = {fiche:'Fiche de révision', annale:'Annales', exercice:'Exercices', resume:'Résumés'};
+        return types[type] || 'Ressource';
+    }
+    
+    // ========== CRÉATION DES CARTES ==========
+    
+    // Création d'une carte de cours
+    function createCourseCard(c) {
+        let div = document.createElement('div'); 
+        div.className = 'cc';
+        
+        let lvBadge = `<span class="badge-lv">${c.level}</span>`;
+        let offerBadge = '';
+        if(c.type === 'gratuit') offerBadge = `<span class="badge-free">GRATUIT</span>`;
+        else if(c.type === 'premium') offerBadge = `<span class="badge-premium">⭐ PREMIUM</span>`;
+        else offerBadge = `<span class="badge-standard">STANDARD</span>`;
+        
+        let priceHtml = (c.price === 0) ? '<div class="cc-price free">Gratuit</div>' : `<div class="cc-price">${c.price.toLocaleString()} FCFA<small>/h</small></div>`;
+        
+        div.innerHTML = `
+            <div class="cc-strip"></div>
+            <div class="cc-body">
+                <div class="cc-badge-row">${lvBadge}${offerBadge}</div>
+                <h3 class="cc-title">${c.title}</h3>
+                <div class="cc-meta">
+                    <div class="cc-stars">${starsHtml(c.rating)}<span> ${c.rating}</span></div>
+                    <div><i class="fas fa-users"></i> ${c.students} élèves</div>
                 </div>
-
-                <div class="footer-col">
-                    <h3>Liens rapides</h3>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="all_courses.html">Tous les cours</a></li>
-                        <li><a href="all_teachers.html">Nos enseignants</a></li>
-                        <li><a href="#inscription">S'inscrire</a></li>
-                        <li><a href="Authentification/auth.html">Connexion</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Catégories</h3>
-                    <ul class="footer-links">
-                        <li><a href="#math">Mathématiques</a></li>
-                        <li><a href="#french">Français</a></li>
-                        <li><a href="#english">Anglais</a></li>
-                        <li><a href="#science">Sciences</a></li>
-                        <li><a href="#brevet">Préparation BEPC</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Contact</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Lomé, Togo</li>
-                        <li><i class="fas fa-phone" style="margin-right: 8px;"></i> +228 XX XX XX XX</li>
-                        <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> contact@edutogoconnect.tg</li>
-                        <li><i class="fas fa-clock" style="margin-right: 8px;"></i> Lundi - Vendredi: 8h-18h</li>
-                    </ul>
+                ${priceHtml}
+                <div class="cc-acts">
+                    <button class="ca ca-g" onclick="showToast('Détails du cours')"><i class="fas fa-eye"></i> Détails</button>
+                    <button class="ca ca-d" onclick="openEnrollModal(${c.id})"><i class="fas fa-user-plus"></i> S'inscrire</button>
                 </div>
             </div>
-
-            <div class="copyright">
-                <p>&copy; 2023 EduTogoConnect. Tous droits réservés.</p>
+        `;
+        return div;
+    }
+    
+    // Création d'une carte de ressource
+    function createResourceCard(r) {
+        let div = document.createElement('div'); 
+        div.className = 'cc';
+        
+        let lvBadge = `<span class="badge-lv">${r.level}</span>`;
+        let typeBadge = `<span class="badge-ressource">📄 ${getTypeLabel(r.type)}</span>`;
+        let priceHtml = (r.price === 0) ? '<div class="cc-price free">Gratuit</div>' : `<div class="cc-price">${r.price.toLocaleString()} FCFA</div>`;
+        
+        div.innerHTML = `
+            <div class="cc-strip cc-strip-resource"></div>
+            <div class="cc-body">
+                <div class="cc-badge-row">${lvBadge}${typeBadge}</div>
+                <h3 class="cc-title">${r.title}</h3>
+                <div class="cc-meta">
+                    <div class="cc-stars">${starsHtml(r.rating)}<span> ${r.rating}</span></div>
+                    <div><i class="fas fa-download"></i> ${r.downloads} téléch.</div>
+                </div>
+                ${priceHtml}
+                <div class="cc-acts">
+                    <button class="ca ca-g" onclick="showToast('Aperçu de la ressource')"><i class="fas fa-eye"></i> Aperçu</button>
+                    <button class="ca ca-p" onclick="showToast('Achat de la ressource')"><i class="fas fa-shopping-cart"></i> Acheter</button>
+                </div>
             </div>
-        </div>
-    </footer>
-
-    <script>
-        // Données de l'enseignant
-        const teacherData = {
-            id: 1,
-            name: "Koffi Agbessi",
-            initials: "KA",
-            profession: "Enseignant de Mathématiques",
-            location: "Lomé, Togo",
-            joinDate: "Mars 2022",
-            education: "Licence en Mathématiques Appliquées",
-            rating: 4.8,
-            studentsCount: 147,
-            coursesCount: 8,
-            experienceYears: "3 ans",
-            isOnline: true,
-            specialties: ["Mathématiques", "Algèbre", "Géométrie", "Calcul mental", "Préparation BEPC", "Soutien scolaire"],
-            about: "Enseignant passionné de mathématiques avec plus de 3 ans d'expérience dans l'enseignement au collège. Diplômé en Mathématiques Appliquées de l'Université de Lomé. Ma pédagogie est centrée sur l'apprenant, avec une approche pratique et adaptée au contexte togolais. Je crois fermement que chaque élève peut exceller en mathématiques avec le bon encadrement.",
-            certifications: [
-                "Certifié EduTogoConnect - Niveau Expert",
-                "Formation en pédagogie active - Ministère de l'Éducation",
-                "Certificat en enseignement numérique"
-            ],
-            courses: [
-                {
-                    id: 1,
-                    title: "Mathématiques - Niveau 6ème",
-                    type: "premium",
-                    price: 2500,
-                    students: 124,
-                    description: "Cours complet de mathématiques pour la classe de 6ème, couvrant le programme officiel togolais.",
-                    duration: "20 heures",
-                    level: "6ème",
-                    subject: "math",
-                    rating: 4.9,
-                    teacherInitials: "KA",
-                    teacher: "M. Koffi Agbessi",
-                    profession: "Enseignant de Mathématiques",
-                    location: "Lomé"
-                },
-                {
-                    id: 2,
-                    title: "Algèbre fondamentale - 5ème",
-                    type: "standard",
-                    price: 2000,
-                    students: 89,
-                    description: "Maîtrise des bases de l'algèbre avec des exercices pratiques adaptés au contexte local.",
-                    duration: "15 heures",
-                    level: "5ème",
-                    subject: "math",
-                    rating: 4.7,
-                    teacherInitials: "KA",
-                    teacher: "M. Koffi Agbessi",
-                    profession: "Enseignant de Mathématiques",
-                    location: "Lomé"
-                },
-                {
-                    id: 3,
-                    title: "Géométrie pratique - 4ème",
-                    type: "premium",
-                    price: 2800,
-                    students: 67,
-                    description: "Apprentissage de la géométrie par la pratique avec des exemples concrets de la vie quotidienne.",
-                    duration: "18 heures",
-                    level: "4ème",
-                    subject: "math",
-                    rating: 4.8,
-                    teacherInitials: "KA",
-                    teacher: "M. Koffi Agbessi",
-                    profession: "Enseignant de Mathématiques",
-                    location: "Lomé"
-                },
-                {
-                    id: 4,
-                    title: "Préparation intensive BEPC",
-                    type: "premium",
-                    price: 3500,
-                    students: 95,
-                    description: "Stage intensif de préparation au BEPC avec focus sur les mathématiques.",
-                    duration: "30 heures",
-                    level: "3ème",
-                    subject: "math",
-                    rating: 4.9,
-                    teacherInitials: "KA",
-                    teacher: "M. Koffi Agbessi",
-                    profession: "Enseignant de Mathématiques",
-                    location: "Lomé"
-                },
-                {
-                    id: 5,
-                    title: "Calcul mental rapide",
-                    type: "gratuit",
-                    price: 0,
-                    students: 203,
-                    description: "Techniques de calcul mental pour améliorer la rapidité et la précision.",
-                    duration: "8 heures",
-                    level: "Tous niveaux",
-                    subject: "math",
-                    rating: 4.6,
-                    teacherInitials: "KA",
-                    teacher: "M. Koffi Agbessi",
-                    profession: "Enseignant de Mathématiques",
-                    location: "Lomé"
-                },
-                {
-                    id: 6,
-                    title: "Résolution de problèmes - 6ème/5ème",
-                    type: "standard",
-                    price: 2200,
-                    students: 76,
-                    description: "Développer la méthodologie de résolution de problèmes mathématiques.",
-                    duration: "12 heures",
-                    level: "6ème/5ème",
-                    subject: "math",
-                    rating: 4.5,
-                    teacherInitials: "KA",
-                    teacher: "M. Koffi Agbessi",
-                    profession: "Enseignant de Mathématiques",
-                    location: "Lomé"
-                },
-            ]
-        };
-
-        // Éléments DOM
-        const teacherAvatar = document.getElementById('teacherAvatar');
-        const teacherName = document.getElementById('teacherName');
-        const teacherProfession = document.getElementById('teacherProfession');
-        const teacherLocation = document.getElementById('teacherLocation');
-        const teacherJoinDate = document.getElementById('teacherJoinDate');
-        const teacherEducation = document.getElementById('teacherEducation');
-        const teacherRating = document.getElementById('teacherRating');
-        const ratingStars = document.getElementById('ratingStars');
-        const studentsCount = document.getElementById('studentsCount');
-        const coursesCount = document.getElementById('coursesCount');
-        const experienceYears = document.getElementById('experienceYears');
-        const activeCoursesCount = document.getElementById('activeCoursesCount');
-        const coursesGrid = document.getElementById('coursesGrid');
-        const teacherAbout = document.getElementById('teacherAbout');
-        const teacherSpecialties = document.getElementById('teacherSpecialties');
-        const teacherCertifications = document.getElementById('teacherCertifications');
-        const contactBtn = document.getElementById('contactBtn');
-
-        // Éléments de la modal
-        const authModal = document.getElementById('authModal');
-        const closeModal = document.getElementById('closeModal');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const continueBtn = document.getElementById('continueBtn');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalSubtitle = document.getElementById('modalSubtitle');
+        `;
+        return div;
+    }
+    
+    // ========== CHARGEMENT DES DONNÉES ==========
+    
+    function loadCourses() {
+        const grid = document.getElementById('coursesGrid');
+        grid.innerHTML = '';
+        teacherCourses.forEach(c => grid.appendChild(createCourseCard(c)));
+        document.getElementById('activeCoursesCount').innerText = `(${teacherCourses.length} disponibles)`;
+        document.getElementById('coursesCount').innerText = teacherCourses.length;
+    }
+    
+    function loadResources() {
+        const grid = document.getElementById('resourcesGrid');
+        grid.innerHTML = '';
+        teacherResources.forEach(r => grid.appendChild(createResourceCard(r)));
+        document.getElementById('resourcesCount').innerText = `(${teacherResources.length} disponibles)`;
+    }
+    
+    function loadTeacherStats() {
+        document.getElementById('studentsCount').innerText = teacherData.studentsCount;
+        document.getElementById('experienceYears').innerText = teacherData.experienceYears;
+        document.getElementById('teacherRating').innerText = teacherData.rating;
         
-        // Éléments des étapes
-        const step1 = document.getElementById('step1');
-        const step2Register = document.getElementById('step2Register');
-        const step2Login = document.getElementById('step2Login');
-        
-        // Options d'authentification
-        const authOptions = document.querySelectorAll('.auth-option');
-        const profileOptions = document.querySelectorAll('.profile-option');
-
-        // Variables d'état
-        let selectedProfile = null;
-        let selectedAction = null;
-        let currentStep = 1;
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', () => {
-            loadTeacherData(teacherData);
-            loadTeacherCourses(teacherData.courses);
-            setupModalEvents();
-        });
-
-        // Charger les données de l'enseignant
-        function loadTeacherData(teacher) {
-            // Informations de base
-            teacherAvatar.textContent = teacher.initials;
-            teacherName.innerHTML = `${teacher.name} <span class="status-badge ${teacher.isOnline ? 'status-online' : 'status-offline'}"><i class="fas fa-circle"></i> ${teacher.isOnline ? 'En ligne' : 'Hors ligne'}</span>`;
-            teacherProfession.textContent = teacher.profession;
-            teacherLocation.textContent = teacher.location;
-            teacherJoinDate.textContent = `Membre depuis: ${teacher.joinDate}`;
-            teacherEducation.textContent = teacher.education;
-            
-            // Statistiques
-            teacherRating.textContent = teacher.rating;
-            studentsCount.textContent = teacher.studentsCount;
-            coursesCount.textContent = teacher.coursesCount;
-            experienceYears.textContent = teacher.experienceYears;
-            
-            // Générer les étoiles de notation
-            const fullStars = Math.floor(teacher.rating);
-            const hasHalfStar = teacher.rating % 1 >= 0.5;
-            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-            
-            let starsHTML = '';
-            
-            // Étoiles pleines
-            for (let i = 0; i < fullStars; i++) {
-                starsHTML += '<i class="fas fa-star"></i>';
-            }
-            
-            // Demi-étoile
-            if (hasHalfStar) {
-                starsHTML += '<i class="fas fa-star-half-alt"></i>';
-            }
-            
-            // Étoiles vides
-            for (let i = 0; i < emptyStars; i++) {
-                starsHTML += '<i class="far fa-star"></i>';
-            }
-            
-            ratingStars.innerHTML = starsHTML;
-            
-            // À propos
-            teacherAbout.innerHTML = `<p>${teacher.about}</p>`;
-            
-            // Spécialités
-            teacherSpecialties.innerHTML = '';
-            teacher.specialties.forEach(specialty => {
-                const badge = document.createElement('span');
-                badge.className = 'specialty-badge';
-                badge.textContent = specialty;
-                teacherSpecialties.appendChild(badge);
-            });
-            
-            // Certifications
-            const certsList = teacherCertifications.querySelector('.certifications-list');
-            certsList.innerHTML = '';
-            teacher.certifications.forEach(cert => {
-                const li = document.createElement('li');
-                li.textContent = cert;
-                certsList.appendChild(li);
-            });
-            
-            // Cours actifs
-            activeCoursesCount.textContent = `(${teacher.courses.length} cours disponibles)`;
-        }
-
-        // Charger les cours de l'enseignant
-        function loadTeacherCourses(courses) {
-            coursesGrid.innerHTML = '';
-            
-            courses.forEach(course => {
-                const courseCard = createCourseCard(course);
-                coursesGrid.appendChild(courseCard);
-            });
-        }
-
-        // Créer une carte de cours
-        function createCourseCard(course) {
-            const card = document.createElement('div');
-            card.className = `course-card ${course.type === 'premium' ? 'premium' : ''}`;
-            
-            // Déterminer le badge
-            let badgeHTML = '';
-            if (course.type === 'premium') {
-                badgeHTML = '<div class="course-badge badge-premium">PREMIUM</div>';
-            } else if (course.type === 'gratuit') {
-                badgeHTML = '<div class="course-badge badge-gratuit">GRATUIT</div>';
-            } else {
-                badgeHTML = '<div class="course-badge badge-standard">STANDARD</div>';
-            }
-            
-            // Formater le prix
-            let priceHTML = '';
-            if (course.price === 0) {
-                priceHTML = `
-                    <div class="price-amount price-free">Gratuit</div>
-                    <div class="price-period">/cours</div>
-                `;
-            } else {
-                priceHTML = `
-                    <div class="price-amount">${course.price.toLocaleString()} FCFA</div>
-                    <div class="price-period">/heure</div>
-                `;
-            }
-            
-            // Étoiles de notation
-            const stars = Math.floor(course.rating);
-            const hasHalfStar = course.rating % 1 >= 0.5;
-            let starsHTML = '';
-            for (let i = 0; i < stars; i++) {
-                starsHTML += '<i class="fas fa-star"></i>';
-            }
-            if (hasHalfStar) {
-                starsHTML += '<i class="fas fa-star-half-alt"></i>';
-            }
-            
-            card.innerHTML = `
-                <div class="course-header">
-                    ${badgeHTML}
-                    <div class="course-level">${course.level}</div>
-                    <h3 class="course-title">${course.title}</h3>
-                    <p class="course-subject">${getSubjectName(course.subject)}</p>
-                    
-                    <div class="course-meta">
-                        <div class="course-rating">
-                            ${starsHTML} ${course.rating}/5
-                        </div>
-                        <div>${course.students} élèves</div>
-                    </div>
-                    <div class="course-price">
-                        ${priceHTML}
-                    </div>
-                    <div class="course-actions">
-                        <a href="course_details.html?id=${course.id}" class="btn-course btn-details">
-                            <i class="fas fa-eye"></i> Détails
-                        </a>
-                        ${course.price === 0 ? 
-                            `<button class="btn-course btn-enroll" onclick="openEnrollModal(${course.id})"><i class="fas fa-user-plus"></i> S'inscrire</button>` :
-                            `<button class="btn-course btn-enroll" onclick="openEnrollModal(${course.id})"><i class="fas fa-shopping-cart"></i> S'inscrire</button>`
-                        }
-                    </div>
-                </div>
-                <div class="course-price-section">
-                   
-                </div>
-            `;
-            
-            return card;
-        }
-
-        // Obtenir le nom de la matière
-        function getSubjectName(subject) {
-            const subjects = {
-                'math': 'Mathématiques',
-                'french': 'Français',
-                'english': 'Anglais',
-                'physics': 'Sciences Physiques',
-                'svt': 'SVT',
-                'history': 'Histoire-Géographie',
-                'philo': 'Philosophie',
-                'other': 'Autre matière'
-            };
-            return subjects[subject] || subject;
-        }
-
-        // Configuration de la modal
-        function setupModalEvents() {
-            // Bouton de contact
-            contactBtn.addEventListener('click', () => {
-                openContactModal();
-            });
-            
-            // Fermer la modal
-            closeModal.addEventListener('click', closeAuthModal);
-            cancelBtn.addEventListener('click', closeAuthModal);
-            
-            // Fermer la modal en cliquant à l'extérieur
-            authModal.addEventListener('click', (e) => {
-                if (e.target === authModal) {
-                    closeAuthModal();
-                }
-            });
-            
-            // Sélection de l'action dans l'étape 1
-            authOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    // Retirer la sélection précédente
-                    authOptions.forEach(opt => {
-                        opt.style.backgroundColor = '';
-                        opt.style.borderColor = '';
-                    });
-                    
-                    // Appliquer la sélection
-                    option.style.backgroundColor = 'rgba(0,166,81,0.05)';
-                    option.style.borderColor = 'var(--vert-principal)';
-                    selectedAction = option.dataset.action;
-                    
-                    updateContinueButton();
-                });
-            });
-            
-            // Sélection du profil dans l'étape 2 (inscription)
-            profileOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    profileOptions.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedProfile = option.dataset.profile;
-                    updateContinueButton();
-                });
-            });
-            
-            // Bouton continuer
-            continueBtn.addEventListener('click', () => {
-                if (currentStep === 1) {
-                    // Passer à l'étape 2
-                    currentStep = 2;
-                    
-                    if (selectedAction === 'register') {
-                        // Afficher l'étape 2 pour l'inscription
-                        step1.style.display = 'none';
-                        step2Register.style.display = 'block';
-                        step2Login.style.display = 'none';
-                        
-                        modalTitle.textContent = 'Inscription';
-                        modalSubtitle.textContent = 'Choisissez votre profil pour continuer';
-                        
-                        // Réinitialiser la sélection de profil
-                        selectedProfile = null;
-                        profileOptions.forEach(opt => opt.classList.remove('selected'));
-                    } else if (selectedAction === 'login') {
-                        // Afficher l'étape 2 pour la connexion
-                        step1.style.display = 'none';
-                        step2Register.style.display = 'none';
-                        step2Login.style.display = 'block';
-                        
-                        modalTitle.textContent = 'Connexion';
-                        modalSubtitle.textContent = 'Vous allez être redirigé vers la page de connexion';
-                    }
-                    
-                    updateContinueButton();
-                } else if (currentStep === 2) {
-                    // Exécuter l'action finale
-                    if (selectedAction === 'register') {
-                        // Rediriger vers le formulaire d'inscription selon le profil
-                        if (selectedProfile === 'eleve') {
-                            window.location.href = '../inscription/eleve.html';
-                        } else if (selectedProfile === 'parent') {
-                            window.location.href = '../inscription/parent.html';
-                        }
-                    } else if (selectedAction === 'login') {
-                        // Rediriger vers la page de connexion
-                        window.location.href = '../authentification/auth.html';
-                    }
-                    
-                    closeAuthModal();
-                }
-            });
-        }
-
-        // Ouvrir la modal d'inscription pour un cours
-        window.openEnrollModal = function(courseId) {
-            const course = teacherData.courses.find(c => c.id === courseId);
-            
-            if (course) {
-                // Mettre à jour les informations de la modal
-                modalTitle.textContent = `Inscription au cours`;
-                modalSubtitle.textContent = course.title;
-                
-                // Réinitialiser et ouvrir la modal
-                resetModalSelections();
-                authModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        };
-
-        // Ouvrir la modal de contact
-        function openContactModal() {
-            // Mettre à jour les informations de la modal
-            modalTitle.textContent = `Contacter ${teacherData.name}`;
-            modalSubtitle.textContent = "Enseignant de Mathématiques";
-            
-            // Réinitialiser et ouvrir la modal
-            resetModalSelections();
-            authModal.classList.add('active');
+        let starsInner = starsHtml(teacherData.rating);
+        document.getElementById('ratingStars').innerHTML = starsInner;
+    }
+    
+    // ========== MODAL ET INTERACTIONS ==========
+    
+    let currentCourse = null;
+    
+    window.openEnrollModal = function(courseId){
+        currentCourse = teacherCourses.find(c => c.id === courseId);
+        if(currentCourse){
+            document.getElementById('courseTitleConfirmation').innerText = currentCourse.title;
+            document.getElementById('courseTeacherConfirmation').innerHTML = `Enseignant : ${teacherData.name}`;
+            document.getElementById('coursePriceConfirmation').innerHTML = currentCourse.price === 0 ? 'Prix : Gratuit' : `Prix : ${currentCourse.price.toLocaleString()} FCFA / heure`;
+            document.getElementById('confirmationModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-
-        // Fermer la modal
-        function closeAuthModal() {
-            authModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            resetModalSelections();
+    };
+    
+    function closeModalFn(){ 
+        document.getElementById('confirmationModal').classList.remove('active'); 
+        document.body.style.overflow = 'auto'; 
+        currentCourse = null; 
+    }
+    
+    window.showToast = function(msg){ 
+        alert(msg); 
+    };
+    
+    // ========== ÉVÉNEMENTS ==========
+    
+    document.getElementById('closeModal').addEventListener('click', closeModalFn);
+    document.getElementById('closeConfirmationBtn').addEventListener('click', closeModalFn);
+    document.getElementById('contactBtn').addEventListener('click', () => { 
+        showToast('Messagerie ouverte avec l\'enseignant'); 
+    });
+    
+    // Fermer la modal en cliquant à l'extérieur
+    document.getElementById('confirmationModal').addEventListener('click', (e) => {
+        if(e.target === document.getElementById('confirmationModal')) {
+            closeModalFn();
         }
-
-        // Réinitialiser les sélections de la modal
-        function resetModalSelections() {
-            currentStep = 1;
-            selectedProfile = null;
-            selectedAction = null;
-            
-            // Réinitialiser l'affichage
-            step1.style.display = 'block';
-            step2Register.style.display = 'none';
-            step2Login.style.display = 'none';
-            
-            modalTitle.textContent = 'Contacter l\'enseignant';
-            modalSubtitle.textContent = 'Veuillez vous connecter ou vous inscrire';
-            
-            // Réinitialiser les sélections visuelles
-            authOptions.forEach(opt => {
-                opt.style.backgroundColor = '';
-                opt.style.borderColor = '';
-            });
-            
-            profileOptions.forEach(opt => opt.classList.remove('selected'));
-            
-            updateContinueButton();
-        }
-
-        // Mettre à jour l'état du bouton continuer
-        function updateContinueButton() {
-            if (currentStep === 1) {
-                // Étape 1: besoin d'une action sélectionnée
-                continueBtn.disabled = !selectedAction;
-                continueBtn.textContent = 'Continuer';
-            } else if (currentStep === 2) {
-                if (selectedAction === 'register') {
-                    // Étape 2 pour l'inscription: besoin d'un profil sélectionné
-                    continueBtn.disabled = !selectedProfile;
-                    continueBtn.textContent = 'S\'inscrire';
-                } else if (selectedAction === 'login') {
-                    // Étape 2 pour la connexion: prêt à continuer
-                    continueBtn.disabled = false;
-                    continueBtn.textContent = 'Se connecter';
-                }
-            }
-            
-            // Mettre à jour l'apparence du bouton
-            continueBtn.className = continueBtn.disabled ? 
-                'modal-btn modal-btn-disabled' : 
-                'modal-btn modal-btn-primary';
-        }
-    </script>
+    });
+    
+    // ========== INITIALISATION ==========
+    
+    document.addEventListener('DOMContentLoaded', () => { 
+        loadTeacherStats();
+        loadCourses();      // Affiche les 8 cartes de cours
+        loadResources();    // Affiche les 5 cartes de ressources
+    });
+</script>
 </body>
 </html>
