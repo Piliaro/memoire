@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des utilisateurs - Sukuli Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --deep: #002f2a;
+            --deep-alt: #003333;
+            --deep-mid: #003d38;
+            --deep-hover: #004d45;
+            --deep-light: #005a52;
+            --deep-pale: #e5f0ef;
+            --deep-muted: #c2d8d6;
+            --teal: #1ab5a0;
+            --teal-light: #5dcfbe;
+            --teal-pale: #dff5f2;
+            --gold: #e8c44a;
+            --amber: #c9980e;
+            --white: #ffffff;
+            --off-white: #f5faf9;
+            --g50: #f8fafa;
+            --g100: #eef3f2;
+            --g200: #d9e5e4;
+            --g300: #b5cbc9;
+            --g400: #84a8a5;
+            --g500: #5c8885;
+            --g600: #3c6360;
+            --g700: #264545;
+            --g800: #152f2f;
+            --g900: #0a1e1e;
+            --hdr: #0a1a18;
+            --txt: #1a3030;
+            --txt-b: #3a5555;
+            --txt-m: #6a8888;
+            --purple: #7B1FA2;
+            --purple-light: #f3e5f5;
+            --coral: #D85A30;
+            --coral-light: #FAECE7;
+            --red: #e74c3c;
+            --orange-attente: #e67e22;
+            --vert-valide: #27ae60;
+            --bleu-info: #2980b9;
+            --violet-role: #8e44ad;
+            --sh-sm: 0 2px 8px rgba(0,47,42,.12);
+            --sh-md: 0 8px 28px rgba(0,47,42,.16);
+            --sh-lg: 0 20px 56px rgba(0,47,42,.22);
+            --r-sm: 8px;
+            --r-md: 14px;
+            --r-lg: 22px;
+            --r-xl: 32px;
+        }
+
+        * { box-sizing: border-box; }
+        body { background-color: var(--off-white); font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--txt-b); margin: 0; }
+
+        .admin-container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        .top-header {
+            background: var(--hdr);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,.25);
+        }
+        .top-header .admin-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--deep-mid), var(--teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--gold);
+        }
+        .logo-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -.3px;
+            white-space: nowrap;
+        }
+        .logo-text span { color: var(--teal-light); }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .header-search {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 8px;
+            padding: 6px 13px;
+            gap: 8px;
+        }
+        .header-search input {
+            background: none;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: .85rem;
+            width: 180px;
+        }
+        .header-search input::placeholder { color: rgba(255,255,255,.5); }
+        .header-search i { color: rgba(255,255,255,.5); }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 10px;
+            padding: 6px 12px 6px 7px;
+            cursor: pointer;
+        }
+        .user-avatar-small {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .75rem;
+            color: white;
+        }
+        .user-name {
+            font-size: .84rem;
+            font-weight: 600;
+            color: var(--white);
+            white-space: nowrap;
+        }
+
+        /* Navigation horizontale */
+        .horizontal-nav {
+            background: linear-gradient(90deg, var(--deep) 0%, var(--deep-mid) 40%, var(--deep-alt) 75%, var(--hdr) 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,.15);
+            position: sticky;
+            top: 64px;
+            z-index: 999;
+        }
+        .horizontal-menu {
+            display: flex;
+            gap: 2px;
+            flex-wrap: wrap;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 13px 17px;
+            color: rgba(255,255,255,.9);
+            text-decoration: none;
+            transition: all .3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            font-size: .88rem;
+        }
+        .nav-item:hover {
+            background: rgba(255,255,255,.15);
+            border-bottom-color: var(--teal-light);
+            color: white;
+        }
+        .nav-item.active {
+            background: rgba(0,0,0,.2);
+            border-bottom-color: var(--gold);
+            font-weight: 600;
+            color: white;
+        }
+        .nav-badge {
+            background: var(--teal);
+            color: white;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-size: .68rem;
+            font-weight: 700;
+        }
+
+        /* Main content */
+        .main-content { padding: 28px 0 50px; }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: var(--sh-sm);
+            border: 1px solid var(--g200);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all .3s;
+        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: var(--sh-md); }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        .stat-info h3 { font-size: 1.6rem; font-weight: 800; color: var(--txt); margin: 0; line-height: 1.2; }
+        .stat-info p { font-size: .75rem; color: var(--txt-m); margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+
+        /* Tabs */
+        .users-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--g200);
+            padding-bottom: 12px;
+        }
+        .user-tab {
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            color: var(--txt-m);
+            border: 1.5px solid transparent;
+            transition: all .25s;
+        }
+        .user-tab:hover { background: var(--deep-pale); color: var(--deep); }
+        .user-tab.active {
+            background: var(--deep);
+            color: white;
+            border-color: var(--deep);
+            box-shadow: var(--sh-sm);
+        }
+
+        /* Admin Cards */
+        .admin-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--sh-sm);
+            margin-bottom: 24px;
+            border: 1px solid var(--g200);
+            overflow: hidden;
+        }
+        .admin-card-header {
+            background: var(--deep);
+            color: white;
+            padding: 16px 24px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .admin-card-header i { color: var(--gold); margin-right: 8px; }
+
+        /* Role Cards */
+        .role-card {
+            border: 1.5px solid var(--g200);
+            border-radius: 14px;
+            padding: 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 14px;
+            background: white;
+            transition: all .25s;
+        }
+        .role-card:hover {
+            border-color: var(--teal);
+            box-shadow: var(--sh-sm);
+            transform: translateX(4px);
+        }
+        .role-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        .role-body { flex: 1; }
+        .role-name { font-weight: 800; font-size: 1rem; color: var(--txt); margin-bottom: 4px; }
+        .role-email { font-size: .75rem; color: var(--txt-m); margin-bottom: 8px; font-family: monospace; }
+        .role-perms { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+        .perm-tag {
+            background: var(--g100);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: .68rem;
+            font-weight: 700;
+            color: var(--txt-b);
+        }
+        .perm-tag.yes { background: #E8F5E9; color: var(--vert-valide); }
+        .perm-tag.no { background: #FFEBEE; color: var(--red); }
+        .role-actions { display: flex; gap: 8px; margin-top: 10px; }
+        .btn-icon-sm {
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: .72rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-edit { background: var(--g100); color: var(--bleu-info); }
+        .btn-edit:hover { background: var(--bleu-info); color: white; }
+        .btn-disable { background: #FFEBEE; color: var(--red); }
+        .btn-disable:hover { background: var(--red); color: white; }
+        .btn-enable { background: #E8F5E9; color: var(--vert-valide); }
+        .btn-enable:hover { background: var(--vert-valide); color: white; }
+
+        /* User Table */
+        .user-table { width: 100%; border-collapse: collapse; }
+        .user-table th {
+            background: var(--g100);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: .8rem;
+            color: var(--txt);
+            border-bottom: 2px solid var(--g200);
+        }
+        .user-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--g200);
+            font-size: .85rem;
+            vertical-align: middle;
+        }
+        .user-table tr:hover { background: var(--off-white); }
+        .user-avatar-sm {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+        .badge-role {
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: .7rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+        .badge-admin { background: linear-gradient(135deg, var(--coral), #c0392b); color: white; }
+        .badge-moderator { background: linear-gradient(135deg, var(--orange-attente), #e65100); color: white; }
+        .badge-support { background: linear-gradient(135deg, var(--bleu-info), #1565C0); color: white; }
+        .badge-finance { background: linear-gradient(135deg, var(--vert-valide), #00796b); color: white; }
+        .badge-teacher { background: var(--teal); color: white; }
+        .badge-student { background: var(--gold); color: var(--deep); }
+        .badge-parent { background: var(--purple); color: white; }
+        .badge-school { background: var(--coral); color: white; }
+
+        .status-active { color: var(--vert-valide); }
+        .status-inactive { color: var(--red); }
+        .status-pending { color: var(--orange-attente); }
+
+        /* Filter bar */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .filter-bar input, .filter-bar select {
+            padding: 8px 14px;
+            border: 1.5px solid var(--g200);
+            border-radius: 30px;
+            font-size: .8rem;
+            outline: none;
+            background: white;
+        }
+        .filter-bar input:focus, .filter-bar select:focus { border-color: var(--teal); }
+
+        /* Modal */
+        .modal-custom .modal-content {
+            border-radius: 20px;
+            border: none;
+            overflow: hidden;
+        }
+        .modal-custom .modal-header {
+            background: var(--deep);
+            color: white;
+            border: none;
+            padding: 18px 24px;
+        }
+        .modal-custom .modal-header .btn-close { filter: brightness(0) invert(1); }
+        .modal-custom .modal-body { padding: 24px; }
+        .modal-custom .form-label { font-weight: 600; color: var(--txt); font-size: .85rem; margin-bottom: 6px; }
+        .modal-custom .form-control, .modal-custom .form-select {
+            border: 1.5px solid var(--g200);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: .85rem;
+        }
+        .modal-custom .form-control:focus, .modal-custom .form-select:focus {
+            border-color: var(--teal);
+            box-shadow: none;
+        }
+
+        .btn-primary-custom {
+            background: var(--deep);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: .85rem;
+            transition: all .3s;
+        }
+        .btn-primary-custom:hover { background: var(--deep-hover); transform: translateY(-2px); }
+
+        .toast-notif {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: var(--deep);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: .85rem;
+            font-weight: 600;
+            box-shadow: var(--sh-lg);
+            z-index: 9999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .35s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast-notif.show { transform: translateY(0); opacity: 1; }
+        .toast-notif.success { border-left: 4px solid var(--vert-valide); }
+
+        @media (max-width: 992px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .header-search { display: none; }
+        }
+        @media (max-width: 768px) {
+            .horizontal-menu { flex-wrap: nowrap; overflow-x: auto; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .user-table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Toast -->
+<div class="toast-notif" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<!-- Header -->
+<header class="top-header">
+    <div class="admin-container">
+        <a href="#" class="logo">
+            <div class="logo-icon">S</div>
+            <div class="logo-text">Suku<span>li</span></div>
+        </a>
+        <div class="header-right">
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher un utilisateur...">
+            </div>
+            <div class="profile-btn">
+                <div class="user-avatar-small" style="background:linear-gradient(45deg, var(--coral), var(--gold))">AD</div>
+                <div>
+                    <div class="user-name">Admin System</div>
+                    <div style="font-size:.7rem;color:rgba(255,255,255,.55)">Administrateur Principal</div>
+                </div>
+                <i class="fas fa-chevron-down" style="font-size:.7rem;color:rgba(255,255,255,.5)"></i>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation -->
+<nav class="horizontal-nav">
+    <div class="admin-container">
+        <div class="horizontal-menu">
+            <a href="#" class="nav-item"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
+            <a href="#" class="nav-item active"><i class="fas fa-users"></i><span>Utilisateurs</span><span class="nav-badge">128</span></a>
+            <a href="#" class="nav-item"><i class="fas fa-envelope"></i><span>Messages</span></a>
+            <a href="#" class="nav-item"><i class="fas fa-euro-sign"></i><span>Paiements</span></a>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="admin-container">
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon" style="background:var(--deep-pale);color:var(--deep)"><i class="fas fa-user-shield"></i></div><div class="stat-info"><h3>4</h3><p>Administrateurs</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:#E3F2FD;color:var(--bleu-info)"><i class="fas fa-chalkboard-user"></i></div><div class="stat-info"><h3>124</h3><p>Enseignants</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:#FFF3E0;color:var(--orange-attente)"><i class="fas fa-graduation-cap"></i></div><div class="stat-info"><h3>1 892</h3><p>Élèves</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:var(--purple-light);color:var(--purple)"><i class="fas fa-hand-holding-heart"></i></div><div class="stat-info"><h3>456</h3><p>Parents</p></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:#E8F5E9;color:var(--vert-valide)"><i class="fas fa-school"></i></div><div class="stat-info"><h3>32</h3><p>Écoles</p></div></div>
+        </div>
+
+        <!-- Tabs Utilisateurs -->
+        <div class="users-tabs">
+            <button class="user-tab active" data-tab="all">Tous (2 508)</button>
+            <button class="user-tab" data-tab="admins">Administrateurs (4)</button>
+            <button class="user-tab" data-tab="teachers">Enseignants (124)</button>
+            <button class="user-tab" data-tab="students">Élèves (1 892)</button>
+            <button class="user-tab" data-tab="parents">Parents (456)</button>
+            <button class="user-tab" data-tab="schools">Écoles (32)</button>
+        </div>
+
+        <!-- Section Sous-administrateurs & Rôles (prioritaire) -->
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <span><i class="fas fa-user-shield"></i> Sous-administrateurs &amp; Rôles</span>
+                <button class="btn-primary-custom" style="background: var(--gold); color: var(--deep); padding: 6px 16px; font-size: .8rem;" onclick="openAddAdminModal()">
+                    <i class="fas fa-plus"></i> Nouveau sous-admin
+                </button>
+            </div>
+            <div class="card-body" style="padding: 20px;">
+                <div id="adminsList">
+                    <!-- Liste des administrateurs chargée dynamiquement -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste des utilisateurs (enseignants, élèves, etc.) -->
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <span><i class="fas fa-list"></i> Liste des utilisateurs</span>
+                <div class="filter-bar" style="margin-bottom: 0;">
+                    <input type="text" id="searchUserInput" placeholder="Nom, email..." style="width: 200px;">
+                    <select id="roleFilterSelect">
+                        <option value="all">Tous les rôles</option>
+                        <option value="teacher">Enseignant</option>
+                        <option value="student">Élève</option>
+                        <option value="parent">Parent</option>
+                        <option value="school">École</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <select id="statusFilterSelect">
+                        <option value="all">Tous statuts</option>
+                        <option value="active">Actif</option>
+                        <option value="inactive">Inactif</option>
+                        <option value="pending">En attente</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-body" style="padding: 0; overflow-x: auto;">
+                <table class="user-table" id="usersTable">
+                    <thead>
+                        <tr><th>Utilisateur</th><th>Email</th><th>Rôle</th><th>Statut</th><th>Inscription</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Rempli dynamiquement -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal Ajouter Sous-admin -->
+<div class="modal fade modal-custom" id="addAdminModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-user-shield"></i> Créer un sous-administrateur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3"><label class="form-label">Nom complet</label><input type="text" class="form-control" id="adminName" placeholder="Ex: Abla Kofi"></div>
+                <div class="mb-3"><label class="form-label">Adresse email</label><input type="email" class="form-control" id="adminEmail" placeholder="exemple@sukuli.tg"></div>
+                <div class="mb-3"><label class="form-label">Rôle</label>
+                    <select class="form-select" id="adminRole">
+                        <option value="Modérateur">Modérateur de contenu</option>
+                        <option value="Support">Agent Support Client</option>
+                        <option value="Finance">Superviseur financier</option>
+                        <option value="Validateur">Validateur de profils</option>
+                    </select>
+                </div>
+                <div class="mb-3"><label class="form-label">Permissions</label>
+                    <div class="border rounded p-3" style="background: var(--g50);">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="permModeration" checked><label class="form-check-label">Modération des contenus</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="permSupport"><label class="form-check-label">Gestion des tickets support</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="permFinance"><label class="form-check-label">Accès aux transactions financières</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="permUsers"><label class="form-check-label">Gestion des utilisateurs</label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn-primary-custom" onclick="createAdmin()">Créer le compte</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ajouter Utilisateur simple -->
+<div class="modal fade modal-custom" id="addUserModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-user-plus"></i> Ajouter un utilisateur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3"><label class="form-label">Nom complet</label><input type="text" class="form-control" id="newUserName" placeholder="Nom et prénom"></div>
+                <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" id="newUserEmail" placeholder="email@exemple.tg"></div>
+                <div class="mb-3"><label class="form-label">Rôle</label>
+                    <select class="form-select" id="newUserRole">
+                        <option value="teacher">Enseignant</option>
+                        <option value="student">Élève</option>
+                        <option value="parent">Parent</option>
+                        <option value="school">Établissement scolaire</option>
+                    </select>
+                </div>
+                <div class="mb-3"><label class="form-label">Téléphone</label><input type="text" class="form-control" id="newUserPhone" placeholder="+228 XX XX XX XX"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn-primary-custom" onclick="createUser()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Données des administrateurs
+    let admins = [
+        { id: 1, name: "Admin System", email: "admin@sukuli.tg", role: "Administrateur Principal", perms: ["Modération","Support","Finance","Utilisateurs","Configuration","Rôles"], active: true, avatar: "AD", color: "linear-gradient(135deg, var(--coral), #c0392b)" },
+        { id: 2, name: "Abla Kofi", email: "abla.kofi@sukuli.tg", role: "Modérateur", perms: ["Modération","Utilisateurs"], active: true, avatar: "AK", color: "linear-gradient(135deg, var(--orange-attente), #e65100)" },
+        { id: 3, name: "Kodjo Dossou", email: "kodjo.d@sukuli.tg", role: "Support", perms: ["Support"], active: true, avatar: "KD", color: "linear-gradient(135deg, var(--bleu-info), #1565C0)" },
+        { id: 4, name: "Fafa Metowu", email: "fafa.m@sukuli.tg", role: "Finance", perms: ["Finance"], active: true, avatar: "FM", color: "linear-gradient(135deg, var(--vert-valide), #00796b)" }
+    ];
+
+    // Données des utilisateurs standards
+    let users = [
+        { id: 101, name: "Koffi Agbessi", email: "k.agbessi@sukuli.tg", role: "teacher", roleLabel: "Enseignant", status: "active", date: "15/03/2025", avatar: "KA", color: "var(--teal)" },
+        { id: 102, name: "Aïcha Mensah", email: "a.mensah@sukuli.tg", role: "teacher", roleLabel: "Enseignant", status: "active", date: "10/03/2025", avatar: "AM", color: "var(--teal)" },
+        { id: 201, name: "Thomas Kossi", email: "t.kossi@sukuli.tg", role: "student", roleLabel: "Élève", status: "active", date: "20/02/2025", avatar: "TK", color: "var(--gold)" },
+        { id: 202, name: "Marie Claire", email: "m.claire@sukuli.tg", role: "student", roleLabel: "Élève", status: "pending", date: "01/04/2025", avatar: "MC", color: "var(--gold)" },
+        { id: 301, name: "Jean Parent", email: "j.parent@sukuli.tg", role: "parent", roleLabel: "Parent", status: "active", date: "05/03/2025", avatar: "JP", color: "var(--purple)" },
+        { id: 401, name: "Lycée Moderne de Lomé", email: "contact@lyceemoderne.tg", role: "school", roleLabel: "École", status: "active", date: "12/02/2025", avatar: "LM", color: "var(--coral)" }
+    ];
+
+    function renderAdmins() {
+        const container = document.getElementById('adminsList');
+        if (!container) return;
+        container.innerHTML = admins.filter(a => a.active).map(admin => `
+            <div class="role-card">
+                <div class="role-avatar" style="background: ${admin.color};">${admin.avatar}</div>
+                <div class="role-body">
+                    <div class="role-name">${admin.name} <span class="badge-admin" style="font-size: .65rem; padding: 2px 8px; margin-left: 8px;">${admin.role}</span></div>
+                    <div class="role-email">${admin.email}</div>
+                    <div class="role-perms">${['Modération','Support','Finance','Utilisateurs','Configuration','Rôles'].map(p => `<span class="perm-tag ${admin.perms.includes(p) ? 'yes' : 'no'}">${p}</span>`).join('')}</div>
+                    <div class="role-actions">
+                        <button class="btn-icon-sm btn-edit" onclick="editAdmin(${admin.id})"><i class="fas fa-edit"></i> Modifier</button>
+                        <button class="btn-icon-sm btn-disable" onclick="disableAdmin(${admin.id})"><i class="fas fa-user-slash"></i> Désactiver</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        if (admins.filter(a => a.active).length === 0) container.innerHTML = '<p class="text-muted text-center py-4">Aucun sous-administrateur actif.</p>';
+    }
+
+    function renderUsers() {
+        const search = document.getElementById('searchUserInput')?.value.toLowerCase() || '';
+        const roleFilter = document.getElementById('roleFilterSelect')?.value || 'all';
+        const statusFilter = document.getElementById('statusFilterSelect')?.value || 'all';
+        const filtered = users.filter(u => {
+            const matchSearch = u.name.toLowerCase().includes(search) || u.email.toLowerCase().includes(search);
+            const matchRole = roleFilter === 'all' || u.role === roleFilter;
+            const matchStatus = statusFilter === 'all' || u.status === statusFilter;
+            return matchSearch && matchRole && matchStatus;
+        });
+        const tbody = document.getElementById('usersTableBody');
+        if (!tbody) return;
+        tbody.innerHTML = filtered.map(u => `
+            <tr>
+                <td><div style="display: flex; align-items: center; gap: 12px;"><div class="user-avatar-sm" style="background: ${u.color};">${u.avatar}</div><div><strong>${u.name}</strong></div></div></td>
+                <td>${u.email}</td>
+                <td><span class="badge-role ${u.role === 'teacher' ? 'badge-teacher' : u.role === 'student' ? 'badge-student' : u.role === 'parent' ? 'badge-parent' : 'badge-school'}">${u.roleLabel}</span></td>
+                <td><span class="${u.status === 'active' ? 'status-active' : u.status === 'pending' ? 'status-pending' : 'status-inactive'}"><i class="fas fa-circle" style="font-size: 0.6rem;"></i> ${u.status === 'active' ? 'Actif' : u.status === 'pending' ? 'En attente' : 'Inactif'}</span></td>
+                <td>${u.date}</td>
+                <td><button class="btn-icon-sm btn-edit" onclick="editUser(${u.id})"><i class="fas fa-edit"></i></button> <button class="btn-icon-sm btn-disable" onclick="toggleUserStatus(${u.id})"><i class="fas ${u.status === 'active' ? 'fa-ban' : 'fa-check-circle'}"></i></button></td>
+            </tr>
+        `).join('');
+        if (filtered.length === 0) tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">Aucun utilisateur trouvé.</td></tr>';
+    }
+
+    function createAdmin() {
+        const name = document.getElementById('adminName').value.trim();
+        const email = document.getElementById('adminEmail').value.trim();
+        const role = document.getElementById('adminRole').value;
+        if (!name || !email) { showToast("Veuillez remplir tous les champs", "error"); return; }
+        const perms = [];
+        if (document.getElementById('permModeration').checked) perms.push("Modération");
+        if (document.getElementById('permSupport').checked) perms.push("Support");
+        if (document.getElementById('permFinance').checked) perms.push("Finance");
+        if (document.getElementById('permUsers').checked) perms.push("Utilisateurs");
+        const newId = Math.max(...admins.map(a => a.id), 0) + 1;
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+        admins.push({ id: newId, name, email, role, perms, active: true, avatar: initials, color: "linear-gradient(135deg, var(--deep-mid), var(--teal))" });
+        renderAdmins();
+        bootstrap.Modal.getInstance(document.getElementById('addAdminModal')).hide();
+        document.getElementById('adminName').value = '';
+        document.getElementById('adminEmail').value = '';
+        showToast(`Sous-administrateur ${name} créé avec succès !`, "success");
+    }
+
+    function createUser() {
+        const name = document.getElementById('newUserName').value.trim();
+        const email = document.getElementById('newUserEmail').value.trim();
+        const role = document.getElementById('newUserRole').value;
+        const phone = document.getElementById('newUserPhone').value;
+        if (!name || !email) { showToast("Veuillez remplir les champs obligatoires", "error"); return; }
+        const roleLabels = { teacher: "Enseignant", student: "Élève", parent: "Parent", school: "École" };
+        const colors = { teacher: "var(--teal)", student: "var(--gold)", parent: "var(--purple)", school: "var(--coral)" };
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+        const newId = Math.max(...users.map(u => u.id), 0) + 1;
+        users.push({ id: newId, name, email, role, roleLabel: roleLabels[role], status: "pending", date: new Date().toLocaleDateString('fr-FR'), avatar: initials, color: colors[role] });
+        renderUsers();
+        bootstrap.Modal.getInstance(document.getElementById('addUserModal')).hide();
+        document.getElementById('newUserName').value = '';
+        document.getElementById('newUserEmail').value = '';
+        showToast(`Utilisateur ${name} ajouté avec succès !`, "success");
+    }
+
+    function editAdmin(id) { showToast("Fonctionnalité d'édition en développement", "warning"); }
+    function disableAdmin(id) {
+        const admin = admins.find(a => a.id === id);
+        if (admin) { admin.active = false; renderAdmins(); showToast(`Compte ${admin.name} désactivé`, "warning"); }
+    }
+    function editUser(id) { showToast("Fonctionnalité d'édition en développement", "warning"); }
+    function toggleUserStatus(id) {
+        const user = users.find(u => u.id === id);
+        if (user) { user.status = user.status === 'active' ? 'inactive' : 'active'; renderUsers(); showToast(`Statut de ${user.name} mis à jour`, "success"); }
+    }
+    function openAddAdminModal() { new bootstrap.Modal(document.getElementById('addAdminModal')).show(); }
+    function openAddUserModal() { new bootstrap.Modal(document.getElementById('addUserModal')).show(); }
+
+    function showToast(msg, type = 'success') {
+        const t = document.getElementById('toast');
+        const icons = { success: '<i class="fas fa-check-circle"></i>', warning: '<i class="fas fa-exclamation-triangle"></i>', error: '<i class="fas fa-times-circle"></i>' };
+        t.innerHTML = (icons[type] || icons.success) + '<span>' + msg + '</span>';
+        t.className = 'toast-notif show ' + type;
+        clearTimeout(t._to);
+        t._to = setTimeout(() => t.className = 'toast-notif', 3200);
+    }
+
+    // Gestion des onglets
+    document.querySelectorAll('.user-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.user-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const filter = tab.dataset.tab;
+            if (filter === 'all') { document.getElementById('roleFilterSelect').value = 'all'; }
+            else if (filter === 'admins') { document.getElementById('roleFilterSelect').value = 'admin'; }
+            else if (filter === 'teachers') { document.getElementById('roleFilterSelect').value = 'teacher'; }
+            else if (filter === 'students') { document.getElementById('roleFilterSelect').value = 'student'; }
+            else if (filter === 'parents') { document.getElementById('roleFilterSelect').value = 'parent'; }
+            else if (filter === 'schools') { document.getElementById('roleFilterSelect').value = 'school'; }
+            renderUsers();
+        });
+    });
+
+    document.getElementById('searchUserInput')?.addEventListener('input', () => renderUsers());
+    document.getElementById('roleFilterSelect')?.addEventListener('change', () => renderUsers());
+    document.getElementById('statusFilterSelect')?.addEventListener('change', () => renderUsers());
+
+    // Initialisation
+    renderAdmins();
+    renderUsers();
+</script>
+</body>
+</html>

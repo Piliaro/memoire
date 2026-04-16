@@ -3,977 +3,992 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord Admin - EduTogoConnect</title>
-    <!-- Bootstrap 5 CSS -->
+    <title>Gestion Avancée - Sukuli Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js pour les graphiques -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Variables de couleurs - Drapeau togolais */
         :root {
-            --jaune-principal: #FFD700;
-            --rouge-principal: #EF3340;
-            --vert-principal: #00A651;
-            --blanc-principal: #FFFFFF;
-            --gris-fonce: #333333;
-            --gris-moyen: #666666;
-            --gris-clair: #F5F5F5;
-            --orange-attente: #FF9800;
-            --vert-valide: #4CAF50;
-            --rouge-invalide: #F44336;
-            --cyan-info: #00BCD4;
+            --deep: #002f2a;
+            --deep-alt: #003333;
+            --deep-mid: #003d38;
+            --deep-hover: #004d45;
+            --deep-light: #005a52;
+            --deep-pale: #e5f0ef;
+            --deep-muted: #c2d8d6;
+            --teal: #1ab5a0;
+            --teal-light: #5dcfbe;
+            --teal-pale: #dff5f2;
+            --gold: #e8c44a;
+            --amber: #c9980e;
+            --white: #ffffff;
+            --off-white: #f5faf9;
+            --g50: #f8fafa;
+            --g100: #eef3f2;
+            --g200: #d9e5e4;
+            --g300: #b5cbc9;
+            --g400: #84a8a5;
+            --g500: #5c8885;
+            --g600: #3c6360;
+            --g700: #264545;
+            --g800: #152f2f;
+            --g900: #0a1e1e;
+            --hdr: #0a1a18;
+            --txt: #1a3030;
+            --txt-b: #3a5555;
+            --txt-m: #6a8888;
+            --purple: #7B1FA2;
+            --purple-light: #f3e5f5;
+            --coral: #D85A30;
+            --coral-light: #FAECE7;
+            --red: #e74c3c;
+            --orange-attente: #e67e22;
+            --vert-valide: #27ae60;
+            --bleu-info: #2980b9;
+            --violet-role: #8e44ad;
+            --sh-sm: 0 2px 8px rgba(0,47,42,.12);
+            --sh-md: 0 8px 28px rgba(0,47,42,.16);
+            --sh-lg: 0 20px 56px rgba(0,47,42,.22);
+            --r-sm: 8px;
+            --r-md: 14px;
+            --r-lg: 22px;
+            --r-xl: 32px;
         }
-        
-        body {
-            background-color: var(--gris-clair);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--gris-fonce);
-        }
-        
-        /* Header Principal */
-        .main-header {
-            background-color: var(--blanc-principal);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+        * { box-sizing: border-box; }
+        body { background-color: var(--off-white); font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--txt-b); margin: 0; }
+
+        /* ── ADMIN CONTAINER ── */
+        .admin-container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+        /* ── TOP HEADER BAR (Navigation intégrée) ── */
+        .top-header {
+            background: var(--hdr);
+            height: auto;
+            min-height: 64px;
+            display: flex;
+            align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,.25);
+            padding: 8px 0;
         }
-        
-        .admin-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .navbar {
+        .top-header .admin-container {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        
+
+        /* Header Left: Logo + Navigation */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* ── LOGO ── */
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: var(--gris-fonce);
+            flex-shrink: 0;
         }
-        
         .logo-icon {
-            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
-            color: var(--gris-fonce);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-        }
-        
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        .logo-text span {
-            color: var(--vert-principal);
-        }
-        
-        /* Barre de recherche */
-        .search-bar-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-        }
-        
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background-color: var(--blanc-principal);
-            border-radius: 30px;
-            padding: 8px 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .search-bar:focus-within {
-            border-color: var(--jaune-principal);
-            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
-        }
-        
-        .search-bar input {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 8px 10px;
-            font-size: 0.95rem;
-            background: transparent;
-        }
-        
-        .search-btn {
-            background-color: var(--jaune-principal);
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--gris-fonce);
-            transition: all 0.3s;
-        }
-        
-        .search-btn:hover {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            transform: scale(1.05);
-        }
-        
-        /* Menu déroulant profil */
-        .profile-dropdown {
-            position: relative;
-        }
-        
-        .profile-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-        }
-        
-        .profile-btn:hover {
-            background-color: var(--gris-clair);
-        }
-        
-        .profile-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: var(--blanc-principal);
-            min-width: 280px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
-            overflow: hidden;
-            z-index: 1001;
-            margin-top: 10px;
-        }
-        
-        .profile-menu.active {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .profile-menu-header {
-            padding: 20px;
-            background-color: var(--gris-clair);
-            text-align: center;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-        
-        .profile-menu-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
-            margin: 0 auto 15px;
+            background: linear-gradient(135deg, var(--deep-mid), var(--teal));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            color: var(--blanc-principal);
-            font-weight: bold;
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--gold);
+            flex-shrink: 0;
         }
-        
-        .profile-menu-name {
+        .logo-text {
+            font-size: 1.15rem;
             font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-            color: var(--gris-fonce);
+            color: var(--white);
+            letter-spacing: -.3px;
+            white-space: nowrap;
         }
-        
-        .profile-menu-role {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-        
-        .profile-menu-email {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-        
-        .profile-menu-lastlogin {
-            color: var(--gris-moyen);
-            font-size: 0.85rem;
+        .logo-text span { color: var(--teal-light); }
+
+        /* Navigation principale dans le header */
+        .header-nav {
             display: flex;
             align-items: center;
-            gap: 5px;
-            justify-content: center;
-        }
-        
-        .profile-menu-list {
-            list-style: none;
-        }
-        
-        .profile-menu-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--gris-clair);
-            transition: background-color 0.3s;
-        }
-        
-        .profile-menu-item:last-child {
-            border-bottom: none;
-        }
-        
-        .profile-menu-item:hover {
-            background-color: var(--gris-clair);
-        }
-        
-        .profile-menu-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--gris-fonce);
-            text-decoration: none;
-        }
-        
-        .profile-menu-link i {
-            width: 20px;
-            color: var(--gris-moyen);
-        }
-        
-        .profile-menu-link.logout {
-            color: var(--rouge-principal);
-        }
-        
-        .profile-menu-link.logout i {
-            color: var(--rouge-principal);
-        }
-        
-        /* Barre de navigation horizontale */
-        .horizontal-nav {
-            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 80px;
-            z-index: 999;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        /* Navigation horizontale */
-        .horizontal-menu {
-            display: flex;
-            gap: 5px;
+            gap: 2px;
             flex-wrap: wrap;
         }
-        
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            color: var(--blanc-principal);
+            gap: 7px;
+            padding: 8px 16px;
+            color: rgba(255,255,255,.9);
             text-decoration: none;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
+            transition: all .3s;
+            border-radius: 6px;
             font-weight: 500;
             white-space: nowrap;
+            font-size: .88rem;
+            border-bottom: 3px solid transparent;
         }
-        
         .nav-item:hover {
-            background-color: rgba(255,255,255,0.2);
-            border-bottom-color: var(--blanc-principal);
+            background: rgba(255,255,255,.15);
+            color: white;
         }
-        
         .nav-item.active {
-            background-color: rgba(255,255,255,0.3);
-            border-bottom-color: var(--jaune-principal);
+            background: rgba(255,255,255,.1);
+            border-bottom-color: var(--gold);
             font-weight: 600;
+            color: white;
         }
-        
-        .nav-item i {
-            font-size: 1rem;
-        }
-        
         .nav-badge {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            padding: 2px 8px;
+            background: var(--teal);
+            color: white;
+            padding: 2px 7px;
             border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 5px;
+            font-size: .68rem;
+            font-weight: 700;
         }
-        
-        /* Bouton notification */
-        .notification-btn {
-            position: relative;
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            color: var(--gris-fonce);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s;
+
+        /* ── HEADER RIGHT: profile + time ── */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
         }
-        
-        .notification-btn:hover {
-            background-color: var(--gris-clair);
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            font-size: 0.7rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
+
+        .header-icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.15);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-        }
-        
-        /* Menu mobile toggle */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gris-fonce);
             cursor: pointer;
+            color: rgba(255,255,255,.8);
+            font-size: .9rem;
+            transition: background .2s;
+            text-decoration: none;
         }
-        
-        /* Contenu principal */
-        .main-content {
-            padding: 30px 0;
-        }
-        
-        /* Cartes de statistiques (réduites) */
-        .stat-card {
-            text-align: center;
-            padding: 1.2rem 0.8rem;
-            border-radius: 12px;
-            color: white;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            border: none;
-            transition: transform 0.3s ease;
-            height: 120px;
+        .header-icon-btn:hover { background: rgba(255,255,255,.2); color: white; }
+
+        /* ── PROFILE BUTTON ── */
+        .profile-btn {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 9px;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 10px;
+            padding: 6px 12px 6px 7px;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .profile-btn:hover { background: rgba(255,255,255,.18); }
+        .user-avatar-small {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
             justify-content: center;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-card.messages {
-            background: linear-gradient(135deg, var(--rouge-principal), #d32f2f);
-        }
-        
-        .stat-card.submissions {
-            background: linear-gradient(135deg, var(--orange-attente), #f57c00);
-        }
-        
-        .stat-card.validations {
-            background: linear-gradient(135deg, var(--vert-principal), #00796b);
-        }
-        
-        .stat-card.payments {
-            background: linear-gradient(135deg, var(--jaune-principal), #fbc02d);
-            color: var(--gris-fonce);
-        }
-        
-        .stat-number {
-            font-size: 2.2rem;
             font-weight: 700;
-            margin-bottom: 0.3rem;
+            font-size: .75rem;
+            color: white;
+            flex-shrink: 0;
         }
-        
-        .stat-label {
-            font-size: 0.95rem;
-            opacity: 0.95;
+        .user-name {
+            font-size: .84rem;
+            font-weight: 600;
+            color: var(--white);
+            white-space: nowrap;
         }
-        
-        /* Contenu du tableau de bord (style ajusté) */
-        .dashboard-content {
-            background-color: var(--blanc-principal);
+
+        /* Live time */
+        .live-time-badge {
+            color: rgba(255,255,255,.75);
+            font-size: .78rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            border-left: 1px solid rgba(255,255,255,.2);
+            padding-left: 15px;
+        }
+        .live-time-badge i {
+            color: var(--teal-light);
+            font-size: .45rem;
+        }
+
+        /* ── MAIN CONTENT ── */
+        .main-content { padding: 28px 0 50px; }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            background: var(--white);
             border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--gris-clair);
+            box-shadow: var(--sh-sm);
+            border: 1px solid var(--g200);
+            padding: 22px 28px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
             position: relative;
             overflow: hidden;
-            margin-top: 1.5rem;
         }
-        
-        .dashboard-content::before {
+        .page-header::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%);
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--teal) 0%, var(--gold) 50%, var(--coral) 100%);
         }
-        
-        /* Cartes d'administration */
-        .admin-card {
-            background: var(--blanc-principal);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 1.5rem;
-            border: none;
-            transition: transform 0.3s ease;
+        .page-header h2 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--txt);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
-        .admin-card:hover {
-            transform: translateY(-3px);
-        }
-        
-        .admin-card-header {
-            background: linear-gradient(90deg, var(--vert-principal), rgba(0, 166, 81, 0.9));
-            color: white;
-            border-radius: 12px 12px 0 0 !important;
-            padding: 1rem 1.2rem;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        
-        /* Styles pour les boutons personnalisés */
-        .btn-primary-custom {
-            background-color: var(--vert-principal);
-            color: white;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary-custom:hover {
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
-            transform: translateY(-2px);
-        }
-        
-        /* Responsive */
+        .page-header h2 i { color: var(--teal); }
+        .page-header p { color: var(--txt-m); font-size: .88rem; margin: 5px 0 0; }
+
+        /* ── MODULES TABS ── */
+        .modules-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+        .module-tab { display: flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 50px; font-size: .87rem; font-weight: 600; cursor: pointer; border: 2px solid transparent; transition: all .25s; text-decoration: none; white-space: nowrap; }
+        .module-tab.active, .module-tab:hover { transform: translateY(-2px); box-shadow: var(--sh-sm); }
+        .tab-moderation { background: var(--deep-pale); color: var(--deep); border-color: var(--deep-muted); }
+        .tab-moderation.active { background: var(--deep); color: white; border-color: var(--deep); }
+        .tab-support { background: #E3F2FD; color: var(--bleu-info); border-color: #BBDEFB; }
+        .tab-support.active { background: var(--bleu-info); color: white; }
+        .tab-finance { background: #E8F5E9; color: var(--vert-valide); border-color: #C8E6C9; }
+        .tab-finance.active { background: var(--vert-valide); color: white; }
+        .tab-config { background: var(--purple-light); color: var(--purple); border-color: #E1BEE7; }
+        .tab-config.active { background: var(--purple); color: white; }
+
+        /* ── PANELS ── */
+        .panel { display: none; animation: fadeIn .3s ease; }
+        .panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ── ADMIN CARD ── */
+        .admin-card { background: var(--white); border-radius: 12px; box-shadow: var(--sh-sm); margin-bottom: 20px; border: 1px solid var(--g200); overflow: hidden; }
+        .admin-card-header { background: var(--deep); color: white; padding: 14px 20px; font-weight: 600; font-size: .97rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .card-header-mod { background: var(--deep); border-bottom: 3px solid var(--gold); }
+        .card-header-blue { background: var(--deep-mid); border-bottom: 3px solid var(--teal-light); }
+        .card-header-green { background: var(--deep-alt); border-bottom: 3px solid var(--teal); }
+        .card-header-red { background: var(--coral); border-bottom: 3px solid var(--gold); }
+        .card-header-violet { background: var(--purple); border-bottom: 3px solid var(--gold); }
+        .card-header-cyan { background: var(--teal); border-bottom: 3px solid var(--gold); }
+        .card-header-yellow { background: var(--amber); color: var(--deep); border-bottom: 3px solid var(--deep); }
+        .card-body { padding: 20px; }
+
+        /* ── MINI STATS ── */
+        .mini-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+        .mini-stat { background: var(--white); border-radius: 10px; padding: 16px; box-shadow: var(--sh-sm); border-left: 4px solid; display: flex; align-items: center; gap: 14px; }
+        .mini-stat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .mini-stat-num { font-size: 1.5rem; font-weight: 700; line-height: 1; color: var(--txt); }
+        .mini-stat-lbl { font-size: .77rem; color: var(--txt-m); margin-top: 3px; }
+        .ms-orange { border-color: var(--orange-attente); } .ms-orange .mini-stat-icon { background: #FFF3E0; color: var(--orange-attente); }
+        .ms-red { border-color: var(--red); } .ms-red .mini-stat-icon { background: #FFEBEE; color: var(--red); }
+        .ms-green { border-color: var(--vert-valide); } .ms-green .mini-stat-icon { background: #E8F5E9; color: var(--vert-valide); }
+        .ms-blue { border-color: var(--bleu-info); } .ms-blue .mini-stat-icon { background: #E3F2FD; color: var(--bleu-info); }
+        .ms-yellow { border-color: var(--gold); } .ms-yellow .mini-stat-icon { background: #FDF6DC; color: var(--amber); }
+        .ms-violet { border-color: var(--purple); } .ms-violet .mini-stat-icon { background: var(--purple-light); color: var(--purple); }
+
+        /* ── TABLE STYLES ── */
+        .table-responsive { border-radius: 8px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+        thead th { background: var(--g100); padding: 11px 14px; font-weight: 600; text-align: left; color: var(--txt); white-space: nowrap; border-bottom: 2px solid var(--g200); }
+        tbody td { padding: 12px 14px; border-bottom: 1px solid var(--g200); vertical-align: middle; }
+        tbody tr:hover { background: var(--off-white); }
+        tbody tr:last-child td { border-bottom: none; }
+
+        /* ── BADGES ── */
+        .badge-signale { background: #FFF3E0; color: var(--orange-attente); border: 1px solid var(--orange-attente); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-actif { background: #E8F5E9; color: var(--vert-valide); border: 1px solid var(--vert-valide); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-suspendu { background: #FFEBEE; color: var(--red); border: 1px solid var(--red); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-cours { background: #E3F2FD; color: var(--bleu-info); border: 1px solid var(--bleu-info); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-epreuve { background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-ressource { background: var(--teal-pale); color: var(--teal); border: 1px solid var(--teal); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-ouvert { background: #FFF3E0; color: var(--orange-attente); border: 1px solid var(--orange-attente); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-resolu { background: #E8F5E9; color: var(--vert-valide); border: 1px solid var(--vert-valide); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-success { background: #E8F5E9; color: var(--vert-valide); border: 1px solid var(--vert-valide); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-echec { background: #FFEBEE; color: var(--red); border: 1px solid var(--red); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-litige { background: #FFF9C4; color: var(--amber); border: 1px solid var(--amber); padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-admin { background: linear-gradient(135deg, var(--coral), #c0392b); color: white; padding: 3px 10px; border-radius: 50px; font-size: .72rem; font-weight: 700; }
+        .badge-moderateur { background: linear-gradient(135deg, var(--orange-attente), #e65100); color: white; padding: 3px 10px; border-radius: 50px; font-size: .72rem; font-weight: 700; }
+        .badge-support { background: linear-gradient(135deg, var(--bleu-info), #1565C0); color: white; padding: 3px 10px; border-radius: 50px; font-size: .72rem; font-weight: 700; }
+        .badge-finance { background: linear-gradient(135deg, var(--vert-valide), #00796b); color: white; padding: 3px 10px; border-radius: 50px; font-size: .72rem; font-weight: 700; }
+
+        /* ── BUTTONS ── */
+        .btn-xs { padding: 4px 10px; font-size: .76rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; transition: all .2s; display: inline-flex; align-items: center; gap: 4px; }
+        .btn-view { background: #E3F2FD; color: var(--bleu-info); } .btn-view:hover { background: var(--bleu-info); color: white; }
+        .btn-warn { background: #FFF3E0; color: var(--orange-attente); } .btn-warn:hover { background: var(--orange-attente); color: white; }
+        .btn-delete { background: #FFEBEE; color: var(--red); } .btn-delete:hover { background: var(--red); color: white; }
+        .btn-restore { background: #E8F5E9; color: var(--vert-valide); } .btn-restore:hover { background: var(--vert-valide); color: white; }
+        .btn-reply { background: #E3F2FD; color: var(--bleu-info); } .btn-reply:hover { background: var(--bleu-info); color: white; }
+        .btn-close-ticket { background: #E8F5E9; color: var(--vert-valide); } .btn-close-ticket:hover { background: var(--vert-valide); color: white; }
+        .btn-refund { background: #FFF9C4; color: var(--amber); } .btn-refund:hover { background: var(--amber); color: white; }
+
+        .btn-primary-custom { background: var(--deep); color: white; border: none; padding: .55rem 1.1rem; border-radius: 8px; font-weight: 600; font-size: .87rem; transition: all .3s; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-primary-custom:hover { background: var(--deep-hover); transform: translateY(-2px); }
+        .btn-orange { background: var(--orange-attente) !important; }
+        .btn-blue { background: var(--bleu-info) !important; }
+        .btn-red { background: var(--red) !important; }
+        .btn-violet { background: var(--purple) !important; }
+        .w-100 { width: 100%; justify-content: center; }
+
+        /* ── FILTER BAR ── */
+        .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+        .filter-bar input, .filter-bar select { padding: 8px 13px; border: 1.5px solid var(--g200); border-radius: 8px; font-size: .85rem; outline: none; transition: border .2s; background: white; }
+        .filter-bar input:focus, .filter-bar select:focus { border-color: var(--teal); }
+
+        /* ── PROGRESS BAR ── */
+        .progress-mini { background: var(--g200); border-radius: 50px; height: 7px; overflow: hidden; margin-top: 5px; }
+        .progress-fill { height: 100%; border-radius: 50px; }
+
+        /* ── CONFIG ITEMS ── */
+        .config-item { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border: 1.5px solid var(--g200); border-radius: 10px; margin-bottom: 10px; background: var(--off-white); transition: all .2s; }
+        .config-item:hover { border-color: var(--teal); background: white; box-shadow: var(--sh-sm); }
+        .config-item-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+        .config-item-body { flex: 1; }
+        .config-item-title { font-weight: 600; font-size: .88rem; margin-bottom: 2px; color: var(--txt); }
+        .config-item-desc { font-size: .78rem; color: var(--txt-m); }
+
+        /* ── TOGGLE SWITCH ── */
+        .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #ccc; border-radius: 24px; transition: .3s; }
+        .toggle-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .3s; }
+        input:checked + .toggle-slider { background: var(--teal); }
+        input:checked + .toggle-slider:before { transform: translateX(20px); }
+
+        /* ── EMAIL TEMPLATES ── */
+        .email-template { border: 1.5px solid var(--g200); border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+        .email-template-header { background: var(--g100); padding: 12px 16px; font-weight: 600; font-size: .86rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--g200); color: var(--txt); }
+        .email-template-body { padding: 14px 16px; font-size: .83rem; color: var(--txt-m); line-height: 1.6; }
+
+        /* ── COMMISSION CARD ── */
+        .commission-card { background: linear-gradient(135deg, var(--deep), var(--deep-alt)); color: white; border-radius: 12px; padding: 20px; margin-bottom: 14px; position: relative; overflow: hidden; }
+        .commission-amount { font-size: 1.8rem; font-weight: 700; color: var(--gold); }
+
+        /* ── ROLE CARD ── */
+        .role-card { border: 1.5px solid var(--g200); border-radius: 10px; padding: 16px; display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; background: white; transition: all .2s; }
+        .role-card:hover { border-color: var(--purple); box-shadow: var(--sh-sm); }
+        .role-avatar { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: .95rem; flex-shrink: 0; }
+        .role-body { flex: 1; }
+        .role-name { font-weight: 700; font-size: .9rem; margin-bottom: 4px; color: var(--txt); }
+        .role-email { font-size: .8rem; color: var(--txt-m); margin-bottom: 6px; }
+        .role-perms { display: flex; flex-wrap: wrap; gap: 4px; }
+        .perm-tag { background: var(--g100); color: var(--txt-b); padding: 2px 8px; border-radius: 4px; font-size: .7rem; font-weight: 600; }
+        .perm-tag.yes { background: #E8F5E9; color: var(--vert-valide); }
+        .perm-tag.no { background: #FFEBEE; color: var(--red); }
+
+        /* ── TOAST ── */
+        .toast-notif { position: fixed; bottom: 28px; right: 28px; background: var(--deep); color: white; padding: 12px 20px; border-radius: 10px; font-size: .87rem; font-weight: 600; box-shadow: var(--sh-lg); z-index: 9999; transform: translateY(80px); opacity: 0; transition: all .35s cubic-bezier(.4,0,.2,1); display: flex; align-items: center; gap: 10px; max-width: 340px; }
+        .toast-notif.show { transform: translateY(0); opacity: 1; }
+        .toast-notif.success { border-left: 4px solid var(--vert-valide); }
+        .toast-notif.warning { border-left: 4px solid var(--orange-attente); }
+        .toast-notif.error { border-left: 4px solid var(--red); }
+
+        /* ── MODAL ── */
+        .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.55); backdrop-filter: blur(4px); z-index: 8000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all .3s; }
+        .modal-bg.show { opacity: 1; visibility: visible; }
+        .modal-box { background: white; border-radius: 14px; max-width: 520px; width: 90%; box-shadow: var(--sh-lg); transform: scale(.95); transition: transform .3s; overflow: hidden; }
+        .modal-bg.show .modal-box { transform: scale(1); }
+        .modal-hd { padding: 16px 22px; background: var(--deep); color: white; display: flex; justify-content: space-between; align-items: center; }
+        .modal-hd h4 { margin: 0; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+        .modal-close-btn { background: none; border: none; color: rgba(255,255,255,.8); font-size: 1.3rem; cursor: pointer; line-height: 1; }
+        .modal-close-btn:hover { color: var(--gold); }
+        .modal-bd { padding: 22px; }
+        .modal-bd label { display: block; font-size: .84rem; font-weight: 600; margin-bottom: 5px; color: var(--txt); }
+        .modal-bd input, .modal-bd select, .modal-bd textarea { width: 100%; padding: 9px 13px; border: 1.5px solid var(--g200); border-radius: 8px; font-size: .87rem; outline: none; margin-bottom: 14px; transition: border .2s; font-family: 'Nunito', sans-serif; }
+        .modal-bd input:focus, .modal-bd select:focus, .modal-bd textarea:focus { border-color: var(--teal); }
+        .modal-ft { padding: 14px 22px; background: var(--g100); display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--g200); }
+
+        /* ── RESPONSIVE ── */
         @media (max-width: 992px) {
-            .logo-text {
-                font-size: 18px;
-            }
-            
-            .stat-number {
-                font-size: 1.8rem;
-            }
-            
-            .stat-card {
-                height: 100px;
-                padding: 1rem 0.5rem;
-            }
-            
-            .horizontal-nav {
-                display: none;
-            }
-            
-            .menu-toggle {
-                display: block;
-            }
+            .mini-stats { grid-template-columns: repeat(2, 1fr); }
+            .header-nav { order: 3; width: 100%; overflow-x: auto; padding-bottom: 5px; }
+            .header-left { width: 100%; flex-wrap: wrap; }
         }
-        
         @media (max-width: 768px) {
-            .navbar {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-            
-            .search-bar-container {
-                order: 3;
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .stat-card {
-                padding: 1.5rem 0.8rem;
-            }
+            .top-header { min-height: 58px; }
+            .logo-text { font-size: 1rem; }
+            .live-time-badge { display: none; }
         }
-        
         @media (max-width: 576px) {
-            .admin-container {
-                padding: 0 15px;
-            }
-            
-            .admin-card-header {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-            
-            .d-flex.justify-content-between {
-                flex-direction: column;
-                gap: 1rem;
-            }
+            .mini-stats { grid-template-columns: 1fr 1fr; }
+            .modules-tabs { flex-wrap: wrap; }
+            .user-name { display: none; }
         }
     </style>
 </head>
 <body>
-    <!-- Header Principal -->
-    <header class="main-header">
-        <div class="admin-container">
-            <nav class="navbar">
-                <a href="../admin/dashboard.html" class="logo">
-                    <div class="logo-icon">ET</div>
-                    <div class="logo-text">Edu<span>Togo</span>Connect - Admin</div>
+
+<!-- ─── TOAST NOTIFICATION ─── -->
+<div class="toast-notif" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<!-- ─── MODAL ENVOI GROUPÉ ─── -->
+<div class="modal-bg" id="modalGrouped">
+    <div class="modal-box">
+        <div class="modal-hd">
+            <h4><i class="fas fa-paper-plane"></i> Envoi groupé</h4>
+            <button class="modal-close-btn" onclick="closeModal('modalGrouped')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-bd">
+            <label>Destinataires</label>
+            <select><option>Tous les utilisateurs</option><option>Élèves uniquement</option><option>Enseignants uniquement</option><option>Parents uniquement</option><option>Écoles et institutions</option></select>
+            <label>Objet</label>
+            <input type="text" placeholder="Ex: Maintenance prévue le 15 avril 2025">
+            <label>Message</label>
+            <textarea rows="5" placeholder="Rédigez votre message…"></textarea>
+        </div>
+        <div class="modal-ft">
+            <button class="btn-primary-custom" style="background:var(--g400);color:white" onclick="closeModal('modalGrouped')">Annuler</button>
+            <button class="btn-primary-custom btn-blue" onclick="closeModal('modalGrouped');showToast('Message envoyé à tous les utilisateurs !','success')"><i class="fas fa-paper-plane"></i> Envoyer maintenant</button>
+        </div>
+    </div>
+</div>
+
+<!-- ─── MODAL NOUVEAU RÔLE ─── -->
+<div class="modal-bg" id="modalRole">
+    <div class="modal-box">
+        <div class="modal-hd">
+            <h4><i class="fas fa-user-shield"></i> Créer un sous-administrateur</h4>
+            <button class="modal-close-btn" onclick="closeModal('modalRole')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-bd">
+            <label>Nom complet</label>
+            <input type="text" placeholder="Ex: Abla Kofi">
+            <label>Adresse email</label>
+            <input type="email" placeholder="moderateur@sukuli.tg">
+            <label>Rôle attribué</label>
+            <select>
+                <option>Modérateur de contenu</option>
+                <option>Agent Support Client</option>
+                <option>Superviseur financier</option>
+                <option>Validateur de profils</option>
+            </select>
+        </div>
+        <div class="modal-ft">
+            <button class="btn-primary-custom" style="background:var(--g400);color:white" onclick="closeModal('modalRole')">Annuler</button>
+            <button class="btn-primary-custom btn-violet" onclick="closeModal('modalRole');showToast('Sous-administrateur créé avec succès !','success')"><i class="fas fa-user-plus"></i> Créer le compte</button>
+        </div>
+    </div>
+</div>
+
+<!-- ─── MODAL NOUVELLE RÉFÉRENCE ─── -->
+<div class="modal-bg" id="modalRef">
+    <div class="modal-box">
+        <div class="modal-hd">
+            <h4><i class="fas fa-plus-circle"></i> Ajouter une référence</h4>
+            <button class="modal-close-btn" onclick="closeModal('modalRef')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-bd">
+            <label>Type de référence</label>
+            <select id="refType" onchange="updateRefFields()">
+                <option value="ville">Ville</option>
+                <option value="matiere">Matière</option>
+                <option value="niveau">Niveau scolaire</option>
+            </select>
+            <label id="refLabel">Nom de la ville</label>
+            <input type="text" id="refInput" placeholder="Ex: Notsé">
+        </div>
+        <div class="modal-ft">
+            <button class="btn-primary-custom" style="background:var(--g400);color:white" onclick="closeModal('modalRef')">Annuler</button>
+            <button class="btn-primary-custom" onclick="closeModal('modalRef');showToast('Référence ajoutée avec succès !','success')"><i class="fas fa-save"></i> Enregistrer</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     TOP HEADER BAR (Navigation intégrée)
+═══════════════════════════════════════════════════════ -->
+<header class="top-header">
+    <div class="admin-container">
+        <div class="header-left">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <div class="logo-icon">S</div>
+                <div class="logo-text">Suku<span>li</span></div>
+            </a>
+
+            <!-- Navigation principale (intégrée au header) -->
+            <div class="header-nav">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span>
                 </a>
-                
-                <!-- Barre de recherche -->
-                <div class="search-bar-container">
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="mainSearchInput" placeholder="Rechercher dans l'admin...">
-                        <button class="search-btn" id="searchBtn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-user-graduate"></i><span>Utilisateurs</span>
+                    <span class="nav-badge">8</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-envelope"></i><span>Messages</span>
+                    <span class="nav-badge">12</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-euro-sign"></i><span>Paiements</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-database"></i><span>Base de données</span>
+                </a>
+                <div class="profile-btn">
+                <div class="user-avatar-small" style="background:linear-gradient(45deg, var(--coral), var(--gold))">AD</div>
+                <div>
+                    <div class="user-name">Admin System</div>
+                    <div style="font-size:.72rem;color:rgba(255,255,255,.55)">Administrateur Principal</div>
                 </div>
-                
-                <button class="menu-toggle" id="mobileNavToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <!-- Bouton notifications -->
-                <button class="notification-btn" id="notificationBtn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">5</span>
-                </button>
-                
-                <!-- Menu déroulant profil -->
-                <div class="profile-dropdown">
-                    <button class="profile-btn" id="profileBtn">
-                        <div class="user-avatar-small" style="background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));">AD</div>
-                        <div>
-                            <div class="user-name">Admin System</div>
-                            <div style="font-size: 0.8rem; color: var(--gris-moyen);">Administrateur Principal</div>
-                        </div>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    
-                    <div class="profile-menu" id="profileMenu">
-                        <div class="profile-menu-header">
-                            <div class="profile-menu-avatar">AD</div>
-                            <div class="profile-menu-name">Admin System</div>
-                            <div class="profile-menu-role">Administrateur Principal</div>
-                            <div class="profile-menu-email">admin@edutogoconnect.tg</div>
-                            <div class="profile-menu-lastlogin">
-                                <i class="far fa-clock"></i>
-                                <span>Dernière connexion: Aujourd'hui, 14:30</span>
-                            </div>
-                        </div>
-                        
-                        <ul class="profile-menu-list">
-                            <li class="profile-menu-item">
-                                <a href="#" class="profile-menu-link">
-                                    <i class="fas fa-user-cog"></i>
-                                    <span>Mon profil Admin</span>
-                                </a>
-                            </li>
-                            <li class="profile-menu-item">
-                                <a href="#" class="profile-menu-link">
-                                    <i class="fas fa-cog"></i>
-                                    <span>Paramètres système</span>
-                                </a>
-                            </li>
-                            <li class="profile-menu-item">
-                                <a href="#" class="profile-menu-link">
-                                    <i class="fas fa-users-cog"></i>
-                                    <span>Gestion des rôles</span>
-                                </a>
-                            </li>
-                            <li class="profile-menu-item">
-                                <a href="#" class="profile-menu-link">
-                                    <i class="fas fa-history"></i>
-                                    <span>Journal d'activité</span>
-                                </a>
-                            </li>
-                            <li class="profile-menu-item">
-                                <a href="../Authentification/auth.html" class="profile-menu-link logout">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                    <span>Déconnexion</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
+                <i class="fas fa-chevron-down" style="font-size:.72rem;color:rgba(255,255,255,.5);margin-left:2px"></i>
+            </div>
 
-    <!-- Barre de Navigation Horizontale -->
-    <nav class="horizontal-nav">
-        <div class="admin-container">
-            <div class="nav-container">
-                
-                <!-- Menu de navigation horizontal -->
-                <div class="horizontal-menu">
-                    <a href="../admin/dashboard.html" class="nav-item active">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Tableau de bord</span>
-                    </a>
-                    <a href="../admin/soumission.html" class="nav-item">
-                        <i class="fas fa-user-graduate"></i>
-                        <span>Soumissions</span>
-                        <span class="nav-badge">8</span>
-                    </a>
-                    <a href="../admin/message.html" class="nav-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>Messages</span>
-                        <span class="nav-badge">12</span>
-                    </a>
-                    <a href="../admin/paiement.html" class="nav-item">
-                        <i class="fas fa-euro-sign"></i>
-                        <span>Paiements</span>
-                    </a>
-                </div>
+            <!-- Heure / date live (déplacée ici) -->
+            <div class="live-time-badge">
+                <i class="fas fa-circle"></i>
+                <span id="liveTime"></span>
+            </div>
             </div>
         </div>
-    </nav>
 
-    <!-- Contenu principal -->
-    <main class="main-content">
-        <div class="admin-container mt-4">
-            <!-- Cartes de statistiques (réduites) -->
-            <div class="row mb-4">
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-card messages">
-                        <div class="stat-number" id="messageCount">12</div>
-                        <div class="stat-label">
-                            <i class="fas fa-envelope me-2"></i> Nouveaux messages
-                        </div>
-                    </div>
+        <!-- Right side: profile + time (recherche et cloche supprimées) -->
+        <div class="header-right">
+
+            
+        </div>
+    </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════
+     CONTENU PRINCIPAL
+═══════════════════════════════════════════════════════ -->
+<main class="main-content">
+    <div class="admin-container">
+
+        <!-- Page header -->
+        <div class="page-header">
+            <div>
+                <h2><i class="fas fa-cogs"></i> Gestion Avancée de la Plateforme</h2>
+                <p>Modération des contenus · Support client · Gestion financière · Configuration système</p>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <button class="btn-primary-custom btn-orange" onclick="openModal('modalGrouped')"><i class="fas fa-bullhorn"></i> Envoi groupé</button>
+                <button class="btn-primary-custom" onclick="showToast('Rapport exporté en PDF','success')"><i class="fas fa-file-export"></i> Exporter rapport</button>
+            </div>
+        </div>
+
+        <!-- ── ONGLETS ── -->
+        <div class="modules-tabs">
+            <button class="module-tab tab-moderation active" onclick="switchTab('moderation', this)">
+                <i class="fas fa-shield-alt"></i> Modération des contenus
+            </button>
+            <button class="module-tab tab-config" onclick="switchTab('config', this)">
+                <i class="fas fa-user-graduate"></i> Liste des utilisateurs
+            </button>
+            <button class="module-tab tab-support" onclick="switchTab('support', this)">
+                <i class="fas fa-headset"></i> Support client &amp; Messagerie
+            </button>
+            <button class="module-tab tab-finance" onclick="switchTab('finance', this)">
+                <i class="fas fa-chart-line"></i> Gestion financière
+            </button>
+            <button class="module-tab tab-config" onclick="switchTab('config2', this)">
+                <i class="fas fa-cogs"></i> Configuration système
+            </button>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════════
+             PANEL 1 — MODÉRATION
+        ══════════════════════════════════════════════════════════ -->
+        <div class="panel active" id="panel-moderation">
+            <div class="mini-stats">
+                <div class="mini-stat ms-orange">
+                    <div class="mini-stat-icon"><i class="fas fa-flag"></i></div>
+                    <div><div class="mini-stat-num">14</div><div class="mini-stat-lbl">Contenus signalés</div></div>
                 </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-card submissions">
-                        <div class="stat-number" id="submissionCount">8</div>
-                        <div class="stat-label">
-                            <i class="fas fa-user-graduate me-2"></i> Soumissions profil
-                        </div>
-                    </div>
+                <div class="mini-stat ms-red">
+                    <div class="mini-stat-icon"><i class="fas fa-ban"></i></div>
+                    <div><div class="mini-stat-num">3</div><div class="mini-stat-lbl">Suspendus ce mois</div></div>
                 </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-card validations">
-                        <div class="stat-number" id="validationCount">3</div>
-                        <div class="stat-label">
-                            <i class="fas fa-user-check me-2"></i> Validations en cours
-                        </div>
-                    </div>
+                <div class="mini-stat ms-green">
+                    <div class="mini-stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div><div class="mini-stat-num">128</div><div class="mini-stat-lbl">Contenus actifs</div></div>
                 </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-card payments">
-                        <div class="stat-number" id="paymentCount">824,000</div>
-                        <div class="stat-label">
-                            <i class="fas fa-money-bill me-2"></i> Paiements (FCFA)
-                        </div>
-                    </div>
+                <div class="mini-stat ms-blue">
+                    <div class="mini-stat-icon"><i class="fas fa-eye"></i></div>
+                    <div><div class="mini-stat-num">7</div><div class="mini-stat-lbl">En cours d'audit</div></div>
                 </div>
             </div>
 
-            <!-- Contenu du tableau de bord -->
-            <div class="dashboard-content">
-                <div class="p-4">
-                    <h4 class="mb-4 fw-bold text-center" style="color: var(--vert-principal);">
-                        <i class="fas fa-tachometer-alt me-2"></i>Tableau de Bord Administratif
-                    </h4>
-                    
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="admin-card">
-                                <div class="admin-card-header">
-                                    <i class="fas fa-chart-line me-2"></i>Activité du site (7 derniers jours)
-                                </div>
-                                <div class="p-3">
-                                    <canvas id="activityChart" height="250"></canvas>
-                                </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-mod">
+                            <span><i class="fas fa-flag me-2"></i>Signalements utilisateurs</span>
+                            <div class="filter-bar" style="margin-bottom:0">
+                                <select style="padding:5px 10px;border:1px solid rgba(255,255,255,.4);border-radius:6px;background:rgba(255,255,255,.15);color:white;font-size:.8rem;outline:none;">
+                                    <option>Tous types</option><option>Cours</option><option>Épreuve</option><option>Ressource</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="admin-card">
-                                <div class="admin-card-header">
-                                    <i class="fas fa-exclamation-circle me-2"></i>Alertes récentes
-                                </div>
-                                <div class="p-3">
-                                    <div class="alert alert-warning d-flex align-items-center mb-2">
-                                        <i class="fas fa-exclamation-triangle me-2"></i>
-                                        <div>5 soumissions avec documents manquants</div>
-                                    </div>
-                                    <div class="alert alert-info d-flex align-items-center mb-2">
-                                        <i class="fas fa-info-circle me-2"></i>
-                                        <div>3 nouveaux messages de chat non lus</div>
-                                    </div>
-                                    <div class="alert alert-success d-flex align-items-center mb-2">
-                                        <i class="fas fa-check-circle me-2"></i>
-                                        <div>8 profils validés cette semaine</div>
-                                    </div>
-                                    <div class="alert alert-danger d-flex align-items-center">
-                                        <i class="fas fa-times-circle me-2"></i>
-                                        <div>2 profils rejetés - Documents falsifiés</div>
-                                    </div>
-                                </div>
+                        <div class="card-body">
+                            <div class="filter-bar">
+                                <input type="text" placeholder="Rechercher un contenu…" style="flex:1;min-width:180px">
+                                <select><option>Tous statuts</option><option>Signalé</option><option>En révision</option><option>Résolu</option></select>
+                            </div>
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr><th>Contenu</th><th>Type</th><th>Signalé par</th><th>Motif</th><th>Date</th><th>Statut</th><th>Actions</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Cours Maths 4ème — Algèbre</strong><br><small style="color:var(--txt-m)">Koffi Agbessi</small></td>
+                                            <td><span class="badge-cours">Cours</span></td>
+                                            <td>Elève_302</td><th>Contenu plagié</th><td>14/04/25</td>
+                                            <td><span class="badge-signale">Signalé</span></td>
+                                            <td><button class="btn-xs btn-view" onclick="showToast('Audit du cours ouvert')"><i class="fas fa-eye"></i> Auditer</button> <button class="btn-xs btn-delete" onclick="showToast('Contenu suspendu','warning')"><i class="fas fa-ban"></i> Suspendre</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Épreuve BEPC 2023 Français</strong><br><small style="color:var(--txt-m)">Lycée de Tokoin</small></td>
+                                            <td><span class="badge-epreuve">Épreuve</span></td>
+                                            <td>Parent_118</td><th>Mauvaise qualité</th><td>13/04/25</td>
+                                            <td><span class="badge-signale">En révision</span></td>
+                                            <td><button class="btn-xs btn-view" onclick="showToast('Audit épreuve')"><i class="fas fa-eye"></i> Auditer</button> <button class="btn-xs btn-restore" onclick="showToast('Contenu validé','success')"><i class="fas fa-check"></i> Valider</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Fiche SVT — Cellule 6ème</strong><br><small style="color:var(--txt-m)">Fatou Diallo</small></td>
+                                            <td><span class="badge-ressource">Ressource</span></td>
+                                            <td>Elève_089</td><th>Erreurs factuelles</th><td>12/04/25</td>
+                                            <td><span class="badge-signale">Signalé</span></td>
+                                            <td><button class="btn-xs btn-view" onclick="showToast('Audit ressource')"><i class="fas fa-eye"></i> Auditer</button> <button class="btn-xs btn-warn" onclick="showToast('Avertissement envoyé','warning')"><i class="fas fa-exclamation"></i> Avertir</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Cours Anglais 3ème — Grammar</strong><br><small style="color:var(--txt-m)">John Smith</small></td>
+                                            <td><span class="badge-cours">Cours</span></td>
+                                            <td>Parent_227</td><th>Contenu inapproprié</th><td>10/04/25</td>
+                                            <td><span class="badge-suspendu">Suspendu</span></td>
+                                            <td><button class="btn-xs btn-restore" onclick="showToast('Contenu réactivé','success')"><i class="fas fa-undo"></i> Restaurer</button> <button class="btn-xs btn-delete" onclick="showToast('Supprimé définitivement','warning')"><i class="fas fa-trash"></i> Supprimer</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            <div class="admin-card">
-                                <div class="admin-card-header">
-                                    <i class="fas fa-history me-2"></i>Activité récente
-                                </div>
-                                <div class="p-3">
-                                    <ul class="list-unstyled">
-                                        <li class="mb-2 d-flex">
-                                            <i class="fas fa-check-circle text-success me-2 mt-1"></i>
-                                            <div>Validation du profil "Jean Dupont" (Enseignant)</div>
-                                            <small class="text-muted ms-auto">Il y a 10 min</small>
-                                        </li>
-                                        <li class="mb-2 d-flex">
-                                            <i class="fas fa-times-circle text-danger me-2 mt-1"></i>
-                                            <div>Rejet du profil "Lycée Moderne" - Documents manquants</div>
-                                            <small class="text-muted ms-auto">Il y a 25 min</small>
-                                        </li>
-                                        <li class="mb-2 d-flex">
-                                            <i class="fas fa-user-graduate text-warning me-2 mt-1"></i>
-                                            <div>Nouvelle soumission "Koffi Agbessi" (Enseignant)</div>
-                                            <small class="text-muted ms-auto">Il y a 1h</small>
-                                        </li>
-                                        <li class="mb-2 d-flex">
-                                            <i class="fas fa-envelope text-info me-2 mt-1"></i>
-                                            <div>Nouveau message de "Sophie Martin"</div>
-                                            <small class="text-muted ms-auto">Il y a 2h</small>
-                                        </li>
-                                        <li class="mb-2 d-flex">
-                                            <i class="fas fa-euro-sign text-success me-2 mt-1"></i>
-                                            <div>Paiement de 150,000 FCFA de "Université de Lomé"</div>
-                                            <small class="text-muted ms-auto">Il y a 3h</small>
-                                        </li>
-                                        <li class="mb-2 d-flex">
-                                            <i class="fas fa-user-cog text-primary me-2 mt-1"></i>
-                                            <div>Mise à jour des paramètres système</div>
-                                            <small class="text-muted ms-auto">Il y a 5h</small>
-                                        </li>
-                                    </ul>
-                                </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-blue"><span><i class="fas fa-search me-2"></i>Audit rapide</span></div>
+                        <div class="card-body">
+                            <p style="font-size:.83rem;color:var(--txt-m);margin-bottom:14px">Accédez directement à n'importe quel contenu en entrant son identifiant ou titre.</p>
+                            <div style="margin-bottom:12px">
+                                <label style="font-size:.82rem;font-weight:600;display:block;margin-bottom:5px;color:var(--txt)">Type de contenu</label>
+                                <select style="width:100%;padding:8px;border:1.5px solid var(--g200);border-radius:8px;font-size:.86rem;outline:none"><option>Cours</option><option>Épreuve</option><option>Ressource pédagogique</option></select>
                             </div>
+                            <div style="margin-bottom:14px">
+                                <label style="font-size:.82rem;font-weight:600;display:block;margin-bottom:5px;color:var(--txt)">ID ou titre du contenu</label>
+                                <input type="text" placeholder="Ex: cours_4215" style="width:100%;padding:8px 12px;border:1.5px solid var(--g200);border-radius:8px;font-size:.86rem;outline:none">
+                            </div>
+                            <button class="btn-primary-custom btn-blue w-100" onclick="showToast('Contenu ouvert en mode audit')"><i class="fas fa-search"></i> Ouvrir en audit</button>
                         </div>
-                        <div class="col-md-6">
-                            <div class="admin-card">
-                                <div class="admin-card-header">
-                                    <i class="fas fa-cog me-2"></i>Actions rapides
-                                </div>
-                                <div class="p-3">
-                                    <div class="row g-2">
-                                        <div class="col-md-6">
-                                            <a href="../admin/soumission.html" class="btn btn-primary-custom w-100 mb-2">
-                                                <i class="fas fa-user-graduate me-1"></i> Voir soumissions
-                                            </a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="../admin/message.html" class="btn btn-primary-custom w-100 mb-2" style="background-color: var(--rouge-principal);">
-                                                <i class="fas fa-envelope me-1"></i> Gérer messages
-                                            </a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="../admin/paiement.html" class="btn btn-primary-custom w-100 mb-2" style="background-color: var(--jaune-principal);">
-                                                <i class="fas fa-euro-sign me-1"></i> Paiements
-                                            </a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button class="btn btn-primary-custom w-100 mb-2" style="background-color: var(--orange-attente);">
-                                                <i class="fas fa-file-export me-1"></i> Exporter données
-                                            </button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button class="btn btn-primary-custom w-100 mb-2" style="background-color: var(--cyan-info);">
-                                                <i class="fas fa-chart-bar me-1"></i> Statistiques
-                                            </button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button class="btn btn-primary-custom w-100 mb-2" style="background-color: var(--gris-fonce);">
-                                                <i class="fas fa-users-cog me-1"></i> Gérer rôles
-                                            </button>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <button class="btn btn-outline-danger w-100">
-                                                <i class="fas fa-trash-alt me-1"></i> Vider la corbeille
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-red"><span><i class="fas fa-chart-pie me-2"></i>Répartition signalements</span></div>
+                        <div class="card-body">
+                            <div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:4px"><span>Cours</span><strong>6</strong></div><div class="progress-mini"><div class="progress-fill" style="width:43%;background:var(--bleu-info)"></div></div></div>
+                            <div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:4px"><span>Épreuves</span><strong>4</strong></div><div class="progress-mini"><div class="progress-fill" style="width:29%;background:var(--purple)"></div></div></div>
+                            <div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:4px"><span>Ressources</span><strong>4</strong></div><div class="progress-mini"><div class="progress-fill" style="width:29%;background:var(--teal)"></div></div></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        // Initialisation des graphiques
-        document.addEventListener('DOMContentLoaded', function() {
-            // Graphique d'activité
-            const activityCtx = document.getElementById('activityChart').getContext('2d');
-            const activityChart = new Chart(activityCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-                    datasets: [
-                        {
-                            label: 'Soumissions',
-                            data: [5, 8, 6, 10, 12, 3, 7],
-                            borderColor: '#FF9800',
-                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
-                            tension: 0.4
-                        },
-                        {
-                            label: 'Validations',
-                            data: [3, 5, 4, 8, 10, 2, 6],
-                            borderColor: '#00A651',
-                            backgroundColor: 'rgba(0, 166, 81, 0.1)',
-                            tension: 0.4
-                        },
-                        {
-                            label: 'Messages',
-                            data: [8, 12, 10, 15, 14, 6, 11],
-                            borderColor: '#EF3340',
-                            backgroundColor: 'rgba(239, 51, 64, 0.1)',
-                            tension: 0.4
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Nombre'
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Gestion du menu déroulant profil
-            const profileBtn = document.getElementById('profileBtn');
-            const profileMenu = document.getElementById('profileMenu');
-            
-            if (profileBtn && profileMenu) {
-                profileBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    profileMenu.classList.toggle('active');
-                });
-                
-                // Fermer le menu déroulant en cliquant à l'extérieur
-                document.addEventListener('click', (e) => {
-                    if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
-                        profileMenu.classList.remove('active');
-                    }
-                });
-            }
-            
-            // Gestion de la barre de recherche
-            const searchBtn = document.getElementById('searchBtn');
-            const mainSearchInput = document.getElementById('mainSearchInput');
-            
-            if (searchBtn && mainSearchInput) {
-                searchBtn.addEventListener('click', performSearch);
-                mainSearchInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        performSearch();
-                    }
-                });
-                
-                function performSearch() {
-                    const searchQuery = mainSearchInput.value.trim();
-                    if (searchQuery) {
-                        alert(`Recherche: "${searchQuery}"`);
-                        // Ici, on ferait une recherche réelle
-                    }
-                }
-            }
-            
-            // Simulation de mise à jour en temps réel
-            function simulateRealTimeUpdates() {
-                setInterval(() => {
-                    const submissionCount = document.getElementById('submissionCount');
-                    const currentSubmissions = parseInt(submissionCount.textContent);
-                    const newSubmissions = Math.max(0, currentSubmissions + Math.floor(Math.random() * 3) - 1);
-                    submissionCount.textContent = newSubmissions;
-                    
-                }, 60000);
-            }
-            
-            simulateRealTimeUpdates();
-            
-            // Gestion des notifications
-            const notificationBtn = document.getElementById('notificationBtn');
-            if (notificationBtn) {
-                notificationBtn.addEventListener('click', function() {
-                    alert('Vous avez 5 nouvelles notifications:\n- 2 nouvelles soumissions\n- 1 message de chat\n- 2 paiements réussis');
-                    const badge = document.querySelector('.notification-badge');
-                    if (badge) {
-                        badge.textContent = '0';
-                        badge.style.display = 'none';
-                    }
-                });
-            }
-        });
-    </script>
+        <!-- ══════════════════════════════════════════════════════════
+             PANEL 2 — SUPPORT CLIENT
+        ══════════════════════════════════════════════════════════ -->
+        <div class="panel" id="panel-support">
+            <div class="mini-stats">
+                <div class="mini-stat ms-orange"><div class="mini-stat-icon"><i class="fas fa-ticket-alt"></i></div><div><div class="mini-stat-num">23</div><div class="mini-stat-lbl">Tickets ouverts</div></div></div>
+                <div class="mini-stat ms-green"><div class="mini-stat-icon"><i class="fas fa-check-double"></i></div><div><div class="mini-stat-num">41</div><div class="mini-stat-lbl">Résolus ce mois</div></div></div>
+                <div class="mini-stat ms-blue"><div class="mini-stat-icon"><i class="fas fa-clock"></i></div><div><div class="mini-stat-num">2h18</div><div class="mini-stat-lbl">Tps moyen réponse</div></div></div>
+                <div class="mini-stat ms-yellow"><div class="mini-stat-icon"><i class="fas fa-users"></i></div><div><div class="mini-stat-num">1 204</div><div class="mini-stat-lbl">Abonnés newsletter</div></div></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-blue">
+                            <span><i class="fas fa-inbox me-2"></i>Boîte de réception — Tickets support</span>
+                            <button class="btn-xs" style="background:rgba(255,255,255,.2);color:white;border:1px solid rgba(255,255,255,.4)" onclick="showToast('Actualisation…')"><i class="fas fa-sync-alt"></i> Actualiser</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="filter-bar">
+                                <input type="text" placeholder="Rechercher un ticket…" style="flex:1;min-width:180px">
+                                <select><option>Tous statuts</option><option>Ouvert</option><option>En cours</option><option>Résolu</option></select>
+                                <select><option>Toutes catégories</option><option>Compte refusé</option><option>Paiement</option><option>Technique</option><option>Autre</option></select>
+                            </div>
+                            <div class="table-responsive">
+                                <table>
+                                    <thead><tr><th>#</th><th>Expéditeur</th><th>Sujet</th><th>Catégorie</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><strong>#1042</strong></td><td>Koffi A.<br><small style="color:var(--txt-m)">Enseignant</small></td><td>Pourquoi mon compte a-t-il été refusé ?</td><td><span style="font-size:.76rem;background:#FFF3E0;color:var(--orange-attente);padding:2px 8px;border-radius:4px;font-weight:600">Compte refusé</span></td><td>14/04/25</td><td><span class="badge-ouvert">Ouvert</span></td><td><button class="btn-xs btn-reply" onclick="showToast('Réponse au ticket #1042')"><i class="fas fa-reply"></i> Répondre</button></td></tr>
+                                        <tr><td><strong>#1041</strong></td><td>Ama D.<br><small style="color:var(--txt-m)">Parent</small></td><td>Comment modifier mes informations de paiement ?</td><td><span style="font-size:.76rem;background:#E3F2FD;color:var(--bleu-info);padding:2px 8px;border-radius:4px;font-weight:600">Paiement</span></td><td>13/04/25</td><td><span class="badge-ouvert">Ouvert</span></td><td><button class="btn-xs btn-reply" onclick="showToast('Réponse au ticket #1041')"><i class="fas fa-reply"></i> Répondre</button></td></tr>
+                                        <tr><td><strong>#1040</strong></td><td>Lycée Tokoin<br><small style="color:var(--txt-m)">École</small></td><td>Impossible de télécharger les rapports</td><td><span style="font-size:.76rem;background:#F3E5F5;color:var(--purple);padding:2px 8px;border-radius:4px;font-weight:600">Technique</span></td><td>12/04/25</td><td><span class="badge-ouvert" style="background:#E3F2FD;color:var(--bleu-info);border-color:var(--bleu-info)">En cours</span></td><td><button class="btn-xs btn-close-ticket" onclick="showToast('Ticket #1040 résolu','success')"><i class="fas fa-check"></i> Résoudre</button></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-red"><span><i class="fas fa-bullhorn me-2"></i>Envoi groupé / Annonces</span></div>
+                        <div class="card-body">
+                            <p style="font-size:.83rem;color:var(--txt-m);margin-bottom:14px">Envoyez un message à tous vos utilisateurs ou à un groupe ciblé.</p>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+                                <div style="background:#FFF3E0;border:1px solid var(--orange-attente);border-radius:8px;padding:12px;text-align:center;cursor:pointer" onclick="showToast('Sélection : Tous les utilisateurs')"><i class="fas fa-users" style="color:var(--orange-attente);font-size:1.2rem;display:block;margin-bottom:5px"></i><span style="font-size:.77rem;font-weight:600;color:var(--orange-attente)">Tous (1 204)</span></div>
+                                <div style="background:#E3F2FD;border:1px solid var(--bleu-info);border-radius:8px;padding:12px;text-align:center;cursor:pointer" onclick="showToast('Sélection : Enseignants')"><i class="fas fa-chalkboard-teacher" style="color:var(--bleu-info);font-size:1.2rem;display:block;margin-bottom:5px"></i><span style="font-size:.77rem;font-weight:600;color:var(--bleu-info)">Enseignants (120)</span></div>
+                                <div style="background:#E8F5E9;border:1px solid var(--vert-valide);border-radius:8px;padding:12px;text-align:center;cursor:pointer" onclick="showToast('Sélection : Parents / Élèves')"><i class="fas fa-user-friends" style="color:var(--vert-valide);font-size:1.2rem;display:block;margin-bottom:5px"></i><span style="font-size:.77rem;font-weight:600;color:var(--vert-valide)">Parents / Élèves</span></div>
+                                <div style="background:var(--purple-light);border:1px solid var(--purple);border-radius:8px;padding:12px;text-align:center;cursor:pointer" onclick="showToast('Sélection : Écoles')"><i class="fas fa-school" style="color:var(--purple);font-size:1.2rem;display:block;margin-bottom:5px"></i><span style="font-size:.77rem;font-weight:600;color:var(--purple)">Écoles (32)</span></div>
+                            </div>
+                            <button class="btn-primary-custom btn-red w-100" onclick="openModal('modalGrouped')"><i class="fas fa-paper-plane"></i> Composer et envoyer</button>
+                        </div>
+                    </div>
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-cyan"><span><i class="fas fa-envelope-open-text me-2"></i>Modèles d'e-mails auto</span></div>
+                        <div class="card-body" style="padding:14px">
+                            <div class="email-template"><div class="email-template-header">✅ Profil validé<button class="btn-xs btn-view" onclick="showToast('Modification modèle validé')"><i class="fas fa-edit"></i> Modifier</button></div><div class="email-template-body">Félicitations, votre profil <strong>[NOM]</strong> a été validé. Vous pouvez maintenant publier vos cours sur Sukuli.</div></div>
+                            <div class="email-template"><div class="email-template-header">❌ Profil refusé<button class="btn-xs btn-view" onclick="showToast('Modification modèle refusé')"><i class="fas fa-edit"></i> Modifier</button></div><div class="email-template-body">Votre profil <strong>[NOM]</strong> n'a pas pu être validé. Motif : <strong>[MOTIF]</strong>. Vous pouvez resoumettre votre dossier.</div></div>
+                            <button class="btn-primary-custom btn-blue w-100 mt-2" onclick="showToast('Ajout d\'un nouveau modèle')"><i class="fas fa-plus"></i> Ajouter un modèle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════════
+             PANEL 3 — GESTION FINANCIÈRE
+        ══════════════════════════════════════════════════════════ -->
+        <div class="panel" id="panel-finance">
+            <div class="mini-stats">
+                <div class="mini-stat ms-green"><div class="mini-stat-icon"><i class="fas fa-money-bill-wave"></i></div><div><div class="mini-stat-num" style="font-size:1.2rem">2 840 000</div><div class="mini-stat-lbl">FCFA collectés (mois)</div></div></div>
+                <div class="mini-stat ms-orange"><div class="mini-stat-icon"><i class="fas fa-exclamation-circle"></i></div><div><div class="mini-stat-num">4</div><div class="mini-stat-lbl">Litiges en cours</div></div></div>
+                <div class="mini-stat ms-blue"><div class="mini-stat-icon"><i class="fas fa-percentage"></i></div><div><div class="mini-stat-num">15%</div><div class="mini-stat-lbl">Commission plateforme</div></div></div>
+                <div class="mini-stat ms-yellow"><div class="mini-stat-icon"><i class="fas fa-hand-holding-usd"></i></div><div><div class="mini-stat-num" style="font-size:1.2rem">641 000</div><div class="mini-stat-lbl">FCFA à reverser</div></div></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-green">
+                            <span><i class="fas fa-list-alt me-2"></i>Historique des transactions</span>
+                            <button class="btn-xs" style="background:rgba(255,255,255,.2);color:white;border:1px solid rgba(255,255,255,.4)" onclick="showToast('Export CSV en cours…')"><i class="fas fa-file-csv"></i> Exporter CSV</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="filter-bar">
+                                <input type="text" placeholder="Rechercher par nom ou référence…" style="flex:1;min-width:180px">
+                                <select><option>Tous types</option><option>Abonnement</option><option>Cours particulier</option><option>Ressource</option></select>
+                                <select><option>Tous statuts</option><option>Succès</option><option>Échec</option><option>Litige</option></select>
+                            </div>
+                            <div class="table-responsive">
+                                <table>
+                                    <thead><tr><th>Réf.</th><th>Utilisateur</th><th>Type</th><th>Montant</th><th>Commission</th><th>Net enseignant</th><th>Date</th><th>Statut</th><th>Action</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><strong>TXN-8841</strong></td><td>Université de Lomé<br><small style="color:var(--txt-m)">École</small></td><td>Abonnement Pro</td><td><strong>150 000 FCFA</strong></td><td style="color:var(--teal)">22 500</td><td>127 500</td><td>14/04/25</td><td><span class="badge-success">Succès</span></td><td><button class="btn-xs btn-view" onclick="showToast('Détails TXN-8841')"><i class="fas fa-eye"></i></button></td></tr>
+                                        <tr><td><strong>TXN-8840</strong></td><td>Ama Mensah<br><small style="color:var(--txt-m)">Parent</small></td><td>Cours particulier</td><td><strong>25 000 FCFA</strong></td><td style="color:var(--teal)">3 750</td><td>21 250</td><td>13/04/25</td><td><span class="badge-success">Succès</span></td><td><button class="btn-xs btn-view" onclick="showToast('Détails TXN-8840')"><i class="fas fa-eye"></i></button></td></tr>
+                                        <tr><td><strong>TXN-8838</strong></td><td>Collège Protestant<br><small style="color:var(--txt-m)">École</small></td><td>Abonnement Standard</td><td><strong>75 000 FCFA</strong></td><td style="color:var(--teal)">11 250</td><td>63 750</td><td>11/04/25</td><td><span class="badge-litige">Litige</span></td><td><button class="btn-xs btn-refund" onclick="showToast('Traitement litige TXN-8838','warning')"><i class="fas fa-hand-holding-usd"></i> Litige</button></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-yellow"><span><i class="fas fa-percentage me-2"></i>Commissions &amp; Reversements</span></div>
+                        <div class="card-body">
+                            <div class="commission-card">
+                                <div style="font-size:.77rem;opacity:.7;margin-bottom:4px">Total commissions perçues (avril 2025)</div>
+                                <div class="commission-amount">40 650 FCFA</div>
+                                <div style="font-size:.77rem;opacity:.6;margin-top:6px">Sur 2 840 000 FCFA · Taux : 15%</div>
+                            </div>
+                            <div style="background:var(--g100);border-radius:8px;padding:14px;margin-bottom:14px">
+                                <div style="font-size:.82rem;font-weight:600;margin-bottom:10px;color:var(--txt)">Reverser les gains aux enseignants</div>
+                                <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px"><span>Koffi Agbessi</span><strong>87 500 FCFA</strong></div>
+                                <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px"><span>Aïcha Mensah</span><strong>63 750 FCFA</strong></div>
+                                <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:12px"><span>John Smith</span><strong>127 500 FCFA</strong></div>
+                                <button class="btn-primary-custom w-100" onclick="showToast('Virement groupé initié','success')"><i class="fas fa-paper-plane"></i> Virement groupé</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════════
+             PANEL 4 — CONFIGURATION SYSTÈME
+        ══════════════════════════════════════════════════════════ -->
+        <div class="panel" id="panel-config"><p style="text-align:center;padding:40px;color:var(--txt-m)"><i class="fas fa-user-graduate fa-3x" style="display:block;margin-bottom:12px;opacity:.3"></i>Module liste des utilisateurs</p></div>
+
+        <div class="panel" id="panel-config2">
+            <div class="mini-stats">
+                <div class="mini-stat ms-violet"><div class="mini-stat-icon"><i class="fas fa-user-shield"></i></div><div><div class="mini-stat-num">4</div><div class="mini-stat-lbl">Sous-admins actifs</div></div></div>
+                <div class="mini-stat ms-green"><div class="mini-stat-icon"><i class="fas fa-city"></i></div><div><div class="mini-stat-num">21</div><div class="mini-stat-lbl">Villes configurées</div></div></div>
+                <div class="mini-stat ms-blue"><div class="mini-stat-icon"><i class="fas fa-book"></i></div><div><div class="mini-stat-num">8</div><div class="mini-stat-lbl">Matières actives</div></div></div>
+                <div class="mini-stat ms-orange"><div class="mini-stat-icon"><i class="fas fa-layer-group"></i></div><div><div class="mini-stat-num">4</div><div class="mini-stat-lbl">Niveaux scolaires</div></div></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-violet">
+                            <span><i class="fas fa-user-shield me-2"></i>Sous-administrateurs &amp; Rôles</span>
+                            <button class="btn-xs" style="background:rgba(255,255,255,.2);color:white;border:1px solid rgba(255,255,255,.4)" onclick="openModal('modalRole')"><i class="fas fa-plus"></i> Nouveau rôle</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="role-card">
+                                <div class="role-avatar" style="background:linear-gradient(135deg,var(--coral),#c0392b)">AD</div>
+                                <div class="role-body">
+                                    <div class="role-name">Admin System <span class="badge-admin ms-2">ADMIN PRINCIPAL</span></div>
+                                    <div class="role-email">admin@sukuli.tg</div>
+                                    <div class="role-perms"><span class="perm-tag yes">Soumissions</span><span class="perm-tag yes">Messages</span><span class="perm-tag yes">Paiements</span><span class="perm-tag yes">Modération</span><span class="perm-tag yes">Configuration</span><span class="perm-tag yes">Rôles</span></div>
+                                </div>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-avatar" style="background:linear-gradient(135deg,var(--orange-attente),#e65100)">AK</div>
+                                <div class="role-body">
+                                    <div class="role-name">Abla Kofi <span class="badge-moderateur ms-2">MODÉRATEUR</span></div>
+                                    <div class="role-email">abla.kofi@sukuli.tg</div>
+                                    <div class="role-perms"><span class="perm-tag yes">Soumissions</span><span class="perm-tag yes">Modération</span><span class="perm-tag no">Paiements</span><span class="perm-tag no">Configuration</span><span class="perm-tag no">Rôles</span></div>
+                                    <div style="margin-top:8px;display:flex;gap:6px"><button class="btn-xs btn-view" onclick="showToast('Modification permissions Abla Kofi')"><i class="fas fa-edit"></i> Modifier</button><button class="btn-xs btn-delete" onclick="showToast('Compte désactivé','warning')"><i class="fas fa-user-slash"></i> Désactiver</button></div>
+                                </div>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-avatar" style="background:linear-gradient(135deg,var(--bleu-info),#1565C0)">KD</div>
+                                <div class="role-body">
+                                    <div class="role-name">Kodjo Dossou <span class="badge-support ms-2">SUPPORT</span></div>
+                                    <div class="role-email">kodjo.d@sukuli.tg</div>
+                                    <div class="role-perms"><span class="perm-tag yes">Messages</span><span class="perm-tag yes">Tickets</span><span class="perm-tag no">Paiements</span><span class="perm-tag no">Modération</span><span class="perm-tag no">Rôles</span></div>
+                                    <div style="margin-top:8px;display:flex;gap:6px"><button class="btn-xs btn-view" onclick="showToast('Modification permissions Kodjo')"><i class="fas fa-edit"></i> Modifier</button><button class="btn-xs btn-delete" onclick="showToast('Compte désactivé','warning')"><i class="fas fa-user-slash"></i> Désactiver</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-green">
+                            <span><i class="fas fa-database me-2"></i>Tables de référence</span>
+                            <button class="btn-xs" style="background:rgba(255,255,255,.2);color:white;border:1px solid rgba(255,255,255,.4)" onclick="openModal('modalRef')"><i class="fas fa-plus"></i> Ajouter</button>
+                        </div>
+                        <div class="card-body">
+                            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+                                <button class="btn-xs" id="refTabVille" style="background:var(--teal);color:white;padding:7px 16px;border-radius:20px" onclick="showRefTab('ville')">Villes (21)</button>
+                                <button class="btn-xs" id="refTabMatiere" style="background:var(--g100);color:var(--txt-b);padding:7px 16px;border-radius:20px" onclick="showRefTab('matiere')">Matières (8)</button>
+                                <button class="btn-xs" id="refTabNiveau" style="background:var(--g100);color:var(--txt-b);padding:7px 16px;border-radius:20px" onclick="showRefTab('niveau')">Niveaux (4)</button>
+                            </div>
+                            <div style="display:flex;flex-wrap:wrap;gap:8px" id="refTags"></div>
+                        </div>
+                    </div>
+                    <div class="admin-card">
+                        <div class="admin-card-header card-header-cyan"><span><i class="fas fa-toggle-on me-2"></i>Paramètres système</span></div>
+                        <div class="card-body" style="padding:14px">
+                            <div class="config-item"><div class="config-item-icon" style="background:#E8F5E9;color:var(--vert-valide)"><i class="fas fa-user-check"></i></div><div class="config-item-body"><div class="config-item-title">Validation manuelle des profils</div><div class="config-item-desc">Chaque nouveau profil enseignant doit être approuvé par un admin</div></div><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+                            <div class="config-item"><div class="config-item-icon" style="background:#E3F2FD;color:var(--bleu-info)"><i class="fas fa-envelope-open"></i></div><div class="config-item-body"><div class="config-item-title">E-mails automatiques</div><div class="config-item-desc">Envoyer des e-mails lors des validations, refus et paiements</div></div><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+                            <div class="config-item"><div class="config-item-icon" style="background:#FFF3E0;color:var(--orange-attente)"><i class="fas fa-tools"></i></div><div class="config-item-body"><div class="config-item-title">Mode maintenance</div><div class="config-item-desc">Bloquer l'accès public à la plateforme (admins uniquement)</div></div><label class="toggle-switch"><input type="checkbox" onchange="showToast(this.checked?'⚠️ Mode maintenance activé — plateforme inaccessible':'Mode maintenance désactivé','warning')"><span class="toggle-slider"></span></label></div>
+                            <div class="config-item"><div class="config-item-icon" style="background:#E8F5E9;color:var(--teal)"><i class="fas fa-file-download"></i></div><div class="config-item-body"><div class="config-item-title">Téléchargement gratuit des épreuves</div><div class="config-item-desc">Les épreuves restent accessibles sans compte</div></div><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+                            <div class="config-item"><div class="config-item-icon" style="background:#FFEBEE;color:var(--red)"><i class="fas fa-flag"></i></div><div class="config-item-body"><div class="config-item-title">Signalement de contenu actif</div><div class="config-item-desc">Permettre aux utilisateurs de signaler des contenus inappropriés</div></div><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+                            <div class="config-item"><div class="config-item-icon" style="background:var(--purple-light);color:var(--purple)"><i class="fas fa-percentage"></i></div><div class="config-item-body"><div class="config-item-title">Taux de commission (actuellement 15%)</div><div class="config-item-desc"><input type="number" value="15" min="0" max="50" style="width:70px;padding:4px 8px;border:1.5px solid var(--g200);border-radius:6px;font-size:.82rem;outline:none"> % <button class="btn-xs btn-restore ms-2" onclick="showToast('Taux de commission mis à jour','success')">Enregistrer</button></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /admin-container -->
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+/* ── LIVE TIME ── */
+function updateTime() {
+    const now = new Date();
+    document.getElementById('liveTime').textContent = now.toLocaleDateString('fr-FR', {weekday:'short', day:'2-digit', month:'short'}) + ' · ' + now.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+}
+updateTime(); setInterval(updateTime, 30000);
+
+/* ── TOAST ── */
+function showToast(msg, type='success') {
+    const t = document.getElementById('toast');
+    const icons = { success:'<i class="fas fa-check-circle"></i>', warning:'<i class="fas fa-exclamation-triangle"></i>', error:'<i class="fas fa-times-circle"></i>' };
+    t.innerHTML = (icons[type]||icons.success) + '<span>' + msg + '</span>';
+    t.className = 'toast-notif show ' + type;
+    clearTimeout(t._to);
+    t._to = setTimeout(() => t.className = 'toast-notif', 3200);
+}
+
+/* ── TABS ── */
+function switchTab(name, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.module-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    btn.classList.add('active');
+}
+
+/* ── MODALS ── */
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('.modal-bg').forEach(m => {
+    m.addEventListener('click', e => { if(e.target === m) m.classList.remove('show'); });
+});
+
+/* ── TABLES DE RÉFÉRENCE ── */
+const refData = {
+    ville: ['Lomé','Kpalimé','Sokodé','Atakpamé','Kara','Tsévié','Dapaong','Notsé','Bafilo','Bassar','Adjengré','Vogan','Tabligbo','Amlamé','Badou','Aného','Niamtougou','Mango','Kandé','Dankpen','Sotouboua'],
+    matiere: ['Mathématiques','Physique-Chimie','SVT','Français','Anglais','Histoire-Géographie','Initiation à l\'IA','Éducation Civique'],
+    niveau: ['6ème','5ème','4ème','3ème']
+};
+const refColors = {
+    ville: { bg:'#E8F5E9', border:'#C8E6C9' },
+    matiere: { bg:'#E3F2FD', border:'#BBDEFB' },
+    niveau: { bg:'#F3E5F5', border:'#E1BEE7' }
+};
+function showRefTab(type) {
+    ['ville','matiere','niveau'].forEach(t => {
+        const btn = document.getElementById('refTab' + t.charAt(0).toUpperCase() + t.slice(1));
+        if(btn) { btn.style.background = t===type ? 'var(--teal)' : 'var(--g100)'; btn.style.color = t===type ? 'white' : 'var(--txt-b)'; }
+    });
+    const items = refData[type]; const col = refColors[type];
+    const container = document.getElementById('refTags');
+    container.innerHTML = items.map(item =>
+        `<span style="background:${col.bg};border:1px solid ${col.border};padding:5px 13px;border-radius:20px;font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:6px;color:var(--txt)">${item} <i class="fas fa-times" style="font-size:.65rem;cursor:pointer;color:var(--red)" onclick="showToast('${item} supprimé','warning')"></i></span>`
+    ).join('') + `<span onclick="openModal('modalRef')" style="background:white;border:2px dashed var(--g300);padding:5px 13px;border-radius:20px;font-size:.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--txt-m)"><i class="fas fa-plus" style="font-size:.65rem"></i> Ajouter</span>`;
+}
+
+function updateRefFields() {
+    const type = document.getElementById('refType').value;
+    const labels = { ville: 'Nom de la ville', matiere: 'Nom de la matière', niveau: 'Niveau scolaire (ex: 2nde)' };
+    const placeholders = { ville: 'Ex: Notsé', matiere: 'Ex: Initiation à l\'IA', niveau: 'Ex: 2nde' };
+    document.getElementById('refLabel').textContent = labels[type];
+    document.getElementById('refInput').placeholder = placeholders[type];
+}
+
+// Initialisation des tables de référence
+showRefTab('ville');
+</script>
 </body>
 </html>

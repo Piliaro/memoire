@@ -3,2663 +3,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paiements - EduTogoConnect Admin</title>
-    <!-- Bootstrap 5 CSS -->
+    <title>Paiements · Sukuli Admin</title>
+    <!-- Bootstrap 5 & Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js pour les graphiques -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Variables de couleurs - Drapeau togolais */
+        /* ========== THÈME UNIFIÉ "SUKULI ADMIN" ========== */
         :root {
-            --jaune-principal: #FFD700;
-            --rouge-principal: #EF3340;
-            --vert-principal: #00A651;
-            --blanc-principal: #FFFFFF;
-            --gris-fonce: #333333;
-            --gris-moyen: #666666;
-            --gris-clair: #F5F5F5;
-            --orange-attente: #FF9800;
-            --vert-valide: #4CAF50;
-            --rouge-invalide: #F44336;
-            --cyan-info: #00BCD4;
-            --violet: #9C27B0;
+            --deep: #002f2a;
+            --deep-alt: #003333;
+            --deep-mid: #003d38;
+            --deep-hover: #004d45;
+            --deep-light: #005a52;
+            --deep-pale: #e5f0ef;
+            --deep-muted: #c2d8d6;
+            --teal: #1ab5a0;
+            --teal-light: #5dcfbe;
+            --teal-pale: #dff5f2;
+            --gold: #e8c44a;
+            --amber: #c9980e;
+            --white: #ffffff;
+            --off-white: #f5faf9;
+            --g50: #f8fafa;
+            --g100: #eef3f2;
+            --g200: #d9e5e4;
+            --g300: #b5cbc9;
+            --g400: #84a8a5;
+            --g500: #5c8885;
+            --g600: #3c6360;
+            --g700: #264545;
+            --g800: #152f2f;
+            --g900: #0a1e1e;
+            --hdr: #0a1a18;
+            --txt: #1a3030;
+            --txt-b: #3a5555;
+            --txt-m: #6a8888;
+            --purple: #7B1FA2;
+            --purple-light: #f3e5f5;
+            --coral: #D85A30;
+            --coral-light: #FAECE7;
+            --red: #e74c3c;
+            --orange-attente: #e67e22;
+            --vert-valide: #27ae60;
+            --bleu-info: #2980b9;
+            --violet-role: #8e44ad;
+            --sh-sm: 0 2px 8px rgba(0,47,42,.12);
+            --sh-md: 0 8px 28px rgba(0,47,42,.16);
+            --sh-lg: 0 20px 56px rgba(0,47,42,.22);
+            --r-sm: 8px;
+            --r-md: 14px;
+            --r-lg: 22px;
+            --r-xl: 32px;
         }
-        
-        body {
-            background-color: var(--gris-clair);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--gris-fonce);
-        }
-        
-        /* Header Principal */
-        .main-header {
-            background-color: var(--blanc-principal);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+        * { box-sizing: border-box; }
+        body { background-color: var(--off-white); font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--txt-b); margin: 0; }
+
+        /* ----- ADMIN CONTAINER ----- */
+        .admin-container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+        /* ----- TOP HEADER BAR (navigation intégrée) ----- */
+        .top-header {
+            background: var(--hdr);
+            height: auto;
+            min-height: 64px;
+            display: flex;
+            align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,.25);
+            padding: 8px 0;
         }
-        
-        .admin-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .navbar {
+        .top-header .admin-container {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        
+
+        .header-left { display: flex; align-items: center; gap: 30px; flex-wrap: wrap; }
+
+        /* Logo */
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: var(--gris-fonce);
+            flex-shrink: 0;
         }
-        
         .logo-icon {
-            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
-            color: var(--gris-fonce);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-        }
-        
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        .logo-text span {
-            color: var(--vert-principal);
-        }
-        
-        /* Barre de recherche */
-        .search-bar-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-        }
-        
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background-color: var(--blanc-principal);
-            border-radius: 30px;
-            padding: 8px 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .search-bar:focus-within {
-            border-color: var(--jaune-principal);
-            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
-        }
-        
-        .search-bar input {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 8px 10px;
-            font-size: 0.95rem;
-            background: transparent;
-        }
-        
-        .search-btn {
-            background-color: var(--jaune-principal);
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--gris-fonce);
-            transition: all 0.3s;
-        }
-        
-        .search-btn:hover {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            transform: scale(1.05);
-        }
-        
-        /* Menu déroulant profil */
-        .profile-dropdown {
-            position: relative;
-        }
-        
-        .profile-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-        }
-        
-        .profile-btn:hover {
-            background-color: var(--gris-clair);
-        }
-        
-        .profile-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: var(--blanc-principal);
-            min-width: 280px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
-            overflow: hidden;
-            z-index: 1001;
-            margin-top: 10px;
-        }
-        
-        .profile-menu.active {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .profile-menu-header {
-            padding: 20px;
-            background-color: var(--gris-clair);
-            text-align: center;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-        
-        .profile-menu-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
-            margin: 0 auto 15px;
+            background: linear-gradient(135deg, var(--deep-mid), var(--teal));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            color: var(--blanc-principal);
-            font-weight: bold;
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--gold);
+            flex-shrink: 0;
         }
-        
-        .profile-menu-name {
+        .logo-text {
+            font-size: 1.15rem;
             font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-            color: var(--gris-fonce);
+            color: var(--white);
+            letter-spacing: -.3px;
+            white-space: nowrap;
         }
-        
-        .profile-menu-role {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-        
-        .profile-menu-email {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-        
-        .profile-menu-lastlogin {
-            color: var(--gris-moyen);
-            font-size: 0.85rem;
+        .logo-text span { color: var(--teal-light); }
+
+        /* Navigation horizontale dans le header */
+        .header-nav {
             display: flex;
             align-items: center;
-            gap: 5px;
-            justify-content: center;
-        }
-        
-        .profile-menu-list {
-            list-style: none;
-        }
-        
-        .profile-menu-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--gris-clair);
-            transition: background-color 0.3s;
-        }
-        
-        .profile-menu-item:last-child {
-            border-bottom: none;
-        }
-        
-        .profile-menu-item:hover {
-            background-color: var(--gris-clair);
-        }
-        
-        .profile-menu-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--gris-fonce);
-            text-decoration: none;
-        }
-        
-        .profile-menu-link i {
-            width: 20px;
-            color: var(--gris-moyen);
-        }
-        
-        .profile-menu-link.logout {
-            color: var(--rouge-principal);
-        }
-        
-        .profile-menu-link.logout i {
-            color: var(--rouge-principal);
-        }
-        
-        /* Barre de navigation horizontale */
-        .horizontal-nav {
-            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 80px;
-            z-index: 999;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        /* Navigation horizontale */
-        .horizontal-menu {
-            display: flex;
-            gap: 5px;
+            gap: 2px;
             flex-wrap: wrap;
         }
-        
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            color: var(--blanc-principal);
+            gap: 7px;
+            padding: 8px 16px;
+            color: rgba(255,255,255,.9);
             text-decoration: none;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
+            transition: all .3s;
+            border-radius: 6px;
             font-weight: 500;
             white-space: nowrap;
+            font-size: .88rem;
+            border-bottom: 3px solid transparent;
         }
-        
-        .nav-item:hover {
-            background-color: rgba(255,255,255,0.2);
-            border-bottom-color: var(--blanc-principal);
-        }
-        
+        .nav-item:hover { background: rgba(255,255,255,.15); color: white; }
         .nav-item.active {
-            background-color: rgba(255,255,255,0.3);
-            border-bottom-color: var(--jaune-principal);
+            background: rgba(255,255,255,.1);
+            border-bottom-color: var(--gold);
             font-weight: 600;
+            color: white;
         }
-        
-        .nav-item i {
-            font-size: 1rem;
-        }
-        
         .nav-badge {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            padding: 2px 8px;
+            background: var(--teal);
+            color: white;
+            padding: 2px 7px;
             border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 5px;
-        }
-        
-        /* Bouton notification */
-        .notification-btn {
-            position: relative;
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            color: var(--gris-fonce);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-        
-        .notification-btn:hover {
-            background-color: var(--gris-clair);
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            font-size: 0.7rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        
-        /* Menu mobile toggle */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gris-fonce);
-            cursor: pointer;
-        }
-        
-        /* Contenu principal */
-        .main-content {
-            padding: 30px 0;
-        }
-        
-        /* Cartes de statistiques */
-        .stat-card {
-            text-align: center;
-            padding: 1.2rem 0.8rem;
-            border-radius: 12px;
-            color: white;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            border: none;
-            transition: transform 0.3s ease;
-            height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-card.total {
-            background: linear-gradient(135deg, var(--vert-principal), #00796b);
-        }
-        
-        .stat-card.today {
-            background: linear-gradient(135deg, var(--jaune-principal), #fbc02d);
-            color: var(--gris-fonce);
-        }
-        
-        .stat-card.success {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-        }
-        
-        .stat-card.pending {
-            background: linear-gradient(135deg, var(--orange-attente), #f57c00);
-        }
-        
-        .stat-card.failed {
-            background: linear-gradient(135deg, var(--rouge-principal), #d32f2f);
-        }
-        
-        .stat-card.refund {
-            background: linear-gradient(135deg, var(--violet), #7B1FA2);
-        }
-        
-        .stat-number {
-            font-size: 2.2rem;
+            font-size: .68rem;
             font-weight: 700;
-            margin-bottom: 0.3rem;
         }
-        
-        .stat-label {
-            font-size: 0.95rem;
-            opacity: 0.95;
-        }
-        
-        /* Cartes d'administration */
-        .admin-card {
-            background: var(--blanc-principal);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 1.5rem;
-            border: none;
-            transition: transform 0.3s ease;
-        }
-        
-        .admin-card:hover {
-            transform: translateY(-3px);
-        }
-        
-        .admin-card-header {
-            background: linear-gradient(90deg, var(--vert-principal), rgba(0, 166, 81, 0.9));
-            color: white;
-            border-radius: 12px 12px 0 0 !important;
-            padding: 1rem 1.2rem;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        
-        /* Filtres */
-        .filter-container {
-            background-color: var(--blanc-principal);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-            margin-bottom: 1.5rem;
-        }
-        
-        .filter-group {
+
+        /* Header Right */
+        .header-right {
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
             align-items: center;
+            gap: 18px;
         }
-        
-        .filter-select {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--gris-clair);
-            border-radius: 6px;
-            background-color: var(--blanc-principal);
-            color: var(--gris-fonce);
-        }
-        
-        .filter-btn {
-            padding: 0.5rem 1.5rem;
-            background-color: var(--vert-principal);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .filter-btn:hover {
-            background-color: #008c45;
-        }
-        
-        .reset-btn {
-            padding: 0.5rem 1.5rem;
-            background-color: var(--gris-clair);
-            color: var(--gris-fonce);
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .reset-btn:hover {
-            background-color: #e0e0e0;
-        }
-        
-        /* Table des paiements */
-        .payments-table-container {
-            background-color: var(--blanc-principal);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            overflow: hidden;
-        }
-        
-        .table-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-        
-        .table th {
-            background-color: var(--vert-principal);
-            color: white;
-            border: none;
-            padding: 1rem;
-            font-weight: 600;
-        }
-        
-        .table td {
-            padding: 1rem;
-            vertical-align: middle;
-        }
-        
-        .table-hover tbody tr:hover {
-            background-color: rgba(0, 166, 81, 0.05);
-        }
-        
-        /* Badges de statut */
-        .badge-status {
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .badge-success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        
-        .badge-pending {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        
-        .badge-failed {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        
-        .badge-refunded {
-            background-color: #e6d5f7;
-            color: #4a148c;
-        }
-        
-        /* Boutons d'action */
-        .action-btn {
-            padding: 0.5rem 1rem;
-            margin-right: 0.5rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .btn-view {
-            background-color: rgba(52, 152, 219, 0.15);
-            color: #3498db;
-            border: 1px solid rgba(52, 152, 219, 0.3);
-        }
-        
-        .btn-view:hover {
-            background-color: rgba(52, 152, 219, 0.3);
-        }
-        
-        .btn-approve {
-            background-color: rgba(0, 166, 81, 0.15);
-            color: var(--vert-principal);
-            border: 1px solid rgba(0, 166, 81, 0.3);
-        }
-        
-        .btn-approve:hover {
-            background-color: rgba(0, 166, 81, 0.3);
-        }
-        
-        .btn-refund {
-            background-color: rgba(156, 39, 176, 0.15);
-            color: var(--violet);
-            border: 1px solid rgba(156, 39, 176, 0.3);
-        }
-        
-        .btn-refund:hover {
-            background-color: rgba(156, 39, 176, 0.3);
-        }
-        
-        .btn-cancel {
-            background-color: rgba(239, 51, 64, 0.15);
-            color: var(--rouge-principal);
-            border: 1px solid rgba(239, 51, 64, 0.3);
-        }
-        
-        .btn-cancel:hover {
-            background-color: rgba(239, 51, 64, 0.3);
-        }
-        
-        /* Boutons principaux */
-        .btn-primary-custom {
-            background-color: var(--vert-principal);
-            color: white;
-            border: none;
-            padding: 0.6rem 1.5rem;
+        .header-icon-btn {
+            width: 36px;
+            height: 36px;
             border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary-custom:hover {
-            background-color: #008c45;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 166, 81, 0.3);
-            color: white;
-        }
-        
-        /* Onglets */
-        .payments-tabs {
-            margin-bottom: 1.5rem;
-        }
-        
-        .payments-tabs .nav-link {
-            background-color: transparent;
-            color: var(--gris-moyen);
-            border: none;
-            padding: 0.8rem 1.5rem;
-            font-weight: 600;
-        }
-        
-        .payments-tabs .nav-link.active {
-            color: var(--vert-principal);
-            border-bottom: 3px solid var(--vert-principal);
-            background-color: transparent;
-        }
-        
-        /* Section graphiques */
-        .charts-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .chart-card {
-            background-color: var(--blanc-principal);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        
-        .chart-card h5 {
-            color: var(--gris-fonce);
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-        
-        /* Éléments de paiement */
-        .payment-item {
-            padding: 1.2rem;
-            border-left: 4px solid var(--vert-principal);
-            margin-bottom: 1rem;
-            background-color: rgba(0, 166, 81, 0.05);
-            border-radius: 0 8px 8px 0;
-            transition: all 0.3s;
-        }
-        
-        .payment-item:hover {
-            background-color: rgba(0, 166, 81, 0.1);
-        }
-        
-        .payment-item.success {
-            border-left-color: var(--vert-valide);
-            background-color: rgba(76, 175, 80, 0.05);
-        }
-        
-        .payment-item.pending {
-            border-left-color: var(--orange-attente);
-            background-color: rgba(255, 152, 0, 0.05);
-        }
-        
-        .payment-item.failed {
-            border-left-color: var(--rouge-principal);
-            background-color: rgba(239, 51, 64, 0.05);
-        }
-        
-        .payment-item.refunded {
-            border-left-color: var(--violet);
-            background-color: rgba(156, 39, 176, 0.05);
-        }
-        
-        /* Modal de détail */
-        .payment-detail-modal .modal-content {
-            border-radius: 15px;
-            overflow: hidden;
-        }
-        
-        .payment-detail-modal .modal-header {
-            background-color: var(--vert-principal);
-            color: white;
-            border-bottom: none;
-        }
-        
-        .detail-section {
-            margin-bottom: 1.5rem;
-        }
-        
-        .detail-section h6 {
-            color: var(--vert-principal);
-            border-bottom: 1px solid var(--gris-clair);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .detail-item {
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.15);
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px dotted var(--gris-clair);
-        }
-        
-        .detail-label {
-            font-weight: 600;
-            color: var(--gris-moyen);
-        }
-        
-        .detail-value {
-            color: var(--gris-fonce);
-        }
-        
-        .detail-value.amount {
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-        
-        .detail-value.success {
-            color: var(--vert-valide);
-        }
-        
-        .detail-value.pending {
-            color: var(--orange-attente);
-        }
-        
-        .detail-value.failed {
-            color: var(--rouge-principal);
-        }
-        
-        /* Pagination */
-        .pagination-container {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 1rem 1.5rem;
-            background-color: var(--blanc-principal);
-            border-top: 1px solid var(--gris-clair);
+            justify-content: center;
+            cursor: pointer;
+            color: rgba(255,255,255,.8);
+            font-size: .9rem;
+            transition: background .2s;
+            text-decoration: none;
         }
-        
-        /* Responsive */
+        .header-icon-btn:hover { background: rgba(255,255,255,.2); color: white; }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 10px;
+            padding: 6px 12px 6px 7px;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .profile-btn:hover { background: rgba(255,255,255,.18); }
+        .user-avatar-small {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .75rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        .user-name { font-size: .84rem; font-weight: 600; color: var(--white); white-space: nowrap; }
+
+        .live-time-badge {
+            color: rgba(255,255,255,.75);
+            font-size: .78rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            border-left: 1px solid rgba(255,255,255,.2);
+            padding-left: 15px;
+        }
+        .live-time-badge i { color: var(--teal-light); font-size: .45rem; }
+
+        /* ----- MAIN CONTENT ----- */
+        .main-content { padding: 28px 0 50px; }
+
+        /* ----- STATS CARDS (mini-stats) ----- */
+        .mini-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+        .mini-stat { background: var(--white); border-radius: 10px; padding: 16px; box-shadow: var(--sh-sm); border-left: 4px solid; display: flex; align-items: center; gap: 14px; }
+        .mini-stat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .mini-stat-num { font-size: 1.5rem; font-weight: 700; line-height: 1; color: var(--txt); }
+        .mini-stat-lbl { font-size: .77rem; color: var(--txt-m); margin-top: 3px; }
+        .ms-green { border-color: var(--vert-valide); } .ms-green .mini-stat-icon { background: #E8F5E9; color: var(--vert-valide); }
+        .ms-gold { border-color: var(--gold); } .ms-gold .mini-stat-icon { background: #FDF6DC; color: var(--amber); }
+        .ms-orange { border-color: var(--orange-attente); } .ms-orange .mini-stat-icon { background: #FFF3E0; color: var(--orange-attente); }
+        .ms-red { border-color: var(--red); } .ms-red .mini-stat-icon { background: #FFEBEE; color: var(--red); }
+        .ms-purple { border-color: var(--purple); } .ms-purple .mini-stat-icon { background: var(--purple-light); color: var(--purple); }
+
+        /* ----- ADMIN CARD (style unifié) ----- */
+        .admin-card { background: var(--white); border-radius: 12px; box-shadow: var(--sh-sm); margin-bottom: 20px; border: 1px solid var(--g200); overflow: hidden; }
+        .admin-card-header { background: var(--deep); color: white; padding: 14px 20px; font-weight: 600; font-size: .97rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .card-header-green { background: var(--deep-alt); border-bottom: 3px solid var(--teal); }
+        .card-header-gold { background: var(--amber); color: var(--deep); border-bottom: 3px solid var(--deep); }
+        .card-header-red { background: var(--coral); border-bottom: 3px solid var(--gold); }
+        .card-header-cyan { background: var(--teal); border-bottom: 3px solid var(--gold); }
+        .card-body { padding: 20px; }
+
+        /* ----- TABLE STYLES ----- */
+        .table-responsive { border-radius: 8px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+        thead th { background: var(--g100); padding: 11px 14px; font-weight: 600; text-align: left; color: var(--txt); white-space: nowrap; border-bottom: 2px solid var(--g200); }
+        tbody td { padding: 12px 14px; border-bottom: 1px solid var(--g200); vertical-align: middle; }
+        tbody tr:hover { background: var(--off-white); }
+        tbody tr:last-child td { border-bottom: none; }
+
+        /* ----- BADGES ----- */
+        .badge-status { padding: 3px 10px; border-radius: 50px; font-size: .74rem; font-weight: 600; }
+        .badge-success { background: #E8F5E9; color: var(--vert-valide); border: 1px solid var(--vert-valide); }
+        .badge-pending { background: #FFF3E0; color: var(--orange-attente); border: 1px solid var(--orange-attente); }
+        .badge-failed { background: #FFEBEE; color: var(--red); border: 1px solid var(--red); }
+        .badge-refunded { background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple); }
+
+        /* ----- BUTTONS (unifiés) ----- */
+        .btn-xs { padding: 4px 10px; font-size: .76rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; transition: all .2s; display: inline-flex; align-items: center; gap: 4px; }
+        .btn-view { background: #E3F2FD; color: var(--bleu-info); } .btn-view:hover { background: var(--bleu-info); color: white; }
+        .btn-approve { background: #E8F5E9; color: var(--vert-valide); } .btn-approve:hover { background: var(--vert-valide); color: white; }
+        .btn-cancel { background: #FFEBEE; color: var(--red); } .btn-cancel:hover { background: var(--red); color: white; }
+        .btn-refund { background: var(--purple-light); color: var(--purple); } .btn-refund:hover { background: var(--purple); color: white; }
+        .btn-retry { background: #FFF3E0; color: var(--orange-attente); } .btn-retry:hover { background: var(--orange-attente); color: white; }
+
+        .btn-primary-custom { background: var(--deep); color: white; border: none; padding: .55rem 1.1rem; border-radius: 8px; font-weight: 600; font-size: .87rem; transition: all .3s; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-primary-custom:hover { background: var(--deep-hover); transform: translateY(-2px); color: white; }
+        .btn-outline-light-custom { background: transparent; border: 1px solid var(--g300); color: var(--txt); }
+        .btn-outline-light-custom:hover { background: var(--g100); }
+
+        /* ----- FILTER BAR ----- */
+        .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+        .filter-bar input, .filter-bar select { padding: 8px 13px; border: 1.5px solid var(--g200); border-radius: 8px; font-size: .85rem; outline: none; transition: border .2s; background: white; }
+        .filter-bar input:focus, .filter-bar select:focus { border-color: var(--teal); }
+
+        /* ----- ONGLETS (style page gestion avancée) ----- */
+        .modules-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+        .module-tab { display: flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 50px; font-size: .87rem; font-weight: 600; cursor: pointer; border: 2px solid transparent; transition: all .25s; text-decoration: none; white-space: nowrap; background: white; }
+        .module-tab.active, .module-tab:hover { transform: translateY(-2px); box-shadow: var(--sh-sm); }
+        .tab-paiement { background: var(--deep-pale); color: var(--deep); border-color: var(--deep-muted); }
+        .tab-paiement.active { background: var(--deep); color: white; border-color: var(--deep); }
+
+        /* ----- PAGINATION ----- */
+        .pagination-container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; background: var(--white); border-top: 1px solid var(--g200); }
+        .page-link { color: var(--deep); border: 1px solid var(--g200); }
+        .page-item.active .page-link { background: var(--deep); border-color: var(--deep); color: white; }
+
+        /* ----- MODAL STYLES ----- */
+        .modal-content { border-radius: 14px; border: none; }
+        .modal-header { background: var(--deep); color: white; border-bottom: none; }
+        .modal-header .btn-close { filter: brightness(0) invert(1); }
+        .modal-footer { border-top: 1px solid var(--g200); }
+
+        /* ----- RESPONSIVE ----- */
         @media (max-width: 992px) {
-            .logo-text {
-                font-size: 18px;
-            }
-            
-            .horizontal-nav {
-                display: none;
-            }
-            
-            .menu-toggle {
-                display: block;
-            }
-            
-            .charts-container {
-                grid-template-columns: 1fr;
-            }
+            .mini-stats { grid-template-columns: repeat(2, 1fr); }
+            .header-nav { order: 3; width: 100%; overflow-x: auto; padding-bottom: 5px; }
+            .header-left { width: 100%; }
         }
-        
         @media (max-width: 768px) {
-            .navbar {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-            
-            .search-bar-container {
-                order: 3;
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .action-btn {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.8rem;
-                margin-bottom: 0.3rem;
-            }
-            
-            .stat-card {
-                padding: 1.5rem 0.8rem;
-            }
-            
-            .filter-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .filter-select {
-                width: 100%;
-            }
-            
-            .table-header {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
+            .top-header { min-height: 58px; }
+            .logo-text { font-size: 1rem; }
+            .live-time-badge { display: none; }
         }
-        
         @media (max-width: 576px) {
-            .admin-container {
-                padding: 0 15px;
-            }
-            
-            .admin-card-header {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-            
-            .d-flex.justify-content-between {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .table-responsive {
-                font-size: 0.85rem;
-            }
-            
-            .pagination-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
+            .mini-stats { grid-template-columns: 1fr; }
+            .user-name { display: none; }
         }
     </style>
 </head>
 <body>
-    <!-- Header Principal -->
-    <header class="main-header">
-        <div class="admin-container">
-            <nav class="navbar">
-                <a href="#" class="logo">
-                    <div class="logo-icon">ET</div>
-                    <div class="logo-text">Edu<span>Togo</span>Connect - Admin</div>
-                </a>
-                
-                <!-- Barre de recherche -->
-                <div class="search-bar-container">
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="mainSearchInput" placeholder="Rechercher un paiement...">
-                        <button class="search-btn" id="searchBtn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <button class="menu-toggle" id="mobileNavToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <!-- Bouton notifications -->
-                <button class="notification-btn" id="notificationBtn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">2</span>
-                </button>
-                
-                <!-- Menu déroulant profil -->
-                <div class="profile-dropdown">
-                    <button class="profile-btn" id="profileBtn">
-                        <div class="user-avatar-small" style="background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));">AD</div>
-                        <div>
-                            <div class="user-name">Admin System</div>
-                            <div style="font-size: 0.8rem; color: var(--gris-moyen);">Administrateur Principal</div>
-                        </div>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    
-                    <div class="profile-menu" id="profileMenu">
-                        <div class="profile-menu-header">
-                            <div class="profile-menu-avatar">AD</div>
-                            <div class="profile-menu-name">Admin System</div>
-                            <div class="profile-menu-role">Administrateur Principal</div>
-                            <div class="profile-menu-email">admin@edutogoconnect.tg</div>
-                            <div class="profile-menu-lastlogin">
-                                <i class="far fa-clock"></i>
-                                <span>Dernière connexion: Aujourd'hui, 14:30</span>
-                            </div>
-                        </div>
-                        
-                        <ul class="profile-menu-list">
-                            <li class="profile-menu-item">
-                                <a href="dashboard.html" class="profile-menu-link">
-                                    <i class="fas fa-tachometer-alt"></i>
-                                    <span>Tableau de bord</span>
-                                </a>
-                            </li>
-                            <li class="profile-menu-item">
-                                <a href="soumissions.html" class="profile-menu-link">
-                                    <i class="fas fa-user-graduate"></i>
-                                    <span>Soumissions</span>
-                                </a>
-                            </li>
-                            <li class="profile-menu-item">
-                                <a href="messages.html" class="profile-menu-link">
-                                    <i class="fas fa-envelope"></i>
-                                    <span>Messages</span>
-                                </a>
-                            </li>
-                            <li class="profile-menu-item">
-                                <a href="#" class="profile-menu-link">
-                                    <i class="fas fa-history"></i>
-                                    <span>Journal d'activité</span>
-                                </a>
-                            </li>
-                            <li class="profile-menu-item">
-                                <a href="../Authentification/auth.html" class="profile-menu-link logout">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                    <span>Déconnexion</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
 
-    <!-- Barre de Navigation Horizontale -->
-    <nav class="horizontal-nav">
-        <div class="admin-container">
-            <div class="nav-container">
-                
-                <!-- Menu de navigation horizontal -->
-                <div class="horizontal-menu">
-                    <a href="../admin/paiement.html" class="nav-item">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Tableau de bord</span>
-                    </a>
-                    <a href="../admin/soumission.html" class="nav-item">
-                        <i class="fas fa-user-graduate"></i>
-                        <span>Soumissions</span>
-                    </a>
-                    <a href="../admin/message.html" class="nav-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>Messages</span>
-                    </a>
-                    <a href="../admin/paiement.html" class="nav-item active">
-                        <i class="fas fa-euro-sign"></i>
-                        <span>Paiements</span>
-                    </a>
-                </div>
+<!-- ========== HEADER (IDENTIQUE À LA PAGE GESTION AVANCÉE) ========== -->
+<header class="top-header">
+    <div class="admin-container">
+        <div class="header-left">
+            <a href="#" class="logo">
+                <div class="logo-icon">S</div>
+                <div class="logo-text">Suku<span>li</span></div>
+            </a>
+            <div class="header-nav">
+                <a href="#" class="nav-item"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-user-graduate"></i><span>Utilisateurs</span><span class="nav-badge">8</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-envelope"></i><span>Messages</span><span class="nav-badge">12</span></a>
+                <a href="#" class="nav-item active"><i class="fas fa-euro-sign"></i><span>Paiements</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-database"></i><span>Base de données</span></a>
             </div>
         </div>
-    </nav>
-
-    <!-- Contenu principal -->
-    <main class="main-content">
-        <div class="admin-container">
-            <!-- En-tête de page -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="header-right">
+            <a href="#" class="header-icon-btn" onclick="alert('Paramètres')"><i class="fas fa-cog"></i></a>
+            <div class="profile-btn">
+                <div class="user-avatar-small" style="background:linear-gradient(45deg, var(--coral), var(--gold))">AD</div>
                 <div>
-                    <h1 class="h2 mb-1">Gestion des Paiements</h1>
-                    <p class="text-muted mb-0">Suivez et gérez tous les paiements sur la plateforme</p>
+                    <div class="user-name">Admin System</div>
+                    <div style="font-size:.72rem;color:rgba(255,255,255,.55)">Administrateur Principal</div>
                 </div>
-                <div>
-                    <button class="btn btn-primary-custom me-2" onclick="generateReport()">
-                        <i class="fas fa-file-export me-2"></i>Générer rapport
-                    </button>
-                    <button class="btn btn-primary-custom" style="background-color: var(--violet);" onclick="showAddPaymentModal()">
-                        <i class="fas fa-plus-circle me-2"></i>Ajouter paiement
-                    </button>
-                </div>
+                <i class="fas fa-chevron-down" style="font-size:.72rem;color:rgba(255,255,255,.5);margin-left:2px"></i>
             </div>
-            
-            <!-- Cartes de statistiques -->
-            <div class="row mb-4">
-                <div class="col-md-2 col-sm-6">
-                    <div class="stat-card total">
-                        <div class="stat-number" id="totalAmount">10.45M</div>
-                        <div class="stat-label">
-                            <i class="fas fa-money-bill-wave me-2"></i> Total (FCFA)
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="stat-card today">
-                        <div class="stat-number" id="todayAmount">824K</div>
-                        <div class="stat-label">
-                            <i class="fas fa-sun me-2"></i> Aujourd'hui
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="stat-card success">
-                        <div class="stat-number" id="successCount">42</div>
-                        <div class="stat-label">
-                            <i class="fas fa-check-circle me-2"></i> Réussis
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="stat-card pending">
-                        <div class="stat-number" id="pendingCount">3</div>
-                        <div class="stat-label">
-                            <i class="fas fa-clock me-2"></i> En attente
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="stat-card failed">
-                        <div class="stat-number" id="failedCount">5</div>
-                        <div class="stat-label">
-                            <i class="fas fa-times-circle me-2"></i> Échoués
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="stat-card refund">
-                        <div class="stat-number" id="refundCount">2</div>
-                        <div class="stat-label">
-                            <i class="fas fa-undo me-2"></i> Remboursés
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Onglets des paiements -->
-            <ul class="nav nav-tabs payments-tabs" id="paymentsTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button">
-                        <i class="fas fa-list me-2"></i>Tous les paiements
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="today-tab" data-bs-toggle="tab" data-bs-target="#today" type="button">
-                        <i class="fas fa-sun me-2"></i>Aujourd'hui
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button">
-                        <i class="fas fa-clock me-2"></i>En attente
-                        <span class="badge bg-warning ms-1">3</span>
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="failed-tab" data-bs-toggle="tab" data-bs-target="#failed" type="button">
-                        <i class="fas fa-times-circle me-2"></i>Échoués
-                        <span class="badge bg-danger ms-1">5</span>
-                    </button>
-                </li>
-            </ul>
-            
-            <!-- Contenu des onglets -->
-            <div class="tab-content" id="paymentsTabsContent">
-                <!-- Onglet Tous les paiements -->
-                <div class="tab-pane fade show active" id="all" role="tabpanel">
-                    <div class="mt-4">
-                        <!-- Filtres -->
-                        <div class="filter-container">
-                            <div class="filter-group">
-                                <div>
-                                    <label for="filterDate" class="form-label">Période:</label>
-                                    <select id="filterDate" class="filter-select">
-                                        <option value="all">Toutes les dates</option>
-                                        <option value="today">Aujourd'hui</option>
-                                        <option value="week">Cette semaine</option>
-                                        <option value="month">Ce mois</option>
-                                        <option value="quarter">Ce trimestre</option>
-                                        <option value="year">Cette année</option>
-                                    </select>
-                                </div>
-                                
-                                <div>
-                                    <label for="filterStatus" class="form-label">Statut:</label>
-                                    <select id="filterStatus" class="filter-select">
-                                        <option value="all">Tous les statuts</option>
-                                        <option value="success">Réussis</option>
-                                        <option value="pending">En attente</option>
-                                        <option value="failed">Échoués</option>
-                                        <option value="refunded">Remboursés</option>
-                                    </select>
-                                </div>
-                                
-                                <div>
-                                    <label for="filterType" class="form-label">Type:</label>
-                                    <select id="filterType" class="filter-select">
-                                        <option value="all">Tous les types</option>
-                                        <option value="subscription">Abonnement</option>
-                                        <option value="teacher_fee">Honoraires enseignant</option>
-                                        <option value="school_fee">Frais d'école</option>
-                                        <option value="other">Autres</option>
-                                    </select>
-                                </div>
-                                
-                                <div>
-                                    <label for="filterAmount" class="form-label">Montant:</label>
-                                    <select id="filterAmount" class="filter-select">
-                                        <option value="all">Tous les montants</option>
-                                        <option value="0-50000">0 - 50,000 FCFA</option>
-                                        <option value="50000-200000">50,000 - 200,000 FCFA</option>
-                                        <option value="200000+">200,000 FCFA et plus</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="d-flex align-items-end">
-                                    <button class="filter-btn me-2" onclick="applyFilters()">
-                                        <i class="fas fa-filter me-1"></i> Filtrer
-                                    </button>
-                                    <button class="reset-btn" onclick="resetFilters()">
-                                        <i class="fas fa-redo me-1"></i> Réinitialiser
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Graphiques -->
-                        <div class="charts-container">
-                            <div class="chart-card">
-                                <h5>Évolution des paiements (7 derniers jours)</h5>
-                                <canvas id="paymentsChart" height="200"></canvas>
-                            </div>
-                            <div class="chart-card">
-                                <h5>Répartition par type</h5>
-                                <canvas id="paymentsByTypeChart" height="200"></canvas>
-                            </div>
-                            <div class="chart-card">
-                                <h5>Statut des paiements</h5>
-                                <canvas id="paymentsStatusChart" height="200"></canvas>
-                            </div>
-                        </div>
-                        
-                        <!-- Table des paiements -->
-                        <div class="payments-table-container">
-                            <div class="table-header">
-                                <div>
-                                    <h5 class="mb-0">Historique des paiements</h5>
-                                    <p class="text-muted mb-0">52 paiements trouvés</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-light" onclick="refreshPayments()">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                            <i class="fas fa-download"></i> Exporter
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#" onclick="exportPayments('csv')">CSV</a></li>
-                                            <li><a class="dropdown-item" href="#" onclick="exportPayments('excel')">Excel</a></li>
-                                            <li><a class="dropdown-item" href="#" onclick="exportPayments('pdf')">PDF</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Utilisateur</th>
-                                            <th>Type</th>
-                                            <th>Date</th>
-                                            <th>Montant</th>
-                                            <th>Méthode</th>
-                                            <th>Statut</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="paymentsTable">
-                                        <!-- Les données seront chargées dynamiquement -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <div class="pagination-container">
-                                <div class="text-muted">
-                                    Affichage de <span id="startRow">1</span> à <span id="endRow">10</span> sur <span id="totalRows">52</span> paiements
-                                </div>
-                                <nav>
-                                    <ul class="pagination mb-0">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1">Précédent</a>
-                                        </li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">Suivant</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Onglet Aujourd'hui -->
-                <div class="tab-pane fade" id="today" role="tabpanel">
-                    <div class="mt-4">
-                        <div class="admin-card">
-                            <div class="admin-card-header d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-sun me-2"></i>Paiements du jour
-                                </div>
-                                <div>
-                                    <span class="badge bg-success me-2">824,000 FCFA</span>
-                                    <button class="btn btn-sm btn-light" onclick="exportTodayPayments()">
-                                        <i class="fas fa-download me-1"></i> Exporter
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <!-- Paiement 1 -->
-                                <div class="payment-item success">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <strong>#PAY-0042</strong>
-                                            <div class="text-muted">Koffi Agbessi - Honoraires enseignant</div>
-                                            <div class="mt-2">
-                                                <span class="badge-status badge-success">Réussi</span>
-                                                <small class="text-muted ms-2">Mobile Money</small>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <div class="fw-bold text-success">98,400 FCFA</div>
-                                            <div><small class="text-muted">10:45 AM</small></div>
-                                            <div class="mt-3">
-                                                <button class="action-btn btn-view" onclick="viewPayment('PAY-0042')">
-                                                    <i class="fas fa-eye"></i> Détails
-                                                </button>
-                                                <button class="action-btn btn-refund" onclick="refundPayment('PAY-0042')">
-                                                    <i class="fas fa-undo"></i> Rembourser
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Paiement 2 -->
-                                <div class="payment-item success">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <strong>#PAY-0041</strong>
-                                            <div class="text-muted">Lycée Moderne - Abonnement Premium</div>
-                                            <div class="mt-2">
-                                                <span class="badge-status badge-success">Réussi</span>
-                                                <small class="text-muted ms-2">Carte bancaire</small>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <div class="fw-bold text-success">196,000 FCFA</div>
-                                            <div><small class="text-muted">09:30 AM</small></div>
-                                            <div class="mt-3">
-                                                <button class="action-btn btn-view" onclick="viewPayment('PAY-0041')">
-                                                    <i class="fas fa-eye"></i> Détails
-                                                </button>
-                                                <button class="action-btn btn-refund" onclick="refundPayment('PAY-0041')">
-                                                    <i class="fas fa-undo"></i> Rembourser
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Paiement 3 -->
-                                <div class="payment-item failed">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <strong>#PAY-0040</strong>
-                                            <div class="text-muted">Marie Lambert - Honoraires enseignant</div>
-                                            <div class="mt-2">
-                                                <span class="badge-status badge-failed">Échoué</span>
-                                                <small class="text-muted ms-2">Solde insuffisant</small>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <div class="fw-bold text-danger">55,700 FCFA</div>
-                                            <div><small class="text-muted">08:15 AM</small></div>
-                                            <div class="mt-3">
-                                                <button class="action-btn btn-view" onclick="viewPayment('PAY-0040')">
-                                                    <i class="fas fa-eye"></i> Détails
-                                                </button>
-                                                <button class="action-btn btn-approve" onclick="retryPayment('PAY-0040')">
-                                                    <i class="fas fa-redo"></i> Réessayer
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Onglet En attente -->
-                <div class="tab-pane fade" id="pending" role="tabpanel">
-                    <div class="mt-4">
-                        <div class="admin-card">
-                            <div class="admin-card-header d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-clock me-2"></i>Paiements en attente de traitement
-                                </div>
-                                <div>
-                                    <span class="badge bg-warning me-2">3 en attente</span>
-                                    <button class="btn btn-sm btn-light" onclick="processAllPending()">
-                                        <i class="fas fa-play me-1"></i> Traiter tous
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <!-- Paiement en attente 1 -->
-                                <div class="payment-item pending">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <strong>#PAY-0038</strong>
-                                            <div class="text-muted">Collège Scientifique - Frais d'inscription</div>
-                                            <div class="mt-2">
-                                                <span class="badge-status badge-pending">En attente</span>
-                                                <small class="text-muted ms-2">En attente de confirmation bancaire</small>
-                                            </div>
-                                            <div class="mt-2">
-                                                <small class="text-muted">Initier le: 14/01/2024, 16:30</small>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <div class="fw-bold">32,800 FCFA</div>
-                                            <div><small class="text-muted">Attente depuis 1h</small></div>
-                                            <div class="mt-3">
-                                                <button class="action-btn btn-view" onclick="viewPayment('PAY-0038')">
-                                                    <i class="fas fa-eye"></i> Détails
-                                                </button>
-                                                <button class="action-btn btn-approve" onclick="approvePayment('PAY-0038')">
-                                                    <i class="fas fa-check"></i> Valider
-                                                </button>
-                                                <button class="action-btn btn-cancel" onclick="cancelPayment('PAY-0038')">
-                                                    <i class="fas fa-times"></i> Annuler
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Paiement en attente 2 -->
-                                <div class="payment-item pending">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <strong>#PAY-0037</strong>
-                                            <div class="text-muted">École Primaire Les Poussins</div>
-                                            <div class="mt-2">
-                                                <span class="badge-status badge-pending">En attente</span>
-                                                <small class="text-muted ms-2">Vérification manuelle requise</small>
-                                            </div>
-                                            <div class="mt-2">
-                                                <small class="text-muted">Initier le: 14/01/2024, 14:15</small>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <div class="fw-bold">75,000 FCFA</div>
-                                            <div><small class="text-muted">Attente depuis 3h</small></div>
-                                            <div class="mt-3">
-                                                <button class="action-btn btn-view" onclick="viewPayment('PAY-0037')">
-                                                    <i class="fas fa-eye"></i> Détails
-                                                </button>
-                                                <button class="action-btn btn-approve" onclick="approvePayment('PAY-0037')">
-                                                    <i class="fas fa-check"></i> Valider
-                                                </button>
-                                                <button class="action-btn btn-cancel" onclick="cancelPayment('PAY-0037')">
-                                                    <i class="fas fa-times"></i> Annuler
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Onglet Échoués -->
-                <div class="tab-pane fade" id="failed" role="tabpanel">
-                    <div class="mt-4">
-                        <div class="admin-card">
-                            <div class="admin-card-header d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-times-circle me-2"></i>Paiements échoués
-                                </div>
-                                <div>
-                                    <span class="badge bg-danger me-2">5 échoués</span>
-                                    <button class="btn btn-sm btn-light" onclick="retryAllFailed()">
-                                        <i class="fas fa-redo me-1"></i> Réessayer tous
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <!-- Paiement échoué 1 -->
-                                <div class="payment-item failed">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <strong>#PAY-0036</strong>
-                                            <div class="text-muted">Jean Dupont - Honoraires enseignant</div>
-                                            <div class="mt-2">
-                                                <span class="badge-status badge-failed">Échoué</span>
-                                                <small class="text-muted ms-2">Carte expirée</small>
-                                            </div>
-                                            <div class="mt-2">
-                                                <small class="text-muted">Tentative le: 13/01/2024, 11:20</small>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <div class="fw-bold text-danger">45,000 FCFA</div>
-                                            <div><small class="text-muted">Il y a 1 jour</small></div>
-                                            <div class="mt-3">
-                                                <button class="action-btn btn-view" onclick="viewPayment('PAY-0036')">
-                                                    <i class="fas fa-eye"></i> Détails
-                                                </button>
-                                                <button class="action-btn btn-approve" onclick="retryPayment('PAY-0036')">
-                                                    <i class="fas fa-redo"></i> Réessayer
-                                                </button>
-                                                <button class="action-btn btn-cancel" onclick="cancelPayment('PAY-0036')">
-                                                    <i class="fas fa-times"></i> Annuler
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Paiement échoué 2 -->
-                                <div class="payment-item failed">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <strong>#PAY-0035</strong>
-                                            <div class="text-muted">Lycée Technique</div>
-                                            <div class="mt-2">
-                                                <span class="badge-status badge-failed">Échoué</span>
-                                                <small class="text-muted ms-2">Problème réseau</small>
-                                            </div>
-                                            <div class="mt-2">
-                                                <small class="text-muted">Tentative le: 12/01/2024, 15:45</small>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <div class="fw-bold text-danger">120,000 FCFA</div>
-                                            <div><small class="text-muted">Il y a 2 jours</small></div>
-                                            <div class="mt-3">
-                                                <button class="action-btn btn-view" onclick="viewPayment('PAY-0035')">
-                                                    <i class="fas fa-eye"></i> Détails
-                                                </button>
-                                                <button class="action-btn btn-approve" onclick="retryPayment('PAY-0035')">
-                                                    <i class="fas fa-redo"></i> Réessayer
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Modal de détail de paiement -->
-    <div class="modal fade payment-detail-modal" id="paymentDetailModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paymentDetailTitle">Détails du paiement</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="paymentDetailBody">
-                    <!-- Le contenu sera chargé dynamiquement -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary-custom" onclick="printPaymentDetails()">
-                        <i class="fas fa-print me-1"></i> Imprimer
-                    </button>
-                </div>
-            </div>
+            <div class="live-time-badge"><i class="fas fa-circle"></i><span id="liveTime"></span></div>
         </div>
     </div>
+</header>
 
-    <!-- Modal d'ajout de paiement -->
-    <div class="modal fade" id="addPaymentModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Ajouter un paiement manuel</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- ========== CONTENU PRINCIPAL ========== -->
+<main class="main-content">
+    <div class="admin-container">
+
+        <!-- Mini-statistiques -->
+        <div class="mini-stats">
+            <div class="mini-stat ms-green"><div class="mini-stat-icon"><i class="fas fa-money-bill-wave"></i></div><div><div class="mini-stat-num" id="totalAmount">10.45M</div><div class="mini-stat-lbl">Total collecté (FCFA)</div></div></div>
+            <div class="mini-stat ms-gold"><div class="mini-stat-icon"><i class="fas fa-calendar-day"></i></div><div><div class="mini-stat-num" id="todayAmount">824K</div><div class="mini-stat-lbl">Aujourd'hui</div></div></div>
+            <div class="mini-stat ms-green"><div class="mini-stat-icon"><i class="fas fa-check-circle"></i></div><div><div class="mini-stat-num" id="successCount">42</div><div class="mini-stat-lbl">Réussis</div></div></div>
+            <div class="mini-stat ms-orange"><div class="mini-stat-icon"><i class="fas fa-clock"></i></div><div><div class="mini-stat-num" id="pendingCount">3</div><div class="mini-stat-lbl">En attente</div></div></div>
+            <div class="mini-stat ms-red"><div class="mini-stat-icon"><i class="fas fa-times-circle"></i></div><div><div class="mini-stat-num" id="failedCount">5</div><div class="mini-stat-lbl">Échoués</div></div></div>
+            <div class="mini-stat ms-purple"><div class="mini-stat-icon"><i class="fas fa-undo-alt"></i></div><div><div class="mini-stat-num" id="refundCount">2</div><div class="mini-stat-lbl">Remboursés</div></div></div>
+        </div>
+
+        <!-- Onglets style "modules-tabs" -->
+        <div class="modules-tabs">
+            <button class="module-tab tab-paiement active" onclick="switchPaymentTab('all', this)"><i class="fas fa-list"></i> Tous les paiements</button>
+            <button class="module-tab tab-paiement" onclick="switchPaymentTab('today', this)"><i class="fas fa-sun"></i> Aujourd'hui</button>
+            <button class="module-tab tab-paiement" onclick="switchPaymentTab('pending', this)"><i class="fas fa-clock"></i> En attente <span class="nav-badge ms-1">3</span></button>
+            <button class="module-tab tab-paiement" onclick="switchPaymentTab('failed', this)"><i class="fas fa-times-circle"></i> Échoués <span class="nav-badge ms-1">5</span></button>
+        </div>
+
+        <!-- Panels -->
+        <div class="panel active" id="panel-all">
+            <!-- Filtres (style unifié) -->
+            <div class="admin-card">
+                <div class="admin-card-header card-header-green"><span><i class="fas fa-filter me-2"></i>Filtres</span></div>
+                <div class="card-body">
+                    <div class="filter-bar">
+                        <select id="filterDate"><option value="all">Toutes les dates</option><option value="today">Aujourd'hui</option><option value="week">Cette semaine</option></select>
+                        <select id="filterStatus"><option value="all">Tous statuts</option><option value="success">Réussis</option><option value="pending">En attente</option><option value="failed">Échoués</option></select>
+                        <select id="filterType"><option value="all">Tous types</option><option value="subscription">Abonnement</option><option value="teacher_fee">Honoraires</option></select>
+                        <button class="btn-primary-custom btn-xs" style="background:var(--teal)" onclick="applyFilters()"><i class="fas fa-check"></i> Appliquer</button>
+                        <button class="btn-outline-light-custom btn-xs" onclick="resetFilters()"><i class="fas fa-undo-alt"></i> Réinitialiser</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form id="addPaymentForm">
-                        <div class="mb-3">
-                            <label for="paymentUser" class="form-label">Utilisateur</label>
-                            <select class="form-select" id="paymentUser" required>
-                                <option value="">Sélectionner un utilisateur</option>
-                                <option value="1">Koffi Agbessi (Enseignant)</option>
-                                <option value="2">Lycée Moderne de Lomé (École)</option>
-                                <option value="3">Marie Dubois (Enseignante)</option>
-                                <option value="4">Collège Scientifique (École)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="paymentType" class="form-label">Type de paiement</label>
-                            <select class="form-select" id="paymentType" required>
-                                <option value="">Sélectionner un type</option>
-                                <option value="subscription">Abonnement</option>
-                                <option value="teacher_fee">Honoraires enseignant</option>
-                                <option value="school_fee">Frais d'école</option>
-                                <option value="other">Autres</option>
-                            </select>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="paymentAmount" class="form-label">Montant (FCFA)</label>
-                            <input type="number" class="form-control" id="paymentAmount" required min="0" step="100">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="paymentMethod" class="form-label">Méthode de paiement</label>
-                            <select class="form-select" id="paymentMethod" required>
-                                <option value="">Sélectionner une méthode</option>
-                                <option value="cash">Espèces</option>
-                                <option value="bank_transfer">Virement bancaire</option>
-                                <option value="mobile_money">Mobile Money</option>
-                                <option value="card">Carte bancaire</option>
-                            </select>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="paymentDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="paymentDescription" rows="3"></textarea>
-                        </div>
-                    </form>
+            </div>
+
+            <!-- Graphiques (style admin-card) -->
+            <div class="row g-3 mb-3">
+                <div class="col-md-4"><div class="admin-card"><div class="admin-card-header card-header-cyan">Évolution (7j)</div><div class="card-body"><canvas id="paymentsChart" height="180"></canvas></div></div></div>
+                <div class="col-md-4"><div class="admin-card"><div class="admin-card-header card-header-cyan">Par type</div><div class="card-body"><canvas id="paymentsByTypeChart" height="180"></canvas></div></div></div>
+                <div class="col-md-4"><div class="admin-card"><div class="admin-card-header card-header-cyan">Statuts</div><div class="card-body"><canvas id="paymentsStatusChart" height="180"></canvas></div></div></div>
+            </div>
+
+            <!-- Table des paiements -->
+            <div class="admin-card">
+                <div class="admin-card-header card-header-green"><span><i class="fas fa-table me-2"></i>Historique des transactions</span> <button class="btn-xs" style="background:rgba(255,255,255,.2);color:white" onclick="refreshPayments()"><i class="fas fa-sync-alt"></i> Actualiser</button></div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table>
+                            <thead><tr><th>#</th><th>Utilisateur</th><th>Type</th><th>Date</th><th>Montant</th><th>Méthode</th><th>Statut</th><th>Actions</th></tr></thead>
+                            <tbody id="paymentsTable"></tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary-custom" onclick="submitManualPayment()">
-                        <i class="fas fa-plus-circle me-1"></i> Ajouter le paiement
-                    </button>
+                <div class="pagination-container">
+                    <div class="text-muted small">Affichage de <span id="startRow">1</span> à <span id="endRow">10</span> sur <span id="totalRows">52</span></div>
+                    <nav><ul class="pagination pagination-sm mb-0"><li class="page-item disabled"><a class="page-link" href="#">Préc.</a></li><li class="page-item active"><a class="page-link" href="#">1</a></li><li class="page-item"><a class="page-link" href="#">2</a></li><li class="page-item"><a class="page-link" href="#">Suiv.</a></li></ul></nav>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        // Données simulées pour les paiements
-        const paymentsData = [
-            {
-                id: "PAY-0042",
-                user: "Koffi Agbessi",
-                userType: "Enseignant",
-                type: "teacher_fee",
-                typeLabel: "Honoraires enseignant",
-                date: "15/01/2024",
-                time: "10:45",
-                amount: 98400,
-                method: "mobile_money",
-                methodLabel: "Mobile Money",
-                status: "success",
-                statusLabel: "Réussi",
-                description: "Paiement des honoraires pour cours de mathématiques",
-                reference: "REF-984001",
-                transactionId: "TXN-789456123"
-            },
-            {
-                id: "PAY-0041",
-                user: "Lycée Moderne de Lomé",
-                userType: "École",
-                type: "subscription",
-                typeLabel: "Abonnement Premium",
-                date: "15/01/2024",
-                time: "09:30",
-                amount: 196000,
-                method: "card",
-                methodLabel: "Carte bancaire",
-                status: "success",
-                statusLabel: "Réussi",
-                description: "Abonnement annuel Premium",
-                reference: "REF-196001",
-                transactionId: "TXN-456123789"
-            },
-            {
-                id: "PAY-0040",
-                user: "Marie Lambert",
-                userType: "Enseignante",
-                type: "teacher_fee",
-                typeLabel: "Honoraires enseignant",
-                date: "15/01/2024",
-                time: "08:15",
-                amount: 55700,
-                method: "mobile_money",
-                methodLabel: "Mobile Money",
-                status: "failed",
-                statusLabel: "Échoué",
-                description: "Solde insuffisant sur le compte",
-                reference: "REF-557001",
-                transactionId: "TXN-123789456"
-            },
-            {
-                id: "PAY-0038",
-                user: "Collège Scientifique",
-                userType: "École",
-                type: "school_fee",
-                typeLabel: "Frais d'inscription",
-                date: "14/01/2024",
-                time: "16:30",
-                amount: 32800,
-                method: "bank_transfer",
-                methodLabel: "Virement bancaire",
-                status: "pending",
-                statusLabel: "En attente",
-                description: "Frais d'inscription pour 5 nouveaux élèves",
-                reference: "REF-328001",
-                transactionId: "TXN-987654321"
-            },
-            {
-                id: "PAY-0037",
-                user: "École Primaire Les Poussins",
-                userType: "École",
-                type: "school_fee",
-                typeLabel: "Frais de scolarité",
-                date: "14/01/2024",
-                time: "14:15",
-                amount: 75000,
-                method: "cash",
-                methodLabel: "Espèces",
-                status: "pending",
-                statusLabel: "En attente",
-                description: "Paiement en espèces à vérifier",
-                reference: "REF-750001",
-                transactionId: null
-            },
-            {
-                id: "PAY-0036",
-                user: "Jean Dupont",
-                userType: "Enseignant",
-                type: "teacher_fee",
-                typeLabel: "Honoraires enseignant",
-                date: "13/01/2024",
-                time: "11:20",
-                amount: 45000,
-                method: "card",
-                methodLabel: "Carte bancaire",
-                status: "failed",
-                statusLabel: "Échoué",
-                description: "Carte de crédit expirée",
-                reference: "REF-450001",
-                transactionId: "TXN-321654987"
-            },
-            {
-                id: "PAY-0035",
-                user: "Lycée Technique",
-                userType: "École",
-                type: "subscription",
-                typeLabel: "Abonnement Standard",
-                date: "12/01/2024",
-                time: "15:45",
-                amount: 120000,
-                method: "mobile_money",
-                methodLabel: "Mobile Money",
-                status: "failed",
-                statusLabel: "Échoué",
-                description: "Problème de réseau lors du paiement",
-                reference: "REF-120001",
-                transactionId: "TXN-654987321"
-            },
-            {
-                id: "PAY-0034",
-                user: "Ama Djidjole",
-                userType: "Enseignante",
-                type: "teacher_fee",
-                typeLabel: "Honoraires enseignant",
-                date: "11/01/2024",
-                time: "10:10",
-                amount: 68000,
-                method: "mobile_money",
-                methodLabel: "Mobile Money",
-                status: "success",
-                statusLabel: "Réussi",
-                description: "Paiement pour cours de sciences physiques",
-                reference: "REF-680001",
-                transactionId: "TXN-147258369"
-            },
-            {
-                id: "PAY-0033",
-                user: "Sophie Martin",
-                userType: "Enseignante",
-                type: "teacher_fee",
-                typeLabel: "Honoraires enseignant",
-                date: "10/01/2024",
-                time: "14:25",
-                amount: 52000,
-                method: "card",
-                methodLabel: "Carte bancaire",
-                status: "refunded",
-                statusLabel: "Remboursé",
-                description: "Remboursement pour annulation de cours",
-                reference: "REF-520001",
-                transactionId: "TXN-369258147"
-            },
-            {
-                id: "PAY-0032",
-                user: "École Maternelle Arc-en-Ciel",
-                userType: "École",
-                type: "subscription",
-                typeLabel: "Abonnement Basic",
-                date: "09/01/2024",
-                time: "11:30",
-                amount: 85000,
-                method: "bank_transfer",
-                methodLabel: "Virement bancaire",
-                status: "success",
-                statusLabel: "Réussi",
-                description: "Abonnement trimestriel",
-                reference: "REF-850001",
-                transactionId: "TXN-258369147"
-            }
-        ];
-        
-        // Variables globales
-        let paymentsChartInstance = null;
-        let paymentsByTypeChartInstance = null;
-        let paymentsStatusChartInstance = null;
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialiser les graphiques
-            initCharts();
-            
-            // Initialiser la table des paiements
-            renderPaymentsTable();
-            
-            // Calculer et mettre à jour les statistiques
-            updateStatistics();
-            
-            // Gestion du menu déroulant profil
-            const profileBtn = document.getElementById('profileBtn');
-            const profileMenu = document.getElementById('profileMenu');
-            
-            if (profileBtn && profileMenu) {
-                profileBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    profileMenu.classList.toggle('active');
-                });
-                
-                // Fermer le menu déroulant en cliquant à l'extérieur
-                document.addEventListener('click', (e) => {
-                    if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
-                        profileMenu.classList.remove('active');
-                    }
-                });
-            }
-            
-            // Gestion de la barre de recherche
-            const searchBtn = document.getElementById('searchBtn');
-            const mainSearchInput = document.getElementById('mainSearchInput');
-            
-            if (searchBtn && mainSearchInput) {
-                searchBtn.addEventListener('click', performSearch);
-                mainSearchInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        performSearch();
-                    }
-                });
-                
-                function performSearch() {
-                    const searchQuery = mainSearchInput.value.trim();
-                    if (searchQuery) {
-                        filterPaymentsBySearch(searchQuery);
-                    }
-                }
-            }
-            
-            // Gestion des notifications
-            const notificationBtn = document.getElementById('notificationBtn');
-            if (notificationBtn) {
-                notificationBtn.addEventListener('click', function() {
-                    showPaymentNotifications();
-                });
-            }
-            
-            // Simulation de nouveaux paiements
-            simulateNewPayments();
-        });
-        
-        // Initialiser les graphiques
-        function initCharts() {
-            // Graphique d'évolution des paiements
-            const paymentsCtx = document.getElementById('paymentsChart').getContext('2d');
-            paymentsChartInstance = new Chart(paymentsCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-                    datasets: [
-                        {
-                            label: 'Montant (FCFA)',
-                            data: [450000, 620000, 380000, 750000, 920000, 280000, 824000],
-                            borderColor: '#FFD700',
-                            backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `Montant: ${context.parsed.y.toLocaleString()} FCFA`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toLocaleString() + ' FCFA';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Graphique de répartition par type
-            const paymentsByTypeCtx = document.getElementById('paymentsByTypeChart').getContext('2d');
-            paymentsByTypeChartInstance = new Chart(paymentsByTypeCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Abonnements', 'Honoraires enseignants', 'Frais d\'école', 'Autres'],
-                    datasets: [{
-                        data: [35, 45, 15, 5],
-                        backgroundColor: [
-                            '#00A651',
-                            '#FFD700',
-                            '#EF3340',
-                            '#9C27B0'
-                        ],
-                        borderWidth: 2,
-                        borderColor: '#FFFFFF'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `${context.label}: ${context.parsed}%`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Graphique de statut des paiements
-            const paymentsStatusCtx = document.getElementById('paymentsStatusChart').getContext('2d');
-            paymentsStatusChartInstance = new Chart(paymentsStatusCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Réussis', 'En attente', 'Échoués', 'Remboursés'],
-                    datasets: [{
-                        label: 'Nombre de paiements',
-                        data: [42, 3, 5, 2],
-                        backgroundColor: [
-                            '#4CAF50',
-                            '#FF9800',
-                            '#EF3340',
-                            '#9C27B0'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Rendre la table des paiements
-        function renderPaymentsTable(filteredData = paymentsData) {
-            const tableBody = document.getElementById('paymentsTable');
-            if (!tableBody) return;
-            
-            tableBody.innerHTML = '';
-            
-            filteredData.forEach(payment => {
-                const row = document.createElement('tr');
-                
-                let statusBadge = '';
-                switch(payment.status) {
-                    case 'success':
-                        statusBadge = 'badge-success';
-                        break;
-                    case 'pending':
-                        statusBadge = 'badge-pending';
-                        break;
-                    case 'failed':
-                        statusBadge = 'badge-failed';
-                        break;
-                    case 'refunded':
-                        statusBadge = 'badge-refunded';
-                        break;
-                }
-                
-                let methodIcon = '';
-                switch(payment.method) {
-                    case 'mobile_money':
-                        methodIcon = '<i class="fas fa-mobile-alt text-primary"></i>';
-                        break;
-                    case 'card':
-                        methodIcon = '<i class="far fa-credit-card text-success"></i>';
-                        break;
-                    case 'bank_transfer':
-                        methodIcon = '<i class="fas fa-university text-info"></i>';
-                        break;
-                    case 'cash':
-                        methodIcon = '<i class="fas fa-money-bill-wave text-warning"></i>';
-                        break;
-                }
-                
-                row.innerHTML = `
-                    <td>${payment.id}</td>
-                    <td>
-                        <div class="fw-bold">${payment.user}</div>
-                        <small class="text-muted">${payment.userType}</small>
-                    </td>
-                    <td>${payment.typeLabel}</td>
-                    <td>
-                        <div>${payment.date}</div>
-                        <small class="text-muted">${payment.time}</small>
-                    </td>
-                    <td class="fw-bold">${payment.amount.toLocaleString()} FCFA</td>
-                    <td>
-                        <div class="d-flex align-items-center gap-2">
-                            ${methodIcon}
-                            <span>${payment.methodLabel}</span>
-                        </div>
-                    </td>
-                    <td><span class="badge-status ${statusBadge}">${payment.statusLabel}</span></td>
-                    <td>
-                        <button class="action-btn btn-view" onclick="viewPayment('${payment.id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        ${payment.status === 'pending' ? `
-                            <button class="action-btn btn-approve" onclick="approvePayment('${payment.id}')">
-                                <i class="fas fa-check"></i>
-                            </button>
-                            <button class="action-btn btn-cancel" onclick="cancelPayment('${payment.id}')">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        ` : ''}
-                        ${payment.status === 'failed' ? `
-                            <button class="action-btn btn-approve" onclick="retryPayment('${payment.id}')">
-                                <i class="fas fa-redo"></i>
-                            </button>
-                        ` : ''}
-                        ${payment.status === 'success' ? `
-                            <button class="action-btn btn-refund" onclick="refundPayment('${payment.id}')">
-                                <i class="fas fa-undo"></i>
-                            </button>
-                        ` : ''}
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-            
-            // Mettre à jour les compteurs de pagination
-            document.getElementById('endRow').textContent = Math.min(filteredData.length, 10);
-            document.getElementById('totalRows').textContent = filteredData.length;
-        }
-        
-        // Mettre à jour les statistiques
-        function updateStatistics() {
-            const totalAmount = paymentsData.reduce((sum, payment) => sum + payment.amount, 0);
-            const todayAmount = paymentsData
-                .filter(p => p.date === '15/01/2024' && p.status === 'success')
-                .reduce((sum, payment) => sum + payment.amount, 0);
-            
-            const successCount = paymentsData.filter(p => p.status === 'success').length;
-            const pendingCount = paymentsData.filter(p => p.status === 'pending').length;
-            const failedCount = paymentsData.filter(p => p.status === 'failed').length;
-            const refundCount = paymentsData.filter(p => p.status === 'refunded').length;
-            
-            // Formater les montants
-            const formatAmount = (amount) => {
-                if (amount >= 1000000) {
-                    return (amount / 1000000).toFixed(2) + 'M';
-                } else if (amount >= 1000) {
-                    return (amount / 1000).toFixed(0) + 'K';
-                }
-                return amount.toString();
-            };
-            
-            document.getElementById('totalAmount').textContent = formatAmount(totalAmount);
-            document.getElementById('todayAmount').textContent = formatAmount(todayAmount);
-            document.getElementById('successCount').textContent = successCount;
-            document.getElementById('pendingCount').textContent = pendingCount;
-            document.getElementById('failedCount').textContent = failedCount;
-            document.getElementById('refundCount').textContent = refundCount;
-        }
-        
-        // Appliquer les filtres
-        function applyFilters() {
-            const dateFilter = document.getElementById('filterDate').value;
-            const statusFilter = document.getElementById('filterStatus').value;
-            const typeFilter = document.getElementById('filterType').value;
-            const amountFilter = document.getElementById('filterAmount').value;
-            
-            let filteredData = [...paymentsData];
-            
-            // Filtrer par date
-            if (dateFilter !== 'all') {
-                const today = new Date();
-                filteredData = filteredData.filter(payment => {
-                    const paymentDate = new Date(payment.date.split('/').reverse().join('-'));
-                    
-                    switch(dateFilter) {
-                        case 'today':
-                            return payment.date === '15/01/2024'; // Date simulée pour aujourd'hui
-                        case 'week':
-                            const weekAgo = new Date(today);
-                            weekAgo.setDate(weekAgo.getDate() - 7);
-                            return paymentDate >= weekAgo;
-                        case 'month':
-                            const monthAgo = new Date(today);
-                            monthAgo.setMonth(monthAgo.getMonth() - 1);
-                            return paymentDate >= monthAgo;
-                        default:
-                            return true;
-                    }
-                });
-            }
-            
-            // Filtrer par statut
-            if (statusFilter !== 'all') {
-                filteredData = filteredData.filter(p => p.status === statusFilter);
-            }
-            
-            // Filtrer par type
-            if (typeFilter !== 'all') {
-                filteredData = filteredData.filter(p => p.type === typeFilter);
-            }
-            
-            // Filtrer par montant
-            if (amountFilter !== 'all') {
-                filteredData = filteredData.filter(p => {
-                    switch(amountFilter) {
-                        case '0-50000':
-                            return p.amount >= 0 && p.amount <= 50000;
-                        case '50000-200000':
-                            return p.amount >= 50000 && p.amount <= 200000;
-                        case '200000+':
-                            return p.amount >= 200000;
-                        default:
-                            return true;
-                    }
-                });
-            }
-            
-            renderPaymentsTable(filteredData);
-            
-            // Mettre à jour le nombre de résultats
-            document.querySelector('.table-header p').textContent = `${filteredData.length} paiements trouvés`;
-        }
-        
-        // Réinitialiser les filtres
-        function resetFilters() {
-            document.getElementById('filterDate').value = 'all';
-            document.getElementById('filterStatus').value = 'all';
-            document.getElementById('filterType').value = 'all';
-            document.getElementById('filterAmount').value = 'all';
-            
-            renderPaymentsTable(paymentsData);
-            document.querySelector('.table-header p').textContent = `${paymentsData.length} paiements trouvés`;
-        }
-        
-        // Filtrer les paiements par recherche
-        function filterPaymentsBySearch(query) {
-            const filteredData = paymentsData.filter(payment => {
-                return payment.id.toLowerCase().includes(query.toLowerCase()) ||
-                       payment.user.toLowerCase().includes(query.toLowerCase()) ||
-                       payment.typeLabel.toLowerCase().includes(query.toLowerCase()) ||
-                       payment.description.toLowerCase().includes(query.toLowerCase());
-            });
-            
-            renderPaymentsTable(filteredData);
-            document.querySelector('.table-header p').textContent = `${filteredData.length} paiements trouvés`;
-            
-            if (query) {
-                // Mettre en évidence les résultats
-                alert(`Recherche: "${query}"\n${filteredData.length} paiement(s) trouvé(s)`);
-            }
-        }
-        
-        // Rafraîchir les paiements
-        function refreshPayments() {
-            alert('Actualisation des paiements...');
-            // En réalité, on ferait un appel API ici
-        }
-        
-        // Générer un rapport
-        function generateReport() {
-            alert('Génération du rapport en cours...');
-            // En réalité, on générerait un rapport PDF/Excel
-        }
-        
-        // Exporter les paiements
-        function exportPayments(format) {
-            alert(`Export des paiements au format ${format.toUpperCase()} en cours...`);
-        }
-        
-        function exportTodayPayments() {
-            alert('Export des paiements du jour en cours...');
-        }
-        
-        // Afficher le modal d'ajout de paiement
-        function showAddPaymentModal() {
-            const modal = new bootstrap.Modal(document.getElementById('addPaymentModal'));
-            modal.show();
-        }
-        
-        // Soumettre un paiement manuel
-        function submitManualPayment() {
-            const user = document.getElementById('paymentUser').value;
-            const type = document.getElementById('paymentType').value;
-            const amount = document.getElementById('paymentAmount').value;
-            const method = document.getElementById('paymentMethod').value;
-            const description = document.getElementById('paymentDescription').value;
-            
-            if (!user || !type || !amount || !method) {
-                alert('Veuillez remplir tous les champs obligatoires');
-                return;
-            }
-            
-            // Générer un ID de paiement
-            const newId = `PAY-${String(paymentsData.length + 1000).padStart(4, '0')}`;
-            
-            // Ajouter le nouveau paiement
-            const newPayment = {
-                id: newId,
-                user: getUsernameById(user),
-                userType: getUserTypeById(user),
-                type: type,
-                typeLabel: getTypeLabel(type),
-                date: new Date().toLocaleDateString('fr-FR'),
-                time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
-                amount: parseInt(amount),
-                method: method,
-                methodLabel: getMethodLabel(method),
-                status: 'pending',
-                statusLabel: 'En attente',
-                description: description || 'Paiement manuel ajouté par l\'administrateur',
-                reference: `REF-${Date.now().toString().slice(-6)}`,
-                transactionId: null
-            };
-            
-            paymentsData.unshift(newPayment);
-            
-            // Mettre à jour l'affichage
-            renderPaymentsTable();
-            updateStatistics();
-            
-            // Fermer le modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addPaymentModal'));
-            modal.hide();
-            
-            // Réinitialiser le formulaire
-            document.getElementById('addPaymentForm').reset();
-            
-            alert(`Paiement ${newId} ajouté avec succès!`);
-        }
-        
-        // Fonctions utilitaires pour les labels
-        function getUsernameById(id) {
-            const users = {
-                '1': 'Koffi Agbessi',
-                '2': 'Lycée Moderne de Lomé',
-                '3': 'Marie Dubois',
-                '4': 'Collège Scientifique'
-            };
-            return users[id] || 'Utilisateur inconnu';
-        }
-        
-        function getUserTypeById(id) {
-            const userTypes = {
-                '1': 'Enseignant',
-                '2': 'École',
-                '3': 'Enseignante',
-                '4': 'École'
-            };
-            return userTypes[id] || 'Utilisateur';
-        }
-        
-        function getTypeLabel(type) {
-            const typeLabels = {
-                'subscription': 'Abonnement',
-                'teacher_fee': 'Honoraires enseignant',
-                'school_fee': 'Frais d\'école',
-                'other': 'Autres'
-            };
-            return typeLabels[type] || type;
-        }
-        
-        function getMethodLabel(method) {
-            const methodLabels = {
-                'cash': 'Espèces',
-                'bank_transfer': 'Virement bancaire',
-                'mobile_money': 'Mobile Money',
-                'card': 'Carte bancaire'
-            };
-            return methodLabels[method] || method;
-        }
-        
-        // Voir les détails d'un paiement
-        function viewPayment(paymentId) {
-            const payment = paymentsData.find(p => p.id === paymentId);
-            if (!payment) return;
-            
-            const modalTitle = document.getElementById('paymentDetailTitle');
-            const modalBody = document.getElementById('paymentDetailBody');
-            const modal = new bootstrap.Modal(document.getElementById('paymentDetailModal'));
-            
-            let statusClass = '';
-            switch(payment.status) {
-                case 'success': statusClass = 'success'; break;
-                case 'pending': statusClass = 'pending'; break;
-                case 'failed': statusClass = 'failed'; break;
-                case 'refunded': statusClass = 'success'; break;
-            }
-            
-            let methodIcon = '';
-            switch(payment.method) {
-                case 'mobile_money':
-                    methodIcon = '<i class="fas fa-mobile-alt fa-2x text-primary"></i>';
-                    break;
-                case 'card':
-                    methodIcon = '<i class="far fa-credit-card fa-2x text-success"></i>';
-                    break;
-                case 'bank_transfer':
-                    methodIcon = '<i class="fas fa-university fa-2x text-info"></i>';
-                    break;
-                case 'cash':
-                    methodIcon = '<i class="fas fa-money-bill-wave fa-2x text-warning"></i>';
-                    break;
-            }
-            
-            modalTitle.textContent = `Paiement ${payment.id}`;
-            modalBody.innerHTML = `
-                <div class="detail-section">
-                    <h6>Informations générales</h6>
-                    <div class="detail-item">
-                        <span class="detail-label">Référence:</span>
-                        <span class="detail-value">${payment.id}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Utilisateur:</span>
-                        <span class="detail-value">${payment.user} (${payment.userType})</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Type:</span>
-                        <span class="detail-value">${payment.typeLabel}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Date et heure:</span>
-                        <span class="detail-value">${payment.date} à ${payment.time}</span>
-                    </div>
-                </div>
-                
-                <div class="detail-section">
-                    <h6>Détails du paiement</h6>
-                    <div class="detail-item">
-                        <span class="detail-label">Montant:</span>
-                        <span class="detail-value amount ${statusClass}">${payment.amount.toLocaleString()} FCFA</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Statut:</span>
-                        <span class="detail-value ${statusClass}">${payment.statusLabel}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Méthode:</span>
-                        <span class="detail-value">
-                            <div class="d-flex align-items-center gap-2">
-                                ${methodIcon}
-                                <span>${payment.methodLabel}</span>
-                            </div>
-                        </span>
-                    </div>
-                    ${payment.transactionId ? `
-                        <div class="detail-item">
-                            <span class="detail-label">ID de transaction:</span>
-                            <span class="detail-value">${payment.transactionId}</span>
-                        </div>
-                    ` : ''}
-                    <div class="detail-item">
-                        <span class="detail-label">Référence interne:</span>
-                        <span class="detail-value">${payment.reference}</span>
-                    </div>
-                </div>
-                
-                <div class="detail-section">
-                    <h6>Description</h6>
-                    <p>${payment.description}</p>
-                </div>
-                
-                ${payment.status === 'failed' ? `
-                    <div class="alert alert-warning">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        <strong>Raison de l'échec:</strong> ${payment.description}
-                    </div>
-                ` : ''}
-                
-                ${payment.status === 'pending' ? `
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Ce paiement nécessite une action manuelle de votre part.
-                    </div>
-                ` : ''}
-            `;
-            
-            modal.show();
-        }
-        
-        // Approuver un paiement
-        function approvePayment(paymentId) {
-            if (confirm(`Voulez-vous vraiment approuver le paiement ${paymentId} ?`)) {
-                const payment = paymentsData.find(p => p.id === paymentId);
-                if (payment) {
-                    payment.status = 'success';
-                    payment.statusLabel = 'Réussi';
-                    payment.transactionId = `TXN-${Date.now().toString().slice(-9)}`;
-                    
-                    // Mettre à jour l'affichage
-                    renderPaymentsTable();
-                    updateStatistics();
-                    
-                    alert(`Paiement ${paymentId} approuvé avec succès!`);
-                }
-            }
-        }
-        
-        // Annuler un paiement
-        function cancelPayment(paymentId) {
-            if (confirm(`Voulez-vous vraiment annuler le paiement ${paymentId} ?`)) {
-                const payment = paymentsData.find(p => p.id === paymentId);
-                if (payment) {
-                    payment.status = 'failed';
-                    payment.statusLabel = 'Échoué';
-                    payment.description = 'Annulé par l\'administrateur';
-                    
-                    // Mettre à jour l'affichage
-                    renderPaymentsTable();
-                    updateStatistics();
-                    
-                    alert(`Paiement ${paymentId} annulé!`);
-                }
-            }
-        }
-        
-        // Réessayer un paiement échoué
-        function retryPayment(paymentId) {
-            if (confirm(`Voulez-vous réessayer le paiement ${paymentId} ?`)) {
-                const payment = paymentsData.find(p => p.id === paymentId);
-                if (payment) {
-                    // Simuler un nouveau paiement
-                    const newPayment = {
-                        ...payment,
-                        id: `PAY-${String(paymentsData.length + 1000).padStart(4, '0')}`,
-                        date: new Date().toLocaleDateString('fr-FR'),
-                        time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
-                        status: 'pending',
-                        statusLabel: 'En attente',
-                        reference: `REF-${Date.now().toString().slice(-6)}`,
-                        transactionId: null
-                    };
-                    
-                    paymentsData.unshift(newPayment);
-                    
-                    // Mettre à jour l'affichage
-                    renderPaymentsTable();
-                    updateStatistics();
-                    
-                    alert(`Nouvelle tentative pour le paiement ${paymentId} initiée!`);
-                }
-            }
-        }
-        
-        // Rembourser un paiement
-        function refundPayment(paymentId) {
-            const refundAmount = prompt(`Montant du remboursement pour ${paymentId} (FCFA):`);
-            
-            if (refundAmount && !isNaN(refundAmount) && parseFloat(refundAmount) > 0) {
-                if (confirm(`Voulez-vous vraiment rembourser ${parseFloat(refundAmount).toLocaleString()} FCFA pour le paiement ${paymentId} ?`)) {
-                    const payment = paymentsData.find(p => p.id === paymentId);
-                    if (payment) {
-                        // Créer un paiement de remboursement
-                        const refundPayment = {
-                            ...payment,
-                            id: `REF-${paymentId.slice(4)}`,
-                            amount: parseFloat(refundAmount),
-                            status: 'refunded',
-                            statusLabel: 'Remboursé',
-                            description: `Remboursement de ${refundAmount} FCFA pour ${payment.id}`,
-                            reference: `REF-REFUND-${Date.now().toString().slice(-6)}`,
-                            transactionId: `REFUND-${Date.now().toString().slice(-9)}`
-                        };
-                        
-                        paymentsData.unshift(refundPayment);
-                        
-                        // Mettre à jour l'affichage
-                        renderPaymentsTable();
-                        updateStatistics();
-                        
-                        alert(`Remboursement de ${parseFloat(refundAmount).toLocaleString()} FCFA effectué pour le paiement ${paymentId}!`);
-                    }
-                }
-            }
-        }
-        
-        // Traiter tous les paiements en attente
-        function processAllPending() {
-            if (confirm('Voulez-vous traiter tous les paiements en attente ?')) {
-                const pendingPayments = paymentsData.filter(p => p.status === 'pending');
-                
-                pendingPayments.forEach(payment => {
-                    payment.status = 'success';
-                    payment.statusLabel = 'Réussi';
-                    payment.transactionId = `TXN-${Date.now().toString().slice(-9)}-${payment.id.slice(4)}`;
-                });
-                
-                // Mettre à jour l'affichage
-                renderPaymentsTable();
-                updateStatistics();
-                
-                alert(`${pendingPayments.length} paiement(s) traités avec succès!`);
-            }
-        }
-        
-        // Réessayer tous les paiements échoués
-        function retryAllFailed() {
-            if (confirm('Voulez-vous réessayer tous les paiements échoués ?')) {
-                const failedPayments = paymentsData.filter(p => p.status === 'failed');
-                
-                failedPayments.forEach(payment => {
-                    const newPayment = {
-                        ...payment,
-                        id: `PAY-${String(paymentsData.length + 1000 + failedPayments.indexOf(payment)).padStart(4, '0')}`,
-                        date: new Date().toLocaleDateString('fr-FR'),
-                        time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
-                        status: 'pending',
-                        statusLabel: 'En attente',
-                        reference: `REF-${Date.now().toString().slice(-6)}-${failedPayments.indexOf(payment)}`,
-                        transactionId: null
-                    };
-                    
-                    paymentsData.unshift(newPayment);
-                });
-                
-                // Mettre à jour l'affichage
-                renderPaymentsTable();
-                updateStatistics();
-                
-                alert(`${failedPayments.length} paiement(s) réessayés!`);
-            }
-        }
-        
-        // Afficher les notifications de paiement
-        function showPaymentNotifications() {
-            const pendingCount = paymentsData.filter(p => p.status === 'pending').length;
-            const failedCount = paymentsData.filter(p => p.status === 'failed').length;
-            
-            if (pendingCount === 0 && failedCount === 0) {
-                alert('Vous n\'avez aucune notification de paiement.');
-                return;
-            }
-            
-            let notificationMessage = 'Notifications de paiement:\n\n';
-            
-            if (pendingCount > 0) {
-                notificationMessage += `• ${pendingCount} paiement(s) en attente de traitement\n`;
-            }
-            
-            if (failedCount > 0) {
-                notificationMessage += `• ${failedCount} paiement(s) échoué(s) nécessitant une action\n`;
-            }
-            
-            notificationMessage += '\nConsultez les onglets correspondants pour plus de détails.';
-            alert(notificationMessage);
-            
-            // Mettre à jour le badge
-            document.querySelector('.notification-badge').style.display = 'none';
-        }
-        
-        // Imprimer les détails du paiement
-        function printPaymentDetails() {
-            alert('Impression des détails du paiement...');
-            // En réalité, on ouvrirait une fenêtre d'impression
-        }
-        
-        // Simuler de nouveaux paiements
-        function simulateNewPayments() {
-            setInterval(() => {
-                // 10% de chance d'ajouter un nouveau paiement
-                if (Math.random() < 0.1) {
-                    const paymentTypes = ['subscription', 'teacher_fee', 'school_fee'];
-                    const paymentMethods = ['mobile_money', 'card', 'bank_transfer'];
-                    const paymentStatuses = ['success', 'pending', 'failed'];
-                    
-                    const users = [
-                        { name: 'Nouvel Enseignant', type: 'Enseignant' },
-                        { name: 'Nouvelle École', type: 'École' },
-                        { name: 'Parent d\'élève', type: 'Parent' }
-                    ];
-                    
-                    const randomUser = users[Math.floor(Math.random() * users.length)];
-                    const randomType = paymentTypes[Math.floor(Math.random() * paymentTypes.length)];
-                    const randomMethod = paymentMethods[Math.floor(Math.random() * paymentMethods.length)];
-                    const randomStatus = paymentStatuses[Math.floor(Math.random() * paymentStatuses.length)];
-                    
-                    const newPayment = {
-                        id: `PAY-${String(paymentsData.length + 1000).padStart(4, '0')}`,
-                        user: randomUser.name,
-                        userType: randomUser.type,
-                        type: randomType,
-                        typeLabel: getTypeLabel(randomType),
-                        date: new Date().toLocaleDateString('fr-FR'),
-                        time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
-                        amount: Math.floor(Math.random() * 200000) + 10000,
-                        method: randomMethod,
-                        methodLabel: getMethodLabel(randomMethod),
-                        status: randomStatus,
-                        statusLabel: randomStatus === 'success' ? 'Réussi' : randomStatus === 'pending' ? 'En attente' : 'Échoué',
-                        description: 'Nouveau paiement simulé',
-                        reference: `REF-${Date.now().toString().slice(-6)}`,
-                        transactionId: randomStatus === 'success' ? `TXN-${Date.now().toString().slice(-9)}` : null
-                    };
-                    
-                    paymentsData.unshift(newPayment);
-                    
-                    // Mettre à jour l'affichage si on est sur l'onglet "Tous"
-                    if (document.getElementById('all-tab').classList.contains('active')) {
-                        renderPaymentsTable();
-                        updateStatistics();
-                    }
-                    
-                    // Mettre à jour les badges de notification
-                    updateNotificationBadges();
-                }
-            }, 60000); // Toutes les minutes
-        }
-        
-        // Mettre à jour les badges de notification
-        function updateNotificationBadges() {
-            const pendingCount = paymentsData.filter(p => p.status === 'pending').length;
-            const failedCount = paymentsData.filter(p => p.status === 'failed').length;
-            const totalNotifications = pendingCount + failedCount;
-            
-            const notificationBadge = document.querySelector('.notification-badge');
-            const pendingBadge = document.querySelector('#pending-tab .badge');
-            const failedBadge = document.querySelector('#failed-tab .badge');
-            
-            if (notificationBadge) {
-                if (totalNotifications > 0) {
-                    notificationBadge.textContent = totalNotifications > 9 ? '9+' : totalNotifications;
-                    notificationBadge.style.display = 'flex';
-                } else {
-                    notificationBadge.style.display = 'none';
-                }
-            }
-            
-            if (pendingBadge) {
-                if (pendingCount > 0) {
-                    pendingBadge.textContent = pendingCount > 9 ? '9+' : pendingCount;
-                } else {
-                    pendingBadge.style.display = 'none';
-                }
-            }
-            
-            if (failedBadge) {
-                if (failedCount > 0) {
-                    failedBadge.textContent = failedCount > 9 ? '9+' : failedCount;
-                } else {
-                    failedBadge.style.display = 'none';
-                }
-            }
-        }
-        
-        // Mettre à jour initialement les badges
-        updateNotificationBadges();
-    </script>
+        <!-- Autres panels (aujourd'hui, en attente, échoués) simplifiés mais stylés -->
+        <div class="panel" id="panel-today"><div class="admin-card"><div class="admin-card-header card-header-gold"><i class="fas fa-sun me-2"></i>Paiements du jour</div><div class="card-body" id="todayPaymentsList">Chargement...</div></div></div>
+        <div class="panel" id="panel-pending"><div class="admin-card"><div class="admin-card-header" style="background:var(--orange-attente)"><i class="fas fa-clock me-2"></i>En attente de validation</div><div class="card-body" id="pendingPaymentsList">Chargement...</div></div></div>
+        <div class="panel" id="panel-failed"><div class="admin-card"><div class="admin-card-header card-header-red"><i class="fas fa-times-circle me-2"></i>Paiements échoués</div><div class="card-body" id="failedPaymentsList">Chargement...</div></div></div>
+
+    </div>
+</main>
+
+<!-- Modal détail (style unifié) -->
+<div class="modal fade" id="paymentDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Détails du paiement</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="paymentDetailBody"></div><div class="modal-footer"><button class="btn-primary-custom" style="background:var(--g400)" data-bs-dismiss="modal">Fermer</button><button class="btn-primary-custom" onclick="alert('Impression')"><i class="fas fa-print"></i> Imprimer</button></div></div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Live time
+    function updateTime(){ const n=new Date(); document.getElementById('liveTime').textContent = n.toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit',month:'short'}) + ' · ' + n.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}); }
+    updateTime(); setInterval(updateTime,30000);
+
+    // Données
+    const paymentsData = [
+        {id:"PAY-0042",user:"Koffi Agbessi",userType:"Enseignant",type:"teacher_fee",typeLabel:"Honoraires",date:"15/01/2024",time:"10:45",amount:98400,method:"mobile_money",methodLabel:"Mobile Money",status:"success",statusLabel:"Réussi",desc:"Cours maths"},
+        {id:"PAY-0041",user:"Lycée Moderne",userType:"École",type:"subscription",typeLabel:"Abonnement",date:"15/01/2024",time:"09:30",amount:196000,method:"card",methodLabel:"Carte",status:"success",statusLabel:"Réussi",desc:"Premium"},
+        {id:"PAY-0040",user:"Marie Lambert",userType:"Enseignante",type:"teacher_fee",typeLabel:"Honoraires",date:"15/01/2024",time:"08:15",amount:55700,method:"mobile_money",methodLabel:"Mobile Money",status:"failed",statusLabel:"Échoué",desc:"Solde insuffisant"},
+        {id:"PAY-0038",user:"Collège Scientifique",userType:"École",type:"school_fee",typeLabel:"Frais",date:"14/01/2024",time:"16:30",amount:32800,method:"bank_transfer",methodLabel:"Virement",status:"pending",statusLabel:"En attente",desc:"Inscription"},
+        {id:"PAY-0037",user:"École Les Poussins",userType:"École",type:"school_fee",typeLabel:"Frais",date:"14/01/2024",time:"14:15",amount:75000,method:"cash",methodLabel:"Espèces",status:"pending",statusLabel:"En attente",desc:""},
+        {id:"PAY-0036",user:"Jean Dupont",userType:"Enseignant",type:"teacher_fee",typeLabel:"Honoraires",date:"13/01/2024",time:"11:20",amount:45000,method:"card",methodLabel:"Carte",status:"failed",statusLabel:"Échoué",desc:"Carte expirée"},
+        {id:"PAY-0035",user:"Lycée Technique",userType:"École",type:"subscription",typeLabel:"Abonnement",date:"12/01/2024",time:"15:45",amount:120000,method:"mobile_money",methodLabel:"Mobile Money",status:"failed",statusLabel:"Échoué",desc:"Réseau"},
+        {id:"PAY-0034",user:"Ama Djidjole",userType:"Enseignante",type:"teacher_fee",typeLabel:"Honoraires",date:"11/01/2024",time:"10:10",amount:68000,method:"mobile_money",methodLabel:"Mobile Money",status:"success",statusLabel:"Réussi",desc:"Sciences"},
+        {id:"PAY-0033",user:"Sophie Martin",userType:"Enseignante",type:"teacher_fee",typeLabel:"Honoraires",date:"10/01/2024",time:"14:25",amount:52000,method:"card",methodLabel:"Carte",status:"refunded",statusLabel:"Remboursé",desc:"Annulation"},
+    ];
+
+    function getBadgeClass(s){ return {success:'badge-success',pending:'badge-pending',failed:'badge-failed',refunded:'badge-refunded'}[s]||''; }
+
+    function renderTable(data=paymentsData){
+        const tbody=document.getElementById('paymentsTable'); if(!tbody) return;
+        tbody.innerHTML = data.map(p=>`<tr><td><strong>${p.id}</strong></td><td>${p.user}<br><small class="text-muted">${p.userType}</small></td><td>${p.typeLabel}</td><td>${p.date} ${p.time}</td><td class="fw-bold">${p.amount.toLocaleString()} FCFA</td><td>${p.methodLabel}</td><td><span class="badge-status ${getBadgeClass(p.status)}">${p.statusLabel}</span></td><td>
+            <button class="btn-xs btn-view" onclick="viewPayment('${p.id}')"><i class="fas fa-eye"></i></button>
+            ${p.status==='pending'?`<button class="btn-xs btn-approve" onclick="approvePayment('${p.id}')"><i class="fas fa-check"></i></button><button class="btn-xs btn-cancel" onclick="cancelPayment('${p.id}')"><i class="fas fa-times"></i></button>`:''}
+            ${p.status==='failed'?`<button class="btn-xs btn-retry" onclick="retryPayment('${p.id}')"><i class="fas fa-redo"></i></button>`:''}
+            ${p.status==='success'?`<button class="btn-xs btn-refund" onclick="refundPayment('${p.id}')"><i class="fas fa-undo"></i></button>`:''}
+        </td></tr>`).join('');
+        document.getElementById('totalRows').textContent = data.length;
+        document.getElementById('endRow').textContent = Math.min(data.length,10);
+        updateStats(data);
+    }
+    function updateStats(data){
+        const total=data.reduce((s,p)=>s+p.amount,0); const today=data.filter(p=>p.date==='15/01/2024'&&p.status==='success').reduce((s,p)=>s+p.amount,0);
+        const fmt=(v)=>v>=1e6?(v/1e6).toFixed(2)+'M':(v/1e3).toFixed(0)+'K';
+        document.getElementById('totalAmount').textContent=fmt(total); document.getElementById('todayAmount').textContent=fmt(today);
+        document.getElementById('successCount').textContent=data.filter(p=>p.status==='success').length;
+        document.getElementById('pendingCount').textContent=data.filter(p=>p.status==='pending').length;
+        document.getElementById('failedCount').textContent=data.filter(p=>p.status==='failed').length;
+        document.getElementById('refundCount').textContent=data.filter(p=>p.status==='refunded').length;
+    }
+
+    // Tabs
+    function switchPaymentTab(tab,btn){
+        document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+        document.querySelectorAll('.module-tab').forEach(b=>b.classList.remove('active'));
+        document.getElementById('panel-'+tab).classList.add('active');
+        btn.classList.add('active');
+        if(tab==='today') renderTodayPanel(); else if(tab==='pending') renderPendingPanel(); else if(tab==='failed') renderFailedPanel();
+    }
+    function renderTodayPanel(){
+        const data=paymentsData.filter(p=>p.date==='15/01/2024');
+        document.getElementById('todayPaymentsList').innerHTML = data.map(p=>`<div class="payment-item p-3 mb-2 border rounded" style="border-left:4px solid ${p.status==='success'?'var(--vert-valide)':'var(--red)'}"><div class="d-flex justify-content-between"><div><strong>${p.id}</strong> - ${p.user} (${p.amount.toLocaleString()} FCFA)</div><div><span class="badge-status ${getBadgeClass(p.status)}">${p.statusLabel}</span></div></div></div>`).join('') || '<p class="text-muted">Aucun paiement aujourd\'hui.</p>';
+    }
+    function renderPendingPanel(){
+        const data=paymentsData.filter(p=>p.status==='pending');
+        document.getElementById('pendingPaymentsList').innerHTML = data.map(p=>`<div class="d-flex justify-content-between align-items-center border-bottom py-2"><div><strong>${p.id}</strong> - ${p.user} <span class="badge-status badge-pending ms-2">${p.amount.toLocaleString()} FCFA</span></div><div><button class="btn-xs btn-approve" onclick="approvePayment('${p.id}')"><i class="fas fa-check"></i> Valider</button></div></div>`).join('') || '<p>Aucun paiement en attente.</p>';
+    }
+    function renderFailedPanel(){
+        const data=paymentsData.filter(p=>p.status==='failed');
+        document.getElementById('failedPaymentsList').innerHTML = data.map(p=>`<div class="d-flex justify-content-between align-items-center border-bottom py-2"><div><strong>${p.id}</strong> - ${p.user} <span class="badge-status badge-failed ms-2">${p.amount.toLocaleString()} FCFA</span></div><div><button class="btn-xs btn-retry" onclick="retryPayment('${p.id}')"><i class="fas fa-redo"></i> Réessayer</button></div></div>`).join('') || '<p>Aucun échec.</p>';
+    }
+
+    window.viewPayment=(id)=>{ const p=paymentsData.find(x=>x.id===id); if(!p)return; document.getElementById('paymentDetailBody').innerHTML=`<p><strong>${p.id}</strong> - ${p.user} (${p.userType})</p><p>Montant: ${p.amount.toLocaleString()} FCFA · ${p.methodLabel}</p><p>${p.desc||''}</p>`; new bootstrap.Modal(document.getElementById('paymentDetailModal')).show(); };
+    window.approvePayment=(id)=>{ alert('Paiement '+id+' approuvé'); };
+    window.cancelPayment=(id)=>{ alert('Paiement '+id+' annulé'); };
+    window.retryPayment=(id)=>{ alert('Nouvelle tentative pour '+id); };
+    window.refundPayment=(id)=>{ alert('Remboursement '+id); };
+    window.refreshPayments=()=>{ renderTable(paymentsData); alert('Actualisé'); };
+    window.applyFilters=()=>{ renderTable(paymentsData); };
+    window.resetFilters=()=>{ renderTable(paymentsData); };
+
+    // Charts
+    function initCharts(){
+        new Chart(document.getElementById('paymentsChart'),{type:'line',data:{labels:['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],datasets:[{label:'FCFA',data:[450,620,380,750,920,280,824],borderColor:'#1ab5a0',backgroundColor:'rgba(26,181,160,0.05)',tension:0.3}]},options:{plugins:{tooltip:{callbacks:{label:(c)=>c.raw+'k FCFA'}}}}});
+        new Chart(document.getElementById('paymentsByTypeChart'),{type:'doughnut',data:{labels:['Abonnements','Honoraires','Frais'],datasets:[{data:[35,45,20],backgroundColor:['#00A651','#FFD700','#EF3340']}]}});
+        new Chart(document.getElementById('paymentsStatusChart'),{type:'bar',data:{labels:['Réussis','Attente','Échoués','Remboursés'],datasets:[{data:[42,3,5,2],backgroundColor:['#27ae60','#e67e22','#e74c3c','#7B1FA2']}]}});
+    }
+
+    renderTable(); initCharts();
+</script>
 </body>
 </html>

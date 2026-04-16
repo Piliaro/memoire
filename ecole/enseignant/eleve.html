@@ -3,12 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes Élèves - EduTogoConnect</title>
+    <title>Mes Élèves | EduTogoConnect - Enseignant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* Variables de couleurs - Drapeau togolais */
+        /* Variables de couleurs */
         :root {
+            --deep: #002f2a;
+            --deep-alt: #003333;
+            --deep-mid: #003d38;
+            --deep-hover: #004d45;
+            --deep-light: #005a52;
+            --deep-pale: #e5f0ef;
+            --deep-muted: #c2d8d6;
+            --teal: #1ab5a0;
+            --teal-light: #5dcfbe;
+            --teal-pale: #dff5f2;
+            --gold: #e8c44a;
+            --amber: #c9980e;
+            --white: #ffffff;
+            --off-white: #f5faf9;
+            --g50: #f8fafa;
+            --g100: #eef3f2;
+            --g200: #d9e5e4;
+            --g300: #b5cbc9;
+            --g400: #84a8a5;
+            --g500: #5c8885;
+            --g600: #3c6360;
+            --g700: #264545;
+            --g800: #152f2f;
+            --g900: #0a1e1e;
+            --hdr: #0a1a18;
+            --txt: #1a3030;
+            --txt-b: #3a5555;
+            --txt-m: #6a8888;
+            --purple: #7B1FA2;
+            --coral: #D85A30;
+            --error: #e53e3e;
+            --red: #e74c3c;
+            --green-ok: #22c55e;
+            --sh-sm: 0 2px 8px rgba(0,47,42,.10);
+            --sh-md: 0 8px 28px rgba(0,47,42,.14);
+            --sh-lg: 0 20px 56px rgba(0,47,42,.20);
+            --r-sm: 8px;
+            --r-md: 14px;
+            --r-lg: 22px;
+            --r-xl: 32px;
+            
+            /* Anciennes couleurs conservées pour compatibilité */
             --jaune-principal: #FFD700;
             --rouge-principal: #EF3340;
             --vert-principal: #00A651;
@@ -26,34 +70,58 @@
             --badge-gratuit-bg: rgba(33,150,243,0.15);
         }
 
-        /* Reset et styles généraux */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--gris-clair);
-            color: var(--gris-fonce);
-            line-height: 1.6;
+            font-family: 'Nunito', sans-serif;
+            background: var(--off-white);
+            color: var(--txt-b);
+            line-height: 1.65;
+            overflow-x: hidden;
         }
 
-        /* Flèche retour en haut */
+        h1, h2, h3, h4, h5 {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.25;
+            color: var(--txt);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translate(0);
+        }
+
+        /* Back to Top */
         .back-to-top {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            width: 44px;
+            height: 44px;
+            background: var(--deep);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--blanc-principal);
-            font-size: 1.8rem;
+            color: var(--gold);
+            font-size: 1.2rem;
             cursor: pointer;
             z-index: 9999;
             opacity: 0;
@@ -61,8 +129,7 @@
             transform: translateY(20px) scale(0.8);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            border: 3px solid var(--blanc-principal);
-            overflow: hidden;
+            border: 2px solid var(--gold);
         }
 
         .back-to-top.visible {
@@ -72,15 +139,15 @@
         }
 
         .back-to-top:hover {
-            background: linear-gradient(45deg, var(--rouge-principal), var(--jaune-principal));
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(239, 51, 64, 0.4);
+            background: var(--gold);
+            color: var(--deep);
+            transform: translateY(-5px) scale(1.05);
         }
 
         /* Indicateur de progression du scroll */
         .scroll-progress {
             position: fixed;
-            bottom: 100px;
+            bottom: 90px;
             right: 30px;
             z-index: 9998;
             opacity: 0;
@@ -97,7 +164,7 @@
 
         .scroll-progress-circle {
             fill: none;
-            stroke: var(--vert-principal);
+            stroke: var(--teal);
             stroke-width: 3;
             stroke-linecap: round;
             transform: rotate(-90deg);
@@ -106,155 +173,182 @@
         }
 
         .scroll-progress-text {
-            fill: var(--gris-fonce);
+            fill: var(--txt);
             font-size: 10px;
             font-weight: bold;
             text-anchor: middle;
             dominant-baseline: central;
         }
 
-        /* Header Principal */
+        /* HEADER STYLE SUKULI */
         .main-header {
-            background-color: var(--blanc-principal);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            background: var(--hdr);
+            box-shadow: 0 2px 16px rgba(0,0,0,.22);
+            transition: box-shadow .3s;
         }
-
-        .container {
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .main-header.scrolled {
+            box-shadow: 0 4px 28px rgba(0,0,0,.35);
         }
 
         .navbar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 10px 0;
+            gap: 14px;
+            flex-wrap: wrap;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
             text-decoration: none;
-            color: var(--gris-fonce);
+            flex-shrink: 0;
         }
 
         .logo-icon {
-            background: linear-gradient(45deg, var(--vert-principal) 25%, var(--jaune-principal) 25%, var(--jaune-principal) 50%, var(--rouge-principal) 50%, var(--rouge-principal) 75%, var(--blanc-principal) 75%);
-            color: var(--gris-fonce);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--deep-mid) 0%, var(--teal) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            color: var(--gold);
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,.3);
         }
 
         .logo-text {
-            font-size: 24px;
-            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #fff;
         }
 
         .logo-text span {
-            color: var(--vert-principal);
+            color: var(--teal-light);
         }
 
-        /* Barre de recherche */
+        /* Barre de recherche améliorée */
         .search-bar-container {
             position: relative;
-            width: 100%;
-            max-width: 500px;
-            margin: 0 20px;
+            flex: 1;
+            max-width: 540px;
+            margin: 0 auto;
         }
 
         .search-bar {
+            background: rgba(255,255,255,.10);
+            border-radius: 40px;
+            padding: 4px 4px 4px 16px;
             display: flex;
             align-items: center;
-            background-color: var(--blanc-principal);
-            border-radius: 30px;
-            padding: 8px 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-            transition: all 0.3s;
+            border: 1.5px solid rgba(255,255,255,.18);
+            gap: 6px;
+            transition: border-color .22s, background .22s;
         }
 
         .search-bar:focus-within {
-            border-color: var(--jaune-principal);
-            box-shadow: 0 4px 15px rgba(255,215,0,0.2);
+            border-color: var(--teal-light);
+            background: rgba(255,255,255,.14);
+        }
+
+        .search-bar i:first-child {
+            color: rgba(255,255,255,.5);
+            font-size: 0.85rem;
+            flex-shrink: 0;
         }
 
         .search-bar input {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 8px 10px;
-            font-size: 0.95rem;
             background: transparent;
+            border: none;
+            padding: 7px 8px;
+            color: #fff;
+            font-size: 0.85rem;
+            width: 100%;
+            outline: none;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255,255,255,.4);
+            font-style: italic;
         }
 
         .search-filters-btn {
-            background: none;
-            border: none;
-            color: var(--gris-moyen);
-            cursor: pointer;
-            padding: 5px 10px;
-            font-size: 0.9rem;
             display: flex;
             align-items: center;
             gap: 5px;
-            border-left: 1px solid var(--gris-clair);
+            background: none;
+            border: none;
+            color: rgba(255,255,255,.72);
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 30px;
+            transition: all .22s;
+            white-space: nowrap;
+            flex-shrink: 0;
+            border-left: 1px solid rgba(255,255,255,.2);
             margin-left: 10px;
         }
 
+        .search-filters-btn:hover {
+            color: var(--gold);
+            background: rgba(232,196,74,.14);
+        }
+
         .search-btn {
-            background-color: var(--jaune-principal);
+            background: var(--teal);
             border: none;
+            color: #fff;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: var(--gris-fonce);
-            transition: all 0.3s;
+            font-size: 0.82rem;
+            flex-shrink: 0;
+            transition: all .22s;
         }
 
         .search-btn:hover {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            transform: scale(1.05);
+            background: var(--teal-light);
+            transform: scale(1.08);
         }
 
         /* Panneau de filtres */
         .search-filters-panel {
             position: absolute;
-            top: 100%;
+            top: calc(100% + 14px);
             left: 0;
             right: 0;
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            margin-top: 10px;
+            background: var(--hdr);
+            border: 1.5px solid rgba(255,255,255,.13);
+            border-radius: var(--r-md);
+            padding: 22px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.6);
+            z-index: 1200;
             display: none;
-            z-index: 1001;
         }
 
         .search-filters-panel.active {
             display: block;
-            animation: slideDown 0.3s ease-out;
+            animation: sfpIn .25s cubic-bezier(.4,0,.2,1);
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
+        @keyframes sfpIn {
+            from { opacity: 0; transform: translateY(-8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -262,94 +356,131 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--gris-clair);
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
         }
 
         .filters-title {
-            font-weight: 600;
-            color: var(--gris-fonce);
+            color: #fff;
+            font-size: 0.88rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
         }
 
         .close-filters {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
+            background: rgba(255,255,255,.08);
             border: none;
-            color: var(--gris-moyen);
+            color: rgba(255,255,255,.7);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .2s;
+        }
+
+        .close-filters:hover {
+            background: rgba(255,255,255,.2);
+            color: #fff;
         }
 
         .filters-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 16px;
         }
 
-        .filter-group {
-            margin-bottom: 15px;
-        }
-
-        .filter-label {
+        .filter-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--gris-fonce);
-            font-size: 0.9rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: rgba(255,255,255,.5);
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+            margin-bottom: 7px;
+            font-family: 'Poppins', sans-serif;
         }
 
         .filter-select {
             width: 100%;
-            padding: 10px 15px;
-            border: 2px solid var(--gris-clair);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            background-color: var(--blanc-principal);
-            transition: border-color 0.3s;
+            padding: 9px 32px 9px 12px;
+            background: rgba(255,255,255,.07);
+            border: 1.5px solid rgba(255,255,255,.11);
+            border-radius: var(--r-sm);
+            color: #fff;
+            font-size: 0.82rem;
+            font-family: 'Nunito', sans-serif;
+            outline: none;
+            cursor: pointer;
+            transition: border-color .2s;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
         }
 
         .filter-select:focus {
-            outline: none;
-            border-color: var(--jaune-principal);
+            border-color: var(--teal-light);
+        }
+
+        .filter-select option {
+            background: #0a1a18;
+            color: #fff;
         }
 
         .filter-actions {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
-            padding-top: 15px;
-            border-top: 1px solid var(--gris-clair);
+            padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,.08);
         }
 
-        /* Bouton notification dans le header */
+        /* Navigation droite */
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
         .notification-btn {
             position: relative;
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            color: var(--gris-fonce);
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.14);
+            color: rgba(255,255,255,.78);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s;
-            margin-right: 10px;
+            font-size: 0.95rem;
+            transition: all .22s;
         }
 
         .notification-btn:hover {
-            background-color: var(--gris-clair);
+            background: rgba(255,255,255,.18);
+            color: #fff;
         }
 
         .notification-badge {
             position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            font-size: 0.7rem;
+            top: -2px;
+            right: -2px;
+            background-color: var(--coral);
+            color: var(--white);
+            font-size: 0.65rem;
             width: 18px;
             height: 18px;
             border-radius: 50%;
@@ -357,73 +488,10 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            border: 2px solid var(--hdr);
         }
 
-        /* Menu mobile toggle */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gris-fonce);
-            cursor: pointer;
-        }
-
-        /* Actions header */
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        /* Barre de navigation horizontale */
-        .horizontal-nav {
-            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 80px;
-            z-index: 999;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        /* Navigation horizontale */
-        .horizontal-menu {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            color: var(--blanc-principal);
-            text-decoration: none;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .nav-item:hover {
-            background-color: rgba(255,255,255,0.2);
-            border-bottom-color: var(--blanc-principal);
-        }
-
-        .nav-item.active {
-            background-color: rgba(255,255,255,0.3);
-            border-bottom-color: var(--jaune-principal);
-            font-weight: 600;
-        }
-
-        /* Menu déroulant profil */
+        /* Profile Dropdown */
         .profile-dropdown {
             position: relative;
         }
@@ -431,31 +499,71 @@
         .profile-btn {
             display: flex;
             align-items: center;
-            gap: 10px;
-            background: none;
-            border: none;
+            gap: 9px;
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.14);
+            border-radius: 10px;
+            padding: 7px 12px;
             cursor: pointer;
-            padding: 8px 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s;
+            transition: all .22s;
         }
 
         .profile-btn:hover {
-            background-color: var(--gris-clair);
+            background: rgba(255,255,255,.16);
+        }
+
+        .profile-avatar-small {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--deep-mid), var(--teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--gold);
+            font-size: 0.72rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .profile-btn div:not(:first-child) {
+            text-align: left;
+        }
+
+        .profile-name {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .profile-role {
+            font-size: 0.66rem;
+            color: rgba(255,255,255,.55);
+        }
+
+        .profile-btn i:last-child {
+            color: rgba(255,255,255,.5);
+            font-size: 0.72rem;
+            transition: transform .22s;
+        }
+
+        .profile-btn.open i:last-child {
+            transform: rotate(180deg);
         }
 
         .profile-menu {
             display: none;
             position: absolute;
-            top: 100%;
+            top: calc(100% + 10px);
             right: 0;
-            background-color: var(--blanc-principal);
-            min-width: 250px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            border-radius: 10px;
+            background: #fff;
+            border-radius: var(--r-md);
+            min-width: 230px;
+            box-shadow: var(--sh-lg);
+            border: 1.5px solid var(--g200);
             overflow: hidden;
-            z-index: 1001;
-            margin-top: 10px;
+            z-index: 400;
         }
 
         .profile-menu.active {
@@ -463,35 +571,36 @@
         }
 
         .profile-menu-header {
-            padding: 20px;
-            background-color: var(--gris-clair);
+            padding: 18px;
+            background: var(--g50);
+            border-bottom: 1px solid var(--g200);
             text-align: center;
-            border-bottom: 1px solid var(--gris-clair);
         }
 
         .profile-menu-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
-            margin: 0 auto 10px;
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--deep), var(--teal));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            color: var(--blanc-principal);
-            font-weight: bold;
+            font-weight: 900;
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-family: 'Poppins', sans-serif;
+            margin: 0 auto 9px;
         }
 
         .profile-menu-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--txt);
         }
 
         .profile-menu-email {
-            color: var(--gris-moyen);
-            font-size: 0.9rem;
+            font-size: 0.74rem;
+            color: var(--txt-m);
         }
 
         .profile-menu-list {
@@ -499,234 +608,168 @@
         }
 
         .profile-menu-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--gris-clair);
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--g100);
             transition: background-color 0.3s;
+        }
+
+        .profile-menu-item:hover {
+            background-color: var(--deep-pale);
         }
 
         .profile-menu-item:last-child {
             border-bottom: none;
         }
 
-        .profile-menu-item:hover {
-            background-color: var(--gris-clair);
-        }
-
         .profile-menu-link {
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--gris-fonce);
+            color: var(--txt-b);
             text-decoration: none;
+            font-size: 0.84rem;
+            font-weight: 600;
         }
 
         .profile-menu-link i {
+            color: var(--teal);
             width: 20px;
-            color: var(--gris-moyen);
         }
 
         .profile-menu-link.logout {
-            color: var(--rouge-principal);
+            color: var(--coral);
         }
 
         .profile-menu-link.logout i {
-            color: var(--rouge-principal);
+            color: var(--coral);
         }
 
-        .btn {
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
+        /* Menu mobile toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
             border: none;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
+            color: rgba(255,255,255,.85);
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            background: var(--hdr);
+            border-top: 1px solid rgba(255,255,255,.07);
+            padding: 12px 24px 18px;
+        }
+
+        .mobile-nav.active {
+            display: flex;
+        }
+
+        .mobile-nav-item {
+            display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            padding: 10px 0;
+            color: rgba(255,255,255,.72);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,.07);
             font-size: 0.9rem;
         }
 
-        .btn-primary {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
+        .mobile-nav-item:last-child {
+            border-bottom: none;
         }
 
-        .btn-primary:hover {
-            background-color: #008c45;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,166,81,0.2);
+        .mobile-nav-item.active {
+            color: var(--gold);
         }
 
-        .btn-secondary {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--gris-fonce);
-            color: var(--blanc-principal);
-        }
-
-        .btn-success {
-            background-color: #4CAF50;
-            color: var(--blanc-principal);
-        }
-
-        .btn-success:hover {
-            background-color: #388E3C;
-            transform: translateY(-2px);
-        }
-
-        .btn-warning {
-            background-color: #FF9800;
-            color: var(--blanc-principal);
-        }
-
-        .btn-warning:hover {
-            background-color: #F57C00;
-            transform: translateY(-2px);
-        }
-
-        /* Badge de notification */
-        .nav-badge {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
+        .mobile-nav-badge {
+            margin-left: auto;
+            background-color: var(--coral);
+            color: var(--white);
             padding: 2px 8px;
             border-radius: 10px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
+        }
+
+        /* SUB-NAV */
+        .horizontal-nav {
+            position: sticky;
+            top: 60px;
+            z-index: 900;
+            background: var(--deep);
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+        .nav-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .horizontal-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .horizontal-menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 13px 18px;
+            color: rgba(255,255,255,.65);
+            text-decoration: none;
             font-weight: 600;
+            font-size: 0.82rem;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all .22s;
+            flex-shrink: 0;
+        }
+
+        .nav-item:hover {
+            color: #fff;
+            background: rgba(255,255,255,.06);
+        }
+
+        .nav-item.active {
+            color: #fff;
+            border-bottom-color: var(--gold);
+        }
+
+        .nav-badge {
+            background-color: var(--coral);
+            color: #fff;
+            padding: 1px 7px;
+            border-radius: 10px;
+            font-size: 0.66rem;
+            font-weight: 800;
             margin-left: 5px;
         }
 
         /* Contenu principal */
         .main-content {
-            padding: 20px 0 30px;
-        }
-
-        /* Header de la page avec TOUT sur la même ligne */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--gris-clair);
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        /* Conteneur pour titre + description + bouton + stats */
-        .header-content-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            gap: 20px;
-        }
-
-        /* Titre et description */
-        .header-text {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .header-text h1 {
-            color: var(--gris-fonce);
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .header-text p {
-            color: var(--gris-moyen);
-        }
-
-        /* Statistiques en ligne */
-        .services-stats-inline {
-            display: flex;
-            gap: 15px;
-            flex: 2;
-            justify-content: center;
-            min-width: 300px;
-        }
-
-        .stat-card-inline {
-            background-color: var(--blanc-principal);
-            border-radius: 10px;
-            padding: 15px 20px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: transform 0.3s;
-            min-width: 150px;
-            flex: 1;
-            max-width: 200px;
-        }
-
-        .stat-card-inline:hover {
-            transform: translateY(-3px);
-        }
-
-        .stat-icon-inline {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .stat-icon-inline.blue {
-            background-color: rgba(33,150,243,0.1);
-            color: var(--bleu-prof);
-        }
-
-        .stat-icon-inline.green {
-            background-color: rgba(76,175,80,0.1);
-            color: #4CAF50;
-        }
-
-        .stat-icon-inline.yellow {
-            background-color: rgba(255,215,0,0.1);
-            color: var(--jaune-principal);
-        }
-
-        .stat-icon-inline.red {
-            background-color: rgba(239,51,64,0.1);
-            color: var(--rouge-principal);
-        }
-
-        .stat-icon-inline.purple {
-            background-color: rgba(156,39,176,0.1);
-            color: var(--violet-premium);
-        }
-
-        .stat-info-inline h3 {
-            font-size: 1.5rem;
-            color: var(--gris-fonce);
-            margin-bottom: 2px;
-        }
-
-        .stat-info-inline p {
-            color: var(--gris-moyen);
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
-
-        /* Bouton création service */
-        .header-action-button {
-            flex: 0 0 auto;
+            padding: 30px 0;
         }
 
         /* Section principale des élèves */
         .students-section {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
+            background-color: var(--white);
+            border-radius: var(--r-lg);
             padding: 30px;
             margin-bottom: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--sh-sm);
+            border: 1.5px solid var(--g200);
         }
 
         .section-header {
@@ -734,19 +777,23 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .section-title {
-            color: var(--gris-fonce);
+            color: var(--txt);
             font-size: 1.5rem;
+            font-weight: 700;
         }
 
         .section-subtitle {
-            color: var(--gris-moyen);
+            color: var(--txt-m);
             margin-top: 5px;
+            font-size: 0.9rem;
         }
 
-        /* Filtres et actions */
+        /* Barre d'actions et filtres */
         .actions-bar {
             display: flex;
             justify-content: space-between;
@@ -764,8 +811,8 @@
 
         .filter-btn {
             padding: 10px 20px;
-            background-color: var(--blanc-principal);
-            border: 2px solid var(--gris-clair);
+            background-color: var(--white);
+            border: 2px solid var(--g200);
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s;
@@ -773,240 +820,130 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Nunito', sans-serif;
+            color: var(--txt-b);
         }
 
         .filter-btn.active {
-            background: linear-gradient(90deg, var(--vert-principal), var(--jaune-principal));
+            background: linear-gradient(90deg, var(--deep), var(--teal));
             border-color: transparent;
-            color: var(--blanc-principal);
+            color: var(--white);
         }
 
         .filter-btn:hover:not(.active) {
-            background-color: var(--gris-clair);
+            background-color: var(--g100);
         }
 
-        /* Tableau des élèves */
-        .students-table-container {
-            overflow-x: auto;
-            border-radius: 10px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-        }
-
-        .students-table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: var(--blanc-principal);
-            min-width: 800px;
-        }
-
-        .students-table th {
-            background-color: rgba(255,215,0,0.1);
-            padding: 15px;
-            text-align: left;
-            color: var(--gris-fonce);
-            font-weight: 600;
-            border-bottom: 2px solid var(--jaune-principal);
-        }
-
-        .students-table td {
-            padding: 15px;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .students-table tr:hover {
-            background-color: rgba(255,215,0,0.05);
-        }
-
-        /* Carte élève */
-        .student-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
-            display: flex;
+        /* Boutons */
+        .btn {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            color: var(--blanc-principal);
-            font-weight: bold;
-            font-size: 1rem;
-        }
-
-        .student-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .student-details h4 {
-            font-size: 1rem;
-            margin-bottom: 3px;
-            color: var(--gris-fonce);
-        }
-
-        .student-details p {
-            font-size: 0.85rem;
-            color: var(--gris-moyen);
-        }
-
-        /* Badges */
-        .status-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .status-active {
-            background-color: rgba(76,175,80,0.15);
-            color: #4CAF50;
-        }
-
-        .status-inactive {
-            background-color: rgba(158,158,158,0.15);
-            color: #757575;
-        }
-
-        .level-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            background-color: rgba(33,150,243,0.1);
-            color: var(--bleu-prof);
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* Actions tableau */
-        .table-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-table-action {
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
+            gap: 7px;
+            padding: 11px 26px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
             cursor: pointer;
             border: none;
-            transition: all 0.3s;
+            text-decoration: none;
+            transition: all .25s;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .btn-table-view {
-            background-color: var(--gris-clair);
-            color: var(--gris-fonce);
+        .btn-primary {
+            background: var(--deep);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0,47,42,.3);
         }
 
-        .btn-table-view:hover {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
+        .btn-primary:hover {
+            background: var(--deep-hover);
+            transform: translateY(-2px);
         }
 
-        .btn-table-edit {
-            background-color: var(--bleu-prof);
-            color: var(--blanc-principal);
+        .btn-secondary {
+            background: var(--g100);
+            color: var(--txt-b);
+            border: 1px solid var(--g200);
         }
 
-        .btn-table-edit:hover {
-            background-color: #0d8bf2;
+        .btn-secondary:hover {
+            background: var(--g200);
         }
 
-        .btn-table-message {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
+        .btn-success {
+            background: var(--teal);
+            color: #fff;
         }
 
-        .btn-table-message:hover {
-            background-color: #008c45;
+        .btn-success:hover {
+            background: #138f7d;
+            transform: translateY(-2px);
         }
 
-        .btn-table-delete {
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-        }
-
-        .btn-table-delete:hover {
-            background-color: #d32f2f;
-        }
-
-        /* Vue grille des élèves - MODIFIÉ POUR 4 COLONNES */
-        .students-grid-section {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            display: block; /* Afficher par défaut (modifié) */
-        }
-
+        /* Vue grille des élèves - 4 colonnes */
         .students-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 colonnes */
-            gap: 25px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
 
         .student-card {
-            background-color: var(--blanc-principal);
-            border-radius: 12px;
+            background-color: var(--white);
+            border-radius: var(--r-md);
             overflow: hidden;
-            border: 2px solid var(--gris-clair);
+            border: 1px solid var(--g200);
             transition: all 0.3s;
             position: relative;
             display: flex;
             flex-direction: column;
-            height: 430px; /* Hauteur ajustée */
+            height: 430px;
         }
 
         .student-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-color: var(--vert-principal);
+            transform: translateY(-3px);
+            box-shadow: var(--sh-md);
+            border-color: var(--teal);
         }
 
-        .student-header {
-            padding: 25px 25px 15px 25px;
-            background-color: var(--blanc-principal);
-            border-bottom: 1px solid var(--gris-clair);
-            position: relative;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        /* Badge niveau en haut à gauche */
         .level-tag {
             position: absolute;
             top: 15px;
             left: 15px;
-            background-color: var(--bleu-prof);
-            color: var(--blanc-principal);
+            background-color: var(--teal);
+            color: var(--white);
             padding: 4px 12px;
             border-radius: 15px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             z-index: 2;
         }
 
-        /* MODIFICATION: Badge statut en haut à droite */
         .session-badge {
             position: absolute;
             top: 15px;
             right: 15px;
             padding: 4px 12px;
             border-radius: 15px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             z-index: 2;
         }
 
         .session-badge.online {
-            background-color: var(--vert-principal);
-            color: var(--blanc-principal);
+            background-color: var(--green-ok);
+            color: var(--white);
         }
 
         .session-badge.offline {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
+            background-color: var(--g500);
+            color: var(--white);
+        }
+
+        .student-header {
+            padding: 25px 25px 15px 25px;
+            text-align: center;
+            flex-shrink: 0;
         }
 
         .student-avatar-large {
@@ -1014,64 +951,58 @@
             height: 80px;
             border-radius: 50%;
             margin: 10px auto 15px;
-            background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal));
+            background: linear-gradient(135deg, var(--deep), var(--teal));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--blanc-principal);
+            color: var(--gold);
             font-weight: bold;
             font-size: 1.8rem;
-            border: 4px solid var(--blanc-principal);
+            font-family: 'Poppins', sans-serif;
+            border: 4px solid var(--white);
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 1;
         }
 
         .student-name {
-            font-size: 1.2rem;
-            color: var(--gris-fonce);
-            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--txt);
+            font-weight: 700;
             margin-bottom: 5px;
         }
 
-        /* Rating stars */
         .student-rating {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 3px;
             margin-bottom: 8px;
-            color: var(--jaune-principal);
+            color: var(--gold);
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
-        /* MODIFICATION: École sous les étoiles (remplace la matière) */
         .student-subject {
-            font-size: 0.9rem;
-            color: var(--bleu-prof);
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-size: 0.85rem;
+            color: var(--txt-m);
+            font-weight: 500;
         }
 
         .student-body {
-            padding: 20px;
+            padding: 0 20px;
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding-bottom: 80px; /* Espace pour le footer */
         }
 
-        /* Séances passées et prochaines */
         .session-info {
-            background-color: rgba(0,0,0,0.02);
-            padding: 15px;
-            border-radius: 8px;
+            background-color: var(--g50);
+            padding: 12px;
+            border-radius: var(--r-sm);
             margin-bottom: 15px;
         }
 
         .session-item {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .session-item:last-child {
@@ -1079,14 +1010,14 @@
         }
 
         .session-label {
-            font-size: 0.8rem;
-            color: var(--gris-moyen);
+            font-size: 0.7rem;
+            color: var(--txt-m);
             margin-bottom: 3px;
         }
 
         .session-value {
-            font-size: 0.9rem;
-            color: var(--gris-fonce);
+            font-size: 0.8rem;
+            color: var(--txt);
             font-weight: 500;
             display: flex;
             align-items: center;
@@ -1094,15 +1025,15 @@
         }
 
         .session-value i {
-            color: var(--vert-principal);
-            font-size: 0.8rem;
+            color: var(--teal);
+            font-size: 0.7rem;
         }
 
         .student-info-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 5px;
         }
 
         .info-item {
@@ -1111,199 +1042,198 @@
         }
 
         .info-label {
-            font-size: 0.75rem;
-            color: var(--gris-moyen);
-            margin-bottom: 3px;
+            font-size: 0.65rem;
+            color: var(--txt-m);
+            margin-bottom: 2px;
         }
 
         .info-value {
-            font-size: 0.85rem;
-            color: var(--gris-fonce);
-            font-weight: 500;
+            font-size: 0.8rem;
+            color: var(--txt);
+            font-weight: 600;
         }
 
-        /* MODIFICATION: Footer en bas de la carte */
         .student-footer {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
             padding: 15px;
-            background-color: var(--gris-clair);
-            border-top: 1px solid var(--gris-moyen);
+            background-color: var(--g50);
+            border-top: 1px solid var(--g200);
             display: flex;
             gap: 10px;
-            z-index: 1;
         }
 
         .btn-student-action {
             flex: 1;
-            padding: 10px;
+            padding: 8px;
             text-align: center;
-            border-radius: 6px;
+            border-radius: var(--r-sm);
             font-weight: 600;
             cursor: pointer;
             border: none;
             transition: all 0.3s;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
+            font-family: 'Poppins', sans-serif;
         }
 
         .btn-student-action.btn-details {
-            background-color: var(--gris-clair);
-            color: var(--gris-moyen);
+            background-color: var(--g200);
+            color: var(--txt-b);
         }
 
         .btn-student-action.btn-details:hover {
-            background-color: var(--gris-moyen);
-            color: var(--blanc-principal);
+            background-color: var(--g300);
         }
 
         .btn-student-action.btn-contact {
-            background-color: #0084FF; /* Couleur Facebook Messenger */
-            color: var(--blanc-principal);
+            background-color: var(--teal);
+            color: var(--white);
         }
 
         .btn-student-action.btn-contact:hover {
-            background-color: #0073e6;
+            background-color: #138f7d;
             transform: translateY(-2px);
         }
 
-        /* Footer */
-        .main-footer {
-            background-color: var(--gris-fonce);
-            color: var(--gris-clair);
-            padding: 60px 0 30px;
-            margin-top: 60px;
+        /* Tableau des élèves */
+        .students-table-container {
+            overflow-x: auto;
+            border-radius: var(--r-md);
         }
 
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--white);
+            min-width: 800px;
         }
 
-        .footer-col h3 {
-            color: var(--blanc-principal);
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
+        .students-table th {
+            background-color: var(--g100);
+            padding: 15px;
+            text-align: left;
+            color: var(--txt);
+            font-weight: 700;
+            border-bottom: 2px solid var(--g200);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
         }
 
-        .footer-col h3:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 2px;
-            background-color: var(--jaune-principal);
+        .students-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--g200);
+            font-size: 0.85rem;
         }
 
-        .footer-links {
-            list-style: none;
+        .students-table tr:hover {
+            background-color: rgba(26,181,160,.05);
         }
 
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: var(--gris-clair);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--jaune-principal);
-        }
-
-        .social-links {
+        .student-info {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            align-items: center;
+            gap: 12px;
         }
 
-        .social-icon {
+        .student-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, var(--deep), var(--teal));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--blanc-principal);
-            text-decoration: none;
-            transition: all 0.3s;
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .social-icon:hover {
-            background-color: var(--jaune-principal);
-            color: var(--gris-fonce);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+        .student-details h4 {
             font-size: 0.9rem;
-            color: var(--gris-clair);
+            margin-bottom: 3px;
+            color: var(--txt);
         }
 
-        /* Menu mobile */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 80px;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
-            z-index: 1000;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        .student-details p {
+            font-size: 0.75rem;
+            color: var(--txt-m);
         }
 
-        .mobile-nav.active {
-            display: block;
-        }
-
-        .mobile-menu {
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-        }
-
-        .mobile-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            color: var(--blanc-principal);
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .mobile-nav-item:last-child {
-            border-bottom: none;
-        }
-
-        .mobile-nav-item.active {
-            background-color: rgba(255,255,255,0.2);
+        .level-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: rgba(26,181,160,.1);
+            color: var(--teal);
+            border-radius: 15px;
+            font-size: 0.75rem;
             font-weight: 600;
         }
 
-        .mobile-nav-badge {
-            margin-left: auto;
-            background-color: var(--rouge-principal);
-            color: var(--blanc-principal);
-            padding: 2px 8px;
-            border-radius: 10px;
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: rgba(26,181,160,.15);
+            color: var(--teal);
+        }
+
+        .status-inactive {
+            background-color: rgba(108,117,125,.15);
+            color: #6c757d;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-table-action {
+            padding: 6px 12px;
+            border-radius: 6px;
             font-size: 0.75rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-table-view {
+            background-color: var(--g200);
+            color: var(--txt-b);
+        }
+
+        .btn-table-view:hover {
+            background-color: var(--g300);
+        }
+
+        .btn-table-message {
+            background-color: var(--teal);
+            color: var(--white);
+        }
+
+        .btn-table-message:hover {
+            background-color: #138f7d;
+        }
+
+        .btn-table-delete {
+            background-color: var(--red);
+            color: var(--white);
+        }
+
+        .btn-table-delete:hover {
+            background-color: #c0392b;
         }
 
         /* Modal Notifications */
@@ -1321,75 +1251,55 @@
         }
 
         .modal {
-            background-color: var(--blanc-principal);
-            border-radius: 15px;
+            background-color: var(--white);
+            border-radius: var(--r-lg);
             width: 90%;
-            max-width: 800px;
+            max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
 
         .modal-header {
-            padding: 25px 30px;
-            border-bottom: 1px solid var(--gris-clair);
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--g200);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .modal-title {
-            font-size: 1.5rem;
-            color: var(--gris-fonce);
+        .notification-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--txt);
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .mark-all-read {
+            background: none;
+            border: none;
+            color: var(--teal);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.8rem;
         }
 
         .modal-close {
             background: none;
             border: none;
             font-size: 1.5rem;
-            color: var(--gris-moyen);
+            color: var(--txt-m);
             cursor: pointer;
             transition: color 0.3s;
         }
 
         .modal-close:hover {
-            color: var(--rouge-principal);
-        }
-
-        .modal-body {
-            padding: 30px;
-        }
-
-        /* Modal Notifications */
-        .notification-modal {
-            max-width: 500px;
-        }
-
-        .notification-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid var(--gris-clair);
-        }
-
-        .notification-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .notification-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .mark-all-read {
-            background: none;
-            border: none;
-            color: var(--bleu-prof);
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
+            color: var(--red);
         }
 
         .notification-list {
@@ -1399,17 +1309,18 @@
 
         .notification-item {
             padding: 15px 20px;
-            border-bottom: 1px solid var(--gris-clair);
+            border-bottom: 1px solid var(--g200);
             transition: background-color 0.3s;
             cursor: pointer;
         }
 
         .notification-item:hover {
-            background-color: var(--gris-clair);
+            background-color: var(--g50);
         }
 
         .notification-item.unread {
-            background-color: rgba(33,150,243,0.05);
+            background-color: rgba(26,181,160,.05);
+            border-left: 3px solid var(--teal);
         }
 
         .notification-content {
@@ -1429,65 +1340,128 @@
         }
 
         .notification-icon.success {
-            background-color: rgba(76,175,80,0.1);
-            color: var(--vert-principal);
+            background-color: rgba(26,181,160,.1);
+            color: var(--teal);
         }
 
         .notification-icon.warning {
-            background-color: rgba(255,193,7,0.1);
-            color: var(--jaune-principal);
+            background-color: rgba(232,196,74,.1);
+            color: var(--gold);
         }
 
         .notification-icon.info {
-            background-color: rgba(33,150,243,0.1);
-            color: var(--bleu-prof);
-        }
-
-        .notification-icon.alert {
-            background-color: rgba(244,67,54,0.1);
-            color: var(--rouge-principal);
+            background-color: rgba(33,150,243,.1);
+            color: #2196F3;
         }
 
         .notification-text h4 {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin-bottom: 5px;
-            color: var(--gris-fonce);
+            color: var(--txt);
         }
 
         .notification-text p {
-            font-size: 0.85rem;
-            color: var(--gris-moyen);
+            font-size: 0.8rem;
+            color: var(--txt-m);
             margin-bottom: 5px;
         }
 
         .notification-time {
-            font-size: 0.75rem;
-            color: var(--gris-moyen);
+            font-size: 0.7rem;
+            color: var(--txt-m);
         }
 
-        /* Responsive pour la nouvelle disposition */
+        /* Footer */
+        .main-footer {
+            background: #0a1a18;
+            border-top: 1px solid rgba(255,255,255,.06);
+            color: rgba(255,255,255,.52);
+            padding: 56px 0 24px;
+            margin-top: 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: #fff;
+            font-size: 0.88rem;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,.46);
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: color .2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-links a:hover {
+            color: var(--teal-light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: rgba(255,255,255,.07);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,.48);
+            font-size: 0.84rem;
+            text-decoration: none;
+            transition: all .24s;
+        }
+
+        .social-icon:hover {
+            background: var(--deep-mid);
+            color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,.07);
+            padding-top: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 0.78rem;
+        }
+
+        .copyright a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* Responsive */
         @media (max-width: 1200px) {
-            .horizontal-menu {
-                gap: 2px;
-            }
-            
-            .nav-item {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-            
-            .services-stats-inline {
-                min-width: 250px;
-            }
-            
-            .stat-card-inline {
-                min-width: 130px;
-                padding: 12px 15px;
-            }
-            
-            /* Grille responsive */
             .students-grid {
-                grid-template-columns: repeat(3, 1fr); /* 3 colonnes sur écran moyen */
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -1497,118 +1471,35 @@
             }
             
             .menu-toggle {
-                display: block;
-            }
-            
-            .mobile-nav {
-                display: none;
-                position: fixed;
-                top: 80px;
-                left: 0;
-                width: 100%;
-                background: linear-gradient(90deg, var(--vert-principal) 0%, var(--jaune-principal) 33%, var(--rouge-principal) 66%, var(--blanc-principal) 100%);
-                z-index: 1000;
-                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-            }
-            
-            .mobile-nav.active {
-                display: block;
-            }
-            
-            .mobile-menu {
                 display: flex;
-                flex-direction: column;
-                padding: 15px;
-            }
-            
-            .mobile-nav-item {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                padding: 12px 15px;
-                color: var(--blanc-principal);
-                text-decoration: none;
-                border-bottom: 1px solid rgba(255,255,255,0.2);
-            }
-            
-            .mobile-nav-item:last-child {
-                border-bottom: none;
-            }
-            
-            .mobile-nav-item.active {
-                background-color: rgba(255,255,255,0.2);
-                font-weight: 600;
-            }
-            
-            .mobile-nav-badge {
-                margin-left: auto;
-                background-color: var(--rouge-principal);
-                color: var(--blanc-principal);
-                padding: 2px 8px;
-                border-radius: 10px;
-                font-size: 0.75rem;
             }
             
             .search-bar-container {
                 order: 3;
                 max-width: 100%;
-                margin-top: 15px;
+                margin: 15px 0 0 0;
             }
             
-            .header-content-container {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+            .navbar {
+                flex-wrap: wrap;
             }
             
-            .header-text {
-                width: 100%;
-            }
-            
-            .services-stats-inline {
-                width: 100%;
-                justify-content: flex-start;
-            }
-            
-            .stat-card-inline {
-                min-width: 150px;
-                max-width: none;
-            }
-            
-            .header-action-button {
-                width: 100%;
-            }
-            
-            .header-action-button button {
-                width: 100%;
-            }
-            
-            /* Grille responsive */
             .students-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur tablette */
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters-grid {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .header-actions {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .teacher-quick-info {
-                flex-direction: column;
-                text-align: center;
-                gap: 5px;
-            }
-            
-            .main-content {
-                padding: 20px 0 30px;
+            .students-grid {
+                grid-template-columns: 1fr;
             }
             
             .actions-bar {
@@ -1616,43 +1507,16 @@
                 align-items: flex-start;
             }
             
-            .students-table th, 
-            .students-table td {
-                padding: 10px;
-                font-size: 0.9rem;
+            .filters {
+                width: 100%;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 5px;
             }
             
-            .table-actions {
+            .section-header {
                 flex-direction: column;
-                gap: 5px;
-            }
-            
-            .btn-table-action {
-                width: 100%;
-                margin-bottom: 5px;
-            }
-            
-            .services-stats-inline {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .stat-card-inline {
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .header-action-button {
-                width: 100%;
-            }
-            
-            .header-action-button button {
-                width: 100%;
-            }
-            
-            /* Grille responsive */
-            .students-grid {
-                grid-template-columns: 1fr; /* 1 colonne sur mobile */
+                align-items: flex-start;
             }
             
             .student-card {
@@ -1660,43 +1524,18 @@
                 min-height: 430px;
             }
             
-            .student-body {
-                padding-bottom: 80px;
+            .students-section {
+                padding: 20px;
             }
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 0 10px;
-            }
-            
-            .students-section {
-                padding: 20px;
-            }
-            
-            .modal-body {
-                padding: 20px;
-            }
-            
-            .modal-header {
-                padding: 20px;
-            }
-            
-            .filters {
-                flex-direction: column;
-                width: 100%;
+                padding: 0 16px;
             }
             
             .filter-btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .stat-card-inline {
-                padding: 10px 15px;
-            }
-            
-            .stat-info-inline p {
+                padding: 8px 16px;
                 font-size: 0.8rem;
             }
             
@@ -1707,12 +1546,16 @@
             .btn-student-action {
                 width: 100%;
             }
+            
+            .table-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Flèche retour en haut -->
-    <div class="back-to-top" id="backToTopBtn" title="Retour en haut (Esc)">
+    <div class="back-to-top" id="backToTopBtn" title="Retour en haut">
         <i class="fas fa-chevron-up"></i>
     </div>
 
@@ -1725,11 +1568,11 @@
         </svg>
     </div>
 
-    <!-- Header Principal -->
-    <header class="main-header">
+    <!-- Header Principal Style Sukuli -->
+    <header class="main-header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
-                <a href="../index.html" class="logo">
+                <a href="#" class="logo">
                     <div class="logo-icon">ET</div>
                     <div class="logo-text">Edu<span>Togo</span>Connect</div>
                 </a>
@@ -1751,47 +1594,45 @@
                     <!-- Panneau de filtres -->
                     <div class="search-filters-panel" id="searchFiltersPanel">
                         <div class="filters-header">
-                            <h3 class="filters-title">Filtres de recherche avancés</h3>
+                            <h3 class="filters-title"><i class="fas fa-sliders-h"></i> Filtres avancés</h3>
                             <button class="close-filters" id="closeFiltersBtn">&times;</button>
                         </div>
                         
                         <div class="filters-grid">
                             <div class="filter-group">
-                                <label class="filter-label">Matière</label>
-                                <select class="filter-select" id="searchSubject">
-                                    <option value="all">Toutes les matières</option>
-                                    <option value="francais">Français</option>
-                                    <option value="mathematiques">Mathématiques</option>
-                                    <option value="anglais">Anglais</option>
-                                    <option value="sciences">Sciences</option>
+                                <label>Niveau</label>
+                                <select class="filter-select" id="searchLevel">
+                                    <option value="all">Tous les niveaux</option>
+                                    <option value="6ème">6ème</option>
+                                    <option value="5ème">5ème</option>
+                                    <option value="4ème">4ème</option>
+                                    <option value="3ème">3ème</option>
                                 </select>
                             </div>
                             
                             <div class="filter-group">
-                                <label class="filter-label">Type de cours</label>
-                                <select class="filter-select" id="searchType">
-                                    <option value="all">Tous les types</option>
-                                    <option value="en-ligne">En ligne</option>
-                                    <option value="presentiel">Présentiel</option>
-                                    <option value="groupe">Groupe</option>
-                                    <option value="individuel">Individuel</option>
-                                </select>
-                            </div>
-                            
-                            <div class="filter-group">
-                                <label class="filter-label">Statut</label>
+                                <label>Statut</label>
                                 <select class="filter-select" id="searchStatus">
                                     <option value="all">Tous les statuts</option>
-                                    <option value="a_venir">À venir</option>
-                                    <option value="en_cours">En cours</option>
-                                    <option value="termine">Terminé</option>
+                                    <option value="active">Actif</option>
+                                    <option value="inactive">Inactif</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label>Type</label>
+                                <select class="filter-select" id="searchType">
+                                    <option value="all">Tous les types</option>
+                                    <option value="premium">Premium</option>
+                                    <option value="standard">Standard</option>
+                                    <option value="gratuit">Gratuit</option>
                                 </select>
                             </div>
                         </div>
                         
                         <div class="filter-actions">
-                            <button class="btn btn-secondary" id="resetFiltersBtn">Réinitialiser</button>
-                            <button class="btn btn-primary" id="applyFiltersBtn">Appliquer les filtres</button>
+                            <button class="btn-secondary" id="resetFiltersBtn" style="background:rgba(255,255,255,.07); color:#fff; padding:8px 20px; border-radius:50px;">Réinitialiser</button>
+                            <button class="btn-primary" id="applyFiltersBtn" style="background:var(--teal); color:#fff; padding:8px 20px; border-radius:50px;">Appliquer</button>
                         </div>
                     </div>
                 </div>
@@ -1810,10 +1651,10 @@
                     <!-- Menu déroulant profil -->
                     <div class="profile-dropdown">
                         <button class="profile-btn" id="profileBtn">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, var(--vert-principal), var(--jaune-principal)); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--blanc-principal);">MA</div>
+                            <div class="profile-avatar-small">MA</div>
                             <div>
-                                <div style="font-weight: 600; color: var(--gris-fonce);">Marie Akakpo</div>
-                                <div style="font-size: 0.8rem; color: var(--gris-moyen);">College saint joseph</div>
+                                <div class="profile-name">Marie Akakpo</div>
+                                <div class="profile-role">Enseignante</div>
                             </div>
                             <i class="fas fa-chevron-down"></i>
                         </button>
@@ -1827,32 +1668,25 @@
                             
                             <ul class="profile-menu-list">
                                 <li class="profile-menu-item">
-                                    <a href="teacher_profile.html" class="profile-menu-link">
+                                    <a href="#" class="profile-menu-link">
                                         <i class="fas fa-user"></i>
                                         <span>Mon profil</span>
                                     </a>
                                 </li>
                                 <li class="profile-menu-item">
-                                    <a href="teacher_settings.html" class="profile-menu-link">
+                                    <a href="#" class="profile-menu-link">
                                         <i class="fas fa-cog"></i>
                                         <span>Paramètres</span>
                                     </a>
                                 </li>
                                 <li class="profile-menu-item">
-                                    <a href="teacher_finances.html" class="profile-menu-link">
+                                    <a href="#" class="profile-menu-link">
                                         <i class="fas fa-wallet"></i>
                                         <span>Mes revenus</span>
                                     </a>
                                 </li>
                                 <li class="profile-menu-item">
-                                    <a href="teacher_notifications.html" class="profile-menu-link">
-                                        <i class="fas fa-bell"></i>
-                                        <span>Notifications</span>
-                                        <span style="margin-left: auto; background-color: var(--rouge-principal); color: var(--blanc-principal); padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">3</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="../login.html" class="profile-menu-link logout">
+                                    <a href="#" class="profile-menu-link logout">
                                         <i class="fas fa-sign-out-alt"></i>
                                         <span>Déconnexion</span>
                                     </a>
@@ -1862,77 +1696,72 @@
                     </div>
                 </div>
             </nav>
+            
+            <!-- Menu Mobile -->
+            <div class="mobile-nav" id="mobileNav">
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-book-open"></i>
+                    <span>Mes cours</span>
+                    <span class="mobile-nav-badge">12</span>
+                </a>
+                <a href="#" class="mobile-nav-item active">
+                    <i class="fas fa-users"></i>
+                    <span>Mes élèves</span>
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Calendrier</span>
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-comments"></i>
+                    <span>Messages</span>
+                    <span class="mobile-nav-badge">5</span>
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Rapports</span>
+                </a>
+            </div>
         </div>
     </header>
 
     <!-- Barre de Navigation Horizontale -->
     <nav class="horizontal-nav">
-        <div class="container">
-            <div class="nav-container">
-                <!-- Menu de navigation horizontal -->
-                <div class="horizontal-menu">
-                    <a href="../enseignant/index.html" class="nav-item">
-                        <i class="fas fa-home"></i>
-                        <span>Tableau de bord</span>
-                    </a>
-                    <a href="../enseignant/cours.html" class="nav-item">
-                        <i class="fas fa-book-open"></i>
-                        <span>Mes cours</span>
-                        <span class="nav-badge">12</span>
-                    </a>
-                    <a href="../enseignant/eleve.html" class="nav-item active">
-                        <i class="fas fa-users"></i>
-                        <span>Mes élèves</span>
-                    </a>
-                    <a href="../enseignant/calendrier.html" class="nav-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Calendrier</span>
-                    </a>
-                    <a href="../enseignant/message.html" class="nav-item">
-                        <i class="fas fa-comments"></i>
-                        <span>Messages</span>
-                        <span class="nav-badge">5</span>
-                    </a>
-                    <a href="teacher_reports.html" class="nav-item">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Rapports</span>
-                    </a>
-                </div>
+        <div class="nav-container">
+            <div class="horizontal-menu">
+                <a href="#" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-book-open"></i>
+                    <span>Mes cours</span>
+                    <span class="nav-badge">12</span>
+                </a>
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-users"></i>
+                    <span>Mes élèves</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Calendrier</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-comments"></i>
+                    <span>Messages</span>
+                    <span class="nav-badge">5</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Rapports</span>
+                </a>
             </div>
         </div>
     </nav>
-
-    <!-- Menu Mobile -->
-    <div class="mobile-nav" id="mobileNav">
-        <div class="mobile-menu">
-            <a href="../enseignant/index.html" class="mobile-nav-item">
-                <i class="fas fa-home"></i>
-                <span>Tableau de bord</span>
-            </a>
-            <a href="../enseignant/cours.html" class="mobile-nav-item">
-                <i class="fas fa-book-open"></i>
-                <span>Mes cours</span>
-                <span class="nav-badge">12</span>
-            </a>
-            <a href="../enseignant/eleve.html" class="mobile-nav-item active">
-                <i class="fas fa-users"></i>
-                <span>Mes élèves</span>
-            </a>
-            <a href="../enseignant/calendrier.html" class="mobile-nav-item">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Calendrier</span>
-            </a>
-            <a href="../enseignant/message.html" class="mobile-nav-item">
-                <i class="fas fa-comments"></i>
-                <span>Messages</span>
-                <span class="nav-badge">5</span>
-            </a>
-            <a href="teacher_reports.html" class="mobile-nav-item">
-                <i class="fas fa-chart-line"></i>
-                <span>Rapports</span>
-            </a>
-        </div>
-    </div>
 
     <!-- Contenu principal -->
     <main class="main-content">
@@ -1941,7 +1770,7 @@
             <section class="students-section">
                 <div class="section-header">
                     <div>
-                        <h2 class="section-title">Tous mes élèves</h2>
+                        <h2 class="section-title">Mes élèves</h2>
                         <p class="section-subtitle">Consultez et gérez l'ensemble de vos élèves inscrits</p>
                     </div>
                     
@@ -1957,517 +1786,37 @@
                             <i class="fas fa-th"></i>
                             <span>Tous</span>
                         </button>
-                        <button class="filter-btn" data-filter="6eme">
+                        <button class="filter-btn" data-filter="6ème">
                             <i class="fas fa-graduation-cap"></i>
                             <span>6ème</span>
                         </button>
-                        <button class="filter-btn" data-filter="5eme">
+                        <button class="filter-btn" data-filter="5ème">
                             <i class="fas fa-graduation-cap"></i>
                             <span>5ème</span>
                         </button>
-                        <button class="filter-btn" data-filter="4eme">
+                        <button class="filter-btn" data-filter="4ème">
                             <i class="fas fa-graduation-cap"></i>
                             <span>4ème</span>
                         </button>
-                        <button class="filter-btn" data-filter="3eme">
+                        <button class="filter-btn" data-filter="3ème">
                             <i class="fas fa-graduation-cap"></i>
                             <span>3ème</span>
                         </button>
                     </div>
                     
-                    <div class="view-options">
-                        <button class="btn btn-success" id="sendMessageBtn">
-                            <i class="fab fa-facebook-messenger"></i> Envoyer un message
-                        </button>
-                    </div>
+                    <button class="btn btn-success" id="sendMessageBtn">
+                        <i class="fab fa-facebook-messenger"></i> Envoyer un message
+                    </button>
                 </div>
 
                 <!-- Vue grille des élèves -->
-                <div class="students-grid-section" id="gridView">
+                <div id="gridView">
                     <div class="students-grid" id="studentsGrid">
-                        <!-- Carte élève 1 -->
-                        <div class="student-card" data-level="3eme">
-                            <div class="level-tag">3ème</div>
-                            <div class="session-badge online">En ligne</div>
-                            <div class="student-header">
-                                <div class="student-avatar-large">KA</div>
-                                <div class="student-name">Koffi Agbessi</div>
-                                <div class="student-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.8/5
-                                </div>
-                                <div class="student-subject">Collège Saint Joseph, Lomé</div>
-                            </div>
-                            <div class="student-body">
-                                <div class="session-info">
-                                    <div class="session-item">
-                                        <div class="session-label">Séance passée:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-clock"></i> Mardi 16h-17h
-                                        </div>
-                                    </div>
-                                    <div class="session-item">
-                                        <div class="session-label">Prochaine séance:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-calendar-alt"></i> Jeudi 16h-17h
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="student-info-grid">
-                                    <div class="info-item">
-                                        <span class="info-label">Inscription</span>
-                                        <span class="info-value">15/03/2024</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Note</span>
-                                        <span class="info-value">4.8/5</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Type</span>
-                                        <span class="info-value">Premium</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Progression</span>
-                                        <span class="info-value">85%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="student-footer">
-                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(1)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-student-action btn-contact" onclick="messageStudent(1)">
-                                    <i class="fab fa-facebook-messenger"></i> Message
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Carte élève 2 -->
-                        <div class="student-card" data-level="4eme">
-                            <div class="level-tag">4ème</div>
-                            <div class="session-badge offline">Hors ligne</div>
-                            <div class="student-header">
-                                <div class="student-avatar-large">AM</div>
-                                <div class="student-name">Aïcha Mensah</div>
-                                <div class="student-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i> 5.0/5
-                                </div>
-                                <div class="student-subject">Lycée Français, Lomé</div>
-                            </div>
-                            <div class="student-body">
-                                <div class="session-info">
-                                    <div class="session-item">
-                                        <div class="session-label">Séance passée:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-clock"></i> Lundi 14h-15h30
-                                        </div>
-                                    </div>
-                                    <div class="session-item">
-                                        <div class="session-label">Prochaine séance:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-calendar-alt"></i> Vendredi 14h-15h30
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="student-info-grid">
-                                    <div class="info-item">
-                                        <span class="info-label">Inscription</span>
-                                        <span class="info-value">10/02/2024</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Note</span>
-                                        <span class="info-value">4.7/5</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Type</span>
-                                        <span class="info-value">Standard</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Progression</span>
-                                        <span class="info-value">65%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="student-footer">
-                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(2)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-student-action btn-contact" onclick="messageStudent(2)">
-                                    <i class="fab fa-facebook-messenger"></i> Message
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Carte élève 3 -->
-                        <div class="student-card" data-level="6eme">
-                            <div class="level-tag">6ème</div>
-                            <div class="session-badge online">En ligne</div>
-                            <div class="student-header">
-                                <div class="student-avatar-large">KA</div>
-                                <div class="student-name">Komlan Adjobo</div>
-                                <div class="student-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i> 4.5/5
-                                </div>
-                                <div class="student-subject">École Internationale, Kara</div>
-                            </div>
-                            <div class="student-body">
-                                <div class="session-info">
-                                    <div class="session-item">
-                                        <div class="session-label">Séance passée:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-clock"></i> Mardi 16h-17h
-                                        </div>
-                                    </div>
-                                    <div class="session-item">
-                                        <div class="session-label">Prochaine séance:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-calendar-alt"></i> Jeudi 16h-17h
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="student-info-grid">
-                                    <div class="info-item">
-                                        <span class="info-label">Inscription</span>
-                                        <span class="info-value">05/01/2024</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Note</span>
-                                        <span class="info-value">4.5/5</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Type</span>
-                                        <span class="info-value">Gratuit</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Progression</span>
-                                        <span class="info-value">40%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="student-footer">
-                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(3)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-student-action btn-contact" onclick="messageStudent(3)">
-                                    <i class="fab fa-facebook-messenger"></i> Message
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Carte élève 4 -->
-                        <div class="student-card" data-level="3eme">
-                            <div class="level-tag">3ème</div>
-                            <div class="session-badge offline">Hors ligne</div>
-                            <div class="student-header">
-                                <div class="student-avatar-large">BD</div>
-                                <div class="student-name">Binta Diallo</div>
-                                <div class="student-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.6/5
-                                </div>
-                                <div class="student-subject">Collège Moderne, Sokodé</div>
-                            </div>
-                            <div class="student-body">
-                                <div class="session-info">
-                                    <div class="session-item">
-                                        <div class="session-label">Séance passée:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-clock"></i> Mercredi 10h-12h
-                                        </div>
-                                    </div>
-                                    <div class="session-item">
-                                        <div class="session-label">Prochaine séance:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-calendar-alt"></i> Samedi 10h-12h
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="student-info-grid">
-                                    <div class="info-item">
-                                        <span class="info-label">Inscription</span>
-                                        <span class="info-value">20/02/2024</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Note</span>
-                                        <span class="info-value">4.6/5</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Type</span>
-                                        <span class="info-value">Standard</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Progression</span>
-                                        <span class="info-value">60%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="student-footer">
-                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(4)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-student-action btn-contact" onclick="messageStudent(4)">
-                                    <i class="fab fa-facebook-messenger"></i> Message
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Carte élève 5 -->
-                        <div class="student-card" data-level="5eme">
-                            <div class="level-tag">5ème</div>
-                            <div class="session-badge online">En ligne</div>
-                            <div class="student-header">
-                                <div class="student-avatar-large">SA</div>
-                                <div class="student-name">Sena Akakpo</div>
-                                <div class="student-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.7/5
-                                </div>
-                                <div class="student-subject">Collège Protestant, Atakpamé</div>
-                            </div>
-                            <div class="student-body">
-                                <div class="session-info">
-                                    <div class="session-item">
-                                        <div class="session-label">Séance passée:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-clock"></i> Aucune
-                                        </div>
-                                    </div>
-                                    <div class="session-item">
-                                        <div class="session-label">Prochaine séance:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-calendar-alt"></i> À programmer
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="student-info-grid">
-                                    <div class="info-item">
-                                        <span class="info-label">Inscription</span>
-                                        <span class="info-value">01/04/2024</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Note</span>
-                                        <span class="info-value">4.7/5</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Type</span>
-                                        <span class="info-value">Premium</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Progression</span>
-                                        <span class="info-value">0%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="student-footer">
-                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(5)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-student-action btn-contact" onclick="messageStudent(5)">
-                                    <i class="fab fa-facebook-messenger"></i> Message
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Carte élève 6 -->
-                        <div class="student-card" data-level="5eme">
-                            <div class="level-tag">5ème</div>
-                            <div class="session-badge offline">Hors ligne</div>
-                            <div class="student-header">
-                                <div class="student-avatar-large">TD</div>
-                                <div class="student-name">Tchéou Djibril</div>
-                                <div class="student-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i> 4.8/5
-                                </div>
-                                <div class="student-subject">Lycée Technique, Kpalimé</div>
-                            </div>
-                            <div class="student-body">
-                                <div class="session-info">
-                                    <div class="session-item">
-                                        <div class="session-label">Séance passée:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-clock"></i> Mercredi 10h-12h
-                                        </div>
-                                    </div>
-                                    <div class="session-item">
-                                        <div class="session-label">Prochaine séance:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-calendar-alt"></i> Samedi 10h-12h
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="student-info-grid">
-                                    <div class="info-item">
-                                        <span class="info-label">Inscription</span>
-                                        <span class="info-value">15/12/2023</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Note</span>
-                                        <span class="info-value">4.8/5</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Type</span>
-                                        <span class="info-value">Standard</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Progression</span>
-                                        <span class="info-value">100%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="student-footer">
-                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(6)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-student-action btn-contact" onclick="messageStudent(6)">
-                                    <i class="fab fa-facebook-messenger"></i> Message
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Carte élève 7 -->
-                        <div class="student-card" data-level="4eme">
-                            <div class="level-tag">4ème</div>
-                            <div class="session-badge online">En ligne</div>
-                            <div class="student-header">
-                                <div class="student-avatar-large">KM</div>
-                                <div class="student-name">Kossi Mensah</div>
-                                <div class="student-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i> 4.6/5
-                                </div>
-                                <div class="student-subject">École des Cadres, Lomé</div>
-                            </div>
-                            <div class="student-body">
-                                <div class="session-info">
-                                    <div class="session-item">
-                                        <div class="session-label">Séance passée:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-clock"></i> Lundi 14h-15h30
-                                        </div>
-                                    </div>
-                                    <div class="session-item">
-                                        <div class="session-label">Prochaine séance:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-calendar-alt"></i> Vendredi 14h-15h30
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="student-info-grid">
-                                    <div class="info-item">
-                                        <span class="info-label">Inscription</span>
-                                        <span class="info-value">10/03/2024</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Note</span>
-                                        <span class="info-value">4.6/5</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Type</span>
-                                        <span class="info-value">Standard</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Progression</span>
-                                        <span class="info-value">50%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="student-footer">
-                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(7)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-student-action btn-contact" onclick="messageStudent(7)">
-                                    <i class="fab fa-facebook-messenger"></i> Message
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Carte élève 8 -->
-                        <div class="student-card" data-level="3eme">
-                            <div class="level-tag">3ème</div>
-                            <div class="session-badge offline">Hors ligne</div>
-                            <div class="student-header">
-                                <div class="student-avatar-large">AD</div>
-                                <div class="student-name">Awa Dossou</div>
-                                <div class="student-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i> 5.0/5
-                                </div>
-                                <div class="student-subject">Collège Catholique, Dapaong</div>
-                            </div>
-                            <div class="student-body">
-                                <div class="session-info">
-                                    <div class="session-item">
-                                        <div class="session-label">Séance passée:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-clock"></i> Mardi 16h-17h
-                                        </div>
-                                    </div>
-                                    <div class="session-item">
-                                        <div class="session-label">Prochaine séance:</div>
-                                        <div class="session-value">
-                                            <i class="fas fa-calendar-alt"></i> Jeudi 16h-17h
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="student-info-grid">
-                                    <div class="info-item">
-                                        <span class="info-label">Inscription</span>
-                                        <span class="info-value">22/02/2024</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Note</span>
-                                        <span class="info-value">5.0/5</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Type</span>
-                                        <span class="info-value">Premium</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">Progression</span>
-                                        <span class="info-value">70%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="student-footer">
-                                <button class="btn-student-action btn-details" onclick="viewStudentDetails(8)">
-                                    <i class="fas fa-eye"></i> Détails
-                                </button>
-                                <button class="btn-student-action btn-contact" onclick="messageStudent(8)">
-                                    <i class="fab fa-facebook-messenger"></i> Message
-                                </button>
-                            </div>
-                        </div>
+                        <!-- Les cartes élèves seront générées dynamiquement -->
                     </div>
                 </div>
 
-                <!-- Tableau des élèves - CACHÉ PAR DÉFAUT -->
+                <!-- Vue tableau des élèves -->
                 <div class="students-table-container" id="tableView" style="display: none;">
                     <table class="students-table">
                         <thead>
@@ -2481,165 +1830,8 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="student-info">
-                                        <div class="student-avatar">KA</div>
-                                        <div class="student-details">
-                                            <h4>Koffi Agbessi</h4>
-                                            <p>koffi.agbessi@email.tg</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><span class="level-badge">3ème</span></td>
-                                <td>
-                                    <div style="display: flex; flex-direction: column; gap: 3px;">
-                                        <span style="font-size: 0.85rem;">Mathématiques</span>
-                                        <span style="font-size: 0.85rem; color: var(--gris-moyen);">Premium</span>
-                                    </div>
-                                </td>
-                                <td>15/03/2024</td>
-                                <td>12 séances</td>
-                                <td><span class="status-badge status-active">Actif</span></td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(1)">
-                                            <i class="fas fa-eye"></i> Voir
-                                        </button>
-                                        <button class="btn-table-action btn-table-message" onclick="messageStudent(1)">
-                                            <i class="fab fa-facebook-messenger"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="student-info">
-                                        <div class="student-avatar">AM</div>
-                                        <div class="student-details">
-                                            <h4>Aïcha Mensah</h4>
-                                            <p>aicha.mensah@email.tg</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><span class="level-badge">4ème</span></td>
-                                <td>
-                                    <div style="display: flex; flex-direction: column; gap: 3px;">
-                                        <span style="font-size: 0.85rem;">Français</span>
-                                        <span style="font-size: 0.85rem; color: var(--gris-moyen);">Standard</span>
-                                    </div>
-                                </td>
-                                <td>10/02/2024</td>
-                                <td>8 séances</td>
-                                <td><span class="status-badge status-active">Actif</span></td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(2)">
-                                            <i class="fas fa-eye"></i> Voir
-                                        </button>
-                                        <button class="btn-table-action btn-table-message" onclick="messageStudent(2)">
-                                            <i class="fab fa-facebook-messenger"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="student-info">
-                                        <div class="student-avatar">KA</div>
-                                        <div class="student-details">
-                                            <h4>Komlan Adjobo</h4>
-                                            <p>komlan.adjobo@email.tg</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><span class="level-badge">6ème</span></td>
-                                <td>
-                                    <div style="display: flex; flex-direction: column; gap: 3px;">
-                                        <span style="font-size: 0.85rem;">Anglais</span>
-                                        <span style="font-size: 0.85rem; color: var(--gris-moyen);">Gratuit</span>
-                                    </div>
-                                </td>
-                                <td>05/01/2024</td>
-                                <td>4 séances</td>
-                                <td><span class="status-badge status-active">Actif</span></td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(3)">
-                                            <i class="fas fa-eye"></i> Voir
-                                        </button>
-                                        <button class="btn-table-action btn-table-message" onclick="messageStudent(3)">
-                                            <i class="fab fa-facebook-messenger"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="student-info">
-                                        <div class="student-avatar">BD</div>
-                                        <div class="student-details">
-                                            <h4>Binta Diallo</h4>
-                                            <p>binta.diallo@email.tg</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><span class="level-badge">3ème</span></td>
-                                <td>
-                                    <div style="display: flex; flex-direction: column; gap: 3px;">
-                                        <span style="font-size: 0.85rem;">Sciences Physiques</span>
-                                        <span style="font-size: 0.85rem; color: var(--gris-moyen);">Standard</span>
-                                    </div>
-                                </td>
-                                <td>20/02/2024</td>
-                                <td>6 séances</td>
-                                <td><span class="status-badge status-active">Actif</span></td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(4)">
-                                            <i class="fas fa-eye"></i> Voir
-                                        </button>
-                                        <button class="btn-table-action btn-table-message" onclick="messageStudent(4)">
-                                            <i class="fab fa-facebook-messenger"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="student-info">
-                                        <div class="student-avatar">SA</div>
-                                        <div class="student-details">
-                                            <h4>Sena Akakpo</h4>
-                                            <p>sena.akakpo@email.tg</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><span class="level-badge">5ème</span></td>
-                                <td>
-                                    <div style="display: flex; flex-direction: column; gap: 3px;">
-                                        <span style="font-size: 0.85rem;">SVT</span>
-                                        <span style="font-size: 0.85rem; color: var(--gris-moyen);">Premium</span>
-                                    </div>
-                                </td>
-                                <td>01/04/2024</td>
-                                <td>0 séance</td>
-                                <td><span class="status-badge status-inactive">Inactif</span></td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(5)">
-                                            <i class="fas fa-eye"></i> Voir
-                                        </button>
-                                        <button class="btn-table-action btn-table-message" onclick="messageStudent(5)">
-                                            <i class="fab fa-facebook-messenger"></i>
-                                        </button>
-                                        <button class="btn-table-action btn-table-delete" onclick="deleteStudent(5)">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                        <tbody id="studentsTableBody">
+                            <!-- Les lignes du tableau seront générées dynamiquement -->
                         </tbody>
                     </table>
                 </div>
@@ -2651,12 +1843,12 @@
     <footer class="main-footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col">
-                    <a href="../index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                <div>
+                    <div class="logo" style="margin-bottom:12px">
                         <div class="logo-icon">ET</div>
-                        <div class="logo-text" style="color: var(--blanc-principal);">Edu<span>Togo</span>Connect</div>
-                    </a>
-                    <p style="color: var(--gris-clair);">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
+                        <div class="logo-text">Edu<span>Togo</span>Connect</div>
+                    </div>
+                    <p style="font-size:.82rem;line-height:1.7;color:rgba(255,255,255,.46)">La première plateforme éducative togolaise dédiée aux élèves du collège (6ème à 3ème) et à leurs enseignants.</p>
                     <div class="social-links">
                         <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
@@ -2664,52 +1856,44 @@
                         <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-
                 <div class="footer-col">
                     <h3>Liens rapides</h3>
                     <ul class="footer-links">
-                        <li><a href="../index.html">Accueil</a></li>
-                        <li><a href="../eleve/cours.html">Tous les cours</a></li>
-                        <li><a href="../eleve/enseignant.html">Nos enseignants</a></li>
-                        <li><a href="../eleve/all_schools.html">Écoles partenaires</a></li>
-                        <li><a href="../Authentification/auth.html">Connexion</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Accueil</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Tous les cours</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Nos enseignants</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Écoles partenaires</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-col">
                     <h3>Catégories</h3>
                     <ul class="footer-links">
-                        <li><a href="../eleve/cours.html?subject=math">Mathématiques</a></li>
-                        <li><a href="../eleve/cours.html?subject=french">Français</a></li>
-                        <li><a href="../eleve/cours.html?subject=english">Anglais</a></li>
-                        <li><a href="../eleve/cours.html?subject=science">Sciences</a></li>
-                        <li><a href="../eleve/cours.html?level=3eme">Préparation BEPC</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Mathématiques</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Français</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Anglais</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Sciences</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-col">
                     <h3>Contact</h3>
                     <ul class="footer-links">
                         <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Lomé, Togo</li>
                         <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +228 XX XX XX XX</li>
                         <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@edutogoconnect.tg</li>
-                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Lundi - Vendredi: 8h-18h</li>
                     </ul>
                 </div>
             </div>
-
             <div class="copyright">
-                <p>&copy; 2023 EduTogoConnect. Tous droits réservés. | <a href="privacy.html"
-                        style="color: var(--jaune-principal);">Politique de confidentialité</a> | <a href="terms.html"
-                        style="color: var(--jaune-principal);">Conditions d'utilisation</a></p>
+                <p>&copy; 2024 EduTogoConnect. Tous droits réservés.</p>
+                <p><a href="#">Confidentialité</a> · <a href="#">Conditions</a></p>
             </div>
         </div>
     </footer>
 
     <!-- Modal Notifications -->
     <div class="modal-overlay" id="notificationModal">
-        <div class="modal notification-modal">
-            <div class="modal-header notification-header">
+        <div class="modal">
+            <div class="modal-header">
                 <h2 class="notification-title">Notifications</h2>
                 <div class="notification-actions">
                     <button class="mark-all-read" id="markAllReadBtn">Tout marquer comme lu</button>
@@ -2723,310 +1907,125 @@
     </div>
 
     <script>
-        // Données simulées pour les élèves
-        const teacherStudents = {
-            totalStudents: 15,
-            activeStudents: 8,
-            inactiveStudents: 2,
-            archivedStudents: 1,
-            avgRating: 4.7,
-            students: [
-                {
-                    id: 1,
-                    firstName: "Koffi",
-                    lastName: "Agbessi",
-                    email: "koffi.agbessi@email.tg",
-                    level: "3ème",
-                    course: "Mathématiques",
-                    serviceType: "premium",
-                    registrationDate: "15/03/2024",
-                    sessionsCompleted: 12,
-                    status: "active",
-                    rating: 4.8,
-                    progress: 85,
-                    notes: "Élève très motivé, excellente progression en mathématiques. Particulièrement doué en géométrie."
-                },
-                {
-                    id: 2,
-                    firstName: "Aïcha",
-                    lastName: "Mensah",
-                    email: "aicha.mensah@email.tg",
-                    level: "4ème",
-                    course: "Français",
-                    serviceType: "standard",
-                    registrationDate: "10/02/2024",
-                    sessionsCompleted: 8,
-                    status: "active",
-                    rating: 4.7,
-                    progress: 65,
-                    notes: "Bonnes compétences en orthographe, besoin de renforcer la grammaire."
-                },
-                {
-                    id: 3,
-                    firstName: "Komlan",
-                    lastName: "Adjobo",
-                    email: "komlan.adjobo@email.tg",
-                    level: "6ème",
-                    course: "Anglais",
-                    serviceType: "gratuit",
-                    registrationDate: "05/01/2024",
-                    sessionsCompleted: 4,
-                    status: "active",
-                    rating: 4.5,
-                    progress: 40,
-                    notes: "Débutant motivé, bon accent, besoin de travailler le vocabulaire."
-                },
-                {
-                    id: 4,
-                    firstName: "Binta",
-                    lastName: "Diallo",
-                    email: "binta.diallo@email.tg",
-                    level: "3ème",
-                    course: "Sciences Physiques",
-                    serviceType: "standard",
-                    registrationDate: "20/02/2024",
-                    sessionsCompleted: 6,
-                    status: "active",
-                    rating: 4.6,
-                    progress: 60,
-                    notes: "Très bonne en expériences pratiques, besoin de théorie."
-                },
-                {
-                    id: 5,
-                    firstName: "Sena",
-                    lastName: "Akakpo",
-                    email: "sena.akakpo@email.tg",
-                    level: "5ème",
-                    course: "SVT",
-                    serviceType: "premium",
-                    registrationDate: "01/04/2024",
-                    sessionsCompleted: 0,
-                    status: "inactive",
-                    rating: 4.7,
-                    progress: 0,
-                    notes: "Nouvel élève, pas encore commencé les séances."
-                },
-                {
-                    id: 6,
-                    firstName: "Tchéou",
-                    lastName: "Djibril",
-                    email: "tcheou.djibril@email.tg",
-                    level: "5ème",
-                    course: "Technologie",
-                    serviceType: "standard",
-                    registrationDate: "15/12/2023",
-                    sessionsCompleted: 10,
-                    status: "archived",
-                    rating: 4.8,
-                    progress: 100,
-                    notes: "Ancien élève, cours terminé avec succès."
-                }
-            ]
-        };
-
-        // Données simulées pour les notifications
-        const notifications = [
-            {
-                id: 1,
-                type: "info",
-                title: "Nouveau message",
-                message: "Koffi Agbessi vous a envoyé un message",
-                time: "Il y a 15 minutes",
-                read: false
-            },
-            {
-                id: 2,
-                type: "success",
-                title: "Séance terminée",
-                message: "La séance de Français avec Aïcha Mensah a été marquée comme terminée",
-                time: "Il y a 2 heures",
-                read: true
-            },
-            {
-                id: 3,
-                type: "warning",
-                title: "Rappel de séance",
-                message: "Séance de Mathématiques avec Koffi Agbessi demain à 15h",
-                time: "Il y a 1 jour",
-                read: false
-            }
+        // Données des élèves
+        const studentsData = [
+            { id: 1, firstName: "Koffi", lastName: "Agbessi", email: "koffi.agbessi@email.tg", level: "3ème", course: "Mathématiques", serviceType: "premium", registrationDate: "15/03/2024", sessionsCompleted: 12, status: "active", rating: 4.8, progress: 85, school: "Collège Saint Joseph, Lomé", lastSession: "Mardi 16h-17h", nextSession: "Jeudi 16h-17h" },
+            { id: 2, firstName: "Aïcha", lastName: "Mensah", email: "aicha.mensah@email.tg", level: "4ème", course: "Français", serviceType: "standard", registrationDate: "10/02/2024", sessionsCompleted: 8, status: "active", rating: 4.7, progress: 65, school: "Lycée Français, Lomé", lastSession: "Lundi 14h-15h30", nextSession: "Vendredi 14h-15h30" },
+            { id: 3, firstName: "Komlan", lastName: "Adjobo", email: "komlan.adjobo@email.tg", level: "6ème", course: "Anglais", serviceType: "gratuit", registrationDate: "05/01/2024", sessionsCompleted: 4, status: "active", rating: 4.5, progress: 40, school: "École Internationale, Kara", lastSession: "Mardi 16h-17h", nextSession: "Jeudi 16h-17h" },
+            { id: 4, firstName: "Binta", lastName: "Diallo", email: "binta.diallo@email.tg", level: "3ème", course: "Sciences Physiques", serviceType: "standard", registrationDate: "20/02/2024", sessionsCompleted: 6, status: "active", rating: 4.6, progress: 60, school: "Collège Moderne, Sokodé", lastSession: "Mercredi 10h-12h", nextSession: "Samedi 10h-12h" },
+            { id: 5, firstName: "Sena", lastName: "Akakpo", email: "sena.akakpo@email.tg", level: "5ème", course: "SVT", serviceType: "premium", registrationDate: "01/04/2024", sessionsCompleted: 0, status: "inactive", rating: 4.7, progress: 0, school: "Collège Protestant, Atakpamé", lastSession: "Aucune", nextSession: "À programmer" },
+            { id: 6, firstName: "Tchéou", lastName: "Djibril", email: "tcheou.djibril@email.tg", level: "5ème", course: "Technologie", serviceType: "standard", registrationDate: "15/12/2023", sessionsCompleted: 10, status: "active", rating: 4.8, progress: 100, school: "Lycée Technique, Kpalimé", lastSession: "Mercredi 10h-12h", nextSession: "Samedi 10h-12h" },
+            { id: 7, firstName: "Kossi", lastName: "Mensah", email: "kossi.mensah@email.tg", level: "4ème", course: "Mathématiques", serviceType: "standard", registrationDate: "10/03/2024", sessionsCompleted: 5, status: "active", rating: 4.6, progress: 50, school: "École des Cadres, Lomé", lastSession: "Lundi 14h-15h30", nextSession: "Vendredi 14h-15h30" },
+            { id: 8, firstName: "Awa", lastName: "Dossou", email: "awa.dossou@email.tg", level: "3ème", course: "Français", serviceType: "premium", registrationDate: "22/02/2024", sessionsCompleted: 7, status: "active", rating: 5.0, progress: 70, school: "Collège Catholique, Dapaong", lastSession: "Mardi 16h-17h", nextSession: "Jeudi 16h-17h" }
         ];
 
-        // Gestion menu mobile
-        const mobileNavToggle = document.getElementById('mobileNavToggle');
-        const mobileNav = document.getElementById('mobileNav');
-        
-        // Filtres des élèves
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        
-        // Gestion notifications
-        const notificationBtn = document.getElementById('notificationBtn');
-        const notificationModal = document.getElementById('notificationModal');
-        const closeNotificationModalBtn = document.getElementById('closeNotificationModalBtn');
-        const markAllReadBtn = document.getElementById('markAllReadBtn');
-        const notificationNavBtnMobile = document.getElementById('notificationNavBtnMobile');
-        
-        // Gestion profil
-        const profileBtn = document.getElementById('profileBtn');
-        const profileMenu = document.getElementById('profileMenu');
+        // Données des notifications
+        const notifications = [
+            { id: 1, type: "info", title: "Nouveau message", message: "Koffi Agbessi vous a envoyé un message", time: "Il y a 15 minutes", read: false },
+            { id: 2, type: "success", title: "Séance terminée", message: "La séance de Français avec Aïcha Mensah a été marquée comme terminée", time: "Il y a 2 heures", read: true },
+            { id: 3, type: "warning", title: "Rappel de séance", message: "Séance de Mathématiques avec Koffi Agbessi demain à 15h", time: "Il y a 1 jour", read: false }
+        ];
 
-        // Gestion barre de recherche
-        const searchFiltersBtn = document.getElementById('searchFiltersBtn');
-        const searchFiltersPanel = document.getElementById('searchFiltersPanel');
-        const closeFiltersBtn = document.getElementById('closeFiltersBtn');
-        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
-        const applyFiltersBtn = document.getElementById('applyFiltersBtn');
-        const searchBtn = document.getElementById('searchBtn');
-        const mainSearchInput = document.getElementById('mainSearchInput');
-
-        // Flèche retour en haut
-        const backToTopBtn = document.getElementById('backToTopBtn');
-        const scrollProgress = document.getElementById('scrollProgress');
-        const scrollProgressCircle = document.querySelector('.scroll-progress-circle');
-        const scrollProgressText = document.querySelector('.scroll-progress-text');
-
-        // Vue tableau/grille
-        const toggleViewBtn = document.getElementById('toggleViewBtn');
-        const tableView = document.getElementById('tableView');
-        const gridView = document.getElementById('gridView');
         let isGridView = true;
 
-        // Boutons d'action
-        const exportStudentsBtn = document.getElementById('exportStudentsBtn');
-        const sendMessageBtn = document.getElementById('sendMessageBtn');
-
-        // Fonction pour voir les détails d'un élève
-        function viewStudentDetails(studentId) {
-            const student = teacherStudents.students.find(s => s.id === studentId);
-            if (student) {
-                alert(`Détails de l'élève #${studentId}\n\n` +
-                      `Nom: ${student.firstName} ${student.lastName}\n` +
-                      `Email: ${student.email}\n` +
-                      `Niveau: ${student.level}\n` +
-                      `Cours: ${student.course} (${student.serviceType})\n` +
-                      `Date d'inscription: ${student.registrationDate}\n` +
-                      `Séances complétées: ${student.sessionsCompleted}\n` +
-                      `Statut: ${student.status === 'active' ? 'Actif' : student.status === 'inactive' ? 'Inactif' : 'Archivé'}\n` +
-                      `Note: ${student.rating}/5\n` +
-                      `Progression: ${student.progress}%\n\n` +
-                      `Notes:\n${student.notes}`);
-            }
-        }
-
-        // Fonction pour envoyer un message à un élève
-        function messageStudent(studentId) {
-            const student = teacherStudents.students.find(s => s.id === studentId);
-            if (student) {
-                alert(`Envoi d'un message à ${student.firstName} ${student.lastName}\n\n` +
-                      `Vous allez être redirigé vers la messagerie.`);
-                // Redirection vers la messagerie
-                // window.location.href = `teacher_messages.html?student=${studentId}`;
-            }
-        }
-
-        // Fonction pour supprimer un élève
-        function deleteStudent(studentId) {
-            event.stopPropagation();
-            if (confirm("Êtes-vous sûr de vouloir supprimer cet élève ? Cette action est irréversible.")) {
-                alert(`Élève #${studentId} supprimé avec succès`);
-                // Code pour supprimer l'élève
-                // window.location.reload(); // Recharger la page après suppression
-            }
-        }
-
-        // Fonction pour réactiver un élève
-        function reactivateStudent(studentId) {
-            event.stopPropagation();
-            const student = teacherStudents.students.find(s => s.id === studentId);
-            if (student) {
-                if (confirm(`Voulez-vous réactiver l'élève "${student.firstName} ${student.lastName}" ?`)) {
-                    alert(`Élève #${studentId} réactivé avec succès`);
-                    // Code pour réactiver l'élève
-                    // window.location.reload(); // Recharger la page après réactivation
-                }
-            }
-        }
-
-        // Ouvrir modal notifications
-        notificationBtn.addEventListener('click', openNotificationModal);
-        if (notificationNavBtnMobile) {
-            notificationNavBtnMobile.addEventListener('click', () => {
-                openNotificationModal();
-                if (mobileNav) mobileNav.classList.remove('active');
-            });
-        }
-
-        function openNotificationModal() {
-            notificationModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            initNotifications();
-        }
-
-        // Fermer modal notifications
-        closeNotificationModalBtn.addEventListener('click', closeNotificationModal);
-        notificationModal.addEventListener('click', (e) => {
-            if (e.target === notificationModal) {
-                closeNotificationModal();
-            }
-        });
-
-        function closeNotificationModal() {
-            notificationModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Gestion menu mobile
-        if (mobileNavToggle) {
-            mobileNavToggle.addEventListener('click', () => {
-                if (mobileNav) mobileNav.classList.toggle('active');
-            });
-        }
-
-        // Fermer menu mobile en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (mobileNav && !mobileNav.contains(e.target) && mobileNavToggle && !mobileNavToggle.contains(e.target)) {
-                mobileNav.classList.remove('active');
-            }
-        });
-
-        // Gestion menu déroulant profil
-        profileBtn.addEventListener('click', () => {
-            profileMenu.classList.toggle('active');
-        });
-
-        // Fermer le menu déroulant en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
-                profileMenu.classList.remove('active');
-            }
-        });
-
-        // Filtrage des élèves
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Retirer active de tous les boutons
-                filterBtns.forEach(b => b.classList.remove('active'));
-                
-                // Ajouter active au bouton cliqué
-                btn.classList.add('active');
-                
-                // Filtrer les élèves par niveau
-                const filter = btn.dataset.filter;
-                console.log(`Filtre appliqué: ${filter}`);
-                
-                // Filtrer les cartes d'élèves par niveau
-                filterStudentCardsByLevel(filter);
-            });
-        });
-
-        // Fonction pour filtrer les cartes d'élèves par niveau
-        function filterStudentCardsByLevel(filter) {
-            const studentCards = document.querySelectorAll('.student-card');
+        // Générer les cartes élèves
+        function renderGrid() {
+            const grid = document.getElementById('studentsGrid');
+            grid.innerHTML = '';
             
-            studentCards.forEach(card => {
-                const level = card.getAttribute('data-level');
-                
-                if (filter === 'all' || level === filter) {
+            studentsData.forEach(student => {
+                const card = document.createElement('div');
+                card.className = 'student-card';
+                card.setAttribute('data-level', student.level);
+                card.innerHTML = `
+                    <div class="level-tag">${student.level}</div>
+                    <div class="session-badge ${student.status === 'active' ? 'online' : 'offline'}">${student.status === 'active' ? 'En ligne' : 'Hors ligne'}</div>
+                    <div class="student-header">
+                        <div class="student-avatar-large">${student.firstName.charAt(0)}${student.lastName.charAt(0)}</div>
+                        <div class="student-name">${student.firstName} ${student.lastName}</div>
+                        <div class="student-rating">
+                            ${generateStars(student.rating)} ${student.rating}/5
+                        </div>
+                        <div class="student-subject">${student.school}</div>
+                    </div>
+                    <div class="student-body">
+                        <div class="session-info">
+                            <div class="session-item">
+                                <div class="session-label">Séance passée:</div>
+                                <div class="session-value"><i class="fas fa-clock"></i> ${student.lastSession}</div>
+                            </div>
+                            <div class="session-item">
+                                <div class="session-label">Prochaine séance:</div>
+                                <div class="session-value"><i class="fas fa-calendar-alt"></i> ${student.nextSession}</div>
+                            </div>
+                        </div>
+                        <div class="student-info-grid">
+                            <div class="info-item"><span class="info-label">Inscription</span><span class="info-value">${student.registrationDate}</span></div>
+                            <div class="info-item"><span class="info-label">Note</span><span class="info-value">${student.rating}/5</span></div>
+                            <div class="info-item"><span class="info-label">Type</span><span class="info-value">${student.serviceType.charAt(0).toUpperCase() + student.serviceType.slice(1)}</span></div>
+                            <div class="info-item"><span class="info-label">Progression</span><span class="info-value">${student.progress}%</span></div>
+                        </div>
+                    </div>
+                    <div class="student-footer">
+                        <button class="btn-student-action btn-details" onclick="viewStudentDetails(${student.id})"><i class="fas fa-eye"></i> Détails</button>
+                        <button class="btn-student-action btn-contact" onclick="messageStudent(${student.id})"><i class="fab fa-facebook-messenger"></i> Message</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Générer le tableau des élèves
+        function renderTable() {
+            const tbody = document.getElementById('studentsTableBody');
+            tbody.innerHTML = '';
+            
+            studentsData.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="student-info">
+                            <div class="student-avatar">${student.firstName.charAt(0)}${student.lastName.charAt(0)}</div>
+                            <div class="student-details">
+                                <h4>${student.firstName} ${student.lastName}</h4>
+                                <p>${student.email}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="level-badge">${student.level}</span></td>
+                    <td>${student.course}<br><small style="color: var(--txt-m);">${student.serviceType}</small></td>
+                    <td>${student.registrationDate}</td>
+                    <td>${student.sessionsCompleted} séances</td>
+                    <td><span class="status-badge ${student.status === 'active' ? 'status-active' : 'status-inactive'}">${student.status === 'active' ? 'Actif' : 'Inactif'}</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn-table-action btn-table-view" onclick="viewStudentDetails(${student.id})"><i class="fas fa-eye"></i> Voir</button>
+                            <button class="btn-table-action btn-table-message" onclick="messageStudent(${student.id})"><i class="fab fa-facebook-messenger"></i></button>
+                            <button class="btn-table-action btn-table-delete" onclick="deleteStudent(${student.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Générer les étoiles
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            for (let i = 0; i < fullStars; i++) stars += '<i class="fas fa-star"></i>';
+            if (hasHalfStar) stars += '<i class="fas fa-star-half-alt"></i>';
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) stars += '<i class="far fa-star"></i>';
+            return stars;
+        }
+
+        // Filtrer les cartes par niveau
+        function filterByLevel(level) {
+            const cards = document.querySelectorAll('.student-card');
+            cards.forEach(card => {
+                if (level === 'all' || card.getAttribute('data-level') === level) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
@@ -3034,275 +2033,173 @@
             });
         }
 
+        // Voir les détails d'un élève
+        window.viewStudentDetails = function(id) {
+            const student = studentsData.find(s => s.id === id);
+            if (student) {
+                alert(`Détails de l'élève\n\nNom: ${student.firstName} ${student.lastName}\nEmail: ${student.email}\nNiveau: ${student.level}\nCours: ${student.course}\nType: ${student.serviceType}\nInscription: ${student.registrationDate}\nSéances: ${student.sessionsCompleted}\nNote: ${student.rating}/5\nProgression: ${student.progress}%\nÉcole: ${student.school}`);
+            }
+        };
+
+        // Envoyer un message
+        window.messageStudent = function(id) {
+            const student = studentsData.find(s => s.id === id);
+            if (student) {
+                alert(`Envoi d'un message à ${student.firstName} ${student.lastName}`);
+            }
+        };
+
+        // Supprimer un élève
+        window.deleteStudent = function(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet élève ?')) {
+                alert(`Élève #${id} supprimé`);
+            }
+        };
+
         // Initialiser les notifications
         function initNotifications() {
-            const notificationList = document.getElementById('notificationList');
-            notificationList.innerHTML = '';
-            
-            notifications.forEach(notification => {
-                const notificationItem = document.createElement('div');
-                notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
-                notificationItem.innerHTML = `
+            const list = document.getElementById('notificationList');
+            list.innerHTML = '';
+            notifications.forEach(notif => {
+                const item = document.createElement('div');
+                item.className = `notification-item ${notif.read ? '' : 'unread'}`;
+                item.innerHTML = `
                     <div class="notification-content">
-                        <div class="notification-icon ${notification.type}">
-                            <i class="fas fa-${getNotificationIcon(notification.type)}"></i>
-                        </div>
+                        <div class="notification-icon ${notif.type}"><i class="fas fa-${notif.type === 'success' ? 'check-circle' : notif.type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i></div>
                         <div class="notification-text">
-                            <h4>${notification.title}</h4>
-                            <p>${notification.message}</p>
-                            <div class="notification-time">${notification.time}</div>
+                            <h4>${notif.title}</h4>
+                            <p>${notif.message}</p>
+                            <div class="notification-time">${notif.time}</div>
                         </div>
                     </div>
                 `;
-                
-                notificationItem.addEventListener('click', () => {
-                    // Marquer comme lu
-                    notification.read = true;
-                    updateNotificationBadge();
-                    initNotifications();
-                });
-                
-                notificationList.appendChild(notificationItem);
+                list.appendChild(item);
             });
         }
-
-        function getNotificationIcon(type) {
-            switch(type) {
-                case 'success': return 'check-circle';
-                case 'warning': return 'exclamation-triangle';
-                case 'info': return 'info-circle';
-                case 'alert': return 'bell';
-                default: return 'bell';
-            }
-        }
-
-        // Marquer toutes les notifications comme lues
-        markAllReadBtn.addEventListener('click', () => {
-            notifications.forEach(notification => {
-                notification.read = true;
-            });
-            updateNotificationBadge();
-            initNotifications();
-        });
 
         // Mettre à jour le badge de notification
         function updateNotificationBadge() {
             const unreadCount = notifications.filter(n => !n.read).length;
             const badge = document.querySelector('.notification-badge');
-            if (badge) {
-                badge.textContent = unreadCount;
-                if (unreadCount === 0) {
-                    badge.style.display = 'none';
-                } else {
-                    badge.style.display = 'flex';
-                }
-            }
-            
-            // Mettre à jour le badge du menu mobile
-            const mobileBadge = document.querySelector('.mobile-nav-badge');
-            if (mobileBadge) {
-                mobileBadge.textContent = unreadCount;
-                if (unreadCount === 0) {
-                    mobileBadge.style.display = 'none';
-                } else {
-                    mobileBadge.style.display = 'inline-block';
-                }
-            }
+            if (badge) badge.textContent = unreadCount;
         }
 
-        // Gestion barre de recherche
-        searchFiltersBtn.addEventListener('click', () => {
-            searchFiltersPanel.classList.toggle('active');
-        });
-
-        closeFiltersBtn.addEventListener('click', () => {
-            searchFiltersPanel.classList.remove('active');
-        });
-
-        // Fermer les filtres en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (!searchFiltersPanel.contains(e.target) && 
-                !searchFiltersBtn.contains(e.target) && 
-                searchFiltersPanel.classList.contains('active')) {
-                searchFiltersPanel.classList.remove('active');
-            }
-        });
-
-        // Réinitialiser les filtres
-        resetFiltersBtn.addEventListener('click', () => {
-            document.getElementById('searchSubject').value = 'all';
-            document.getElementById('searchType').value = 'all';
-            document.getElementById('searchStatus').value = 'all';
-            mainSearchInput.value = '';
-        });
-
-        // Appliquer les filtres et lancer la recherche
-        applyFiltersBtn.addEventListener('click', performSearch);
-        searchBtn.addEventListener('click', performSearch);
-
-        mainSearchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
-
-        function performSearch() {
-            const searchSubject = document.getElementById('searchSubject').value;
-            const searchType = document.getElementById('searchType').value;
-            const searchStatus = document.getElementById('searchStatus').value;
-            const searchQuery = mainSearchInput.value.trim();
-            
-            searchFiltersPanel.classList.remove('active');
-            showSearchResults({
-                query: searchQuery,
-                subject: searchSubject,
-                type: searchType,
-                status: searchStatus
-            });
-        }
-
-        function showSearchResults(filters) {
-            alert(`Recherche avec les filtres:\n
-                Matière: ${filters.subject}\n
-                Type: ${filters.type}\n
-                Statut: ${filters.status}\n
-                Recherche: "${filters.query}"`);
-        }
-
-        // Gestion de la flèche retour en haut
-        function toggleBackToTopButton() {
-            const scrollPosition = window.scrollY;
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-            
-            // Calcul du pourcentage de défilement
-            const scrollPercent = (scrollPosition / (documentHeight - windowHeight)) * 100;
-            
-            // Mettre à jour l'indicateur de progression
-            const circleLength = 113.097; // 2 * π * r (r=18)
-            const offset = circleLength - (scrollPercent / 100) * circleLength;
-            scrollProgressCircle.style.strokeDashoffset = offset;
-            scrollProgressText.textContent = Math.round(scrollPercent) + '%';
-            
-            // Afficher/masquer les boutons
-            if (scrollPosition > 300) {
-                backToTopBtn.classList.add('visible');
-                scrollProgress.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-                scrollProgress.classList.remove('visible');
-            }
-        }
-
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-
-        // Gestion de la touche Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                scrollToTop();
-            }
-        });
-
-        // Gestion de la vue grille/tableau
-        toggleViewBtn.addEventListener('click', () => {
-            isGridView = !isGridView;
-            
-            if (isGridView) {
-                tableView.style.display = 'none';
-                gridView.style.display = 'block';
-                toggleViewBtn.innerHTML = '<i class="fas fa-list"></i> Vue tableau';
-            } else {
-                tableView.style.display = 'block';
-                gridView.style.display = 'none';
-                toggleViewBtn.innerHTML = '<i class="fas fa-th-large"></i> Vue grille';
-            }
-        });
-
-        // Exportation des élèves
-        exportStudentsBtn.addEventListener('click', () => {
-            alert("Exportation des données élèves en cours...\n\nFormat CSV généré avec succès.");
-            // Code pour exporter les données
-        });
-
-        // Envoi de message groupé
-        sendMessageBtn.addEventListener('click', () => {
-            alert("Envoi d'un message groupé à tous les élèves actifs\n\nVous allez être redirigé vers la messagerie.");
-            // Redirection vers la messagerie
-            // window.location.href = "teacher_messages.html?group=true";
-        });
-
-        // Initialisation des données
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mettre à jour les statistiques
-            const statElements = document.querySelectorAll('.stat-info-inline h3');
-            if (statElements.length >= 3) {
-                statElements[0].innerText = teacherStudents.totalStudents;
-                statElements[1].innerText = teacherStudents.activeStudents;
-                statElements[2].innerText = teacherStudents.avgRating + '/5';
-            }
-            
-            // Initialiser les notifications
+        // Marquer toutes comme lues
+        function markAllRead() {
+            notifications.forEach(n => n.read = true);
             initNotifications();
             updateNotificationBadge();
-            
-            // Événements pour la flèche retour en haut
-            window.addEventListener('scroll', toggleBackToTopButton);
-            backToTopBtn.addEventListener('click', scrollToTop);
-            
-            // Initialiser la visibilité des boutons
-            toggleBackToTopButton();
-            
-            // Gestion responsive
-            function checkWindowSize() {
-                if (window.innerWidth <= 992) {
-                    if (document.querySelector('.menu-toggle')) {
-                        document.querySelector('.menu-toggle').style.display = 'block';
-                    }
-                } else {
-                    if (document.querySelector('.menu-toggle')) {
-                        document.querySelector('.menu-toggle').style.display = 'none';
-                    }
-                    if (mobileNav) mobileNav.classList.remove('active');
-                }
-            }
-            
-            window.addEventListener('resize', checkWindowSize);
-            checkWindowSize();
-            
-            // Empêcher la propagation sur tous les boutons d'actions
-            document.querySelectorAll('.table-actions button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
+        }
+
+        // Événements
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGrid();
+            renderTable();
+            initNotifications();
+            updateNotificationBadge();
+
+            // Filtres par niveau
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const filter = btn.dataset.filter;
+                    filterByLevel(filter);
                 });
             });
-            
-            document.querySelectorAll('.student-footer button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                });
-            });
-            
-            // Ajuster la grille en fonction de la taille de l'écran
-            function adjustGrid() {
-                const studentsGrid = document.querySelector('.students-grid');
-                if (window.innerWidth >= 1200) {
-                    studentsGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
-                } else if (window.innerWidth >= 992) {
-                    studentsGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-                } else if (window.innerWidth >= 768) {
-                    studentsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+
+            // Vue grille / tableau
+            const toggleBtn = document.getElementById('toggleViewBtn');
+            const gridView = document.getElementById('gridView');
+            const tableView = document.getElementById('tableView');
+            toggleBtn.addEventListener('click', () => {
+                isGridView = !isGridView;
+                if (isGridView) {
+                    gridView.style.display = 'block';
+                    tableView.style.display = 'none';
+                    toggleBtn.innerHTML = '<i class="fas fa-list"></i> Vue tableau';
                 } else {
-                    studentsGrid.style.gridTemplateColumns = '1fr';
+                    gridView.style.display = 'none';
+                    tableView.style.display = 'block';
+                    toggleBtn.innerHTML = '<i class="fas fa-th-large"></i> Vue grille';
                 }
-            }
-            
-            window.addEventListener('resize', adjustGrid);
-            adjustGrid();
+            });
+
+            // Notifications
+            const notifBtn = document.getElementById('notificationBtn');
+            const notifModal = document.getElementById('notificationModal');
+            const closeNotifBtn = document.getElementById('closeNotificationModalBtn');
+            const markAllBtn = document.getElementById('markAllReadBtn');
+
+            notifBtn.addEventListener('click', () => {
+                notifModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+            closeNotifBtn.addEventListener('click', () => {
+                notifModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            markAllBtn.addEventListener('click', markAllRead);
+            notifModal.addEventListener('click', (e) => {
+                if (e.target === notifModal) {
+                    notifModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Profil dropdown
+            const profileBtn = document.getElementById('profileBtn');
+            const profileMenu = document.getElementById('profileMenu');
+            profileBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileMenu.classList.toggle('active');
+                profileBtn.classList.toggle('open');
+            });
+            document.addEventListener('click', () => {
+                profileMenu.classList.remove('active');
+                profileBtn.classList.remove('open');
+            });
+
+            // Menu mobile
+            const menuToggle = document.getElementById('mobileNavToggle');
+            const mobileNav = document.getElementById('mobileNav');
+            menuToggle.addEventListener('click', () => mobileNav.classList.toggle('active'));
+
+            // Scroll progress et back to top
+            const backToTop = document.getElementById('backToTopBtn');
+            const scrollProgress = document.getElementById('scrollProgress');
+            const progressCircle = document.querySelector('.scroll-progress-circle');
+            const progressText = document.querySelector('.scroll-progress-text');
+            const circleLength = 113.097;
+
+            window.addEventListener('scroll', () => {
+                const scrollPos = window.scrollY;
+                const winHeight = window.innerHeight;
+                const docHeight = document.documentElement.scrollHeight;
+                const scrollPercent = (scrollPos / (docHeight - winHeight)) * 100;
+                const offset = circleLength - (scrollPercent / 100) * circleLength;
+                progressCircle.style.strokeDashoffset = offset;
+                progressText.textContent = Math.round(scrollPercent) + '%';
+
+                if (scrollPos > 300) {
+                    backToTop.classList.add('visible');
+                    scrollProgress.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                    scrollProgress.classList.remove('visible');
+                }
+            });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Header scroll effect
+            const header = document.getElementById('mainHeader');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('scrolled', window.scrollY > 50);
+            });
         });
     </script>
 </body>
